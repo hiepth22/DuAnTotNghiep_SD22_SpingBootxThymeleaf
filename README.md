@@ -5,7 +5,7 @@
 
 https://www.w3schools.com/bootstrap5/index.php
 
-https://codepen.io/  ####(Cái này bị chặn nên muốn dùng cần sử dụng VPN)
+https://codepen.io/ ----> (Cái này bị chặn nên muốn dùng cần sử dụng VPN)
 
 ### Cấu hình bootstrap :
 
