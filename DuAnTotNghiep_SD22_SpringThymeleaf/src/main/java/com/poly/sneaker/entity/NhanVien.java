@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 public class NhanVien {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,35 +28,40 @@ public class NhanVien {
     @Column(name = "sdt", length = 30)
     private String sdt;
 
-    @Column(name = "ngaySinh")
+    @Column(name = "ngaysinh")
     private Date ngaySinh;
 
     @Column(name = "email", length = 50)
     private String email;
 
-    @Column(name = "gioiTinh")
+    @Column(name = "gioitinh")
     private Boolean gioiTinh;
+
     @Column(name = "diachi", length = 100)
     private String diachi;
+
     @Column(name = "cccd", length = 30)
     private String cccd;
 
     @Column(name = "anh", length = 100)
     private String anh;
 
-    @Column(name = "matKhau", length = 30)
+    @Column(name = "matkhau", length = 30)
     private String matKhau;
 
     @Column(name = "vai_tro")
     private Integer vaiTro;
 
-    @Column(name = "trangThai")
+    @Column(name = "trangthai")
     private Integer trangThai;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
     @Column(name = "ngaytao")
     private LocalDateTime ngaytao;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
-    @Column(name = "ngayCapNhap")
+    @Column(name = "ngaycapnhap")
     private LocalDateTime ngaycapnhap;
+
 
 }

@@ -16,7 +16,7 @@ public class NhanVienSevice {
     @Autowired
     private NhanVienRepository nhanVienRepository;
 
-    public List<NhanVien> getall() {
+    public List<NhanVien> getallNhanVien() {
 
         return nhanVienRepository.findAll();
     }
