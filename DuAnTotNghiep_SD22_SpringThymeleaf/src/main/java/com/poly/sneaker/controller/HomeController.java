@@ -1,4 +1,4 @@
-package com.poly.sneaker.Controller;
+package com.poly.sneaker.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
