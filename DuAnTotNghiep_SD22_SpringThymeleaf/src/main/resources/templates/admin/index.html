@@ -1,34 +1,19 @@
 <!DOCTYPE html>
-<html>
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Free Bootstrap Admin Template : Binary Admin</title>
-    <!-- BOOTSTRAP STYLES-->
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <!-- FONTAWESOME STYLES-->
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <!-- MORRIS CHART STYLES-->
-    <link href="assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
-    <!-- CUSTOM STYLES-->
-    <link href="assets/css/custom.css" rel="stylesheet" />
-    <!-- GOOGLE FONTS-->
+    <link th:href="@{/assets/css/bootstrap.css}" rel="stylesheet" />
+    <link th:href="@{/assets/css/font-awesome.css}" rel="stylesheet" />
+    <link th:href="@{/assets/css/custom.css}" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
-
 <body>
-<<<<<<< HEAD
 <div id="wrapper">
     <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.html">Binary admin</a>
+            <a class="navbar-brand" href="#">Quản lý</a>
         </div>
         <div style="color: white;
 padding: 15px 50px 5px 50px;
@@ -36,7 +21,6 @@ float: right;
 font-size: 16px;"><a href="#" class="btn btn-danger square-btn-adjust">Logout</a>
         </div>
     </nav>
-    <!-- /. NAV TOP  -->
     <nav class="navbar-default navbar-side" role="navigation">
         <div class="sidebar-collapse">
             <ul class="nav" id="main-menu">
@@ -44,62 +28,51 @@ font-size: 16px;"><a href="#" class="btn btn-danger square-btn-adjust">Logout</a
                     <img src="#" class="user-image img-responsive" />
                 </li>
 
-
                 <li>
-                    <a class="active-menu" href="index.html"><i class="fa fa-dashboard fa-3x"></i> Dashboard</a>
+                    <a href="#"><i class="fa fa-archive fa-3x"></i>Sản phẩm</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-desktop fa-3x"></i> UI Elements</a>
+                    <a href="#"><i class="fa-solid fa-store fa-3x"></i></i>Bán hàng tại quầy</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-qrcode fa-3x"></i> Tabs & Panels</a>
+                    <a href="#"><i class="fa-solid fa-file-invoice fa-3x"></i></i>Quản lý hóa đơn</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o fa-3x"></i> Morris Charts</a>
+                    <a href="#"><i class="fa-solid fa-user-group fa-3x"></i></i>Nhân viên</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-table fa-3x"></i> Table Examples</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-edit fa-3x"></i> Forms </a>
+                    <a href="#"><i class="fa-solid fa-ticket fa-3x"></i></i>Phiếu giảm giá </a>
                 </li>
 
 
                 <li>
-                    <a href="#"><i class="fa fa-sitemap fa-3x"></i>Dropdown<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa-solid fa-cubes fa-3x"></i>Thuộc tính<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#">Second Level Link</a>
+                            <a href="#"><i class="fa-solid fa-paint-roller"></i>Màu sắc</a>
                         </li>
                         <li>
-                            <a href="#">Second Level Link</a>
+                            <a href="#"><i class="fa-solid fa-arrow-up-1-9"></i>Kích cỡ</a>
                         </li>
                         <li>
-                            <a href="#">Second Level Link</a>
+                            <a href="#"><i class="fa-solid fa-shoe-prints"></i>Đế giày</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa-solid fa-layer-group"></i>Cổ giày</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa-brands fa-mdb"></i>Chất liệu</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa-solid fa-industry"></i>Nhà sản xuất</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa-solid fa-trademark"></i>Thương hiệu</a>
                         </li>
                     </ul>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-sitemap fa-3x"></i>Dropdown 2<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="#">Second Level Link</a>
-                        </li>
-                        <li>
-                            <a href="#">Second Level Link</a>
-                        </li>
-                        <li>
-                            <a href="#">Second Level Link</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-square-o fa-3x"></i> Blank Page</a>
                 </li>
             </ul>
-
         </div>
-
     </nav>
     <div id="page-wrapper">
 
@@ -109,16 +82,10 @@ Content here
 </div>
 </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/jquery.metisMenu.js"></script>
-<script src="assets/js/morris/raphael-2.1.0.min.js"></script>
-<script src="assets/js/morris/morris.js"></script>
-<script src="assets/js/custom.js"></script>
-
-=======
-<h1 >Hello thymeleaf</h1>
->>>>>>> de957094202c0cd10f262c11499bb3397d14092d
+<script th:src="@{/assets/js/jquery-1.10.2.js}"></script>
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/js/jquery.metisMenu.js}"></script>
+<script th:src="@{/assets/js/custom.js}"></script>
 </body>
 
 </html>
