@@ -20,9 +20,9 @@ public class HoaDonChiTiet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "idSanPhamChiTiet")
-//    private SanPhamChiTiet sanPhamChiTiet;
+    @ManyToOne
+    @JoinColumn(name = "idSanPhamChiTiet")
+    private SanPhamChiTiet sanPhamChiTiet;
 
     @ManyToOne
     @JoinColumn(name = "idHoaDon")

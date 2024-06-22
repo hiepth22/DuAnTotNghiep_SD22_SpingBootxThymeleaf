@@ -15,7 +15,7 @@ public class HoaDonService {
 
 
     public List<HoaDon> getAll(){
-        return hoaDonRepository.findAllbyTrangThai();
+        return hoaDonRepository.findAll();
     }
 
 

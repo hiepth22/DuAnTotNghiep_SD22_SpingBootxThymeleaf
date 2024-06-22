@@ -16,4 +16,5 @@ public class NhanVienControler {
      model.addAttribute("lstNv",sevice.getallNhanVien());
      return "admin/NhanVien";
     }
+
 }

@@ -20,17 +20,17 @@ public class HoaDon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "idPhieuGiamGia")
-//    private PhieuGiamGia phieuGiamGia;
+    @ManyToOne
+    @JoinColumn(name = "idPhieuGiamGia")
+    private PhieuGiamGia phieuGiamGia;
 
     @ManyToOne
     @JoinColumn(name = "idNhanVien")
     private NhanVien nhanVien;
 
-//    @ManyToOne
-//    @JoinColumn(name = "idKhachHang")
-//    private KhachHang khachHang;
+    @ManyToOne
+    @JoinColumn(name = "idKhachHang")
+    private KhachHang khachHang;
 
     @Column(name = "ma", length = 30)
     private String ma;
