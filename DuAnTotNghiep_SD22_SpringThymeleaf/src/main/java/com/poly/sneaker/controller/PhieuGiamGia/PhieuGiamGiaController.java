@@ -1,7 +1,7 @@
 package com.poly.sneaker.controller;
 
-import com.poly.sneaker.entity.PhieuGiamGia;
-import com.poly.sneaker.service.PhieuGiamGiaService;
+import com.poly.sneaker.entity.*;
+import com.poly.sneaker.sevice.PhieuGiamGiaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -1,6 +1,6 @@
-package com.poly.sneaker.service;
+package com.poly.sneaker.sevice;
 
-import com.poly.sneaker.entity.PhieuGiamGia;
+import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.PhieuGiamGiaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
