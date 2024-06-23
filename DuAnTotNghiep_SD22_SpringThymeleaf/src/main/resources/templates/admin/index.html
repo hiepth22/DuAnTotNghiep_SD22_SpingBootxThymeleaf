@@ -1,91 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Free Bootstrap Admin Template : Binary Admin</title>
-    <link th:href="@{/assets/css/bootstrap.css}" rel="stylesheet" />
-    <link th:href="@{/assets/css/font-awesome.css}" rel="stylesheet" />
-    <link th:href="@{/assets/css/custom.css}" rel="stylesheet" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-</head>
+<head th:replace="~{/admin/fragments/head :: head}"></head>
 <body>
 <div id="wrapper">
-    <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Quản lý</a>
-        </div>
-        <div style="color: white;
-padding: 15px 50px 5px 50px;
-float: right;
-font-size: 16px;"><a href="#" class="btn btn-danger square-btn-adjust">Logout</a>
-        </div>
-    </nav>
-    <nav class="navbar-default navbar-side" role="navigation">
-        <div class="sidebar-collapse">
-            <ul class="nav" id="main-menu">
-                <li class="text-center">
-                    <img src="#" class="user-image img-responsive" />
-                </li>
-
-                <li>
-                    <a href="#"><i class="fa fa-archive fa-3x"></i>Sản phẩm</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa-solid fa-store fa-3x"></i></i>Bán hàng tại quầy</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa-solid fa-file-invoice fa-3x"></i></i>Quản lý hóa đơn</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa-solid fa-user-group fa-3x"></i></i>Nhân viên</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa-solid fa-ticket fa-3x"></i></i>Phiếu giảm giá </a>
-                </li>
-
-
-                <li>
-                    <a href="#"><i class="fa-solid fa-cubes fa-3x"></i>Thuộc tính<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="#"><i class="fa-solid fa-paint-roller"></i>Màu sắc</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa-solid fa-arrow-up-1-9"></i>Kích cỡ</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa-solid fa-shoe-prints"></i>Đế giày</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa-solid fa-layer-group"></i>Cổ giày</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa-brands fa-mdb"></i>Chất liệu</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa-solid fa-industry"></i>Nhà sản xuất</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa-solid fa-trademark"></i>Thương hiệu</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <nav th:replace="~{/admin/fragments/header :: header}"></nav>
+    <nav th:replace="~{/admin/fragments/sidebar :: sider}"></nav>
     <div id="page-wrapper">
-
-Content here
+        Content here
     </div>
+    <footer th:replace="~{/admin/fragments/footer :: footpage}"></footer>
 </div>
-</div>
-</div>
-
 <script th:src="@{/assets/js/jquery-1.10.2.js}"></script>
 <script th:src="@{/assets/js/bootstrap.min.js}"></script>
 <script th:src="@{/assets/js/jquery.metisMenu.js}"></script>
 <script th:src="@{/assets/js/custom.js}"></script>
 </body>
-
 </html>
