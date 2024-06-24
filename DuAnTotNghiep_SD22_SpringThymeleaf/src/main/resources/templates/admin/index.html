@@ -38,8 +38,12 @@ font-size: 16px;"><a href="#" class="btn btn-danger square-btn-adjust">Logout</a
                     <a href="#"><i class="fa-solid fa-file-invoice fa-3x"></i></i>Quản lý hóa đơn</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa-solid fa-user-group fa-3x"></i></i>Nhân viên</a>
+                    <a th:href="@{/admin/nhanvien}">
+                        <i class="fa-solid fa-user-group fa-3x"></i>
+                        Nhân viên
+                    </a>
                 </li>
+
                 <li>
                     <a href="#"><i class="fa-solid fa-ticket fa-3x"></i></i>Phiếu giảm giá </a>
                 </li>
@@ -76,11 +80,22 @@ font-size: 16px;"><a href="#" class="btn btn-danger square-btn-adjust">Logout</a
     </nav>
     <div id="page-wrapper">
 
-Content here
+
     </div>
 </div>
 </div>
 </div>
+
+<script th:src="@{/assets/js/jquery-1.10.2.js}"></script>
+<script>
+    $(document).ready(function() {
+        $('ul#main-menu li a').click(function(e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            $('#page-wrapper').load(url);
+        });
+    });
+</script>
 
 <script th:src="@{/assets/js/jquery-1.10.2.js}"></script>
 <script th:src="@{/assets/js/bootstrap.min.js}"></script>

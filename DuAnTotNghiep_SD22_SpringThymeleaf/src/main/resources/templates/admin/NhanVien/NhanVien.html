@@ -31,7 +31,7 @@
 <body>
 <div class="container mt-5">
     <h2 class="">Danh Sách Nhân Viên</h2>
-    <a th:href="@{/addNhanVien}" class="btn btn-outline-danger">+</a>
+    <a th:href="@{/admin/addNhanVien}" class="btn btn-outline-danger">+</a>
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
@@ -76,8 +76,8 @@
                     <span th:if="${nhanvien.trangThai} == 0">Hoạt Động</span>
                 </td>
                 <td>
-                    <a th:href="@{/UpdateNhanVien/{id}(id=${nhanvien.id})}" class="btn btn-outline-success">Cập nhật</a>
-                    <a th:href="@{/DetailNhanVien/{id}(id=${nhanvien.id})}" class="btn btn-outline-warning">Chi tiết</a>
+                    <a th:href="@{/admin/UpdateNhanVien/{id}(id=${nhanvien.id})}" class="btn btn-outline-success">Cập nhật</a>
+                    <a th:href="@{/admin/DetailNhanVien/{id}(id=${nhanvien.id})}" class="btn btn-outline-warning">Chi tiết</a>
                 </td>
             </tr>
             </tbody>

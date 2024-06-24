@@ -9,7 +9,7 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">Cập Nhật Nhân Viên</h2>
 
-    <form th:action="@{/UpdateNhanVien}" method="post" class="row g-3" th:object="${nv}">
+    <form th:action="@{/admin/updateNhanVien/{id}(id=${nv.id})}" method="post" class="row g-3" th:object="${nv}">
         <input type="hidden" th:field="*{id}">
 
         <div class="col-md-6">
@@ -89,7 +89,8 @@
         </div>
 
         <div class="col-12">
-            <button type="submit" class="btn btn-primary">Lưu</button>
+            <a th:href="@{/admin/nhan-vien}" class="btn btn-secondary">Đóng</a>
+            <button type="submit" class="btn btn-primary">Save</button>
         </div>
     </form>
 </div>
