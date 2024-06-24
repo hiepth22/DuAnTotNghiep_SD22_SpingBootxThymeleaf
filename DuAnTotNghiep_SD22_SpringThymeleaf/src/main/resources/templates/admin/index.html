@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Free Bootstrap Admin Template : Binary Admin</title>
-    <link th:href="@{/assets/css/bootstrap.css}" rel="stylesheet" />
-    <link th:href="@{/assets/css/font-awesome.css}" rel="stylesheet" />
-    <link th:href="@{/assets/css/custom.css}" rel="stylesheet" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-</head>
+<head th:replace="~{/admin/fragments/head :: head}"></head>
 <body>
 <div id="wrapper">
+<<<<<<< HEAD
     <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">Quản lý</a>
@@ -81,11 +74,15 @@ font-size: 16px;"><a href="#" class="btn btn-danger square-btn-adjust">Logout</a
     <div id="page-wrapper">
 
 
+=======
+    <nav th:replace="~{/admin/fragments/header :: header}"></nav>
+    <nav th:replace="~{/admin/fragments/sidebar :: sider}"></nav>
+    <div id="page-wrapper">
+        Content here
+>>>>>>> c12f2cfa98044299ab077001176d9bd0a1757214
     </div>
+    <footer th:replace="~{/admin/fragments/footer :: footpage}"></footer>
 </div>
-</div>
-</div>
-
 <script th:src="@{/assets/js/jquery-1.10.2.js}"></script>
 <script>
     $(document).ready(function() {
@@ -102,5 +99,4 @@ font-size: 16px;"><a href="#" class="btn btn-danger square-btn-adjust">Logout</a
 <script th:src="@{/assets/js/jquery.metisMenu.js}"></script>
 <script th:src="@{/assets/js/custom.js}"></script>
 </body>
-
 </html>

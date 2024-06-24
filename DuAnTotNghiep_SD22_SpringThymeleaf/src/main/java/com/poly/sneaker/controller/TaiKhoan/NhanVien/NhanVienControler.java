@@ -31,6 +31,10 @@ public class NhanVienControler {
      return "admin/NhanVien/NhanVien";
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c12f2cfa98044299ab077001176d9bd0a1757214
     @GetMapping("/addNhanVien")
     public String NhanVienadd(Model model){
         NhanVien nv = new NhanVien();
@@ -80,4 +84,8 @@ public class NhanVienControler {
         }
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c12f2cfa98044299ab077001176d9bd0a1757214
 }

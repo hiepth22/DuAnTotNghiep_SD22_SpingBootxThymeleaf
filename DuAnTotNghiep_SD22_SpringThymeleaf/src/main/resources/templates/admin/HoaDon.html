@@ -3,9 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <title>Quản lý hóa đơn</title>
+    <link rel="stylesheet" href="output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+<div class="container mx-auto mt-5">
+    <h2 class="flex justify-start mb-4">Quản lý hóa đơn</h2>
 
 
+
+    <ul class="flex border-b" id="hoaDonTabs" role="tablist">
+        <li class="mr-1" role="presentation">
+            <a class="inline-block py-2 px-4 text-blue-500 hover:text-blue-800" th:classappend="${currentTab == 0} ? 'border-b-2 border-blue-500' : ''" href="?tab=0">Tất cả</a>
+        </li>
+        <li class="mr-1" role="presentation">
+            <a class="inline-block py-2 px-4 text-blue-500 hover:text-blue-800" th:classappend="${currentTab == 1} ? 'border-b-2 border-blue-500' : ''" href="?tab=1">Chờ xác nhận</a>
+        </li>
+        <li class="mr-1" role="presentation">
+            <a class="inline-block py-2 px-4 text-blue-500 hover:text-blue-800" th:classappend="${currentTab == 2} ? 'border-b-2 border-blue-500' : ''" href="?tab=2">Đã xác nhận</a>
+        </li>
+        <li class="mr-1" role="presentation">
+            <a class="inline-block py-2 px-4 text-blue-500 hover:text-blue-800" th:classappend="${currentTab == 3} ? 'border-b-2 border-blue-500' : ''" href="?tab=3">Chờ vận chuyển</a>
+        </li>
+        <li class="mr-1" role="presentation">
+            <a class="inline-block py-2 px-4 text-blue-500 hover:text-blue-800" th:classappend="${currentTab == 4} ? 'border-b-2 border-blue-500' : ''" href="?tab=4">Vận chuyển</a>
+        </li>
+        <li class="mr-1" role="presentation">
+            <a class="inline-block py-2 px-4 text-blue-500 hover:text-blue-800" th:classappend="${currentTab == 5} ? 'border-b-2 border-blue-500' : ''" href="?tab=5">Thanh toán</a>
+        </li>
+        <li class="mr-1" role="presentation">
+            <a class="inline-block py-2 px-4 text-blue-500 hover:text-blue-800" th:classappend="${currentTab == 6} ? 'border-b-2 border-blue-500' : ''" href="?tab=6">Hoàn thành</a>
+        </li>
+        <li class="mr-1" role="presentation">
+            <a class="inline-block py-2 px-4 text-blue-500 hover:text-blue-800" th:classappend="${currentTab == 7} ? 'border-b-2 border-blue-500' : ''" href="?tab=7">Hủy</a>
+        </li>
+    </ul>
+    <div class="tab-content mt-4" id="hoaDonTabsContent">
+        <div class="tab-pane fade show active">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">STT</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mã</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày Tạo</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày Nhận</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày Thanh Toán</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tổng Tiền</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tổng Tiền Sau Giảm</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng Thái</th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tr th:each="hoaDon, index : ${hoaDons}">
+                        <td class="px-6 py-4 whitespace-nowrap" th:text="${index.count}"></td>
+                        <td class="px-6 py-4 whitespace-nowrap" th:text="${hoaDon.ma}"></td>
+                        <td class="px-6 py-4 whitespace-nowrap" th:text="${#dates.format(hoaDon.ngayTao, 'dd/MM/yyyy')}"></td>
+                        <td class="px-6 py-4 whitespace-nowrap" th:text="${#dates.format(hoaDon.ngayNhan, 'dd/MM/yyyy')}"></td>
+                        <td class="px-6 py-4 whitespace-nowrap" th:text="${#dates.format(hoaDon.ngayThanhToan, 'dd/MM/yyyy')}"></td>
+                        <td class="px-6 py-4 whitespace-nowrap" th:text="${hoaDon.tongTien}"></td>
+                        <td class="px-6 py-4 whitespace-nowrap" th:text="${hoaDon.tongTienSauGiam}"></td>
+                        <td class="px-6 py-4 whitespace-nowrap" th:text="${hoaDon.trangThai}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/postcss7-compat@latest"></script>
 </body>
 </html>

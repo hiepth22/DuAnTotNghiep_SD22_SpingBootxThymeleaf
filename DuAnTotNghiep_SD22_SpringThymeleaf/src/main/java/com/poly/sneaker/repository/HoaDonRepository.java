@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface HoaDonRepository extends JpaRepository<HoaDon, Long> {
 
-//    @Query(value = "select * from hoa_don where trangThai = 1", nativeQuery = true)
-//    List<HoaDon> findAllbyTrangThai();
+    @Query(value = "select * from hoa_don where trangThai = :trangThai", nativeQuery = true)
+    List<HoaDon> findAllbyTrangThai(int trangThai);
 }
