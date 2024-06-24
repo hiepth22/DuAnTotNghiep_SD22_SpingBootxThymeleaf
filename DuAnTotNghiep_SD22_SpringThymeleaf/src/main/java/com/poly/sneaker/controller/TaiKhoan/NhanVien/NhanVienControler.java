@@ -25,7 +25,7 @@ public class NhanVienControler {
      return "admin/NhanVien/NhanVien";
     }
 
-<<<<<<< HEAD
+
     @GetMapping("/addNhanVien")
     public String NhanVienadd(Model model){
         NhanVien nv = new NhanVien();
@@ -56,6 +56,5 @@ public class NhanVienControler {
 //         sevice.update()
 //    }
 
-=======
->>>>>>> a8b4d429b5a4450775e97f687c18dc17e16635b7
+
 }
