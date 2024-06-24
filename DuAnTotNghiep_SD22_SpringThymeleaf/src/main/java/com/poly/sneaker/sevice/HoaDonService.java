@@ -18,6 +18,15 @@ public class HoaDonService {
         return hoaDonRepository.findAll();
     }
 
+    public List<HoaDon> getAllbyTrangThai(int trangThai){
+        if (trangThai == 0) {
+            return hoaDonRepository.findAll();
+        } else {
+            return hoaDonRepository.findAllbyTrangThai(trangThai);
+        }
+
+    }
+
 
     public HoaDon add(HoaDon hoaDon) {
         return hoaDonRepository.save(hoaDon);
