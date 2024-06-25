@@ -36,4 +36,8 @@ public interface HoaDonChiTietRepository extends JpaRepository<HoaDonChiTiet, Lo
 
 
 
+
+
+
+
 }

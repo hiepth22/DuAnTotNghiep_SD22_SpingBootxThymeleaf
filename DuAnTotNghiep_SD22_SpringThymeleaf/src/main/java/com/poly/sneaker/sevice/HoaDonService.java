@@ -60,4 +60,13 @@ public class HoaDonService {
             return hoaDonRepository.save(o);
         }).orElse(null);
     }
+
+    public HoaDon updateTongTien(Long id, HoaDon hd) {
+        Optional<HoaDon> optional = hoaDonRepository.findById(id);
+        return optional.map(o -> {
+            o.setTongTien(hd.getTongTien());
+            o.setTongTienSauGiam(hd.getTongTienSauGiam());
+            return hoaDonRepository.save(o);
+        }).orElse(null);
+    }
 }

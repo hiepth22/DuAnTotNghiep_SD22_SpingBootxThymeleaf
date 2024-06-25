@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
@@ -60,7 +61,7 @@ public class HoaDonController {
 //    }
 
     @GetMapping("/hoa-don/detail/{id}")
-    public String showHoaDonDetail(@PathVariable("id") Long id, Model model) {
+    public String detail(@PathVariable("id") Long id, Model model) {
         HoaDon hd = hoaDonService.detail(id);
         List<HoaDonChiTiet> hdctList = hoaDonChiTietService.findByHDId(id);
 
@@ -69,6 +70,30 @@ public class HoaDonController {
         model.addAttribute("hdctList", hdctList);
         return "admin/HoaDon/HoaDonDetail";
     }
+
+    @PostMapping("/hoa-don/delete-hd/{id}")
+    public String updateHoaDon(@PathVariable("id") Long id, @RequestParam("idHoaDonCT") Long idHoaDonCT, Model model) {
+        hoaDonChiTietService.deleteById(idHoaDonCT);
+
+        List<HoaDonChiTiet> hdctList = hoaDonChiTietService.findByHDId(id);
+
+        BigDecimal tongTien = hdctList.stream()
+                .map(hdct -> hdct.getSanPhamChiTiet().getGiaBan()
+                        .multiply(BigDecimal.valueOf(hdct.getSoLuong())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        HoaDon hd = hoaDonService.detail(id);
+        hd.setTongTien(tongTien);
+        hoaDonService.updateTongTien(id, hd);
+
+        model.addAttribute("hoaDon", hd);
+        model.addAttribute("hoaDonChiTietList", hdctList);
+
+        System.out.println(idHoaDonCT);
+
+        return "redirect:/hoa-don/detail/" + id;
+    }
+
 
 
 }
