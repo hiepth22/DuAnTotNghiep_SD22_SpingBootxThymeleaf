@@ -1,108 +1,203 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Chi Tiết Nhân Viên</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .label-value {
-            font-weight: bold;
-        }
-    </style>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/admin/fragments/head :: head}"></head>
+<title>Chi Tiết Nhân Viên</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 <body>
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Chi Tiết Nhân Viên</h2>
+<div id="wrapper">
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="mb-3 row">
-                <label for="ten" class="col-sm-4 col-form-label label-value">Tên:</label>
-                <div class="col-sm-8">
-                    <p th:text="${nv.ten}"></p>
+    <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Quản lý</a>
+        </div>
+        <div style="color: white;
+padding: 15px 50px 5px 50px;
+float: right;
+font-size: 16px;"><a href="#" class="btn btn-danger square-btn-adjust">Logout</a>
+        </div>
+    </nav>
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+                <li class="text-center">
+                    <img src="#" class="user-image img-responsive" />
+                </li>
+
+                <li>
+                    <a href="#"><i class="fa fa-archive fa-3x"></i>Sản phẩm</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa-solid fa-store fa-3x"></i></i>Bán hàng tại quầy</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa-solid fa-file-invoice fa-3x"></i></i>Quản lý hóa đơn</a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/nhanvien}">
+                        <i class="fa-solid fa-user-group fa-3x"></i>
+                        Nhân viên
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#"><i class="fa-solid fa-ticket fa-3x"></i></i>Phiếu giảm giá </a>
+                </li>
+
+
+                <li>
+                    <a href="#"><i class="fa-solid fa-cubes fa-3x"></i>Thuộc tính<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="#"><i class="fa-solid fa-paint-roller"></i>Màu sắc</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa-solid fa-arrow-up-1-9"></i>Kích cỡ</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa-solid fa-shoe-prints"></i>Đế giày</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa-solid fa-layer-group"></i>Cổ giày</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa-brands fa-mdb"></i>Chất liệu</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa-solid fa-industry"></i>Nhà sản xuất</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa-solid fa-trademark"></i>Thương hiệu</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="page-wrapper">
+
+        <div class="container mt-5">
+            <h2 class="text-center mb-4">Chi Tiết Nhân Viên</h2>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3 row">
+                        <label for="ten" class="col-sm-4 col-form-label label-value">Tên:</label>
+                        <div class="col-sm-8">
+                            <p th:text="${nv.ten}"></p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="ma" class="col-sm-4 col-form-label label-value">Mã:</label>
+                        <div class="col-sm-8">
+                            <p th:text="${nv.ma}"></p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="sdt" class="col-sm-4 col-form-label label-value">Số Điện Thoại:</label>
+                        <div class="col-sm-8">
+                            <p th:text="${nv.sdt}"></p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="ngaySinh" class="col-sm-4 col-form-label label-value">Ngày Sinh:</label>
+                        <div class="col-sm-8">
+                            <p th:text="${#dates.format(nv.ngaySinh, 'dd/MM/yyyy')}"></p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="gioiTinh" class="col-sm-4 col-form-label label-value">Giới Tính:</label>
+                        <div class="col-sm-8">
+                            <p>
+                                <span th:if="${nv.gioiTinh}">Nam</span>
+                                <span th:if="${!nv.gioiTinh}">Nữ</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="email" class="col-sm-4 col-form-label label-value">Email:</label>
+                        <div class="col-sm-8">
+                            <p th:text="${nv.email}"></p>
+                        </div>
+                    </div>
+
+
+
+
                 </div>
-            </div>
 
-            <div class="mb-3 row">
-                <label for="ma" class="col-sm-4 col-form-label label-value">Mã:</label>
-                <div class="col-sm-8">
-                    <p th:text="${nv.ma}"></p>
-                </div>
-            </div>
+                <div class="col-md-6">
+                    <div class="mb-3 row">
+                        <label for="cccd" class="col-sm-4 col-form-label label-value">CCCD:</label>
+                        <div class="col-sm-8">
+                            <p th:text="${nv.cccd}"></p>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="diachi" class="col-sm-4 col-form-label label-value">Địa Chỉ:</label>
+                        <div class="col-sm-8">
+                            <p th:text="${nv.diachi}"></p>
+                        </div>
+                    </div>
 
-            <div class="mb-3 row">
-                <label for="sdt" class="col-sm-4 col-form-label label-value">Số Điện Thoại:</label>
-                <div class="col-sm-8">
-                    <p th:text="${nv.sdt}"></p>
-                </div>
-            </div>
+                    <div class="mb-3 row">
+                        <label for="vaiTro" class="col-sm-4 col-form-label label-value">Vai Trò:</label>
+                        <div class="col-sm-8">
+                            <p>
+                                <span th:if="${nv.vaiTro == 1}">Nhân Viên</span>
+                                <span th:if="${nv.vaiTro == 0}">Quản Lý</span>
+                            </p>
+                        </div>
+                    </div>
 
-            <div class="mb-3 row">
-                <label for="ngaySinh" class="col-sm-4 col-form-label label-value">Ngày Sinh:</label>
-                <div class="col-sm-8">
-                    <p th:text="${#dates.format(nv.ngaySinh, 'dd/MM/yyyy')}"></p>
-                </div>
-            </div>
+                    <div class="mb-3 row">
 
-            <div class="mb-3 row">
-                <label for="gioiTinh" class="col-sm-4 col-form-label label-value">Giới Tính:</label>
-                <div class="col-sm-8">
-                    <p>
-                        <span th:if="${nv.gioiTinh}">Nam</span>
-                        <span th:if="${!nv.gioiTinh}">Nữ</span>
-                    </p>
-                </div>
-            </div>
+                        <div class="col-sm-8">
+                            <p> Trạng Thái:
+                                <span th:if="${nv.trangThai == 0}">Hoạt Động</span>
+                                <span th:if="${nv.trangThai == 1}">Không Hoạt Động</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
 
-            <div class="mb-3 row">
-                <label for="email" class="col-sm-4 col-form-label label-value">Email:</label>
-                <div class="col-sm-8">
-                    <p th:text="${nv.email}"></p>
-                </div>
-            </div>
+                        <div class="col-sm-8">
+                            <p>Ngày tạo: <span th:text="${#temporals.format(nv.ngaytao, 'dd/MM/yyyy HH:mm:ss')}"></span></p>
+                        </div>
+                    </div>
 
-            <div class="mb-3 row">
-                <label for="cccd" class="col-sm-4 col-form-label label-value">CCCD:</label>
-                <div class="col-sm-8">
-                    <p th:text="${nv.cccd}"></p>
-                </div>
-            </div>
+                    <div class="mb-3 row">
 
-            <div class="mb-3 row">
-                <label for="diachi" class="col-sm-4 col-form-label label-value">Địa Chỉ:</label>
-                <div class="col-sm-8">
-                    <p th:text="${nv.diachi}"></p>
-                </div>
-            </div>
+                        <div class="col-sm-8">
+                            <p>Ngày cập nhập: <span th:text="${#temporals.format(nv.ngaycapnhap, 'dd/MM/yyyy HH:mm:ss')}"></span></p>
+                        </div>
+                    </div>
 
-            <div class="mb-3 row">
-                <label for="vaiTro" class="col-sm-4 col-form-label label-value">Vai Trò:</label>
-                <div class="col-sm-8">
-                    <p>
-                        <span th:if="${nv.vaiTro == 1}">Nhân Viên</span>
-                        <span th:if="${nv.vaiTro == 0}">Quản Lý</span>
-                    </p>
-                </div>
-            </div>
 
-            <div class="mb-3 row">
-                <label for="trangThai" class="col-sm-4 col-form-label label-value">Trạng Thái:</label>
-                <div class="col-sm-8">
-                    <p>
-                        <span th:if="${nv.trangThai == 0}">Hoạt Động</span>
-                        <span th:if="${nv.trangThai == 1}">Không Hoạt Động</span>
-                    </p>
-                </div>
-            </div>
 
-            <div class="mb-3 row">
-                <div class="col-sm-8 offset-sm-4">
-                    <a th:href="@{/admin/nhan-vien}" class="btn btn-secondary">Đóng</a>
+                    <div class="mb-3 row">
+                        <div class="col-sm-3 offset-sm-4">
+                            <a th:href="@{/admin/nhan-vien}" class="btn btn-secondary">Đóng</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
+
     </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <footer th:replace="~{/admin/fragments/footer :: footpage}"></footer>
+    <script th:src="@{/assets/js/jquery-1.10.2.js}"></script>
+
+
+    <script th:src="@{/assets/js/jquery-1.10.2.js}"></script>
+    <script th:src="@{/assets/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/js/jquery.metisMenu.js}"></script>
+    <script th:src="@{/assets/js/custom.js}"></script>
 </body>
 </html>

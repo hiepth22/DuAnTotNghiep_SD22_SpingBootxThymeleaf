@@ -4,6 +4,11 @@ import com.poly.sneaker.entity.NhanVien;
 import com.poly.sneaker.sevice.NhanVienSevice;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,7 +33,7 @@ public class NhanVienControler {
     public String HienThi(Model model){
 
      model.addAttribute("lstNv",sevice.getallNhanVien());
-     return "admin/NhanVien/NhanVien";
+     return "admin/NhanVien/NhanVienIndext";
     }
 
 
@@ -80,5 +85,25 @@ public class NhanVienControler {
             return "redirect:/admin/nhan-vien";
         }
     }
+    @GetMapping("/")
+    public String searchNhanViens(@RequestParam(name = "keyword", required = false) String keyword,
+                                  @RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "10") int size,
+                                  Model model) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
+
+
+        Page<NhanVien> resultPage = sevice.findByTen(keyword, pageable);
+
+
+        model.addAttribute("nv", resultPage.getContent());
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("currentPage", resultPage.getNumber());
+        model.addAttribute("totalPages", resultPage.getTotalPages());
+
+        return "admin/NhanVien/NhanVienIndex";
+    }
+
 
 }
