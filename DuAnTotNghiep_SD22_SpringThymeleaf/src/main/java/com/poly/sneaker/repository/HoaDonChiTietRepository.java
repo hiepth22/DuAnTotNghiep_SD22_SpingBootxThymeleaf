@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface HoaDonChiTietRepository extends JpaRepository<HoaDonChiTiet, Long> {
@@ -25,5 +26,18 @@ public interface HoaDonChiTietRepository extends JpaRepository<HoaDonChiTiet, Lo
 
     @Query(value = "select count(idHoaDon) from hoa_don_chi_tiet where idSanPhamChiTiet = :idSanPhamChiTiet", nativeQuery = true)
     Long findIDHDByIDSPCT(@Param("idSanPhamChiTiet") Long idSanPhamChiTiet);
+
+
+    @Query(value = "SELECT * FROM hoa_don_chi_tiet WHERE idHoaDon = :idHoaDon", nativeQuery = true)
+    List<HoaDonChiTiet> TimTongTien(@Param("idHoaDon") Long idHoaDon);
+
+    @Query(value = "SELECT * FROM hoa_don_chi_tiet WHERE idHoaDon = :idHoaDon", nativeQuery = true)
+    Optional<HoaDonChiTiet> findByIdHD(@Param("idHoaDon") Long idHoaDon);
+
+
+
+
+
+
 
 }
