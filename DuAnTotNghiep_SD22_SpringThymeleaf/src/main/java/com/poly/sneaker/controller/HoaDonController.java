@@ -29,36 +29,28 @@ public class HoaDonController {
     HoaDonChiTietService hoaDonChiTietService;
 
     @GetMapping("/hoa-don")
-    public String hienThiHoaDon(@RequestParam(name = "tab", required = false, defaultValue = "0") int tab,
-                                @RequestParam(name = "ma", required = false) String ma,
-                                @RequestParam(name = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-                                @RequestParam(name = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
-                                Model model) {
-        List<HoaDon> hoaDons;
-
-        if (ma != null && startDate != null && endDate != null) {
-            hoaDons = hoaDonService.findHoaDonByMaAndNgayTao(ma, startDate, endDate);
-        } else {
-            hoaDons = hoaDonService.getAllbyTrangThai(tab);
-        }
-
-        model.addAttribute("hoaDons", hoaDons);
-        model.addAttribute("currentTab", tab);
+    public String hienThiHoaDon() {
         return "admin/HoaDon/HoaDon";
     }
-
-//    @GetMapping("/hoa-don/detail/{id}") //
-//    public String detail(@PathVariable("id") Long id, Model model) {
-//        HoaDon hd = hoaDonService.detail(id);
-//        HoaDonChiTiet hdct = hoaDonChiTietService.detail(id);
-//        BigDecimal tongTien = hoaDonChiTietService.tongTien(id);
+//    @GetMapping("/hoa-don")
+//    public String hienThiHoaDon(@RequestParam(name = "tab", required = false, defaultValue = "0") int tab,
+//                                @RequestParam(name = "ma", required = false) String ma,
+//                                @RequestParam(name = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+//                                @RequestParam(name = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+//                                Model model) {
+//        List<HoaDon> hoaDons;
 //
-//        System.out.println(hdct);
-//        model.addAttribute("hd", hd);
-//        model.addAttribute("hdct", hdct);
-//        model.addAttribute("tongTien", tongTien);
-//        return "admin/HoaDon/HoaDonDetail";
+//        if (ma != null && startDate != null && endDate != null) {
+//            hoaDons = hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(ma, startDate, endDate, tab);
+//        } else {
+//            hoaDons = hoaDonService.getAllbyTrangThai(tab);
+//        }
+//
+//        model.addAttribute("hoaDons", hoaDons);
+//        model.addAttribute("currentTab", tab);
+//        return "admin/HoaDon/HoaDon";
 //    }
+
 
     @GetMapping("/hoa-don/detail/{id}")
     public String detail(@PathVariable("id") Long id, Model model) {
