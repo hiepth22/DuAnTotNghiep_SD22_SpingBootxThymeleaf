@@ -1,15 +1,18 @@
-package com.poly.sneaker.controller;
+package com.poly.sneaker.controller.PhieuGiamGia;
 
 import com.poly.sneaker.entity.*;
 import com.poly.sneaker.sevice.PhieuGiamGiaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 
-@RestController
+
+@Controller
 @RequestMapping("/phieu-giam-gia")
 @CrossOrigin("*")
 
@@ -18,14 +21,13 @@ public class PhieuGiamGiaController {
     @Autowired
     PhieuGiamGiaService phieuGiamGiaService;
 
-    @GetMapping("/phieu-giam-gia")
+    @GetMapping("index")
     public String HienThi(Model model){
-
         model.addAttribute("lstPgg",phieuGiamGiaService.getall());
+        System.out.println(phieuGiamGiaService.getall());
         return "admin/PhieuGiamGia/index";
+
     }
-
-
     @GetMapping("/AddPhieuGiamGia")
     public String PhieuGiamGiaadd(Model model){
         PhieuGiamGia pgg = new PhieuGiamGia();
@@ -39,14 +41,14 @@ public class PhieuGiamGiaController {
             model.addAttribute("errors", result.getAllErrors());
             return "admin/PhieuGiamGia/add";
         }
-        pgg.setNgayBatdau(java.time.LocalDateTime.now());
-        pgg.setNgayKetThuc(java.time.LocalDateTime.now());
-        pgg.setNgayTao(java.time.LocalDateTime.now());
-        pgg.setNgayCapNhat(java.time.LocalDateTime.now());
+        pgg.setNgayBatDau(new Date());
+        pgg.setNgayKetThuc(new Date());
+        pgg.setNgayTao(new Date());
+        pgg.setNgayCapNhat(new Date());
         phieuGiamGiaService.Add(pgg);
         return "redirect:/phieu-giam-gia";
     }
-    @GetMapping("/UpdatePhieuGiamGia/{id}") //
+    @GetMapping("/UpdatePhieuGiamGia/{id}")
     public String showEmployeeDetail(@PathVariable("id") Long id, Model model) {
         PhieuGiamGia employee = phieuGiamGiaService.findById(id);
         model.addAttribute("pgg", employee);
