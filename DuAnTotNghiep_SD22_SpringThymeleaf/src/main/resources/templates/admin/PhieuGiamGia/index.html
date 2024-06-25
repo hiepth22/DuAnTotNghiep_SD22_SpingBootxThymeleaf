@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Phieu Giam Gia</title>
@@ -9,7 +9,7 @@
 <body>
 <div class="container mt-5">
     <h2 class="">Danh Sách Phiếu Giảm Giá</h2>
-    <a th:href="@{/addPhieuGiamGia}" class="btn btn-outline-danger">+</a>
+    <a th:href="@{/phieu-giam-gia/addPhieuGiamGia}" class="btn btn-outline-danger">+</a>
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
@@ -33,12 +33,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="phieugiamgia, status : ${lst}" class="text-center">
+            <tr th:each="phieugiamgia, status :${lstPgg}" class="text-center">
                 <td th:text="${status.index + 1}"></td>
                 <td th:text="${phieugiamgia.ma}"></td>
                 <td th:text="${phieugiamgia.ten}"></td>
                 <td th:text="${phieugiamgia.soLuong}"></td>
-
                 <td>
                     <span th:if="${phieugiamgia.hinhThucGiam} == true">Giam tien</span>
                     <span th:if="${phieugiamgia.hinhThucGiam} == false">Giam %</span>
@@ -46,10 +45,12 @@
                 <td th:text="${phieugiamgia.dieuKienGiam}"></td>
                 <td th:text="${phieugiamgia.giaTriGiam}"></td>
                 <td th:text="${phieugiamgia.giamToiDa}"></td>
-                <td th:text="${#dates.format(phieugiamgia.ngayBatDau, 'dd/MM/yyyy')}"></td>
-                <td th:text="${#dates.format(phieugiamgia.ngayKetThuc, 'dd/MM/yyyy')}"></td>
-                <td th:text="${#dates.format(phieugiamgia.ngayTao, 'dd/MM/yyyy')}"></td>
-                <td th:text="${#dates.format(phieugiamgia.ngayCapNhat, 'dd/MM/yyyy')}"></td>
+
+                <td th:text="${(phieugiamgia.ngayBatDau )}"></td>
+                <td th:text="${(phieugiamgia.ngayKetThuc )}"></td>
+                <td th:text="${(phieugiamgia.ngayTao )}"></td>
+                <td th:text="${(phieugiamgia.ngayCapNhat)}"></td>
+
                 <td th:text="${phieugiamgia.nguoiTao}"></td>
                 <td th:text="${phieugiamgia.nguoiCapNhat}"></td>
                 <td>

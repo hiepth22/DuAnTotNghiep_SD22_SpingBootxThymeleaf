@@ -11,6 +11,8 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
+
 @Entity
 @Table(name = "phieu_giam_gia")
 @AllArgsConstructor
@@ -23,6 +25,7 @@ import java.time.LocalDateTime;
 public class PhieuGiamGia {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -47,21 +50,21 @@ public class PhieuGiamGia {
     @Column(name = "giamToiDa")
     private BigDecimal giamToiDa;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
-    @Column(name = "ngayBatdau")
-    private LocalDateTime ngayBatdau;
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
+    @Column(name = "ngayBatDau")
+    private Date ngayBatDau;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
     @Column(name = "ngayKetThuc")
-    private LocalDateTime ngayKetThuc;
+    private Date ngayKetThuc;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
     @Column(name = "ngayTao")
-    private LocalDateTime ngayTao;
+    private Date ngayTao;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
     @Column(name = "ngayCapNhat")
-    private LocalDateTime ngayCapNhat;
+    private Date ngayCapNhat;
 
     @Column(name = "nguoiTao", length = 50)
     private String nguoiTao;
