@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,10 +49,10 @@ public class PhieuGiamGiaService {
             o.setDieuKienGiam(newpgg.getDieuKienGiam());
             o.setGiaTriGiam(newpgg.getGiaTriGiam());
             o.setGiamToiDa(newpgg.getGiamToiDa());
-            o.setNgayBatdau(newpgg.getNgayBatdau());
+            o.setNgayBatDau(newpgg.getNgayBatDau());
             o.setNgayKetThuc(newpgg.getNgayKetThuc());
             o.setNgayTao(newpgg.getNgayTao());
-            o.setNgayCapNhat(java.time.LocalDateTime.now());
+            o.setNgayCapNhat(new Date());
             o.setNguoiTao(newpgg.getNguoiTao());
             o.setNguoiCapNhat(newpgg.getNguoiCapNhat());
             o.setTrangThai(newpgg.getTrangThai());
