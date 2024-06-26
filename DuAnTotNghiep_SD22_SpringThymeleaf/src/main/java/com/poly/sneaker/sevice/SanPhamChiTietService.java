@@ -104,4 +104,9 @@ public class SanPhamChiTietService {
         sanPhamChiTiets.stream().forEach(o -> System.out.println(o));
         return repository.saveAll(sanPhamChiTiets);
     }
+
+    public int countVariantsBySanPhamId(Long sanPhamId) {
+        return repository.countBySanPhamId(sanPhamId);
+    }
+
 }
