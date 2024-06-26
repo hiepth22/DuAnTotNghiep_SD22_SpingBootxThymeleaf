@@ -19,6 +19,7 @@
                     Từ ngày: <input type="date" name="startDate" id="startDate" class="px-4 py-2 border border-gray-300 rounded-md mx-2  ml-10 mt-5">
                     Đến ngày: <input type="date" name="endDate" id="endDate" class="px-4 py-2 border border-gray-300 rounded-md mx-2  ml-10 mt-5">
                     <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md  ml-10 mt-5">Tìm kiếm</button>
+                    <button type="button" class="px-4 py-2 bg-green-500 text-white rounded-md  ml-10 mt-5" onclick="resetSearch()">Làm mới</button>
                 </div>
             </form>
         </div>
@@ -108,7 +109,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/postcss7-compat@latest"></script>
 <script>
-    let currentTab = 0;
+    let currentTab = '';
     let searchTxt = '';
     let startDate = '';
     let endDate = '';
@@ -119,6 +120,7 @@
         getData();
     };
     const getData = () => {
+        console.log("currentTab", currentTab)
         $.ajax({
             url: `/api/hoa-don?tab=${currentTab}&ma=${searchTxt}&startDate=${startDate}&endDate=${endDate}`,
             data: {},
@@ -134,7 +136,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap">${result[i].ngayTao != null ? new Date(result[i].ngayTao).toLocaleDateString('vi-VN') : ''}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">${result[i].tongTien}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">${result[i].tongTienSauGiam}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">${getStatusText(result[i].trangThai)}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">${trangThai(result[i].trangThai)}</td>
                                     <td class="px-6 py-4 whitespace-nowrap"><a href="/hoa-don/detail/${result[i].id}">Chi tiết</a></td>
                                   </tr>`;
                 }
@@ -143,8 +145,8 @@
         });
     }
 
-    const getStatusText = (status) => {
-        switch (status) {
+    const trangThai = (tt) => {
+        switch (tt) {
             case 1:
                 return 'Chờ xác nhận';
             case 2:
@@ -175,6 +177,17 @@
         endDate = $('#endDate').val();
         getData();
     }
+
+    const resetSearch = () => {
+        $('#searchTxt').val('');
+        $('#startDate').val('');
+        $('#endDate').val('');
+        searchTxt = '';
+        startDate = '';
+        endDate = '';
+        getData();
+    }
+
     $(".tab-link").click(function () {
         const tab = $(this).data("tab");
         switchTab(tab);

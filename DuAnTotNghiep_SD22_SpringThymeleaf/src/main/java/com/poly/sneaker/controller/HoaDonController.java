@@ -32,6 +32,18 @@ public class HoaDonController {
     public String hienThiHoaDon() {
         return "admin/HoaDon/HoaDon";
     }
+
+    @GetMapping("/hoa-don/detail/{id}")
+    public String detail() {
+        return "admin/HoaDon/HoaDonDetail";
+    }
+
+    @PostMapping("/hoa-don/delete-hd/{id}")
+    public String updateHoaDon() {
+        return "redirect:/hoa-don/detail";
+    }
+
+
 //    @GetMapping("/hoa-don")
 //    public String hienThiHoaDon(@RequestParam(name = "tab", required = false, defaultValue = "0") int tab,
 //                                @RequestParam(name = "ma", required = false) String ma,
@@ -52,39 +64,39 @@ public class HoaDonController {
 //    }
 
 
-    @GetMapping("/hoa-don/detail/{id}")
-    public String detail(@PathVariable("id") Long id, Model model) {
-        HoaDon hd = hoaDonService.detail(id);
-        List<HoaDonChiTiet> hdctList = hoaDonChiTietService.findByHDId(id);
+//    @GetMapping("/hoa-don/detail/{id}")
+//    public String detail(@PathVariable("id") Long id, Model model) {
+//        HoaDon hd = hoaDonService.detail(id);
+//        List<HoaDonChiTiet> hdctList = hoaDonChiTietService.findByHDId(id);
+//
+//        model.addAttribute("hd", hd);
+//        model.addAttribute("hdctList", hdctList);
+//        return "admin/HoaDon/HoaDonDetail";
+//    }
 
 
-        model.addAttribute("hd", hd);
-        model.addAttribute("hdctList", hdctList);
-        return "admin/HoaDon/HoaDonDetail";
-    }
-
-    @PostMapping("/hoa-don/delete-hd/{id}")
-    public String updateHoaDon(@PathVariable("id") Long id, @RequestParam("idHoaDonCT") Long idHoaDonCT, Model model) {
-        hoaDonChiTietService.deleteById(idHoaDonCT);
-
-        List<HoaDonChiTiet> hdctList = hoaDonChiTietService.findByHDId(id);
-
-        BigDecimal tongTien = hdctList.stream()
-                .map(hdct -> hdct.getSanPhamChiTiet().getGiaBan()
-                        .multiply(BigDecimal.valueOf(hdct.getSoLuong())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        HoaDon hd = hoaDonService.detail(id);
-        hd.setTongTien(tongTien);
-        hoaDonService.updateTongTien(id, hd);
-
-        model.addAttribute("hoaDon", hd);
-        model.addAttribute("hoaDonChiTietList", hdctList);
-
-        System.out.println(idHoaDonCT);
-
-        return "redirect:/hoa-don/detail/" + id;
-    }
+//    @PostMapping("/hoa-don/delete-hd/{id}")
+//    public String updateHoaDon(@PathVariable("id") Long id, @RequestParam("idHoaDonCT") Long idHoaDonCT, Model model) {
+//        hoaDonChiTietService.deleteById(idHoaDonCT);
+//
+//        List<HoaDonChiTiet> hdctList = hoaDonChiTietService.findByHDId(id);
+//
+//        BigDecimal tongTien = hdctList.stream()
+//                .map(hdct -> hdct.getSanPhamChiTiet().getGiaBan()
+//                        .multiply(BigDecimal.valueOf(hdct.getSoLuong())))
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//
+//        HoaDon hd = hoaDonService.detail(id);
+//        hd.setTongTien(tongTien);
+//        hoaDonService.updateTongTien(id, hd);
+//
+//        model.addAttribute("hoaDon", hd);
+//        model.addAttribute("hoaDonChiTietList", hdctList);
+//
+//        System.out.println(idHoaDonCT);
+//
+//        return "redirect:/hoa-don/detail/" + id;
+//    }
 
 
 
