@@ -17,7 +17,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="sanPham : ${sanPhams.content}">
+        <tr th:each="sanPham : ${sanPhams}">
             <td th:text="${sanPham.id}"></td>
             <td th:text="${sanPham.ten}"></td>
             <td th:text="${sanPham.thuongHieu.ten}"></td>
@@ -25,6 +25,9 @@
             <td>
                 <span th:if="${sanPham.trangThai == 1}">Hoạt động</span>
                 <span th:if="${sanPham.trangThai == 0}">Tạm ngưng</span>
+            </td>
+            <td>
+                <a th:href="@{/admin/san-pham/{id}(id=${sanPham.id})}">Detail</a>
             </td>
         </tr>
         </tbody>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/admin/fragments/head :: head}"></head>
+<body>
+<nav th:replace="~{/admin/fragments/header :: header}"></nav>
+<nav th:replace="~{/admin/fragments/sidebar :: sider}"></nav>
+<div class="container">
+  <h2>Danh sách sản phẩm</h2>
+  <div class="text-center my-3" th:if="${sanPhamChiTiets.empty}">
+    <i class="far fa-folder fa-5x mb-3"></i>
+    <p class="text-muted">Không có dữ liệu</p>
+  </div>
+  <table class="table table-striped" th:unless="${sanPhamChiTiets.empty}">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Tên</th>
+      <th>Ngày Tạo</th>
+      <th>Trạng Thái</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="spct : ${sanPhamChiTiets}">
+      <td th:text="${spct.id}"></td>
+      <td th:text="${spct.ten}"></td>
+      <td th:text="${#dates.format(spct.ngayTao, 'yyyy-MM-dd')}"></td>
+      <td>
+        <span th:if="${spct.trangThai == 1}">Hoạt động</span>
+        <span th:if="${spct.trangThai == 0}">Tạm ngưng</span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <nav aria-label="Page navigation" th:if="${!sanPhamChiTiets.empty && totalPage > 1}">
+    <ul class="pagination pagination-sm no-margin pull-right">
+      <li class="page-item" th:if="${currentPage > 1}">
+        <a class="page-link" th:href="@{'?pageNo='+${currentPage - 1}}"><<</a>
+      </li>
+      <li class="page-item" th:each="i:${#numbers.sequence(1,totalPage)}" th:classappend="${currentPage == i ? 'active' : ''}">
+        <a class="page-link" th:href="@{'?pageNo='+${i}}" th:text="${i}"></a>
+      </li>
+      <li class="page-item" th:if="${currentPage < totalPage}">
+        <a class="page-link" th:href="@{'?pageNo='+${currentPage + 1}}">>></a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<script th:src="@{/assets/js/jquery-1.10.2.js}"></script>
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/js/jquery.metisMenu.js}"></script>
+<script th:src="@{/assets/js/custom.js}"></script>
+</body>
+</html>

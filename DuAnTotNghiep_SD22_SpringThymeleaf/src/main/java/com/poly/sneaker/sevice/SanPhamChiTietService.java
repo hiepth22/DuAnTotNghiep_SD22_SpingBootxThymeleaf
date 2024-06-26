@@ -12,6 +12,9 @@ import com.poly.sneaker.entity.SanPham;
 import com.poly.sneaker.entity.SanPhamChiTiet;
 import com.poly.sneaker.repository.SanPhamChiTietRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +28,12 @@ public class SanPhamChiTietService {
     public List<SanPhamChiTiet> getAll() {
         return repository.findAll();
     }
+
+    public Page<SanPhamChiTiet> getSanPhamChiTietBySanPhamId(Long sanPhamId, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return repository.findBySanPhamId(sanPhamId, pageable);
+    }
+
 
     public List<SanPhamChiTiet> getAllSanPham(Long idSP) {
         return repository.findBySanPham(idSP);
@@ -103,10 +112,6 @@ public class SanPhamChiTietService {
     public List<SanPhamChiTiet> addToList(List<SanPhamChiTiet> sanPhamChiTiets) {
         sanPhamChiTiets.stream().forEach(o -> System.out.println(o));
         return repository.saveAll(sanPhamChiTiets);
-    }
-
-    public int countVariantsBySanPhamId(Long sanPhamId) {
-        return repository.countBySanPhamId(sanPhamId);
     }
 
 }
