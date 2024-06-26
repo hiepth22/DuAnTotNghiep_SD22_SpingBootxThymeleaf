@@ -1,242 +1,189 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/admin/fragments/head :: head}"></head>
-<title>Thêm Nhân Viên</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309" />
+    <title>Nhân Viên</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="NhanVien.css">
+    <style>
+        .table th, .table td {
+            font-size: 14px;
+            vertical-align: middle;
+        }
 
+        .table th:first-child, .table td:first-child {
+            width: 5%;
+        }
+
+        .table td {
+            white-space: nowrap;
+        }
+
+        .table img {
+            max-width: 100px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
 <body>
-<div id="wrapper">
-    <<<<<<< HEAD
-    <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Quản lý</a>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Thêm Nhân Viên</h2>
+
+    <form th:action="@{/admin/SaveNhanVien}" method="post" class="row g-3" th:object="${nv}">
+
+        <div class="col-md-4">
+            <div th:if="${#fields.hasErrors('anh')}" class="text-danger">
+                <div th:errors="*{anh}" class="text-danger"></div>
+            </div>
+            <h1 class="text-center fs-3">Ảnh Đại Diện</h1>
+            <br />
+            <br />
+            <br />
+            <div class="d-flex flex-column align-items-center">
+                <div class="image-placeholder rounded-circle mb-2"
+                     style="width: 250px; height: 250px; background-color: #e9ecef; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; border-radius: 50%;"
+                     th:style="'background-image: url(' + ${preview} + '); background-size: cover;'"
+                     onclick="document.getElementById('fileInput').click();">
+                    <img th:src="${preview}" alt="Preview" style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%;" />
+                    <span th:unless="${preview}" style="font-size: 24px; color: #6c757d; cursor: pointer;">+</span>
+                </div>
+                <p>
+                    <input type="file" id="fileInput" name="anh" class="form-control" accept="image/png, image/jpeg, image/jpg" onchange="handleImageChange(this)" style="display: none;" />
+                </p>
+            </div>
         </div>
-        <div style="color: white;
-padding: 15px 50px 5px 50px;
-float: right;
-font-size: 16px;"><a href="#" class="btn btn-danger square-btn-adjust">Logout</a>
-        </div>
-    </nav>
-    <nav class="navbar-default navbar-side" role="navigation">
-        <div class="sidebar-collapse">
-            <ul class="nav" id="main-menu">
-                <li class="text-center">
-                    <img src="#" class="user-image img-responsive" />
-                </li>
 
-                <li>
-                    <a href="#"><i class="fa fa-archive fa-3x"></i>Sản phẩm</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa-solid fa-store fa-3x"></i></i>Bán hàng tại quầy</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa-solid fa-file-invoice fa-3x"></i></i>Quản lý hóa đơn</a>
-                </li>
-                <li>
-                    <a th:href="@{/admin/nhanvien}">
-                        <i class="fa-solid fa-user-group fa-3x"></i>
-                        Nhân viên
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#"><i class="fa-solid fa-ticket fa-3x"></i></i>Phiếu giảm giá </a>
-                </li>
-
-
-                <li>
-                    <a href="#"><i class="fa-solid fa-cubes fa-3x"></i>Thuộc tính<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="#"><i class="fa-solid fa-paint-roller"></i>Màu sắc</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa-solid fa-arrow-up-1-9"></i>Kích cỡ</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa-solid fa-shoe-prints"></i>Đế giày</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa-solid fa-layer-group"></i>Cổ giày</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa-brands fa-mdb"></i>Chất liệu</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa-solid fa-industry"></i>Nhà sản xuất</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa-solid fa-trademark"></i>Thương hiệu</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <div id="page-wrapper">
-
-        <div class="container mt-5">
-            <h2 class="text-center mb-4">Thêm Nhân Viên</h2>
-
-            <form th:action="@{/admin/SaveNhanVien}" method="post" class="row g-3" th:object="${nv}">
-                <!-- Sử dụng Thymeleaf -->
-                <div>
-                    <div th:if="${#fields.hasErrors('anh')}" class="text-danger">
-                        <div th:errors="*{anh}" class="text-danger"></div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="ten" class="form-label">Tên</label>
+                        <input type="text" class="form-control" id="ten" name="ten" required>
                     </div>
-                    <h1 class="text-center fs-3">Ảnh Đại Diện</h1>
-                    <br />
-                    <br />
-                    <br />
-                    <div class="d-flex flex-column align-items-center">
-                        <div
-                                class="image-placeholder rounded-circle mb-2"
-                                style="width: 250px; height: 250px; background-color: #e9ecef; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative;"
-                                th:style="'background-image: url(' + ${preview} + '); background-size: cover;'"
-                                onclick="document.getElementById('fileInput').click();"
-                        >
-                            <img
-                                    th:src="${preview}"
-                                    alt="Preview"
-                                    style="width: 100%; height: 100%; object-fit: cover;"
-                            />
-                            <span
-                                    th:unless="${preview}"
-                                    style="font-size: 24px; color: #6c757d; cursor: pointer;"
-                            >
-                +
-            </span>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="ma" class="form-label">Mã</label>
+                        <input type="text" class="form-control" id="ma" name="ma" required>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="sdt" class="form-label">SĐT</label>
+                        <input type="text" class="form-control" id="sdt" name="sdt" required>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="ngaySinh" class="form-label">Ngày Sinh</label>
+                        <input type="date" class="form-control" id="ngaySinh" name="ngaySinh" required>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="form-label">Giới Tính</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gioiTinh" id="nam" value="true" checked>
+                            <label class="form-check-label" for="nam">Nam</label>
                         </div>
-                        <p>
-                            <input
-                                    type="file"
-                                    id="fileInput"
-                                    name="anh"
-                                    class="form-control"
-                                    accept="image/png, image/jpeg, image/jpg"
-                                    onchange="handleImageChange(this)"
-                                    style="display: none;"
-                            />
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <label for="ten" class="form-label">Tên</label>
-                    <input type="text" class="form-control" id="ten" name="ten" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="ma" class="form-label">Mã</label>
-                    <input type="text" class="form-control" id="ma" name="ma" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="sdt" class="form-label">SĐT</label>
-                    <input type="text" class="form-control" id="sdt" name="sdt" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="ngaySinh" class="form-label">Ngày Sinh</label>
-                    <input type="date" class="form-control" id="ngaySinh" name="ngaySinh" required>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Giới Tính</label><br>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="gioiTinh" id="nam" value="true" checked>
-                        <label class="form-check-label" for="nam">Nam</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="gioiTinh" id="nu" value="false">
-                        <label class="form-check-label" for="nu">Nữ</label>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
-                </div>
-                        <div class="col-md-6">
-                            <label for="matKhau" class="form-label">Mật Khẩu</label>
-                            <input type="password" class="form-control" id="matKhau" name="matKhau" required>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gioiTinh" id="nu" value="false">
+                            <label class="form-check-label" for="nu">Nữ</label>
                         </div>
-                <div class="col-md-6">
-                    <label for="cccd" class="form-label">CCCD</label>
-                    <input type="text" class="form-control" id="cccd" name="cccd" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="diachi" class="form-label">Địa Chỉ</label>
-                    <textarea class="form-control" id="diachi" name="diachi" rows="3" required></textarea>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">Vai Trò</label><br>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="vaiTro" id="nhanVien" value="1" checked>
-                        <label class="form-check-label" for="nhanVien">Nhân Viên</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="vaiTro" id="quanLi" value="0">
-                        <label class="form-check-label" for="quanLi">Quản Lí</label>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <label class="form-label">Trạng Thái</label><br>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="trangThai" id="hoatDong" value="0" checked>
-                        <label class="form-check-label" for="hoatDong">Hoạt Động</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="trangThai" id="khongHoatDong" value="1">
-                        <label class="form-check-label" for="khongHoatDong">Không Hoạt Động</label>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
                     </div>
                 </div>
-                <div class="col-12">
-                    <a th:href="@{/admin/nhan-vien}" class="btn btn-secondary">Đóng</a>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </form>
-        </div>
-
-    </div>
-    <footer th:replace="~{/admin/fragments/footer :: footpage}"></footer>
-    <script th:src="@{/assets/js/jquery-1.10.2.js}"></script>
-
-<<<<<<< HEAD
-
-    <script th:src="@{/assets/js/jquery-1.10.2.js}"></script>
-    <script th:src="@{/assets/js/bootstrap.min.js}"></script>
-    <script th:src="@{/assets/js/jquery.metisMenu.js}"></script>
-    <script th:src="@{/assets/js/custom.js}"></script>
-=======
-        <div class="col-md-6">
-            <label class="form-label">Vai Trò</label><br>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="vaiTro" id="nhanVien" value="1" checked>
-                <label class="form-check-label" for="nhanVien">Nhân Viên</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="vaiTro" id="quanLi" value="0">
-                <label class="form-check-label" for="quanLi">Quản Lí</label>
             </div>
         </div>
 
+        <div class="col-md-4">
+            <div class="row">
 
-        <div class="col-md-6">
-            <label class="form-label">Trạng Thái</label><br>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="trangThai" id="hoatDong" value="0" checked>
-                <label class="form-check-label" for="hoatDong">Hoạt Động</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="trangThai" id="khongHoatDong" value="1">
-                <label class="form-check-label" for="khongHoatDong">Không Hoạt Động</label>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="matKhau" class="form-label">Mật Khẩu</label>
+                        <input type="password" class="form-control" id="matKhau" name="matKhau" required>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="cccd" class="form-label">CCCD</label>
+                        <input type="text" class="form-control" id="cccd" name="cccd" required>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="diachi" class="form-label">Địa Chỉ</label>
+                        <textarea class="form-control" id="diachi" name="diachi" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="form-label">Vai Trò</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="vaiTro" id="nhanVien" value="1" checked>
+                            <label class="form-check-label" for="nhanVien">Nhân Viên</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="vaiTro" id="quanLi" value="0">
+                            <label class="form-check-label" for="quanLi">Quản Lí</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="form-label">Trạng Thái</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="trangThai" id="hoatDong" value="0" checked>
+                            <label class="form-check-label" for="hoatDong">Hoạt Động</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="trangThai" id="khongHoatDong" value="1">
+                            <label class="form-check-label" for="khongHoatDong">Không Hoạt Động</label>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-12">
+
+        <div class="col-12 text-center">
             <a th:href="@{/admin/nhan-vien}" class="btn btn-secondary">Đóng</a>
             <button type="submit" class="btn btn-primary">Save</button>
         </div>
     </form>
+
 </div>
+<script type="text/javascript">
+    const buildCloudinaryUrl = (publicId) => {
+        const cloudName = "deapopcoc";
+        return `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}`;
+    };
+
+    function handleImageChange(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const previewImage = document.querySelector('.image-placeholder img');
+                previewImage.src = e.target.result;
+                previewImage.style.display = 'block';
+
+                const placeholder = document.querySelector('.image-placeholder span');
+                placeholder.style.display = 'none';
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
->>>>>>> c5b3b44d571a4c1d420143d1e2228f5a6270fd5d
 </body>
 </html>

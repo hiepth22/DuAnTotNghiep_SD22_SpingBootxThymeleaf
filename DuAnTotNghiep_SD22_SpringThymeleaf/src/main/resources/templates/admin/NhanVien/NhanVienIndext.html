@@ -1,172 +1,32 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/admin/fragments/head :: head}"></head>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml"
+        href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309">
+    <title>Danh Sách Nhân Viên</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
 <body>
-<style>
-    .table th, .table td {
-        font-size: 14px;
-        vertical-align: middle;
-    }
-
-    .table th:first-child, .table td:first-child {
-        width: 5%;
-    }
-
-    .table td {
-        white-space: nowrap;
-    }
-
-    .table img {
-        max-width: 100px;
-        height: auto;
-        display: block;
-        margin: 0 auto;
-    }
-</style>
-
-
-<!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
-<div id="wrapper">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-cls-top" role="navigation">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Quản lý</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
-                    </li>
-                </ul>
+    <div class="container mt-5">
+        <form method="get" class="mt-3 mb-3" id="searchForm">
+            <div class="input-group">
+                <input type="text" id="searchInput" name="keyword" class="form-control" placeholder="Tìm kiếm nhân viên"
+                    oninput="searchNhanVien(event.target.value);">
             </div>
-        </div>
-    </nav>
+        </form>
+        <div class="table-responsive" id="fromnv">
 
-
-    <nav class="navbar-default navbar-side" role="navigation">
-        <div class="sidebar-collapse">
-            <ul class="nav" id="main-menu">
-                <li class="text-center">
-                    <img src="#" class="user-image img-responsive" />
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-archive fa-3x"></i> Sản phẩm</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa-solid fa-store fa-3x"></i> Bán hàng tại quầy</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa-solid fa-file-invoice fa-3x"></i> Quản lý hóa đơn</a>
-                </li>
-                <li>
-                    <a href="http://localhost:3000/admin/nhan-vien"><i class="fa-solid fa-file-invoice fa-3x"></i> Nhân Viên</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa-solid fa-ticket fa-3x"></i> Phiếu giảm giá</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa-solid fa-cubes fa-3x"></i> Thuộc tính<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li><a href="#"><i class="fa-solid fa-paint-roller"></i> Màu sắc</a></li>
-                        <li><a href="#"><i class="fa-solid fa-arrow-up-1-9"></i> Kích cỡ</a></li>
-                        <li><a href="#"><i class="fa-solid fa-shoe-prints"></i> Đế giày</a></li>
-                        <li><a href="#"><i class="fa-solid fa-layer-group"></i> Cổ giày</a></li>
-                        <li><a href="#"><i class="fa-brands fa-mdb"></i> Chất liệu</a></li>
-                        <li><a href="#"><i class="fa-solid fa-industry"></i> Nhà sản xuất</a></li>
-                        <li><a href="#"><i class="fa-solid fa-trademark"></i> Thương hiệu</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-
-
-    <div id="page-wrapper">
-        <div class="container mt-5">
-            <form th:action="@{/}" method="get" onsubmit="return false;">
-                <label>Tìm kiếm:</label>
-                <input type="text" id="keywordInput" name="keyword" th:value="${keyword}" oninput="searchNhanVien()">
-            </form>
-            <h2 class="">Danh Sách Nhân Viên</h2>
-
-            <a th:href="@{/admin/addNhanVien}" class="btn btn-outline-danger">+</a>
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">STT</th>
-                        <th scope="col">Ảnh</th>
-                        <th scope="col">Tên</th>
-                        <th scope="col">Mã</th>
-                        <th scope="col">SĐT</th>
-                        <th scope="col">Ngày Sinh</th>
-                        <th scope="col">Giới Tính</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">CCCD</th>
-                        <th scope="col">Vai Trò</th>
-                        <th scope="col">Trạng Thái</th>
-                        <th scope="col">Hành Động</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="nhanvien, status : ${lstNv}" class="text-center">
-                        <td th:text="${status.index + 1}"></td>
-                        <td>
-                            <img th:if="${nhanvien.anh}" th:src="@{https://res.cloudinary.com/deapopcoc/image/upload/${nhanvien.anh}}"
-                                 class="img-thumbnail">
-                        </td>
-                        <td th:text="${nhanvien.ten}"></td>
-                        <td th:text="${nhanvien.ma}"></td>
-                        <td th:text="${nhanvien.sdt}"></td>
-                        <td th:text="${#dates.format(nhanvien.ngaySinh, 'dd/MM/yyyy')}"></td>
-                        <td>
-                            <span th:if="${nhanvien.gioiTinh} == true">Nam</span>
-                            <span th:if="${nhanvien.gioiTinh} == false">Nữ</span>
-                        </td>
-                        <td th:text="${nhanvien.email}"></td>
-                        <td th:text="${nhanvien.cccd}"></td>
-                        <td>
-                            <span th:if="${nhanvien.vaiTro} == 1">Nhân Viên</span>
-                            <span th:if="${nhanvien.vaiTro} == 0">Quản Lí</span>
-                        </td>
-                        <td>
-                            <span th:if="${nhanvien.trangThai} == 1">Không Hoạt Động</span>
-                            <span th:if="${nhanvien.trangThai} == 0">Hoạt Động</span>
-                        </td>
-                        <td>
-                            <a th:href="@{/admin/UpdateNhanVien/{id}(id=${nhanvien.id})}" class="btn btn-outline-success">Cập nhật</a>
-                            <a th:href="@{/admin/DetailNhanVien/{id}(id=${nhanvien.id})}" class="btn btn-outline-warning">Chi tiết</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
 
-    <footer th:replace="~{/admin/fragments/footer :: footpage}"></footer>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/assets/js/NhanVien.js}"></script>
+    <link rel="stylesheet" th:href="@{/assets/css/NhanVien.css}" />
 
 
 </body>
-<script th:src="@{/assets/js/jquery-1.10.2.js}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<script th:src="@{/assets/js/bootstrap.min.js}"></script>
-<script th:src="@{/assets/js/jquery.metisMenu.js}"></script>
-<script th:src="@{/assets/js/custom.js}"></script>
-<script type="text/javascript" th:inline="javascript">
-    function searchNhanVien() {
-        var keyword = document.getElementById('keywordInput').value.trim();
-        if (keyword) {
-            window.location.href = '/?keyword=' + keyword;
-        } else {
-
-            console.log('Nhập từ khóa để tìm kiếm.');
-        }
-    }
-</script>
 
 </html>

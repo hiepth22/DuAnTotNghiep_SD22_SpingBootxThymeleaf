@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -23,10 +24,23 @@ import java.util.Optional;
 public class NhanVienControler {
      @Autowired
     private NhanVienSevice sevice;
-
+//
+//    @GetMapping("/nhanvien")
+//    public String HienThinv(){
+//        return "admin/NhanVien/NhanVien";
+//    }
     @GetMapping("/nhanvien")
-    public String HienThinv(){
-        return "admin/NhanVien/NhanVienIndext";
+    public String searchNhanVien(@RequestParam(name = "keyword", required = false) String keyword,
+                                  Model model) {
+        List<NhanVien> resultList ;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            resultList =sevice.searchNhanViens(keyword);
+        } else {
+            resultList = sevice.getallNhanVien();
+        }
+        model.addAttribute("lstNv", resultList);
+        model.addAttribute("keyword", keyword);
+        return "admin/NhanVien/NhanVien";
     }
 
      @GetMapping("/nhan-vien")
@@ -85,25 +99,21 @@ public class NhanVienControler {
             return "redirect:/admin/nhan-vien";
         }
     }
-    @GetMapping("/")
+    @GetMapping("/phantrang")
     public String searchNhanViens(@RequestParam(name = "keyword", required = false) String keyword,
-                                  @RequestParam(defaultValue = "0") int page,
-                                  @RequestParam(defaultValue = "10") int size,
                                   Model model) {
-
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
-
-
-        Page<NhanVien> resultPage = sevice.findByTen(keyword, pageable);
-
-
-        model.addAttribute("nv", resultPage.getContent());
+        List<NhanVien> resultList ;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            resultList =sevice.searchNhanViens(keyword);
+        } else {
+            resultList = sevice.getallNhanVien();
+        }
+        model.addAttribute("lstNv", resultList);
         model.addAttribute("keyword", keyword);
-        model.addAttribute("currentPage", resultPage.getNumber());
-        model.addAttribute("totalPages", resultPage.getTotalPages());
-
-        return "admin/NhanVien/NhanVienIndex";
+        return "admin/NhanVien/NhanVienIndext";
     }
+
+
 
 
 }

@@ -80,8 +80,8 @@ public class NhanVienSevice {
         return nhanVienRepository.existsById(id);
     }
 
-    public Page<NhanVien> findByTen(String keyword, Pageable pageable) {
-        return nhanVienRepository.findByTen(keyword, pageable);
+    public List<NhanVien> searchNhanViens(String keyword) {
+        return nhanVienRepository.findByTen(keyword);
     }
     public Boolean trangthai(int tt) {
         return nhanVienRepository.findByTrangThai(tt).size() > 0;
