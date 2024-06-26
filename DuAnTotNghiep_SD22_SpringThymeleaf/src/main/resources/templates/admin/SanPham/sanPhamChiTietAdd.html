@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/admin/fragments/head :: head}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .form-control {
+            border: 1px solid #ced4da;
+        }
+    </style>
+</head>
+<body>
+<nav th:replace="~{/admin/fragments/header :: header}"></nav>
+<nav th:replace="~{/admin/fragments/sidebar :: sider}"></nav>
+<div class="container mt-4">
+    <h2>Thêm mới sản phẩm chi tiết</h2>
+    <form th:action="@{/sanphamchitiet/save}" method="post">
+        <div class="form-group">
+            <label for="coGiay">Tên sản phẩm</label>
+            <select class="form-control" id="sanPham" name="sanPham">
+                <option th:each="sanPham : ${sanPhams}" th:value="${sanPham}" th:text="${sanPham.ten}"></option>
+            </select>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="coGiay">Cổ giày</label>
+                <select class="form-control" id="coGiay" name="coGiay">
+                    <option value="">Chọn cổ giày</option>
+                    <option th:each="coGiay : ${coGiays}" th:value="${coGiay}" th:text="${coGiay.ten}"></option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="deGiay">Đế giày</label>
+                <select class="form-control" id="deGiay" name="deGiay">
+                    <option value="">Chọn đế giày</option>
+                    <option th:each="deGiay : ${deGiays}" th:value="${deGiay}" th:text="${deGiay.ten}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="nhaSanXuat">Nhà sản xuất</label>
+                <select class="form-control" id="nhaSanXuat" name="nhaSanXuat">
+                    <option value="">Chọn nhà sản xuất</option>
+                    <option th:each="nhaSanXuat : ${nhaSanXuats}" th:value="${nhaSanXuat}" th:text="${nhaSanXuat.ten}"></option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="chatLieu">Chất liệu</label>
+                <select class="form-control" id="chatLieu" name="chatLieu">
+                    <option value="">Chọn chất liệu</option>
+                    <option th:each="chatLieu : ${chatLieus}" th:value="${chatLieu}" th:text="${chatLieu.ten}"></option>
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <h2>Màu sắc và kích cỡ</h2>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="chatLieu">Màu sắc</label>
+                    <select class="form-control" id="mauSac" name="mauSac">
+                        <option value="">Chọn màu</option>
+                        <option th:each="mauSac : ${mauSacs}" th:value="${mauSac}" th:text="${mauSac.ten}"></option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="chatLieu">Kích cỡ</label>
+                    <select class="form-control" id="kichCo" name="kichCo">
+                        <option value="">Chọn size</option>
+                        <option th:each="kichCo : ${kichCos}" th:value="${kichCo}" th:text="${kichCo.ten}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script th:src="@{/assets/js/jquery-1.10.2.js}"></script>
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/js/jquery.metisMenu.js}"></script>
+<script th:src="@{/assets/js/custom.js}"></script>
+</body>
+</html>
