@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/admin/fragments/head :: head}"></head>
+<body>
+<nav th:replace="~{/admin/fragments/header :: header}"></nav>
+<nav th:replace="~{/admin/fragments/sidebar :: sider}"></nav>
+<div class="container">
+    <h2>Danh sách sản phẩm</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Thương Hiệu</th>
+            <th>Ngày Tạo</th>
+            <th>Trạng Thái</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sanPham : ${sanPhams.content}">
+            <td th:text="${sanPham.id}"></td>
+            <td th:text="${sanPham.ten}"></td>
+            <td th:text="${sanPham.thuongHieu.ten}"></td>
+            <td th:text="${#dates.format(sanPham.ngayTao, 'yyyy-MM-dd')}"></td>
+            <td>
+                <span th:if="${sanPham.trangThai == 1}">Hoạt động</span>
+                <span th:if="${sanPham.trangThai == 0}">Tạm ngưng</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination pagination-sm no-margin pull-right">
+            <li class="page-item" th:if="${currentPage > 1}">
+                <a class="page-link" th:href="@{'?pageNo='+${currentPage - 1}}"><<</a>
+            </li>
+            <li class="page-item" th:each="i:${#numbers.sequence(1,totalPage)}" th:classappend="${currentPage == i ? 'active' : ''}">
+                <a class="page-link" th:href="@{'?pageNo='+${i}}" th:text="${i}"></a>
+            </li>
+            <li class="page-item" th:if="${currentPage < totalPage}">
+                <a class="page-link" th:href="@{'?pageNo='+${currentPage + 1}}">>></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<script th:src="@{/assets/js/jquery-1.10.2.js}"></script>
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/js/jquery.metisMenu.js}"></script>
+<script th:src="@{/assets/js/custom.js}"></script>
+</body>
+</html>

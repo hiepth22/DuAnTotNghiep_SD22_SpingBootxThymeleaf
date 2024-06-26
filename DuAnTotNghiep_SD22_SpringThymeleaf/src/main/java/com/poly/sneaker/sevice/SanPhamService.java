@@ -3,6 +3,9 @@ package com.poly.sneaker.sevice;
 import com.poly.sneaker.entity.SanPham;
 import com.poly.sneaker.repository.SanPhamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +18,11 @@ public class SanPhamService {
 
     public List<SanPham> getAll() {
         return repository.findAll();
+    }
+
+    public Page<SanPham> pagination(int pageNo){
+        Pageable pageable = PageRequest.of(pageNo - 1, 1);
+        return repository.findAll(pageable);
     }
 
     public SanPham add(SanPham sanPham) {
