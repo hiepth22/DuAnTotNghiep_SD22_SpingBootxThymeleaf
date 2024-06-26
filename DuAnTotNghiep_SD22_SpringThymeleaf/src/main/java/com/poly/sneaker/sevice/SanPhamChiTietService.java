@@ -105,8 +105,8 @@ public class SanPhamChiTietService {
         return repository.saveAll(sanPhamChiTiets);
     }
 
-    public int countVariantsBySanPhamId(Long sanPhamId) {
-        return repository.countBySanPhamId(sanPhamId);
-    }
+//    public int countVariantsBySanPhamId(Long sanPhamId) {
+//        return repository.countBySanPhamId(sanPhamId);
+//    }
 
 }
