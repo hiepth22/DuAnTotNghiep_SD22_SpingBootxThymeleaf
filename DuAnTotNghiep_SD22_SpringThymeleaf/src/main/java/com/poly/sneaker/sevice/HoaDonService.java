@@ -41,6 +41,9 @@ public class HoaDonService {
     public List<HoaDon> findHoaDonByMaAndNgayTao(String ma, Date startDate, Date endDate) {
         return hoaDonRepository.findByMaAndNgayTaoBetween(ma, startDate, endDate);
     }
+//    public List<HoaDon> findAllFilter(Date startDate, Date endDate, String ma, String status) {
+//        return hoaDonRepository.findAllByNgayTaoBetweenAndMaContainingIgnoreCaseAndTrangThaiContainingIgnoreCase(startDate, endDate, ma, status);
+//    }
 
 
     public HoaDon add(HoaDon hoaDon) {

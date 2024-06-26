@@ -2,148 +2,217 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Order Details</title>
     <link rel="stylesheet" href="output.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <div class="bg-gray-200">
-        <div class="grid gap-4 grid-cols-1">
-            <div class="bg-white h-64 w-[97%] m-auto mt-5">
-                <h1 class="text-xl mt-3 ml-3 mb-4 font-bold" >Thông tin đơn hàng: <span class="font-normal" th:text="${hd.ma}"></span></h1>
-                <span class="flex items-center w-[99%] m-auto">
-                  <span class="h-px flex-1 bg-gray-500"></span>
-                  <span class="h-px flex-1 bg-gray-500"></span>
-                </span>
-                <div class="grid gap-4 grid-cols-2">
-                    <div>
-                        <h1 class="ml-4 mt-3 font-bold">Trạng thái: <span class="bg-blue-400 hover:bg-blue-700 text-white py-2 px-4 rounded-full font-normal ml-10" th:text="${hd.trangThai == 1 ? 'Chờ xác nhận' :
-                                             (hd.trangThai == 2 ? 'Đã xác nhận' :
-                                             (hd.trangThai == 3 ? 'Chờ vận chuyển' :
-                                             (hd.trangThai == 4 ? 'Vận chuyển' :
-                                             (hd.trangThai == 5 ? 'Thanh toán' :
-                                             (hd.trangThai == 6 ? 'Hoàn thành' :
-                                             (hd.trangThai == 7 ? 'Hủy' : 'Không xác định'))))))}">
-                            </span></h1>
-                    </div>
-                    <div>
-                        <h1 class=" mt-3 font-bold">Tên khách hàng:  <span class="font-normal ml-10" th:text="${hd.khachHang.ten}"></span></h1>
-                    </div>
-                    <div>
-                        <h1 class="ml-4 mt-3 font-bold">Loại : <span class="font-normal ml-10">Offline</span></h1>
-                    </div>
-                    <div>
-                        <h1 class="font-bold">Số điện thoại: <span class="font-normal ml-10" th:text="${hd.khachHang.sdt}"></span></h1>
-                    </div>
-                    <div>
-                        <h1 class="ml-4 mt-3 font-bold">Địa chỉ: <span class="font-normal ml-10" th:text="${hd.diaChiNguoiNhan}"></span></h1>
-                    </div>
+<div class="bg-gray-200">
+    <div class="grid gap-4 grid-cols-1">
+        <div class="bg-white h-64 w-[97%] m-auto mt-5">
+            <div class="container mx-auto px-4 py-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h1 class="text-xl font-bold mb-4">Steppers Example</h1>
 
-                    <div>
-                        <h1 class="font-bold">Thời gian dự kiến nhận: <span class="font-normal ml-10" th:text="${hd.ngayNhan != null ? #temporals.format(hd.ngayNhan, 'dd-MM-yyyy') : ''}"></span></h1>
-                    </div>
-
-                    <div>
-                        <h1 class="ml-4 font-bold">Ghi chú: <span class="font-normal ml-10" th:text="${hd.ghiChu}"></span></h1>
-
-                    </div>
-
-                </div>
-            </div>
-            <div>
-                <div class="bg-white h-96 w-[97%] m-auto mt-5">
-                    <h1 class="text-xl mt-5 ml-3 mb-4 font-bold">Thông tin sản phẩm đã mua</h1>
-                    <div class="tab-content mt-4" >
-                        <div class="tab-pane fade show active">
-                            <div class="overflow-x-auto">
-                                <table class="min-w-full divide-y divide-gray-200">
-                                    <thead class="bg-blue-500">
-                                    <tr>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">STT
-                                        </th>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh sản phẩm
-                                        </th>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Thông tin sản phẩm
-                                        </th>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Màu sắc
-                                        </th>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Số lượng
-                                        </th>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tổng tiền
-                                        </th>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Trạng thái
-                                        </th>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Hành động
-                                        </th>
-
-                                    </tr>
-                                    </thead>
-                                    <tbody class="bg-white divide-y divide-gray-200">
-                                    <tr th:each="hdct, index : ${hdctList}">
-                                        <td class="px-6 py-4 whitespace-nowrap" th:text="${hdct.id}"></td>
-                                        <td class="px-6 py-4 whitespace-nowrap" th:text="${hdct.sanPhamChiTiet.anh.ten}"></td>
-                                        <td class="px-6 py-4 whitespace-nowrap" th:text="${hdct.sanPhamChiTiet.ten}"></td>
-                                        <td class="px-6 py-4 whitespace-nowrap" th:text="${hdct.sanPhamChiTiet.mauSac.ten}"></td>
-                                        <td class="px-6 py-4 whitespace-nowrap" th:text="${hdct.soLuong}"></td>
-                                        <td class="px-6 py-4 whitespace-nowrap" th:text="${hdct.sanPhamChiTiet.giaBan}*${hdct.soLuong}"></td>
-                                        <td class="px-6 py-4 whitespace-nowrap" th:text="${hdct.trangThai}"></td>
-
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <form th:action="@{/hoa-don/delete-hd/{id}(id=${hd.id})}" method="post">
-                                                <input type="hidden" name="idHoaDonCT" th:value="${hdct.id}" />
-                                                <button type="submit">Thùng rác</button>
-                                            </form>
-                                        </td>
-
-                                    </tr>
-                                    </tbody>
-                                </table>
+                    <!-- Steppers -->
+                    <div class="flex items-center">
+                        <!-- Step 1 -->
+                        <div class="flex items-center">
+                            <div class="h-8 w-8 bg-blue-500 text-white rounded-full flex items-center justify-center">1</div>
+                            <div class="ml-4">
+                                <h2 class="text-lg font-semibold">Step 1</h2>
+                                <p class="text-gray-600">Choose Product</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="grid gap-4 grid-cols-2 mt-5">
-                        <div></div>
-                        <div>
-                            <div>
-                                <span>
-                                    Tổng tiền hàng: <span th:text="${hd.tongTien}"></span>
-                                </span>
+
+                        <!-- Step 2 -->
+                        <div class="flex items-center ml-8">
+                            <div class="h-8 w-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center">2</div>
+                            <div class="ml-4">
+                                <h2 class="text-lg font-semibold">Step 2</h2>
+                                <p class="text-gray-600">Shipping Details</p>
                             </div>
-                            <div>
-                                <span>
-                                    Phí vận chuyển: <span th:text="${hd.tienShip}"></span>
-                                </span>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="flex items-center ml-8">
+                            <div class="h-8 w-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center">3</div>
+                            <div class="ml-4">
+                                <h2 class="text-lg font-semibold">Step 3</h2>
+                                <p class="text-gray-600">Payment</p>
                             </div>
-<!--                            <div>-->
-<!--                                <span>-->
-<!--                                    Tổng tiền giảm: <span th:text="${hd.tongTienSauGiam}"></span>-->
-<!--                                </span>-->
-<!--                            </div>-->
-                            <div>
-                                <span>
-                                    Tổng tiền thanh toán: <span th:text="${hd.tongTienSauGiam}"></span>
-                                </span>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="flex items-center ml-8">
+                            <div class="h-8 w-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center">4</div>
+                            <div class="ml-4">
+                                <h2 class="text-lg font-semibold">Step 4</h2>
+                                <p class="text-gray-600">Confirmation</p>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
+            </div>
+        </div>
+        <div id="thongTinHoaDon" class="bg-white h-64 w-[97%] m-auto mt-5"></div>
+        <div id="hoaDonChiTietWrapper" class="bg-white w-[97%] m-auto mt-5">
+            <div id="hoaDonChiTiet" class="h-96">
+                <h1 class="text-xl mt-5 ml-3 mb-4 font-bold">Thông tin sản phẩm đã mua</h1>
+                <div class="overflow-x-auto">
+                    <table id="tableHoaDonChiTiet" class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-blue-500">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">STT</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh sản phẩm</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Thông tin sản phẩm</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Màu sắc</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Số lượng</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tổng tiền</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Trạng thái</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Hành động</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbodyHoaDonChiTiet" class="bg-white divide-y divide-gray-200">
+                        <!-- Dữ liệu sản phẩm sẽ được thêm vào đây từ JavaScript -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div>03</div>
-            <div>04</div>
+            <div class="grid gap-4 grid-cols-2">
+                <div></div>
+                <div id="tongTienChiTiet" class="h-32 p-4">
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
+<script>
+    $(document).ready(function () {
+        const pathArray = window.location.pathname.split('/');
+        const idHoaDon = pathArray[pathArray.length - 1];
 
+        $.ajax({
+            url: `/api/hoa-don/detail/${idHoaDon}`,
+            method: 'GET',
+            success: function (response) {
+                const hd = response.hd;
+                const hdctList = response.hdctList;
+
+                $('#thongTinHoaDon').html(`
+                    <h1 class="text-xl mt-3 ml-3 mb-4 font-bold">Thông tin đơn hàng: <span class="font-normal">${hd.ma}</span></h1>
+                    <span class="flex items-center w-[99%] m-auto">
+                        <span class="h-px flex-1 bg-gray-500"></span>
+                        <span class="h-px flex-1 bg-gray-500"></span>
+                    </span>
+                    <div class="grid gap-4 grid-cols-2">
+                        <div>
+                            <h1 class="ml-4 mt-3 font-bold">Trạng thái: <span class="bg-blue-400 hover:bg-blue-700 text-white py-2 px-4 rounded-full font-normal ml-10">${trangThai(hd.trangThai)}</span></h1>
+                        </div>
+                        <div>
+                            <h1 class="mt-3 font-bold">Tên khách hàng: <span class="font-normal ml-10">${hd.khachHang.ten}</span></h1>
+                        </div>
+                        <div>
+                            <h1 class="ml-4 mt-3 font-bold">Loại: <span class="font-normal ml-10">Offline</span></h1>
+                        </div>
+                        <div>
+                            <h1 class="font-bold">Số điện thoại: <span class="font-normal ml-10">${hd.khachHang.sdt}</span></h1>
+                        </div>
+                        <div>
+                            <h1 class="ml-4 mt-3 font-bold">Địa chỉ: <span class="font-normal ml-10">${hd.diaChiNguoiNhan}</span></h1>
+                        </div>
+                        <div>
+                            <h1 class="font-bold">Thời gian dự kiến nhận: <span class="font-normal ml-10">${hd.ngayNhan ? formatDate(hd.ngayNhan) : ''}</span></h1>
+                        </div>
+                        <div>
+                            <h1 class="ml-4 font-bold">Ghi chú: <span class="font-normal ml-10">${hd.ghiChu}</span></h1>
+                        </div>
+                    </div>
+                `);
+
+                let danhSachSP = '';
+                let tongTienHang = 0;
+                hdctList.forEach((item, index) => {
+                    const tongTienSP = item.sanPhamChiTiet.giaBan * item.soLuong;
+                    tongTienHang += tongTienSP;
+                    danhSachSP += `
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${item.sanPhamChiTiet.anh.ten}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${item.sanPhamChiTiet.ten}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${item.sanPhamChiTiet.mauSac.ten}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${item.soLuong}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${tongTienSP}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${item.trangThai}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <button class="deleteSP" data-id="${item.id}">Thùng rác</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                const tienGiamGia = hd.tongTien - hd.tongTienSauGiam;
+                const tongTienThanhToan = hd.tongTienSauGiam + hd.tienShip;
+
+                $('#tbodyHoaDonChiTiet').html(danhSachSP);
+
+                $('#tongTienChiTiet').html(`
+                    <div>
+                        <span class="text-lg ">Tổng tiền hàng: <span class="text-lg">${tongTienHang}</span></span>
+                    </div>
+                    <div>
+                        <span  class="text-lg">Tiền được giảm giá: <span class="text-lg">${tienGiamGia}</span></span>
+                    </div>
+                    <div>
+                        <span  class="text-lg">Phí vận chuyển: <span class="text-lg">${hd.tienShip}</span></span>
+                    </div>
+                    <div>
+                        <span  class="text-lg">Tổng tiền thanh toán: <span class="text-lg">${tongTienThanhToan}</span></span>
+                    </div>
+                `);
+
+                $('.deleteSP').on('click', function () {
+                    const itemId = $(this).data('id');
+                    $.ajax({
+                        url: `/api/hoa-don/delete-hd/${idHoaDon}`,
+                        method: 'POST',
+                        data: { idHoaDonCT: itemId },
+                        success: function () {
+                            location.reload();
+                        }
+                    });
+                });
+            }
+        });
+
+        const trangThai = (tt) => {
+            switch (tt) {
+                case 1:
+                    return 'Chờ xác nhận';
+                case 2:
+                    return 'Đã xác nhận';
+                case 3:
+                    return 'Chờ vận chuyển';
+                case 4:
+                    return 'Vận chuyển';
+                case 5:
+                    return 'Thanh toán';
+                case 6:
+                    return 'Hoàn thành';
+                case 7:
+                    return 'Hủy';
+                default:
+                    return 'Không xác định';
+            }
+        }
+
+        function formatDate(date) {
+            const d = new Date(date);
+            return `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
+        }
+    });
+</script>
 </body>
 </html>
