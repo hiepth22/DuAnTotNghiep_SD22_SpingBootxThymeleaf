@@ -114,11 +114,4 @@ public class SanPhamChiTietService {
         return repository.saveAll(sanPhamChiTiets);
     }
 
-<<<<<<< HEAD
-=======
-//    public int countVariantsBySanPhamId(Long sanPhamId) {
-//        return repository.countBySanPhamId(sanPhamId);
-//    }
-
->>>>>>> eba6307b83d574846a13be69f3186107eedd5659
 }

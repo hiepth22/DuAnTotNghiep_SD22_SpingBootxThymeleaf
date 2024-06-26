@@ -10,12 +10,18 @@
     <i class="far fa-folder fa-5x mb-3"></i>
     <p class="text-muted">Không có dữ liệu</p>
   </div>
-  <table class="table table-striped" th:unless="${sanPhamChiTiets.empty}">
+  <table class="table table-striped" border="1" th:unless="${sanPhamChiTiets.empty}">
     <thead>
     <tr>
       <th>ID</th>
       <th>Tên</th>
-      <th>Ngày Tạo</th>
+      <th>Số lượng</th>
+      <th>Giá bán</th>
+      <th>Màu sắc</th>
+      <th>Cổ giày</th>
+      <th>Chất liệu</th>
+      <th>Cân nặng</th>
+      <th>Ngày tạo</th>
       <th>Trạng Thái</th>
     </tr>
     </thead>
@@ -23,6 +29,12 @@
     <tr th:each="spct : ${sanPhamChiTiets}">
       <td th:text="${spct.id}"></td>
       <td th:text="${spct.ten}"></td>
+      <td th:text="${spct.soLuong}"></td>
+      <td th:text="${spct.giaBan}"></td>
+      <td th:text="${spct.mauSac.ten}"></td>
+      <td th:text="${spct.coGiay.ten}"></td>
+      <td th:text="${spct.chatLieu.ten}"></td>
+      <td th:text="${spct.canNang}"></td>
       <td th:text="${#dates.format(spct.ngayTao, 'yyyy-MM-dd')}"></td>
       <td>
         <span th:if="${spct.trangThai == 1}">Hoạt động</span>
