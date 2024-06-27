@@ -1,90 +1,64 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml" href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309" />
-    <title>Nhân Viên</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="NhanVien.css">
-    <style>
-        .table th, .table td {
-            font-size: 14px;
-            vertical-align: middle;
-        }
+<h2 class="">Danh Sách Nhân Viên</h2>
+<a th:href="@{/admin/addNhanVien}" class="btn btn-outline-danger" onclick="addnv()">+</a>
+<table class="table table-striped table-hover">
+    <thead class="text-center">
+    <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Ảnh</th>
+        <th scope="col">Tên</th>
+        <th scope="col">Mã</th>
+        <th scope="col">SĐT</th>
+        <th scope="col">Ngày Sinh</th>
+        <th scope="col">Giới Tính</th>
+        <th scope="col">Email</th>
+        <th scope="col">CCCD</th>
+        <th scope="col">Vai Trò</th>
+        <th scope="col">Trạng Thái</th>
+        <th scope="col">Hành Động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="nhanvien, status : ${lstNv}" class="text-center">
+        <td th:text="${status.index + 1}"></td>
+        <td>
+            <img th:if="${nhanvien.anh}"
+                 th:src="@{https://res.cloudinary.com/deapopcoc/image/upload/${nhanvien.anh}}"
+                 class="img-thumbnail">
+        </td>
+        <td th:text="${nhanvien.ten}"></td>
+        <td th:text="${nhanvien.ma}"></td>
+        <td th:text="${nhanvien.sdt}"></td>
+        <td th:text="${#dates.format(nhanvien.ngaySinh, 'dd/MM/yyyy')}"></td>
+        <td>
+            <span th:if="${nhanvien.gioiTinh} == true">Nam</span>
+            <span th:if="${nhanvien.gioiTinh} == false">Nữ</span>
+        </td>
+        <td th:text="${nhanvien.email}"></td>
+        <td th:text="${nhanvien.cccd}"></td>
+        <td>
+            <span th:if="${nhanvien.vaiTro == 1}">Nhân Viên</span>
+            <span th:if="${nhanvien.vaiTro == 0}">Quản Lí</span>
+        </td>
 
-        .table th:first-child, .table td:first-child {
-            width: 5%;
-        }
+        <td>
+            <span th:if="${nhanvien.trangThai == 1}" class="inactive-status">Không Hoạt Động</span>
 
-        .table td {
-            white-space: nowrap;
-        }
+            <span th:if="${nhanvien.trangThai == 0}" class="active-status1">Hoạt Động</span>
 
-        .table img {
-            max-width: 100px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
-</head>
-<body>
-<div class="container mt-5">
-    <h2 class="">Danh Sách Nhân Viên</h2>
-    <a th:href="@{/admin/addNhanVien}" class="btn btn-outline-danger">+</a>
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead>
-            <tr>
-                <th scope="col">STT</th>
-                <th scope="col">Ảnh</th>
-                <th scope="col">Tên</th>
-                <th scope="col">Mã</th>
-                <th scope="col">SĐT</th>
-                <th scope="col">Ngày Sinh</th>
-                <th scope="col">Giới Tính</th>
-                <th scope="col">Email</th>
-                <th scope="col">CCCD</th>
-                <th scope="col">Vai Trò</th>
-                <th scope="col">Trạng Thái</th>
-                <th scope="col">Hành Động</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="nhanvien, status : ${lstNv}" class="text-center">
-                <td th:text="${status.index + 1}"></td>
-                <td>
-                    <img th:if="${nhanvien.anh}" th:src="@{${'https://res.cloudinary.com/deapopcoc/image/upload/' + nhanvien.anh}}"
-                         class="img-thumbnail">
-                </td>
-                <td th:text="${nhanvien.ten}"></td>
-                <td th:text="${nhanvien.ma}"></td>
-                <td th:text="${nhanvien.sdt}"></td>
-                <td th:text="${#dates.format(nhanvien.ngaySinh, 'dd/MM/yyyy')}"></td>
-                <td>
-                    <span th:if="${nhanvien.gioiTinh} == true">Nam</span>
-                    <span th:if="${nhanvien.gioiTinh} == false">Nữ</span>
-                </td>
-                <td th:text="${nhanvien.email}"></td>
-                <td th:text="${nhanvien.cccd}"></td>
-                <td>
-                    <span th:if="${nhanvien.vaiTro} == 1">Nhân Viên</span>
-                    <span th:if="${nhanvien.vaiTro} == 0">Quản Lí</span>
-                </td>
-                <td>
-                    <span th:if="${nhanvien.trangThai} == 1">Không Hoạt Động</span>
-                    <span th:if="${nhanvien.trangThai} == 0">Hoạt Động</span>
-                </td>
-                <td>
-                    <a th:href="@{/admin/UpdateNhanVien/{id}(id=${nhanvien.id})}" class="btn btn-outline-success">Cập nhật</a>
-                    <a th:href="@{/admin/DetailNhanVien/{id}(id=${nhanvien.id})}" class="btn btn-outline-warning">Chi tiết</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+        </td>
+        <td>
+            <a th:href="@{/admin/UpdateNhanVien/{id}(id=${nhanvien.id})}"
+               class="btn btn-outline-success">Cập nhật</a>
+<!--            <a th:href="@{/admin/DetailNhanVien/{id}(id=${nhanvien.id})}"-->
+<!--               class="btn btn-outline-warning">Chi tiết</a>-->
+        </td>
+    </tr>
+    </tbody>
+</table>
+<ul>
+    <li><a>1</a></li>
+    <li><a>1</a></li>
+</ul>
 </html>

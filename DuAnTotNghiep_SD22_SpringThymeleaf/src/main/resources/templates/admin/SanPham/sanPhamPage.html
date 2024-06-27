@@ -6,30 +6,57 @@
 <nav th:replace="~{/admin/fragments/sidebar :: sider}"></nav>
 <div class="container">
     <h2>Danh sách sản phẩm</h2>
-    <table class="table table-striped">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <form method="get" class="d-flex">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm" name="keyword">
+                    <div class="input-group-append">
+                        <button class="btn btn-success" type="submit">Tìm kiếm</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6 text-right">
+            <a th:href="@{/admin/san-pham-chi-tiet/add}" class="btn btn-primary">Thêm mới sản phẩm</a>
+        </div>
+    </div>
+    <div class="text-center my-3" th:if="${sanPhams.empty}">
+        <i class="far fa-folder fa-5x mb-3"></i>
+        <p class="text-muted">Không có dữ liệu</p>
+    </div>
+    <table class="table table-striped" border="1" th:unless="${sanPhams.empty}">
         <thead>
         <tr>
+            <th>STT</th>
             <th>ID</th>
             <th>Tên</th>
             <th>Thương Hiệu</th>
+            <th>Số biến thể</th>
             <th>Ngày Tạo</th>
             <th>Trạng Thái</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="sanPham : ${sanPhams.content}">
+        <tr th:each="sanPham, state : ${sanPhams}">
+            <td th:text="${state.count}"></td>
             <td th:text="${sanPham.id}"></td>
             <td th:text="${sanPham.ten}"></td>
             <td th:text="${sanPham.thuongHieu.ten}"></td>
+            <td th:text="${state.size}"></td>
             <td th:text="${#dates.format(sanPham.ngayTao, 'yyyy-MM-dd')}"></td>
             <td>
                 <span th:if="${sanPham.trangThai == 1}">Hoạt động</span>
                 <span th:if="${sanPham.trangThai == 0}">Tạm ngưng</span>
             </td>
+            <td>
+                <a th:href="@{/admin/san-pham/{id}(id=${sanPham.id})}"><i class="fa-solid fa-eye"></i></a>
+            </td>
         </tr>
         </tbody>
     </table>
-    <nav aria-label="Page navigation">
+    <nav aria-label="Page navigation" th:if="${!sanPhams.empty && totalPage > 1}">
         <ul class="pagination pagination-sm no-margin pull-right">
             <li class="page-item" th:if="${currentPage > 1}">
                 <a class="page-link" th:href="@{'?pageNo='+${currentPage - 1}}"><<</a>
