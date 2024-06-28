@@ -101,8 +101,7 @@ public class NhanVienControler {
         return "admin/NhanVien/NhanVienIndext";
     }
 
-<<<<<<< HEAD
-=======
+
     private String generateRandomPassword() {
         String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -128,6 +127,5 @@ public class NhanVienControler {
         emailSender.send(message);
     }
 
-
->>>>>>> 6be46c55687962f20a044c37d4bc2c985e1d0eb5
+    
 }
