@@ -7,61 +7,47 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body>
-<div class="bg-gray-200">
+<body class="bg-gray-200">
+<div >
     <div class="grid gap-4 grid-cols-1">
-        <div class="bg-white h-64 w-[97%] m-auto mt-5">
+        <div class="h-72 w-[97%] m-auto mt-5 bg-white p-6 rounded-lg shadow-md">
             <div class="container mx-auto px-4 py-8">
-                <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="">
                     <h1 class="text-xl font-bold mb-4">Steppers Example</h1>
 
-                    <!-- Steppers -->
-                    <div class="flex items-center">
-                        <!-- Step 1 -->
-                        <div class="flex items-center">
-                            <div class="h-8 w-8 bg-blue-500 text-white rounded-full flex items-center justify-center">1</div>
-                            <div class="ml-4">
-                                <h2 class="text-lg font-semibold">Step 1</h2>
-                                <p class="text-gray-600">Choose Product</p>
-                            </div>
-                        </div>
+                    <!-- Steppers Container -->
+                    <div class="flex items-center overflow-auto" id="steppers">
+                        <div class="flex items-center ml-8 step" data-step="1">
+                            <div class="h-8 w-8 bg-green-600 text-white rounded-full flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
 
-                        <!-- Step 2 -->
-                        <div class="flex items-center ml-8">
-                            <div class="h-8 w-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center">2</div>
-                            <div class="ml-4">
-                                <h2 class="text-lg font-semibold">Step 2</h2>
-                                <p class="text-gray-600">Shipping Details</p>
-                            </div>
-                        </div>
 
-                        <!-- Step 3 -->
-                        <div class="flex items-center ml-8">
-                            <div class="h-8 w-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center">3</div>
+                            </div>
                             <div class="ml-4">
-                                <h2 class="text-lg font-semibold">Step 3</h2>
-                                <p class="text-gray-600">Payment</p>
+                                <h2 class="text-lg font-semibold">Chưa xác nhận</h2>
+                                <p class="text-gray-600">Description</p>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Step 4 -->
-                        <div class="flex items-center ml-8">
-                            <div class="h-8 w-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center">4</div>
-                            <div class="ml-4">
-                                <h2 class="text-lg font-semibold">Step 4</h2>
-                                <p class="text-gray-600">Confirmation</p>
-                            </div>
-                        </div>
+                    <!-- Buttons -->
+                    <div class="mt-8 flex justify-between">
+                        <button id="prevBtn" class="bg-gray-500 text-white px-4 py-2 rounded">Previous</button>
+                        <button id="nextBtn" class="bg-blue-500 text-white px-4 py-2 rounded">Next</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="thongTinHoaDon" class="bg-white h-64 w-[97%] m-auto mt-5"></div>
-        <div id="hoaDonChiTietWrapper" class="bg-white w-[97%] m-auto mt-5">
+
+    </div>
+        <div id="thongTinHoaDon" class="bg-white h-72 w-[97%] m-auto mt-5 p-6 rounded-lg shadow-md"></div>
+        <div id="hoaDonChiTietWrapper" class="bg-white h-96 w-[97%] m-auto mt-5 p-6 rounded-lg shadow-md">
             <div id="hoaDonChiTiet" class="h-96">
                 <h1 class="text-xl mt-5 ml-3 mb-4 font-bold">Thông tin sản phẩm đã mua</h1>
                 <div class="overflow-x-auto">
-                    <table id="tableHoaDonChiTiet" class="min-w-full divide-y divide-gray-200">
+                    <table id="tableHoaDonChiTiet" class="min-w-full divide-y divide-gray-200 ">
                         <thead class="bg-blue-500">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">STT</th>
@@ -75,19 +61,23 @@
                         </tr>
                         </thead>
                         <tbody id="tbodyHoaDonChiTiet" class="bg-white divide-y divide-gray-200">
-                        <!-- Dữ liệu sản phẩm sẽ được thêm vào đây từ JavaScript -->
                         </tbody>
                     </table>
                 </div>
             </div>
+
+        </div>
+
+        <div class="bg-white h-52 w-[97%] m-auto mt-5 p-6 rounded-lg shadow-md mb-11">
             <div class="grid gap-4 grid-cols-2">
                 <div></div>
                 <div id="tongTienChiTiet" class="h-32 p-4">
                 </div>
             </div>
         </div>
+
     </div>
-</div>
+<!--</div>-->
 
 <script>
     $(document).ready(function () {
@@ -147,7 +137,12 @@
                             <td class="px-6 py-4 whitespace-nowrap">${tongTienSP}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${item.trangThai}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <button class="deleteSP" data-id="${item.id}">Thùng rác</button>
+                                <button class="deleteSP" data-id="${item.id}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-7" style="color: #B94A00">
+                                        <path fill-rule="evenodd" d="M7.22 3.22A.75.75 0 0 1 7.75 3h9A2.25 2.25 0 0 1 19 5.25v9.5A2.25 2.25 0 0 1 16.75 17h-9a.75.75 0 0 1-.53-.22L.97 10.53a.75.75 0 0 1 0-1.06l6.25-6.25Zm3.06 4a.75.75 0 1 0-1.06 1.06L10.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L12 8.94l-1.72-1.72Z" clip-rule="evenodd" />
+                                    </svg>
+
+                                </button>
                             </td>
                         </tr>
                     `;
@@ -158,20 +153,18 @@
 
                 $('#tbodyHoaDonChiTiet').html(danhSachSP);
 
-                $('#tongTienChiTiet').html(`
-                    <div>
-                        <span class="text-lg ">Tổng tiền hàng: <span class="text-lg">${tongTienHang}</span></span>
-                    </div>
-                    <div>
-                        <span  class="text-lg">Tiền được giảm giá: <span class="text-lg">${tienGiamGia}</span></span>
-                    </div>
-                    <div>
-                        <span  class="text-lg">Phí vận chuyển: <span class="text-lg">${hd.tienShip}</span></span>
-                    </div>
-                    <div>
-                        <span  class="text-lg">Tổng tiền thanh toán: <span class="text-lg">${tongTienThanhToan}</span></span>
-                    </div>
-                `);
+                // $('#tongTienChiTiet').html(`
+                //     <div>
+                //         <span class="text-lg ">Tổng tiền hàng: <span class="text-lg">${tongTienHang}</span></span>
+                //     </div>
+                //
+                //     <div>
+                //         <span  class="text-lg">Phí vận chuyển: <span class="text-lg">${hd.tienShip}</span></span>
+                //     </div>
+                //     <div>
+                //         <span  class="text-lg">Tổng tiền thanh toán: <span class="text-lg">${tongTienThanhToan}</span></span>
+                //     </div>
+                // `);
 
                 $('.deleteSP').on('click', function () {
                     const itemId = $(this).data('id');
@@ -212,6 +205,61 @@
             const d = new Date(date);
             return `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
         }
+
+        let currentStep = 1; // Initial step
+        const icons = [
+            '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /> </svg>',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M8.75 9.88a.75.75 0 0 1 1.06 1.06L6.06 15.56a.75.75 0 0 1-1.06-1.06l3.19-3.19ZM4.5 12a7.5 7.5 0 1 1 15 0A7.5 7.5 0 0 1 4.5 12Z" clip-rule="evenodd" /></svg>',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M4.22 3.22A.75.75 0 0 1 4.75 3h14.5a.75.75 0 0 1 .53 1.28l-7 7a.75.75 0 0 1-1.06 0l-7-7a.75.75 0 0 1 .08-1.06ZM12 10.94l5.72-5.72a.75.75 0 0 1 1.06 1.06L13.06 12l5.72 5.72a.75.75 0 1 1-1.06 1.06L12 13.06l-5.72 5.72a.75.75 0 0 1-1.06-1.06L10.94 12 5.22 6.28A.75.75 0 0 1 6.28 5.22L12 10.94Z" clip-rule="evenodd" /></svg>',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M19 12a7 7 0 1 1-14 0A7 7 0 0 1 19 12ZM5 12a5 5 0 1 0 10 0A5 5 0 0 0 5 12Z" clip-rule="evenodd" /></svg>'
+        ];
+
+        function addStep(stepNum, iconIndex) {
+            const stepDiv = $(`
+            <div class="flex items-center ml-8 step" data-step="${stepNum}">
+                <div class="h-8 w-8 bg-green-600 text-white rounded-full flex items-center justify-center">
+                    ${icons[iconIndex]}
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-lg font-semibold">Step ${stepNum}</h2>
+                    <p class="text-gray-600">Description</p>
+                </div>
+            </div>
+        `);
+            $('#steppers').append(stepDiv);
+        }
+
+        function updateSteps() {
+            const stepsContainer = $('#steppers');
+
+            // Add new steps up to currentStep
+            if (currentStep === 1) {
+                addStep(currentStep, currentStep - 1); // Use currentStep - 1 as index for icons array
+            } else if (currentStep > 1) {
+                addStep(currentStep, currentStep - 1); // Use currentStep - 1 as index for icons array
+            }
+
+            // Update buttons state
+            $('#prevBtn').prop('disabled', currentStep === 1);
+            $('#nextBtn').prop('disabled', currentStep >= 4); // Update with your max step count
+        }
+
+        $('#prevBtn').click(function () {
+            if (currentStep > 1) {
+                currentStep--;
+                updateSteps();
+            }
+        });
+
+        $('#nextBtn').click(function () {
+            if (currentStep < 4) { // Adjust max step count as needed
+                currentStep++;
+                updateSteps();
+            }
+        });
+
+
+
     });
 </script>
 </body>

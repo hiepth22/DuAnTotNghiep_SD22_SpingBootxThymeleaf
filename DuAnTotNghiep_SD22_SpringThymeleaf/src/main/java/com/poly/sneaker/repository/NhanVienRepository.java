@@ -12,14 +12,14 @@ import java.util.List;
 
 @Controller
 public interface NhanVienRepository extends JpaRepository<NhanVien,Long> {
-    @Query(value = "select * from nhan_vien n where " +
-            "n.ten collate SQL_Latin1_General_CP1_CI_AI like %:keyword% " +
-            "or n.ma collate SQL_Latin1_General_CP1_CI_AI like %:keyword% " +
-            "or n.sdt collate SQL_Latin1_General_CP1_CI_AI like %:keyword% " +
-            "or n.diachi collate SQL_Latin1_General_CP1_CI_AI like %:keyword% " +
-            "or n.cccd collate SQL_Latin1_General_CP1_CI_AI like %:keyword% " +
-            "or n.email collate SQL_Latin1_General_CP1_CI_AI like %:keyword%", nativeQuery = true)
-    Page<NhanVien> findByTen(@Param("keyword") String ten, Pageable pageable);
+    @Query(value = "SELECT * FROM nhan_vien n WHERE " +
+            "n.ten COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
+            "OR n.ma COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
+            "OR n.sdt COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
+            "OR n.diachi COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
+            "OR n.cccd COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
+            "OR n.email COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword%", nativeQuery = true)
+    List<NhanVien> findByTen(@Param("keyword") String keyword);
 
     List<NhanVien> findByTrangThai(int tt);
     Page<NhanVien> findByTrangThai(int trangThai, Pageable pageable);

@@ -4,6 +4,11 @@ import com.poly.sneaker.entity.NhanVien;
 import com.poly.sneaker.sevice.NhanVienSevice;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -18,17 +24,30 @@ import java.util.Optional;
 public class NhanVienControler {
      @Autowired
     private NhanVienSevice sevice;
-
+//
+//    @GetMapping("/nhanvien")
+//    public String HienThinv(){
+//        return "admin/NhanVien/NhanVien";
+//    }
     @GetMapping("/nhanvien")
-    public String HienThinv(){
-        return "admin/NhanVien/NhanVienIndext";
+    public String searchNhanVien(@RequestParam(name = "keyword", required = false) String keyword,
+                                  Model model) {
+        List<NhanVien> resultList ;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            resultList =sevice.searchNhanViens(keyword);
+        } else {
+            resultList = sevice.getallNhanVien();
+        }
+        model.addAttribute("lstNv", resultList);
+        model.addAttribute("keyword", keyword);
+        return "admin/NhanVien/NhanVien";
     }
 
      @GetMapping("/nhan-vien")
     public String HienThi(Model model){
 
      model.addAttribute("lstNv",sevice.getallNhanVien());
-     return "admin/NhanVien/NhanVien";
+     return "admin/NhanVien/NhanVienIndext";
     }
 
 
@@ -80,5 +99,21 @@ public class NhanVienControler {
             return "redirect:/admin/nhan-vien";
         }
     }
+    @GetMapping("/phantrang")
+    public String searchNhanViens(@RequestParam(name = "keyword", required = false) String keyword,
+                                  Model model) {
+        List<NhanVien> resultList ;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            resultList =sevice.searchNhanViens(keyword);
+        } else {
+            resultList = sevice.getallNhanVien();
+        }
+        model.addAttribute("lstNv", resultList);
+        model.addAttribute("keyword", keyword);
+        return "admin/NhanVien/NhanVienIndext";
+    }
+
+
+
 
 }

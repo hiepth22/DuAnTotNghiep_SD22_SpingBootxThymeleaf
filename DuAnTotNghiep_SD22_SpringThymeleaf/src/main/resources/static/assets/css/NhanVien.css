@@ -1,0 +1,34 @@
+.table th,
+.table td {
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.table th:first-child,
+.table td:first-child {
+    width: 5%;
+}
+
+.table td {
+    white-space: nowrap;
+}
+
+.table img {
+    max-width: 100px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+.inactive-status {
+    background-color: #f8d7da;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: #721c24;
+}
+.active-status1 {
+    background-color: #d4edda;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: #155724;
+}
+
