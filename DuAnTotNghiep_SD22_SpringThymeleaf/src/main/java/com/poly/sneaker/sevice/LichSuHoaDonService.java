@@ -7,6 +7,8 @@ import com.poly.sneaker.repository.LichSuHoaDonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class LichSuHoaDonService {
 
@@ -15,6 +17,11 @@ public class LichSuHoaDonService {
 
     public LichSuHoaDon add(Long id,LichSuHoaDon lichSuHoaDon) {
         lichSuHoaDon.setIdHoaDon(id);
+        lichSuHoaDon.setGhiChu(lichSuHoaDon.getGhiChu());
+        lichSuHoaDon.setHanhDong(lichSuHoaDon.getHanhDong());
+        LocalDateTime ngayTao = LocalDateTime.now();
+        lichSuHoaDon.setNgayTao(ngayTao);
+        lichSuHoaDon.setNguoiTao("Admin");
         return lichSuHoaDonRepository.save(lichSuHoaDon);
     }
 

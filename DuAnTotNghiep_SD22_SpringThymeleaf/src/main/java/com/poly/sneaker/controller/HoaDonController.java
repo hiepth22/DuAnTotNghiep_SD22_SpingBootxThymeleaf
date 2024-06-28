@@ -46,7 +46,7 @@ public class HoaDonController {
         return "redirect:/hoa-don/detail";
     }
 
-    @PostMapping("/lich-su-hoa-don/add")
+    @PostMapping("/lich-su-hoa-don/add/{id}")
     public String addLichSuHoaDon() {
         return "redirect:/hoa-don/detail";
     }

@@ -96,8 +96,8 @@ public class HoaDonAPI {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDon not found");
         }
     }
-    @PostMapping("/lich-su-hoa-don/add")
-    public ResponseEntity<?> addLichSuHoaDon (@PathVariable("id") Long id, LichSuHoaDon lichSuHoaDon){
+    @PostMapping("/lich-su-hoa-don/add/{id}")
+    public ResponseEntity<?> addLichSuHoaDon (@PathVariable("id") Long id,@RequestBody LichSuHoaDon lichSuHoaDon){
         return ResponseEntity.ok(lichSuHoaDonService.add(id, lichSuHoaDon));
     }
 
