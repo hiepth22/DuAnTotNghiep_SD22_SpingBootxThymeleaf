@@ -4,34 +4,31 @@ import com.poly.sneaker.entity.NhanVien;
 import com.poly.sneaker.sevice.NhanVienSevice;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
+import java.util.Random;
 
 @Controller
 @RequestMapping("/admin")
 public class NhanVienControler {
-     @Autowired
+    @Autowired
     private NhanVienSevice sevice;
-//
-//    @GetMapping("/nhanvien")
-//    public String HienThinv(){
-//        return "admin/NhanVien/NhanVien";
-//    }
+
+    private final JavaMailSender emailSender;
+
+    @Autowired
+    public NhanVienControler(JavaMailSender emailSender) {
+        this.emailSender = emailSender;
+    }
+
     @GetMapping("/nhanvien")
     public String searchNhanVien(@RequestParam(name = "keyword", required = false) String keyword,
-                                  Model model) {
+                                 Model model) {
         List<NhanVien> resultList ;
         if (keyword != null && !keyword.trim().isEmpty()) {
             resultList =sevice.searchNhanViens(keyword);
@@ -43,14 +40,11 @@ public class NhanVienControler {
         return "admin/NhanVien/NhanVien";
     }
 
-     @GetMapping("/nhan-vien")
+    @GetMapping("/nhan-vien")
     public String HienThi(Model model){
-
-     model.addAttribute("lstNv",sevice.getallNhanVien());
-     return "admin/NhanVien/NhanVienIndext";
+        model.addAttribute("lstNv",sevice.getallNhanVien());
+        return "admin/NhanVien/NhanVienIndext";
     }
-
-
     @GetMapping("/addNhanVien")
     public String NhanVienadd(Model model){
         NhanVien nv = new NhanVien();
@@ -64,9 +58,13 @@ public class NhanVienControler {
             model.addAttribute("errors", result.getAllErrors());
             return "admin/NhanVien/NhanVienAdd";
         }
-
         nv.setNgaytao(java.time.LocalDateTime.now());
         nv.setNgaycapnhap(java.time.LocalDateTime.now());
+        nv.setTrangThai(1);
+        String newPassword = generateRandomPassword();
+        nv.setMatKhau(newPassword);
+        sendPasswordEmail(nv.getEmail(), nv.getMatKhau());
+
         sevice.Add(nv);
         return "redirect:/admin/nhan-vien";
     }
@@ -89,16 +87,6 @@ public class NhanVienControler {
             return "redirect:/admin/nhan-vien";
         }
     }
-    @GetMapping("/DetailNhanVien/{id}")
-    public String chiTietNhanVien(@PathVariable("id") Long id, Model model) {
-        Optional<NhanVien> optionalNhanVien = Optional.ofNullable(sevice.findById(id));
-        if (optionalNhanVien.isPresent()) {
-            model.addAttribute("nv", optionalNhanVien.get());
-            return "admin/NhanVien/NhanVienDetail";
-        } else {
-            return "redirect:/admin/nhan-vien";
-        }
-    }
     @GetMapping("/phantrang")
     public String searchNhanViens(@RequestParam(name = "keyword", required = false) String keyword,
                                   Model model) {
@@ -113,4 +101,33 @@ public class NhanVienControler {
         return "admin/NhanVien/NhanVienIndext";
     }
 
+<<<<<<< HEAD
+=======
+    private String generateRandomPassword() {
+        String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+
+        String alphaNumeric = upperAlphabet + lowerAlphabet + numbers;
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        int length = 10;
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(alphaNumeric.length());
+            char randomChar = alphaNumeric.charAt(index);
+            sb.append(randomChar);
+        }
+        return sb.toString();
+    }
+    public void sendPasswordEmail(String to, String password) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Tài Khoản Và Mật Khẩu");
+        message.setText("Tài Khoản: " + to + "\nMật Khẩu: " + password);
+
+        emailSender.send(message);
+    }
+
+
+>>>>>>> 6be46c55687962f20a044c37d4bc2c985e1d0eb5
 }

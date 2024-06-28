@@ -7,12 +7,10 @@ import com.poly.sneaker.sevice.HoaDonChiTietService;
 import com.poly.sneaker.sevice.HoaDonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -40,6 +38,22 @@ public class HoaDonController {
 
     @PostMapping("/hoa-don/delete-hd/{id}")
     public String updateHoaDon() {
+        return "redirect:/hoa-don/detail";
+    }
+
+
+    @PutMapping("/hoa-don/update-trang-thai/{id}")
+    public String updateTrangThaiHoaDon() {
+        return "redirect:/hoa-don/detail";
+    }
+
+    @PostMapping("/lich-su-hoa-don/add/{id}")
+    public String addLichSuHoaDon() {
+        return "redirect:/hoa-don/detail";
+    }
+
+    @GetMapping("/lich-su-hoa-don/{id}")
+    public String lichSuHoaDon (){
         return "redirect:/hoa-don/detail";
     }
 

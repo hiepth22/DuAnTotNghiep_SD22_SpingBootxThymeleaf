@@ -71,7 +71,7 @@ public class SanPhamChiTietController {
         model.addAttribute("mauSacs", mauSacs);
         model.addAttribute("kichCos", kichCos);
 
-        return "admin/SanPham/sanPhamChiTietAdd";
+        return "admin/SanPham/sanPhamAddPage";
     }
 
 }

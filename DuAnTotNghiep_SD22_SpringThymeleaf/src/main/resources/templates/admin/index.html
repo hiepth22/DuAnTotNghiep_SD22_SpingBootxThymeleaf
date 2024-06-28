@@ -25,7 +25,19 @@
         <!-- Navbar Start -->
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
         <!-- Navbar End -->
+        <div class="container mx-auto bg-white h-20 w-[98%]">
+            <div class="mt-3 search-container">
+                <form action="#" method="get" class="search-form">
+                    <input type="text" placeholder="Tìm kiếm" />
+                    <button type="submit">Tìm kiếm</button>
+                    <button type="button">Làm mới</button>
+                </form>
+                <button class="add-button">Thêm mới sản phẩm</button>
+            </div>
+        </div>
     </div>
+
+
 </div>
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

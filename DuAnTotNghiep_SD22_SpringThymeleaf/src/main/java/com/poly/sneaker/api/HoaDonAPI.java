@@ -2,10 +2,13 @@ package com.poly.sneaker.api;
 
 import com.poly.sneaker.entity.HoaDon;
 import com.poly.sneaker.entity.HoaDonChiTiet;
+import com.poly.sneaker.entity.LichSuHoaDon;
 import com.poly.sneaker.sevice.HoaDonChiTietService;
 import com.poly.sneaker.sevice.HoaDonService;
+import com.poly.sneaker.sevice.LichSuHoaDonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +27,8 @@ public class HoaDonAPI {
 
     @Autowired
     HoaDonChiTietService hoaDonChiTietService;
+    @Autowired
+    private LichSuHoaDonService lichSuHoaDonService;
 
 
     @GetMapping("")
@@ -81,4 +86,24 @@ public class HoaDonAPI {
 
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/update-trang-thai/{id}")
+    public ResponseEntity<?> updateTrangThai(@PathVariable("id") Long id, @RequestBody HoaDon hoaDon) {
+        HoaDon updatedHoaDon = hoaDonService.updateTrangThai(id, hoaDon);
+        if (updatedHoaDon != null) {
+            return ResponseEntity.ok(updatedHoaDon);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDon not found");
+        }
+    }
+    @PostMapping("/lich-su-hoa-don/add/{id}")
+    public ResponseEntity<?> addLichSuHoaDon (@PathVariable("id") Long id,@RequestBody LichSuHoaDon lichSuHoaDon){
+        return ResponseEntity.ok(lichSuHoaDonService.add(id, lichSuHoaDon));
+    }
+
+    @GetMapping("/lich-su-hoa-don/{id}")
+    public ResponseEntity<?> lichSuHoaDon (@PathVariable(name = "id") Long id){
+        return ResponseEntity.ok(lichSuHoaDonService.getAllByIdhoaDon(id));
+    }
+
 }
