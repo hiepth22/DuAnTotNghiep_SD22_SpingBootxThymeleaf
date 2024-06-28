@@ -39,19 +39,15 @@
                     <div class="col">
                         <label for="coGiay">Cổ giày</label>
                         <select class="form-select" id="coGiay" name="coGiay">
-                            <option value="">Chọn cổ giày</option>
-                            <option value="1">Cổ giày 1</option>
-                            <option value="2">Cổ giày 2</option>
-                            <option value="3">Cổ giày 3</option>
+                            <option value="" disabled selected>Chọn cổ giày</option>
+                            <option th:each="coGiay : ${coGiays}" th:value="${coGiay}" th:text="${coGiay.ten}"></option>
                         </select>
                     </div>
                     <div class="col">
                         <label for="deGiay">Đế giày</label>
                         <select class="form-select" id="deGiay" name="deGiay">
-                            <option value="">Chọn đế giày</option>
-                            <option value="1">Đế giày 1</option>
-                            <option value="2">Đế giày 2</option>
-                            <option value="3">Đế giày 3</option>
+                            <option value="" disabled selected>Chọn đế giày</option>
+                            <option th:each="deGiay : ${deGiays}" th:value="${deGiay}" th:text="${deGiay.ten}"></option>
                         </select>
                     </div>
                 </div>
@@ -59,38 +55,32 @@
                     <div class="col">
                         <label for="chatLieu">Chất liệu</label>
                         <select class="form-select" id="chatLieu" name="chatLieu">
-                            <option value="">Chọn chất liệu</option>
-                            <option value="1">Chất liệu 1</option>
-                            <option value="2">Chất liệu 2</option>
-                            <option value="3">Chất liệu 3</option>
+                            <option value="" disabled selected>Chọn chất liệu</option>
+                            <option th:each="chatLieu : ${chatLieus}" th:value="${chatLieu}" th:text="${chatLieu.ten}"></option>
                         </select>
                     </div>
                     <div class="col">
                         <label for="nhaSanXuat">Nhà sản xuất</label>
                         <select class="form-select" id="nhaSanXuat" name="nhaSanXuat">
                             <option value="">Chọn nhà sản xuất</option>
-                            <option value="1">Nhà sản xuất 1</option>
-                            <option value="2">Nhà sản xuất 2</option>
-                            <option value="3">Nhà sản xuất 3</option>
+                            <option th:each="nsx : ${nhaSanXuats}" th:value="${nsx}" th:text="${nsx.ten}"></option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Sử dụng class mới cho tiêu đề -->
                 <h2 class="form-subtitle">Màu sắc và kích cỡ</h2>
                 <div class="row form-group">
                     <div class="col">
                         <label >Kích cỡ</label>
-                        <select id="choices-multiple-remove-button" multiple>
-                            <option value="1">Size 1</option>
-                            <option value="2">Size 2</option>
-                            <option value="3">Size 3</option>
-                            <option value="4">Size 4</option>
+                        <select id="kichCo" name="kichCo">
+                            <option th:each="kichCo : ${kichCos}" th:value="${kichCo}" th:text="${kichCo.ten}"></option>
                         </select>
                     </div>
                     <div class="col">
                         <label for="mauSac">Màu sắc</label>
-                        <select class="form-select" id="mauSac" name="mauSac" data-bs-toggle="modal" data-bs-target="#colorModal">
+                        <select class="form-select" id="mauSac" name="mauSac"
+                                data-bs-toggle="modal" data-bs-target="#colorModal"
+                        >Chọn màu
                         </select>
                     </div>
                 </div>
@@ -106,17 +96,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <select multiple class="form-select" id="selectMauSac">
-                        <option value="red">Đỏ</option>
-                        <option value="blue">Xanh</option>
-                        <option value="yellow">Vàng</option>
-                        <option value="green">Xanh lá</option>
-                        <option value="purple">Tím</option>
-                    </select>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary" onclick="selectColors()">Chọn màu</button>
                 </div>
             </div>
         </div>
