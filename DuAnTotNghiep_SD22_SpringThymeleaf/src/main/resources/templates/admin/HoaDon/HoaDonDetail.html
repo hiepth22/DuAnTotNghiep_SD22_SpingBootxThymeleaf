@@ -8,75 +8,80 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="bg-gray-200">
-<div >
+<div>
     <div class="grid gap-4 grid-cols-1">
         <div class="h-72 w-[97%] m-auto mt-5 bg-white p-6 rounded-lg shadow-md">
             <div class="container mx-auto px-4 py-8">
-                <div class="">
-                    <h1 class="text-xl font-bold mb-4">Steppers Example</h1>
-
+                <div class="overflow-hidden">
                     <!-- Steppers Container -->
-                    <div class="flex items-center overflow-auto" id="steppers">
-                        <div class="flex items-center ml-8 step" data-step="1">
-                            <div class="h-8 w-8 bg-green-600 text-white rounded-full flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                </svg>
+                    <div class="flex items-center  " id="steppers">
 
+                    </div>
 
-                            </div>
-                            <div class="ml-4">
-                                <h2 class="text-lg font-semibold">Chưa xác nhận</h2>
-                                <p class="text-gray-600">Description</p>
-                            </div>
+                    <div class="flex justify-between mt-7">
+                        <div class="mt-8 flex gap-2 ">
+                            <button id="prevBtn" class="bg-gray-500 text-white px-4 py-2 rounded">Previous</button>
+                            <button id="nextBtn" class="bg-blue-500 text-white px-4 py-2 rounded">Next</button>
+
+                        </div>
+                        <div class="mt-8 flex gap-2">
+                            <button class="bg-blue-500 text-white px-4 py-2 rounded">Lịch sử</button>
                         </div>
                     </div>
-
-                    <!-- Buttons -->
-                    <div class="mt-8 flex justify-between">
-                        <button id="prevBtn" class="bg-gray-500 text-white px-4 py-2 rounded">Previous</button>
-                        <button id="nextBtn" class="bg-blue-500 text-white px-4 py-2 rounded">Next</button>
-                    </div>
                 </div>
             </div>
         </div>
 
     </div>
-        <div id="thongTinHoaDon" class="bg-white h-72 w-[97%] m-auto mt-5 p-6 rounded-lg shadow-md"></div>
-        <div id="hoaDonChiTietWrapper" class="bg-white h-96 w-[97%] m-auto mt-5 p-6 rounded-lg shadow-md">
-            <div id="hoaDonChiTiet" class="h-96">
-                <h1 class="text-xl mt-5 ml-3 mb-4 font-bold">Thông tin sản phẩm đã mua</h1>
-                <div class="overflow-x-auto">
-                    <table id="tableHoaDonChiTiet" class="min-w-full divide-y divide-gray-200 ">
-                        <thead class="bg-blue-500">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">STT</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh sản phẩm</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Thông tin sản phẩm</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Màu sắc</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Số lượng</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tổng tiền</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Trạng thái</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Hành động</th>
-                        </tr>
-                        </thead>
-                        <tbody id="tbodyHoaDonChiTiet" class="bg-white divide-y divide-gray-200">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="bg-white h-52 w-[97%] m-auto mt-5 p-6 rounded-lg shadow-md mb-11">
-            <div class="grid gap-4 grid-cols-2">
-                <div></div>
-                <div id="tongTienChiTiet" class="h-32 p-4">
-                </div>
+    <div id="thongTinHoaDon" class="bg-white h-72 w-[97%] m-auto mt-5 p-6 rounded-lg shadow-md"></div>
+    <div id="hoaDonChiTietWrapper" class="bg-white h-96 w-[97%] m-auto mt-5 p-6 rounded-lg shadow-md">
+        <div id="hoaDonChiTiet" class="h-96">
+            <h1 class="text-xl mt-5 ml-3 mb-4 font-bold">Thông tin sản phẩm đã mua</h1>
+            <div class="overflow-x-auto">
+                <table id="tableHoaDonChiTiet" class="min-w-full divide-y divide-gray-200 ">
+                    <thead class="bg-blue-500">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">STT</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh sản
+                            phẩm
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Thông
+                            tin sản phẩm
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Màu
+                            sắc
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Số
+                            lượng
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tổng
+                            tiền
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Trạng
+                            thái
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Hành
+                            động
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbodyHoaDonChiTiet" class="bg-white divide-y divide-gray-200">
+                    </tbody>
+                </table>
             </div>
         </div>
 
     </div>
+
+    <div class="bg-white h-52 w-[97%] m-auto mt-5 p-6 rounded-lg shadow-md mb-11">
+        <div class="grid gap-4 grid-cols-2">
+            <div></div>
+            <div id="tongTienChiTiet" class="h-32 p-4">
+            </div>
+        </div>
+    </div>
+
+</div>
 <!--</div>-->
 
 <script>
@@ -148,37 +153,43 @@
                     `;
                 });
 
+
                 const tienGiamGia = hd.tongTien - hd.tongTienSauGiam;
                 const tongTienThanhToan = hd.tongTienSauGiam + hd.tienShip;
 
                 $('#tbodyHoaDonChiTiet').html(danhSachSP);
 
-                // $('#tongTienChiTiet').html(`
-                //     <div>
-                //         <span class="text-lg ">Tổng tiền hàng: <span class="text-lg">${tongTienHang}</span></span>
-                //     </div>
-                //
-                //     <div>
-                //         <span  class="text-lg">Phí vận chuyển: <span class="text-lg">${hd.tienShip}</span></span>
-                //     </div>
-                //     <div>
-                //         <span  class="text-lg">Tổng tiền thanh toán: <span class="text-lg">${tongTienThanhToan}</span></span>
-                //     </div>
-                // `);
+                $('#tongTienChiTiet').html(`
+                    <div>
+                        <span class="text-lg ">Tổng tiền hàng: <span class="text-lg">${tongTienHang}</span></span>
+                    </div>
+
+                    <div>
+                        <span  class="text-lg">Phí vận chuyển: <span class="text-lg">${hd.tienShip}</span></span>
+                    </div>
+                    <div>
+                        <span  class="text-lg">Tổng tiền thanh toán: <span class="text-lg">${tongTienThanhToan}</span></span>
+                    </div>
+                `);
 
                 $('.deleteSP').on('click', function () {
                     const itemId = $(this).data('id');
                     $.ajax({
                         url: `/api/hoa-don/delete-hd/${idHoaDon}`,
                         method: 'POST',
-                        data: { idHoaDonCT: itemId },
+                        data: {idHoaDonCT: itemId},
                         success: function () {
                             location.reload();
                         }
                     });
                 });
+                currentStep = hd.trangThai;
+                initializeSteps();
             }
+
         });
+
+
 
         const trangThai = (tt) => {
             switch (tt) {
@@ -201,66 +212,122 @@
             }
         }
 
+        const trangThaiSteps = (tt) => {
+            switch (tt) {
+                case 1:
+                    return 'Chờ xác nhận';
+                case 2:
+                    return 'Đã xác nhận';
+                case 3:
+                    return 'Chờ vận chuyển';
+                case 4:
+                    return 'Vận chuyển';
+                case 5:
+                    return 'Thanh toán';
+                case 6:
+                    return 'Hoàn thành';
+                default:
+                    return 'Không xác định';
+            }
+        }
+
         function formatDate(date) {
             const d = new Date(date);
             return `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
         }
 
-        let currentStep = 1; // Initial step
+
+        const totalSteps = 6;
+
         const icons = [
-            '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /> </svg>',
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M8.75 9.88a.75.75 0 0 1 1.06 1.06L6.06 15.56a.75.75 0 0 1-1.06-1.06l3.19-3.19ZM4.5 12a7.5 7.5 0 1 1 15 0A7.5 7.5 0 0 1 4.5 12Z" clip-rule="evenodd" /></svg>',
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M4.22 3.22A.75.75 0 0 1 4.75 3h14.5a.75.75 0 0 1 .53 1.28l-7 7a.75.75 0 0 1-1.06 0l-7-7a.75.75 0 0 1 .08-1.06ZM12 10.94l5.72-5.72a.75.75 0 0 1 1.06 1.06L13.06 12l5.72 5.72a.75.75 0 1 1-1.06 1.06L12 13.06l-5.72 5.72a.75.75 0 0 1-1.06-1.06L10.94 12 5.22 6.28A.75.75 0 0 1 6.28 5.22L12 10.94Z" clip-rule="evenodd" /></svg>',
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M19 12a7 7 0 1 1-14 0A7 7 0 0 1 19 12ZM5 12a5 5 0 1 0 10 0A5 5 0 0 0 5 12Z" clip-rule="evenodd" /></svg>'
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" /></svg>',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M11.003 3.003A8.001 8.001 0 1 0 19 11a.75.75 0 1 0-1.5 0 6.501 6.501 0 1 1-6.497-6.497.75.75 0 1 0 0-1.5Zm2.053 2.353a.75.75 0 0 0-.212 1.04l3.502 5.253a.75.75 0 0 0 1.308-.63l-3.502-5.253a.75.75 0 0 0-1.096-.41Z" clip-rule="evenodd" /></svg>',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M11.998 21.75a9.751 9.751 0 1 0 0-19.5 9.751 9.751 0 0 0 0 19.5Zm-.75-13.248a.75.75 0 1 1 1.5 0V12a.75.75 0 1 1-1.5 0v-3.498Zm.75 5.748a.75.75 0 1 1 0-1.5h.007a.75.75 0 1 1 0 1.5H12Z" clip-rule="evenodd" /></svg>'
         ];
 
-        function addStep(stepNum, iconIndex) {
+        const createdSteps = [];
+
+        function createStep(stepNum) {
             const stepDiv = $(`
-            <div class="flex items-center ml-8 step" data-step="${stepNum}">
-                <div class="h-8 w-8 bg-green-600 text-white rounded-full flex items-center justify-center">
-                    ${icons[iconIndex]}
-                </div>
-                <div class="ml-4">
-                    <h2 class="text-lg font-semibold">Step ${stepNum}</h2>
-                    <p class="text-gray-600">Description</p>
-                </div>
+        <div class="flex items-center ml-8 step" data-step="${stepNum}">
+            <div class="h-8 w-8 bg-green-600 text-white rounded-full flex items-center justify-center">
+                ${icons[(stepNum - 1) % icons.length]}
             </div>
-        `);
-            $('#steppers').append(stepDiv);
+            <div class="ml-4">
+                <h2 class="text-lg font-semibold">${trangThaiSteps(stepNum)}</h2>
+                <p class="text-gray-600">Time</p>
+            </div>
+        </div>
+    `);
+            return stepDiv;
         }
 
-        function updateSteps() {
-            const stepsContainer = $('#steppers');
-
-            // Add new steps up to currentStep
-            if (currentStep === 1) {
-                addStep(currentStep, currentStep - 1); // Use currentStep - 1 as index for icons array
-            } else if (currentStep > 1) {
-                addStep(currentStep, currentStep - 1); // Use currentStep - 1 as index for icons array
+        function addStep() {
+            currentStep--;
+            if (currentStep >= 1) {
+                const newStep = createStep(currentStep);
+                createdSteps.push(newStep);
+                $('#steppers').append(newStep);
+                updateButtonsState();
+            } else {
+                currentStep = 1;
             }
+        }
 
-            // Update buttons state
+        function updateButtonsState() {
             $('#prevBtn').prop('disabled', currentStep === 1);
-            $('#nextBtn').prop('disabled', currentStep >= 4); // Update with your max step count
+            $('#nextBtn').prop('disabled', currentStep >= totalSteps);
         }
 
         $('#prevBtn').click(function () {
-            if (currentStep > 1) {
-                currentStep--;
-                updateSteps();
-            }
+            addStep();
+            updateTrangThai(currentStep)
         });
 
         $('#nextBtn').click(function () {
-            if (currentStep < 4) { // Adjust max step count as needed
-                currentStep++;
-                updateSteps();
+            currentStep++;
+            if (currentStep <= totalSteps) {
+                const newStep = createStep(currentStep);
+                createdSteps.push(newStep);
+                $('#steppers').append(newStep);
+                console.log(idHoaDon)
+                updateTrangThai(currentStep)
+                updateButtonsState();
+            } else {
+                currentStep = totalSteps;
             }
         });
 
+        function initializeSteps() {
+            for (let i = 1; i <= currentStep; i++) {
+                const step = createStep(i);
+                createdSteps.push(step);
+            }
+            $('#steppers').append(createdSteps);
+            updateButtonsState();
+        }
 
+        initializeSteps();
+
+        function updateTrangThai(trangThai) {
+            $.ajax({
+                url: `/api/hoa-don/update-trang-thai/${idHoaDon}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({trangThai: trangThai}),
+                success: function (response) {
+                    addHistoryLog(idHoaDon, `Đã cập nhật trạng thái hóa đơn thành ${newStatus}`);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi khi cập nhật trạng thái hóa đơn: ', error);
+                    alert('Đã xảy ra lỗi khi cập nhật trạng thái hóa đơn. Vui lòng thử lại sau.');
+                }
+            });
+        }
 
     });
+
+
 </script>
 </body>
 </html>

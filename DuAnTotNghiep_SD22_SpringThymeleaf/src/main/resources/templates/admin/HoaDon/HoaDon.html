@@ -99,9 +99,13 @@
                                 Hàng
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tên
-                                Nhân
-                                viên
+                                class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">SDT khách hàng
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Loại
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Mã nhân viên
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ngày
@@ -111,11 +115,11 @@
                                 class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tổng
                                 Tiền
                             </th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tổng
-                                Tiền
-                                Sau Giảm
-                            </th>
+<!--                            <th scope="col"-->
+<!--                                class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tổng-->
+<!--                                Tiền-->
+<!--                                Sau Giảm-->
+<!--                            </th>-->
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                 Trạng
@@ -164,10 +168,11 @@
                                     <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">${result[i].ma}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">${result[i].khachHang.ten}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">${result[i].nhanVien.ten}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">${result[i].khachHang.sdt}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">${trangThaiMua(result[i].loai)}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">${result[i].nhanVien.ma}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">${result[i].ngayTao != null ? new Date(result[i].ngayTao).toLocaleDateString('vi-VN') : ''}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">${result[i].tongTien}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">${result[i].tongTienSauGiam}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">${formatVND(result[i].tongTien)}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">${trangThai(result[i].trangThai)}</td>
                                     <td class="px-6 py-4 whitespace-nowrap"><a href="/hoa-don/detail/${result[i].id}">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
@@ -182,26 +187,6 @@
         });
     }
 
-    // const trangThai = (tt) => {
-    //     switch (tt) {
-    //         case 1:
-    //             return 'Chờ xác nhận';
-    //         case 2:
-    //             return 'Đã xác nhận';
-    //         case 3:
-    //             return 'Chờ vận chuyển';
-    //         case 4:
-    //             return 'Vận chuyển';
-    //         case 5:
-    //             return 'Thanh toán';
-    //         case 6:
-    //             return 'Hoàn thành';
-    //         case 7:
-    //             return 'Hủy';
-    //         default:
-    //             return 'Không xác định';
-    //     }
-    // }
 
     const trangThai = (tt) => {
         switch (tt) {
@@ -223,6 +208,22 @@
                 return '<span class="status bg-black text-white rounded-lg">Không xác định</span>';
         }
     }
+
+    const trangThaiMua = (tt) => {
+        switch (tt) {
+            case 1:
+                return 'Online';
+            case 2:
+                return 'Tại quầy';
+            default:
+                return 'Không xác định'
+        }
+    }
+
+    const formatVND = (tongtien) => {
+        return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+    }
+
 
     $(document).ready(function () {
         $(`a[data-tab="0"]`).addClass('border-blue-500 rounded-lg shadow-md bg-white');
