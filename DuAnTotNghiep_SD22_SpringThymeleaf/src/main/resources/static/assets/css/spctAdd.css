@@ -4,7 +4,7 @@
     border-radius: 10px;
     padding: 20px;
     margin: 20px auto;
-    width: 80%;
+    width: 100%;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
 }
@@ -23,11 +23,11 @@
 }
 
 .form-subtitle {
-    text-align: center; /* Căn giữa tiêu đề */
-    margin-top: 20px; /* Khoảng cách với các phần tử khác */
-    margin-bottom: 10px; /* Khoảng cách với các phần tử khác */
-    font-size: 20px; /* Cỡ chữ */
-    font-weight: bold; /* Độ đậm của chữ */
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .form-group {
@@ -61,11 +61,44 @@
     color: white;
     font-size: 16px;
     cursor: pointer;
+    margin-left: 10px;
+    min-width: 120px;
+    max-width: 200px;
+    white-space: nowrap; /* Ngăn các nút tự động xuống dòng */
+    overflow: hidden; /* Ẩn phần nội dung dư thừa */
 }
 
 .form-actions button:hover {
     background-color: #0056b3;
 }
+
+
 .form-title {
-    display: none; /* Ẩn tiêu đề .form-title đi vì đã có phần tử ::before */
+    display: none;
+}
+
+.selected-items {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap; /* Cho phép các phần tử tự động xuống dòng nếu không đủ không gian */
+    align-items: flex-start; /* Đảm bảo các phần tử được căn lề trên cùng */
+}
+
+.selected-items label {
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 5px; /* Khoảng cách giữa các label */
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    white-space: nowrap; /* Ngăn label tự động xuống dòng */
+}
+
+#selectedSizes {
+    margin-left: 10px;
+}
+
+#selectedColors {
+    margin-left: 10px;
 }
