@@ -43,18 +43,13 @@ public class PhieuGiamGiaService {
         Optional<PhieuGiamGia> optional = phieuGiamGiaRepository.findById(id);
         return optional.map(o -> {
             o.setMa(newpgg.getMa());
-            o.setTen(newpgg.getTen());
             o.setSoLuong(newpgg.getSoLuong());
             o.setHinhThucGiam(newpgg.getHinhThucGiam());
-            o.setDieuKienGiam(newpgg.getDieuKienGiam());
+            o.setDonToiThieu(newpgg.getDonToiThieu());
             o.setGiaTriGiam(newpgg.getGiaTriGiam());
             o.setGiamToiDa(newpgg.getGiamToiDa());
             o.setNgayBatDau(newpgg.getNgayBatDau());
             o.setNgayKetThuc(newpgg.getNgayKetThuc());
-            o.setNgayTao(newpgg.getNgayTao());
-            o.setNgayCapNhat(new Date());
-            o.setNguoiTao(newpgg.getNguoiTao());
-            o.setNguoiCapNhat(newpgg.getNguoiCapNhat());
             o.setTrangThai(newpgg.getTrangThai());
             return phieuGiamGiaRepository.save(o);
         }).orElse(null);
@@ -69,9 +64,7 @@ public class PhieuGiamGiaService {
     public Boolean existsById(Long id) {
         return phieuGiamGiaRepository.existsById(id);
     }
-    public Boolean existsByTen(String ten) {
-        return phieuGiamGiaRepository.findByTen(ten).size() > 0;
-    }
+
 
     public Boolean trangthai(int tt) {
         return phieuGiamGiaRepository.findByTrangThai(tt).size() > 0;

@@ -16,18 +16,13 @@
             <tr>
                 <th scope="col">STT</th>
                 <th scope="col">Mã</th>
-                <th scope="col">Tên</th>
                 <th scope="col">So Luong</th>
                 <th scope="col">Hinh Thuc Giam</th>
-                <th scope="col">Dieu Kien Giam</th>
+                <th scope="col">Don Toi Thieu</th>
                 <th scope="col">Gia Tri Giam</th>
                 <th scope="col">Giam Toi Da</th>
                 <th scope="col">Ngay Bat Dau</th>
                 <th scope="col">Ngay Ket Thuc</th>
-                <th scope="col">Ngay Tao</th>
-                <th scope="col">Ngay Cap Nhat</th>
-                <th scope="col">Nguoi Tao</th>
-                <th scope="col">Nguoi Cap Nhat</th>
                 <th scope="col">Trạng Thái</th>
                 <th scope="col">Hành Động</th>
             </tr>
@@ -36,30 +31,25 @@
             <tr th:each="phieugiamgia, status :${lstPgg}" class="text-center">
                 <td th:text="${status.index + 1}"></td>
                 <td th:text="${phieugiamgia.ma}"></td>
-                <td th:text="${phieugiamgia.ten}"></td>
                 <td th:text="${phieugiamgia.soLuong}"></td>
                 <td>
-                    <span th:if="${phieugiamgia.hinhThucGiam} == true">Giam tien</span>
-                    <span th:if="${phieugiamgia.hinhThucGiam} == false">Giam %</span>
+                    <span th:if="${phieugiamgia.hinhThucGiam} == true"> Tien mat</span>
+                    <span th:if="${phieugiamgia.hinhThucGiam} == false"> %</span>
                 </td>
-                <td th:text="${phieugiamgia.dieuKienGiam}"></td>
                 <td th:text="${phieugiamgia.giaTriGiam}"></td>
+                <td th:text="${phieugiamgia.donToiThieu}"></td>
                 <td th:text="${phieugiamgia.giamToiDa}"></td>
 
                 <td th:text="${(phieugiamgia.ngayBatDau )}"></td>
                 <td th:text="${(phieugiamgia.ngayKetThuc )}"></td>
-                <td th:text="${(phieugiamgia.ngayTao )}"></td>
-                <td th:text="${(phieugiamgia.ngayCapNhat)}"></td>
 
-                <td th:text="${phieugiamgia.nguoiTao}"></td>
-                <td th:text="${phieugiamgia.nguoiCapNhat}"></td>
                 <td>
                     <span th:if="${phieugiamgia.trangThai} == 1">Ngung Hoạt Động</span>
                     <span th:if="${phieugiamgia.trangThai} == 0">Hoạt Động</span>
                 </td>
                 <td>
                     <a th:href="@{/UpdatePhieuGiamGia/{id}(id=${phieugiamgia.id})}" class="btn btn-outline-success">Cập nhật</a>
-                    <a th:href="@{/DetailPhieuGiamGia/{id}(id=${phieugiamgia.id})}" class="btn btn-outline-warning">Chi tiết</a>
+<!--                    <a th:href="@{/DetailPhieuGiamGia/{id}(id=${phieugiamgia.id})}" class="btn btn-outline-warning">Chi tiết</a>-->
                 </td>
             </tr>
             </tbody>

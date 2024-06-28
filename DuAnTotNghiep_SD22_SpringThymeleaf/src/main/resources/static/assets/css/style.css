@@ -80,7 +80,6 @@
 }
 
 .content {
-    margin-left: 250px;
     min-height: 100vh;
     background: #FFFFFF;
     transition: 0.5s;
@@ -91,12 +90,9 @@
         margin-left: 0;
     }
 
-    .sidebar.open {
-        margin-left: -250px;
-    }
 
     .content {
-        width: calc(100% - 250px);
+        width: calc(100%);
     }
 
     .content.open {
@@ -274,4 +270,36 @@
 .testimonial-carousel .owl-dot.active {
     background: var(--dark);
     border-color: var(--primary);
+}
+
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.search-form {
+    display: flex;
+    gap: 10px;
+    flex-grow: 1;
+}
+.search-form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.search-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+.add-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
 }
