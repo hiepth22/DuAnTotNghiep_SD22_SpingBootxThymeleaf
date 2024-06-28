@@ -24,7 +24,6 @@ public class PhieuGiamGiaController {
     @GetMapping("index")
     public String HienThi(Model model){
         model.addAttribute("lstPgg",phieuGiamGiaService.getall());
-        System.out.println(phieuGiamGiaService.getall());
         return "admin/PhieuGiamGia/index";
 
     }
@@ -43,8 +42,7 @@ public class PhieuGiamGiaController {
         }
         pgg.setNgayBatDau(new Date());
         pgg.setNgayKetThuc(new Date());
-        pgg.setNgayTao(new Date());
-        pgg.setNgayCapNhat(new Date());
+
         phieuGiamGiaService.Add(pgg);
         return "redirect:/phieu-giam-gia";
     }

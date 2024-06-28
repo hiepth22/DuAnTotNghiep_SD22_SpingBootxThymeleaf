@@ -38,6 +38,9 @@ public class HoaDon {
     @Column(name = "ngayTao")
     private LocalDateTime ngayTao;
 
+    @Column(name = "loai")
+    private int loai;
+
     @Column(name = "ngayCapNhat")
     private LocalDateTime ngayCapNhat;
 

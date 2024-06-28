@@ -7,92 +7,162 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body>
-<div class="bg-gray-200">
+<body class="bg-gray-200">
+<div>
     <div class="grid gap-4 grid-cols-1">
-        <div class="bg-white h-64 w-[97%] m-auto mt-5">
+        <div class="h-72 w-[97%] m-auto mt-5 bg-white p-6 rounded-lg shadow-md">
             <div class="container mx-auto px-4 py-8">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h1 class="text-xl font-bold mb-4">Steppers Example</h1>
+                <div class="overflow-hidden">
+                    <!-- Steppers Container -->
+                    <div class="flex items-center  " id="steppers">
 
-                    <!-- Steppers -->
-                    <div class="flex items-center">
-                        <!-- Step 1 -->
-                        <div class="flex items-center">
-                            <div class="h-8 w-8 bg-blue-500 text-white rounded-full flex items-center justify-center">1</div>
-                            <div class="ml-4">
-                                <h2 class="text-lg font-semibold">Step 1</h2>
-                                <p class="text-gray-600">Choose Product</p>
-                            </div>
+                    </div>
+
+                    <div class="flex justify-between mt-7">
+                        <div class="mt-8 flex gap-2 ">
+                            <button id="prevBtn" class="bg-gray-500 text-white px-4 py-2 rounded">Previous</button>
+                            <button id="hienThiGhiChu" class="bg-blue-500 text-white px-4 py-2 rounded">Next</button>
+
+
                         </div>
-
-                        <!-- Step 2 -->
-                        <div class="flex items-center ml-8">
-                            <div class="h-8 w-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center">2</div>
-                            <div class="ml-4">
-                                <h2 class="text-lg font-semibold">Step 2</h2>
-                                <p class="text-gray-600">Shipping Details</p>
-                            </div>
-                        </div>
-
-                        <!-- Step 3 -->
-                        <div class="flex items-center ml-8">
-                            <div class="h-8 w-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center">3</div>
-                            <div class="ml-4">
-                                <h2 class="text-lg font-semibold">Step 3</h2>
-                                <p class="text-gray-600">Payment</p>
-                            </div>
-                        </div>
-
-                        <!-- Step 4 -->
-                        <div class="flex items-center ml-8">
-                            <div class="h-8 w-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center">4</div>
-                            <div class="ml-4">
-                                <h2 class="text-lg font-semibold">Step 4</h2>
-                                <p class="text-gray-600">Confirmation</p>
-                            </div>
+                        <div class="mt-8 flex gap-2">
+                            <button id="hienThiLichSu" class="bg-blue-500 text-white px-4 py-2 rounded">Lịch sử</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="thongTinHoaDon" class="bg-white h-64 w-[97%] m-auto mt-5"></div>
-        <div id="hoaDonChiTietWrapper" class="bg-white w-[97%] m-auto mt-5">
-            <div id="hoaDonChiTiet" class="h-96">
-                <h1 class="text-xl mt-5 ml-3 mb-4 font-bold">Thông tin sản phẩm đã mua</h1>
-                <div class="overflow-x-auto">
-                    <table id="tableHoaDonChiTiet" class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-blue-500">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">STT</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh sản phẩm</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Thông tin sản phẩm</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Màu sắc</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Số lượng</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tổng tiền</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Trạng thái</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Hành động</th>
-                        </tr>
-                        </thead>
-                        <tbody id="tbodyHoaDonChiTiet" class="bg-white divide-y divide-gray-200">
-                        <!-- Dữ liệu sản phẩm sẽ được thêm vào đây từ JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
+
+    </div>
+    <div id="thongTinHoaDon" class="bg-white h-72 w-[97%] m-auto mt-5 p-6 rounded-lg shadow-md"></div>
+    <div id="hoaDonChiTietWrapper" class="bg-white h-96 w-[97%] m-auto mt-5 p-6 rounded-lg shadow-md">
+        <div id="hoaDonChiTiet" class="h-96">
+            <h1 class="text-xl mt-5 ml-3 mb-4 font-bold">Thông tin sản phẩm đã mua</h1>
+            <div class="overflow-x-auto">
+                <table id="tableHoaDonChiTiet" class="min-w-full divide-y divide-gray-200 ">
+                    <thead class="bg-blue-500">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">STT</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh sản
+                            phẩm
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Thông
+                            tin sản phẩm
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Màu
+                            sắc
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Số
+                            lượng
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tổng
+                            tiền
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Trạng
+                            thái
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Hành
+                            động
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbodyHoaDonChiTiet" class="bg-white divide-y divide-gray-200">
+                    </tbody>
+                </table>
             </div>
-            <div class="grid gap-4 grid-cols-2">
-                <div></div>
-                <div id="tongTienChiTiet" class="h-32 p-4">
+        </div>
+
+    </div>
+
+    <div class="bg-white h-52 w-[97%] m-auto mt-5 p-6 rounded-lg shadow-md mb-11">
+        <div class="grid gap-4 grid-cols-2">
+            <div></div>
+            <div id="tongTienChiTiet" class="h-32 p-4">
+            </div>
+        </div>
+    </div>
+
+
+    <!--    modal-->
+    <div id="noteModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-lg w-full">
+                <div class="bg-white px-4 pt-5 pb-4">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Nhập ghi chú</h3>
+                    <div class="mt-2">
+                        <textarea id="noteText" class="w-full p-2 border rounded" rows="4"
+                                  placeholder="Nhập ghi chú (ít nhất 10 ký tự)"></textarea>
+                    </div>
+                    <p id="noteError" class="text-red-500 text-sm hidden">Ghi chú phải có ít nhất 10 ký tự.</p>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 flex justify-end">
+                    <button id="cancelButton"
+                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">Hủy
+                    </button>
+                    <button id="xacNhanGhiChu"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Lưu
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="modalLichSu" class="fixed z-10 inset-0 overflow-y-auto hidden">
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-3xl w-full">
+                <div class="bg-white px-4 pt-5 pb-4">
+                    <table id="tableLichSu" class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-blue-500">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                STT
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                Trạng thái
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                Ngày
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                Người xác nhận
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ghi
+                                chú
+                            </th>
+
+                        </tr>
+                        </thead>
+                        <tbody id="listLichSu" class="bg-white divide-y divide-gray-200">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 flex justify-end">
+                    <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
+                            id="dongLichSu">Hủy
+                    </button>
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="">Xác
+                        nhận
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
 <script>
     $(document).ready(function () {
+
         const pathArray = window.location.pathname.split('/');
         const idHoaDon = pathArray[pathArray.length - 1];
+
 
         $.ajax({
             url: `/api/hoa-don/detail/${idHoaDon}`,
@@ -147,11 +217,45 @@
                             <td class="px-6 py-4 whitespace-nowrap">${tongTienSP}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${item.trangThai}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <button class="deleteSP" data-id="${item.id}">Thùng rác</button>
+                                <button class="deleteSP" data-id="${item.id}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-7" style="color: #B94A00">
+                                        <path fill-rule="evenodd" d="M7.22 3.22A.75.75 0 0 1 7.75 3h9A2.25 2.25 0 0 1 19 5.25v9.5A2.25 2.25 0 0 1 16.75 17h-9a.75.75 0 0 1-.53-.22L.97 10.53a.75.75 0 0 1 0-1.06l6.25-6.25Zm3.06 4a.75.75 0 1 0-1.06 1.06L10.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L12 8.94l-1.72-1.72Z" clip-rule="evenodd" />
+                                    </svg>
+
+                                </button>
                             </td>
                         </tr>
                     `;
                 });
+
+                const getLichSuHD = () => {
+                    $.ajax({
+                        url: `/api/hoa-don/lich-su-hoa-don/${idHoaDon}`,
+                        data: {},
+                        success: function (result) {
+                            let list = "";
+                            $("#listLichSu").empty();
+                            for (let i = 0; i < result.length; i++) {
+                                list += `<tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">${trangThai(result[i].hanhDong)}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        ${result[i].ngayTao != null ? new Date(result[i].ngayTao).toLocaleString('vi-VN', {
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        second: '2-digit'}) : ''}
+                                       </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">${result[i].nguoiTao}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">${result[i].ghiChu}</td>
+                                  </tr>`;
+                            }
+                            $("#listLichSu").html(list);
+                        }
+                    });
+                }
 
                 const tienGiamGia = hd.tongTien - hd.tongTienSauGiam;
                 const tongTienThanhToan = hd.tongTienSauGiam + hd.tienShip;
@@ -162,9 +266,7 @@
                     <div>
                         <span class="text-lg ">Tổng tiền hàng: <span class="text-lg">${tongTienHang}</span></span>
                     </div>
-                    <div>
-                        <span  class="text-lg">Tiền được giảm giá: <span class="text-lg">${tienGiamGia}</span></span>
-                    </div>
+
                     <div>
                         <span  class="text-lg">Phí vận chuyển: <span class="text-lg">${hd.tienShip}</span></span>
                     </div>
@@ -178,14 +280,19 @@
                     $.ajax({
                         url: `/api/hoa-don/delete-hd/${idHoaDon}`,
                         method: 'POST',
-                        data: { idHoaDonCT: itemId },
+                        data: {idHoaDonCT: itemId},
                         success: function () {
                             location.reload();
                         }
                     });
                 });
+                currentStep = hd.trangThai;
+                initializeSteps();
+                getLichSuHD();
             }
+
         });
+
 
         const trangThai = (tt) => {
             switch (tt) {
@@ -208,11 +315,182 @@
             }
         }
 
+        const trangThaiSteps = (tt) => {
+            switch (tt) {
+                case 1:
+                    return 'Chờ xác nhận';
+                case 2:
+                    return 'Đã xác nhận';
+                case 3:
+                    return 'Chờ vận chuyển';
+                case 4:
+                    return 'Vận chuyển';
+                case 5:
+                    return 'Thanh toán';
+                case 6:
+                    return 'Hoàn thành';
+                default:
+                    return 'Không xác định';
+            }
+        }
+
         function formatDate(date) {
             const d = new Date(date);
             return `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
         }
+
+        function showNoteModal() {
+            $('#noteModal').removeClass('hidden');
+        }
+
+        function hideNoteModal() {
+            $('#noteModal').addClass('hidden');
+            $('#noteText').val('');
+            $('#noteError').addClass('hidden');
+        }
+
+
+        function showModalLichSu() {
+            $('#modalLichSu').removeClass('hidden');
+        }
+
+        function hideModalLichSu() {
+            $('#modalLichSu').addClass('hidden');
+            $('#modalLichSu').val('');
+            $('#modalLichSu').addClass('hidden');
+        }
+
+
+        $('#hienThiGhiChu').click(function () {
+            nextStep = currentStep + 1;
+            if (nextStep <= totalSteps) {
+                showNoteModal();
+            } else {
+                currentStep = totalSteps;
+            }
+        });
+
+        $('#cancelButton').click(function () {
+            hideNoteModal();
+        });
+
+        $('#hienThiLichSu').click(function () {
+            showModalLichSu();
+        });
+
+        $('#dongLichSu').click(function () {
+            hideModalLichSu();
+        });
+
+        const totalSteps = 6;
+
+        const icons = [
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" /></svg>',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M11.003 3.003A8.001 8.001 0 1 0 19 11a.75.75 0 1 0-1.5 0 6.501 6.501 0 1 1-6.497-6.497.75.75 0 1 0 0-1.5Zm2.053 2.353a.75.75 0 0 0-.212 1.04l3.502 5.253a.75.75 0 0 0 1.308-.63l-3.502-5.253a.75.75 0 0 0-1.096-.41Z" clip-rule="evenodd" /></svg>',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M11.998 21.75a9.751 9.751 0 1 0 0-19.5 9.751 9.751 0 0 0 0 19.5Zm-.75-13.248a.75.75 0 1 1 1.5 0V12a.75.75 0 1 1-1.5 0v-3.498Zm.75 5.748a.75.75 0 1 1 0-1.5h.007a.75.75 0 1 1 0 1.5H12Z" clip-rule="evenodd" /></svg>'
+        ];
+
+        const createdSteps = [];
+
+        function createStep(stepNum) {
+            const stepDiv = $(`
+        <div class="flex items-center ml-8 step" data-step="${stepNum}">
+            <div class="h-8 w-8 bg-green-600 text-white rounded-full flex items-center justify-center">
+                ${icons[(stepNum - 1) % icons.length]}
+            </div>
+            <div class="ml-4">
+                <h2 class="text-lg font-semibold">${trangThaiSteps(stepNum)}</h2>
+                <p class="text-gray-600">Time</p>
+            </div>
+        </div>
+    `);
+            return stepDiv;
+        }
+
+        function addStep() {
+            currentStep--;
+            if (currentStep >= 1) {
+                const newStep = createStep(currentStep);
+                createdSteps.push(newStep);
+                $('#steppers').append(newStep);
+                updateButtonsState();
+            } else {
+                currentStep = 1;
+            }
+        }
+
+        function updateButtonsState() {
+            $('#prevBtn').prop('disabled', currentStep === 1);
+            $('#xacNhanGhiChu').prop('disabled', currentStep >= totalSteps);
+        }
+
+        $('#prevBtn').click(function () {
+            addStep();
+            updateTrangThai(currentStep)
+        });
+
+        $('#xacNhanGhiChu').click(function () {
+            currentStep++;
+            if (currentStep <= totalSteps) {
+                const newStep = createStep(currentStep);
+                createdSteps.push(newStep);
+                $('#steppers').append(newStep);
+                updateTrangThai(currentStep)
+                updateButtonsState();
+                hideNoteModal();
+            } else {
+                currentStep = totalSteps;
+            }
+        });
+
+        function initializeSteps() {
+            for (let i = 1; i <= currentStep; i++) {
+                const step = createStep(i);
+                createdSteps.push(step);
+            }
+            $('#steppers').append(createdSteps);
+            updateButtonsState();
+        }
+
+        initializeSteps();
+
+        function updateTrangThai(trangThai) {
+            const ghiChu = $('#noteText').val().trim();
+            console.log(ghiChu)
+            const hanhDong = trangThai;
+            $.ajax({
+                url: `/api/hoa-don/update-trang-thai/${idHoaDon}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({trangThai: trangThai}),
+                success: function (response) {
+                    addHistoryLog(ghiChu, hanhDong);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi khi cập nhật trạng thái hóa đơn: ', error);
+                    alert('Đã xảy ra lỗi khi cập nhật trạng thái hóa đơn. Vui lòng thử lại sau.');
+                }
+            });
+        }
+
+        function addHistoryLog(ghiChu, hanhDong) {
+
+            $.ajax({
+                url: `/api/hoa-don/lich-su-hoa-don/add/${idHoaDon}`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ghiChu: ghiChu, hanhDong: hanhDong}),
+                success: function (response) {
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi khi thêm lịch sử:', error);
+                }
+            });
+        }
+
     });
+
+
 </script>
 </body>
 </html>

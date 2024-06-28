@@ -41,7 +41,7 @@ public class SanPhamController {
     public String hienThiSanPhamChiTiet(@PathVariable("id") Long id,
                                         @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                         Model model) {
-        int pageSize = 3;
+        int pageSize = 10;
         Page<SanPhamChiTiet> sanPhamChiTietsPage = SPCTservice.getSanPhamChiTietBySanPhamId(id, pageNo, pageSize);
         model.addAttribute("totalPage", sanPhamChiTietsPage.getTotalPages());
         model.addAttribute("currentPage", pageNo);

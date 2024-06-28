@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface PhieuGiamGiaRepository extends JpaRepository<PhieuGiamGia, Long> {
-    List<PhieuGiamGia> findByTen(String ten);
+
     List<PhieuGiamGia> findByTrangThai(int tt);
     Page<PhieuGiamGia> findByTrangThai(int trangThai, Pageable pageable);
 

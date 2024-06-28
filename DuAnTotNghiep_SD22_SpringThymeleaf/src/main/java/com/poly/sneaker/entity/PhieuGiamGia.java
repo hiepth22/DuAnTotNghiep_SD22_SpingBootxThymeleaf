@@ -32,8 +32,6 @@ public class PhieuGiamGia {
     @Column(name = "ma", length = 30)
     private String ma;
 
-    @Column(name = "ten", length = 30)
-    private String ten;
 
     @Column(name = "soLuong")
     private Integer soLuong;
@@ -41,36 +39,21 @@ public class PhieuGiamGia {
     @Column(name = "hinhThucGiam")
     private Boolean hinhThucGiam;
 
-    @Column(name = "dieuKienGiam")
-    private BigDecimal dieuKienGiam;
-
     @Column(name = "giaTriGiam")
     private BigDecimal giaTriGiam;
+
+//    @Column(name = "donToiThieu")
+//    private BigDecimal donToiThieu;
 
     @Column(name = "giamToiDa")
     private BigDecimal giamToiDa;
 
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
     @Column(name = "ngayBatDau")
     private Date ngayBatDau;
 
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
     @Column(name = "ngayKetThuc")
     private Date ngayKetThuc;
 
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
-    @Column(name = "ngayTao")
-    private Date ngayTao;
-
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
-    @Column(name = "ngayCapNhat")
-    private Date ngayCapNhat;
-
-    @Column(name = "nguoiTao", length = 50)
-    private String nguoiTao;
-
-    @Column(name = "nguoiCapNhat", length = 50)
-    private String nguoiCapNhat;
 
     @Column(name = "trangThai")
     private Integer trangThai;
