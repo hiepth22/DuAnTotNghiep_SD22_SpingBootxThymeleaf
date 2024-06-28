@@ -120,21 +120,35 @@
                     <table id="tableLichSu" class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-blue-500">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">STT</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Trạng thái</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ngày</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Người xác nhận</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ghi chú</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                STT
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                Trạng thái
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                Ngày
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                Người xác nhận
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ghi
+                                chú
+                            </th>
 
                         </tr>
                         </thead>
-                        <tbody id="duLieuLichSu" class="bg-white divide-y divide-gray-200">
+                        <tbody id="listLichSu" class="bg-white divide-y divide-gray-200">
                         </tbody>
                     </table>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 flex justify-end">
-                    <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2" id="dongLichSu">Hủy</button>
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="">Xác nhận</button>
+                    <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
+                            id="dongLichSu">Hủy
+                    </button>
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="">Xác
+                        nhận
+                    </button>
                 </div>
             </div>
         </div>
@@ -145,8 +159,10 @@
 
 <script>
     $(document).ready(function () {
+
         const pathArray = window.location.pathname.split('/');
         const idHoaDon = pathArray[pathArray.length - 1];
+
 
         $.ajax({
             url: `/api/hoa-don/detail/${idHoaDon}`,
@@ -212,6 +228,34 @@
                     `;
                 });
 
+                const getLichSuHD = () => {
+                    $.ajax({
+                        url: `/api/hoa-don/lich-su-hoa-don/${idHoaDon}`,
+                        data: {},
+                        success: function (result) {
+                            let list = "";
+                            $("#listLichSu").empty();
+                            for (let i = 0; i < result.length; i++) {
+                                list += `<tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">${trangThai(result[i].hanhDong)}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        ${result[i].ngayTao != null ? new Date(result[i].ngayTao).toLocaleString('vi-VN', {
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        second: '2-digit'}) : ''}
+                                       </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">${result[i].nguoiTao}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">${result[i].ghiChu}</td>
+                                  </tr>`;
+                            }
+                            $("#listLichSu").html(list);
+                        }
+                    });
+                }
 
                 const tienGiamGia = hd.tongTien - hd.tongTienSauGiam;
                 const tongTienThanhToan = hd.tongTienSauGiam + hd.tienShip;
@@ -244,6 +288,7 @@
                 });
                 currentStep = hd.trangThai;
                 initializeSteps();
+                getLichSuHD();
             }
 
         });
@@ -295,13 +340,13 @@
         }
 
         function showNoteModal() {
-                $('#noteModal').removeClass('hidden');
+            $('#noteModal').removeClass('hidden');
         }
 
         function hideNoteModal() {
-                $('#noteModal').addClass('hidden');
-                $('#noteText').val('');
-                $('#noteError').addClass('hidden');
+            $('#noteModal').addClass('hidden');
+            $('#noteText').val('');
+            $('#noteError').addClass('hidden');
         }
 
 

@@ -101,4 +101,9 @@ public class HoaDonAPI {
         return ResponseEntity.ok(lichSuHoaDonService.add(id, lichSuHoaDon));
     }
 
+    @GetMapping("/lich-su-hoa-don/{id}")
+    public ResponseEntity<?> lichSuHoaDon (@PathVariable(name = "id") Long id){
+        return ResponseEntity.ok(lichSuHoaDonService.getAllByIdhoaDon(id));
+    }
+
 }
