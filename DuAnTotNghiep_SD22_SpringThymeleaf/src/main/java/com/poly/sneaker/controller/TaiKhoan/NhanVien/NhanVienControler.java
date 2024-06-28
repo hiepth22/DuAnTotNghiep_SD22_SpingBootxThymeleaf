@@ -113,7 +113,4 @@ public class NhanVienControler {
         return "admin/NhanVien/NhanVienIndext";
     }
 
-
-
-
 }
