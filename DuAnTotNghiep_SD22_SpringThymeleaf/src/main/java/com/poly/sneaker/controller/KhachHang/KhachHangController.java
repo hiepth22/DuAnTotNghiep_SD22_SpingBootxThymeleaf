@@ -54,13 +54,14 @@ public class KhachHangController {
     }
 
     @PostMapping("/add")
-    public String add(@Valid @ModelAttribute("kh") KhachHang kh, BindingResult result, Model model) {
+    public String add(@Valid @ModelAttribute("khachHang") KhachHang kh, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
             return "admin/KhachHang/KhachHangAdd";
         }
         kh.setNgaycapnhap(LocalDateTime.now());
         kh.setNgaytao(LocalDateTime.now());
+        kh.setTrangThai(1);
         sevice.Add(kh);
         return "redirect:/admin/khach-hang"; // Chuyển hướng về trang danh sách khách hàng
     }
