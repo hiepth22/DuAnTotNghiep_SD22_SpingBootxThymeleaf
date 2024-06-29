@@ -1,0 +1,19 @@
+.table th, .table td {
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.table th:first-child, .table td:first-child {
+    width: 5%;
+}
+
+.table td {
+    white-space: nowrap;
+}
+
+.table img {
+    max-width: 100px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
