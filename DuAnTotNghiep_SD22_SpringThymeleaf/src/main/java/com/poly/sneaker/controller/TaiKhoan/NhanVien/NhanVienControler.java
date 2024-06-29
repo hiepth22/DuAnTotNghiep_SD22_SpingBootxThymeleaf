@@ -118,6 +118,7 @@ public class NhanVienControler {
         return "admin/NhanVien/NhanVienIndext";
     }
 
+
     private String generateRandomPassword() {
         String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
