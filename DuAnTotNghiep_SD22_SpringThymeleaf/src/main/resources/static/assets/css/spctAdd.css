@@ -26,8 +26,10 @@
     text-align: center;
     margin-top: 20px;
     margin-bottom: 10px;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
+    color: #51585e;
+    text-shadow: 1px 1px 2px pink;
 }
 
 .form-group {
@@ -41,7 +43,8 @@
 }
 
 .form-group input,
-.form-group select {
+.form-group select,
+.form-group textarea{
     width: 100%;
     padding: 8px;
     border-radius: 5px;
@@ -101,4 +104,20 @@
 
 #selectedColors {
     margin-left: 10px;
+}
+
+.create-product-btn {
+    display: block;
+    margin: 20px 0 0 auto; /* Đặt nút ở phía bên phải và cách đều phía trên */
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.create-product-btn:hover {
+    background-color: #0056b3;
 }

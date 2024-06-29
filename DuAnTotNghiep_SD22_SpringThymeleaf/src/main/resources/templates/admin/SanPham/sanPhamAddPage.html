@@ -32,40 +32,53 @@
             <h2 class="form-title">Thêm mới sản phẩm</h2>
             <form th:action="@{/admin/san-pham-chi-tiet/add}" method="post">
                 <div class="form-group">
-                    <label for="tenSanPham">Tên sản phẩm</label>
-                    <input type="text" class="form-control" id="tenSanPham" name="tenSanPham">
+                    <label>Tên sản phẩm</label>
+                    <input type="text" list="sanPhamList" class="form-control" id="sanPhamInput" name="sanPham"
+                           placeholder="Nhập tên sản phẩm">
+                    <datalist id="sanPhamList">
+                        <option th:each="sanPham : ${sanPhams}" th:value="${sanPham.ten}" th:text="${sanPham.ten}"></option>
+                    </datalist>
                 </div>
                 <div class="row form-group">
                     <div class="col">
-                        <label for="coGiay">Cổ giày</label>
-                        <select class="form-select" id="coGiay" name="coGiay">
-                            <option value="" disabled selected>Chọn cổ giày</option>
-                            <option th:each="coGiay : ${coGiays}" th:value="${coGiay}" th:text="${coGiay.ten}"></option>
-                        </select>
+                        <label>Cổ giày</label>
+                        <input type="text" list="coGiayList" class="form-control" id="coGiayInput" name="coGiay"
+                               placeholder="Nhập cổ giày">
+                        <datalist id="coGiayList">
+                            <option th:each="coGiay : ${coGiays}" th:value="${coGiay.ten}" th:text="${coGiay.ten}"></option>
+                        </datalist>
                     </div>
+
                     <div class="col">
-                        <label for="deGiay">Đế giày</label>
-                        <select class="form-select" id="deGiay" name="deGiay">
-                            <option value="" disabled selected>Chọn đế giày</option>
-                            <option th:each="deGiay : ${deGiays}" th:value="${deGiay}" th:text="${deGiay.ten}"></option>
-                        </select>
+                        <label>Đế giày</label>
+                        <input type="text" list="deGiayList" class="form-control" id="deGiayInput" name="deGiay"
+                               placeholder="Nhập đế giày">
+                        <datalist id="deGiayList">
+                            <option th:each="deGiay : ${deGiays}" th:value="${deGiay.ten}" th:text="${deGiay.ten}"></option>
+                        </datalist>
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col">
-                        <label for="chatLieu">Chất liệu</label>
-                        <select class="form-select" id="chatLieu" name="chatLieu">
-                            <option value="" disabled selected>Chọn chất liệu</option>
-                            <option th:each="chatLieu : ${chatLieus}" th:value="${chatLieu}" th:text="${chatLieu.ten}"></option>
-                        </select>
+                        <label>Chất liệu</label>
+                        <input type="text" list="chatLieuList" class="form-control" id="chatLieuInput" name="chatLieu"
+                                placeholder="Nhập chất liệu">
+                        <datalist id="chatLieuList">
+                            <option th:each="chatLieu : ${chatLieus}" th:value="${chatLieu.ten}" th:text="${chatLieu.ten}"></option>
+                        </datalist>
                     </div>
                     <div class="col">
-                        <label for="nhaSanXuat">Nhà sản xuất</label>
-                        <select class="form-select" id="nhaSanXuat" name="nhaSanXuat">
-                            <option value="">Chọn nhà sản xuất</option>
-                            <option th:each="nsx : ${nhaSanXuats}" th:value="${nsx}" th:text="${nsx.ten}"></option>
-                        </select>
+                        <label for="nhaSanXuatInput">Nhà sản xuất</label>
+                        <input type="text" list="nhaSanXuatList" class="form-control" id="nhaSanXuatInput" name="nhaSanXuat"
+                                placeholder="Nhập nhà sản xuất">
+                        <datalist id="nhaSanXuatList">
+                            <option th:each="nsx : ${nhaSanXuats}" th:value="${nsx.ten}" th:text="${nsx.ten}"></option>
+                        </datalist>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="moTaSanPham">Mô tả sản phẩm</label>
+                    <textarea class="form-control" id="moTaSanPham" name="moTaSanPham" rows="4" placeholder="Nhập mô tả"></textarea>
                 </div>
 
                 <h2 class="form-subtitle">Màu sắc và kích cỡ</h2>
@@ -89,9 +102,12 @@
                         </div>
                     </div>
                 </div>
-
             </form>
+            <button class="create-product-btn btn btn-primary">Tạo sản phẩm</button>
         </div>
+        <h2 class="form-subtitle">Sản phẩm chi tiết</h2>
+        <div id="productDetails"></div>
+
     </div>
     <!-- Modal màu sắc -->
     <div class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="colorModalLabel" aria-hidden="true">
@@ -144,8 +160,10 @@
     </div>
 </div>
     <!-- JavaScript Libraries -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <!-- Template Javascript -->
 <script th:src="@{/assets/js/main.js}"></script>
 <script th:src="@{/assets/js/spct-add.js}"></script>
