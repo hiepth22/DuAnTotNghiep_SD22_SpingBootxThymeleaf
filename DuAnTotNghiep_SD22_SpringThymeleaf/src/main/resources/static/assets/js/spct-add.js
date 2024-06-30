@@ -92,8 +92,9 @@ document.querySelector('.create-product-btn').addEventListener('click', function
                 moTaSanPham,
                 color,
                 size,
-                canNang: 500, // Giá trị mặc định cho cân nặng
-                giaBan: 1000000 // Giá trị mặc định cho giá bán
+                ngayTao: new Date(),
+                canNang: 500,
+                giaBan: 1000000
             };
             chiTietSanPhams.push(chiTietSanPham);
         });
@@ -118,15 +119,18 @@ document.querySelector('.create-product-btn').addEventListener('click', function
         productDetailsContainer.appendChild(colorTitle);
 
         const table = document.createElement('table');
-        table.classList.add('table', 'table-bordered', 'table-hover');
+        table.classList.add('table', 'table-bordered');
+
         table.innerHTML = `
         <thead>
             <tr>
-                <th scope="col">Tên sản phẩm</th>
-                <th scope="col">Màu</th>
-                <th scope="col">Kích cỡ</th>
-                <th scope="col">Cân nặng</th>
-                <th scope="col">Giá bán</th>
+                <th scope="col" style="width: 20%">Tên sản phẩm</th>
+                <th scope="col" style="width: 15%">Màu</th>
+                <th scope="col" style="width: 15%">Kích cỡ</th>
+                <th scope="col" style="width: 15%">Cân nặng</th>
+                <th scope="col" style="width: 15%">Giá bán</th>
+                <th scope="col" style="width: 15%">Ngày tạo</th>
+                <th scope="col" style="width: 15%">Upload ảnh</th>
             </tr>
         </thead>
         <tbody>
@@ -135,21 +139,31 @@ document.querySelector('.create-product-btn').addEventListener('click', function
         products.forEach(product => {
             const row = document.createElement('tr');
             row.innerHTML = `
-            <td>${product.sanPham}</td>
+            <td style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">${product.sanPham}</td>
             <td>${product.color}</td>
             <td>${product.size}</td>
-            <td><input type="text" value="${product.canNang}" class="form-control" style="width: 120px;"></td>
+            <td><input type="text" value="${product.canNang}" class="form-control" style="width: 80px;"></td>
             <td><input type="text" value="${product.giaBan}" class="form-control" style="width: 120px;"></td>
+            <td>${product.ngayTao ? new Date(product.ngayTao).toLocaleDateString() : ''}</td>
+            <th class="image"></th>
         `;
-            table.appendChild(row);
+            table.querySelector('tbody').appendChild(row);
         });
 
-        table.innerHTML += `
-        </tbody>
+        const uploadRow = document.createElement('tr');
+        uploadRow.innerHTML = `
+        <td rowspan="${products.length}">
+            <form>
+                <input type="file" class="form-control-file">
+                <button type="submit" class="btn btn-primary btn-sm mt-1">Upload ảnh</button>
+            </form>
+        </td>
     `;
+        table.querySelector('th.image').appendChild(uploadRow);
 
         productDetailsContainer.appendChild(table);
     }
+
 
 });
 
