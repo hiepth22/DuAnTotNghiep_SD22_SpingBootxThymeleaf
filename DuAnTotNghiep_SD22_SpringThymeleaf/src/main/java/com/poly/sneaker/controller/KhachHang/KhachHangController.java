@@ -1,105 +1,91 @@
 package com.poly.sneaker.controller.KhachHang;
 
-import com.poly.sneaker.entity.HoaDon;
 import com.poly.sneaker.entity.KhachHang;
-import com.poly.sneaker.sevice.HoaDonService;
 import com.poly.sneaker.sevice.KhachHangService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Comparator;
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-
-@RestController
-@RequestMapping("/khach-hang")
-@CrossOrigin(origins = "*")
+@Controller
+@RequestMapping("/admin")
 public class KhachHangController {
-
     @Autowired
-    private KhachHangService service;
+    private KhachHangService sevice;
 
-    @Autowired
-    HoaDonService hoaDonService;
-
-    @GetMapping("")
-    public List<KhachHang> HienThi() {
-        return service.getAll();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> detail(@PathVariable(name = "id") Long id) {
-        if (!service.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy!!");
+    @GetMapping("/search-khach-hang")
+    public String search(@RequestParam(name = "keyword", required = false) String keyword,
+                                 Model model) {
+        List<KhachHang> resultList ;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            resultList =sevice.search(keyword);
+        } else {
+            resultList = sevice.getAll();
         }
-        return ResponseEntity.ok(service.findById(id));
+        model.addAttribute("kh", resultList);
+        model.addAttribute("keyword", keyword);
+        return "admin/KhachHang/KhachHang";
+    }
+    @GetMapping("/khach-hang")
+    public String HienThi(Model model){
+
+        model.addAttribute("kh",sevice.getAll());
+        return "admin/KhachHang/KhachHangIndext";
     }
 
-//    @GetMapping("/page")
-//    public ResponseEntity<?> page(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        Page<KhachHang> khachHangPage = service.phanTrang(pageable, 1);
-//        List<KhachHang> list = khachHangPage.getContent().stream()
-//                .sorted(Comparator.comparing(KhachHang::getId))
-//                .collect(Collectors.toList());
-//        return ResponseEntity.ok(list);
-//    }
 
-    @PostMapping("")
-    public ResponseEntity<?> add(@RequestBody @Valid KhachHang kh, BindingResult rs) {
-        if (rs.hasErrors()) {
-            List<ObjectError> list = rs.getAllErrors();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(list);
+    @GetMapping("/view-add")
+    public String viewAddKH(Model model) {
+        KhachHang kh = new KhachHang();
+        model.addAttribute("kh", kh);
+        return "admin/KhachHang/KhachHangAdd";
+    }
+
+    @PostMapping("/add")
+    public String add(@Valid @ModelAttribute("kh")  KhachHang kh, @RequestParam("ngaySinh") Date ngaySinh, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getAllErrors());
+            return "admin/KhachHang/KhachHangAdd";
+        }
+        kh.setNgaySinh(ngaySinh);
+        kh.setNgaycapnhap(LocalDateTime.now());
+        kh.setNgaytao(LocalDateTime.now());
+        kh.setTrangThai(1);
+        sevice.Add(kh);
+        return "redirect:/admin/khach-hang";
+    }
+    @GetMapping("/view-update/{id}")
+    public String showEmployeeDetail(@PathVariable("id") Long id, Model model) {
+        KhachHang kh = sevice.findById(id);
+        model.addAttribute("kh", kh);
+        return "admin/KhachHang/KhachHangUpdate";
+    }
+    @PostMapping("/update/{id}")
+    public String update(@PathVariable("id") Long id, @Valid @ModelAttribute("kh") KhachHang kh, BindingResult result) {
+        if (result.hasErrors()) {
+            return "admin/KhachHang/KhachHangUpdate";
         }
 
-        service.add(kh);
-        return ResponseEntity.ok("Thành Công!!!");
-    }
-
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) {
-//        if (!service.existsById(id)) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy");
-//        }
-//        return ResponseEntity.ok(service.deleteById(id));
-//    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody KhachHang nv) {
-        if (!service.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy");
+        KhachHang updatedNv = sevice.update(id, kh);
+        if (updatedNv != null) {
+            return "redirect:/admin/khach-hang";
+        } else {
+            return "redirect:/admin/khach-hang";
         }
-        return ResponseEntity.ok(service.update(id, nv));
     }
-
-//    @GetMapping("/search")
-//    public ResponseEntity<?> search(@RequestParam String keyword) {
-//        List<KhachHang> resultList = service.search(keyword);
-//        if (resultList.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-//        }
-//        return ResponseEntity.ok(resultList);
-//    }
-
-
-    @PutMapping("tt/{id}")
-    public ResponseEntity<?> updateTT(@PathVariable("id") Long id) {
-        if (!service.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy");
-        }
-        return ResponseEntity.ok(service.updateTrangThaiToInactive(id));
-    }
-
-
 
 
 }

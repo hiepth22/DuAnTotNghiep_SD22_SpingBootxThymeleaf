@@ -5,28 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309" />
     <title>Nhân Viên</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="NhanVien.css">
-    <style>
-        .table th, .table td {
-            font-size: 14px;
-            vertical-align: middle;
-        }
 
-        .table th:first-child, .table td:first-child {
-            width: 5%;
-        }
-
-        .table td {
-            white-space: nowrap;
-        }
-
-        .table img {
-            max-width: 100px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
 </head>
 <body>
 <div class="container mt-5">
@@ -34,6 +13,27 @@
 
     <form th:action="@{/admin/updateNhanVien/{id}(id=${nv.id})}" method="post" class="row g-3" th:object="${nv}">
         <input type="hidden" th:field="*{id}">
+        <div class="col-md-12">
+            <h1 class="text-center fs-3">Ảnh Đại Diện</h1>
+            <br/>
+            <br/>
+            <br/>
+            <div class="d-flex flex-column align-items-center">
+                <div class="image-placeholder rounded-circle mb-2"
+                     style="width: 250px; height: 250px; background-color: #e9ecef; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; border-radius: 50%;"
+                     th:style="'background-image: url(' + ${preview} + '); background-size: cover;'"
+                     onclick="document.getElementById('fileInput').click();">
+                    <img th:src="${preview}" alt="Preview"
+                         style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%;"/>
+                    <span th:unless="${preview}" style="font-size: 24px; color: #6c757d; cursor: pointer;">+</span>
+                </div>
+                <p>
+                    <input type="file" id="fileInput" name="img" class="form-control"
+                           accept="image/png, image/jpeg, image/jpg" onchange="handleImageChange(this)"
+                           style="display: none;"/>
+                </p>
+            </div>
+        </div>
 
         <div class="col-md-6">
             <label for="ten" class="form-label">Tên</label>
@@ -69,7 +69,7 @@
 
         <div class="col-md-6">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" th:field="*{email}" required>
+            <input type="email" class="form-control" id="email" th:field="*{email}" required disabled>
         </div>
 
         <!--        <div class="col-md-6">-->

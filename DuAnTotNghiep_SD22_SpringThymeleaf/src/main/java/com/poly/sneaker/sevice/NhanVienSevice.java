@@ -2,10 +2,14 @@ package com.poly.sneaker.sevice;
 
 import com.poly.sneaker.entity.NhanVien;
 import com.poly.sneaker.repository.NhanVienRepository;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.persistence.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +19,8 @@ import java.util.Optional;
 public class NhanVienSevice {
     @Autowired
     private NhanVienRepository nhanVienRepository;
-
+    @Autowired
+    private JavaMailSender emailSender;
     public List<NhanVien> getallNhanVien() {
 
         return nhanVienRepository.findAll();
@@ -53,7 +58,13 @@ public class NhanVienSevice {
         return optional.map(o -> {
             o.setTen(newnv.getTen());
             o.setMa(newnv.getMa());
-            o.setAnh(newnv.getAnh());
+            if(newnv.getAnh()==null){
+
+            }
+            else {
+                o.setAnh(newnv.getAnh());
+            }
+
             o.setCccd(newnv.getCccd());
             o.setEmail(newnv.getEmail());
             o.setGioiTinh(newnv.getGioiTinh());
@@ -90,4 +101,5 @@ public class NhanVienSevice {
         Optional<NhanVien> optional = nhanVienRepository.findById(id);
         return optional.map(o -> o).orElse(null);
     }
+
 }

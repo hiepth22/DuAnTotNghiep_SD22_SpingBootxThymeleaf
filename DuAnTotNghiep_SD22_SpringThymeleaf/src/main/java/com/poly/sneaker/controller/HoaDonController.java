@@ -7,6 +7,7 @@ import com.poly.sneaker.sevice.HoaDonChiTietService;
 import com.poly.sneaker.sevice.HoaDonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,8 +47,13 @@ public class HoaDonController {
         return "redirect:/hoa-don/detail";
     }
 
-    @PostMapping("/lich-su-hoa-don/add")
+    @PostMapping("/lich-su-hoa-don/add/{id}")
     public String addLichSuHoaDon() {
+        return "redirect:/hoa-don/detail";
+    }
+
+    @GetMapping("/lich-su-hoa-don/{id}")
+    public String lichSuHoaDon (){
         return "redirect:/hoa-don/detail";
     }
 

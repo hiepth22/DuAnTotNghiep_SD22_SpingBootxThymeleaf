@@ -3,6 +3,7 @@ package com.poly.sneaker.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -32,7 +33,7 @@ public class LichSuHoaDon {
 
     @Column(name = "ngayTao")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date ngayTao;
+    private LocalDateTime ngayTao;
 
     @Column(name = "ngayCapNhat")
     @Temporal(TemporalType.TIMESTAMP)
