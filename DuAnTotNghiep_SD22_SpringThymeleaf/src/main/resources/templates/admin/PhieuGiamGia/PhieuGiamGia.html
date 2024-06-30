@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh Sách Phieu Giam Gia</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+<h2 class="">Danh Sách Phieu Giam Goa</h2>
+<a th:href="@{/admin/phieu-giam-gia/add}" class="btn btn-outline-danger">+</a>
+<table class="table table-striped table-hover">
+    <thead class="text-center">
+    <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Mã</th>
+        <th scope="col">So Luong</th>
+        <th scope="col">Hinh Thuc Giam</th>
+        <th scope="col">Don Toi Thieu</th>
+        <th scope="col">Gia Tri Giam</th>
+        <th scope="col">Giam Toi Da</th>
+        <th scope="col">Ngay Bat Dau</th>
+        <th scope="col">Ngay Ket Thuc</th>
+        <th scope="col">Trạng Thái</th>
+        <th scope="col">Hành Động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="phieugiamgia, status :${lstPgg}" class="text-center">
+        <td th:text="${status.index + 1}"></td>
+        <td th:text="${phieugiamgia.ma}"></td>
+        <td th:text="${phieugiamgia.soLuong}"></td>
+        <td>
+            <span th:if="${phieugiamgia.hinhThucGiam} == true"> Tien mat</span>
+            <span th:if="${phieugiamgia.hinhThucGiam} == false"> %</span>
+        </td>
+        <td th:text="${phieugiamgia.giaTriGiam}"></td>
+        <td th:text="${phieugiamgia.donToiThieu}"></td>
+        <td th:text="${phieugiamgia.giamToiDa}"></td>
+
+        <td th:text="${(phieugiamgia.ngayBatDau )}"></td>
+        <td th:text="${(phieugiamgia.ngayKetThuc )}"></td>
+
+        <td>
+            <span th:if="${phieugiamgia.trangThai} == 1">Ngung Hoạt Động</span>
+            <span th:if="${phieugiamgia.trangThai} == 0">Hoạt Động</span>
+        </td>
+        <td>
+            <a th:href="@{/admin/phieu-giam-gia-update/{id}(id=${pgg.id})}" class="btn btn-outline-success" style="background-color: #28a745">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16" style="color: #f0f0f0">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                </svg >
+            </a>
+
+            <button type="button" class="btn btn-dark open-modal" data-id="${pgg.id}">
+                <i class="bi bi-geo-alt-fill"></i>
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<ul>
+    <li><a>1</a></li>
+    <li><a>1</a></li>
+</ul>
+
+
+<!-- Bootstrap JavaScript Bundle with Popper -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+        integrity="sha384-ZB/dxQ1B/MGx2w+1E5fcoI4YwKtS2f6usgUmccFWBhd8i3huCYt8pWJ38Xew65S"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+
+
+
+</body>
+</html>

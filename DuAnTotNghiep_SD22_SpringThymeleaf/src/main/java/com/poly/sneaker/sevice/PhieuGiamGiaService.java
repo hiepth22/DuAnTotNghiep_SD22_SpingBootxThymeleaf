@@ -45,7 +45,7 @@ public class PhieuGiamGiaService {
             o.setMa(newpgg.getMa());
             o.setSoLuong(newpgg.getSoLuong());
             o.setHinhThucGiam(newpgg.getHinhThucGiam());
-//            o.setDonToiThieu(newpgg.getDonToiThieu());
+            o.setDonToiThieu(newpgg.getDonToiThieu());
             o.setGiaTriGiam(newpgg.getGiaTriGiam());
             o.setGiamToiDa(newpgg.getGiamToiDa());
             o.setNgayBatDau(newpgg.getNgayBatDau());
@@ -73,5 +73,7 @@ public class PhieuGiamGiaService {
         Optional<PhieuGiamGia> optional = phieuGiamGiaRepository.findById(id);
         return optional.map(o -> o).orElse(null);
     }
-
+//    public List<PhieuGiamGia> search(String keyword) {
+//        return phieuGiamGiaRepository.findByTen(keyword);
+//    }
 }
