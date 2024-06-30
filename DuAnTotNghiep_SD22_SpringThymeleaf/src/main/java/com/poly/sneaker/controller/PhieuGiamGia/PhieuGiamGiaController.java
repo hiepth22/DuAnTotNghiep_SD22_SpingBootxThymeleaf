@@ -1,6 +1,8 @@
 package com.poly.sneaker.controller.PhieuGiamGia;
 
-import com.poly.sneaker.entity.*;
+import com.poly.sneaker.Request.PhieuGiamGiaRequest;
+import com.poly.sneaker.entity.PhieuGiamGia;
+import com.poly.sneaker.repository.PhieuGiamGiaRepository;
 import com.poly.sneaker.sevice.PhieuGiamGiaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,63 +12,63 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
-import java.util.List;
+
 
 @Controller
-@RequestMapping("/phieu-giam-gia")
+@RequestMapping("/admin")
 
 public class PhieuGiamGiaController {
 
     @Autowired
     PhieuGiamGiaService phieuGiamGiaService;
-
-//    @GetMapping("/search-phieu-giam-gia")
-//    public String search(@RequestParam(name = "keyword", required = false) String keyword,
-//                         Model model) {
-//        List<KhachHang> resultList ;
-////        if (keyword != null && !keyword.trim().isEmpty()) {
-////            resultList =phieuGiamGiaService.search(keyword);
-////        } else {
-////            resultList = phieuGiamGiaService.getall();
-////        }
-////        model.addAttribute("pgg", resultList);
-////        model.addAttribute("keyword", keyword);
-//        return "admin/PhieuGiamGia/PhieuGiamGia";
-//    }
+    PhieuGiamGiaRepository phieuGiamGiaRepository;
 
     @GetMapping("/phieu-giam-gia")
-    public String HienThi(Model model){
-        model.addAttribute("lstPgg",phieuGiamGiaService.getall());
+    public String HienThi(Model model) {
+        model.addAttribute("lstPgg", phieuGiamGiaService.getall());
         return "admin/PhieuGiamGia/PhieuGiamGiaIndext";
 
     }
-    @GetMapping("/phieu-giam-gia/add")
-    public String PhieuGiamGiaAdd(Model model){
-        PhieuGiamGia pgg = new PhieuGiamGia();
-        model.addAttribute("pgg", pgg);
+
+    @GetMapping("/addPhieuGiamGia")
+    public String PhieuGiamGiaAdd(Model model) {
+        model.addAttribute("phieuGiamGia", new PhieuGiamGia());
         return "admin/PhieuGiamGia/PhieuGiamGiaAdd";
     }
 
-    @PostMapping("/add")
-    public String addPhieuGiamGia(@Valid @ModelAttribute("phieuGiamGia") PhieuGiamGia pgg, BindingResult result, Model model) {
+    @PostMapping("/SavePhieuGiamGia")
+    public String addPhieuGiamGia(@Valid @ModelAttribute("phieuGiamGia") PhieuGiamGiaRequest pgg, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
-            return "admin/PhieuGiamGia/PhieuGiamGiaAdd";
-        }
-        pgg.setNgayBatDau(new Date());
-        pgg.setNgayKetThuc(new Date());
+            System.out.println("loi");
+            PhieuGiamGia pggnew = new PhieuGiamGia();
 
-        phieuGiamGiaService.Add(pgg);
+            pggnew.setMa("VC"+  phieuGiamGiaService.getall().size() );
+            pggnew.setSoLuong(pgg.getSoLuong());
+            pggnew.setHinhThucGiam(pgg.getHinhThucGiam());
+            pggnew.setDonToiThieu(pgg.getDonToiThieu());
+            pggnew.setGiaTriGiam(pgg.getGiaTriGiam());
+            pggnew.setGiamToiDa(pgg.getGiamToiDa());
+            pggnew.setNgayBatDau(new Date());
+            pggnew.setNgayKetThuc(new Date());
+            pggnew.setTrangThai(pgg.getTrangThai());
+            phieuGiamGiaService.Add(pggnew);
+
+            return "redirect:/admin/phieu-giam-gia";
+
+        }
         return "redirect:/admin/phieu-giam-gia";
     }
-    @GetMapping("/phieu-giam-gia-update/{id}")
+
+    @GetMapping("/UpdatePhieuGiamGia/{id}")
     public String showEmployeeDetail(@PathVariable("id") Long id, Model model) {
         PhieuGiamGia pgg = phieuGiamGiaService.findById(id);
         model.addAttribute("pgg", pgg);
         return "admin/PhieuGiamGia/PhieuGiamGiaUpdate";
     }
-    @PostMapping("/update/{id}")
-    public String update(@PathVariable("id") Long id, @Valid @ModelAttribute("pgg") PhieuGiamGia pgg, BindingResult result) {
+
+    @PostMapping("/updatePhieuGiamGia/{id}")
+    public String updatePhieuGiamGia(@PathVariable("id") Long id, @Valid @ModelAttribute("pgg") PhieuGiamGia pgg, BindingResult result) {
         if (result.hasErrors()) {
             return "admin/PhieuGiamGia/PhieuGiamGiaUpdate";
         }
@@ -78,7 +80,6 @@ public class PhieuGiamGiaController {
             return "redirect:/admin/phieu-giam-gia";
         }
     }
-
 
 
 }

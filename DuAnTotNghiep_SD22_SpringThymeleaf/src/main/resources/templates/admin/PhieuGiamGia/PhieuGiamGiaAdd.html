@@ -1,5 +1,6 @@
+
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309" />
@@ -41,53 +42,68 @@
                     </h2>
                 </div>
                 <div class="card-body">
-                    <form th:action="@{/admin/add}" method="post" class="row g-3" th:object="${pgg}" onsubmit="return validateForm()">
+                    <form th:action="@{/admin/SavePhieuGiamGia}" method="post" class="row g-3 needs-validation" th:object="${phieuGiamGia}" enctype="multipart/form-data" novalidate>
                         <div class="row mb-3">
-
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-6">
-
+<!--                                        <div class="form-group">-->
+<!--                                            <label class="form-label">Mã Phiếu:</label>-->
+<!--                                            <input type="text" placeholder="Nhập mã phiếu" name="ma" th:field="*{ma}" class="form-control" required>-->
+<!--                                            <div class="invalid-feedback">Vui lòng nhập mã</div>-->
+<!--                                        </div>-->
                                         <div class="form-group">
-                                            <label class="form-label">Mã Phieu:</label>
-                                            <input type="text" placeholder="Nhập mã phieu" name="ma" class="form-control" th:field="*{ma}">
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}"></div>
-                                            <div class="invalid-feedback">Vui lòng nhập mã</div>
+                                            <label class="form-label">Số Lượng:</label>
+                                            <input type="text" placeholder="Nhập số lượng" name="soLuong" th:field="*{soLuong}" class="form-control" required>
+                                            <div class="invalid-feedback">Vui lòng nhập số lượng</div>
                                         </div>
-
                                         <div class="form-group">
-                                            <label class="form-label">Ngày Bat Dau:</label>
-                                            <input type="date" class="form-control" id="ngayBatDau" name="ngayBatDau" th:field="*{ngayBatDau}" required>
-                                            <div class="invalid-feedback">Vui lòng chọn ngày bat dau</div>
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('ngayBatDau')}" th:errors="*{ngayBatDau}"></div>
+                                            <label class="form-label">Hình Thức Giảm:</label>
+                                            <div class="d-flex align-items-center">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="hinhThucGiam" id="tienMat" value="true" checked>
+                                                    <label class="form-check-label" for="tienMat">Tiền mặt</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="hinhThucGiam" id="%" value="false">
+                                                    <label class="form-check-label" for="%">%</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Đơn Tối Thiểu:</label>
+                                            <input type="number" placeholder="Nhập đơn tối thiểu" name="donToiThieu" th:field="*{donToiThieu}" class="form-control" required>
+                                            <div class="invalid-feedback">Vui lòng nhập đơn tối thiểu</div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-
                                         <div class="form-group">
-                                            <label class="form-label">Giới Tính:</label>
-                                            <div class="d-flex align-items-center">
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="gioiTinh" id="nam" value="true" checked>
-                                                    <label class="form-check-label" for="nam">Nam</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="gioiTinh" id="nu" value="false">
-                                                    <label class="form-check-label" for="nu">Nữ</label>
-                                                </div>
-                                            </div>
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('gioiTinh')}" th:errors="*{gioiTinh}"></div>
+                                            <label class="form-label">Giá Trị Giảm:</label>
+                                            <input type="number" placeholder="Nhập giá trị giảm" name="giaTriGiam" class="form-control" th:field="*{giaTriGiam}" required>
+                                            <div class="invalid-feedback">Vui lòng nhập giá trị giảm</div>
                                         </div>
-
+                                        <div class="form-group">
+                                            <label class="form-label">Giảm Tối Đa:</label>
+                                            <input type="text" placeholder="Nhập giảm tối đa" name="giamToiDa" class="form-control" th:field="*{giamToiDa}" required>
+                                            <div class="invalid-feedback">Vui lòng nhập giá trị giảm tối đa</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Ngày Bắt Đầu:</label>
+                                            <input type="date" class="form-control" id="ngayBatDau" name="ngayBatDau" th:field="*{ngayBatDau}" required>
+                                            <div class="invalid-feedback">Vui lòng chọn ngày bắt đầu</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Ngày Kết Thúc:</label>
+                                            <input type="date" class="form-control" id="ngayKetThuc" name="ngayKetThuc" th:field="*{ngayKetThuc}" required>
+                                            <div class="invalid-feedback">Vui lòng chọn ngày kết thúc</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="text-center">
-                            <div>
-                                <button type="submit" class="btn btn-primary me-2">Lưu</button>
-                                <a th:href="@{/admin/phieu-giam-gia}" class="btn btn-secondary">Đóng</a>
-                            </div>
+                            <button type="submit" class="btn btn-primary me-2">Lưu</button>
+                            <a th:href="@{/admin/phieu-giam-gia}" class="btn btn-secondary">Đóng</a>
                         </div>
                     </form>
                 </div>
@@ -95,7 +111,28 @@
         </div>
     </div>
 </div>
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
 
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
 <script th:src="@{/assets/js/PhieuGiamGia.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
