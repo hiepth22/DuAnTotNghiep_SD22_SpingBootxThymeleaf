@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Phieu Giam Gia</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 </head>
 <body>
@@ -48,7 +49,7 @@
                     <span th:if="${phieugiamgia.trangThai} == 0">Hoạt Động</span>
                 </td>
                 <td>
-                    <a th:href="@{/UpdatePhieuGiamGia/{id}(id=${phieugiamgia.id})}" class="btn btn-outline-success">Cập nhật</a>
+                    <a th:href="@{/UpdatePhieuGiamGia/{id}(id=${phieugiamgia.id})}" class="btn btn-outline-success">  <i class="bi bi-pencil-square"></i> </a>
 <!--                    <a th:href="@{/DetailPhieuGiamGia/{id}(id=${phieugiamgia.id})}" class="btn btn-outline-warning">Chi tiết</a>-->
                 </td>
             </tr>

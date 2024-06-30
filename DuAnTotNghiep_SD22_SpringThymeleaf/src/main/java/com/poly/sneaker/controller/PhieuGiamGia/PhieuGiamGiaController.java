@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
-
 @Controller
 @RequestMapping("/phieu-giam-gia")
 @CrossOrigin("*")
@@ -27,10 +26,10 @@ public class PhieuGiamGiaController {
         return "admin/PhieuGiamGia/index";
 
     }
-    @GetMapping("/AddPhieuGiamGia")
+    @GetMapping("/phieu-giam-gia/add")
     public String PhieuGiamGiaadd(Model model){
         PhieuGiamGia pgg = new PhieuGiamGia();
-        model.addAttribute("pgg",pgg);
+        model.addAttribute("pgg", pgg);
         return "admin/PhieuGiamGia/add";
     }
 
@@ -44,7 +43,7 @@ public class PhieuGiamGiaController {
         pgg.setNgayKetThuc(new Date());
 
         phieuGiamGiaService.Add(pgg);
-        return "redirect:/phieu-giam-gia";
+        return "redirect:/admin/phieu-giam-gia";
     }
     @GetMapping("/UpdatePhieuGiamGia/{id}")
     public String showEmployeeDetail(@PathVariable("id") Long id, Model model) {
