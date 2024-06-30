@@ -58,7 +58,13 @@ public class NhanVienSevice {
         return optional.map(o -> {
             o.setTen(newnv.getTen());
             o.setMa(newnv.getMa());
-            o.setAnh(newnv.getAnh());
+            if(newnv.getAnh()==null){
+
+            }
+            else {
+                o.setAnh(newnv.getAnh());
+            }
+
             o.setCccd(newnv.getCccd());
             o.setEmail(newnv.getEmail());
             o.setGioiTinh(newnv.getGioiTinh());
