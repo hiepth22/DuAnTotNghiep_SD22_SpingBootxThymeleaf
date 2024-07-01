@@ -185,7 +185,7 @@
                             <h1 class="mt-3 font-bold">Tên khách hàng: <span class="font-normal ml-10">${hd.khachHang.ten}</span></h1>
                         </div>
                         <div>
-                            <h1 class="ml-4 mt-3 font-bold">Loại: <span class="font-normal ml-10">Offline</span></h1>
+                            <h1 class="ml-4 mt-3 font-bold">Loại: <span class="font-normal ml-10"></span>${trangThaiMua(hd.loai)}</h1>
                         </div>
                         <div>
                             <h1 class="font-bold">Số điện thoại: <span class="font-normal ml-10">${hd.khachHang.sdt}</span></h1>
@@ -292,6 +292,17 @@
             }
 
         });
+
+        const trangThaiMua = (tt) => {
+            switch (tt) {
+                case 1:
+                    return 'Online';
+                case 2:
+                    return 'Tại quầy';
+                default:
+                    return 'Không xác định'
+            }
+        }
 
 
         const trangThai = (tt) => {
@@ -487,6 +498,8 @@
                 }
             });
         }
+
+
 
     });
 

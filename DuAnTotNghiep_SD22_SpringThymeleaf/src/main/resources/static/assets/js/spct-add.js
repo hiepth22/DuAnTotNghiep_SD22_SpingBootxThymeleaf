@@ -49,26 +49,27 @@ $(document).ready(function() {
 
 function setupDatalistValidation(inputId, datalistId) {
     var inputElement = document.getElementById(inputId);
-    inputElement.addEventListener('input', function() {
-    var inputText = this.value.toLowerCase();
-    var options = document.getElementById(datalistId).options;
-    for (var i = 0; i < options.length; i++) {
-    var optionText = options[i].value.toLowerCase();
-    if (optionText.indexOf(inputText) !== -1) {
-    this.setCustomValidity('');
-    return;
+    inputElement.addEventListener('input', function () {
+        var inputText = this.value.toLowerCase();
+        var options = document.getElementById(datalistId).options;
+        for (var i = 0; i < options.length; i++) {
+            var optionText = options[i].value.toLowerCase();
+            if (optionText.indexOf(inputText) !== -1) {
+                this.setCustomValidity('');
+                return;
+            }
+        }
+        this.setCustomValidity('Vui lòng chọn một giá trị từ danh sách.');
+    });
 }
-}
-    this.setCustomValidity('Vui lòng chọn một giá trị từ danh sách.');
-});
-}
-    setupDatalistValidation('sanPhamInput', 'sanPhamList');
-    setupDatalistValidation('coGiayInput', 'coGiayList');
-    setupDatalistValidation('deGiayInput', 'deGiayList');
-    setupDatalistValidation('chatLieuInput', 'chatLieuList');
-    setupDatalistValidation('nhaSanXuatInput', 'nhaSanXuatList');
 
-    document.querySelector('.create-product-btn').addEventListener('click', function () {
+setupDatalistValidation('sanPhamInput', 'sanPhamList');
+setupDatalistValidation('coGiayInput', 'coGiayList');
+setupDatalistValidation('deGiayInput', 'deGiayList');
+setupDatalistValidation('chatLieuInput', 'chatLieuList');
+setupDatalistValidation('nhaSanXuatInput', 'nhaSanXuatList');
+
+document.querySelector('.create-product-btn').addEventListener('click', function () {
     const sanPham = document.getElementById('sanPhamInput').value;
     const coGiay = document.getElementById('coGiayInput').value;
     const deGiay = document.getElementById('deGiayInput').value;
@@ -81,54 +82,91 @@ function setupDatalistValidation(inputId, datalistId) {
 
     const chiTietSanPhams = [];
     selectedColors.forEach(color => {
-    selectedSizes.forEach(size => {
-    const chiTietSanPham = {
-    sanPham,
-    coGiay,
-    deGiay,
-    chatLieu,
-    nhaSanXuat,
-    moTaSanPham,
-    color,
-    size
-};
-    chiTietSanPhams.push(chiTietSanPham);
-});
-});
-
+        selectedSizes.forEach(size => {
+            const chiTietSanPham = {
+                sanPham,
+                coGiay,
+                deGiay,
+                chatLieu,
+                nhaSanXuat,
+                moTaSanPham,
+                color,
+                size,
+                ngayTao: new Date(),
+                canNang: 500,
+                giaBan: 1000000
+            };
+            chiTietSanPhams.push(chiTietSanPham);
+        });
+    });
 
     const productDetailsContainer = document.getElementById('productDetails');
-        productDetailsContainer.innerHTML = ''; // Xóa nội dung cũ trước khi thêm mới
+    productDetailsContainer.innerHTML = ''; // Xóa nội dung cũ trước khi thêm mới
+
+    const colorGroups = chiTietSanPhams.reduce((groups, product) => {
+        const { color } = product;
+        if (!groups[color]) {
+            groups[color] = [];
+        }
+        groups[color].push(product);
+        return groups;
+    }, {});
+
+    for (const [color, products] of Object.entries(colorGroups)) {
+        const colorTitle = document.createElement('h5');
+        colorTitle.classList.add('mt-3');
+        colorTitle.textContent = `Danh sách sản phẩm có màu ${color}`;
+        productDetailsContainer.appendChild(colorTitle);
 
         const table = document.createElement('table');
-        table.classList.add('table', 'table-bordered', 'table-hover');
+        table.classList.add('table', 'table-bordered');
+
         table.innerHTML = `
         <thead>
             <tr>
-                <th scope="col">Tên</th>
-                <th scope="col">Màu sắc</th>
-                <th scope="col">Kích cỡ</th>
+                <th scope="col" style="width: 20%">Tên sản phẩm</th>
+                <th scope="col" style="width: 15%">Màu</th>
+                <th scope="col" style="width: 15%">Kích cỡ</th>
+                <th scope="col" style="width: 15%">Cân nặng</th>
+                <th scope="col" style="width: 15%">Giá bán</th>
+                <th scope="col" style="width: 15%">Ngày tạo</th>
+                <th scope="col" style="width: 15%">Upload ảnh</th>
             </tr>
         </thead>
         <tbody>
     `;
 
-        chiTietSanPhams.forEach(product => {
+        products.forEach(product => {
             const row = document.createElement('tr');
             row.innerHTML = `
-            <td>${product.sanPham}</td>
+            <td style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">${product.sanPham}</td>
             <td>${product.color}</td>
             <td>${product.size}</td>
+            <td><input type="text" value="${product.canNang}" class="form-control" style="width: 80px;"></td>
+            <td><input type="text" value="${product.giaBan}" class="form-control" style="width: 120px;"></td>
+            <td>${product.ngayTao ? new Date(product.ngayTao).toLocaleDateString() : ''}</td>
+            <th class="image"></th>
         `;
-            table.appendChild(row);
+            table.querySelector('tbody').appendChild(row);
         });
 
-        table.innerHTML += `
-        </tbody>
+        const uploadRow = document.createElement('tr');
+        uploadRow.innerHTML = `
+        <td rowspan="${products.length}">
+            <form>
+                <input type="file" class="form-control-file">
+                <button type="submit" class="btn btn-primary btn-sm mt-1">Upload ảnh</button>
+            </form>
+        </td>
     `;
+        table.querySelector('th.image').appendChild(uploadRow);
 
         productDetailsContainer.appendChild(table);
+    }
+
+
 });
+
 
 
 
