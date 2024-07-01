@@ -25,6 +25,7 @@ public class DiaChi {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "idKhachHang")
     private KhachHang idKH;
