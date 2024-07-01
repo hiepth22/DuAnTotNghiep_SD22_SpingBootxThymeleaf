@@ -20,8 +20,8 @@
 
                     <div class="flex justify-between mt-7">
                         <div class="mt-8 flex gap-2 ">
-                            <button id="prevBtn" class="bg-gray-500 text-white px-4 py-2 rounded">Previous</button>
-                            <button id="hienThiGhiChu" class="bg-blue-500 text-white px-4 py-2 rounded">Next</button>
+                            <button id="prevBtn" class="bg-red-500 text-white px-4 py-2 rounded">Quay lại</button>
+                            <button id="hienThiGhiChu" class="bg-blue-500 text-white px-4 py-2 rounded">Xác nhận</button>
 
 
                         </div>
@@ -227,7 +227,9 @@
                             </td>
                             <td><input type="number" class="form-control soLuong-input bg-gray-100 w-[30%] ml-4 border border-gray-300 rounded-md px-2 py-1" value="${item.soLuong}" min="1" data-id="${item.id}"></td>
                             <td class="px-6 py-4 whitespace-nowrap">${formatVND(tongTienSP)}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">${item.trangThai}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="bg-green-500 rounded-lg text-white"> ${trangThaiSanPham(item.trangThai)}</span>
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <button class="deleteSP" data-id="${item.id}">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-7" style="color: #B94A00">
@@ -242,12 +244,12 @@
 
                 const getLichSuHD = () => {
                     $.ajax({
-                        url: `/api/hoa-don/lich-su-hoa-don/${idHoaDon}`,
-                        data: {},
-                        success: function (result) {
-                            let list = "";
-                            $("#listLichSu").empty();
-                            for (let i = 0; i < result.length; i++) {
+                                url: `/api/hoa-don/lich-su-hoa-don/${idHoaDon}`,
+                                data: {},
+                                success: function (result) {
+                                    let list = "";
+                                    $("#listLichSu").empty();
+                                    for (let i = 0; i < result.length; i++) {
                                 list += `<tr>
                                     <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">${trangThai(result[i].hanhDong)}</td>
@@ -277,18 +279,18 @@
 
                 $('#tongTienChiTiet').html(`
                     <div>
-                        <span class="text-lg ">Tổng tiền hàng: <span class="text-lg ml-12 text-blue-700">${formatVND(tongTienHang)}</span></span>
+                        <span class="text-lg ">Tổng tiền hàng: <span class="text-lg ml-[11%] text-blue-700">${formatVND(tongTienHang)}</span></span>
                     </div>
 
                     <div>
-                        <span  class="text-lg">Phí vận chuyển: <span class="text-lg ml-12 font-normal">${formatVND(hd.tienShip)}</span></span>
+                        <span  class="text-lg">Phí vận chuyển: <span class="text-lg ml-20 font-normal">${formatVND(hd.tienShip)}</span></span>
                     </div>
                     <span class="flex items-center w-[99%] m-auto">
                         <span class="h-px flex-1 bg-gray-500"></span>
                         <span class="h-px flex-1 bg-gray-500"></span>
                     </span>
                     <div>
-                        <span  class="text-lg">Tổng tiền thanh toán: <span class="text-lg ml-12 text-blue-700 text-no">${formatVND(tongTienThanhToan)}</span></span>
+                        <span  class="text-lg">Tổng tiền thanh toán: <span class="text-lg ml-8 text-blue-700 text-no">${formatVND(tongTienThanhToan)}</span></span>
                     </div>
                 `);
 
@@ -323,6 +325,7 @@
                     });
                 });
                 currentStep = hd.trangThai;
+
                 initializeSteps();
                 getLichSuHD();
             }
@@ -376,6 +379,17 @@
                     return 'Thanh toán';
                 case 6:
                     return 'Hoàn thành';
+                default:
+                    return 'Không xác định';
+            }
+        }
+
+        const trangThaiSanPham = (tt) => {
+            switch (tt) {
+                case 1:
+                    return 'Thành công';
+                case 2:
+                    return 'Thất bại';
                 default:
                     return 'Không xác định';
             }
