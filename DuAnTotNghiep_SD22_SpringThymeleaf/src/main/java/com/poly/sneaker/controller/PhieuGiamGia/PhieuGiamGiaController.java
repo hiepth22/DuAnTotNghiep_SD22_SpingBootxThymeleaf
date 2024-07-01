@@ -6,6 +6,9 @@ import com.poly.sneaker.repository.PhieuGiamGiaRepository;
 import com.poly.sneaker.sevice.PhieuGiamGiaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +25,15 @@ public class PhieuGiamGiaController {
     @Autowired
     PhieuGiamGiaService phieuGiamGiaService;
     PhieuGiamGiaRepository phieuGiamGiaRepository;
+
+    public String getAllPhieu(Model model,@RequestParam(defaultValue = "1") int page){
+        Page<PhieuGiamGia> phieuGiamGias ;
+        if(page<1) page=1;
+        Pageable pageable= PageRequest.of(page-1,10);
+        phieuGiamGias = (Page<PhieuGiamGia>) phieuGiamGiaService.getall(page);
+        model.addAttribute("page",phieuGiamGias);
+        return "admin/PhieuGiamGia/PhieuGiamGiaIndext";
+    }
 
     @GetMapping("/phieu-giam-gia")
     public String HienThi(Model model) {
@@ -46,7 +58,7 @@ public class PhieuGiamGiaController {
             pggnew.setMa("VC"+  phieuGiamGiaService.getall().size() );
             pggnew.setSoLuong(pgg.getSoLuong());
             pggnew.setHinhThucGiam(pgg.getHinhThucGiam());
-//            pggnew.setDonToiThieu(pgg.getDonToiThieu());
+            pggnew.setDonToiThieu(pgg.getDonToiThieu());
             pggnew.setGiaTriGiam(pgg.getGiaTriGiam());
             pggnew.setGiamToiDa(pgg.getGiamToiDa());
             pggnew.setNgayBatDau(new Date());
@@ -70,15 +82,14 @@ public class PhieuGiamGiaController {
     @PostMapping("/updatePhieuGiamGia/{id}")
     public String updatePhieuGiamGia(@PathVariable("id") Long id, @Valid @ModelAttribute("pgg") PhieuGiamGia pgg, BindingResult result) {
         if (result.hasErrors()) {
-            return "admin/PhieuGiamGia/PhieuGiamGiaUpdate";
+            PhieuGiamGia updatedPgg = phieuGiamGiaService.update(id, pgg);
+            if (updatedPgg != null) {
+                return "redirect:/admin/phieu-giam-gia";
+            } else {
+                return "redirect:/admin/phieu-giam-gia";
+            }
         }
-
-        PhieuGiamGia updatedPgg = phieuGiamGiaService.update(id, pgg);
-        if (updatedPgg != null) {
-            return "redirect:/admin/phieu-giam-gia";
-        } else {
-            return "redirect:/admin/phieu-giam-gia";
-        }
+        return "admin/PhieuGiamGia/PhieuGiamGiaUpdate";
     }
 
 
