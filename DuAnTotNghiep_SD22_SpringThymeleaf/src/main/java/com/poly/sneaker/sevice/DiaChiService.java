@@ -15,8 +15,9 @@ public class DiaChiService {
     public List<DiaChi> getAll(){
         return diaChirepository.findAll();
     }
-    public List<DiaChi> getByID(String idKh){
+
+
+    public List<DiaChi> getByID(Long idKh) {
         return diaChirepository.findByIdKH(idKh);
     }
-
 }

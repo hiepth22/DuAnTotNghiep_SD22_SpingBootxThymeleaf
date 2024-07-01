@@ -10,6 +10,9 @@ import java.util.List;
 
 @Repository
 public interface DiaChirepository extends JpaRepository<DiaChi, Long> {
-    @Query(value = "SELECT * FROM dia_chi WHERE idKhachHang LIKE %:idKH%", nativeQuery = true)
-    List<DiaChi> findByIdKH(@Param("idKH") String idKH);
+
+
+    @Query(value = "SELECT * FROM dia_chi WHERE idKhachHang = :idKhachHang ", nativeQuery = true)
+    List<DiaChi> findByIdKH(@Param("idKhachHang") Long idKhachHang);
+
 }

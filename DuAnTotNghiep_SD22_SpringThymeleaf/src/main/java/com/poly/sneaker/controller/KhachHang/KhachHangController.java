@@ -89,10 +89,9 @@ public class KhachHangController {
             return "redirect:/admin/khach-hang";
         }
     }
+
     @GetMapping("/dia-chi/{idKH}")
-    public String getByID(@PathVariable("idKH") String idKH, Model model){
-        List<DiaChi> list = diaChiService.getByID(idKH);
-        model.addAttribute("list", list);
+    public String getByID(){
         return "admin/KhachHang/KhachHang";
     }
 

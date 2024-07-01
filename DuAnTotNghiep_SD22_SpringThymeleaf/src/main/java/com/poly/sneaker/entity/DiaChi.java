@@ -10,7 +10,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "dia_chi")
@@ -20,7 +19,6 @@ import java.util.Date;
 @Setter
 @ToString
 @Builder
-
 public class DiaChi {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +35,7 @@ public class DiaChi {
     private String quanHuyen;
 
     @Column(name = "phuongXa")
-    private Date phuongXa;
+    private String phuongXa;
 
     @Column(name = "soNha", length = 50)
     private String soNha;
@@ -45,13 +43,11 @@ public class DiaChi {
     @Column(name = "moTaChiTiet")
     private Boolean moTa;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
     @Column(name = "ngayTao")
-    private LocalDateTime ngaytao;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime ngayTao;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
     @Column(name = "ngayCapNhat")
-    private LocalDateTime ngaycapnhap;
-
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime ngayCapNhat;
 }
