@@ -73,6 +73,14 @@ public class HoaDonService {
         }).orElse(null);
     }
 
+    public HoaDonChiTiet updateSoLuong(Long id, HoaDonChiTiet hdct) {
+        Optional<HoaDonChiTiet> optional = hoaDonChiTietRepository.findById(id);
+        return optional.map(o -> {
+            o.setSoLuong(hdct.getSoLuong());
+            return hoaDonChiTietRepository.save(o);
+        }).orElse(null);
+    }
+
 
 
 

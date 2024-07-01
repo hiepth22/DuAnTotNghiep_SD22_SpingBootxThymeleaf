@@ -210,10 +210,10 @@
                     danhSachSP += `
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">${item.sanPhamChiTiet.anh.ten}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${item.sanPhamChiTiet.ghiChu}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${item.sanPhamChiTiet.ten}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${item.sanPhamChiTiet.mauSac.ten}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">${item.soLuong}</td>
+                            <td><input type="number" class="form-control soLuong-input" value="${item.soLuong}" min="1" data-id="${item.id}"></td>
                             <td class="px-6 py-4 whitespace-nowrap">${tongTienSP}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${item.trangThai}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -252,6 +252,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap">${result[i].ghiChu}</td>
                                   </tr>`;
                             }
+
                             $("#listLichSu").html(list);
                         }
                     });
@@ -274,6 +275,25 @@
                         <span  class="text-lg">Tổng tiền thanh toán: <span class="text-lg">${tongTienThanhToan}</span></span>
                     </div>
                 `);
+
+                $('.soLuong-input').on('change', function () {
+                    const id = $(this).data('id');
+                    const SoLuongMoi = $(this).val();
+
+                    $.ajax({
+                        url: `/api/hoa-don/update-so-luong/${id}`,
+                        method: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ id: id, soLuong: SoLuongMoi }),
+                        success: function (response) {
+                            console.log("Thành công")
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Lỗi khi cập nhật số lượng sản phẩm:', error);
+                        }
+                    });
+                    getData();
+                });
 
                 $('.deleteSP').on('click', function () {
                     const itemId = $(this).data('id');
@@ -498,6 +518,8 @@
                 }
             });
         }
+
+
 
 
 
