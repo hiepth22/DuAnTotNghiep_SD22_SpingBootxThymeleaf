@@ -62,7 +62,7 @@
                     <div class="col">
                         <label>Chất liệu</label>
                         <input type="text" list="chatLieuList" class="form-control" id="chatLieuInput" name="chatLieu"
-                                placeholder="Nhập chất liệu">
+                               placeholder="Nhập chất liệu">
                         <datalist id="chatLieuList">
                             <option th:each="chatLieu : ${chatLieus}" th:value="${chatLieu.ten}" th:text="${chatLieu.ten}"></option>
                         </datalist>
@@ -70,7 +70,7 @@
                     <div class="col">
                         <label for="nhaSanXuatInput">Nhà sản xuất</label>
                         <input type="text" list="nhaSanXuatList" class="form-control" id="nhaSanXuatInput" name="nhaSanXuat"
-                                placeholder="Nhập nhà sản xuất">
+                               placeholder="Nhập nhà sản xuất">
                         <datalist id="nhaSanXuatList">
                             <option th:each="nsx : ${nhaSanXuats}" th:value="${nsx.ten}" th:text="${nsx.ten}"></option>
                         </datalist>
@@ -121,8 +121,8 @@
                     <!-- List of colors with checkboxes -->
                     <div id="colorList" th:each="mauSac : ${mauSacs}">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" th:value="${mauSac.id}" th:id="${'color' + mauSac.id}">
-                            <label class="form-check-label" th:for="${'color' + mauSac.id}" th:text="${mauSac.ten}"></label>
+                            <input class="form-check-input" type="checkbox" th:value="${mauSac.id}" th:id="${'mauSac' + mauSac.id}">
+                            <label class="form-check-label" th:for="${'mauSac' + mauSac.id}" th:text="${mauSac.ten}"></label>
                         </div>
                     </div>
                 </div>
@@ -145,10 +145,10 @@
                 <div class="modal-body">
                     <!-- List of sizes with checkboxes -->
                     <div id="sizeList" th:each="kichCo : ${kichCos}">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" th:value="${kichCo.id}" th:id="${'size' + kichCo.id}">
-                                <label class="form-check-label" th:for="${'size' + kichCo.id}" th:text="${kichCo.ten}"></label>
-                            </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:value="${kichCo.id}" th:id="${'kichCo' + kichCo.id}">
+                            <label class="form-check-label" th:for="${'kichCo' + kichCo.id}" th:text="${kichCo.ten}"></label>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -159,7 +159,7 @@
         </div>
     </div>
 </div>
-    <!-- JavaScript Libraries -->
+<!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
