@@ -112,26 +112,84 @@
     </div>
 </div>
 <script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function () {
-        'use strict'
+        'use strict';
 
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.querySelectorAll('.needs-validation')
+        var forms = document.querySelectorAll('.needs-validation');
 
         // Loop over them and prevent submission
         Array.prototype.slice.call(forms)
             .forEach(function (form) {
                 form.addEventListener('submit', function (event) {
+                    // Check if form is valid
                     if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
+                        event.preventDefault();
+                        event.stopPropagation();
                     }
 
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
+                    // Validate positive numbers
+                    var soLuong = form.querySelector('[name="soLuong"]');
+                    var donToiThieu = form.querySelector('[name="donToiThieu"]');
+                    var giaTriGiam = form.querySelector('[name="giaTriGiam"]');
+                    var giamToiDa = form.querySelector('[name="giamToiDa"]');
+
+                    var invalid = false;
+
+                    if (isNaN(soLuong.value) || soLuong.value <= 0) {
+                        soLuong.setCustomValidity('Số lượng phải là số dương.');
+                        invalid = true;
+                    } else {
+                        soLuong.setCustomValidity('');
+                    }
+
+                    if (isNaN(donToiThieu.value) || donToiThieu.value <= 0) {
+                        donToiThieu.setCustomValidity('Đơn tối thiểu phải là số dương.');
+                        invalid = true;
+                    } else {
+                        donToiThieu.setCustomValidity('');
+                    }
+
+                    if (isNaN(giaTriGiam.value) || giaTriGiam.value <= 0) {
+                        giaTriGiam.setCustomValidity('Giá trị giảm phải là số dương.');
+                        invalid = true;
+                    } else {
+                        giaTriGiam.setCustomValidity('');
+                    }
+
+                    if (isNaN(giamToiDa.value) || giamToiDa.value <= 0) {
+                        giamToiDa.setCustomValidity('Giảm tối đa phải là số dương.');
+                        invalid = true;
+                    } else {
+                        giamToiDa.setCustomValidity('');
+                    }
+
+                    if (invalid) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+
+                    form.classList.add('was-validated');
+                }, false);
+
+                // Add event listener for input fields to validate numbers
+                form.querySelectorAll('input[type="number"]').forEach(function (input) {
+                    input.addEventListener('input', function () {
+                        if (isNaN(input.value) || input.value <= 0) {
+                            input.setCustomValidity('Giá trị phải là số dương.');
+                        } else {
+                            input.setCustomValidity('');
+                        }
+
+                        if (!input.checkValidity()) {
+                            input.classList.add('is-invalid');
+                        } else {
+                            input.classList.remove('is-invalid');
+                        }
+                    });
+                });
+            });
+    })();
 </script>
 <script th:src="@{/assets/js/PhieuGiamGia.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

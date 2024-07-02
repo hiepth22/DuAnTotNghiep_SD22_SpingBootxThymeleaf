@@ -110,8 +110,9 @@
                         <span th:if="${phieugiamgia.hinhThucGiam} == true"> Tien mat</span>
                         <span th:if="${phieugiamgia.hinhThucGiam} == false"> %</span>
                     </td>
-                    <td th:text="${phieugiamgia.giaTriGiam}"></td>
                     <td th:text="${phieugiamgia.donToiThieu}"></td>
+                    <td th:text="${phieugiamgia.giaTriGiam}"></td>
+
                     <td th:text="${phieugiamgia.giamToiDa}"></td>
                     <td th:text="${#dates.format(phieugiamgia.ngayBatDau, 'dd/MM/yyyy')}"></td>
                     <td th:text="${#dates.format(phieugiamgia.ngayKetThuc, 'dd/MM/yyyy')}"></td>
