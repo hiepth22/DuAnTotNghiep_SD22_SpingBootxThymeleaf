@@ -6,157 +6,174 @@
     <link rel="stylesheet" href="output.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <head th:replace="~{admin/fragments/head :: head}"></head>
+
 </head>
-<body class="bg-gray-200">
-<div>
-    <div class="grid gap-4 grid-cols-1">
-        <div class="h-72 w-[81%] m-auto mt-5 bg-white p-6 rounded-lg shadow-md">
-            <div class="container mx-auto px-4 py-8">
-                <div class="overflow-hidden">
-                    <!-- Steppers Container -->
-                    <div class="flex items-center  " id="steppers">
-
-                    </div>
-
-                    <div class="flex justify-between mt-7">
-                        <div class="mt-8 flex gap-2 ">
-                            <button id="prevBtn" class="bg-red-500 text-white px-4 py-2 rounded">Quay lại</button>
-                            <button id="hienThiGhiChu" class="bg-blue-500 text-white px-4 py-2 rounded">Xác nhận</button>
-
+<body class="bg-gray-200 ">
+<div class="flex">
+    <!-- Sidebar Start -->
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}" class="w-64"></div>
+    <!-- Sidebar End -->
+    <!-- Content Start -->
+    <div class="content flex-grow ml-64 p-4 bg-gray-200">
+        <!-- Navbar Start -->
+        <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
+        <div class="grid gap-4 grid-cols-1">
+            <div class="h-72 w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md">
+                <div class="container mx-auto px-4 py-8">
+                    <div class="overflow-hidden">
+                        <!-- Steppers Container -->
+                        <div class="flex items-center  " id="steppers">
 
                         </div>
-                        <div class="mt-8 flex gap-2">
-                            <button id="hienThiLichSu" class="bg-blue-500 text-white px-4 py-2 rounded">Lịch sử</button>
+
+                        <div class="flex justify-between mt-7">
+                            <div class="mt-8 flex gap-2 ">
+                                <button id="prevBtn" class="bg-red-500 text-white px-4 py-2 rounded">Quay lại</button>
+                                <button id="hienThiGhiChu" class="bg-blue-500 text-white px-4 py-2 rounded">Xác nhận
+                                </button>
+
+
+                            </div>
+                            <div class="mt-8 flex gap-2">
+                                <button id="hienThiLichSu" class="bg-blue-500 text-white px-4 py-2 rounded">Lịch sử
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
-
-    </div>
-    <div id="thongTinHoaDon" class="bg-white h-80 w-[81%] m-auto mt-5 p-6 rounded-lg shadow-md"></div>
-    <div id="hoaDonChiTietWrapper" class="bg-white h-96 w-[81%] m-auto mt-5 p-6 rounded-lg shadow-md">
-        <div id="hoaDonChiTiet" class="h-96">
-            <h1 class="text-xl mt-5 ml-3 mb-4 font-bold">Thông tin sản phẩm đã mua</h1>
-            <div class="overflow-x-auto">
-                <table id="tableHoaDonChiTiet" class="min-w-full divide-y divide-gray-200  ">
-                    <thead class="bg-blue-500">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">STT</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh sản
-                            phẩm
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Thông
-                            tin sản phẩm
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Màu
-                            sắc
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Số
-                            lượng
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tổng
-                            tiền
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Trạng
-                            thái
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Hành
-                            động
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody id="tbodyHoaDonChiTiet" class="bg-white divide-y divide-gray-200">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="bg-white h-52 w-[81%] m-auto mt-5 p-6 rounded-lg shadow-md mb-11">
-        <div class="grid gap-4 grid-cols-2">
-            <div></div>
-            <div id="tongTienChiTiet" class="h-32 p-4 font-bold">
-            </div>
-        </div>
-    </div>
-
-
-    <!--    modal-->
-    <div id="noteModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
-        <div class="flex items-center justify-center min-h-screen">
-            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-            </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-lg w-full">
-                <div class="bg-white px-4 pt-5 pb-4">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Nhập ghi chú</h3>
-                    <div class="mt-2">
-                        <textarea id="noteText" class="w-full p-2 border rounded" rows="4"
-                                  placeholder="Nhập ghi chú (ít nhất 10 ký tự)"></textarea>
-                    </div>
-                    <p id="noteError" class="text-red-500 text-sm hidden">Ghi chú phải có ít nhất 10 ký tự.</p>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 flex justify-end">
-                    <button id="cancelButton"
-                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">Hủy
-                    </button>
-                    <button id="xacNhanGhiChu"
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Lưu
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="modalLichSu" class="fixed z-10 inset-0 overflow-y-auto hidden">
-        <div class="flex items-center justify-center min-h-screen">
-            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-            </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-3xl w-full">
-                <div class="bg-white px-4 pt-5 pb-4">
-                    <table id="tableLichSu" class="min-w-full divide-y divide-gray-200">
+        <div id="thongTinHoaDon" class="bg-white h-80 w-full m-auto mt-5 p-6 rounded-lg shadow-md"></div>
+        <div id="hoaDonChiTietWrapper" class="bg-white h-[40%] w-full m-auto mt-5 p-6 rounded-lg shadow-md">
+            <div id="hoaDonChiTiet" class="h-full">
+                <h1 class="text-xl mt-5 ml-3 mb-4 font-bold">Thông tin sản phẩm đã mua</h1>
+                <div class="overflow-x-auto">
+                    <table id="tableHoaDonChiTiet" class="min-w-full divide-y divide-gray-200  ">
                         <thead class="bg-blue-500">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                 STT
                             </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                Trạng thái
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh
+                                sản
+                                phẩm
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                Ngày
+                                Thông
+                                tin sản phẩm
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Màu
+                                sắc
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Số
+                                lượng
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tổng
+                                tiền
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                Người xác nhận
+                                Trạng
+                                thái
                             </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ghi
-                                chú
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Hành
+                                động
                             </th>
-
                         </tr>
                         </thead>
-                        <tbody id="listLichSu" class="bg-white divide-y divide-gray-200">
+                        <tbody id="tbodyHoaDonChiTiet" class="bg-white divide-y divide-gray-200 h-full">
                         </tbody>
                     </table>
                 </div>
-                <div class="bg-gray-50 px-4 py-3 flex justify-end">
-                    <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
-                            id="dongLichSu">Hủy
-                    </button>
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="">Xác
-                        nhận
-                    </button>
+            </div>
+
+        </div>
+
+        <div class="bg-white h-52 w-full m-auto mt-5 p-6 rounded-lg shadow-md mb-11">
+            <div class="grid gap-4 grid-cols-2">
+                <div></div>
+                <div id="tongTienChiTiet" class="h-32 p-4 font-bold">
                 </div>
             </div>
         </div>
+
+
+        <!--    modal-->
+        <div id="noteModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+            <div class="flex items-center justify-center min-h-screen">
+                <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                </div>
+                <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-lg w-full">
+                    <div class="bg-white px-4 pt-5 pb-4">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Nhập ghi chú</h3>
+                        <div class="mt-2">
+                        <textarea id="noteText" class="w-full p-2 border rounded" rows="4"
+                                  placeholder="Nhập ghi chú (ít nhất 10 ký tự)"></textarea>
+                        </div>
+                        <p id="noteError" class="text-red-500 text-sm hidden">Ghi chú phải có ít nhất 10 ký tự.</p>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 flex justify-end">
+                        <button id="cancelButton"
+                                class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">Hủy
+                        </button>
+                        <button id="xacNhanGhiChu"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Lưu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalLichSu" class="fixed z-10 inset-0 overflow-y-auto hidden">
+            <div class="flex items-center justify-center min-h-screen">
+                <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                </div>
+                <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-3xl w-full">
+                    <div class="bg-white px-4 pt-5 pb-4">
+                        <table id="tableLichSu" class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-blue-500">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    STT
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    Trạng thái
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    Ngày
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    Người xác nhận
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    Ghi
+                                    chú
+                                </th>
+
+                            </tr>
+                            </thead>
+                            <tbody id="listLichSu" class="bg-white divide-y divide-gray-200">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 flex justify-end">
+                        <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                id="dongLichSu">Hủy
+                        </button>
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="">Xác
+                            nhận
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
-
-
 </div>
-
 <script>
     $(document).ready(function () {
 
@@ -244,23 +261,24 @@
 
                 const getLichSuHD = () => {
                     $.ajax({
-                                url: `/api/hoa-don/lich-su-hoa-don/${idHoaDon}`,
-                                data: {},
-                                success: function (result) {
-                                    let list = "";
-                                    $("#listLichSu").empty();
-                                    for (let i = 0; i < result.length; i++) {
+                        url: `/api/hoa-don/lich-su-hoa-don/${idHoaDon}`,
+                        data: {},
+                        success: function (result) {
+                            let list = "";
+                            $("#listLichSu").empty();
+                            for (let i = 0; i < result.length; i++) {
                                 list += `<tr>
                                     <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">${trangThai(result[i].hanhDong)}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         ${result[i].ngayTao != null ? new Date(result[i].ngayTao).toLocaleString('vi-VN', {
-                                        day: '2-digit',
-                                        month: '2-digit',
-                                        year: 'numeric',
-                                        hour: '2-digit',
-                                        minute: '2-digit',
-                                        second: '2-digit'}) : ''}
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    second: '2-digit'
+                                }) : ''}
                                        </td>
                                     <td class="px-6 py-4 whitespace-nowrap">${result[i].nguoiTao}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">${result[i].ghiChu}</td>
@@ -302,7 +320,7 @@
                         url: `/api/hoa-don/update-so-luong/${id}`,
                         method: 'PUT',
                         contentType: 'application/json',
-                        data: JSON.stringify({ id: id, soLuong: SoLuongMoi }),
+                        data: JSON.stringify({id: id, soLuong: SoLuongMoi}),
                         success: function (response) {
                             console.log("Thành công")
                         },
@@ -482,7 +500,14 @@
 
         function updateButtonsState() {
             $('#prevBtn').prop('disabled', currentStep === 1);
-            $('#xacNhanGhiChu').prop('disabled', currentStep >= totalSteps);
+            const noteText = $('#noteText').val();
+            if (noteText.length < 10) {
+                $('#xacNhanGhiChu').prop('disabled', currentStep >= totalSteps);
+                return;
+            } else {
+                $('#xacNhanGhiChu').prop('disabled', currentStep >= totalSteps);
+            }
+
         }
 
         $('#prevBtn').click(function () {
@@ -492,6 +517,16 @@
 
         $('#xacNhanGhiChu').click(function () {
             currentStep++;
+
+            const noteText = $('#noteText').val();
+
+            if (noteText.length < 10) {
+                $('#noteError').removeClass('hidden');
+                return;
+            } else {
+                $('#noteError').addClass('hidden');
+            }
+
             if (currentStep <= totalSteps) {
                 const newStep = createStep(currentStep);
                 createdSteps.push(newStep);
@@ -548,7 +583,6 @@
                 }
             });
         }
-
 
 
     });
