@@ -74,3 +74,10 @@ function handleImageChange(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+function confirmsave() {
+    var confirmed = confirm("Bạn có chắc chắn muốn lưu thay đổi này?");
+    return confirmed;
+}
+function showSuccessMessage(message) {
+    alert(message); // Hiển thị thông báo thành công
+}
