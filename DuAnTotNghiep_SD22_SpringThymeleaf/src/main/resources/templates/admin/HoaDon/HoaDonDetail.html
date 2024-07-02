@@ -39,6 +39,7 @@
                                 <button id="hienThiLichSu" class="bg-blue-500 text-white px-4 py-2 rounded">Lịch sử
                                 </button>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -160,12 +161,12 @@
                         </table>
                     </div>
                     <div class="bg-gray-50 px-4 py-3 flex justify-end">
-                        <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                id="dongLichSu">Hủy
+                        <button id="loadLichSuBtn" class="bg-blue-500 text-white px-4 py-2 rounded ">Load
                         </button>
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="">Xác
+                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-5" id="dongLichSu">Xác
                             nhận
                         </button>
+
                     </div>
                 </div>
             </div>
@@ -179,6 +180,8 @@
 
         const pathArray = window.location.pathname.split('/');
         const idHoaDon = pathArray[pathArray.length - 1];
+
+
 
         const formatVND = (tongtien) => {
             return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
@@ -260,6 +263,7 @@
                 });
 
                 const getLichSuHD = () => {
+                    console.log("Calling getLichSuHD function");
                     $.ajax({
                         url: `/api/hoa-don/lich-su-hoa-don/${idHoaDon}`,
                         data: {},
@@ -289,6 +293,12 @@
                         }
                     });
                 }
+                $("#loadLichSuBtn").on("click", function() {
+                    getLichSuHD();
+                });
+
+                getLichSuHD();
+
 
                 const tienGiamGia = hd.tongTien - hd.tongTienSauGiam;
                 const tongTienThanhToan = tongTienHang + hd.tienShip;
@@ -431,6 +441,7 @@
 
         function showModalLichSu() {
             $('#modalLichSu').removeClass('hidden');
+            getLichSuHD();
         }
 
         function hideModalLichSu() {
@@ -534,6 +545,7 @@
                 updateTrangThai(currentStep)
                 updateButtonsState();
                 hideNoteModal();
+                getLichSuHD();
             } else {
                 currentStep = totalSteps;
             }
@@ -552,7 +564,6 @@
 
         function updateTrangThai(trangThai) {
             const ghiChu = $('#noteText').val().trim();
-            console.log(ghiChu)
             const hanhDong = trangThai;
             $.ajax({
                 url: `/api/hoa-don/update-trang-thai/${idHoaDon}`,
