@@ -109,8 +109,7 @@ public class SanPhamChiTietService {
         return repository.findByMa(ma).size() > 0;
     }
 
-    public List<SanPhamChiTiet> addToList(List<SanPhamChiTiet> sanPhamChiTiets) {
-        sanPhamChiTiets.stream().forEach(o -> System.out.println(o));
+    public List<SanPhamChiTiet> saveToDatabase(List<SanPhamChiTiet> sanPhamChiTiets) {
         return repository.saveAll(sanPhamChiTiets);
     }
 

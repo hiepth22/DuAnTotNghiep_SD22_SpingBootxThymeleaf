@@ -12,7 +12,7 @@ $(document).ready(function() {
 
         displaySelectedItems(selectedSizes, '#selectedSizes');
 
-        $('#sizeModal').modal('hide'); // Sửa thành $('#sizeModal').hide();
+        $('#sizeModal').modal('hide');
     });
 
     $('#saveColors').click(function() {
@@ -28,7 +28,7 @@ $(document).ready(function() {
 
         displaySelectedItems(selectedColors, '#selectedColors');
 
-        $('#colorModal').modal('hide'); // Sửa thành $('#colorModal').hide();
+        $('#colorModal').modal('hide');
     });
 
     function displaySelectedItems(items, containerId) {
@@ -81,8 +81,8 @@ document.querySelector('.create-product-btn').addEventListener('click', function
     const selectedSizes = Array.from(document.querySelectorAll('#selectedSizes .selected-item')).map(item => item.textContent);
 
     const chiTietSanPhams = [];
-    selectedColors.forEach(color => {
-        selectedSizes.forEach(size => {
+    selectedColors.forEach(mauSac => {
+        selectedSizes.forEach(kichCo => {
             const chiTietSanPham = {
                 sanPham,
                 coGiay,
@@ -90,8 +90,8 @@ document.querySelector('.create-product-btn').addEventListener('click', function
                 chatLieu,
                 nhaSanXuat,
                 moTaSanPham,
-                color,
-                size,
+                mauSac,
+                kichCo,
                 ngayTao: new Date(),
                 canNang: 500,
                 giaBan: 1000000
@@ -104,18 +104,18 @@ document.querySelector('.create-product-btn').addEventListener('click', function
     productDetailsContainer.innerHTML = ''; // Xóa nội dung cũ trước khi thêm mới
 
     const colorGroups = chiTietSanPhams.reduce((groups, product) => {
-        const { color } = product;
-        if (!groups[color]) {
-            groups[color] = [];
+        const { mauSac } = product;
+        if (!groups[mauSac]) {
+            groups[mauSac] = [];
         }
-        groups[color].push(product);
+        groups[mauSac].push(product);
         return groups;
     }, {});
 
-    for (const [color, products] of Object.entries(colorGroups)) {
+    for (const [mauSac, products] of Object.entries(colorGroups)) {
         const colorTitle = document.createElement('h5');
         colorTitle.classList.add('mt-3');
-        colorTitle.textContent = `Danh sách sản phẩm có màu ${color}`;
+        colorTitle.textContent = `Danh sách sản phẩm có màu ${mauSac}`;
         productDetailsContainer.appendChild(colorTitle);
 
         const table = document.createElement('table');
@@ -140,8 +140,8 @@ document.querySelector('.create-product-btn').addEventListener('click', function
             const row = document.createElement('tr');
             row.innerHTML = `
             <td style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">${product.sanPham}</td>
-            <td>${product.color}</td>
-            <td>${product.size}</td>
+            <td>${product.mauSac}</td>
+            <td>${product.kichCo}</td>
             <td><input type="text" value="${product.canNang}" class="form-control" style="width: 80px;"></td>
             <td><input type="text" value="${product.giaBan}" class="form-control" style="width: 120px;"></td>
             <td>${product.ngayTao ? new Date(product.ngayTao).toLocaleDateString() : ''}</td>
@@ -166,7 +166,3 @@ document.querySelector('.create-product-btn').addEventListener('click', function
 
 
 });
-
-
-
-
