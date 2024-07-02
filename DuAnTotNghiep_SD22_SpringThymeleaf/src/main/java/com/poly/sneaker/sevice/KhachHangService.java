@@ -6,6 +6,7 @@ import com.poly.sneaker.repository.KhachHangRepository;
 import jakarta.persistence.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,10 @@ public class KhachHangService {
     @Autowired
     private KhachHangRepository khachHangRepository;
 
+    public Page<KhachHang> getAllPage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return khachHangRepository.findAll(pageable);
+    }
     public List<KhachHang> getAll() {
 
         return khachHangRepository.findAll();
@@ -43,10 +48,10 @@ public class KhachHangService {
             o.setCccd(newnv.getCccd());
             o.setEmail(newnv.getEmail());
             o.setGioiTinh(newnv.getGioiTinh());
-            o.setMatKhau(newnv.getMatKhau());
+//            o.setMatKhau(newnv.getMatKhau());
             o.setNgaySinh(newnv.getNgaySinh());
             o.setSdt(newnv.getSdt());
-            o.setTrangThai(newnv.getTrangThai());
+//            o.setTrangThai(newnv.getTrangThai());
             o.setNgaycapnhap(java.time.LocalDateTime.now());
             return khachHangRepository.save(o);
         }).orElse(null);

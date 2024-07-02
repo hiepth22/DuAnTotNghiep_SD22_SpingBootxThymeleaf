@@ -35,90 +35,65 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="p-3 mb-2 bg-info text-dark rounded">
-                    <h2>
-                        <span class="h6">Cập Nhật Khách Hàng</span>
-                    </h2>
+                <div class="card-header bg-info text-white">
+                    <h6 class="card-title m-0">Cập Nhật Khách Hàng</h6>
                 </div>
                 <div class="card-body">
                     <form th:action="@{/admin/update/{id}(id=${kh.id})}" method="post" class="row g-3" th:object="${kh}" onsubmit="return validateForm()">
                         <div class="row mb-3">
-                            <div class="col-md-4 d-flex justify-content-center align-items-center">
-                                <div>
-                                    <h3 class="text-center">Ảnh Đại Diện</h3>
-                                    <div class="d-flex flex-column align-items-center">
-                                        <div class="image-placeholder rounded-circle mb-2" style="background-color: #e9ecef;">
-                                            <span style="font-size: 24px; color: #6c757d;">+</span>
-                                        </div>
-                                    </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Tên Khách Hàng:</label>
+                                    <input type="text" placeholder="Nhập tên Khách Hàng" name="ten" class="form-control" th:field="*{ten}">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
+                                    <div class="invalid-feedback">Vui lòng nhập tên</div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Mã Khách Hàng:</label>
+                                    <input type="text" placeholder="Nhập mã Khách Hàng" name="ma" class="form-control" th:field="*{ma}">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}"></div>
+                                    <div class="invalid-feedback">Vui lòng nhập mã</div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">SĐT:</label>
+                                    <input type="text" placeholder="Nhập SĐT" name="sdt" class="form-control" id="sdt" th:field="*{sdt}">
+                                    <div class="invalid-feedback" id="sdt-empty">Vui lòng nhập số điện thoại</div>
+                                    <div class="invalid-feedback" id="sdt-invalid">Số điện thoại không hợp lệ (ít nhất 10 số)</div>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('sdt')}" th:errors="*{sdt}"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Ngày Sinh:</label>
+                                    <input type="date" class="form-control" id="ngaySinh" name="ngaySinh" th:field="*{ngaySinh}" required>
+                                    <div class="invalid-feedback">Vui lòng chọn ngày sinh</div>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('ngaySinh')}" th:errors="*{ngaySinh}"></div>
                                 </div>
                             </div>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Tên Khách Hàng:</label>
-                                            <input type="text" placeholder="Nhập tên Khách Hàng" name="ten" class="form-control" th:field="*{ten}">
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
-                                            <div class="invalid-feedback">Vui lòng nhập tên</div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Email:</label>
+                                    <input type="email" placeholder="Nhập Email" name="email" class="form-control" th:field="*{email}">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                                    <div class="invalid-feedback">Vui lòng nhập email hợp lệ</div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Giới Tính:</label>
+                                    <div class="d-flex">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="gioiTinh" id="gioiTinhNam" th:field="*{gioiTinh}" th:value="true">
+                                            <label class="form-check-label" for="gioiTinhNam">Nam</label>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Mã Khách Hàng:</label>
-                                            <input type="text" placeholder="Nhập mã Khách Hàng" name="ma" class="form-control" th:field="*{ma}">
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}"></div>
-                                            <div class="invalid-feedback">Vui lòng nhập mã</div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">SĐT:</label>
-                                            <input type="text" placeholder="Nhập SĐT" name="sdt" class="form-control" id="sdt" th:field="*{sdt}">
-                                            <div class="invalid-feedback" id="sdt-empty">Vui lòng nhập số điện thoại</div>
-                                            <div class="invalid-feedback" id="sdt-invalid">Số điện thoại không hợp lệ (ít nhất 10 số)</div>
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('sdt')}" th:errors="*{sdt}"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Ngày Sinh:</label>
-                                            <input type="date" class="form-control" id="ngaySinh" name="ngaySinh" th:field="*{ngaySinh}" required>
-                                            <div class="invalid-feedback">Vui lòng chọn ngày sinh</div>
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('ngaySinh')}" th:errors="*{ngaySinh}"></div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="gioiTinh" id="gioiTinhNu" th:field="*{gioiTinh}" th:value="false">
+                                            <label class="form-check-label" for="gioiTinhNu">Nữ</label>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Email:</label>
-                                            <input type="email" placeholder="Nhập Email" name="email" class="form-control" th:field="*{email}">
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-                                            <div class="invalid-feedback">Vui lòng nhập email hợp lệ</div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Giới Tính:</label>
-                                            <div class="col-md-6">
-                                                <label class="form-label">Giới Tính</label><br>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" id="gioiTinhNam" th:field="*{gioiTinh}" th:value="true">
-                                                    <label class="form-check-label" for="gioiTinhNam">Nam</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" id="gioiTinhNu" th:field="*{gioiTinh}" th:value="false">
-                                                    <label class="form-check-label" for="gioiTinhNu">Nữ</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">CCCD:</label>
-                                            <input type="text" name="cccd" class="form-control" th:field="*{cccd}">
-                                            <div class="invalid-feedback">Vui lòng nhập CCCD</div>
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('cccd')}" th:errors="*{cccd}"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Mật Khẩu:</label>
-                                            <div class="input-group">
-                                                <input type="password" name="matKhau" class="form-control" id="matKhau" th:field="*{matKhau}">
-                                            </div>
-                                            <div class="invalid-feedback" id="matKhau-empty">Vui lòng nhập mật khẩu</div>
-                                            <div class="invalid-feedback" id="matKhau-invalid">Mật khẩu phải có ít nhất 8 kí tự, bao gồm chữ hoa, chữ thường và số</div>
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('matKhau')}" th:errors="*{matKhau}"></div>
-                                        </div>
-                                    </div>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('gioiTinh')}" th:errors="*{gioiTinh}"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">CCCD:</label>
+                                    <input type="text" name="cccd" class="form-control" th:field="*{cccd}">
+                                    <div class="invalid-feedback">Vui lòng nhập CCCD</div>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('cccd')}" th:errors="*{cccd}"></div>
                                 </div>
                             </div>
                         </div>
@@ -136,8 +111,6 @@
 </div>
 
 <script th:src="@{/assets/js/KhachHang.js}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 </body>
