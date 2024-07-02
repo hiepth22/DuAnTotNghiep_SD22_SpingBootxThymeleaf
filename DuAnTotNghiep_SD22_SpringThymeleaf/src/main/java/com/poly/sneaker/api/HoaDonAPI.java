@@ -106,4 +106,14 @@ public class HoaDonAPI {
         return ResponseEntity.ok(lichSuHoaDonService.getAllByIdhoaDon(id));
     }
 
+    @PutMapping("/update-so-luong/{id}")
+    public ResponseEntity<?> updateSoLuong(@PathVariable("id") Long id, @RequestBody HoaDonChiTiet hoaDonChiTiet) {
+        HoaDonChiTiet updateSoLuong = hoaDonService.updateSoLuong(id, hoaDonChiTiet);
+        if (updateSoLuong != null) {
+            return ResponseEntity.ok(updateSoLuong);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDon not found");
+        }
+    }
+
 }

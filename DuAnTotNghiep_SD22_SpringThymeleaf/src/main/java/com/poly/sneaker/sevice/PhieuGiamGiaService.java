@@ -1,5 +1,6 @@
 package com.poly.sneaker.sevice;
 
+import com.poly.sneaker.Request.PhieuGiamGiaRequest;
 import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.PhieuGiamGiaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +74,7 @@ public class PhieuGiamGiaService {
         Optional<PhieuGiamGia> optional = phieuGiamGiaRepository.findById(id);
         return optional.map(o -> o).orElse(null);
     }
-
+//    public List<PhieuGiamGia> search(String keyword) {
+//        return phieuGiamGiaRepository.findByTen(keyword);
+//    }
 }

@@ -1,6 +1,8 @@
 package com.poly.sneaker.controller.KhachHang;
 
+import com.poly.sneaker.entity.DiaChi;
 import com.poly.sneaker.entity.KhachHang;
+import com.poly.sneaker.sevice.DiaChiService;
 import com.poly.sneaker.sevice.KhachHangService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ import java.util.Optional;
 public class KhachHangController {
     @Autowired
     private KhachHangService sevice;
+    private DiaChiService diaChiService;
 
     @GetMapping("/search-khach-hang")
     public String search(@RequestParam(name = "keyword", required = false) String keyword,
@@ -87,5 +90,9 @@ public class KhachHangController {
         }
     }
 
+    @GetMapping("/dia-chi/{idKH}")
+    public String getByID(){
+        return "admin/KhachHang/KhachHang";
+    }
 
 }

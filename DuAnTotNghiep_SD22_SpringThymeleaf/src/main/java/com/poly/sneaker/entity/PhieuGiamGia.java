@@ -41,7 +41,7 @@ public class PhieuGiamGia {
 
     @Column(name = "giaTriGiam")
     private BigDecimal giaTriGiam;
-
+//
 //    @Column(name = "donToiThieu")
 //    private BigDecimal donToiThieu;
 

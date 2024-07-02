@@ -19,13 +19,6 @@ public class HoaDonChiTietService {
     private HoaDonChiTietRepository hoaDonChiTietRepository;
 
 
-    public HoaDonChiTiet updateSoLuongSanPham(HoaDonChiTiet hdct, Long id) {
-        Optional<HoaDonChiTiet> getHDByID = hoaDonChiTietRepository.findById(id);
-        int soluong = 1;
-        hdct.setSoLuong(soluong);
-        return hoaDonChiTietRepository.save(hdct);
-    }
-
 
     public List<HoaDonChiTiet> findByHDId(Long idHoaDon) {
         return hoaDonChiTietRepository.TimTongTien(idHoaDon);
