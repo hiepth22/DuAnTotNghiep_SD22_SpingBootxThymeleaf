@@ -144,41 +144,62 @@ function validateForm() {
 
     return isValid;
 }
-//nv add
-// function addnv() {
-//
-//     var url = '/admin/addNhanVien';
-//     fetch(url)
-//         .then(response => response.text())
-//         .then(data => {
-//             var tableBody = document.getElementById('Formadd');
-//             tableBody.innerHTML = data.trim();
-//         })
-//         .catch(error => console.error('Error:', error));
-// }
-//
-// function handleImageChange(input) {
-//     if (input.files && input.files[0]) {
-//         const reader = new FileReader();
-//         reader.onload = function (e) {
-//             const previewImage = document.querySelector('.image-placeholder img');
-//             previewImage.src = e.target.result;
-//             previewImage.style.display = 'block';
-//
-//             const placeholder = document.querySelector('.image-placeholder span');
-//             placeholder.style.display = 'none';
-//         };
-//         reader.readAsDataURL(input.files[0]);
-//     }
-// }
-// function addnv() {
-//
-//     var url = '/admin/addNhanVien';
-//     fetch(url)
-//         .then(response => response.text())
-//         .then(data => {
-//             var tableBody = document.getElementById('fromnv');
-//             tableBody.innerHTML = data.trim();
-//         })
-//         .catch(error => console.error('Error:', error));
-// }
+function confirmToggle(element, id) {
+    var isChecked = element.checked;
+    var confirmed = confirm("THAY ĐỔI TRẠNG THÁI KHÁCH HÀNG?");
+
+    if (confirmed) {
+        toggleSwitch(element, id, isChecked);
+    } else {
+        element.checked = !isChecked;
+    }
+}
+$(document).ready(function () {
+    $('.open-modal').click(function() {
+        var idKh = $(this).data('id');
+        getLichSuHD(idKh);
+    });
+});
+
+const getLichSuHD = (idKh) => {
+    $.ajax({
+        url: '/api/khach-hang/dia-chi/' + idKh,
+        method: 'get',
+        success: function (result) {
+            let list = "";
+            $("#modal-address-details").empty();
+            for (let i = 0; i < result.length; i++) {
+                list += `<li>${result[i].thanhPho}</li>`;
+            }
+            $("#modal-address-details").html(list);
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
+function toggleSwitch(element, id, isChecked) {
+    var url = `/admin/khach-hang/${id}/delete`; // Đảm bảo rằng id đã được thay thế đúng giá trị
+    var data = { trangThai: isChecked ? 0 : 1 };
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            alert(`THÀNH CÔNG!!!`);
+        })
+        .catch(error => {
+            console.error('Error updating employee status:', error);
+            // Xử lý lỗi nếu cần thiết
+            alert('LỖI!!!!.');
+            // Đặt lại trạng thái checkbox nếu có lỗi
+            element.checked = !isChecked;
+        });
+}

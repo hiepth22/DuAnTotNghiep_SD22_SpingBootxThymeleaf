@@ -56,14 +56,15 @@ public class KhachHangService {
             return khachHangRepository.save(o);
         }).orElse(null);
     }
-    public KhachHang updateTrangThai(Long id){
+    public KhachHang updateTrangThai(Long id, Integer tt) {
         Optional<KhachHang> optional = khachHangRepository.findById(id);
-        return optional.map(o -> {
-            //
-            o.setTrangThai(0);
-
-            return khachHangRepository.save(o);
-        }).orElse(null);
+        if (optional.isPresent()) {
+            KhachHang kh = optional.get();
+            kh.setTrangThai(tt);
+            return khachHangRepository.save(kh);
+        } else {
+            throw new RuntimeException("Không tìm thấy nhân viên với ID: " + id);
+        }
     }
     public Boolean existsById(Long id) {
         return khachHangRepository.existsById(id);

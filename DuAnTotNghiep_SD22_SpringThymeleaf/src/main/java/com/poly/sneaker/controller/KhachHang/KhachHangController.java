@@ -6,6 +6,8 @@ import com.poly.sneaker.sevice.KhachHangService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Controller
@@ -55,6 +58,7 @@ public class KhachHangController {
         model.addAttribute("khachHangPage", khachHangPage);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", khachHangPage.getTotalPages());
+
         return "admin/KhachHang/KhachHangIndext";
     }
 
@@ -98,6 +102,7 @@ public class KhachHangController {
             return "admin/KhachHang/KhachHangAdd";
         }
 
+        // Generate password and set other fields
         String password = genPassword();
         kh.setNgaycapnhap(LocalDateTime.now());
         kh.setNgaytao(LocalDateTime.now());
@@ -105,12 +110,13 @@ public class KhachHangController {
         kh.setMatKhau(password);
         sendPasswordEmail(kh.getEmail(), kh.getMatKhau());
 
-        // Thêm khách hàng vào database
+        // Add customer to the database
         sevice.Add(kh);
 
-        // Thêm thông báo thành công vào redirect attributes để hiển thị sau khi redirect
+        // Add success message to redirect attributes
         redirectAttributes.addFlashAttribute("successMessage", "Thêm khách hàng thành công!");
 
+        // Redirect to the customer list page
         return "redirect:/admin/khach-hang";
     }
 
@@ -135,6 +141,18 @@ public class KhachHangController {
         }
     }
 
+    @PostMapping("/khach-hang/{id}/delete")
+    public ResponseEntity<String> delteTrangThai(@PathVariable("id") Long id, @RequestBody Map<String, Integer> requestBody) {
+        Integer trangThai = requestBody.get("trangThai");
+
+        try {
+            sevice.updateTrangThai(id, trangThai);
+            return ResponseEntity.ok("Cập nhật trạng thái khách hàng thành công");
+        } catch (Exception e) {
+            e.printStackTrace(); // Hoặc log lỗi vào hệ thống
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Có lỗi xảy ra khi cập nhật trạng thái nhân viên");
+        }
+    }
     @GetMapping("/dia-chi/{idKH}")
     public String getByID(){
         return "admin/KhachHang/KhachHang";
