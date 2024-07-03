@@ -29,9 +29,10 @@ public interface NhanVienRepository extends JpaRepository<NhanVien, Long> {
     List<NhanVienPhanTrang> findBynv(@Param("KEYWORD") String keyword,
                                      @Param("TRANGTHAI") Optional<Integer> trangThai,
                                      @Param("VAI_TRO") Optional<Integer> vaiTro,
+                                     @Param("startDate") Date startDate,
+                                     @Param("endDate") Date endDate,
                                      @Param("PAGE_INDEX") Integer page_index,
                                      @Param("PAGE_SIZE") Integer page_size);
-
 
     List<NhanVien> findByTrangThai(int tt);
 

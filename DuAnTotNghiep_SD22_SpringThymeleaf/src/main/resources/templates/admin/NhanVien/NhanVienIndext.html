@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="~{admin/fragments/head :: head}"></div>
+<title>Quản lý Nhân Viên</title>
 <link rel="icon" type="image/svg+xml"
       href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
 <link rel="stylesheet" th:href="@{/assets/css/NhanVien.css}"/>
@@ -61,29 +62,30 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group row">
-                            <label for="ngaybatdau" class="col-sm-5 col-form-label">Ngày Sinh:</label>
+                            <label for="startDate" class="col-sm-5 col-form-label">Ngày Sinh:</label>
                             <div class="col-sm-7">
-                                <input type="date" name="ngaybatdau" id="ngaybatdau">
+                                <input type="date" name="startDate" id="startDate">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group row">
-                            <label for="ngayketthuc" class="col-sm-5 col-form-label text-center">-</label>
+                            <label for="endDate" class="col-sm-5 col-form-label text-center">-</label>
                             <div class="col-sm-7">
-                                <input type="date" name="ngayketthuc" id="ngayketthuc">
+                                <input type="date" name="endDate" id="endDate">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="input-group-append text-center">
                     <button type="button" class="btn btn-success" onclick="OnSearchEmployee()">Tìm kiếm</button>
-                    <button type="button" class="btn btn-warning">Làm Mới Bộ Lọc</button>
+                    <button type="button" class="btn btn-warning" onclick="resetForm()">Làm Mới Bộ Lọc</button>
                 </div>
             </form>
             <div class="table-responsive" id="fromnv">
 
             </div>
+
         </div>
     </div>
 </div>
