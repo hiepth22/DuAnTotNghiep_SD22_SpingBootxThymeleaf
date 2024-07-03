@@ -80,3 +80,10 @@ input:checked + .slider {
 input:checked + .slider.round:before {
     transform: translateX(20px);
 }
+/* CSS để hiển thị tooltip */
+.switch input[type="checkbox"]:hover {
+    cursor: pointer;
+}
+
+
+

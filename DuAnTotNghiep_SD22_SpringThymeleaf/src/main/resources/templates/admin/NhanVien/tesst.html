@@ -1,149 +1,518 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml"
-          href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
-    <title>Nhân Viên</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/assets/css/NhanVienAdd.css}"/>
-</head>
-<body>
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Thêm Nhân Viên</h2>
-    <form th:action="@{/admin/SaveNhanVien}" method="post" class="row g-3" enctype="multipart/form-data">
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<nav th:replace="~{/layoutadmin/head.html}"></nav>
+<script src="../sweetalert2/dist/sweetalert2.min.js/"></script>
+<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.js"></script>
+<script src="https://unpkg.com/firamono"></script>
+<link rel="stylesheet" type="text/css" href="../sweetalert2/dist/sweetalert2.min.css">
+<style>
+    .file-input-wrapper {
+        position: relative;
+        width: 200px; /* Độ rộng và chiều cao của hình tròn */
+        height: 200px;
+        border: 1px dashed #007bff; /* Viền bo có nét đứt màu xanh dương */
+        border-radius: 50%; /* Tạo hình tròn */
+        overflow: hidden;
+    }
 
-        <div class="col-md-4">
-            <h1 class="text-center fs-3">Ảnh Đại Diện</h1>
-            <br/>
-            <br/>
-            <br/>
-            <div class="d-flex flex-column align-items-center">
-                <div class="image-placeholder rounded-circle mb-2"
-                     style="width: 250px; height: 250px; background-color: #e9ecef; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; border-radius: 50%;"
-                     th:style="'background-image: url(' + ${preview} + '); background-size: cover;'"
-                     onclick="document.getElementById('fileInput').click();">
-                    <img th:src="${preview}" alt="Preview"
-                         style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%;"/>
-                    <span th:unless="${preview}" style="font-size: 24px; color: #6c757d; cursor: pointer;">+</span>
+    .file-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .file-input-label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: Arial, sans-serif; /* Font chữ */
+        font-size: 16px; /* Kích thước văn bản */
+        color: black; /* Màu văn bản */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .file-input-label span {
+        margin-top: 5px;
+    }
+
+    #uploadedImage {
+        width: 100%; /* Kích thước hình ảnh sẽ phù hợp với kích thước của ô tròn */
+        height: 100%;
+        border-radius: 50%; /* Hình ảnh sẽ được làm tròn */
+    }
+</style>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper" >
+    <!-- Navbar -->
+    <nav th:replace="~{/layoutadmin/navbar.html}"></nav>
+    <!-- End navbar -->
+
+    <!--Menu bán hàng -->
+    <nav th:replace="~{/layoutadmin/menu.html}"></nav>
+    <!--end-->
+
+    <!--Nội dung -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                 class="bi bi-bookmark-dash-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5M6 6a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1z"/>
+                            </svg>
+                            THÊM NHÂN VIÊN
+                        </h1>
+                        <h1 class="text-center">
+                            Ảnh đại diện
+                        </h1>
+                    </div>
                 </div>
-                <p>
-                    <input type="file" id="fileInput" name="img" class="form-control"
-                           accept="image/png, image/jpeg, image/jpg" onchange="handleImageChange(this)"
-                           style="display: none;"/>
-                </p>
+            </div><!-- /.container-fluid -->
+        </section>
+        <!---filter-->
+        <section class="content" style="margin-left: 450px">
+            <div class="file-input-wrapper">
+                <input type="file" id="fileInput" class="file-input">
+                <label for="fileInput" class="file-input-label">
+                    <span>+</span>
+                    <span>Upload</span>
+                </label>
+                <img id="uploadedImage" src="" alt="Uploaded Image" style="display: none;">
+
             </div>
-        </div>
+        </section>
+        <br>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <section class="content">
+                                    <div class="container" >
+                                        <button id="openCamera"  class="btn btn-primary">Quét mã CCCD</button>
+                                        <div class="modal"  id="cameraModal" th:width="200px" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button class="close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <video id="cameraStream" autoplay width="100%"></video>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--                                        <form id="addItemForm" th:object="${nd}">-->
+                                        <form th:method="post"  id="addForm" th:object="${nd}" th:action="@{/addnv}">
 
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="ten" class="form-label">Tên</label>
-                        <input type="text" class="form-control" id="ten" name="ten" required>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="ma" class="form-label">Mã</label>
-                        <input type="text" class="form-control" id="ma" name="ma" required>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="sdt" class="form-label">SĐT</label>
-                        <input type="text" class="form-control" id="sdt" name="sdt" required>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="ngaySinh" class="form-label">Ngày Sinh</label>
-                        <input type="date" class="form-control" id="ngaySinh" name="ngaySinh" required>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="form-label">Giới Tính</label><br>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="gioiTinh" id="nam" value="true" checked>
-                            <label class="form-check-label" for="nam">Nam</label>
+                                            <div class="d-flex">
+                                                <div>
+                                                    <p>Tên nhân viên:
+                                                        <input placeholder="Tên nhân viên" id="name" name="name" class="form-control"  th:field="*{hovaten}"
+                                                               style="width: 500px" th:errorclass="is-invalid">
+                                                    </p>
+                                                    <p th:if="${#fields.hasErrors('hovaten')}" class="error" th:errors="*{hovaten}" style="width: 500px; color: red"></p>
+                                                </div>
+                                                <div>
+                                                    <p style="margin-left: 20px">Ngày sinh:
+                                                        <input type="date" class="form-control"
+                                                               style="width: 500px" th:field="*{ngaysinh}"  placeholder="dd/MM/yyyy" th:errorclass="is-invalid">
+                                                    </p>
+                                                    <p th:if="${#fields.hasErrors('ngaysinh')}" class="error" th:errors="*{ngaysinh}" style="width: 500px; color: red"></p>
+                                                </div>
+
+                                            </div>
+                                            <div class="d-flex">
+                                                <div>
+                                                    <p>Căn cước công dân:
+                                                        <input placeholder="Căn cước công dân" id="citizenID" name="citizenID" class="form-control"
+                                                               style="width: 500px" th:field="*{cccd}" th:errorclass="is-invalid"></p>
+                                                    <p th:if="${#fields.hasErrors('cccd')}" class="error" th:errors="*{cccd}" style="width: 500px; color: red"></p>
+                                                </div>
+                                                <div>
+                                                    <p style="margin-left: 20px">Giới tính:
+                                                        <br>
+                                                        <input type="radio" value="true" th:field="*{gioitinh}" style="margin-top: 10px">Nam
+                                                        <input type="radio" value="false" th:field="*{gioitinh}" style="margin-left: 10px;margin-top: 10px">Nữ
+                                                    </p>
+                                                    <p th:if="${#fields.hasErrors('gioitinh')}" class="error" th:errors="*{gioitinh}" style="width: 500px; color: red"></p>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex">
+                                                <div>
+                                                    <p>Email:
+                                                        <input placeholder="Email" class="form-control"
+                                                               style="width: 500px" th:field="*{email}" th:errorclass="is-invalid"></p>
+                                                    <p th:if="${#fields.hasErrors('email')}" class="error" th:errors="*{email}" style="width: 500px; color: red"></p>
+                                                </div>
+                                                <div>
+                                                    <p style="margin-left: 20px">Số điện thoại:
+                                                        <input placeholder="Số điện thoại" class="form-control"
+                                                               style="width: 500px" th:field="*{sodienthoai}" th:errorclass="is-invalid"></p>
+                                                    <p th:if="${#fields.hasErrors('sodienthoai')}" class="error" th:errors="*{sodienthoai}" style="width: 500px; color: red"></p>
+                                                </div>
+                                            </div>
+                                            <div th:object="${dc}">
+                                                <div class="d-flex">
+                                                    <div>
+                                                        <!-- Combobox cho Tỉnh/Thành phố -->
+                                                        <p>Tỉnh/Thành phố:
+                                                            <select class="form-select form-select-sm mb-3" id="city" th:field="*{tinhthanhpho}"  aria-label=".form-select-sm" style="width: 500px">
+                                                                <option value="" selected>Chọn tỉnh thành</option>
+                                                            </select></p>
+                                                        <p th:if="${#fields.hasErrors('tinhthanhpho')}" class="error" th:errors="*{tinhthanhpho}" style="width: 500px; color: red"></p>
+                                                    </div>
+                                                    <div>
+                                                        <p style="margin-left: 20px">Quận/Huyện:
+                                                            <select class="form-select form-select-sm mb-3" id="district"  th:field="*{quanhuyen}" aria-label=".form-select-sm" style="width: 500px">
+                                                                <option value="" selected>Chọn quận huyện</option>
+                                                            </select></p>
+                                                        <p th:if="${#fields.hasErrors('quanhuyen')}" class="error" th:errors="*{quanhuyen}" style="width: 500px; color: red"></p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex">
+                                                    <div>
+                                                        <p>Xã/Phường:
+                                                            <select class="form-select form-select-sm" id="ward"  th:field="*{xaphuong}" aria-label=".form-select-sm" style="width: 500px">
+                                                                <option value="" selected>Chọn phường xã</option>
+                                                            </select></p>
+                                                        <p th:if="${#fields.hasErrors('xaphuong')}" class="error" th:errors="*{xaphuong}" style="width: 500px; color: red"></p>
+                                                    </div>
+                                                    <div>
+                                                        <p style="margin-left: 20px">Tên Đường:
+                                                            <input th:field="*{tenduong}" placeholder="Tên Đường" class="form-control"
+                                                                   style="width: 500px"></p>
+                                                        <p th:if="${#fields.hasErrors('tenduong')}" class="error" th:errors="*{tenduong}" style="width: 500px; color: red"></p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <button class="btn btn-primary" onclick="confirmAdd()" >Thêm nhân viên</button>
+                                            <button class="btn btn-danger"  onclick="goBack()">Thoát</button>
+                                        </form>
+                                    </div>
+                                </section>
+                            </div>
+                            <!-- /.card-body -->
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="gioiTinh" id="nu" value="false">
-                            <label class="form-check-label" for="nu">Nữ</label>
-                        </div>
+                        <!-- /.card -->
+
+
                     </div>
+                    <!-- /.col -->
                 </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                </div>
+                <!-- /.row -->
             </div>
-        </div>
+            <!-- /.container-fluid -->
+        </section>
 
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="cccd" class="form-label">CCCD</label>
-                        <input type="text" class="form-control" id="cccd" name="cccd" required>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <label for="diachi" class="form-label">Địa Chỉ</label>
-                    <!--                    <div class="row g-3">-->
-                    <!--                        <div class="col-md-4">-->
-                    <!--                            <select class="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm">-->
-                    <!--                                <option value="" selected>Chọn tỉnh thành</option>-->
-                    <!--                                &lt;!&ndash; Các tùy chọn tỉnh thành &ndash;&gt;-->
-                    <!--                            </select>-->
-                    <!--                        </div>-->
-                    <!--                        <div class="col-md-4">-->
-                    <!--                            <select class="form-select form-select-sm mb-3" id="district" aria-label=".form-select-sm">-->
-                    <!--                                <option value="" selected>Chọn quận huyện</option>-->
-                    <!--                                &lt;!&ndash; Các tùy chọn quận huyện &ndash;&gt;-->
-                    <!--                            </select>-->
-                    <!--                        </div>-->
-                    <!--                        <div class="col-md-4">-->
-                    <!--                            <select class="form-select form-select-sm mb-3" id="ward" aria-label=".form-select-sm">-->
-                    <!--                                <option value="" selected>Chọn phường xã</option>-->
-                    <!--                                &lt;!&ndash; Các tùy chọn phường xã &ndash;&gt;-->
-                    <!--                            </select>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
-                    <div class="form-group mt-3">
-                        <label for="diachi" class="form-label">Địa chỉ</label>
-                        <textarea class="form-control" id="diachi" name="diachi" rows="3" required></textarea>
-                    </div>
-                </div>
 
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="form-label">Vai Trò</label><br>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="vaiTro" id="nhanVien" value="1" checked>
-                            <label class="form-check-label" for="nhanVien">Nhân Viên</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="vaiTro" id="quanLi" value="0">
-                            <label class="form-check-label" for="quanLi">Quản Lí</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <br>
 
-        </div>
 
-        <div class="col-12 text-center">
-            <a th:href="@{/admin/nhan-vien}" class="btn btn-secondary">Đóng</a>
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-    </form>
+    </div>
+    <!--end-->
+    <nav th:replace="~{/layoutadmin/footer.html}"></nav>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!--script-->
+<nav th:replace="~{/layoutadmin/script.html}"></nav>
+<!--end-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-<script th:src="@{/assets/js/NhanVienAdd.js}"></script>
+<script>
+    var citis = document.getElementById("city");
+    var districts = document.getElementById("district");
+    var wards = document.getElementById("ward");
+    var Parameter = {
+        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+        method: "GET",
+        responseType: "application/json",
+    };
+    var promise = axios(Parameter);
+    promise.then(function (result) {
+        renderCity(result.data);
+    });
+
+    function renderCity(data) {
+        for (const x of data) {
+            var opt = document.createElement('option');
+            opt.value = x.Name;
+            opt.text = x.Name;
+            opt.setAttribute('data-id', x.Id);
+            citis.options.add(opt);
+        }
+        citis.onchange = function () {
+            districts.length = 1;
+            wards.length = 1;
+            if(this.options[this.selectedIndex].dataset.id != ""){
+                const result = data.filter(n => n.Id === this.options[this.selectedIndex].dataset.id);
+                for (const k of result[0].Districts) {
+                    var opt = document.createElement('option');
+                    opt.value = k.Name;
+                    opt.text = k.Name;
+                    opt.setAttribute('data-id', k.Id);
+                    districts.options.add(opt);
+                }
+            }
+        };
+        districts.onchange = function () {
+            wards.length = 1;
+            const dataCity = data.filter((n) => n.Id === citis.options[citis.selectedIndex].dataset.id);
+            if (this.options[this.selectedIndex].dataset.id != "") {
+                const dataWards = dataCity[0].Districts.filter(n => n.Id === this.options[this.selectedIndex].dataset.id)[0].Wards;
+
+                for (const w of dataWards) {
+                    var opt = document.createElement('option');
+                    opt.value = w.Name;
+                    opt.text = w.Name;
+                    opt.setAttribute('data-id', w.Id);
+                    wards.options.add(opt);
+                }
+            }
+        };
+    }
+</script>
+
+<!--xử lý việc add ảnh nhân viên-->
+<script>
+    document.getElementById('fileInput').addEventListener('change', function (event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            var imgElement = document.getElementById('uploadedImage');
+            imgElement.src = e.target.result;
+            imgElement.style.display = 'block'; // Hiển thị hình ảnh
+            var labelElement = document.querySelector('.file-input-label');
+            labelElement.style.display = 'none'; // Ẩn phần label
+        };
+
+        reader.readAsDataURL(file);
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function confirmAdd() {
+        // Sử dụng SweetAlert2 thay vì hộp thoại confirm
+        Swal.fire({
+            title: 'Bạn có muốn thêm không?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Có',
+            cancelButtonText: 'Không'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Nếu người dùng nhấn Có, hiển thị thông báo thành công và chuyển hướng sau một khoảng thời gian
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+
+                Toast.fire({
+                    icon: "success",
+                    title: "Thêm thành công!"
+                });
+
+                setTimeout(function () {
+                    document.getElementById('addForm').submit();
+                    window.location.href = 'admin/qlnhanvien';
+                }, 3000);
+
+            } else if(result.cancelButtonText) {
+                // Nếu người dùng chọn Không, đóng hộp thoại và không thực hiện hành động nào
+                // Swal.fire('Đã hủy', 'Dữ liệu không được thêm vào.', 'info');
+                document.getElementById('addForm').addEventListener('submit', function(event) {
+                    event.preventDefault(); // Ngăn chặn hành động mặc định của sự kiện submit
+                    // Các xử lý khác có thể được thực hiện ở đây
+                });
+                return false;
+            }
+        });
+        return false;
+    }
+</script>
+<script>
+    function goBack() {
+        window.location.href = 'admin/qlnhanvien';
+    }
+    function decodeUTF8(text) {
+        // Chuyển đổi các ký tự không hợp lệ
+        var decodedText = text.replace(/Ã¹/g, "ù")
+            .replace(/á»/g, "ị")
+            .replace(/á»/g, "ỉ")
+            .replace(/á»/g, "ệ")
+            .replace(/á»/g, "ộ")
+            .replace(/á»‹/g, "ị")
+            .replace(/á»ˆ/g, "Ẹ")
+            .replace(/á»/g, "Ệ")
+            .replace(/á»”/g, "Ọ")
+            .replace(/á»–/g, "Ộ")
+            .replace(/á»’/g, "Ớ")
+            .replace(/á»œ/g, "Ờ")
+            .replace(/á»ž/g, "Ợ")
+            .replace(/á»˜/g, "Ờ")
+            .replace(/á»´/g, "Ỵ")
+            .replace(/á»ª/g, "Ừ")
+            .replace(/á»¦/g, "Ử")
+            .replace(/á»¨/g, "Ữ")
+            .replace(/á»¬/g, "Ự")
+            .replace(/á»´/g, "Ỵ")
+            .replace(/áº/g, "ấ")
+            .replace(/áºƒ/g, "ầ")
+            .replace(/áº…/g, "ẩ")
+            .replace(/áº‡/g, "ậ")
+            .replace(/áº/g, "ẩ")
+            .replace(/áº‹/g, "ẻ")
+            .replace(/áº/g, "ẽ")
+            .replace(/áº/g, "ế")
+            .replace(/áº“/g, "ề")
+            .replace(/áº—/g, "ệ")
+            .replace(/áº™/g, "ể")
+            .replace(/áº›/g, "ễ")
+            .replace(/áº¡/g, "ạ")
+            .replace(/áºš/g, "Ạ")
+            .replace(/áº¥/g, "ấ")
+            .replace(/áº§/g, "ầ")
+            .replace(/áº©/g, "ẩ")
+            .replace(/áº«/g, "ậ")
+            .replace(/áº­/g, "ặ")
+            .replace(/áº±/g, "ẹ")
+            .replace(/áºµ/g, "ẻ")
+            .replace(/áº¹/g, "ị")
+            .replace(/áº½/g, "ọ")
+            .replace(/áº¿/g, "ỏ")
+            .replace(/á»/g, "ấ")
+            .replace(/á»ƒ/g, "ầ")
+            .replace(/á»…/g, "ẩ")
+            .replace(/á»‡/g, "ậ")
+            .replace(/á»‰/g, "ẻ")
+            .replace(/á»‹/g, "ị")
+            .replace(/á»/g, "ọ")
+            .replace(/á»/g, "ỏ")
+            .replace(/á»/g, "ồ")
+            .replace(/á»’/g, "ố")
+            .replace(/á»”/g, "ộ")
+            .replace(/á»–/g, "ớ")
+            .replace(/á»˜/g, "ờ")
+            .replace(/á»š/g, "ợ")
+            .replace(/á»ž/g, "ợ")
+            .replace(/á» /g, "ụ")
+            .replace(/á»¦/g, "ủ")
+            .replace(/á»¨/g, "ứ")
+            .replace(/á»ª/g, "ừ")
+            .replace(/á»¬/g, "ử")
+            .replace(/á»®/g, "ự")
+            .replace(/á»°/g, "ự")
+            .replace(/á»´/g, "ự")
+            .replace(/á»¶/g, "ự")
+            .replace(/á»¸/g, "ự")
+            .replace(/á»¹/g, "ỷ")
+            .replace(/á»½/g, "ỵ")
+            .replace(/á»¿/g, "ỹ")
+            .replace(/á»±/g, "ỳ");
+        return decodedText;
+    }
+    function scan() {
+        let scanner = new Instascan.Scanner({ video: document.getElementById('cameraStream') });
+        // var modal = document.getElementById('staticBackdrop');
+        // var o = document.getElementById('op');
+        scanner.addListener('scan', function (content) {
+            let info = content.split("|");
+            document.getElementById('citizenID').value = info[0];
+            // document.getElementById('name').innerText = info[2];
+            scanner.stop();
+            // modal.style.display = 'none';
+            // o.disabled = false;
+        });
+        Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]);
+            } else {
+                console.error('No cameras found.');
+            }
+        }).catch(function (e) {
+            console.error(e);
+        });
+    }
+    scanAndFillForm();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/quagga"></script>
+<script>
+    // Lấy phần tử modal và nút mở modal
+    var cameraModal = document.getElementById('cameraModal');
+    var openCameraButton = document.getElementById('openCamera');
+    var closeButton = document.getElementsByClassName('close')[0];
+
+    // Khi người dùng nhấp vào nút mở modal, hiển thị modal và mở camera
+    openCameraButton.addEventListener('click', function() {
+        // Hiển thị modal
+        cameraModal.style.display = 'block';
+        // Truy cập vào camera và hiển thị luồng video trong modal
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(stream) {
+                var videoElement = document.getElementById('cameraStream');
+                videoElement.srcObject = stream;
+                videoElement.play();
+                let info = stream.split("|");
+                document.getElementById('citizenID').value = info[0];
+                // document.getElementById('name').innerText = info[2];
+                videoElement.stop();
+            })
+            .catch(function(error) {
+                console.error('Lỗi khi truy cập camera: ' + error);
+            });
+    });
+
+    // Khi người dùng nhấp vào nút đóng modal, đóng modal và dừng luồng video
+    closeButton.addEventListener('click', function() {
+        cameraModal.style.display = 'none';
+        var videoElement = document.getElementById('cameraStream');
+        var stream = videoElement.srcObject;
+        var tracks = stream.getTracks();
+
+        tracks.forEach(function(track) {
+            track.stop();
+        });
+    });
+
+    // Khi người dùng nhấp vào bất kỳ vị trí nào bên ngoài modal, đóng modal
+    window.addEventListener('click', function(event) {
+        if (event.target == cameraModal) {
+            cameraModal.style.display = 'none';
+            var videoElement = document.getElementById('cameraStream');
+            var stream = videoElement.srcObject;
+            var tracks = stream.getTracks();
+
+            tracks.forEach(function(track) {
+                track.stop();
+            });
+        }
+    });
+</script>
+<!--end-->
 </body>
 </html>

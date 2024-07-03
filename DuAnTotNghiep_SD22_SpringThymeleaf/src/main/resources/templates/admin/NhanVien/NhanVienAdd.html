@@ -44,7 +44,8 @@
                              onclick="document.getElementById('fileInput').click();">
                             <img th:src="${preview}" alt="Preview"
                                  style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%;"/>
-                            <span th:unless="${preview}" style="font-size: 24px; color: #6c757d; cursor: pointer;">+</span>
+                            <span th:unless="${preview}"
+                                  style="font-size: 24px; color: #6c757d; cursor: pointer;">+</span>
                         </div>
                         <p>
                             <input type="file" id="fileInput" name="img" class="form-control"
@@ -84,34 +85,35 @@
                             <div class="form-group">
                                 <label class="form-label">Giới Tính</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="gioiTinh" id="nam" value="true" checked>
-                                    <label class="form-check-label" for="nam">Nam</label>
+                                    <input class="" type="radio" name="gioiTinh" id="nam" value="true"
+                                           checked>
+                                    <label class="" for="nam">Nam</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="gioiTinh" id="nu" value="false">
-                                    <label class="form-check-label" for="nu">Nữ</label>
+                                    <input class="" type="radio" name="gioiTinh" id="nu" value="false">
+                                    <label class="" for="nu">Nữ</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="row">
                         <div class="col-md-12">
+
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
                             <div class="form-group">
                                 <label for="cccd" class="form-label">CCCD</label>
                                 <input type="text" class="form-control" id="cccd" name="cccd" required>
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label for="diachi" class="form-label">Địa Chỉ</label>
+                            <!--                            <label for="diachi" class="form-label">Địa Chỉ</label>-->
                             <!--                    <div class="row g-3">-->
                             <!--                        <div class="col-md-4">-->
                             <!--                            <select class="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm">-->
@@ -142,12 +144,13 @@
                             <div class="form-group">
                                 <label class="form-label">Vai Trò</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="vaiTro" id="nhanVien" value="1" checked>
-                                    <label class="form-check-label" for="nhanVien">Nhân Viên</label>
+                                    <input class="" type="radio" name="vaiTro" id="nhanVien" value="1"
+                                           checked>
+                                    <label class="" for="nhanVien">Nhân Viên</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="vaiTro" id="quanLi" value="0">
-                                    <label class="form-check-label" for="quanLi">Quản Lí</label>
+                                    <input class="" type="radio" name="vaiTro" id="quanLi" value="0">
+                                    <label class="" for="quanLi">Quản Lí</label>
                                 </div>
                             </div>
                         </div>
@@ -157,7 +160,7 @@
 
                 <div class="col-12 text-center">
                     <a th:href="@{/admin/nhan-vien}" class="btn btn-secondary">Đóng</a>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary" onclick="return confirmsave()">Save</button>
                 </div>
             </form>
         </div>

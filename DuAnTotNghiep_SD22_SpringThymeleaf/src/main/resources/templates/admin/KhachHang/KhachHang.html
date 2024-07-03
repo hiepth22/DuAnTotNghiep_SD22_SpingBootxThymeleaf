@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Danh Sách Khách Hàng</title>
@@ -9,125 +9,66 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
-<h2 class="">Danh Sách Khách Hàng</h2>
-<a th:href="@{/admin/view-add}" class="btn btn-outline-danger">+</a>
-<table class="table table-striped table-hover">
-    <thead class="text-center">
-    <tr>
-        <th scope="col">STT</th>
-        <th scope="col">Ảnh</th>
-        <th scope="col">Tên</th>
-        <th scope="col">Mã</th>
-        <th scope="col">SĐT</th>
-        <th scope="col">Ngày Sinh</th>
-        <th scope="col">Giới Tính</th>
-        <th scope="col">Email</th>
-        <th scope="col">CCCD</th>
-        <th scope="col">Trạng Thái</th>
-        <th scope="col">Hành Động</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="kh, status : ${kh}" class="text-center">
-        <td th:text="${status.index + 1}"></td>
-        <td>
-            <img th:if="${kh.anh}"
-                 th:src="@{https://res.cloudinary.com/deapopcoc/image/upload/${kh.anh}}"
-                 class="img-thumbnail">
-        </td>
-        <td th:text="${kh.ten}"></td>
-        <td th:text="${kh.ma}"></td>
-        <td th:text="${kh.sdt}"></td>
-        <td th:text="${#dates.format(kh.ngaySinh, 'dd/MM/yyyy')}"></td>
-        <td>
-            <span th:if="${kh.gioiTinh} == true">Nam</span>
-            <span th:if="${kh.gioiTinh} == false">Nữ</span>
-        </td>
-        <td th:text="${kh.email}"></td>
-        <td th:text="${kh.cccd}"></td>
-        <td>
-            <span th:if="${kh.trangThai == 1}">ON</span>
-            <span th:if="${kh.trangThai == 0}">OFF</span>
-        </td>
-        <td>
-            <a th:href="@{/admin/view-update/{id}(id=${kh.id})}" class="btn btn-outline-success" style="background-color: #28a745">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16" style="color: #f0f0f0">
-                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                </svg>
-            </a>
-            <button type="button" class="btn btn-dark open-modal" data-id="${kh.id}" data-bs-toggle="modal" data-bs-target="#diaChiModal">
-                <i class="bi bi-geo-alt-fill"></i>
-            </button>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<ul>
-    <li><a>1</a></li>
-    <li><a>1</a></li>
-</ul>
-
-<!-- diaChiModal.html -->
-<div class="modal fade" id="diaChiModal" tabindex="-1" aria-labelledby="diaChiModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="diaChiModalLabel">Địa Chỉ</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <ul id="modal-address-details">
-                    <!-- Nội dung địa chỉ sẽ được cập nhật tại đây -->
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-            </div>
-        </div>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Danh Sách Khách Hàng</h2>
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Thành công!</strong> <span th:text="${successMessage}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
+    <a th:href="@{/admin/view-add}" class="btn btn-outline-danger mb-3">
+        <i class="bi bi-plus"></i> Thêm mới
+    </a>
+    <table class="table table-striped table-hover">
+        <thead class="text-center">
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Tên</th>
+            <th scope="col">Mã</th>
+            <th scope="col">SĐT</th>
+            <th scope="col">Ngày Sinh</th>
+            <th scope="col">Giới Tính</th>
+            <th scope="col">Email</th>
+            <th scope="col">CCCD</th>
+            <th scope="col">Trạng Thái</th>
+            <th scope="col">Hành Động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="kh, status : ${kh}" class="text-center">
+            <td th:text="${status.index + 1}"></td>
+            <td th:text="${kh.ten}"></td>
+            <td th:text="${kh.ma}"></td>
+            <td th:text="${kh.sdt}"></td>
+            <td th:text="${#dates.format(kh.ngaySinh, 'dd/MM/yyyy')}"></td>
+            <td>
+                <span th:if="${kh.gioiTinh} == true">Nam</span>
+                <span th:if="${kh.gioiTinh} == false">Nữ</span>
+            </td>
+            <td th:text="${kh.email}"></td>
+            <td th:text="${kh.cccd}"></td>
+            <td>
+                <label class="switch">
+                    <input type="checkbox" id="switchButton_${kh.id}" data-id="${kh.id}"
+                           data-trang-thai="${kh.trangThai}" class="toggle-checkbox"
+                           th:checked="${kh.trangThai == 1}"
+                           th:onclick="'confirmToggle(this, ' + ${kh.id} + ')'" />
+                    <span class="slider round"></span>
+                </label>
+            </td>
+            <td>
+                <a th:href="@{/admin/view-update/{id}(id=${kh.id})}" class="btn btn-outline-success btn-sm">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+                <button type="button" class="btn btn-outline-dark btn-sm open-modal" data-id="${kh.id}" data-bs-toggle="modal" data-bs-target="#diaChiModal">
+                    <i class="bi bi-geo-alt-fill"></i>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
-
-<!-- Bootstrap JavaScript Bundle with Popper -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
-        integrity="sha384-ZB/dxQ1B/MGx2w+1E5fcoI4YwKtS2f6usgUmccFWBhd8i3huCYt8pWJ38Xew65S"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-        crossorigin="anonymous"></script>
-
-<script>
-    $(document).ready(function () {
-        $('.open-modal').click(function() {
-            var idKh = $(this).data('id');
-            getLichSuHD(idKh);
-        });
-        console.log(idKh);
-
-    });
-
-    const getLichSuHD = (idKh) => {
-        $.ajax({
-            url: '/api/khach-hang/dia-chi/' + idKh,
-            method: 'get',
-            success: function (result) {
-                let list = "";
-                $("#modal-address-details").empty();
-                for (let i = 0; i < result.length; i++) {
-                    list += `<h1>${result[i].thanhPho}</h1>`;
-                }
-                console.log(result)
-                $("#modal-address-details").html(list);
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
-        });
-    }
-</script>
 
 </body>
 </html>
