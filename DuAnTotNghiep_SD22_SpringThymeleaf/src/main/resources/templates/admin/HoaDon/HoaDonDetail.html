@@ -163,7 +163,8 @@
                     <div class="bg-gray-50 px-4 py-3 flex justify-end">
                         <button id="loadLichSuBtn" class="bg-blue-500 text-white px-4 py-2 rounded ">Load
                         </button>
-                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-5" id="dongLichSu">Xác
+                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-5"
+                                id="dongLichSu">Xác
                             nhận
                         </button>
 
@@ -180,7 +181,6 @@
 
         const pathArray = window.location.pathname.split('/');
         const idHoaDon = pathArray[pathArray.length - 1];
-
 
 
         const formatVND = (tongtien) => {
@@ -263,7 +263,6 @@
                 });
 
                 const getLichSuHD = () => {
-                    console.log("Calling getLichSuHD function");
                     $.ajax({
                         url: `/api/hoa-don/lich-su-hoa-don/${idHoaDon}`,
                         data: {},
@@ -293,7 +292,7 @@
                         }
                     });
                 }
-                $("#loadLichSuBtn").on("click", function() {
+                $("#loadLichSuBtn").on("click", function () {
                     getLichSuHD();
                 });
 
@@ -332,7 +331,6 @@
                         contentType: 'application/json',
                         data: JSON.stringify({id: id, soLuong: SoLuongMoi}),
                         success: function (response) {
-                            console.log("Thành công")
                         },
                         error: function (xhr, status, error) {
                             console.error('Lỗi khi cập nhật số lượng sản phẩm:', error);
@@ -352,9 +350,8 @@
                         }
                     });
                 });
-                currentStep = hd.trangThai;
 
-                initializeSteps();
+                fetchStepsData(idHoaDon);
                 getLichSuHD();
             }
 
@@ -480,36 +477,36 @@
             '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M11.998 21.75a9.751 9.751 0 1 0 0-19.5 9.751 9.751 0 0 0 0 19.5Zm-.75-13.248a.75.75 0 1 1 1.5 0V12a.75.75 0 1 1-1.5 0v-3.498Zm.75 5.748a.75.75 0 1 1 0-1.5h.007a.75.75 0 1 1 0 1.5H12Z" clip-rule="evenodd" /></svg>'
         ];
 
-        const createdSteps = [];
+        let stepsHistory = [];
+        let currentStep = stepsHistory.length > 0 ? stepsHistory.length : 1;
 
-        function createStep(stepNum) {
+        function createStep(hanhDong, ngayTao, stepNum) {
             const stepDiv = $(`
         <div class="flex items-center ml-8 step" data-step="${stepNum}">
             <div class="h-8 w-8 bg-green-600 text-white rounded-full flex items-center justify-center">
                 ${icons[(stepNum - 1) % icons.length]}
             </div>
             <div class="ml-4">
-                <h2 class="text-lg font-semibold">${trangThaiSteps(stepNum)}</h2>
-                <p class="text-gray-600">Time</p>
+                <h2 class="text-lg font-semibold">${trangThaiSteps(hanhDong)}</h2>
+                <p class="text-gray-600"> ${ngayTao != null ? new Date(ngayTao).toLocaleString('vi-VN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            }) : ''}</p>
             </div>
         </div>
     `);
             return stepDiv;
         }
 
-        function addStep() {
-            currentStep--;
-            if (currentStep >= 1) {
-                const newStep = createStep(currentStep);
-                createdSteps.push(newStep);
-                $('#steppers').append(newStep);
-                updateButtonsState();
-            } else {
-                currentStep = 1;
-            }
-        }
-
         function updateButtonsState() {
+            $('#steppers').empty();
+            stepsHistory.forEach((step, index) => {
+                $('#steppers').append(createStep(step.hanhDong, step.ngayTao, index + 1));
+            });
             $('#prevBtn').prop('disabled', currentStep === 1);
             const noteText = $('#noteText').val();
             if (noteText.length < 10) {
@@ -521,9 +518,16 @@
 
         }
 
+
         $('#prevBtn').click(function () {
-            addStep();
-            updateTrangThai(currentStep)
+            if (currentStep > 1) {
+                currentStep--;
+                stepsHistory.push({ hanhDong: currentStep, ngayTao: new Date().toISOString() });
+                updateTrangThai(currentStep);
+                updateButtonsState();
+            }
+
+
         });
 
         $('#xacNhanGhiChu').click(function () {
@@ -539,9 +543,7 @@
             }
 
             if (currentStep <= totalSteps) {
-                const newStep = createStep(currentStep);
-                createdSteps.push(newStep);
-                $('#steppers').append(newStep);
+                stepsHistory.push({hanhDong: currentStep, ngayTao: new Date().toISOString()});
                 updateTrangThai(currentStep)
                 updateButtonsState();
                 hideNoteModal();
@@ -551,16 +553,28 @@
             }
         });
 
-        function initializeSteps() {
-            for (let i = 1; i <= currentStep; i++) {
-                const step = createStep(i);
-                createdSteps.push(step);
-            }
-            $('#steppers').append(createdSteps);
-            updateButtonsState();
+        function fetchStepsData(idHoaDon) {
+            $.ajax({
+                url: `/api/hoa-don/lich-su-hoa-don/${idHoaDon}`,
+                method: 'GET',
+                success: function (data) {
+                    stepsHistory = data.map(item => ({
+                        hanhDong: item.hanhDong,
+                        ngayTao: item.ngayTao
+                    }));
+                    console.log(data)
+                    currentStep = stepsHistory.length > 0 ? stepsHistory.length : 1;
+                    console.log(currentStep)
+                    updateButtonsState();
+                },
+                error: function (error) {
+                    console.error("Error fetching steps data:", error);
+                }
+            });
         }
 
-        initializeSteps();
+        fetchStepsData(idHoaDon);
+
 
         function updateTrangThai(trangThai) {
             const ghiChu = $('#noteText').val().trim();
@@ -594,8 +608,6 @@
                 }
             });
         }
-
-
     });
 
 </script>
