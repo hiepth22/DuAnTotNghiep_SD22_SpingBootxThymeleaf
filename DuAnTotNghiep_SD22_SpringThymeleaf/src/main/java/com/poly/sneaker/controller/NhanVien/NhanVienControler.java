@@ -1,4 +1,4 @@
-package com.poly.sneaker.controller.TaiKhoan.NhanVien;
+package com.poly.sneaker.controller.NhanVien;
 
 import com.poly.sneaker.Security.FileUploadUtil;
 import com.poly.sneaker.dto.NhanVienPhanTrang;
