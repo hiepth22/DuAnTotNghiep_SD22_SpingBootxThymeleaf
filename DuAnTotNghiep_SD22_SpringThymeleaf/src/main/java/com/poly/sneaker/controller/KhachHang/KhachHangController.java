@@ -1,5 +1,6 @@
 package com.poly.sneaker.controller.KhachHang;
 
+import com.poly.sneaker.entity.DiaChi;
 import com.poly.sneaker.entity.KhachHang;
 import com.poly.sneaker.sevice.DiaChiService;
 import com.poly.sneaker.sevice.KhachHangService;
@@ -28,6 +29,7 @@ public class KhachHangController {
     @Autowired
 
     private KhachHangService sevice;
+    @Autowired
     private DiaChiService diaChiService;
 
     private final JavaMailSender mailSender;
@@ -38,10 +40,10 @@ public class KhachHangController {
 
     @GetMapping("/search-khach-hang")
     public String search(@RequestParam(name = "keyword", required = false) String keyword,
-                                 Model model) {
-        List<KhachHang> resultList ;
+                         Model model) {
+        List<KhachHang> resultList;
         if (keyword != null && !keyword.trim().isEmpty()) {
-            resultList =sevice.search(keyword);
+            resultList = sevice.search(keyword);
         } else {
             resultList = sevice.getAll();
         }
@@ -49,6 +51,7 @@ public class KhachHangController {
         model.addAttribute("keyword", keyword);
         return "admin/KhachHang/KhachHang";
     }
+
     @GetMapping("/khach-hang")
     public String hienThi(@RequestParam(name = "page", defaultValue = "0") int page,
                           @RequestParam(name = "size", defaultValue = "5") int size,
@@ -70,7 +73,7 @@ public class KhachHangController {
         return "admin/KhachHang/KhachHangAdd";
     }
 
-    private String genPassword(){
+    private String genPassword() {
         String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
         String numbers = "0123456789";
@@ -86,6 +89,7 @@ public class KhachHangController {
         }
         return sb.toString();
     }
+
     public void sendPasswordEmail(String to, String password) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -94,6 +98,7 @@ public class KhachHangController {
 
         mailSender.send(message);
     }
+
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute("kh") KhachHang kh,
                       BindingResult result, Model model, RedirectAttributes redirectAttributes) {
@@ -127,6 +132,7 @@ public class KhachHangController {
         model.addAttribute("kh", kh);
         return "admin/KhachHang/KhachHangUpdate";
     }
+
     @PostMapping("/update/{id}")
     public String update(@PathVariable("id") Long id, @Valid @ModelAttribute("kh") KhachHang kh, BindingResult result) {
         if (result.hasErrors()) {
@@ -153,9 +159,12 @@ public class KhachHangController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Có lỗi xảy ra khi cập nhật trạng thái nhân viên");
         }
     }
-    @GetMapping("/dia-chi/{idKH}")
-    public String getByID(){
-        return "admin/KhachHang/KhachHang";
+
+    @GetMapping("/khach-hang/dia-chi/{idKH}")
+    @ResponseBody
+    public List<DiaChi> getDiaChi(@PathVariable("idKH") Long idKH) {
+        return diaChiService.getByID(idKH);
     }
+
 
 }
