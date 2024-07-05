@@ -1,4 +1,4 @@
-package com.poly.sneaker.controller.TaiKhoan.NhanVien;
+package com.poly.sneaker.controller.NhanVien;
 
 import com.poly.sneaker.Security.FileUploadUtil;
 import com.poly.sneaker.dto.NhanVienPhanTrang;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.*;
 
 @Controller
@@ -50,10 +51,20 @@ public class NhanVienControler {
             @RequestParam(name = "vai_tro") Optional<Integer> vaiTro,
             @RequestParam(name = "page_index", required = false) Integer page_index,
             @RequestParam(name = "page_size", required = false) Integer page_size,
+            @RequestParam(name = "startDate", required = false) Date startDate,
+            @RequestParam(name = "endDate", required = false) Date endDate,
             Model model
     ) {
 
-        List<NhanVienPhanTrang> results = sevice.loc(keyword, trangThai, vaiTro, (page_index - 1) * page_size, page_size);
+        if (page_index == null || page_index < 1) {
+            page_index = 1;
+        }
+        if (page_size == null || page_size < 1) {
+            page_size = 5;
+        }
+
+        List<NhanVienPhanTrang> results = sevice.loc(keyword, trangThai, vaiTro,
+                (page_index - 1) * page_size, page_size,startDate,endDate);
 
         List<NhanVien> lstNv = new ArrayList<>();
         for (NhanVienPhanTrang nv1 : results) {
@@ -74,22 +85,22 @@ public class NhanVienControler {
                     nv1.getNgaycapnhap()
             ));
         }
-        lstNv.sort((nv1, nv2) -> nv2.getId().compareTo(nv1.getId()));
 
         model.addAttribute("lstNv", lstNv);
 
-        int totalRows = results.get(0).getTotalRow();
-        int pageSize = page_size;
-        int totalPages = (int) Math.ceil((double) totalRows / pageSize);
-
+        int totalRows = 0;
+        if (results != null && !results.isEmpty()) {
+            totalRows = results.get(0).getTotalRow();
+        }
+        int totalPages = (int) Math.ceil((double) totalRows / page_size);
 
         model.addAttribute("totalPage1", totalPages);
-
-        model.addAttribute("TotalPage", results != null && results.size() > 0 ? results.get(0).getTotalRow() : 0);
+        model.addAttribute("TotalPage", totalRows);
         model.addAttribute("CurrentPage", page_index);
 
         return "admin/NhanVien/NhanVien";
     }
+
 
 
     @GetMapping("/addNhanVien")

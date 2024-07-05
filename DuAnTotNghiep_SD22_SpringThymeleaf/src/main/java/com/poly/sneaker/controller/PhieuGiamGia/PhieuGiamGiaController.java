@@ -26,14 +26,14 @@ public class PhieuGiamGiaController {
     PhieuGiamGiaService phieuGiamGiaService;
     PhieuGiamGiaRepository phieuGiamGiaRepository;
 
-    public String getAllPhieu(Model model,@RequestParam(defaultValue = "1") int page){
-        Page<PhieuGiamGia> phieuGiamGias ;
-        if(page<1) page=1;
-        Pageable pageable= PageRequest.of(page-1,10);
-        phieuGiamGias = (Page<PhieuGiamGia>) phieuGiamGiaService.getall(page);
-        model.addAttribute("page",phieuGiamGias);
-        return "admin/PhieuGiamGia/PhieuGiamGiaIndext";
-    }
+//    public String getall(Model model,@RequestParam(defaultValue = "1") int page){
+//        Page<PhieuGiamGia> phieuGiamGias ;
+//        if(page<1) page=1;
+//        Pageable pageable= PageRequest.of(page-1,10);
+//        phieuGiamGias = (Page<PhieuGiamGia>) phieuGiamGiaService.getall(pageable);
+//        model.addAttribute("page",phieuGiamGias);
+//        return "admin/PhieuGiamGia/PhieuGiamGiaIndext";
+//    }
 
     @GetMapping("/phieu-giam-gia")
     public String HienThi(Model model) {
@@ -84,8 +84,6 @@ public class PhieuGiamGiaController {
         if (result.hasErrors()) {
             PhieuGiamGia updatedPgg = phieuGiamGiaService.update(id, pgg);
             if (updatedPgg != null) {
-                return "redirect:/admin/phieu-giam-gia";
-            } else {
                 return "redirect:/admin/phieu-giam-gia";
             }
         }

@@ -37,7 +37,8 @@ import java.time.LocalDateTime;
                 "OR N.EMAIL COLLATE SQL_LATIN1_GENERAL_CP1_CI_AI LIKE  '%'+ :KEYWORD+'%') " +
                 "AND (:TRANGTHAI IS NULL OR N.TRANGTHAI = :TRANGTHAI) " +
                 "AND (:VAI_TRO IS NULL OR N.VAI_TRO = :VAI_TRO) " +
-                "ORDER BY N.ID " +
+                " AND ((:startDate IS NULL AND :endDate IS NULL) OR (N.ngaySinh BETWEEN :startDate AND :endDate)) "+
+                "ORDER BY n.id " +"Desc "+
                 "OFFSET :PAGE_INDEX ROWS FETCH NEXT :PAGE_SIZE ROWS ONLY",
         resultSetMapping = "find_NhanVien_dtos"
 )
