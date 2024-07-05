@@ -62,6 +62,4 @@ public class NhanVien {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
     @Column(name = "ngaycapnhap")
     private LocalDateTime ngaycapnhap;
-
-
 }

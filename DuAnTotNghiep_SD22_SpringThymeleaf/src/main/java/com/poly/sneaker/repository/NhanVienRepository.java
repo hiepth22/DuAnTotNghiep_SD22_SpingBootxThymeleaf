@@ -1,5 +1,6 @@
 package com.poly.sneaker.repository;
 
+import com.poly.sneaker.dto.NhanVienPhanTrang;
 import com.poly.sneaker.entity.NhanVien;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,38 +12,31 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface NhanVienRepository extends JpaRepository<NhanVien,Long> {
-    @Query(value = "SELECT * FROM nhan_vien n WHERE " +
-            "n.ten COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
-            "OR n.ma COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
-            "OR n.sdt COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
-            "OR n.diachi COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
-            "OR n.cccd COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
-            "OR n.email COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword%", nativeQuery = true)
-    List<NhanVien> findByTen(@Param("keyword") String keyword);
+public interface NhanVienRepository extends JpaRepository<NhanVien, Long> {
 //    @Query(value = "SELECT * FROM nhan_vien n WHERE " +
-//            "(n.ten COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
+//            "n.ten COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
 //            "OR n.ma COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
 //            "OR n.sdt COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
 //            "OR n.diachi COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
 //            "OR n.cccd COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
-//            "OR n.email COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword%) " +
-//            "AND (:trangThai IS NULL OR n.trang_thai = :trangThai) " +
-//            "AND (:gioiTinh IS NULL OR n.ngaySinh = :gioiTinh) " +
-//            "AND (:ngaySinh IS NULL OR n.ngaySinh >= :ngaySinh) " +
-//            "AND (:ngaySinh IS NULL OR n.ngaySinh <= :ngaySinh) " +
-//            "ORDER BY n.id " + // Sắp xếp theo id
-//            "OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY", // Phân trang
-//            nativeQuery = true)
-//    List<NhanVien> findBynv(@Param("keyword") String keyword,
-//                             @Param("trangThai") Integer trangThai,
-//                             @Param("gioiTinh") Integer gioiTinh,
-//                             @Param("ngaySinhFrom") Date ngaySinhFrom,
-//                             @Param("ngaySinhTo") Date ngaySinhTo,
-//                             @Param("offset") int offset,
-//                             @Param("limit") int limit);
+//            "OR n.email COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword%", nativeQuery = true)
+//    List<NhanVien> findByTen(@Param("keyword") String keyword);
+
+    @Query(name ="find_nhanvien",nativeQuery = true)
+    List<NhanVienPhanTrang> findBynv(@Param("KEYWORD") String keyword,
+                                     @Param("TRANGTHAI") Optional<Integer> trangThai,
+                                     @Param("VAI_TRO") Optional<Integer> vaiTro,
+                                     @Param("startDate") Date startDate,
+                                     @Param("endDate") Date endDate,
+                                     @Param("PAGE_INDEX") Integer page_index,
+                                     @Param("PAGE_SIZE") Integer page_size);
+
     List<NhanVien> findByTrangThai(int tt);
+
+    Boolean existsByMa(String ma);
+
     Page<NhanVien> findByTrangThai(int trangThai, Pageable pageable);
 }

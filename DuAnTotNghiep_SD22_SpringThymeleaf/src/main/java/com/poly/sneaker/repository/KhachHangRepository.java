@@ -19,6 +19,7 @@ public interface KhachHangRepository extends JpaRepository<KhachHang,Long> {
             "OR n.cccd COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword% " +
             "OR n.email COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword%", nativeQuery = true)
     List<KhachHang> findByTen(@Param("keyword") String keyword);
+    Page<KhachHang> findAll(Pageable pageable);
     List<KhachHang> findByTrangThai(int tt);
     Page<KhachHang> findByTrangThai(int trangThai, Pageable pageable);
 }

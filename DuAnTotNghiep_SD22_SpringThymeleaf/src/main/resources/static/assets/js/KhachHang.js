@@ -144,41 +144,65 @@ function validateForm() {
 
     return isValid;
 }
-//nv add
-// function addnv() {
-//
-//     var url = '/admin/addNhanVien';
-//     fetch(url)
-//         .then(response => response.text())
-//         .then(data => {
-//             var tableBody = document.getElementById('Formadd');
-//             tableBody.innerHTML = data.trim();
-//         })
-//         .catch(error => console.error('Error:', error));
-// }
-//
-// function handleImageChange(input) {
-//     if (input.files && input.files[0]) {
-//         const reader = new FileReader();
-//         reader.onload = function (e) {
-//             const previewImage = document.querySelector('.image-placeholder img');
-//             previewImage.src = e.target.result;
-//             previewImage.style.display = 'block';
-//
-//             const placeholder = document.querySelector('.image-placeholder span');
-//             placeholder.style.display = 'none';
-//         };
-//         reader.readAsDataURL(input.files[0]);
-//     }
-// }
-// function addnv() {
-//
-//     var url = '/admin/addNhanVien';
-//     fetch(url)
-//         .then(response => response.text())
-//         .then(data => {
-//             var tableBody = document.getElementById('fromnv');
-//             tableBody.innerHTML = data.trim();
-//         })
-//         .catch(error => console.error('Error:', error));
-// }
+function confirmToggle(element, id) {
+    var isChecked = element.checked;
+    var confirmed = confirm("THAY ĐỔI TRẠNG THÁI KHÁCH HÀNG?");
+
+    if (confirmed) {
+        toggleSwitch(element, id, isChecked);
+    } else {
+        element.checked = !isChecked;
+    }
+}
+// $(document).ready(function() {
+    // Function to handle showing the modal and fetching address details
+    // function showDiaChiModal(idKH) {
+    //     $.ajax({
+    //         type: "GET",
+    //         url: "/admin/khach-hang/dia-chi/" + idKH,
+    //         success: function(diaChi) {
+    //             var modalContent = '<li>' + diaChi.thanhPho + diaChi.quanHuyen+'</li>';
+    //             $('#modal-address-details').html(modalContent);
+    //             $('#exampleModal').modal('show'); // Show Bootstrap modal
+    //         },
+    //         error: function() {
+    //             console.log("Lỗi khi gọi AJAX để lấy địa chỉ khách hàng");
+    //         }
+    //     });
+    // }
+
+    // Event listener for modal trigger buttons
+//     $('[data-bs-toggle="modal"]').on('click', function() {
+//         var idKH = $(this).data('id');
+//         showDiaChiModal(idKH);
+//     });
+// });
+
+
+
+
+function toggleSwitch(element, id, isChecked) {
+    var url = `/admin/khach-hang/${id}/delete`; // Đảm bảo rằng id đã được thay thế đúng giá trị
+    var data = { trangThai: isChecked ? 0 : 1 };
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            alert(`THÀNH CÔNG!!!`);
+        })
+        .catch(error => {
+            console.error('Error updating employee status:', error);
+            // Xử lý lỗi nếu cần thiết
+            alert('LỖI!!!!.');
+            // Đặt lại trạng thái checkbox nếu có lỗi
+            element.checked = !isChecked;
+        });
+}
