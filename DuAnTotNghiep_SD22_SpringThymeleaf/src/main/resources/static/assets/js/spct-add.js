@@ -6,8 +6,8 @@ $(document).ready(function() {
             var sizeId = sizeCheckbox.val();
             var sizeName = sizeCheckbox.next('label').text();
             selectedSizes.push({
-                name: sizeName,
-                id : sizeId
+                id: sizeId,
+                name: sizeName
             });
         });
 
@@ -23,8 +23,8 @@ $(document).ready(function() {
             var colorId = colorCheckbox.val();
             var colorName = colorCheckbox.next('label').text();
             selectedColors.push({
-                name: colorName,
-                id : colorId
+                id: colorId,
+                name: colorName
             });
         });
 
@@ -46,116 +46,144 @@ $(document).ready(function() {
         });
     }
 
-});
+    $('.create-product-btn').click(function () {
+        const sanPhamId = $('#sanPham').val();
+        const coGiayId = $('#coGiay').val();
+        const deGiayId = $('#deGiay').val();
+        const chatLieuId = $('#chatLieu').val();
+        const nhaSanXuatId = $('#nhaSanXuat').val();
+        const moTa = $('#moTa').val();
 
-document.querySelector('.create-product-btn').addEventListener('click', function () {
-    const sanPham = document.getElementById('sanPham').value;
-    const coGiay = document.getElementById('coGiay').value;
-    const deGiay = document.getElementById('deGiay').value;
-    const chatLieu = document.getElementById('chatLieu').value;
-    const nhaSanXuat = document.getElementById('nhaSanXuat').value;
-    const moTa = document.getElementById('moTa').value;
-
-    const selectedColors = Array.from(document.querySelectorAll('#selectedColors .selected-item')).map(item => ({
-        id: item.getAttribute('data-id'),
-        name: item.textContent.trim()
-    }));
-    const selectedSizes = Array.from(document.querySelectorAll('#selectedSizes .selected-item')).map(item => ({
-        id: item.getAttribute('data-id'),
-        name: item.textContent.trim()
-    }));
-
-    const chiTietSanPhams = [];
-    selectedColors.forEach(mauSac => {
-        selectedSizes.forEach(kichCo => {
-            const chiTietSanPham = {
-                sanPham,
-                coGiay,
-                deGiay,
-                chatLieu,
-                nhaSanXuat,
-                moTa,
-                mauSac : mauSac.id,
-                kichCo : kichCo.id,
-                ngayTao: new Date(),
-                canNang: 500,
-                giaBan: 1000000
+        const selectedColors = $('#selectedColors .selected-item').map(function() {
+            return {
+                id: $(this).data('id'),
+                name: $(this).find('label').text()
             };
-            chiTietSanPhams.push(chiTietSanPham);
-            console.log(chiTietSanPhams);
+        }).get();
+
+        const selectedSizes = $('#selectedSizes .selected-item').map(function() {
+            return {
+                id: $(this).data('id'),
+                name: $(this).find('label').text()
+            };
+        }).get();
+
+        const chiTietSanPhams = [];
+        selectedColors.forEach(mauSac => {
+            selectedSizes.forEach(kichCo => {
+                const chiTietSanPham = {
+                    ma: '',
+                    ten: '',
+                    barcode: '',
+                    sanPham: { id: sanPhamId, name: $('#sanPham option:selected').text() },
+                    coGiay: { id: coGiayId },
+                    deGiay: { id: deGiayId },
+                    chatLieu: { id: chatLieuId },
+                    nhaSanXuat: { id: nhaSanXuatId },
+                    moTa: moTa,
+                    mauSac: { id: mauSac.id, name: mauSac.name },
+                    kichCo: { id: kichCo.id, name: kichCo.name },
+                    ngayTao: new Date().toISOString(),
+                    ngayCapNhat: '',
+                    nguoiTao: 'admin',
+                    nguoiCapNhat: '',
+                    canNang: 500,
+                    giaBan: 1000000,
+                    soLuong: 10
+                };
+                chiTietSanPhams.push(chiTietSanPham);
+            });
         });
+
+        const colorGroups = chiTietSanPhams.reduce((groups, product) => {
+            const { mauSac } = product;
+            if (!groups[mauSac.id]) {
+                groups[mauSac.id] = [];
+            }
+            groups[mauSac.id].push(product);
+            return groups;
+        }, {});
+
+        const productDetailsContainer = $('#productDetails');
+        productDetailsContainer.empty();
+
+        Object.entries(colorGroups).forEach(([mauSacId, products]) => {
+            const tenMauBienThe = products[0].mauSac.name;
+            const colorTitle = $('<h5 class="mt-3"></h5>').text(`Danh sách sản phẩm có màu ${tenMauBienThe}`);
+            productDetailsContainer.append(colorTitle);
+
+            const table = $('<table class="table table-bordered"></table>');
+            const thead = $('<thead></thead>').html(`
+                <tr>
+                    <th scope="col" style="width: 20%">Tên sản phẩm</th>
+                    <th scope="col" style="width: 15%">Màu</th>
+                    <th scope="col" style="width: 15%">Kích cỡ</th>
+                    <th scope="col" style="width: 15%">Cân nặng</th>
+                    <th scope="col" style="width: 15%">Giá bán</th>
+                    <th scope="col" style="width: 15%">Số lượng</th>
+                    <th scope="col" style="width: 15%">Upload ảnh</th>
+                </tr>
+            `);
+            const tbody = $('<tbody></tbody>');
+
+            products.forEach(product => {
+                const row = $('<tr></tr>').html(`
+                    <td style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">${product.sanPham.name}</td>
+                    <td>${product.mauSac.name}</td> // Hiển thị tên thay vì id
+                    <td>${product.kichCo.name}</td> // Hiển thị tên thay vì id
+                    <td><input type="text" value="${product.canNang}" class="form-control" style="width: 80px;"></td>
+                    <td><input type="text" value="${product.giaBan}" class="form-control" style="width: 120px;"></td>
+                    <td><input type="text" value="${product.soLuong}" class="form-control" style="width: 60px;"></td>
+                    <th class="image"></th>
+                `);
+
+                tbody.append(row);
+            });
+
+            const uploadRow = $('<tr></tr>').html(`
+                <td rowspan="${products.length}">
+                    <form>
+                        <input type="file" class="form-control-file">
+                        <button type="submit" class="btn btn-primary btn-sm mt-1">Upload ảnh</button>
+                    </form>
+                </td>
+            `);
+
+            table.append(thead);
+            table.append(tbody);
+            table.find('.image').append(uploadRow);
+            productDetailsContainer.append(table);
+        });
+
+        const saveButton = $('<button class="btn btn-success mt-3 mb-4">Lưu</button>');
+        saveButton.click(function() {
+            const jsonFormatted = JSON.stringify(chiTietSanPhams);
+            console.log('Payload to be sent:', jsonFormatted);
+
+            fetch('/api/san-pham-chi-tiet/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonFormatted
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(error => { throw new Error(error.message); });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Xử lý phản hồi từ server
+                    console.log('Success:', data);
+                    alert('Lưu thông tin sản phẩm chi tiết thành công!');
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi lưu thông tin sản phẩm chi tiết.');
+                });
+        });
+
+        productDetailsContainer.append(saveButton);
     });
-
-    const productDetailsContainer = document.getElementById('productDetails');
-    productDetailsContainer.innerHTML = '';
-
-    const colorGroups = chiTietSanPhams.reduce((groups, product) => {
-        const { mauSac } = product;
-        if (!groups[mauSac]) {
-            groups[mauSac] = [];
-        }
-        groups[mauSac].push(product);
-        return groups;
-    }, {});
-
-    for (const [mauSac, products] of Object.entries(colorGroups)) {
-        const colorTitle = document.createElement('h5');
-        colorTitle.classList.add('mt-3');
-        colorTitle.textContent = `Danh sách sản phẩm có màu ${mauSac}`;
-        productDetailsContainer.appendChild(colorTitle);
-
-        const table = document.createElement('table');
-        table.classList.add('table', 'table-bordered');
-
-        table.innerHTML = `
-        <thead>
-            <tr>
-                <th scope="col" style="width: 20%">Tên sản phẩm</th>
-                <th scope="col" style="width: 15%">Màu</th>
-                <th scope="col" style="width: 15%">Kích cỡ</th>
-                <th scope="col" style="width: 15%">Cân nặng</th>
-                <th scope="col" style="width: 15%">Giá bán</th>
-                <th scope="col" style="width: 15%">Ngày tạo</th>
-                <th scope="col" style="width: 15%">Upload ảnh</th>
-            </tr>
-        </thead>
-        <tbody>
-    `;
-        products.forEach(product => {
-            const row = document.createElement('tr');
-
-            row.innerHTML = `
-            <td style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">${product.sanPham}</td>
-            <td>${product.mauSac}</td>
-            <td>${product.kichCo}</td>
-            <td><input type="text" value="${product.canNang}" class="form-control" style="width: 80px;"></td>
-            <td><input type="text" value="${product.giaBan}" class="form-control" style="width: 120px;"></td>
-            <td>${product.ngayTao}</td>
-            <th class="image"></th>
-        `;
-            table.querySelector('tbody').appendChild(row);
-        });
-
-        const uploadRow = document.createElement('tr');
-        uploadRow.innerHTML = `
-        <td rowspan="${products.length}">
-            <form>
-                <input type="file" class="form-control-file">
-                <button type="submit" class="btn btn-primary btn-sm mt-1">Upload ảnh</button>
-            </form>
-        </td>
-    `;
-        table.querySelector('th.image').appendChild(uploadRow);
-
-        productDetailsContainer.appendChild(table);
-    }
-
-    const saveButton = document.createElement('button');
-    saveButton.textContent = 'Lưu';
-    saveButton.classList.add('btn', 'btn-success', 'mt-3', 'mb-4');
-    productDetailsContainer.appendChild(saveButton);
-        saveButton.addEventListener('click', function(){
-
-        })
-
 });
