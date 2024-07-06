@@ -20,6 +20,8 @@ public class SanPhamChiTietAPI {
     @PostMapping("/save")
     public ResponseEntity<?> saveSanPhamChiTiet(@RequestBody List<SanPhamChiTiet> sanPhamChiTiets){
         System.out.println(sanPhamChiTiets);
+        System.out.println(sanPhamChiTiets.size());
+        System.out.println(sanPhamChiTiets);
         return ResponseEntity.ok(spctService.saveToDatabase(sanPhamChiTiets));
     }
 }
