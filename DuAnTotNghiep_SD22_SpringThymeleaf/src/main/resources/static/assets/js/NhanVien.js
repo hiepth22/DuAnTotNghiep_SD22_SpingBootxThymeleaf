@@ -99,7 +99,7 @@ function confirmToggle(element, id) {
 }
 
 function toggleSwitch(element, id, isChecked) {
-    var url = `/admin/nhan-vien/${id}/update`; // Đảm bảo rằng id đã được thay thế đúng giá trị
+    var url = `/admin/nhan-vien/${id}/update`;
     var data = { trangThai: isChecked ? 0 : 1 };
 
     fetch(url, {
