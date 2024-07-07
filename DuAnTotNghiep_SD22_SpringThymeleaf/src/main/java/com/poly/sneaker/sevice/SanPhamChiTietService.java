@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SanPhamChiTietService {
@@ -112,5 +113,4 @@ public class SanPhamChiTietService {
     public List<SanPhamChiTiet> saveToDatabase(List<SanPhamChiTiet> sanPhamChiTiets) {
         return repository.saveAll(sanPhamChiTiets);
     }
-
 }

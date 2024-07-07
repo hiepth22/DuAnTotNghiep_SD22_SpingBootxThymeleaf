@@ -83,19 +83,19 @@
 .selected-items {
     margin-top: 10px;
     display: flex;
-    flex-wrap: wrap; /* Cho phép các phần tử tự động xuống dòng nếu không đủ không gian */
-    align-items: flex-start; /* Đảm bảo các phần tử được căn lề trên cùng */
+    flex-wrap: wrap;
+    align-items: flex-start;
 }
 
 .selected-items label {
     display: inline-block;
     margin-right: 5px;
-    margin-bottom: 5px; /* Khoảng cách giữa các label */
+    margin-bottom: 5px;
     padding: 5px 10px;
     background-color: #007bff;
     color: white;
     border-radius: 5px;
-    white-space: nowrap; /* Ngăn label tự động xuống dòng */
+    white-space: nowrap;
 }
 
 #selectedSizes {

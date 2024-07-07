@@ -154,30 +154,33 @@ function confirmToggle(element, id) {
         element.checked = !isChecked;
     }
 }
-$(document).ready(function () {
-    $('.open-modal').click(function() {
-        var idKh = $(this).data('id');
-        getLichSuHD(idKh);
-    });
-});
+// $(document).ready(function() {
+    // Function to handle showing the modal and fetching address details
+    // function showDiaChiModal(idKH) {
+    //     $.ajax({
+    //         type: "GET",
+    //         url: "/admin/khach-hang/dia-chi/" + idKH,
+    //         success: function(diaChi) {
+    //             var modalContent = '<li>' + diaChi.thanhPho + diaChi.quanHuyen+'</li>';
+    //             $('#modal-address-details').html(modalContent);
+    //             $('#exampleModal').modal('show'); // Show Bootstrap modal
+    //         },
+    //         error: function() {
+    //             console.log("Lỗi khi gọi AJAX để lấy địa chỉ khách hàng");
+    //         }
+    //     });
+    // }
 
-const getLichSuHD = (idKh) => {
-    $.ajax({
-        url: '/api/khach-hang/dia-chi/' + idKh,
-        method: 'get',
-        success: function (result) {
-            let list = "";
-            $("#modal-address-details").empty();
-            for (let i = 0; i < result.length; i++) {
-                list += `<li>${result[i].thanhPho}</li>`;
-            }
-            $("#modal-address-details").html(list);
-        },
-        error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
-    });
-}
+    // Event listener for modal trigger buttons
+//     $('[data-bs-toggle="modal"]').on('click', function() {
+//         var idKH = $(this).data('id');
+//         showDiaChiModal(idKH);
+//     });
+// });
+
+
+
+
 function toggleSwitch(element, id, isChecked) {
     var url = `/admin/khach-hang/${id}/delete`; // Đảm bảo rằng id đã được thay thế đúng giá trị
     var data = { trangThai: isChecked ? 0 : 1 };
