@@ -29,8 +29,9 @@
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
         <!-- Navbar End -->
         <div class="container mt-5">
-            <h2 class="text-center mb-4">Cập Nhật Nhân Viên</h2>
-
+            <div class="text-center">
+            <span class="col-md-11 fw-bold fs-3 text-center">Thông Tin Nhân Viên</span>
+            </div>
             <form th:action="@{/admin/updateNhanVien/{id}(id=${nv.id})}" method="post" class="row g-3"
                   th:object="${nv}">
                 <input type="hidden" th:field="*{id}">
@@ -61,7 +62,7 @@
                         <div class="col-md-6">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label for="ten" class="form-label">Tên</label>
+                                    <span for="ten" class="form-label">Tên</span>
                                     <input type="text" class="form-control" id="ten" th:field="*{ten}" required>
                                 </div>
                                 <div class="col-md-12">

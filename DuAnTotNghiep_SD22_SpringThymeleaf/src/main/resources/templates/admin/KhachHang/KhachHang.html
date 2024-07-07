@@ -3,10 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Danh Sách Khách Hàng</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-          crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
 <div class="container mt-4">
@@ -61,8 +57,11 @@
                 <a th:href="@{/admin/view-update/{id}(id=${kh.id})}" class="btn btn-outline-success btn-sm">
                     <i class="bi bi-pencil-square"></i>
                 </a>
-                <button type="button" class="btn btn-outline-dark btn-sm open-modal" data-id="${kh.id}" data-bs-toggle="modal" data-bs-target="#diaChiModal">
-                    <i class="bi bi-geo-alt-fill"></i>
+                <a th:href="@{/admin/khach-hang/dia-chi/{id}(id=${kh.id})}" class="btn btn-outline-success btn-sm">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-kh-id="${kh.id}">
+                    <i class="bi bi-geo-alt"></i>
                 </button>
             </td>
         </tr>
@@ -70,5 +69,62 @@
     </table>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-geo-alt-fill"></i> Địa chỉ khách hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul id="modal-address-details">
+                    <!-- Thông tin địa chỉ sẽ được thêm tự động bằng JavaScript -->
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var khId = button.data('kh-id'); // Extract info from data-* attributes
+
+            $.ajax({
+                url: '/khach-hang/dia-chi/' + khId,
+                method: 'GET',
+                success: function (data) {
+                    console.log(data); // Kiểm tra dữ liệu nhận được
+                    var modal = $('#exampleModal');
+                    var modalBody = modal.find('.modal-body #modal-address-details');
+                    modalBody.empty(); // Clear previous data
+
+                    if (data.length > 0) {
+                        data.forEach(function (diaChi) {
+                            modalBody.append('<li>' + diaChi.thanhPho + '</li>');
+                        });
+                    } else {
+                        modalBody.append('<li>Không có địa chỉ</li>');
+                    }
+                },
+                error: function () {
+                    var modal = $('#exampleModal');
+                    var modalBody = modal.find('.modal-body #modal-address-details');
+                    modalBody.empty();
+                    modalBody.append('<li>Không thể tải địa chỉ</li>');
+                }
+            });
+        });
+    });
+</script>
+<link rel="stylesheet" th:href="@{/assets/css/KhachHang.css}"/>
 </body>
 </html>

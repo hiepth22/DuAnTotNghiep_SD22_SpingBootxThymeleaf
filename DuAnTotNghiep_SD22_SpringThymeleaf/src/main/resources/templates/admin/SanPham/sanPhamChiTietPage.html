@@ -52,7 +52,7 @@
             <tr th:each="spct, state : ${sanPhamChiTiets}">
                 <th scope="row" th:text="${state.count}"></th>
                 <td th:text="${spct.ma}"></td>
-                <td th:text="${spct.ten}"></td>
+                <td th:text="${spct.sanPham.ten}"></td>
                 <td th:text="${spct.giaBan}"></td>
                 <td>N/A</td>
                 <td>

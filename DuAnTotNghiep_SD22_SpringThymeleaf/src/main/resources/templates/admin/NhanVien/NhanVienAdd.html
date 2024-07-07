@@ -28,8 +28,11 @@
         <!-- Navbar Start -->
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
         <!-- Navbar End -->
-        <div class="container mt-5">
-            <h2 class="text-center mb-4">Thêm Nhân Viên</h2>
+        <div class="container mt-5 " >
+            <div class="text-center">
+                <span class="fw-bold fs-3 text-center">Thêm Nhân Viên</span>
+            </div>
+
             <form th:action="@{/admin/SaveNhanVien}" method="post" class="row g-3" enctype="multipart/form-data">
 
                 <div class="col-md-4">
@@ -63,12 +66,12 @@
                                 <input type="text" class="form-control" id="ten" name="ten" required>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="ma" class="form-label">Mã</label>
-                                <input type="text" class="form-control" id="ma" name="ma" required>
-                            </div>
-                        </div>
+<!--                        <div class="col-md-12">-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="ma" class="form-label">Mã</label>-->
+<!--                                <input type="text" class="form-control" id="ma" name="ma" required>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="sdt" class="form-label">SĐT</label>

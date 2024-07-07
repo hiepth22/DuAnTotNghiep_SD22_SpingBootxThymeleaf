@@ -3,16 +3,13 @@ package com.poly.sneaker.sevice;
 import com.poly.sneaker.dto.NhanVienPhanTrang;
 import com.poly.sneaker.entity.NhanVien;
 import com.poly.sneaker.repository.NhanVienRepository;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-import jakarta.persistence.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,7 +82,8 @@ public class NhanVienSevice {
         return optional.map(o -> o).orElse(null);
     }
 
-    public List<NhanVienPhanTrang> loc(String keyword, Optional<Integer> tt, Optional<Integer> vaitro, Integer page_index, Integer page_size) {
-        return nhanVienRepository.findBynv(keyword, tt, vaitro, page_index, page_size);
+    public List<NhanVienPhanTrang> loc(String keyword, Optional<Integer> tt, Optional<Integer> vaitro,
+                                       Integer page_index, Integer page_size, Date startDate,Date endDate ) {
+        return nhanVienRepository.findBynv(keyword, tt, vaitro,startDate,endDate, page_index, page_size);
     }
 }

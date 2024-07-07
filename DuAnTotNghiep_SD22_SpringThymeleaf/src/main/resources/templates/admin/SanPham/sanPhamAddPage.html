@@ -33,52 +33,42 @@
             <form th:action="@{/admin/san-pham-chi-tiet/add}" method="post">
                 <div class="form-group">
                     <label>Tên sản phẩm</label>
-                    <input type="text" list="sanPhamList" class="form-control" id="sanPhamInput" name="sanPham"
-                           placeholder="Nhập tên sản phẩm">
-                    <datalist id="sanPhamList">
-                        <option th:each="sanPham : ${sanPhams}" th:value="${sanPham.ten}" th:text="${sanPham.ten}"></option>
-                    </datalist>
+                    <select id="sanPham">
+                        <option th:each="sanPham : ${sanPhams}" th:value="${sanPham.id}" th:text="${sanPham.ten}"></option>
+                    </select>
                 </div>
                 <div class="row form-group">
                     <div class="col">
                         <label>Cổ giày</label>
-                        <input type="text" list="coGiayList" class="form-control" id="coGiayInput" name="coGiay"
-                               placeholder="Nhập cổ giày">
-                        <datalist id="coGiayList">
-                            <option th:each="coGiay : ${coGiays}" th:value="${coGiay.ten}" th:text="${coGiay.ten}"></option>
-                        </datalist>
+                        <select id="coGiay">
+                            <option th:each="coGiay : ${coGiays}" th:value="${coGiay.id}" th:text="${coGiay.ten}"></option>
+                        </select>
                     </div>
 
                     <div class="col">
                         <label>Đế giày</label>
-                        <input type="text" list="deGiayList" class="form-control" id="deGiayInput" name="deGiay"
-                               placeholder="Nhập đế giày">
-                        <datalist id="deGiayList">
-                            <option th:each="deGiay : ${deGiays}" th:value="${deGiay.ten}" th:text="${deGiay.ten}"></option>
-                        </datalist>
+                        <select id="deGiay">
+                            <option th:each="deGiay : ${deGiays}" th:value="${deGiay.id}" th:text="${deGiay.ten}"></option>
+                        </select>
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col">
                         <label>Chất liệu</label>
-                        <input type="text" list="chatLieuList" class="form-control" id="chatLieuInput" name="chatLieu"
-                               placeholder="Nhập chất liệu">
-                        <datalist id="chatLieuList">
-                            <option th:each="chatLieu : ${chatLieus}" th:value="${chatLieu.ten}" th:text="${chatLieu.ten}"></option>
-                        </datalist>
+                        <select id=chatLieu>
+                            <option th:each="chatLieu : ${chatLieus}" th:value="${chatLieu.id}" th:text="${chatLieu.ten}"></option>
+                        </select>
                     </div>
                     <div class="col">
-                        <label for="nhaSanXuatInput">Nhà sản xuất</label>
-                        <input type="text" list="nhaSanXuatList" class="form-control" id="nhaSanXuatInput" name="nhaSanXuat"
-                               placeholder="Nhập nhà sản xuất">
-                        <datalist id="nhaSanXuatList">
-                            <option th:each="nsx : ${nhaSanXuats}" th:value="${nsx.ten}" th:text="${nsx.ten}"></option>
-                        </datalist>
+                        <label>Nhà sản xuất</label>
+                        <select id="nhaSanXuat">
+                            <option th:each="nsx : ${nhaSanXuats}" th:value="${nsx.id}" th:text="${nsx.ten}"></option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="moTaSanPham">Mô tả sản phẩm</label>
-                    <textarea class="form-control" id="moTaSanPham" name="moTaSanPham" rows="4" placeholder="Nhập mô tả"></textarea>
+                    <label for="moTa">Mô tả sản phẩm</label>
+                    <textarea class="form-control" id="moTa" name="moTa" rows="4" placeholder="Nhập mô tả"></textarea>
                 </div>
 
                 <h2 class="form-subtitle">Màu sắc và kích cỡ</h2>
@@ -105,9 +95,7 @@
             </form>
             <button class="create-product-btn btn btn-primary">Tạo sản phẩm</button>
         </div>
-        <h2 class="form-subtitle">Sản phẩm chi tiết</h2>
         <div id="productDetails"></div>
-
     </div>
     <!-- Modal màu sắc -->
     <div class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="colorModalLabel" aria-hidden="true">
@@ -121,8 +109,8 @@
                     <!-- List of colors with checkboxes -->
                     <div id="colorList" th:each="mauSac : ${mauSacs}">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" th:value="${mauSac.id}" th:id="${'mauSac' + mauSac.id}">
-                            <label class="form-check-label" th:for="${'mauSac' + mauSac.id}" th:text="${mauSac.ten}"></label>
+                            <input class="form-check-input" type="checkbox" th:value="${mauSac.id}">
+                            <label class="form-check-label" th:text="${mauSac.ten}"></label>
                         </div>
                     </div>
                 </div>
@@ -146,8 +134,8 @@
                     <!-- List of sizes with checkboxes -->
                     <div id="sizeList" th:each="kichCo : ${kichCos}">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" th:value="${kichCo.id}" th:id="${'kichCo' + kichCo.id}">
-                            <label class="form-check-label" th:for="${'kichCo' + kichCo.id}" th:text="${kichCo.ten}"></label>
+                            <input class="form-check-input" type="checkbox" th:value="${kichCo.id}">
+                            <label class="form-check-label" th:text="${kichCo.ten}"></label>
                         </div>
                     </div>
                 </div>
