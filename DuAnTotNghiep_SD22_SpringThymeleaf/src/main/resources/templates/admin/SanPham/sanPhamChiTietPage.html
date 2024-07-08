@@ -54,7 +54,7 @@
                 <td th:text="${spct.ma}"></td>
                 <td th:text="${spct.sanPham.ten}"></td>
                 <td th:text="${spct.giaBan}"></td>
-                <td>N/A</td>
+                <td th:text="${spct.soLuong}"></td>
                 <td>
                     <span th:if="${spct.trangThai == 1}">Đang bán</span>
                     <span th:if="${spct.trangThai == 0}">Tạm ngưng</span>

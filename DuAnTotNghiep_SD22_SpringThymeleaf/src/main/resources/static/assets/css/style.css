@@ -1,4 +1,3 @@
-/********** Template CSS **********/
 :root {
     --primary: #009CFF;
     --light: #F3F6F9;
@@ -13,8 +12,6 @@
     z-index: 99;
 }
 
-
-/*** Spinner ***/
 #spinner {
     opacity: 0;
     visibility: hidden;
@@ -28,8 +25,6 @@
     opacity: 1;
 }
 
-
-/*** Button ***/
 .btn {
     transition: .5s;
 }
@@ -64,8 +59,6 @@
     border-radius: 50px;
 }
 
-
-/*** Layout ***/
 .sidebar {
     position: fixed;
     top: 0;
@@ -83,6 +76,7 @@
     min-height: 100vh;
     background: #FFFFFF;
     transition: 0.5s;
+    margin-left: 150px; /* Điều chỉnh margin-left để content không bị che bởi sidebar */
 }
 
 @media (min-width: 992px) {
@@ -90,14 +84,12 @@
         margin-left: 0;
     }
 
-
     .content {
-        width: calc(100%);
+        width: calc(100% - 250px);
     }
 
     .content.open {
-        width: 100%;
-        margin-left: 0;
+        width: calc(100% - 250px);
     }
 }
 
@@ -116,8 +108,6 @@
     }
 }
 
-
-/*** Navbar ***/
 .sidebar .navbar .navbar-nav .nav-link {
     padding: 7px 20px;
     color: var(--dark);
@@ -212,8 +202,6 @@
     }
 }
 
-
-/*** Date Picker ***/
 .bootstrap-datetimepicker-widget.bottom {
     top: auto !important;
 }
@@ -240,15 +228,11 @@
     border-bottom-color: var(--primary);
 }
 
-
-/*** Testimonial ***/
 .progress .progress-bar {
     width: 0px;
     transition: 2s;
 }
 
-
-/*** Testimonial ***/
 .testimonial-carousel .owl-dots {
     margin-top: 24px;
     display: flex;
@@ -277,16 +261,19 @@
     justify-content: space-between;
     align-items: center;
 }
+
 .search-form {
     display: flex;
     gap: 10px;
     flex-grow: 1;
 }
+
 .search-form input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
 .search-form button {
     padding: 10px;
     border: none;
@@ -295,6 +282,7 @@
     color: white;
     cursor: pointer;
 }
+
 .add-button {
     padding: 10px 20px;
     border: none;
@@ -302,4 +290,73 @@
     background-color: #28a745;
     color: white;
     cursor: pointer;
+}
+.dropdown-item {
+    font-weight: 500; /* Chữ đậm */
+    display: flex;
+    align-items: center;
+    padding: 10px 20px; /* Giãn cách giống các nav-link khác */
+    color: var(--dark); /* Màu chữ giống nav-link */
+    text-decoration: none;
+}
+
+.dropdown-item:hover {
+    color: var(--primary);
+    background-color: #FFFFFF; /* Màu nền khi hover */
+}
+
+.dropdown-item i {
+    margin-right: 10px; /* Khoảng cách giữa icon và text */
+}
+.navbar .nav-link,
+.navbar .dropdown-item {
+    cursor: pointer;
+}
+
+
+/* CSS cho phần tải ảnh */
+.image-upload {
+    display: flex;
+    align-items: center;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.preview {
+    margin-top: 10px;
+}
+
+.preview img {
+    max-width: 200px;
+    height: auto;
+}
+
+/* CSS cho bảng sản phẩm */
+.table {
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.fa-trash {
+    cursor: pointer;
+    color: #dc3545;
+}
+
+.fa-trash:hover {
+    color: #bd2130;
 }
