@@ -61,6 +61,7 @@ public class KhachHangController {
         model.addAttribute("khachHangPage", khachHangPage);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", khachHangPage.getTotalPages());
+        model.addAttribute("size", size); // Thêm thuộc tính size để truyền vào phân trang
 
         return "admin/KhachHang/KhachHangIndext";
     }
