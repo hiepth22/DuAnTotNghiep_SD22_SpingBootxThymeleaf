@@ -1,17 +1,50 @@
 
-function confirmToggle(element, id) {
-    var isChecked = element.checked;
-    var confirmed = confirm("Bạn có chắc chắn muốn thay đổi trạng thái này?");
+// function confirmToggle(element, id) {
+//     var isChecked = element.checked;
+//     var confirmed = confirm("THAY ĐỔI TRẠNG THÁI PHIẾU GIẢM GIÁ?");
+//
+//     if (confirmed) {
+//         toggleSwitch(element, id, isChecked);
+//     } else {
+//         element.checked = !isChecked;
+//     }
+// }
 
-    if (confirmed) {
-        toggleSwitch(element, id, isChecked);
-    } else {
-        element.checked = !isChecked;
-    }
+
+    function confirmToggle(checkbox, id) {
+    Swal.fire({
+        title: 'Bạn có chắc chắn?',
+        text: "Bạn không thể hoàn tác hành động này!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Vâng, tiếp tục!',
+        cancelButtonText: 'Hủy'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            changeStatus(id, checkbox.checked);
+            Swal.fire(
+                'Đã xác nhận!',
+                'Trạng thái của phiếu giảm giá đã được thay đổi.',
+                'success'
+            );
+        } else {
+            checkbox.checked = !checkbox.checked;
+            Swal.fire(
+                'Đã hủy!',
+                'Hành động của bạn đã bị hủy.',
+                'error'
+            );
+        }
+    });
 }
-
+function changeStatus(id, status) {
+    // Write your logic to change the status here
+    console.log(`Change status of ${id} to ${status}`);
+}
 function toggleSwitch(element, id, isChecked) {
-    var url = `/admin/phieu-giam-gia/${id}/update`; // Đảm bảo rằng id đã được thay thế đúng giá trị
+    var url = `/admin/phieu-giam-gia/${id}/delete`; // Đảm bảo rằng id đã được thay thế đúng giá trị
     var data = { trangThai: isChecked ? 0 : 1 };
 
     fetch(url, {
@@ -25,85 +58,16 @@ function toggleSwitch(element, id, isChecked) {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            alert(`Đã thực hiện Thay Đổi Trạng thái cho phieu giam gia có ID: ${id}`);
+            alert(`THÀNH CÔNG!!!`);
         })
         .catch(error => {
             console.error('Error updating employee status:', error);
             // Xử lý lỗi nếu cần thiết
-            alert('Có lỗi xảy ra khi cập nhật trạng thái phieu giam gia.');
+            alert('LỖI!!!!.');
             // Đặt lại trạng thái checkbox nếu có lỗi
             element.checked = !isChecked;
         });
 }
-
-
-
-// let pageNumber = 1;
-
-// function getPageNumber(button) {
-//     var status = document.getElementById("trangThai").value;
-//     var keyword = document.getElementById("searchInput").value;
-//     var vaiTro = document.getElementById("vai_tro").value;
-//     var pageNumber = button.innerText.trim(); // Lấy số trang từ nội dung của button
-//
-//     searchNhanVien({
-//         keyword: keyword,
-//         trangThai: status !== "" ? status : null,
-//         vai_tro: vaiTro !== "" ? vaiTro : null,
-//         page_index: pageNumber,
-//         page_size: 5
-//     });
-
-
-}
-
-
-// function OnSearchEmployee() {
-//     var status = document.getElementById("trangThai").value;
-//     var keyword = document.getElementById("searchInput").value;
-//     var vaiTro = document.getElementById("vai_tro").value;
-//
-//     var obj = {
-//         keyword: keyword,
-//         trangThai: status != "" ? status : null,
-//         vai_tro: vaiTro != "" ? vaiTro : null,
-//         page_index: 1,
-//         page_size: 5
-//     }
-//
-//     console.log(obj);
-//
-//     searchNhanVien(obj);
-// }
-
-// function initPage() {
-//     searchPhieuGiamGia({
-//         keyword: "",
-//         trangThai: null,
-//         hinhThucGiam: null,
-//         page_index: 1,
-//         page_size: 5
-//     });
-// }
-
-// function searchNhanVien(obj) {
-//
-//     Object.keys(obj).forEach((k) => obj[k] == null && delete obj[k]);
-//
-//     var params = new URLSearchParams(obj);
-//
-//     var url = '/admin/search?' + params.toString();
-//
-//     fetch(url, obj)
-//         .then(response => response.text())
-//         .then(data => {
-//             var tableBody = document.getElementById('fromnv');
-//             tableBody.innerHTML = data.trim();
-//         })
-//         .catch(error => console.error('Error:', error));
-// }
-
-
 
 
 
