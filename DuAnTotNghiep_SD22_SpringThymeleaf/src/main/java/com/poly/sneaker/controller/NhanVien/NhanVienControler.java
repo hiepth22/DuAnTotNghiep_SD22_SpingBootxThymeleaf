@@ -123,6 +123,10 @@ public class NhanVienControler {
             return "admin/NhanVien/NhanVienAdd";
         }
 
+        if(repository.existsByEmail(nv.getEmail())){
+            model.addAttribute("errors","mail đã tồn tại");
+        }
+
         if (img.getOriginalFilename().equals("")) {
 
         } else {

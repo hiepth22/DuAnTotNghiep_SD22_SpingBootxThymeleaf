@@ -7,7 +7,7 @@ function getPageNumber(button) {
     var vaiTro = document.getElementById("vai_tro").value;
     var startDate = document.getElementById("startDate").value;
     var endDate = document.getElementById("endDate").value;
-    var pageNumber = button.innerText.trim(); // Lấy số trang từ nội dung của button
+    var pageNumber = button.innerText.trim();
 
     searchNhanVien({
         keyword: keyword,

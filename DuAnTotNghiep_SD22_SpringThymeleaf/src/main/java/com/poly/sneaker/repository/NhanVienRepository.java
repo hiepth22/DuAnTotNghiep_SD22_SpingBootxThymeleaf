@@ -36,7 +36,7 @@ public interface NhanVienRepository extends JpaRepository<NhanVien, Long> {
 
     List<NhanVien> findByTrangThai(int tt);
 
-    Boolean existsByMa(String ma);
+    Boolean existsByEmail(String mail);
 
     Page<NhanVien> findByTrangThai(int trangThai, Pageable pageable);
 }
