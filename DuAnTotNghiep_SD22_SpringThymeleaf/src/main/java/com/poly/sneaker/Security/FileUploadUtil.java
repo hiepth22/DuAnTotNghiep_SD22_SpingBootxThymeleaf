@@ -16,7 +16,7 @@ public class FileUploadUtil {
     public  static  void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
 
 
-        Path uploadPath= Paths.get("C:\\Users\\ADMIN\\Desktop\\DuAnTotNghiep_SD22_SpingBootxThymeleaf\\DuAnTotNghiep_SD22_SpringThymeleaf\\src\\main\\resources\\static\\assets\\"+uploadDir);
+        Path uploadPath = Paths.get("src", "main", "resources", "static","assets", uploadDir);
         if (!Files.exists(uploadPath)){
             Files.createDirectories(uploadPath);
         }
@@ -29,11 +29,6 @@ public class FileUploadUtil {
 
 
         }
-
-
-
-
-
 
     }
 };        

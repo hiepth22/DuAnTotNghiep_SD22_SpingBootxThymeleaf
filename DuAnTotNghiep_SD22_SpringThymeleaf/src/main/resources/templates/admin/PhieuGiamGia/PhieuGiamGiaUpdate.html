@@ -5,41 +5,20 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309" />
-    <title> Phieu Giam Gia</title>
+    <title>Phieu Giam Gia</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <style>
-        .image-placeholder {
-            width: 150px;
-            height: 150px;
-            background-color: #e9ecef;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            overflow: hidden;
-            position: relative;
-        }
 
-        .image-placeholder img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .invalid-feedback {
-            color: red;
-        }
-    </style>
 </head>
 <body>
-<div class="container mt-4">
+
+        <div class="container mt-4">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="p-3 mb-2 bg-info text-dark rounded">
                     <h2>
-                        <span class="h6">Cap Nhat Phieu Giam Gia</span>
+                        <span class="h6">Cập Nhật Phiếu Giảm Giá</span>
                     </h2>
                 </div>
                 <div class="card-body">
@@ -51,81 +30,70 @@
                                     <div class="col-md-6">
 
                                         <div class="form-group">
-                                            <label class="form-label">Mã Phieu:</label>
+                                            <label class="form-label">Mã Phiếu :</label>
                                             <input type="text" placeholder="Nhập mã phieu" name="ma" class="form-control" th:field="*{ma}">
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}"></div>
                                             <div class="invalid-feedback">Vui lòng nhập mã</div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="form-label">So Luong:</label>
+                                            <label class="form-label">Số Lượng:</label>
                                             <input type="text" placeholder="Nhập so luong" name="soLuong" class="form-control" th:field="*{soLuong}">
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('soLuong')}" th:errors="*{soLuong}"></div>
-                                            <div class="invalid-feedback">Vui lòng nhập so luong</div>
+                                            <div class="invalid-feedback">Vui lòng nhập số lượng</div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label">Hinh Thuc Giam:</label>
+                                            <label class="form-label">Hình Thức Giảm:</label>
                                             <div class="d-flex align-items-center">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="hinhThucGiam" id="tienMat" value="true" checked>
-                                                    <label class="form-check-label" for="tienMat">Tien mat</label>
+                                                    <input class="form-check-input" type="radio" name="hinhThucGiam" id="tienMat" value="true" th:checked="${pgg.hinhThucGiam}">
+                                                    <label class="form-check-label" for="tienMat">TIền mặt</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="hinhThucGiam" id="%" value="false">
-                                                    <label class="form-check-label" for="%">%</label>
+                                                    <input class="form-check-input" type="radio" name="hinhThucGiam" id="phanTram" value="false" th:checked="${!pgg.hinhThucGiam}">
+                                                    <label class="form-check-label" for="phanTram">%</label>
                                                 </div>
                                             </div>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('hinhThucGiam')}" th:errors="*{hinhThucGiam}"></div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="form-label">Don Toi Thieu:</label>
+                                            <label class="form-label">Đơn tối thiểu:</label>
                                             <input type="number" placeholder="Nhập don toi thieu" name="donToiThieu" class="form-control" th:field="*{donToiThieu}">
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('donToiThieu')}" th:errors="*{donToiThieu}"></div>
-                                            <div class="invalid-feedback">Vui lòng nhập don toi thieu</div>
+                                            <div class="invalid-feedback">Vui lòng nhập đơn tối thiểu</div>
                                         </div>
 
 
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="form-label">Gia Tri Giam:</label>
+                                            <label class="form-label">Giá Trị Giảm:</label>
                                             <input type="number" placeholder="Nhập gia tri giam" name="giaTriGiam" class="form-control" th:field="*{giaTriGiam}">
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('giaTriGiam')}" th:errors="*{giaTriGiam}"></div>
-                                            <div class="invalid-feedback">Vui lòng nhập gia tri giam</div>
+                                            <div class="invalid-feedback">Vui lòng nhập giá trị giảm</div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="form-label"> Giam Toi Da:</label>
+                                            <label class="form-label"> Giảm Tối Đa:</label>
                                             <input type="text" placeholder="Nhập giam toi da" name="giamToiDa" class="form-control" th:field="*{giamToiDa}">
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('giamToiDa')}" th:errors="*{giamToiDa}"></div>
-                                            <div class="invalid-feedback">Vui lòng nhập gia tri giam toi da</div>
+                                            <div class="invalid-feedback">Vui lòng nhập giá trị giảm tối đa</div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label">Ngày Bat Dau:</label>
-                                            <input type="date" class="form-control" id="ngayBatDau" name="ngayBatDau" th:field="*{ngayBatDau}" >
-                                            <div class="invalid-feedback">Vui lòng chọn ngày bat dau</div>
+                                            <label class="form-label">Ngày Bắt Đầu:</label>
+                                            <input type="date" class="form-control" id="ngayBatDau" name="ngayBatDau" th:value="${#dates.format(pgg.ngayBatDau, 'yyyy-MM-dd')}" th:field="*{ngayBatDau}">
+                                            <div class="invalid-feedback">Vui lòng chọn ngày bắt đầu </div>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('ngayBatDau')}" th:errors="*{ngayBatDau}"></div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="form-label">Ngày Ket Thuc:</label>
-                                            <input type="date" class="form-control" id="ngayKetThuc" name="ngayKetThuc" th:field="*{ngayKetThuc}" >
-                                            <div class="invalid-feedback">Vui lòng chọn ngày ket thuc</div>
+                                            <label class="form-label">Ngày Kết Thúc:</label>
+                                            <input type="date" class="form-control" id="ngayKetThuc" name="ngayKetThuc" th:value="${#dates.format(pgg.ngayKetThuc, 'yyyy-MM-dd')}" th:field="*{ngayKetThuc}">
+                                            <div class="invalid-feedback">Vui lòng chọn ngày kết thúc</div>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('ngayKetThuc')}" th:errors="*{ngayKetThuc}"></div>
                                         </div>
 
-                                        <div class="col-md-6">
-                                            <label class="form-label">Trạng Thái</label><br>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" id="hoatDong" th:field="*{trangThai}" th:value="0">
-                                                <label class="form-check-label" for="hoatDong">Hoạt Động</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" id="ngungHoatDong" th:field="*{trangThai}" th:value="1">
-                                                <label class="form-check-label" for="ngungHoatDong">Ngung Hoạt Động</label>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -145,6 +113,5 @@
 
 <script th:src="@{/assets/js/PhieuGiamGia.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
 </body>
 </html>
