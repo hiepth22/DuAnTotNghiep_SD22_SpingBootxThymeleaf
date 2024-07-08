@@ -130,7 +130,6 @@ public class NhanVienControler {
             String name = UUID.randomUUID().toString() + "." + extension;
             saveImage(img, name);
             nv.setAnh("assets/image/" + name);
-
         }
 
         nv.setNgaytao(java.time.LocalDateTime.now());
@@ -138,7 +137,7 @@ public class NhanVienControler {
         nv.setTrangThai(0);
         String newPassword = generateRandomPassword();
         nv.setMatKhau(newPassword);
-//        sendPasswordEmail(nv.getEmail(), nv.getMatKhau());
+        sendPasswordEmail(nv.getEmail(), nv.getMatKhau());
         nv.setMa(generateMaNhanVien());
 
 
@@ -155,9 +154,19 @@ public class NhanVienControler {
     }
 
     @PostMapping("/updateNhanVien/{id}")
-    public String updateNhanVien(@PathVariable("id") Long id, @Valid @ModelAttribute("nv") NhanVien nv, BindingResult result) {
+    public String updateNhanVien(@PathVariable("id") Long id, @Valid @ModelAttribute("nv") NhanVien nv, BindingResult result
+    ,@RequestParam(name = "img", required = false) MultipartFile img) {
         if (result.hasErrors()) {
             return "admin/NhanVien/NhanVienUpdate";
+        }
+        if (img.getOriginalFilename().equals("")) {
+
+        } else {
+            String extension = FilenameUtils.getExtension(img.getOriginalFilename());
+            String name = UUID.randomUUID().toString() + "." + extension;
+            saveImage(img, name);
+            nv.setAnh("assets/image/" + name);
+
         }
 
         NhanVien updatedNv = sevice.update(id, nv);

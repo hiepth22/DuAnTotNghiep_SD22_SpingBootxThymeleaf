@@ -40,14 +40,14 @@ public class NhanVienSevice {
         Optional<NhanVien> optional = nhanVienRepository.findById(id);
         return optional.map(o -> {
             o.setTen(newnv.getTen());
-            o.setMa(newnv.getMa());
+//            o.setMa(newnv.getMa());
             if (newnv.getAnh() == null) {
             } else {
                 o.setAnh(newnv.getAnh());
             }
 
             o.setCccd(newnv.getCccd());
-            o.setEmail(newnv.getEmail());
+//            o.setEmail(newnv.getEmail());
             o.setGioiTinh(newnv.getGioiTinh());
             o.setDiachi(newnv.getDiachi());
             o.setNgaySinh(newnv.getNgaySinh());
