@@ -60,18 +60,13 @@
                     <span th:if="${spct.trangThai == 0}">Tạm ngưng</span>
                 </td>
                 <td>
-                    <a><i class="fa-solid fa-eye"></i></a>
+                    <a th:href="@{'/admin/san-pham/' + ${spct.sanPham.id} + '/update/' + ${spct.id}}">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
                 </td>
             </tr>
             </tbody>
         </table>
-        <nav aria-label="Page navigation" th:if="${!sanPhamChiTiets.empty && totalPage > 1}">
-            <ul class="pagination pagination-sm no-margin pull-left">
-                <li class="page-item" th:each="i:${#numbers.sequence(1,totalPage)}" th:classappend="${currentPage == i ? 'active' : ''}">
-                    <a class="page-link" th:href="@{'?pageNo='+${i}}" th:text="${i}"></a>
-                </li>
-            </ul>
-        </nav>
     </div>
 
 
