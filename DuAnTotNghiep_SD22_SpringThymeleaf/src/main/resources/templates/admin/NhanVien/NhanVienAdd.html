@@ -165,6 +165,8 @@
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" oninput="validateForm()">
                                 <span id="emailError" class="error"></span>
+                                <span class="error" th:text="${errors}"></span>
+
                             </div>
                         </div>
                         <div class="col-md-12">

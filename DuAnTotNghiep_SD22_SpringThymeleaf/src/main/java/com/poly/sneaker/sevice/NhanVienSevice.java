@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,6 +85,9 @@ public class NhanVienSevice {
 
     public List<NhanVienPhanTrang> loc(String keyword, Optional<Integer> tt, Optional<Integer> vaitro,
                                        Integer page_index, Integer page_size, Date startDate,Date endDate ) {
+        if (startDate != null && endDate == null) {
+            endDate = java.sql.Date.valueOf(LocalDate.now());
+        }
         return nhanVienRepository.findBynv(keyword, tt, vaitro,startDate,endDate, page_index, page_size);
     }
 }
