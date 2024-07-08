@@ -9,12 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.Map;
 
 
 @Controller
@@ -86,9 +89,21 @@ public class PhieuGiamGiaController {
             if (updatedPgg != null) {
                 return "redirect:/admin/phieu-giam-gia";
             }
+
         }
         return "admin/PhieuGiamGia/PhieuGiamGiaUpdate";
     }
+    @PostMapping("/phieu-giam-gia/{id}/delete")
+    public ResponseEntity<String> delteTrangThai(@PathVariable("id") Long id, @RequestBody Map<String, Integer> requestBody) {
+        Integer trangThai = requestBody.get("trangThai");
 
+        try {
+            phieuGiamGiaService.updateTrangThai(id, trangThai);
+            return ResponseEntity.ok("Cập nhật trạng thái phiếu giảm giá thành công");
+        } catch (Exception e) {
+            e.printStackTrace(); // Hoặc log lỗi vào hệ thống
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Có lỗi xảy ra khi cập nhật trạng thái phiếu giảm ");
+        }
+    }
 
 }

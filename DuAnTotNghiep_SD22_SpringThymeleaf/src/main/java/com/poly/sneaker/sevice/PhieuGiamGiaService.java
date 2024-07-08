@@ -55,7 +55,7 @@ public class PhieuGiamGiaService {
             return phieuGiamGiaRepository.save(o);
         }).orElse(null);
     }
-    public PhieuGiamGia updateTrangThai(Long id){
+    public PhieuGiamGia updateTrangThai(Long id, Integer trangThai){
         Optional<PhieuGiamGia> optional = phieuGiamGiaRepository.findById(id);
         return optional.map(o -> {
             o.setTrangThai(0);
@@ -74,7 +74,5 @@ public class PhieuGiamGiaService {
         Optional<PhieuGiamGia> optional = phieuGiamGiaRepository.findById(id);
         return optional.map(o -> o).orElse(null);
     }
-//    public List<PhieuGiamGia> search(String keyword) {
-//        return phieuGiamGiaRepository.findByTen(keyword);
-//    }
+
 }
