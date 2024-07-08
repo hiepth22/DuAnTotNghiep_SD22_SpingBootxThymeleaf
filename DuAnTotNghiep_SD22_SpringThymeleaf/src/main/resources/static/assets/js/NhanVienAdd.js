@@ -1,65 +1,3 @@
-// // HTML:
-// // Thêm thẻ script để include Axios
-// <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-//
-// // JavaScript:
-// var cities = document.getElementById("city");
-// var districts = document.getElementById("district");
-// var wards = document.getElementById("ward");
-//
-// var Parameter = {
-//     url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-//     method: "GET",
-//     responseType: "json", // Sửa từ "application/json" thành "json"
-// };
-//
-// axios(Parameter)
-//     .then(function(response) {
-//         renderCity(response.data);
-//     })
-//     .catch(function(error) {
-//         console.error("Error fetching data: ", error);
-//     });
-//
-// function renderCity(data) {
-//     // Lặp qua dữ liệu và thêm các tùy chọn cho select city
-//     for (const city of data) {
-//         cities.options[cities.options.length] = new Option(city.Name, city.Id);
-//     }
-//
-//     cities.onchange = function() {
-//         // Xóa các tùy chọn hiện tại của select district và ward, giữ lại tùy chọn mặc định
-//         districts.length = 1;
-//         wards.length = 1;
-//
-//         // Lọc dữ liệu để lấy ra quận huyện của thành phố được chọn
-//         const selectedCity = data.find(item => item.Id === this.value);
-//         if (selectedCity) {
-//             // Thêm các tùy chọn cho select district
-//             for (const district of selectedCity.Districts) {
-//                 districts.options[districts.options.length] = new Option(district.Name, district.Id);
-//             }
-//         }
-//     };
-//
-//     districts.onchange = function() {
-//         // Xóa các tùy chọn hiện tại của select ward, giữ lại tùy chọn mặc định
-//         wards.length = 1;
-//
-//         // Lấy ra danh sách các phường xã của quận huyện được chọn
-//         const selectedCity = data.find(item => item.Id === cities.value);
-//         if (selectedCity) {
-//             const selectedDistrict = selectedCity.Districts.find(item => item.Id === this.value);
-//             if (selectedDistrict) {
-//                 // Thêm các tùy chọn cho select ward
-//                 for (const ward of selectedDistrict.Wards) {
-//                     wards.options[wards.options.length] = new Option(ward.Name, ward.Id);
-//                 }
-//             }
-//         }
-//     };
-// }
-
 function handleImageChange(input) {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
@@ -74,10 +12,109 @@ function handleImageChange(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
-function confirmsave() {
-    var confirmed = confirm("Bạn có chắc chắn muốn lưu thay đổi này?");
-    return confirmed;
+
+document.getElementById('confirmButton').addEventListener('click', function() {
+    Swal.fire({
+        title: 'Bạn có chắc chắn?',
+        text: "Bạn không thể hoàn tác hành động này!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Vâng, tiếp tục!',
+        cancelButtonText: 'Hủy'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                'Đã xác nhận!',
+                'Hành động của bạn đã được thực hiện.',
+                'success'
+            ).then(() => {
+                add(); // Gọi hàm để xử lý việc gửi form
+            });
+        } else {
+            Swal.fire(
+                'Đã hủy!',
+                'Hành động của bạn đã bị hủy.',
+                'error'
+            );
+        }
+    });
+});
+
+function add() {
+    const form = document.getElementById('myForm');
+    axios.post('/admin/SaveNhanVien', new FormData(form))
+        .then(function(response) {
+            // Thêm thành công
+            showSuccessMessage();
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+            // Xử lý lỗi nếu cần
+        });
 }
-function showSuccessMessage(message) {
-    alert(message); // Hiển thị thông báo thành công
+
+function showSuccessMessage() {
+    const notification = document.getElementById('notification');
+    notification.classList.add('show');
+    const progressBar = document.getElementById('progress-bar');
+    progressBar.style.width = '0';
+    setTimeout(function() {
+        progressBar.style.width = '100%';
+    }, 100);
+
+    setTimeout(function() {
+        // Remove the show class after the notification disappears
+        notification.classList.remove('show');
+
+        window.location.href = '/admin/nhan-vien';
+    }, 3000);
+}
+function validateForm() {
+    var ten = document.getElementById('ten').value;
+    var sdt = document.getElementById('sdt').value;
+    var email = document.getElementById('email').value;
+    var cccd = document.getElementById('cccd').value;
+
+    // Validate Tên
+    if (ten.trim() == '') {
+        alert('Vui lòng nhập Tên');
+        return false;
+    }
+
+    // Validate SĐT
+    if (sdt.trim() == '') {
+        alert('Vui lòng nhập SĐT');
+        return false;
+    }
+
+    // Validate Email
+    if (email.trim() == '') {
+        alert('Vui lòng nhập Email');
+        return false;
+    }
+
+    // Validate CCCD
+    if (cccd.trim() == '') {
+        alert('Vui lòng nhập CCCD');
+        return false;
+    }
+
+    // Validate Ngày Sinh (Optional)
+    var ngaySinh = document.getElementById('ngaySinh').value;
+    if (ngaySinh.trim() == '') {
+        alert('Vui lòng chọn Ngày Sinh');
+        return false;
+    }
+
+    // Validate Vai Trò (Optional)
+    var vaiTro = document.querySelector('input[name="vaiTro"]:checked');
+    if (!vaiTro) {
+        alert('Vui lòng chọn Vai Trò');
+        return false;
+    }
+
+    // All validations passed, allow form submission
+    return true;
 }
