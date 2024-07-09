@@ -5,7 +5,9 @@ import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.PhieuGiamGiaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -74,5 +76,27 @@ public class PhieuGiamGiaService {
         Optional<PhieuGiamGia> optional = phieuGiamGiaRepository.findById(id);
         return optional.map(o -> o).orElse(null);
     }
+
+//    public Page<PhieuGiamGia> getAllPhieu(Pageable pageable) {
+//    }
+//
+//    public Page<PhieuGiamGia> searchTrangThai(String status, Pageable pageable) {
+//    }
+
+//    public Page<PhieuGiamGia> getAll(Pageable pageable) {
+//        Pageable sortedByIdDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "phieuGiamGiaId"));
+//        Page<PhieuGiamGia> phieuGiamGias = phieuGiamGiaRepository.findAll(sortedByIdDesc);
+//
+//        for (PhieuGiamGia phieu : phieuGiamGias) {
+////            String newStatus = phieu.getTrangThaiHienTai();
+//            if (!newStatus.equals(phieu.getTrangThai())) {
+//                phieu.setTrangThai(newStatus);
+//                phieuGiamGiaRepository.save(phieu);
+//            }
+//        }
+//
+//        return phieuGiamGias;
+//    }
+
 
 }

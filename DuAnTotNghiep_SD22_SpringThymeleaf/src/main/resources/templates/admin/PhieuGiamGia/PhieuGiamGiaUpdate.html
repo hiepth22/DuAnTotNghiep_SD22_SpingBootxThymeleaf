@@ -47,7 +47,7 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" name="hinhThucGiam" id="tienMat" value="true" th:checked="${pgg.hinhThucGiam}">
-                                                    <label class="form-check-label" for="tienMat">TIền mặt</label>
+                                                    <label class="form-check-label" for="tienMat">Tiền mặt</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" name="hinhThucGiam" id="phanTram" value="false" th:checked="${!pgg.hinhThucGiam}">
@@ -83,14 +83,14 @@
                                         <div class="form-group">
                                             <label class="form-label">Ngày Bắt Đầu:</label>
                                             <input type="date" class="form-control" id="ngayBatDau" name="ngayBatDau" th:value="${#dates.format(pgg.ngayBatDau, 'yyyy-MM-dd')}" th:field="*{ngayBatDau}">
-                                            <div class="invalid-feedback">Vui lòng chọn ngày bắt đầu </div>
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('ngayBatDau')}" th:errors="*{ngayBatDau}"></div>
+<!--                                            <input type="text" th:field="*{giamToiDa}">-->
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('ngayBatDau')}">Vui lòng chọn ngày bắt đầu</div>
                                         </div>
+
 
                                         <div class="form-group">
                                             <label class="form-label">Ngày Kết Thúc:</label>
                                             <input type="date" class="form-control" id="ngayKetThuc" name="ngayKetThuc" th:value="${#dates.format(pgg.ngayKetThuc, 'yyyy-MM-dd')}" th:field="*{ngayKetThuc}">
-                                            <div class="invalid-feedback">Vui lòng chọn ngày kết thúc</div>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('ngayKetThuc')}" th:errors="*{ngayKetThuc}"></div>
                                         </div>
 

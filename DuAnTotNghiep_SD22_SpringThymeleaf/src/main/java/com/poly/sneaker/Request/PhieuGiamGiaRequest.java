@@ -2,6 +2,7 @@ package com.poly.sneaker.Request;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -36,10 +37,12 @@ public class PhieuGiamGiaRequest {
 
     private BigDecimal giamToiDa;
 
-
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date ngayBatDau;
 
-
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date ngayKetThuc;
 
 
