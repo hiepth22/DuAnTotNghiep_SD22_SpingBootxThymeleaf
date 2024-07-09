@@ -53,7 +53,7 @@ public class SanPhamChiTietService {
 
 
 
-    public SanPhamChiTiet finById(Long id) {
+    public SanPhamChiTiet findById(Long id) {
         Optional<SanPhamChiTiet> optional = repository.findById(id);
         return optional.map(o -> o).orElse(null);
     }

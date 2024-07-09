@@ -45,6 +45,11 @@
             opacity: 0;
         }
     }
+    .error {
+        color: red;
+        font-size: 14px;
+    }
+
 
 </style>
 <div class="container-xxl position-relative bg-white d-flex p-0">
@@ -105,21 +110,36 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="ten" class="form-label">Tên</label>
-                                <input type="text" class="form-control" id="ten" name="ten" required>
+                                <input type="text" class="form-control" id="ten" name="ten" oninput="validateForm()">
+                                <span id="tenError" class="error"></span>
                             </div>
                         </div>
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="sdt" class="form-label">SĐT</label>
-                                <input type="text" class="form-control" id="sdt" name="sdt" required>
+                                <input type="text" class="form-control" id="sdt" name="sdt" oninput="validateForm()">
+                                <span id="sdtError" class="error"></span>
                             </div>
                         </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="cccd" class="form-label">CCCD</label>
+                                <input type="text" class="form-control" id="cccd" name="cccd" oninput="validateForm()">
+                                <span id="cccdError" class="error"></span>
+                            </div>
+                        </div>
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="ngaySinh" class="form-label">Ngày Sinh</label>
-                                <input type="date" class="form-control" id="ngaySinh" name="ngaySinh" required>
+                                <input type="date" class="form-control" id="ngaySinh" name="ngaySinh" oninput="validateForm()">
+                                <span id="ngaySinhError" class="error"></span>
                             </div>
                         </div>
+
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label">Giới Tính</label><br>
@@ -141,20 +161,18 @@
                 <div class="col-md-4">
                     <div class="row">
                         <div class="col-md-12">
-
                             <div class="form-group">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="cccd" class="form-label">CCCD</label>
-                                <input type="text" class="form-control" id="cccd" name="cccd" required>
+                                <input type="email" class="form-control" id="email" name="email" oninput="validateForm()">
+                                <span id="emailError" class="error"></span>
+                                <span class="error" th:text="${errors}"></span>
+
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group mt-3">
                                 <label for="diachi" class="form-label">Địa chỉ</label>
-                                <textarea class="form-control" id="diachi" name="diachi" rows="3" required></textarea>
+                                <textarea class="form-control" id="diachi" name="diachi" rows="3" ></textarea>
                             </div>
                         </div>
 
@@ -178,7 +196,7 @@
 
                 <div class="col-12 text-center">
                     <a th:href="@{/admin/nhan-vien}" class="btn btn-secondary">Đóng</a>
-                    <button type="button" class="btn btn-primary" id="confirmButton">Save</button>
+                    <button type="button" class="btn btn-primary" id="confirmButton" onclick="return validateForm();">Save</button>
                 </div>
 
             </form>
