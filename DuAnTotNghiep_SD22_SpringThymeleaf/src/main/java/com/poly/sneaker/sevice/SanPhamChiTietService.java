@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SanPhamChiTietService {
@@ -52,7 +53,7 @@ public class SanPhamChiTietService {
 
 
 
-    public SanPhamChiTiet finById(Long id) {
+    public SanPhamChiTiet findById(Long id) {
         Optional<SanPhamChiTiet> optional = repository.findById(id);
         return optional.map(o -> o).orElse(null);
     }
@@ -112,5 +113,4 @@ public class SanPhamChiTietService {
     public List<SanPhamChiTiet> saveToDatabase(List<SanPhamChiTiet> sanPhamChiTiets) {
         return repository.saveAll(sanPhamChiTiets);
     }
-
 }

@@ -7,7 +7,7 @@ function getPageNumber(button) {
     var vaiTro = document.getElementById("vai_tro").value;
     var startDate = document.getElementById("startDate").value;
     var endDate = document.getElementById("endDate").value;
-    var pageNumber = button.innerText.trim(); // Lấy số trang từ nội dung của button
+    var pageNumber = button.innerText.trim();
 
     searchNhanVien({
         keyword: keyword,
@@ -99,7 +99,7 @@ function confirmToggle(element, id) {
 }
 
 function toggleSwitch(element, id, isChecked) {
-    var url = `/admin/nhan-vien/${id}/update`; // Đảm bảo rằng id đã được thay thế đúng giá trị
+    var url = `/admin/nhan-vien/${id}/update`;
     var data = { trangThai: isChecked ? 0 : 1 };
 
     fetch(url, {

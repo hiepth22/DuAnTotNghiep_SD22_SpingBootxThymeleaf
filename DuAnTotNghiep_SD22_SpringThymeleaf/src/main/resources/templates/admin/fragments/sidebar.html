@@ -1,5 +1,5 @@
 <!-- admin/fragments/sidebar.html -->
-<div class="sidebar pe-4 pb-3" th:fragment="sidebar">
+<div class="sidebar pe-4 pb-3" th:fragment="sidebar" xmlns:th="http://www.w3.org/1999/xhtml">
     <nav class="navbar bg-light navbar-light">
         <a th:href="@{/}" class="navbar-brand mx-4 mb-3">
             <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
@@ -15,26 +15,33 @@
             </div>
         </div>
         <div class="navbar-nav w-100">
-            <a th:href="@{/}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+            <a th:href="@{#}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Thống kê</a>
+            <a th:href="@{/admin/san-pham}" class="nav-item nav-link"><i class="fa-solid fa-box-archive me-2"></i></i>Sản phẩm</a>
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-boxes-packing me-2"></i>Thuộc tính</a>
                 <div class="dropdown-menu bg-transparent border-0">
-                    <a th:href="@{/button}" class="dropdown-item">Buttons</a>
-                    <a th:href="@{/typography}" class="dropdown-item">Typography</a>
-                    <a th:href="@{/element}" class="dropdown-item">Other Elements</a>
+                    <a th:href="@{/admin/chat-lieu}" class="dropdown-item">Chất liệu</a>
+                    <a th:href="@{/admin/co-giay}" class="dropdown-item">Cổ giày</a>
+                    <a th:href="@{/admin/de-giay}" class="dropdown-item">Đế giày</a>
+                    <a th:href="@{/admin/kich-co}" class="dropdown-item">Kích cỡ</a>
+                    <a th:href="@{/admin/mau-sac}" class="dropdown-item">Màu sắc</a>
+                    <a th:href="@{/admin/nha-san-xuat}" class="dropdown-item">Nhà sản xuất</a>
+                    <a th:href="@{/admin/thuong-hieu}" class="dropdown-item">Thương hiệu</a>
                 </div>
             </div>
             <a th:href="@{/hoa-don}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Hóa Đơn</a>
-            <a th:href="@{/form}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Forms</a>
+
+            <a th:href="@{/admin/phieu-giam-gia}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Phiếu Giảm Giá </a>
             <a th:href="@{/table}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
             <a th:href="@{/chart}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
+
+            <a th:href="@{/admin/phieu-giam-gia}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Phiếu giảm giá</a>
+
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Tài Khoản</a>
                 <div class="dropdown-menu bg-transparent border-0">
                     <a th:href="@{/admin/nhan-vien}" class="dropdown-item">Nhân Viên</a>
-                    <a th:href="@{/signup}" class="dropdown-item">Khách Hàng</a>
-                    <a th:href="@{/404}" class="dropdown-item">404 Error</a>
-                    <a th:href="@{/blank}" class="dropdown-item">Blank Page</a>
+                    <a th:href="@{/admin/khach-hang}" class="dropdown-item">Khách Hàng</a>
                 </div>
             </div>
         </div>
