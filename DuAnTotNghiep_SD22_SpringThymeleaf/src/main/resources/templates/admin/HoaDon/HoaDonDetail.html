@@ -36,7 +36,7 @@
 
                             </div>
                             <div class="mt-8 flex gap-2">
-                                <button id="hienThiLichSu" class="bg-blue-500 text-white px-4 py-2 rounded">Lịch sử
+                                <button id="hienThiLichSu" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:text-gray-100">Lịch sử
                                 </button>
                             </div>
 
@@ -49,8 +49,18 @@
         <div id="thongTinHoaDon" class="bg-white h-80 w-full m-auto mt-5 p-6 rounded-lg shadow-md"></div>
         <div id="hoaDonChiTietWrapper" class="bg-white h-[40%] w-full m-auto mt-5 p-6 rounded-lg shadow-md">
             <div id="hoaDonChiTiet" class="h-full">
-                <h1 class="text-xl mt-5 ml-3 mb-4 font-bold">Thông tin sản phẩm đã mua</h1>
+                <div class="grid gap-4 grid-cols-2">
+                    <div>
+                        <h1 class="text-xl mt-3 ml-3 mb-4 font-bold">Thông tin sản phẩm đã mua</h1>
+                    </div>
+                    <div class="flex justify-end ">
+                        <button id="hienThiDanhSachSanPham" class="bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-4 hover:bg-blue-600 hover:text-gray-100">
+                            Thêm sản phẩm
+                        </button>
+                    </div>
+                </div>
                 <div class="overflow-x-auto">
+
                     <table id="tableHoaDonChiTiet" class="min-w-full divide-y divide-gray-200  ">
                         <thead class="bg-blue-500">
                         <tr>
@@ -168,6 +178,71 @@
 
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div id="modalDachSachSanPham" class="fixed inset-0 overflow-y-auto hidden bg-gray-500 bg-opacity-75">
+            <div class="flex items-center justify-center min-h-screen">
+                <div class="bg-white rounded-lg overflow-hidden shadow-xl w-[70%] ml-[20%] max-h-[80%]">
+                    <div class="bg-white px-4 pt-5 pb-4">
+                        <table id="tableDanhSachSanPham" class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-blue-500">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    STT
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    Ảnh
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    Tên Sản Phẩm
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    Giá Bán
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    Số Lượng
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    Kích Thước
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    Màu Sắc
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    Trạng Thái
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    Hành Động
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody id="danhSachSanPham" class="bg-white divide-y divide-gray-200">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <button id="prevPageBtn" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M12.707 15.293a1 1 0 0 1-1.414 1.414l-4-4a1 1 0 0 1 0-1.414l4-4a1 1 0 0 1 1.414 1.414L9.414 12H16a1 1 0 0 1 0 2h-6.586l3.293 3.293z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                            <button id="nextPageBtn" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M7.293 15.293a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414-1.414L10.586 12H4a1 1 0 0 1 0-2h6.586l-3.293-3.293a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div id="paginationButtons" class="flex items-center space-x-2">
+                        </div>
+                    </div>
+                    <div class="flex justify-end mb-3 mr-3">
+                        <button id="dongDanhSachSanPham" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:text-gray-100">Xác nhận
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -317,6 +392,7 @@
             });
         }
 
+
         function updateTongTien(tongTien, idHoaDon) {
             $.ajax({
                 url: `/api/hoa-don/update-tong-tien/${idHoaDon}`,
@@ -358,15 +434,119 @@
 
                     hienThiTongTienChiTiet(tongTien, hd);
 
+                    getDanhSachSanPham(0, 3);
+
+
                     xoaSanPham(idHoaDon);
 
                 },
                 error: function (xhr, status, error) {
-                    console.error('Lỗi khi lấy chi tiết hóa đơn:', error);
+                    console.error('Lỗi fetchHoaDonDetail:', error);
                 }
             });
         }
 
+        const generatePaginationButtons = (currentPage, totalPages) => {
+            let buttons = "";
+            for (let i = 1; i <= totalPages; i++) {
+                buttons += `<button class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 pageBtn">${i}</button>`;
+            }
+            $("#paginationButtons").html(buttons);
+
+            $(`.pageBtn:eq(${currentPage})`).addClass("bg-gray-400");
+        };
+
+        const getDanhSachSanPham = (page, size) => {
+            $.ajax({
+                url: `/api/hoa-don/danh-sach-san-pham?page=${page}&size=${size}`,
+                method: 'GET',
+                success: function(result) {
+                    let list = "";
+                    $("#danhSachSanPham").empty();
+                    for (let i = 0; i < result.content.length; i++) {
+                        list += `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <img src="https://res.cloudinary.com/deapopcoc/image/upload/${result.content[i].anh.ten}" alt="Ảnh" class="w-16 h-auto">
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap font-bold">
+                            <h1>${result.content[i].sanPham.ten}</h1>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">${formatVND(result.content[i].giaBan)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].soLuong}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].kichCo.ten}</td>
+                        <td>
+                            <div class="color-container rounded-lg ml-5" style="background-color: ${result.content[i].mauSac.ten}; width: 50px; height: 20px;"></div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="bg-green-500 rounded-lg text-white">${trangThaiSanPham(result.content[i].trangThai)}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                           <button class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-4 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm
+                            </button>
+                        </td>
+                    </tr>`;
+                    }
+
+                    $("#danhSachSanPham").html(list);
+
+                    $(".pagination-info").text(`Trang ${result.number + 1} của ${result.totalPages}`);
+
+                    generatePaginationButtons(result.number, result.totalPages);
+
+                    $("#danhSachSanPham").off('click', '.themSanPham').on('click', '.themSanPham', function () {
+                        const itemId = $(this).data('id');
+                        const giaBan = $(this).data('gia-ban');
+
+                        $(this).off('click');
+                        $.ajax({
+                            url: `/api/hoa-don/danh-sach-san-pham/add`,
+                            method: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({gia: giaBan, trangThai: 1 ,hoaDon: {id: idHoaDon}, sanPhamChiTiet: {id: itemId}}),
+                            success: function () {
+                                fetchHoaDonDetail(idHoaDon);
+                                location.reload();
+                                hideModalDanhSachSanPham();
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Lỗi thêm sản phẩm: ', error);
+                            }
+                        });
+                    });
+                },
+                error: function(error) {
+                    console.error('Lỗi khi lấy dữ liệu:', error);
+                }
+            });
+        };
+
+        getDanhSachSanPham(0, 3);
+
+
+        $(document).on("click", ".pageBtn", function() {
+            let page = $(this).text() - 1;
+            getDanhSachSanPham(page, 3);
+        });
+
+        $("#prevPageBtn").on("click", function() {
+            let currentPage = $(".pageBtn.bg-gray-400").text();
+            if (currentPage > 1) {
+                let page = parseInt(currentPage) - 2;
+                getDanhSachSanPham(page, 3);
+            }
+        });
+
+
+        $("#nextPageBtn").on("click", function() {
+            let currentPage = $(".pageBtn.bg-gray-400").text();
+            let totalPages = $(".pageBtn").length;
+            if (currentPage < totalPages) {
+                let page = parseInt(currentPage);
+                getDanhSachSanPham(page, 3);
+            }
+        });
 
 
         const getLichSu = () => {
@@ -479,6 +659,18 @@
         }
 
 
+        function showModalDanhSachSanPham() {
+            $('#modalDachSachSanPham').removeClass('hidden');
+            fetchHoaDonDetail();
+
+        }
+
+        function hideModalDanhSachSanPham() {
+            $('#modalDachSachSanPham').addClass('hidden');
+            $('#modalDachSachSanPham').val('');
+            $('#modalDachSachSanPham').addClass('hidden');
+        }
+
         function showModalLichSu() {
             $('#modalLichSu').removeClass('hidden');
             getLichSu();
@@ -510,7 +702,17 @@
 
         $('#dongLichSu').click(function () {
             hideModalLichSu();
+        })
+
+        $('#hienThiDanhSachSanPham').click(function () {
+            showModalDanhSachSanPham();
         });
+
+        $('#dongDanhSachSanPham').click(function () {
+            hideModalDanhSachSanPham();
+        })
+
+
 
         const totalSteps = 6;
 
