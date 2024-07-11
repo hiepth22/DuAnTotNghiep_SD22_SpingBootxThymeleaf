@@ -7,6 +7,7 @@ import com.poly.sneaker.entity.SanPhamChiTiet;
 import com.poly.sneaker.sevice.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -37,29 +38,28 @@ public class HoaDonAPI {
 
 
     @GetMapping("")
-    public List<HoaDon> hienThiHoaDonApi(@RequestParam(name = "tab", required = false, defaultValue = "0") int tab,
+    public Page<HoaDon> hienThiHoaDonApi(@RequestParam(name = "tab", required = false, defaultValue = "0") int tab,
                                          @RequestParam(name = "ma", required = false) String ma,
                                          @RequestParam(name = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-                                         @RequestParam(name = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+                                         @RequestParam(name = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+                                         @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                                         @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
 
-        if(tab == 0){
-            return hoaDonService.findHoaDonByMaAndNgayTao(ma, startDate, endDate);
+        Pageable pageable = PageRequest.of(page, size);
+
+        if (tab == 0) {
+            return hoaDonService.findHoaDonByMaAndNgayTao(ma, startDate, endDate, pageable);
         }
 
         if (ma != null && startDate != null && endDate != null) {
-            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(ma, startDate, endDate, tab);
+            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(ma, startDate, endDate, tab, pageable);
         } else if (ma == null && startDate != null && endDate != null) {
-            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(null, startDate, endDate, tab);
+            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(null, startDate, endDate, tab, pageable);
         } else if (ma != null && startDate == null && endDate == null) {
-            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(ma, null, null, tab);
+            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(ma, null, null, tab, pageable);
         } else {
-            return hoaDonService.getAllbyTrangThai(tab);
+            return hoaDonService.getAllByTrangThai(tab, pageable);
         }
-    }
-
-    @GetMapping("/search")
-    public List<HoaDon> searchHoaDon(@RequestParam(name = "tab", required = false, defaultValue = "0") int tab){
-        return hoaDonService.getAllbyTrangThai(tab);
     }
 
 

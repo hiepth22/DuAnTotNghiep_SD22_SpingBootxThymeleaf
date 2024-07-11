@@ -8,34 +8,64 @@ const switchTab = (tab) => {
     currentTab = tab;
     getData();
 };
-const getData = () => {
-    console.log("currentTab", currentTab)
+const getData = (page = 0, size = 2) => {
     $.ajax({
-        url: `/api/hoa-don?tab=${currentTab}&ma=${searchTxt}&startDate=${startDate}&endDate=${endDate}`,
+        url: `/api/hoa-don?tab=${currentTab}&ma=${searchTxt}&startDate=${startDate}&endDate=${endDate}&page=${page}&size=${size}`,
         data: {},
         success: function (result) {
             let list = "";
             $("#listHoaDon").empty();
-            for (let i = 0; i < result.length; i++) {
+            result.content.forEach((hoaDon, i) => {
                 list += `<tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">${result[i].ma}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">${result[i].khachHang.ten}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">${result[i].khachHang.sdt}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">${trangThaiMua(result[i].loai)}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">${result[i].nhanVien.ma}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">${result[i].ngayTao != null ? new Date(result[i].ngayTao).toLocaleDateString('vi-VN') : ''}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">${formatVND(result[i].tongTien)}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">${trangThai(result[i].trangThai)}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap"><a href="/hoa-don/detail/${result[i].id}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                             <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
-                                        </svg>
-                                        </a></td>
-                                      </tr>`;
-            }
+                            <td class="px-6 py-4 whitespace-nowrap">${i + 1 + page * size}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${hoaDon.ma}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${hoaDon.khachHang.ten}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${hoaDon.khachHang.sdt}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${trangThaiMua(hoaDon.loai)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${hoaDon.nhanVien.ma}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${hoaDon.ngayTao != null ? new Date(hoaDon.ngayTao).toLocaleDateString('vi-VN') : ''}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${formatVND(hoaDon.tongTien)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${trangThai(hoaDon.trangThai)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap"><a href="/hoa-don/detail/${hoaDon.id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
+                            </svg>
+                            </a></td>
+                          </tr>`;
+            });
             $("#listHoaDon").html(list);
+
+            let pagination = '';
+
+            pagination += `<button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getData(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>`;
+
+            const maxVisiblePages = 3;
+            const halfVisiblePages = Math.floor(maxVisiblePages / 2);
+            let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
+            let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
+
+            if (startPage > 1) {
+                pagination += `<button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getData(0, ${size})">1</button>`;
+                if (startPage > 2) {
+                    pagination += `<span class="px-4 py-2">...</span>`;
+                }
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                pagination += `<button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getData(${i - 1}, ${size})">${i}</button>`;
+            }
+
+            if (endPage < result.totalPages) {
+                if (endPage < result.totalPages - 1) {
+                    pagination += `<span class="px-4 py-2">...</span>`;
+                }
+                pagination += `<button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getData(${result.totalPages - 1}, ${size})">${result.totalPages}</button>`;
+            }
+
+            pagination += `<button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getData(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>`;
+
+            $("#pagination").html(pagination);
         }
     });
 }
