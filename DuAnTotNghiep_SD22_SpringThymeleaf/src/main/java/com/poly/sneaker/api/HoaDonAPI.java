@@ -3,10 +3,12 @@ package com.poly.sneaker.api;
 import com.poly.sneaker.entity.HoaDon;
 import com.poly.sneaker.entity.HoaDonChiTiet;
 import com.poly.sneaker.entity.LichSuHoaDon;
-import com.poly.sneaker.sevice.HoaDonChiTietService;
-import com.poly.sneaker.sevice.HoaDonService;
-import com.poly.sneaker.sevice.LichSuHoaDonService;
+import com.poly.sneaker.entity.SanPhamChiTiet;
+import com.poly.sneaker.sevice.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,29 +31,37 @@ public class HoaDonAPI {
     HoaDonChiTietService hoaDonChiTietService;
     @Autowired
     private LichSuHoaDonService lichSuHoaDonService;
+    @Autowired
+    private SanPhamChiTietService sanPhamChiTietService;
+    @Autowired
+    private BanHangService banHangService;
 
 
     @GetMapping("")
-    public List<HoaDon> hienThiHoaDonApi(@RequestParam(name = "tab", required = false, defaultValue = "0") int tab,
+    public Page<HoaDon> hienThiHoaDonApi(@RequestParam(name = "tab", required = false, defaultValue = "0") int tab,
                                          @RequestParam(name = "ma", required = false) String ma,
                                          @RequestParam(name = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-                                         @RequestParam(name = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+                                         @RequestParam(name = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+                                         @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                                         @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
 
-        if(tab == 0){
-            return hoaDonService.findHoaDonByMaAndNgayTao(ma, startDate, endDate);
+        Pageable pageable = PageRequest.of(page, size);
+
+        if (tab == 0) {
+            return hoaDonService.findHoaDonByMaAndNgayTao(ma, startDate, endDate, pageable);
         }
 
         if (ma != null && startDate != null && endDate != null) {
-            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(ma, startDate, endDate, tab);
+            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(ma, startDate, endDate, tab, pageable);
         } else if (ma == null && startDate != null && endDate != null) {
-            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(null, startDate, endDate, tab);
+            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(null, startDate, endDate, tab, pageable);
         } else if (ma != null && startDate == null && endDate == null) {
-            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(ma, null, null, tab);
+            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(ma, null, null, tab, pageable);
         } else {
-            return hoaDonService.getAllbyTrangThai(tab);
+            return hoaDonService.getAllByTrangThai(tab, pageable);
         }
-
     }
+
 
     @GetMapping("/detail/{id}")
     public ResponseEntity<Map<String, Object>> detail(@PathVariable("id") Long id) {
@@ -115,5 +125,33 @@ public class HoaDonAPI {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDon not found");
         }
     }
+
+    @PutMapping("/update-tong-tien/{id}")
+    public ResponseEntity<?> updateTongTien(@PathVariable("id") Long id, @RequestBody HoaDon hoaDon) {
+        HoaDon updateTongTien = hoaDonService.updateTongTien(id, hoaDon);
+        if (updateTongTien != null) {
+            return ResponseEntity.ok(updateTongTien);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDon not found");
+        }
+    }
+
+    @GetMapping("/danh-sach-san-pham")
+    public ResponseEntity<?> danhSachSanPham (Pageable pageable){
+        Page<SanPhamChiTiet> sanPhamChiTietPage = banHangService.getAllSanPham(pageable);
+        return ResponseEntity.ok(banHangService.getAllSanPham(pageable));
+    }
+
+    @PostMapping("/danh-sach-san-pham/add")
+    public ResponseEntity<?> themSanPham(@RequestBody HoaDonChiTiet hoaDonChiTiet){
+        hoaDonChiTiet.setSoLuong(1);
+        hoaDonChiTiet.setHoaDon(hoaDonChiTiet.getHoaDon());
+        hoaDonChiTiet.setSanPhamChiTiet(hoaDonChiTiet.getSanPhamChiTiet());
+        return ResponseEntity.ok(banHangService.add(hoaDonChiTiet));
+    }
+
+
+
+
 
 }
