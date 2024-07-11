@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.1/font/bootstrap-icons.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRkz1p2tzlZ1x58lH6gpG5KqfZSOaB4o4hjOE6iF7" crossorigin="anonymous"></head>
 <body>
 <div class="container mt-4">
-    <h2 class="text-center mb-4">Danh Sách Khách Hàng</h2>
+    <h2 class="mb-4">Danh Sách Khách Hàng</h2>
     <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>Thành công!</strong> <span th:text="${successMessage}"></span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -21,8 +21,8 @@
         <thead class="text-center">
         <tr>
             <th scope="col">STT</th>
-            <th scope="col">Tên</th>
             <th scope="col">Mã</th>
+            <th scope="col">Tên</th>
             <th scope="col">SĐT</th>
             <th scope="col">Ngày Sinh</th>
             <th scope="col">Giới Tính</th>
@@ -35,8 +35,8 @@
         <tbody>
         <tr th:each="kh, status : ${kh}" class="text-center">
             <td th:text="${status.index + 1}"></td>
-            <td th:text="${kh.ten}"></td>
             <td th:text="${kh.ma}"></td>
+            <td th:text="${kh.ten}"></td>
             <td th:text="${kh.sdt}"></td>
             <td th:text="${#dates.format(kh.ngaySinh, 'dd/MM/yyyy')}"></td>
             <td>
