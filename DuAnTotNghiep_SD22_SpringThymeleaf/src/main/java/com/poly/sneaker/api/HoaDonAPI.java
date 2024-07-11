@@ -55,8 +55,13 @@ public class HoaDonAPI {
         } else {
             return hoaDonService.getAllbyTrangThai(tab);
         }
-
     }
+
+    @GetMapping("/search")
+    public List<HoaDon> searchHoaDon(@RequestParam(name = "tab", required = false, defaultValue = "0") int tab){
+        return hoaDonService.getAllbyTrangThai(tab);
+    }
+
 
     @GetMapping("/detail/{id}")
     public ResponseEntity<Map<String, Object>> detail(@PathVariable("id") Long id) {
