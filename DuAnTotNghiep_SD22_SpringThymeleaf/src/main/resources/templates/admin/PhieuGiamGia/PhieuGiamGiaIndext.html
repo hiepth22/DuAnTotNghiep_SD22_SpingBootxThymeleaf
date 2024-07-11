@@ -112,10 +112,12 @@
                         <span th:if="${phieugiamgia.hinhThucGiam} == true"> Tien mat</span>
                         <span th:if="${phieugiamgia.hinhThucGiam} == false"> %</span>
                     </td>
-                    <td th:text="${phieugiamgia.donToiThieu}"></td>
-                    <td th:text="${phieugiamgia.giaTriGiam}"></td>
-
-                    <td th:text="${phieugiamgia.giamToiDa}"></td>
+                    <td th:text="${#numbers.formatDecimal(phieugiamgia.donToiThieu, 0)}"></td>
+                    <td>
+                        <span th:if="${phieugiamgia.hinhThucGiam == true}" th:text="${#numbers.formatDecimal(phieugiamgia.giaTriGiam, 0)}"></span>
+                        <span th:if="${phieugiamgia.hinhThucGiam == false}" th:text="${phieugiamgia.giaTriGiam + ' %'}"></span>
+                    </td>
+                    <td th:text="${#numbers.formatDecimal(phieugiamgia.giamToiDa, 0)}"></td>
                     <td th:text="${#dates.format(phieugiamgia.ngayBatDau, 'dd/MM/yyyy')}"></td>
                     <td th:text="${#dates.format(phieugiamgia.ngayKetThuc, 'dd/MM/yyyy')}"></td>
 
