@@ -11,6 +11,7 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -48,15 +49,13 @@ public class PhieuGiamGia {
     @Column(name = "giamToiDa")
     private BigDecimal giamToiDa;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "ngayBatDau")
-    private Date ngayBatDau;
+    private LocalDate ngayBatDau;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "ngayKetThuc")
-    private Date ngayKetThuc;
+    private LocalDate ngayKetThuc;
 
 
     @Column(name = "trangThai")

@@ -1,15 +1,4 @@
 
-// function confirmToggle(element, id) {
-//     var isChecked = element.checked;
-//     var confirmed = confirm("THAY ĐỔI TRẠNG THÁI PHIẾU GIẢM GIÁ?");
-//
-//     if (confirmed) {
-//         toggleSwitch(element, id, isChecked);
-//     } else {
-//         element.checked = !isChecked;
-//     }
-// }
-
 
     function confirmToggle(checkbox, id) {
     Swal.fire({
@@ -68,6 +57,35 @@ function toggleSwitch(element, id, isChecked) {
             element.checked = !isChecked;
         });
 }
+function resetForm() {
+    document.getElementById("trangThai").value = "";
+    document.getElementById("searchInput").value = "";
+    document.getElementById("hinhThucGiam").value = "";
+    document.getElementById("ngayBatDau").value = "";
+    document.getElementById("ngayKetThuc").value = "";
+}
+    function OnSearchEmployee() {
+        var status = document.getElementById("trangThai").value;
+        var keyword = document.getElementById("searchInput").value;
+        var hinhThucGiam = document.getElementById("hinhThucGiam").value;
+        var ngayBatDau = document.getElementById("ngayBatDau").value;
+        var ngayKetThuc = document.getElementById("ngayKetThuc").value;
+        var obj = {
+            keyword: keyword,
+            trangThai: status != "" ? status : null,
+            hinhThucGiam: hinhThucGiam != "" ? hinhThucGiam : null,
+            page_index: 1,
+            page_size: 5,
+            ngayBatDau: ngayBatDau !== "" ? ngayBatDau : null,
+            ngayKetThuc : ngayKetThuc !== "" ? ngayKetThuc : null
+        }
 
+        console.log(obj);
 
+        searchPhieuGiamGia(obj);
+    }
+
+function searchPhieuGiamGia(obj){
+
+}
 

@@ -4,15 +4,16 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml" href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309" />
-    <title>Phieu Giam Gia</title>
+    <link rel="icon" type="image/svg+xml"
+          href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
+    <title>Phiếu Giảm Giá</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
 </head>
 <body>
 
-        <div class="container mt-4">
+<div class="container mt-4">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -22,45 +23,44 @@
                     </h2>
                 </div>
                 <div class="card-body">
-                    <form th:action="@{/admin/updatePhieuGiamGia/{id}(id=${pgg.id})}" method="post" class="row g-3" th:object="${pgg}" onsubmit="return validateForm()">
+                    <form th:action="@{/admin/updatePhieuGiamGia/{id}(id=${pgg.id})}" method="post" class="row g-3"
+                          th:object="${pgg}" onsubmit="return validateForm()">
                         <div class="row mb-3">
-
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-6">
-
                                         <div class="form-group">
-                                            <label class="form-label">Mã Phiếu :</label>
-                                            <input type="text" placeholder="Nhập mã phieu" name="ma" class="form-control" th:field="*{ma}">
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}"></div>
-                                            <div class="invalid-feedback">Vui lòng nhập mã</div>
-                                        </div>
+                                            <label class="form-label">Mã Phiếu:</label>
+                                            <input type="text" placeholder="Nhập mã phiếu" name="ma" th:field="*{ma}"
+                                                   class="form-control" required>
 
+                                        </div>
                                         <div class="form-group">
                                             <label class="form-label">Số Lượng:</label>
-                                            <input type="text" placeholder="Nhập so luong" name="soLuong" class="form-control" th:field="*{soLuong}">
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('soLuong')}" th:errors="*{soLuong}"></div>
+                                            <input type="text" placeholder="Nhập số lượng" name="soLuong"
+                                                   th:field="*{soLuong}" class="form-control" required>
+
                                             <div class="invalid-feedback">Vui lòng nhập số lượng</div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label">Hình Thức Giảm:</label>
                                             <div class="d-flex align-items-center">
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="hinhThucGiam" id="tienMat" value="true" th:checked="${pgg.hinhThucGiam}">
-                                                    <label class="form-check-label" for="tienMat">Tiền mặt</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="hinhThucGiam" id="phanTram" value="false" th:checked="${!pgg.hinhThucGiam}">
-                                                    <label class="form-check-label" for="phanTram">%</label>
+                                                <div class="lg:col-span-4">
+                                                    <label class="font-semibold">Hình Thức Giảm:</label>
+                                                    <select th:field="*{hinhThucGiam}"
+                                                            class="form-select form-input mt-2 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0">
+                                                        <option value="0">Tiền mặt</option>
+                                                        <option value="1">Phần trăm</option>
+                                                    </select>
                                                 </div>
                                             </div>
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('hinhThucGiam')}" th:errors="*{hinhThucGiam}"></div>
                                         </div>
-
                                         <div class="form-group">
-                                            <label class="form-label">Đơn tối thiểu:</label>
-                                            <input type="number" placeholder="Nhập don toi thieu" name="donToiThieu" class="form-control" th:field="*{donToiThieu}">
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('donToiThieu')}" th:errors="*{donToiThieu}"></div>
+                                            <label class="form-label">Đơn Tối Thiểu:</label>
+                                            <div class="input-with-unit" data-unit="VND">
+                                                <input type="number" placeholder="Nhập đơn tối thiểu...."
+                                                       name="donToiThieu"
+                                                       th:field="*{donToiThieu}" class="form-control" required>
+                                            </div>
                                             <div class="invalid-feedback">Vui lòng nhập đơn tối thiểu</div>
                                         </div>
 
@@ -69,41 +69,47 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Giá Trị Giảm:</label>
-                                            <input type="number" placeholder="Nhập gia tri giam" name="giaTriGiam" class="form-control" th:field="*{giaTriGiam}">
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('giaTriGiam')}" th:errors="*{giaTriGiam}"></div>
+                                            <input type="number" placeholder="Nhập giá trị giảm" name="giaTriGiam"
+                                                   class="form-control" th:field="*{giaTriGiam}" required>
                                             <div class="invalid-feedback">Vui lòng nhập giá trị giảm</div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="form-label"> Giảm Tối Đa:</label>
-                                            <input type="text" placeholder="Nhập giam toi da" name="giamToiDa" class="form-control" th:field="*{giamToiDa}">
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('giamToiDa')}" th:errors="*{giamToiDa}"></div>
+                                            <label class="form-label">Giảm Tối Đa:</label>
+                                            <input type="text" placeholder="Nhập giảm tối đa" name="giamToiDa"
+                                                   class="form-control" th:field="*{giamToiDa}" required>
                                             <div class="invalid-feedback">Vui lòng nhập giá trị giảm tối đa</div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label">Ngày Bắt Đầu:</label>
-                                            <input type="date" class="form-control" id="ngayBatDau" name="ngayBatDau" th:value="${#dates.format(pgg.ngayBatDau, 'yyyy-MM-dd')}" th:field="*{ngayBatDau}">
-<!--                                            <input type="text" th:field="*{giamToiDa}">-->
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('ngayBatDau')}">Vui lòng chọn ngày bắt đầu</div>
+                                            <label class="font-semibold">Ngày Bắt Đầu:</label>
+                                            <span class="input-wrapper">
+                                                <input type="date" th:field="*{ngayBatDau}"
+                                                       class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0"
+                                                       placeholder="dd-MM-yyyy"
+                                                       th:value="${#dates.format(ngayBatDau, 'dd-MM-yyyy')}">
+                                            </span>
                                         </div>
-
 
                                         <div class="form-group">
-                                            <label class="form-label">Ngày Kết Thúc:</label>
-                                            <input type="date" class="form-control" id="ngayKetThuc" name="ngayKetThuc" th:value="${#dates.format(pgg.ngayKetThuc, 'yyyy-MM-dd')}" th:field="*{ngayKetThuc}">
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('ngayKetThuc')}" th:errors="*{ngayKetThuc}"></div>
-                                        </div>
+                                            <label class="font-semibold">Ngày Kết Thúc:</label>
 
+                                            <span class="input-wrapper">
+                                                    <input type="date" th:field="*{ngayKetThuc}"
+                                                           class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0"
+                                                           placeholder="dd-MM-yyyy"
+                                                           th:value="${#dates.format(ngayKetThuc, 'dd-MM-yyyy')}">
+                                                </span>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="text-center">
-                            <div>
-                                <a th:href="@{/admin/phieu-giam-gia}" class="btn btn-secondary">Close</a>
-                                <button type="submit" class="btn btn-primary">Save</button>
+                            <div class="text-center">
+                                <div>
+                                    <a th:href="@{/admin/phieu-giam-gia}" class="btn btn-secondary">Close</a>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
                             </div>
-                        </div>
                     </form>
                 </div>
             </div>

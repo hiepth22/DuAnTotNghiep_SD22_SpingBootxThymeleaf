@@ -68,7 +68,6 @@ public class PhieuGiamGiaService {
         return phieuGiamGiaRepository.existsById(id);
     }
 
-
     public Boolean trangthai(int tt) {
         return phieuGiamGiaRepository.findByTrangThai(tt).size() > 0;
     }

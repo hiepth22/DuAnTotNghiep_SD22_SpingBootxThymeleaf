@@ -42,9 +42,11 @@
                             <label for="trangThai" class="col-sm-4 col-form-label">Trạng thái:</label>
                             <div class="col-sm-8">
                                 <select id="trangThai" name="trangThai" class="form-control">
-                                    <option value="">Tất cả</option>
+                                    <option value=""></option>
                                     <option value="0">Hoạt động</option>
                                     <option value="1">Ngừng hoạt động</option>
+                                    <option value="">Chưa diễn ra</option>
+
                                 </select>
                             </div>
                         </div>
@@ -53,10 +55,10 @@
                         <div class="form-group row">
                             <label for="hinhThucGiam" class="col-sm-4 col-form-label">Hình Thức Giảm:</label>
                             <div class="col-sm-8">
-                                <select id="hinhThucGiam" name="hinhThucGiam" class="form-control">
-                                    <option value="">Tất cả</option>
+                                <select id="hinhThucGiam" name="hinhThucGiam" class="form-control">trăm
+                                    <option value=""></option>
                                     <option value="0">Tiền mặt</option>
-                                    <option value="1">% </option>
+                                    <option value="1">Phần trăm</option>
                                 </select>
                             </div>
                         </div>
@@ -80,7 +82,7 @@
                 </div>
                 <div class="input-group-append text-center">
                     <button type="button" class="btn btn-info" onclick="OnSearchEmployee()">Tìm kiếm</button>
-                    <button type="button" class="btn btn-warning">Làm Mới </button>
+                    <button type="button" class="btn btn-warning" onclick="resetForm()">Làm Mới</button>
                 </div>
             </form>
 
@@ -109,29 +111,37 @@
                     <td th:text="${phieugiamgia.ma}"></td>
                     <td th:text="${phieugiamgia.soLuong}"></td>
                     <td>
-                        <span th:if="${phieugiamgia.hinhThucGiam} == true"> Tien mat</span>
-                        <span th:if="${phieugiamgia.hinhThucGiam} == false"> %</span>
-                    </td>
-                    <td th:text="${#numbers.formatDecimal(phieugiamgia.donToiThieu, 0)}"></td>
-                    <td>
-                        <span th:if="${phieugiamgia.hinhThucGiam == true}" th:text="${#numbers.formatDecimal(phieugiamgia.giaTriGiam, 0)}"></span>
-                        <span th:if="${phieugiamgia.hinhThucGiam == false}" th:text="${phieugiamgia.giaTriGiam + ' %'}"></span>
-                    </td>
-                    <td th:text="${#numbers.formatDecimal(phieugiamgia.giamToiDa, 0)}"></td>
-                    <td th:text="${#dates.format(phieugiamgia.ngayBatDau, 'dd/MM/yyyy')}"></td>
-                    <td th:text="${#dates.format(phieugiamgia.ngayKetThuc, 'dd/MM/yyyy')}"></td>
+                        <button th:class="${phieugiamgia.hinhThucGiam ? 'btn btn-sm bg-orange-50 text-orange-600' : 'btn btn-sm bg-emerald-50 text-emerald-600'}">
+                            <span th:text="${phieugiamgia.hinhThucGiam ? 'Phần trăm' : 'Tiền mặt'}"></span>
+                        </button>
 
+                    </td>
+                    <td th:text="${#numbers.formatDecimal(phieugiamgia.donToiThieu, 1, 'COMMA', 0, 'POINT')} + ' VND'"></td>
+
+                    <td>
+                          <span th:if="${phieugiamgia.hinhThucGiam == false}"
+                                th:text="${#numbers.formatDecimal(phieugiamgia.giaTriGiam, 1, 'COMMA', 0, 'POINT')} + ' VND'">
+                        </span>
+                        <span th:if="${phieugiamgia.hinhThucGiam == true}"
+                              th:text="${#numbers.formatDecimal(phieugiamgia.giaTriGiam, 1, 'COMMA', 0, 'POINT')} + ' %'">
+                        </span>
+                    </td>
+                    <td th:text="${#numbers.formatDecimal(phieugiamgia.giamToiDa, 1, 'COMMA', 0, 'POINT')} + ' VND'"></td>
+
+                    <td th:text="${phieugiamgia.ngayBatDau}"></td>
+                    <td th:text="${phieugiamgia.ngayKetThuc}"></td>
                     <td>
                         <label class="switch">
                             <input type="checkbox" id="switchButton_${phieugiamgia.id}" data-id="${phieugiamgia.id}"
                                    data-trang-thai="${phieugiamgia.trangThai}" class="toggle-checkbox"
                                    th:checked="${phieugiamgia.trangThai == 0}"
-                                   th:onclick="'confirmToggle(this, ' + ${phieugiamgia.id} + ')'" />
+                                   th:onclick="'confirmToggle(this, ' + ${phieugiamgia.id} + ')'"/>
                             <span class="slider round"></span>
                         </label>
                     </td>
                     <td>
-                        <a th:href="@{/admin/UpdatePhieuGiamGia/{id}(id=${phieugiamgia.id})}" class="btn btn-outline-success"
+                        <a th:href="@{/admin/UpdatePhieuGiamGia/{id}(id=${phieugiamgia.id})}"
+                           class="btn btn-outline-success"
                            style="background-color: #28a745">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  class="bi bi-pencil-square" viewBox="0 0 16 16" style="color: #f0f0f0">
@@ -143,15 +153,15 @@
                 </tr>
                 </tbody>
             </table>
-<!--            <div class="text-left mt-3" style="text-align: left">-->
-<!--                <div th:if="${page.number > 0}">-->
-<!--                    <a th:href="@{?page=${page.number - 1}&type=${type}&status=${status}}" class="btn btn-primary btn-sm" style="font-weight: bold"><<</a>-->
-<!--                </div>-->
-<!--                <span class="btn btn-primary btn-sm" th:text="${page.number + 1} + ' / ' + ${page.totalPages}">1 / 1</span>-->
-<!--                <div th:if="${page.number + 1 < page.totalPages}">-->
-<!--                    <a th:href="@{?page=${page.number + 1}&type=${type}&status=${status}}" class="btn btn-primary btn-sm" style="font-weight: bold">>></a>-->
-<!--                </div>-->
-<!--            </div>-->
+            <!--            <div class="text-left mt-3" style="text-align: left">-->
+            <!--                <div th:if="${page.number > 0}">-->
+            <!--                    <a th:href="@{?page=${page.number - 1}&type=${type}&status=${status}}" class="btn btn-primary btn-sm" style="font-weight: bold"><<</a>-->
+            <!--                </div>-->
+            <!--                <span class="btn btn-primary btn-sm" th:text="${page.number + 1} + ' / ' + ${page.totalPages}">1 / 1</span>-->
+            <!--                <div th:if="${page.number + 1 < page.totalPages}">-->
+            <!--                    <a th:href="@{?page=${page.number + 1}&type=${type}&status=${status}}" class="btn btn-primary btn-sm" style="font-weight: bold">>></a>-->
+            <!--                </div>-->
+            <!--            </div>-->
 
         </div>
     </div>
@@ -220,12 +230,14 @@
         display: block;
         margin: 0 auto;
     }
+
     .inactive-status {
         background-color: #f8d7da;
         border-radius: 5px;
         padding: 5px 10px;
         color: #721c24;
     }
+
     .active-status1 {
         background-color: #d4edda;
         border-radius: 5px;
@@ -281,12 +293,11 @@
     input:checked + .slider.round:before {
         transform: translateX(20px);
     }
+
     /* CSS để hiển thị tooltip */
     .switch input[type="checkbox"]:hover {
         cursor: pointer;
     }
-
-
 
 
 </style>

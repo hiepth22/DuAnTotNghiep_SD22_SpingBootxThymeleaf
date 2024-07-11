@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
 
@@ -55,7 +56,6 @@ public class PhieuGiamGiaController {
     public String addPhieuGiamGia(@Valid @ModelAttribute("phieuGiamGia") PhieuGiamGiaRequest pgg, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
-            System.out.println("loi");
             PhieuGiamGia pggnew = new PhieuGiamGia();
 
             pggnew.setMa("VC"+  phieuGiamGiaService.getall().size() );
@@ -64,8 +64,8 @@ public class PhieuGiamGiaController {
             pggnew.setDonToiThieu(pgg.getDonToiThieu());
             pggnew.setGiaTriGiam(pgg.getGiaTriGiam());
             pggnew.setGiamToiDa(pgg.getGiamToiDa());
-            pggnew.setNgayBatDau(new Date());
-            pggnew.setNgayKetThuc(new Date());
+            pggnew.setNgayBatDau(LocalDate.now());
+            pggnew.setNgayKetThuc(LocalDate.now());
             pggnew.setTrangThai(pgg.getTrangThai());
             phieuGiamGiaService.Add(pggnew);
 
@@ -78,9 +78,6 @@ public class PhieuGiamGiaController {
     @GetMapping("/UpdatePhieuGiamGia/{id}")
     public String showEmployeeDetail(@PathVariable("id") Long id, Model model) {
         PhieuGiamGia pgg = phieuGiamGiaService.findById(id);
-        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        System.out.println(pgg.getNgayBatDau());
-        System.out.println(pgg.getNgayKetThuc());
         model.addAttribute("pgg", pgg);
         return "admin/PhieuGiamGia/PhieuGiamGiaUpdate";
     }
