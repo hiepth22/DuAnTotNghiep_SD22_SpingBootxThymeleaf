@@ -2,9 +2,9 @@
     searchKH("");
 })();
 
-function searchKH(keyword,page_index = 1, page_size = 5) {
+function searchKH(keyword, page_index = 1, page_size = 5) {
     console.log(keyword);
-    var url = '/admin/search-khach-hang?keyword='+ encodeURIComponent(keyword);
+    var url = '/admin/search-khach-hang?keyword=' + encodeURIComponent(keyword);
     console.log(url);
     fetch(url)
         .then(response => response.text())
@@ -13,25 +13,6 @@ function searchKH(keyword,page_index = 1, page_size = 5) {
             tableBody.innerHTML = data.trim();
         })
         .catch(error => console.error('Error:', error));
-}
-const buildCloudinaryUrl = (publicId) => {
-    const cloudName = "deapopcoc";
-    return `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}`;
-};
-
-function handleImageChange(input) {
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const previewImage = document.querySelector('.image-placeholder img');
-            previewImage.src = e.target.result;
-            previewImage.style.display = 'block';
-
-            const placeholder = document.querySelector('.image-placeholder span');
-            placeholder.style.display = 'none';
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
 }
 
 function validateForm() {
@@ -144,6 +125,7 @@ function validateForm() {
 
     return isValid;
 }
+
 function confirmToggle(element, id) {
     var isChecked = element.checked;
     var confirmed = confirm("THAY ĐỔI TRẠNG THÁI KHÁCH HÀNG?");
@@ -154,31 +136,80 @@ function confirmToggle(element, id) {
         element.checked = !isChecked;
     }
 }
-// $(document).ready(function() {
-    // Function to handle showing the modal and fetching address details
-    // function showDiaChiModal(idKH) {
-    //     $.ajax({
-    //         type: "GET",
-    //         url: "/admin/khach-hang/dia-chi/" + idKH,
-    //         success: function(diaChi) {
-    //             var modalContent = '<li>' + diaChi.thanhPho + diaChi.quanHuyen+'</li>';
-    //             $('#modal-address-details').html(modalContent);
-    //             $('#exampleModal').modal('show'); // Show Bootstrap modal
-    //         },
-    //         error: function() {
-    //             console.log("Lỗi khi gọi AJAX để lấy địa chỉ khách hàng");
-    //         }
-    //     });
-    // }
 
-    // Event listener for modal trigger buttons
-//     $('[data-bs-toggle="modal"]').on('click', function() {
-//         var idKH = $(this).data('id');
-//         showDiaChiModal(idKH);
-//     });
-// });
+$(document).ready(function () {
+    // Xử lý khi nhấn vào nút "Địa Chỉ" trong modal
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var khId = button.data('kh-id');
 
+        $.ajax({
+            url: '/admin/khach-hang/dia-chi/' + khId,
+            method: 'GET',
+            success: function (data) {
+                var modalBody = $('#exampleModal').find('.modal-body #modal-address-details');
+                modalBody.empty(); // Xóa dữ liệu trước đó
 
+                if (data.length > 0) {
+                    data.forEach(function (diaChi) {
+                        modalBody.append('<li>' + diaChi.thanhPho + '</li>');
+                    });
+                } else {
+                    modalBody.append('<li>Không có địa chỉ</li>');
+                }
+            },
+            error: function () {
+                var modalBody = $('#exampleModal').find('.modal-body #modal-address-details');
+                modalBody.empty();
+                modalBody.append('<li>Không thể tải địa chỉ</li>');
+            }
+        });
+    });
+
+    // Xác nhận và xử lý toggle trạng thái
+    $('.toggle-checkbox').on('click', function () {
+        var checkbox = $(this);
+        var isChecked = checkbox.is(':checked');
+        var khId = checkbox.data('id');
+        var trangThai = isChecked ? 1 : 0;
+
+        confirmToggle(checkbox, khId, trangThai);
+    });
+
+    function confirmToggle(element, id, trangThai) {
+        var confirmed = confirm("THAY ĐỔI TRẠNG THÁI KHÁCH HÀNG?");
+
+        if (confirmed) {
+            toggleSwitch(element, id, trangThai);
+        } else {
+            element.prop('checked', !trangThai);
+        }
+    }
+
+    function toggleSwitch(element, id, trangThai) {
+        var url = `/admin/khach-hang/${id}/delete`;
+        var data = { trangThai: trangThai };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                alert(`THÀNH CÔNG!!!`);
+            })
+            .catch(error => {
+                console.error('Error updating customer status:', error);
+                alert('LỖI!!!!');
+                element.prop('checked', !trangThai); // Đặt lại trạng thái checkbox nếu có lỗi
+            });
+    }
+});
 
 
 function toggleSwitch(element, id, isChecked) {

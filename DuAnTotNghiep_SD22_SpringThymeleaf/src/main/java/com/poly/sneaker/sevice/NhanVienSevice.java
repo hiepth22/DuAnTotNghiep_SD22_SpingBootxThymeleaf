@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,20 +41,20 @@ public class NhanVienSevice {
         Optional<NhanVien> optional = nhanVienRepository.findById(id);
         return optional.map(o -> {
             o.setTen(newnv.getTen());
-            o.setMa(newnv.getMa());
+//            o.setMa(newnv.getMa());
             if (newnv.getAnh() == null) {
             } else {
                 o.setAnh(newnv.getAnh());
             }
 
             o.setCccd(newnv.getCccd());
-            o.setEmail(newnv.getEmail());
+//            o.setEmail(newnv.getEmail());
             o.setGioiTinh(newnv.getGioiTinh());
             o.setDiachi(newnv.getDiachi());
             o.setNgaySinh(newnv.getNgaySinh());
             o.setSdt(newnv.getSdt());
             o.setVaiTro(newnv.getVaiTro());
-            o.setNgaycapnhap(java.time.LocalDateTime.now());
+            o.setNgayCapNhat(java.time.LocalDateTime.now());
             return nhanVienRepository.save(o);
         }).orElse(null);
     }
@@ -84,6 +85,9 @@ public class NhanVienSevice {
 
     public List<NhanVienPhanTrang> loc(String keyword, Optional<Integer> tt, Optional<Integer> vaitro,
                                        Integer page_index, Integer page_size, Date startDate,Date endDate ) {
+        if (startDate != null && endDate == null) {
+            endDate = java.sql.Date.valueOf(LocalDate.now());
+        }
         return nhanVienRepository.findBynv(keyword, tt, vaitro,startDate,endDate, page_index, page_size);
     }
 }

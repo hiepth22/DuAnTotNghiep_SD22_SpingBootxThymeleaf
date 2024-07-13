@@ -5,6 +5,8 @@
 <link rel="icon" type="image/svg+xml"
       href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
 <link rel="stylesheet" th:href="@{/assets/css/NhanVien.css}"/>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 <body>
 <div class="container-xxl position-relative bg-white d-flex p-0">
     <!-- Spinner Start -->
@@ -28,7 +30,7 @@
         <!-- Navbar Start -->
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
         <!-- Navbar End -->
-        <div class="container mt-5">
+        <div class="container mt-5 content flex-fill ms-5 p-3 bg-light">
 
             <form method="get" class="mt-3 mb-3" id="searchForm">
                 <div class="input-group mb-3">
@@ -40,7 +42,7 @@
                         <div class="form-group row">
                             <label for="trangThai" class="col-sm-4 col-form-label">Trạng thái:</label>
                             <div class="col-sm-8">
-                                <select id="trangThai" name="trangThai" class="form-control">
+                                <select id="trangThai" name="trangThai" >
                                     <option value="">Tất cả</option>
                                     <option value="0">Đang làm việc</option>
                                     <option value="1">Nghỉ việc</option>
@@ -50,9 +52,9 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group row">
-                            <label for="vai_tro" class="col-sm-4 col-form-label">Chức Vụ:</label>
+                            <label for="vaiTro" class="col-sm-4 col-form-label">Chức Vụ:</label>
                             <div class="col-sm-8">
-                                <select id="vai_tro" name="vai_tro" class="form-control">
+                                <select id="vaiTro" name="vaiTro" >
                                     <option value="">Tất cả</option>
                                     <option value="0">Quản Lý</option>
                                     <option value="1">Nhân Viên</option>
@@ -62,7 +64,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group row">
-                            <label for="startDate" class="col-sm-5 col-form-label">Ngày Sinh:</label>
+                            <label for="startDate" class="col-sm-5 col-form-label ">Khoảng Ngày Sinh:</label>
                             <div class="col-sm-7">
                                 <input type="date" name="startDate" id="startDate">
                             </div>
@@ -97,6 +99,28 @@
 <script th:src="@{/assets/js/main.js}"></script>
 
 <script th:src="@{/assets/js/NhanVien.js}"></script>
+<script>
+
+    // Hàm thay đổi trạng thái (thay thế bằng hàm thực tế của bạn)
+    function changeStatus(id, checked) {
+        // Đây là nơi bạn sẽ viết logic để thay đổi trạng thái của nhân viên với ID là id và trạng thái mới là checked
+        console.log(`Đã thay đổi trạng thái của nhân viên có ID ${id} thành ${checked}`);
+        // Ví dụ: Gửi request AJAX để cập nhật trạng thái trên server
+        // $.ajax({
+        //     url: '/updateStatus',
+        //     type: 'POST',
+        //     data: { id: id, checked: checked },
+        //     success: function(response) {
+        //         console.log('Đã cập nhật trạng thái thành công!');
+        //     },
+        //     error: function(error) {
+        //         console.error('Lỗi khi cập nhật trạng thái: ', error);
+        //     }
+        // });
+    }
+</script>
+
+
 
 </body>
 </html>

@@ -6,6 +6,8 @@ import com.poly.sneaker.entity.NhanVien;
 import com.poly.sneaker.repository.HoaDonChiTietRepository;
 import com.poly.sneaker.repository.HoaDonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,29 +25,25 @@ public class HoaDonService {
     private HoaDonChiTietRepository hoaDonChiTietRepository;
 
 
-    public List<HoaDon> getAll(){
-        return hoaDonRepository.findAll();
+    public Page<HoaDon> getAll(Pageable pageable){
+        return hoaDonRepository.findAll(pageable);
     }
 
-    public List<HoaDon> getAllbyTrangThai(int trangThai){
+    public Page<HoaDon> getAllByTrangThai(int trangThai, Pageable pageable){
         if (trangThai == 0) {
-            return hoaDonRepository.findAll();
+            return hoaDonRepository.findAll(pageable);
         } else {
-            return hoaDonRepository.findAllbyTrangThai(trangThai);
+            return hoaDonRepository.findAllByTrangThai(trangThai, pageable);
         }
     }
 
-    public List<HoaDon> findHoaDonByMaAndNgayTaoAndTrangThai(String ma, Date startDate, Date endDate, int trangThai) {
-        return hoaDonRepository.findByMaAndNgayTaoBetweenAndTrangThai(ma, startDate, endDate, trangThai);
+    public Page<HoaDon> findHoaDonByMaAndNgayTaoAndTrangThai(String ma, Date startDate, Date endDate, int trangThai, Pageable pageable) {
+        return hoaDonRepository.findByMaAndNgayTaoBetweenAndTrangThai(ma, startDate, endDate, trangThai, pageable);
     }
 
-    public List<HoaDon> findHoaDonByMaAndNgayTao(String ma, Date startDate, Date endDate) {
-        return hoaDonRepository.findByMaAndNgayTaoBetween(ma, startDate, endDate);
+    public Page<HoaDon> findHoaDonByMaAndNgayTao(String ma, Date startDate, Date endDate, Pageable pageable) {
+        return hoaDonRepository.findByMaAndNgayTaoBetween(ma, startDate, endDate, pageable);
     }
-//    public List<HoaDon> findAllFilter(Date startDate, Date endDate, String ma, String status) {
-//        return hoaDonRepository.findAllByNgayTaoBetweenAndMaContainingIgnoreCaseAndTrangThaiContainingIgnoreCase(startDate, endDate, ma, status);
-//    }
-
 
     public HoaDon add(HoaDon hoaDon) {
         return hoaDonRepository.save(hoaDon);
