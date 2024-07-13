@@ -29,13 +29,13 @@ public class PhieuGiamGiaController {
     PhieuGiamGiaService phieuGiamGiaService;
     PhieuGiamGiaRepository phieuGiamGiaRepository;
 
-//    public String getall(Model model,@RequestParam(defaultValue = "1") int page){
-//        Page<PhieuGiamGia> phieuGiamGias ;
-//        if(page<1) page=1;
-//        Pageable pageable= PageRequest.of(page-1,10);
-//        phieuGiamGias = (Page<PhieuGiamGia>) phieuGiamGiaService.getall(pageable);
-//        model.addAttribute("page",phieuGiamGias);
-//        return "admin/PhieuGiamGia/PhieuGiamGiaIndext";
+//    @GetMapping("/phieu-giam-gia")
+//    public String getAll(Model model, @RequestParam(defaultValue = "1") int page) {
+//        if (page < 1) page = 1;
+//        Pageable pageable = PageRequest.of(page - 1, 10);
+//        Page<PhieuGiamGia> phieuGiamGias = phieuGiamGiaService.getAll(pageable);
+//        model.addAttribute("page", phieuGiamGias);
+//        return "admin/PhieuGiamGia/PhieuGiamGiaIndex";
 //    }
 
     @GetMapping("/phieu-giam-gia")
@@ -61,7 +61,7 @@ public class PhieuGiamGiaController {
             pggnew.setMa("VC"+  phieuGiamGiaService.getall().size() );
             pggnew.setSoLuong(pgg.getSoLuong());
             pggnew.setHinhThucGiam(pgg.getHinhThucGiam());
-            pggnew.setDonToiThieu(pgg.getDonToiThieu());
+//            pggnew.setDonToiThieu(pgg.getDonToiThieu());
             pggnew.setGiaTriGiam(pgg.getGiaTriGiam());
             pggnew.setGiamToiDa(pgg.getGiamToiDa());
             pggnew.setNgayBatDau(new Date());
@@ -78,6 +78,9 @@ public class PhieuGiamGiaController {
     @GetMapping("/UpdatePhieuGiamGia/{id}")
     public String showEmployeeDetail(@PathVariable("id") Long id, Model model) {
         PhieuGiamGia pgg = phieuGiamGiaService.findById(id);
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        System.out.println(pgg.getNgayBatDau());
+        System.out.println(pgg.getNgayKetThuc());
         model.addAttribute("pgg", pgg);
         return "admin/PhieuGiamGia/PhieuGiamGiaUpdate";
     }
@@ -101,9 +104,27 @@ public class PhieuGiamGiaController {
             phieuGiamGiaService.updateTrangThai(id, trangThai);
             return ResponseEntity.ok("Cập nhật trạng thái phiếu giảm giá thành công");
         } catch (Exception e) {
-            e.printStackTrace(); // Hoặc log lỗi vào hệ thống
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Có lỗi xảy ra khi cập nhật trạng thái phiếu giảm ");
         }
     }
+//    @GetMapping("/searchTrangThai")
+//    public String searchTrangThai(@RequestParam(value = "status", required = false, defaultValue = "all") String status,
+//                                  @RequestParam(defaultValue = "1") int page, Model model) {
+//        Page<PhieuGiamGia> phieuGiamGias;
+//        Pageable pageable = PageRequest.of(page - 1, 5); // 5 là số lượng item mỗi trang
+//
+//        if ("all".equals(status)) {
+//            phieuGiamGias = phieuGiamGiaService.getAllPhieu(pageable);
+//        } else {
+//            phieuGiamGias = phieuGiamGiaService.searchTrangThai(status, pageable);
+//        }
+//
+//        model.addAttribute("listPhieu", phieuGiamGias.getContent());
+//        model.addAttribute("page", phieuGiamGias);
+//        model.addAttribute("status", status);
+//
+//        return "/admin/phieu-giam-gia";
+//    }
 
 }
