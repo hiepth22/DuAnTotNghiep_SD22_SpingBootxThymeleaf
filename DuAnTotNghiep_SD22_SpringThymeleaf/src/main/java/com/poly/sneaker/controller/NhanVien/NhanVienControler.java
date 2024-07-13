@@ -81,8 +81,8 @@ public class NhanVienControler {
                     nv1.getMatKhau(),
                     nv1.getVaiTro(),
                     nv1.getTrangThai(),
-                    nv1.getNgaytao(),
-                    nv1.getNgaycapnhap()
+                    nv1.getNgayTao(),
+                    nv1.getNgayCapNhat()
             ));
         }
 
@@ -130,8 +130,8 @@ public class NhanVienControler {
             return "admin/NhanVien/NhanVienAdd";
         }
 
-        nv.setNgaytao(java.time.LocalDateTime.now());
-        nv.setNgaycapnhap(java.time.LocalDateTime.now());
+        nv.setNgayTao(java.time.LocalDateTime.now());
+        nv.setNgayCapNhat(java.time.LocalDateTime.now());
         nv.setTrangThai(0);
         String newPassword = generateRandomPassword();
         nv.setMatKhau(newPassword);
@@ -200,7 +200,7 @@ public class NhanVienControler {
             return "redirect:/admin/nhan-vien";
         }
     }
-    @PostMapping("/nhan-vien/{id}/update")
+    @PostMapping("nhan-vien/{id}/update")
     public ResponseEntity<String> updateTrangThaiNhanVien(@PathVariable("id") Long id, @RequestBody Map<String, Integer> requestBody) {
         Integer trangThai = requestBody.get("trangThai");
 

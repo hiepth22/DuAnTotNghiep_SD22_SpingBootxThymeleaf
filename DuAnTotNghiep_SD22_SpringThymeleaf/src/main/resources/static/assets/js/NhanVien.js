@@ -4,7 +4,7 @@
 function getPageNumber(button) {
     var status = document.getElementById("trangThai").value;
     var keyword = document.getElementById("searchInput").value;
-    var vaiTro = document.getElementById("vai_tro").value;
+    var vaiTro = document.getElementById("vaiTro").value;
     var startDate = document.getElementById("startDate").value;
     var endDate = document.getElementById("endDate").value;
     var pageNumber = button.innerText.trim();
@@ -26,7 +26,7 @@ function getPageNumber(button) {
 function resetForm() {
     document.getElementById("trangThai").value = "";
     document.getElementById("searchInput").value = "";
-    document.getElementById("vai_tro").value = "";
+    document.getElementById("vaiTro").value = "";
     document.getElementById("startDate").value = "";
     document.getElementById("endDate").value = "";
 }
@@ -34,7 +34,7 @@ function resetForm() {
 function OnSearchEmployee() {
     var status = document.getElementById("trangThai").value;
     var keyword = document.getElementById("searchInput").value;
-    var vaiTro = document.getElementById("vai_tro").value;
+    var vaiTro = document.getElementById("vaiTro").value;
     var startDate = document.getElementById("startDate").value;
     var endDate = document.getElementById("endDate").value;
     var obj = {
@@ -87,19 +87,42 @@ function searchNhanVien(obj) {
 
 }
 
-function confirmToggle(element, id) {
-    var isChecked = element.checked;
-    var confirmed = confirm("Bạn có chắc chắn muốn thay đổi trạng thái này?");
 
-    if (confirmed) {
-        toggleSwitch(element, id, isChecked);
-    } else {
-        element.checked = !isChecked;
-    }
+
+function confirmToggle1(element, id) {
+    var trangThai = $(element).data('data-trang-thai');
+
+    Swal.fire({
+        title: 'Bạn có chắc chắn?',
+        text: "Bạn không thể hoàn tác hành động này!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Vâng, tiếp tục!',
+        cancelButtonText: 'Hủy'
+    }).then((result) => {
+        var isChecked = element.checked;
+
+        if (result.isConfirmed) {
+            toggleSwitch(id, trangThai);
+        } else {
+            // Đảo ngược lại trạng thái của checkbox
+            element.checked = !isChecked;
+            Swal.fire(
+                'Đã hủy!',
+                'Hành động của bạn đã bị hủy.',
+                'error'
+            );
+        }
+    });
 }
 
-function toggleSwitch(element, id, isChecked) {
+
+function toggleSwitch(id, trangThai) {
     var url = `/admin/nhan-vien/${id}/update`;
+    var isChecked = trangThai == 1 ? true : false;
+
     var data = { trangThai: isChecked ? 0 : 1 };
 
     fetch(url, {
@@ -113,16 +136,24 @@ function toggleSwitch(element, id, isChecked) {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            alert(`Đã thực hiện Thay Đổi Trạng thái cho nhân viên có ID: ${id}`);
+            return response.text(); // Lấy nội dung phản hồi dưới dạng văn bản
+        })
+        .then(responseText => {
+            alert(responseText); // Hiển thị chuỗi thông báo từ server
+            // Cập nhật trang thái checkbox nếu cần thiết
         })
         .catch(error => {
-            console.error('Error updating employee status:', error);
-            // Xử lý lỗi nếu cần thiết
-            alert('Có lỗi xảy ra khi cập nhật trạng thái nhân viên.');
-
+            console.error('Lỗi khi cập nhật trạng thái nhân viên:', error);
+            alert('Có lỗi xảy ra khi cập nhật trạng thái.');
+            // Đảo ngược lại trạng thái checkbox nếu có lỗi
             element.checked = !isChecked;
         });
 }
+
+
+
+
+
 
 
 
