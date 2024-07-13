@@ -42,6 +42,8 @@
                 <th scope="col">Mã</th>
                 <th scope="col">Tên sản phẩm</th>
                 <th scope="col">Giá bán</th>
+                <th scope="col">Màu sắc</th>
+                <th scope="col">Kích cỡ</th>
                 <th scope="col">Số lượng</th>
                 <th scope="col">Trạng thái</th>
                 <th scope="col">Action</th>
@@ -54,6 +56,8 @@
                 <td th:text="${spct.ma}"></td>
                 <td th:text="${spct.sanPham.ten}"></td>
                 <td th:text="${spct.giaBan}"></td>
+                <td th:text="${spct.mauSac.ten}"></td>
+                <td th:text="${spct.kichCo.ten}"></td>
                 <td th:text="${spct.soLuong}"></td>
                 <td>
                     <span th:if="${spct.trangThai == 1}">Đang bán</span>

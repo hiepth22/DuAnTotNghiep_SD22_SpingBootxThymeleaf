@@ -3,7 +3,6 @@ package com.poly.sneaker.sevice;
 import com.poly.sneaker.entity.Anh;
 import com.poly.sneaker.entity.ChatLieu;
 import com.poly.sneaker.entity.CoGiay;
-import com.poly.sneaker.entity.DanhMuc;
 import com.poly.sneaker.entity.DeGiay;
 import com.poly.sneaker.entity.KichCo;
 import com.poly.sneaker.entity.MauSac;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class SanPhamChiTietService {
@@ -80,7 +78,6 @@ public class SanPhamChiTietService {
             o.setNguoiTao(newSPCT.getNguoiTao());
             o.setNguoiCapNhat(newSPCT.getNguoiCapNhat());
 
-            o.setAnh(Anh.builder().id(newSPCT.getAnh().getId()).build());
             o.setSanPham(SanPham.builder().id(newSPCT.getSanPham().getId()).build());
             o.setKichCo(KichCo.builder().id(newSPCT.getKichCo().getId()).build());
             o.setMauSac(MauSac.builder().id(newSPCT.getMauSac().getId()).build());
@@ -88,7 +85,6 @@ public class SanPhamChiTietService {
             o.setChatLieu(ChatLieu.builder().id(newSPCT.getChatLieu().getId()).build());
             o.setCoGiay(CoGiay.builder().id(newSPCT.getCoGiay().getId()).build());
             o.setNhaSanXuat(NhaSanXuat.builder().id(newSPCT.getNhaSanXuat().getId()).build());
-            o.setDanhMuc(DanhMuc.builder().id(newSPCT.getDanhMuc().getId()).build());
 
             return repository.save(o);
         }).orElse(null);

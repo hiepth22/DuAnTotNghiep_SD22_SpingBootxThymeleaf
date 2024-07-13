@@ -38,7 +38,6 @@ public class NhaSanXuatService {
         Optional<NhaSanXuat> optional = repository.findById(id);
         return optional.map(o -> {
             o.setTen(newNhaSanXuat.getTen());
-            o.setMoTa(newNhaSanXuat.getMoTa());
             o.setNgayTao(newNhaSanXuat.getNgayTao());
             o.setNgayCapNhat(newNhaSanXuat.getNgayCapNhat());
             o.setNguoiTao(newNhaSanXuat.getNguoiTao());

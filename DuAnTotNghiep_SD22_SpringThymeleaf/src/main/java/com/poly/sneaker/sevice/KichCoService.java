@@ -38,7 +38,6 @@ public class KichCoService {
         Optional<KichCo> optional = repository.findById(id);
         return optional.map(o -> {
             o.setTen(newKichCo.getTen());
-            o.setMoTa(newKichCo.getMoTa());
             o.setNgayTao(newKichCo.getNgayTao());
             o.setNgayCapNhat(newKichCo.getNgayCapNhat());
             o.setNguoiTao(newKichCo.getNguoiTao());

@@ -38,7 +38,6 @@ public class ChatLieuService {
         Optional<ChatLieu> optional = repository.findById(id);
         return optional.map(o -> {
             o.setTen(newChatLieu.getTen());
-            o.setMoTa(newChatLieu.getMoTa());
             o.setNgayTao(newChatLieu.getNgayTao());
             o.setNgayCapNhat(newChatLieu.getNgayCapNhat());
             o.setNguoiTao(newChatLieu.getNguoiTao());

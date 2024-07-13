@@ -38,7 +38,6 @@ public class MauSacService {
         Optional<MauSac> optional = repository.findById(id);
         return optional.map(o -> {
             o.setTen(newMauSac.getTen());
-            o.setMoTa(newMauSac.getMoTa());
             o.setNgayTao(newMauSac.getNgayTao());
             o.setNgayCapNhat(newMauSac.getNgayCapNhat());
             o.setNguoiTao(newMauSac.getNguoiTao());
