@@ -112,28 +112,22 @@ public class NhanVienControler {
         String ma = String.valueOf(repository.count() + 1);
         return "NV0" + ma;
     }
-
     @PostMapping("/SaveNhanVien")
-    public String addNhanVien(@Valid @ModelAttribute("nv") NhanVien nv,
+    public String addNhanVien(@ModelAttribute("nv") NhanVien nv,
+                              @RequestParam(name = "dc", required = false) String dc,
                               @RequestParam(name = "img", required = false) MultipartFile img,
-                              BindingResult result,
                               Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("errors", result.getAllErrors());
+        try {
+            if (img != null && !img.isEmpty()) {
+                String extension = FilenameUtils.getExtension(img.getOriginalFilename());
+                String name = UUID.randomUUID().toString() + "." + extension;
+                saveImage(img, name); // Lưu ảnh với tên ngẫu nhiên
+                nv.setAnh("assets/image/" + name); // Thiết lập đường dẫn tương đối cho đối tượng NhanVien
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errors", "Lỗi khi lưu ảnh: " + e.getMessage());
             return "admin/NhanVien/NhanVienAdd";
-        }
-
-        if(repository.existsByEmail(nv.getEmail())){
-            model.addAttribute("errors","mail đã tồn tại");
-        }
-
-        if (img.getOriginalFilename().equals("")) {
-
-        } else {
-            String extension = FilenameUtils.getExtension(img.getOriginalFilename());
-            String name = UUID.randomUUID().toString() + "." + extension;
-            saveImage(img, name);
-            nv.setAnh("assets/image/" + name);
         }
 
         nv.setNgaytao(java.time.LocalDateTime.now());
@@ -144,15 +138,38 @@ public class NhanVienControler {
         sendPasswordEmail(nv.getEmail(), nv.getMatKhau());
         nv.setMa(generateMaNhanVien());
 
+        if (dc != null) {
+            nv.setDiachi(nv.getDiachi() + "," + dc);
+        }
 
         sevice.Add(nv);
         model.addAttribute("successMessage", "Thêm nhân viên thành công!");
         return "redirect:/admin/nhan-vien";
+
     }
+
+    public void saveImage(MultipartFile file, String name) {
+        String uploadDir = "./src/main/resources/static/assets/image"; // Đường dẫn đầy đủ đến thư mục lưu trữ ảnh
+        String fileName = name;
+        try {
+            FileUploadUtil.saveFile(uploadDir, fileName, file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
     @GetMapping("/UpdateNhanVien/{id}") //
     public String showEmployeeDetail(@PathVariable("id") Long id, Model model) {
         NhanVien nv = sevice.findById(id);
+        String[] fruits = nv.getDiachi().split(",");
+        String dcct = fruits[0];
+        String Phuong =  fruits[1];
+        String quan =  fruits[2];
+        String tp =  fruits[3];
+        System.out.println(dcct);
         model.addAttribute("nv", nv);
         return "admin/NhanVien/NhanVienUpdate";
     }
@@ -163,15 +180,18 @@ public class NhanVienControler {
         if (result.hasErrors()) {
             return "admin/NhanVien/NhanVienUpdate";
         }
-        if (img.getOriginalFilename().equals("")) {
-
-        } else {
-            String extension = FilenameUtils.getExtension(img.getOriginalFilename());
-            String name = UUID.randomUUID().toString() + "." + extension;
-            saveImage(img, name);
-            nv.setAnh("assets/image/" + name);
+        try {
+            if (!img.isEmpty()) {
+                String extension = FilenameUtils.getExtension(img.getOriginalFilename());
+                String name = UUID.randomUUID().toString() + "." + extension;
+                saveImage(img, name); // Lưu ảnh với tên ngẫu nhiên
+                nv.setAnh("assets/image/" + name); // Thiết lập đường dẫn tương đối cho đối tượng NhanVien
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
+
 
         NhanVien updatedNv = sevice.update(id, nv);
         if (updatedNv != null) {
@@ -222,17 +242,8 @@ public class NhanVienControler {
         emailSender.send(message);
     }
 
-    public void saveImage(MultipartFile file, String Name) {
-        String uploadDir = "image";
-        String fileName = Name;
-        System.out.println(fileName);
-        try {
-            FileUploadUtil.saveFile(uploadDir, fileName, file);
-        } catch (IOException ioException) {
 
-            ioException.printStackTrace();
-        }
-    }
+
 
 
 }

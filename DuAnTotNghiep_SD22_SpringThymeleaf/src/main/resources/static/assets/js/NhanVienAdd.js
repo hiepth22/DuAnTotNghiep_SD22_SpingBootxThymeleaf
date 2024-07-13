@@ -81,7 +81,20 @@ function validateForm() {
 
     var isValid = true;
 
-    // Validate Tên
+
+    var dc = document.getElementById('dc').value.trim();
+    var diachi = document.getElementById('diachi').value.trim();
+
+
+    if ( dc === '' ) {
+        document.getElementById('dcError').textContent = 'Vui lòng nhập đầy đủ địa chỉ';
+        isValid = false;
+    }
+    // if ( diachi === '' ) {
+    //     document.getElementById('dcError').textContent = 'Vui lòng nhập đầy đủ địa chỉ';
+    //     isValid = false;
+    // }
+
     if (ten === '') {
         document.getElementById('tenError').textContent = 'Vui lòng nhập Tên';
         isValid = false;
