@@ -76,6 +76,12 @@ public class PhieuGiamGiaService {
         return optional.map(o -> o).orElse(null);
     }
 
+    public Page<PhieuGiamGia> getAllPhieu(Pageable pageable) {
+    }
+
+    public Page<PhieuGiamGia> searchTrangThai(String status, Pageable pageable) {
+    }
+
 //    public Page<PhieuGiamGia> getAllPhieu(Pageable pageable) {
 //    }
 //

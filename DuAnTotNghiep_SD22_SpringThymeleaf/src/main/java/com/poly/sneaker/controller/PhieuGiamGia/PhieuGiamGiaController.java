@@ -105,23 +105,23 @@ public class PhieuGiamGiaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Có lỗi xảy ra khi cập nhật trạng thái phiếu giảm ");
         }
     }
-//    @GetMapping("/searchTrangThai")
-//    public String searchTrangThai(@RequestParam(value = "status", required = false, defaultValue = "all") String status,
-//                                  @RequestParam(defaultValue = "1") int page, Model model) {
-//        Page<PhieuGiamGia> phieuGiamGias;
-//        Pageable pageable = PageRequest.of(page - 1, 5); // 5 là số lượng item mỗi trang
-//
-//        if ("all".equals(status)) {
-//            phieuGiamGias = phieuGiamGiaService.getAllPhieu(pageable);
-//        } else {
-//            phieuGiamGias = phieuGiamGiaService.searchTrangThai(status, pageable);
-//        }
-//
-//        model.addAttribute("listPhieu", phieuGiamGias.getContent());
-//        model.addAttribute("page", phieuGiamGias);
-//        model.addAttribute("status", status);
-//
-//        return "/admin/phieu-giam-gia";
-//    }
+    @GetMapping("/searchTrangThai")
+    public String searchTrangThai(@RequestParam(value = "status", required = false, defaultValue = "all") String status,
+                                  @RequestParam(defaultValue = "1") int page, Model model) {
+        Page<PhieuGiamGia> phieuGiamGias;
+        Pageable pageable = PageRequest.of(page - 1, 5);
+
+        if ("all".equals(status)) {
+            phieuGiamGias = phieuGiamGiaService.getAllPhieu(pageable);
+        } else {
+            phieuGiamGias = phieuGiamGiaService.searchTrangThai(status, pageable);
+        }
+
+        model.addAttribute("listPhieu", phieuGiamGias.getContent());
+        model.addAttribute("page", phieuGiamGias);
+        model.addAttribute("status", status);
+
+        return "/admin/phieu-giam-gia";
+    }
 
 }
