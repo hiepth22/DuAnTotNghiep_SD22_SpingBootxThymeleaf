@@ -49,17 +49,17 @@ public class NhanVien {
     @Column(name = "matkhau", length = 30)
     private String matKhau;
 
-    @Column(name = "vai_tro")
+    @Column(name = "vaiTro")
     private Integer vaiTro;
 
     @Column(name = "trangthai")
     private Integer trangThai;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
-    @Column(name = "ngaytao")
-    private LocalDateTime ngaytao;
+    @Column(name = "ngayTao")
+    private LocalDateTime ngayTao;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
-    @Column(name = "ngaycapnhap")
-    private LocalDateTime ngaycapnhap;
+    @Column(name = "ngayCapNhat")
+    private LocalDateTime ngayCapNhat;
 }

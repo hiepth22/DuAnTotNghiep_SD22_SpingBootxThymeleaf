@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +19,8 @@ import lombok.ToString;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "san_pham_chi_tiet")
@@ -77,13 +80,9 @@ public class SanPhamChiTiet {
     @JoinColumn(name = "idNhaSanXuat", referencedColumnName = "id")
     private NhaSanXuat nhaSanXuat;
 
-    @ManyToOne
+    @OneToMany
     @JoinColumn(name = "idAnh", referencedColumnName = "id")
-    private Anh anh;
-
-    @ManyToOne
-    @JoinColumn(name = "idDanhMuc", referencedColumnName = "id")
-    private DanhMuc danhMuc;
+    private Set<Anh> anh;
 
     private String nguoiTao;
 

@@ -61,7 +61,7 @@ public class PhieuGiamGiaController {
             pggnew.setMa("VC"+  phieuGiamGiaService.getall().size() );
             pggnew.setSoLuong(pgg.getSoLuong());
             pggnew.setHinhThucGiam(pgg.getHinhThucGiam());
-            pggnew.setDonToiThieu(pgg.getDonToiThieu());
+//            pggnew.setDonToiThieu(pgg.getDonToiThieu());
             pggnew.setGiaTriGiam(pgg.getGiaTriGiam());
             pggnew.setGiamToiDa(pgg.getGiamToiDa());
             pggnew.setNgayBatDau(LocalDate.now());
