@@ -43,6 +43,12 @@ public class DiaChi {
     @Column(name = "moTaChiTiet")
     private Boolean moTa;
 
+    @Column(name = "tenNguoiNhan")
+    private Boolean tenNguoiNhan;
+
+    @Column(name = "trangThai")
+    private int trangThai;
+
     @Column(name = "ngayTao")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime ngayTao;

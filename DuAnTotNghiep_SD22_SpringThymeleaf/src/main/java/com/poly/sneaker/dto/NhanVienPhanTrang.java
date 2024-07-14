@@ -22,10 +22,10 @@ import java.time.LocalDateTime;
                 "      ,n.[cccd]\n" +
                 "      ,n.[anh]\n" +
                 "      ,n.[matKhau]\n" +
-                "      ,n.[vai_tro] as vaiTro\n" +
+                "      ,n. vaiTro\n" +
                 "      ,n.[trangThai]\n" +
-                "      ,n.[ngaytao]\n" +
-                "      ,n.[ngaycapnhap]\n" +
+                "      ,n.[ngayTao]\n" +
+                "      ,n.[ngayCapNhat]\n" +
                 "      ,n.[diachi],\n" +
                 " COUNT(0) OVER() AS totalRow FROM NHAN_VIEN N WHERE " +
                 "(:KEYWORD IS NULL " +
@@ -36,7 +36,7 @@ import java.time.LocalDateTime;
                 "OR N.CCCD COLLATE SQL_LATIN1_GENERAL_CP1_CI_AI LIKE  '%'+ :KEYWORD+'%' " +
                 "OR N.EMAIL COLLATE SQL_LATIN1_GENERAL_CP1_CI_AI LIKE  '%'+ :KEYWORD+'%') " +
                 "AND (:TRANGTHAI IS NULL OR N.TRANGTHAI = :TRANGTHAI) " +
-                "AND (:VAI_TRO IS NULL OR N.VAI_TRO = :VAI_TRO) " +
+                "AND (:VAITRO IS NULL OR N.VAITRO = :VAITRO) " +
                 " AND ((:startDate IS NULL AND :endDate IS NULL) OR (N.ngaySinh BETWEEN :startDate AND :endDate)) "+
                 "ORDER BY n.id " +"Desc "+
                 "OFFSET :PAGE_INDEX ROWS FETCH NEXT :PAGE_SIZE ROWS ONLY",
@@ -60,8 +60,8 @@ import java.time.LocalDateTime;
                         @ColumnResult(name = "matKhau", type = String.class),
                         @ColumnResult(name = "vaiTro", type = Integer.class),
                         @ColumnResult(name = "trangThai", type = Integer.class),
-                        @ColumnResult(name = "ngaytao", type = LocalDateTime.class),
-                        @ColumnResult(name = "ngaycapnhap", type = LocalDateTime.class),
+                        @ColumnResult(name = "ngayTao", type = LocalDateTime.class),
+                        @ColumnResult(name = "ngayCapNhat", type = LocalDateTime.class),
                         @ColumnResult(name = "totalRow", type = Integer.class)
                 }
         )
@@ -94,9 +94,9 @@ public class NhanVienPhanTrang {
 
     private Integer trangThai;
 
-    private LocalDateTime ngaytao;
+    private LocalDateTime ngayTao;
 
-    private LocalDateTime ngaycapnhap;
+    private LocalDateTime ngayCapNhat;
 
     private Integer totalRow;
 }

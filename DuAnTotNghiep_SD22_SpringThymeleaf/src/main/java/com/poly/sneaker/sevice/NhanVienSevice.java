@@ -54,7 +54,7 @@ public class NhanVienSevice {
             o.setNgaySinh(newnv.getNgaySinh());
             o.setSdt(newnv.getSdt());
             o.setVaiTro(newnv.getVaiTro());
-            o.setNgaycapnhap(java.time.LocalDateTime.now());
+            o.setNgayCapNhat(java.time.LocalDateTime.now());
             return nhanVienRepository.save(o);
         }).orElse(null);
     }

@@ -44,15 +44,22 @@
                 <span th:if="${nhanvien.vaiTro == 1}">Nhân Viên</span>
                 <span th:if="${nhanvien.vaiTro == 0}">Quản Lí</span>
             </td>
+
             <td>
                 <label class="switch">
                     <input type="checkbox" id="switchButton_${nhanvien.id}" data-id="${nhanvien.id}"
                            data-trang-thai="${nhanvien.trangThai}" class="toggle-checkbox"
-                           th:checked="${nhanvien.trangThai == 0}"
-                           th:onclick="'confirmToggle(this, ' + ${nhanvien.id} + ')'" />
+                           th:checked="${nhanvien.trangThai}"
+                           th:onclick="'confirmToggle1(this, ' + ${nhanvien.id} + ')'" />
                     <span class="slider round"></span>
                 </label>
             </td>
+
+
+
+
+
+
             <td class="px-6 py-4 whitespace-nowrap text-center">
                 <a th:href="@{/admin/UpdateNhanVien/{id}(id=${nhanvien.id})}" class="text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="inline-block w-5 h-5 text-yellow-500">
@@ -92,4 +99,5 @@
 
 
 </ul>
+
 </html>
