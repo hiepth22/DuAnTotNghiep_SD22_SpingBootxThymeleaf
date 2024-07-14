@@ -200,11 +200,10 @@ public class NhanVienControler {
             return "redirect:/admin/nhan-vien";
         }
     }
-    @PostMapping("nhan-vien/{id}/update")
-    public ResponseEntity<String> updateTrangThaiNhanVien(@PathVariable("id") Long id, @RequestBody Map<String, Integer> requestBody) {
-        Integer trangThai = requestBody.get("trangThai");
-
+    @PostMapping("/nhan-vien/{id}/update")
+    public ResponseEntity<String> updateTrangThaiNhanVien(@PathVariable("id") Long id, @RequestParam Integer trangThai) {
         try {
+            // Gọi service để cập nhật trạng thái nhân viên
             sevice.updateTrangThai(id, trangThai);
             return ResponseEntity.ok("Cập nhật trạng thái nhân viên thành công");
         } catch (Exception e) {

@@ -49,11 +49,13 @@
                 <label class="switch">
                     <input type="checkbox" id="switchButton_${nhanvien.id}" data-id="${nhanvien.id}"
                            data-trang-thai="${nhanvien.trangThai}" class="toggle-checkbox"
-                           th:checked="${nhanvien.trangThai == 1}"
+                           th:checked="${nhanvien.trangThai}"
                            th:onclick="'confirmToggle1(this, ' + ${nhanvien.id} + ')'" />
                     <span class="slider round"></span>
                 </label>
             </td>
+
+
 
 
 

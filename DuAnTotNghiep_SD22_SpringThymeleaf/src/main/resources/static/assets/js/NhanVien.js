@@ -90,7 +90,8 @@ function searchNhanVien(obj) {
 
 
 function confirmToggle1(element, id) {
-    var trangThai = $(element).data('data-trang-thai');
+    var trangThai = $(element).data('trang-thai');
+    var isChecked = element.checked;
 
     Swal.fire({
         title: 'Bạn có chắc chắn?',
@@ -102,12 +103,10 @@ function confirmToggle1(element, id) {
         confirmButtonText: 'Vâng, tiếp tục!',
         cancelButtonText: 'Hủy'
     }).then((result) => {
-        var isChecked = element.checked;
-
         if (result.isConfirmed) {
-            toggleSwitch(id, trangThai);
+            toggleSwitch(id, isChecked);
         } else {
-            // Đảo ngược lại trạng thái của checkbox
+            // Đảo ngược lại trạng thái của checkbox nếu người dùng hủy bỏ
             element.checked = !isChecked;
             Swal.fire(
                 'Đã hủy!',
@@ -117,20 +116,21 @@ function confirmToggle1(element, id) {
         }
     });
 }
-
-
-function toggleSwitch(id, trangThai) {
+function toggleSwitch(id, isChecked) {
     var url = `/admin/nhan-vien/${id}/update`;
-    var isChecked = trangThai == 1 ? true : false;
+    var trangThai = isChecked ? 1 : 0;
 
-    var data = { trangThai: isChecked ? 0 : 1 };
+    var data = `trangThai=${trangThai}`;
+
+    // Hiển thị spinner loading
+    $('#spinner').addClass('show');
 
     fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify(data),
+        body: data,
     })
         .then(response => {
             if (!response.ok) {
@@ -139,19 +139,68 @@ function toggleSwitch(id, trangThai) {
             return response.text(); // Lấy nội dung phản hồi dưới dạng văn bản
         })
         .then(responseText => {
-            alert(responseText); // Hiển thị chuỗi thông báo từ server
-            // Cập nhật trang thái checkbox nếu cần thiết
+            // Ẩn spinner loading
+            $('#spinner').removeClass('show');
+
+            // Hiển thị thông báo thành công
+            $('#notification2').addClass('show1');
+
+            // // Cập nhật trạng thái checkbox nếu cần thiết
+            // var checkbox = document.getElementById(`switchButton_${id}`);
+            // if (checkbox) {
+            //     checkbox.checked = isChecked;
+            // } else {
+            //     console.error(`Không tìm thấy checkbox với id ${id} trong DOM.`);
+            // }
+
+            // Tự động ẩn thông báo sau 3 giây
+            setTimeout(function() {
+                $('#notification2').removeClass('show1');
+            }, 3000);
         })
         .catch(error => {
+            // Xử lý lỗi
             console.error('Lỗi khi cập nhật trạng thái nhân viên:', error);
-            alert('Có lỗi xảy ra khi cập nhật trạng thái.');
+
             // Đảo ngược lại trạng thái checkbox nếu có lỗi
-            element.checked = !isChecked;
+            var checkbox = document.getElementById(`switchButton_${id}`);
+            if (checkbox) {
+                checkbox.checked = !isChecked;
+            } else {
+                console.error(`Không tìm thấy checkbox với id ${id} trong DOM.`);
+            }
+
+            // Ẩn spinner loading
+            $('#spinner').removeClass('show');
+
+            // Hiển thị thông báo lỗi
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Có lỗi xảy ra khi cập nhật trạng thái!',
+            });
         });
 }
 
 
 
+
+
+
+// function showSuccessMessageUpdate1() {
+//     const notification = document.getElementById('notification2');
+//     notification.classList.add('show2');
+//     const progressBar = document.getElementById('progress-bar2');
+//     progressBar.style.width = '0';
+//     setTimeout(function () {
+//         progressBar.style.width = '100%';
+//     }, 100);
+//
+//     setTimeout(function () {
+//         notification.classList.remove('show1');
+//         window.location.href = '/admin/nhan-vien';
+//     }, 3000);
+// }
 
 
 
