@@ -125,12 +125,11 @@ $(document).ready(function () {
                     canNang: 500,
                     giaBan: 1000000,
                     soLuong: 10,
-                    trangThai : 1
+                    trangThai: 1
                 };
                 chiTietSanPhams.push(chiTietSanPham);
             });
         });
-
 
         const colorGroups = chiTietSanPhams.reduce((groups, product) => {
             const { mauSac } = product;
@@ -161,7 +160,6 @@ $(document).ready(function () {
                     <th scope="col" style="width: 15%">Giá bán</th>
                     <th scope="col" style="width: 15%">Số lượng</th>
                     <th scope="col" style="width: 10%">Action</th>
-                    
                 </tr>
             `);
             const tbody = $("<tbody></tbody>");
@@ -179,27 +177,48 @@ $(document).ready(function () {
                 tbody.append(row);
             });
 
-            table.append(thead);
-            table.append(tbody);
-            productDetailsContainer.append(table);
-
             const uploadRow = $('<tr class="image-upload-row"></tr>').html(`
                 <td colspan="7">
                     <div class="image-upload">
-                        <label for="file-upload" class="custom-file-upload">
-                            <i class="fa fa-cloud-upload"></i> Tải ảnh lên (tối đa 7 ảnh)
+                        <label for="file-upload-${mauSacId}" class="custom-file-upload">
+                            <i class="fa fa-cloud-upload"></i> Tải ảnh
                         </label>
-                        <input id="file-upload" type="file" multiple />
-                        <div class="preview" id="preview"></div>
+                        <input id="file-upload-${mauSacId}" type="file" multiple />
+                        <div class="preview" id="preview-${mauSacId}"></div>
                     </div>
                 </td>
             `);
             tbody.append(uploadRow);
+
+            table.append(thead);
+            table.append(tbody);
+            productDetailsContainer.append(table);
+
+            $(`.image-upload`).on("change", `#file-upload-${mauSacId}`, function () {
+                var files = $(this).get(0).files;
+                var preview = $(`#preview-${mauSacId}`);
+
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        var imagePreview = $(
+                            '<div class="image-preview">' +
+                            '<img src="' + e.target.result + '" alt="' + file.name + '">' +
+                            '<p>' + file.name + '</p>' +
+                            '</div>'
+                        );
+                        preview.append(imagePreview);
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            });
         });
 
         const saveButton = $('<button class="btn btn-success mt-3 mb-4">Lưu</button>');
         saveButton.click(function () {
-
             const jsonFormatted = JSON.stringify(chiTietSanPhams);
             console.log("Payload to be sent:", jsonFormatted);
 
@@ -224,36 +243,13 @@ $(document).ready(function () {
                     window.location.href = "/admin/san-pham";
                 })
                 .catch((error) => {
-                    console.error("Error:", error);
-                    alert("Có lỗi xảy ra khi lưu thông tin sản phẩm chi tiết.");
+                    console.error("Lỗi khi lưu thông tin sản phẩm chi tiết:", error);
+                    alert(
+                        "Đã xảy ra lỗi khi lưu thông tin sản phẩm chi tiết. Vui lòng thử lại sau."
+                    );
                 });
         });
+
         productDetailsContainer.append(saveButton);
-    });
-
-    $("#file-upload").on("change", function (event) {
-        const files = event.target.files;
-        const maxFiles = 7;
-
-        if (files.length > maxFiles) {
-            alert(`Đã quá giới hạn ảnh được chọn, tối đa ${maxFiles} ảnh.`);
-            return;
-        }
-
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                const img = $("<img>").attr({
-                    src: e.target.result,
-                    alt: "Preview",
-                    style: "max-width: 50px; max-height: 100px; margin: 5px;",
-                });
-                $("#preview").append(img);
-            };
-
-            reader.readAsDataURL(file);
-        }
     });
 });

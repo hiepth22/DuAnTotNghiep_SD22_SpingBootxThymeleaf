@@ -32,9 +32,8 @@ public class CoGiay {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "ten")
     private String ten;
-
-    private String moTa;
 
     private String nguoiTao;
 

@@ -38,7 +38,6 @@ public class DeGiayService {
         Optional<DeGiay> optional = repository.findById(id);
         return optional.map(o -> {
             o.setTen(newDeGiay.getTen());
-            o.setMoTa(newDeGiay.getMoTa());
             o.setNgayTao(newDeGiay.getNgayTao());
             o.setNgayCapNhat(newDeGiay.getNgayCapNhat());
             o.setNguoiTao(newDeGiay.getNguoiTao());
