@@ -3,17 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Danh Sách Khách Hàng</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/css/bootstrap.min.css" integrity="sha384-3g6flao6YV/GL1tYjSi5lsPj6Y/JxuYwN2s4cmg7eI/9StZvj+ARlf6shZCl5f29" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.1/font/bootstrap-icons.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRkz1p2tzlZ1x58lH6gpG5KqfZSOaB4o4hjOE6iF7" crossorigin="anonymous"></head>
 <body>
 <div class="container mt-4">
     <h2 class="mb-4">Danh Sách Khách Hàng</h2>
-    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Thành công!</strong> <span th:text="${successMessage}"></span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
     <a th:href="@{/admin/view-add}" class="btn btn-outline-danger mb-3">
         <i class="bi bi-plus"></i> Thêm mới
     </a>
@@ -50,8 +45,8 @@
                 <label class="switch">
                     <input type="checkbox" id="switchButton_${kh.id}" data-id="${kh.id}"
                            data-trang-thai="${kh.trangThai}" class="toggle-checkbox"
-                           th:checked="${kh.trangThai == 1}"
-                           th:onclick="'confirmToggle(this, ' + ${kh.id} + ')'" />
+                           th:checked="${kh.trangThai}"
+                           th:onclick="'checkTrangThai(this, ' + ${kh.id} + ')'" />
                     <span class="slider round"></span>
                 </label>
             </td>
@@ -123,7 +118,9 @@
             });
         });
     });
+
 </script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
 </body>
