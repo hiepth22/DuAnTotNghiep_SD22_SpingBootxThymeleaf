@@ -164,12 +164,12 @@ public class NhanVienControler {
     @GetMapping("/UpdateNhanVien/{id}") //
     public String showEmployeeDetail(@PathVariable("id") Long id, Model model) {
         NhanVien nv = sevice.findById(id);
-        String[] fruits = nv.getDiachi().split(",");
-        String dcct = fruits[0];
-        String Phuong =  fruits[1];
-        String quan =  fruits[2];
-        String tp =  fruits[3];
-        System.out.println(dcct);
+//        String[] fruits = nv.getDiachi().split(",");
+//        String dcct = fruits[0];
+//        String Phuong =  fruits[1];
+//        String quan =  fruits[2];
+//        String tp =  fruits[3];
+//        System.out.println(dcct);
         model.addAttribute("nv", nv);
         return "admin/NhanVien/NhanVienUpdate";
     }

@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/DuAnTotNghiep_SD22_SpingBootxThymeleaf.iml" filepath="$PROJECT_DIR$/.idea/DuAnTotNghiep_SD22_SpingBootxThymeleaf.iml" />
-      <module fileurl="file://$PROJECT_DIR$/DuAnTotNghiep_SD22_SpringThymeleaf/sneaker.iml" filepath="$PROJECT_DIR$/DuAnTotNghiep_SD22_SpringThymeleaf/sneaker.iml" />
     </modules>
   </component>
 </project>

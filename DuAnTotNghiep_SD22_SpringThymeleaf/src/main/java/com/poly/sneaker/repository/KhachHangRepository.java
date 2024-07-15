@@ -1,5 +1,6 @@
 package com.poly.sneaker.repository;
 
+import com.poly.sneaker.dto.KhachHangDTO;
 import com.poly.sneaker.entity.KhachHang;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,7 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface KhachHangRepository extends JpaRepository<KhachHang,Long> {
@@ -20,6 +23,13 @@ public interface KhachHangRepository extends JpaRepository<KhachHang,Long> {
             "OR n.email COLLATE SQL_Latin1_General_CP1_CI_AI LIKE %:keyword%", nativeQuery = true)
     List<KhachHang> findByTen(@Param("keyword") String keyword);
     Page<KhachHang> findAll(Pageable pageable);
+    @Query(name ="find_kh",nativeQuery = true)
+    List<KhachHangDTO> findByKH(@Param("KEYWORD") String keyword,
+                                @Param("TRANGTHAI") Optional<Integer> trangThai,
+                                @Param("startDate") Date startDate,
+                                @Param("endDate") Date endDate,
+                                @Param("PAGE_INDEX") Integer page_index,
+                                @Param("PAGE_SIZE") Integer page_size);
+
     List<KhachHang> findByTrangThai(int tt);
-    Page<KhachHang> findByTrangThai(int trangThai, Pageable pageable);
 }

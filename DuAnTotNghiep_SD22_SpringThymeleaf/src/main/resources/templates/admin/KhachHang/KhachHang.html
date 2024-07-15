@@ -57,13 +57,31 @@
 <!--                <a th:href="@{/admin/khach-hang/dia-chi/{id}(id=${kh.id})}" class="btn btn-outline-success btn-sm">-->
 <!--                    <i class="bi bi-pencil-square"></i>-->
 <!--                </a>-->
-                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-kh-id="${kh.id}">
-                    <i class="bi bi-geo-alt"></i>
+                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-kh-id="1">
+                    <i class="bi bi-geo-alt"></i> Địa chỉ
                 </button>
             </td>
         </tr>
         </tbody>
     </table>
+    <ul class="text-center">
+
+
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-primary">Previous</button>
+
+            <div id="paginationButtons" class="btn-group" role="group">
+
+                <button type="button" class="btn btn-outline-primary" th:each="page : ${#numbers.sequence(1, totalPage1)}"
+                        th:text="${page}" th:id="'pageBtn-' + ${page}" onclick="getPageNumber(this)"></button>
+            </div>
+
+            <button type="button" class="btn btn-outline-primary">Next</button>
+        </div>
+
+
+
+    </ul>
 </div>
 
 <!-- Modal -->

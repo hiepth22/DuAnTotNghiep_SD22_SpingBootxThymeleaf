@@ -1,12 +1,12 @@
 package com.poly.sneaker.controller.KhachHang;
 
+import com.poly.sneaker.dto.KhachHangDTO;
 import com.poly.sneaker.entity.DiaChi;
 import com.poly.sneaker.entity.KhachHang;
 import com.poly.sneaker.sevice.DiaChiService;
 import com.poly.sneaker.sevice.KhachHangService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -19,9 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin")
@@ -38,33 +36,91 @@ public class KhachHangController {
         this.mailSender = mailSender;
     }
 
+//    @GetMapping("/search-khach-hang")
+//    public String search(@RequestParam(name = "keyword", required = false) String keyword,
+//                         Model model) {
+//        List<KhachHang> resultList;
+//        if (keyword != null && !keyword.trim().isEmpty()) {
+//            resultList = sevice.search(keyword);
+//        } else {
+//            resultList = sevice.getAll();
+//        }
+//        model.addAttribute("kh", resultList);
+//        model.addAttribute("keyword", keyword);
+//        return "admin/KhachHang/KhachHang";
+//    }
+    @GetMapping("/khach-hang")
+    public String HienThi(Model model) {
+        model.addAttribute("kh", sevice.getAll());
+        return "admin/KhachHang/KhachHangIndext";
+    }
     @GetMapping("/search-khach-hang")
-    public String search(@RequestParam(name = "keyword", required = false) String keyword,
-                         Model model) {
-        List<KhachHang> resultList;
-        if (keyword != null && !keyword.trim().isEmpty()) {
-            resultList = sevice.search(keyword);
-        } else {
-            resultList = sevice.getAll();
+    public String search(
+            @RequestParam(name = "keyword", required = false) String keyword,
+            @RequestParam(name = "trangThai") Optional<Integer> trangThai,
+            @RequestParam(name = "page_index", required = false) Integer page_index,
+            @RequestParam(name = "page_size", required = false) Integer page_size,
+            @RequestParam(name = "startDate", required = false) Date startDate,
+            @RequestParam(name = "endDate", required = false) Date endDate,
+            Model model
+    ) {
+
+        if (page_index == null || page_index < 1) {
+            page_index = 1;
         }
-        model.addAttribute("kh", resultList);
-        model.addAttribute("keyword", keyword);
+        if (page_size == null || page_size < 1) {
+            page_size = 7;
+        }
+
+        List<KhachHangDTO> results = sevice.loc(keyword, trangThai,
+                (page_index - 1) * page_size, page_size,startDate,endDate);
+
+        List<KhachHang> lstNv = new ArrayList<>();
+        for (KhachHangDTO kh : results) {
+            lstNv.add(new KhachHang(kh.getId(),
+                    kh.getTen(),
+                    kh.getMa(),
+                    kh.getSdt(),
+                    kh.getNgaySinh(),
+                    kh.getEmail(),
+                    kh.getGioiTinh(),
+                    kh.getCccd(),
+                    kh.getAnh(),
+                    kh.getMatKhau(),
+                    kh.getTrangThai(),
+                    kh.getNgayTao(),
+                    kh.getNgayCapNhat()
+            ));
+        }
+
+        model.addAttribute("kh", lstNv);
+
+        int totalRows = 0;
+        if (results != null && !results.isEmpty()) {
+            totalRows = results.get(0).getTotalRow();
+        }
+        int totalPages = (int) Math.ceil((double) totalRows / page_size);
+
+        model.addAttribute("totalPage1", totalPages);
+        model.addAttribute("TotalPage", totalRows);
+        model.addAttribute("CurrentPage", page_index);
+
         return "admin/KhachHang/KhachHang";
     }
 
-    @GetMapping("/khach-hang")
-    public String hienThi(@RequestParam(name = "page", defaultValue = "0") int page,
-                          @RequestParam(name = "size", defaultValue = "5") int size,
-                          Model model) {
-
-        Page<KhachHang> khachHangPage = sevice.getAllPage(page, size);
-        model.addAttribute("khachHangPage", khachHangPage);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", khachHangPage.getTotalPages());
-        model.addAttribute("size", size); // Thêm thuộc tính size để truyền vào phân trang
-
-        return "admin/KhachHang/KhachHangIndext";
-    }
+//    @GetMapping("/khach-hang")
+//    public String hienThi(@RequestParam(name = "page", defaultValue = "0") int page,
+//                          @RequestParam(name = "size", defaultValue = "5") int size,
+//                          Model model) {
+//
+//        Page<KhachHang> khachHangPage = sevice.getAllPage(page, size);
+//        model.addAttribute("khachHangPage", khachHangPage);
+//        model.addAttribute("currentPage", page);
+//        model.addAttribute("totalPages", khachHangPage.getTotalPages());
+//        model.addAttribute("size", size); // Thêm thuộc tính size để truyền vào phân trang
+//
+//        return "admin/KhachHang/KhachHangIndext";
+//    }
 
 
     @GetMapping("/view-add")
