@@ -6,7 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,9 +20,9 @@ public class PhieuGiamGiaRequest {
 
     private Long id;
 
-
     private String ma;
 
+    private String ten;
 
     private Integer soLuong;
 

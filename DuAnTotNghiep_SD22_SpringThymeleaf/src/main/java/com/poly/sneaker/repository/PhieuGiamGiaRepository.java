@@ -14,5 +14,6 @@ public interface PhieuGiamGiaRepository extends JpaRepository<PhieuGiamGia, Long
     List<PhieuGiamGia> findByTrangThai(int tt);
     Page<PhieuGiamGia> findByTrangThai(int trangThai, Pageable pageable);
 
+    List<PhieuGiamGia> findByTen(String keyword);
 }
 

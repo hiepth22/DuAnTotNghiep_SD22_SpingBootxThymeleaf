@@ -1,6 +1,7 @@
 package com.poly.sneaker.controller.PhieuGiamGia;
 
 import com.poly.sneaker.Request.PhieuGiamGiaRequest;
+import com.poly.sneaker.entity.KhachHang;
 import com.poly.sneaker.entity.PhieuGiamGia;
 import com.poly.sneaker.repository.PhieuGiamGiaRepository;
 import com.poly.sneaker.sevice.PhieuGiamGiaService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 
@@ -30,13 +32,32 @@ public class PhieuGiamGiaController {
     PhieuGiamGiaService phieuGiamGiaService;
     PhieuGiamGiaRepository phieuGiamGiaRepository;
 
+//    @GetMapping("/search-phieu-giam-gia")
+//    public String search(@RequestParam(name = "keyword", required = false) String keyword,
+//                         Model model) {
+//        List<PhieuGiamGia> resultList;
+//        if (keyword != null && !keyword.trim().isEmpty()) {
+//            resultList = phieuGiamGiaService.search(keyword);
+//        } else {
+//            resultList = phieuGiamGiaService.getAll();
+//        }
+//        model.addAttribute("pgg", resultList);
+//        model.addAttribute("keyword", keyword);
+//        return "admin/PhieuGiamGia/PhieuGiamGia";
+//    }
+//
 //    @GetMapping("/phieu-giam-gia")
-//    public String getAll(Model model, @RequestParam(defaultValue = "1") int page) {
-//        if (page < 1) page = 1;
-//        Pageable pageable = PageRequest.of(page - 1, 10);
-//        Page<PhieuGiamGia> phieuGiamGias = phieuGiamGiaService.getAll(pageable);
-//        model.addAttribute("page", phieuGiamGias);
-//        return "admin/PhieuGiamGia/PhieuGiamGiaIndex";
+//    public String hienThi(@RequestParam(name = "page", defaultValue = "0") int page,
+//                          @RequestParam(name = "size", defaultValue = "5") int size,
+//                          Model model) {
+//
+//        Page<PhieuGiamGia> phieuGiamGiaPage = phieuGiamGiaService.getAllPage(page, size);
+//        model.addAttribute("phieuGiamGiaPage", phieuGiamGiaPage);
+//        model.addAttribute("currentPage", page);
+//        model.addAttribute("totalPages", phieuGiamGiaPage.getTotalPages());
+//        model.addAttribute("size", size); // Thêm thuộc tính size để truyền vào phân trang
+//
+//        return "admin/PhieuGiamGia/PhieuGiamGiaIndext";
 //    }
 
     @GetMapping("/phieu-giam-gia")
@@ -61,7 +82,7 @@ public class PhieuGiamGiaController {
             pggnew.setMa("VC"+  phieuGiamGiaService.getall().size() );
             pggnew.setSoLuong(pgg.getSoLuong());
             pggnew.setHinhThucGiam(pgg.getHinhThucGiam());
-//            pggnew.setDonToiThieu(pgg.getDonToiThieu());
+            pggnew.setDonToiThieu(pgg.getDonToiThieu());
             pggnew.setGiaTriGiam(pgg.getGiaTriGiam());
             pggnew.setGiamToiDa(pgg.getGiamToiDa());
             pggnew.setNgayBatDau(LocalDate.now());
@@ -105,23 +126,23 @@ public class PhieuGiamGiaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Có lỗi xảy ra khi cập nhật trạng thái phiếu giảm ");
         }
     }
-    @GetMapping("/searchTrangThai")
-    public String searchTrangThai(@RequestParam(value = "status", required = false, defaultValue = "all") String status,
-                                  @RequestParam(defaultValue = "1") int page, Model model) {
-        Page<PhieuGiamGia> phieuGiamGias;
-        Pageable pageable = PageRequest.of(page - 1, 5);
-
-        if ("all".equals(status)) {
-            phieuGiamGias = phieuGiamGiaService.getAllPhieu(pageable);
-        } else {
-            phieuGiamGias = phieuGiamGiaService.searchTrangThai(status, pageable);
-        }
-
-        model.addAttribute("listPhieu", phieuGiamGias.getContent());
-        model.addAttribute("page", phieuGiamGias);
-        model.addAttribute("status", status);
-
-        return "/admin/phieu-giam-gia";
-    }
+//    @GetMapping("/searchTrangThai")
+//    public String searchTrangThai(@RequestParam(value = "status", required = false, defaultValue = "all") String status,
+//                                  @RequestParam(defaultValue = "1") int page, Model model) {
+//        Page<PhieuGiamGia> phieuGiamGias;
+//        Pageable pageable = PageRequest.of(page - 1, 5);
+//
+//        if ("all".equals(status)) {
+//            phieuGiamGias = phieuGiamGiaService.getAllPhieu(pageable);
+//        } else {
+//            phieuGiamGias = phieuGiamGiaService.searchTrangThai(status, pageable);
+//        }
+//
+//        model.addAttribute("listPhieu", phieuGiamGias.getContent());
+//        model.addAttribute("page", phieuGiamGias);
+//        model.addAttribute("status", status);
+//
+//        return "/admin/phieu-giam-gia";
+//    }
 
 }

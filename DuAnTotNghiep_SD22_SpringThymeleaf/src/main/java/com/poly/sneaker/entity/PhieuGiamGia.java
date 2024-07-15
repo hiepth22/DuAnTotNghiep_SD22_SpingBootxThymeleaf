@@ -33,6 +33,9 @@ public class PhieuGiamGia {
     @Column(name = "ma", length = 30)
     private String ma;
 
+    @Column(name = "ten", length = 30)
+    private String ten;
+
 
     @Column(name = "soLuong")
     private Integer soLuong;
@@ -42,9 +45,9 @@ public class PhieuGiamGia {
 
     @Column(name = "giaTriGiam")
     private BigDecimal giaTriGiam;
-//
-//    @Column(name = "donToiThieu")
-//    private BigDecimal donToiThieu;
+
+    @Column(name = "donToiThieu")
+    private BigDecimal donToiThieu;
 
     @Column(name = "giamToiDa")
     private BigDecimal giamToiDa;
