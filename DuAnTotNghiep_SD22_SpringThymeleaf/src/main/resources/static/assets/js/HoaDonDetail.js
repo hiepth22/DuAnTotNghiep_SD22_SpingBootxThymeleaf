@@ -463,6 +463,8 @@ $(document).ready(function () {
                 return 'Thanh toán';
             case 6:
                 return 'Hoàn thành';
+            case 7:
+                return 'Hủy';
             default:
                 return 'Không xác định';
         }

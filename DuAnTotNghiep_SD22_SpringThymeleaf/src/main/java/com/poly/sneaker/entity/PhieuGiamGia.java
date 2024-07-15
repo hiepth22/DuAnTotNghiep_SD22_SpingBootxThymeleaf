@@ -11,6 +11,8 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -32,6 +34,9 @@ public class PhieuGiamGia {
     @Column(name = "ma", length = 30)
     private String ma;
 
+    @Column(name = "ten", length = 30)
+    private String ten;
+
 
     @Column(name = "soLuong")
     private Integer soLuong;
@@ -41,23 +46,31 @@ public class PhieuGiamGia {
 
     @Column(name = "giaTriGiam")
     private BigDecimal giaTriGiam;
-//
-//    @Column(name = "donToiThieu")
-//    private BigDecimal donToiThieu;
+
+    @Column(name = "donToiThieu")
+    private BigDecimal donToiThieu;
 
     @Column(name = "giamToiDa")
     private BigDecimal giamToiDa;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "ngayBatDau")
-    private Date ngayBatDau;
+    private LocalDate ngayBatDau;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "ngayKetThuc")
-    private Date ngayKetThuc;
+    private LocalDate ngayKetThuc;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "ngayTao")
+    private LocalDateTime ngayTao;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "ngayCapNhat")
+    private LocalDateTime ngayCapNhat;
+
+    private String nguoiTao;
+    private String nguoiCapNhat;
 
     @Column(name = "trangThai")
     private Integer trangThai;
