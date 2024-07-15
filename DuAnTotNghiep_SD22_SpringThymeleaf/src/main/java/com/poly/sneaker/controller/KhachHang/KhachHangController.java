@@ -69,7 +69,7 @@ public class KhachHangController {
             page_index = 1;
         }
         if (page_size == null || page_size < 1) {
-            page_size = 5;
+            page_size = 7;
         }
 
         List<KhachHangDTO> results = sevice.loc(keyword, trangThai,

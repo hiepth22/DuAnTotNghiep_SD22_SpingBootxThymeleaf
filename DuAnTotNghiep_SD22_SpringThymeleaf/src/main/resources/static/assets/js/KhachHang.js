@@ -75,7 +75,7 @@ function initPage() {
         keyword: "",
         trangThai: null,
         page_index: 1,
-        page_size: 10,
+        page_size: 7,
         startDate : null,
         endDate : null
     });
