@@ -84,6 +84,8 @@ public class SanPhamChiTiet {
     @JoinColumn(name = "idAnh", referencedColumnName = "id")
     private Set<Anh> anh;
 
+    private Date ngaySanXuat;
+
     private String nguoiTao;
 
     private String nguoiCapNhat;

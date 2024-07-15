@@ -122,7 +122,7 @@ public class NhanVienControler {
                 String extension = FilenameUtils.getExtension(img.getOriginalFilename());
                 String name = UUID.randomUUID().toString() + "." + extension;
                 saveImage(img, name); // Lưu ảnh với tên ngẫu nhiên
-                nv.setAnh("assets/image/" + name); // Thiết lập đường dẫn tương đối cho đối tượng NhanVien
+                nv.setAnh("assets/imageNV/" + name); // Thiết lập đường dẫn tương đối cho đối tượng NhanVien
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,7 +132,7 @@ public class NhanVienControler {
 
         nv.setNgayTao(java.time.LocalDateTime.now());
         nv.setNgayCapNhat(java.time.LocalDateTime.now());
-        nv.setTrangThai(0);
+        nv.setTrangThai(1);
         String newPassword = generateRandomPassword();
         nv.setMatKhau(newPassword);
         sendPasswordEmail(nv.getEmail(), nv.getMatKhau());
@@ -149,7 +149,7 @@ public class NhanVienControler {
     }
 
     public void saveImage(MultipartFile file, String name) {
-        String uploadDir = "./src/main/resources/static/assets/image"; // Đường dẫn đầy đủ đến thư mục lưu trữ ảnh
+        String uploadDir = "./src/main/resources/static/assets/imageNV"; // Đường dẫn đầy đủ đến thư mục lưu trữ ảnh
         String fileName = name;
         try {
             FileUploadUtil.saveFile(uploadDir, fileName, file);
