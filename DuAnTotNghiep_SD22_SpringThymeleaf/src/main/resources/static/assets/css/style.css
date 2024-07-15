@@ -78,6 +78,12 @@
     transition: 0.5s;
     margin-left: 150px; /* Điều chỉnh margin-left để content không bị che bởi sidebar */
 }
+.contentnv {
+    min-height: 100vh;
+    background: #ffffff;
+    transition: 0.5s;
+    margin-left: 50px; /* Điều chỉnh margin-left để content không bị che bởi sidebar */
+}
 
 @media (min-width: 992px) {
     .sidebar {

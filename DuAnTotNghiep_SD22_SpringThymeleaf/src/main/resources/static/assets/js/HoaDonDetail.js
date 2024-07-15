@@ -182,6 +182,10 @@ $(document).ready(function () {
 
                 getDanhSachSanPham(0, 3);
 
+                // danhSachSanPhamIn(hdctList);
+
+                inHoaDon(hd, hdctList);
+
                 checkCurrentStep();
 
                 xoaSanPham(idHoaDon);
@@ -191,6 +195,84 @@ $(document).ready(function () {
             }
         });
     }
+
+    function inHoaDon(hd, hdctList) {
+        let danhSachSP = '';
+
+        hdctList.forEach((item, index) => {
+            danhSachSP += `
+        <tr>
+            <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
+            <td class="px-6 py-4 whitespace-nowrap font-bold">
+                <h1>${item.sanPhamChiTiet.sanPham.ten}</h1>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap font-bold">
+                <h1>${item.soLuong}</h1>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap font-bold">
+                <h1>${item.sanPhamChiTiet.giaBan}</h1>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">${formatVND(item.soLuong * item.sanPhamChiTiet.giaBan)}</td>
+        </tr>`;
+        });
+
+        $('#inHoaDon').html(`
+        <div class="invoice-header flex justify-between items-center border-b pb-2">
+            <div class="text-xl font-bold">SHOE SEE</div>
+            <div>
+                <p class="text-sm">Mã hóa đơn: <span class="font-normal">${hd.ma}</span></p>
+                <p class="text-sm">${hd.ngayTao != null ? new Date(hd.ngayTao).toLocaleString('vi-VN', {
+            day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'
+        }) : ''}</p>
+            </div>
+            <img src="https://via.placeholder.com/150" alt="Logo" class="max-w-full h-auto">
+        </div>
+        <div class="invoice-details mt-4 border-b pb-2">
+            <div>
+                <p class="font-semibold">Từ:</p>
+                <p>Shoe See</p>
+                <p>Cao đẳng FPT Polytechnic, Phường Canh, Từ Liêm, Hà Nội, Việt Nam</p>
+                <p>0961057585</p>
+            </div>
+            <div>
+                <p class="font-semibold">Đến:</p>
+                <p>${hd.nguoiNhan}</p>
+                <p>${hd.diaChiNguoiNhan}</p>
+                <p>${hd.sdtNguoiNhan}</p>
+            </div>
+        </div>
+        <div class="invoice-body mt-4">
+            <table id="tableHoaDonIn" class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-blue-500">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">STT</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh sản phẩm</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Số lượng</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Đơn giá</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody id="danhSachSPIn" class="bg-white divide-y divide-gray-200">
+                    ${danhSachSP} 
+                </tbody>
+            </table>
+        </div>
+        <div class="invoice-footer mt-4 flex justify-between">
+            <div>
+                <p class="font-semibold">Tiền thu người nhận:</p>
+                <p>${formatVND(hd.tongTien)}</p>
+            </div>
+            <div class="signature text-center">
+                <p class="font-semibold">Chữ ký người nhận</p>
+                <div class="signature-box border border-gray-300 w-72 h-48 flex items-center justify-center">
+                    <p class="text-sm">Xác nhận hàng nguyên vẹn, không móp/méo</p>
+                </div>
+            </div>
+        </div>
+    `);
+    }
+
+
 
     const generatePaginationButtons = (currentPage, totalPages) => {
         let buttons = "";
@@ -278,7 +360,6 @@ $(document).ready(function () {
             button.style.display = "none";
         } else {
             button.style.display = "block";
-            t
         }
     }
 
@@ -475,7 +556,6 @@ $(document).ready(function () {
     let stepsHistory = [];
     let currentStep = stepsHistory.length > 0 ? stepsHistory.length : 1;
 
-    // let currentStep = stepsHistory.length + 1;
 
 
     function createStep(hanhDong, ngayTao, stepNum) {
@@ -536,16 +616,28 @@ $(document).ready(function () {
             $('#noteError').addClass('hidden');
         }
 
-        if (currentStep <= totalSteps) {
+        if (currentStep == 2 && confirm("Bạn có muốn in hóa đơn không?")) {
+            window.print();
             stepsHistory.push({hanhDong: currentStep, ngayTao: new Date().toISOString()});
             updateTrangThai(currentStep)
             updateButtonsState();
             hideNoteModal();
             getLichSu();
         } else {
-            currentStep = totalSteps;
+            if (currentStep <= totalSteps) {
+                stepsHistory.push({hanhDong: currentStep, ngayTao: new Date().toISOString()});
+                updateTrangThai(currentStep)
+                updateButtonsState();
+                hideNoteModal();
+                getLichSu();
+            } else {
+                currentStep = totalSteps;
+            }
         }
+
+
     });
+
 
     function fetchStepsData(idHoaDon) {
         $.ajax({
