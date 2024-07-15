@@ -52,7 +52,7 @@ $(document).ready(function () {
     });
 
     function sinhMaNgauNhien() {
-        const prefix = "spct";
+        const prefix = "SPCT";
         const soNgauNhien = Math.floor(100000 + Math.random() * 900000);
 
         return prefix + soNgauNhien;
@@ -79,6 +79,11 @@ $(document).ready(function () {
         const nhaSanXuatId = $("#nhaSanXuat").val();
         const moTa = $("#moTa").val();
 
+        if (!sanPhamId || !coGiayId || !deGiayId || !chatLieuId || !nhaSanXuatId) {
+            alert("Vui lòng chọn đầy đủ thuộc tính.");
+            return;
+        }
+
         const selectedColors = $("#selectedColors .selected-item")
             .map(function () {
                 return {
@@ -96,6 +101,11 @@ $(document).ready(function () {
                 };
             })
             .get();
+
+        if (selectedColors.length === 0 || selectedSizes.length === 0) {
+            alert("Vui lòng chọn ít nhất một màu sắc và một kích cỡ.");
+            return;
+        }
 
         const usedMa = [];
         const chiTietSanPhams = [];
@@ -125,7 +135,8 @@ $(document).ready(function () {
                     canNang: 500,
                     giaBan: 1000000,
                     soLuong: 10,
-                    trangThai: 1
+                    trangThai: 1,
+                    ngaySanXuat : null
                 };
                 chiTietSanPhams.push(chiTietSanPham);
             });
@@ -219,8 +230,9 @@ $(document).ready(function () {
 
         const saveButton = $('<button class="btn btn-success mt-3 mb-4">Lưu</button>');
         saveButton.click(function () {
+
             const jsonFormatted = JSON.stringify(chiTietSanPhams);
-            console.log("Payload to be sent:", jsonFormatted);
+            console.log("Dữ liệu gửi đi:", jsonFormatted);
 
             fetch("/api/san-pham-chi-tiet/save", {
                 method: "POST",
