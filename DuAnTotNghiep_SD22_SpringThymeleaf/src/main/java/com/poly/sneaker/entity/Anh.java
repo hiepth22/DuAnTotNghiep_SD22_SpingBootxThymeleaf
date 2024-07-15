@@ -51,7 +51,4 @@ public class Anh {
 
     private Integer trangThai;
 
-    @ManyToOne
-    @JoinColumn(name = "idSanPhamChiTiet", referencedColumnName = "id")
-    private SanPhamChiTiet sanPhamChiTiet;
 }

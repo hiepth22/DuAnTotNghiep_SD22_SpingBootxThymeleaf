@@ -23,9 +23,6 @@ public class AnhService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    @Autowired
-    private FileStorageService fileStorageService;
-
     public List<Anh> getAll() {
         return repository.findAll();
     }
@@ -82,29 +79,4 @@ public class AnhService {
         return repository.findByTen(ten).size() > 0;
     }
 
-    public List<Anh> saveMultipleFiles(List<MultipartFile> files, Long sanPhamChiTietId) throws IOException {
-        List<Anh> anhList = new ArrayList<>();
-        for (MultipartFile file : files) {
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            if (existingByTen(fileName)) {
-                continue; // Bỏ qua nếu tên ảnh đã tồn tại
-            }
-
-            String url = fileStorageService.storeFile(file);
-
-            // Khởi tạo đối tượng SanPhamChiTiet với id đã cho
-            SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet();
-            sanPhamChiTiet.setId(sanPhamChiTietId);
-
-            Anh anh = Anh.builder()
-                    .ten(fileName)
-                    .url(url)
-                    .trangThai(1)
-                    .ngayTao(new Date())
-                    .sanPhamChiTiet(sanPhamChiTiet)
-                    .build();
-            anhList.add(anh);
-        }
-        return repository.saveAll(anhList);
-    }
 }
