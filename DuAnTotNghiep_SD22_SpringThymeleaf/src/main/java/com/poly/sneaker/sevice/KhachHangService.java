@@ -1,15 +1,13 @@
 package com.poly.sneaker.sevice;
 
+import com.poly.sneaker.dto.KhachHangDTO;
 import com.poly.sneaker.entity.KhachHang;
-import com.poly.sneaker.entity.NhanVien;
 import com.poly.sneaker.repository.KhachHangRepository;
-import jakarta.persistence.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,10 +16,10 @@ public class KhachHangService {
     @Autowired
     private KhachHangRepository khachHangRepository;
 
-    public Page<KhachHang> getAllPage(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return khachHangRepository.findAll(pageable);
-    }
+//    public Page<KhachHang> getAllPage(int page, int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        return khachHangRepository.findAll(pageable);
+//    }
     public List<KhachHang> getAll() {
 
         return khachHangRepository.findAll();
@@ -73,9 +71,19 @@ public class KhachHangService {
     public List<KhachHang> search(String keyword) {
         return khachHangRepository.findByTen(keyword);
     }
+
     public KhachHang findById(Long id) {
         Optional<KhachHang> optional = khachHangRepository.findById(id);
         return optional.map(o -> o).orElse(null);
     }
+    public List<KhachHangDTO> loc(String keyword, Optional<Integer> tt,
+                                  Integer page_index, Integer page_size, Date startDate, Date endDate ) {
+        if (startDate != null && endDate == null) {
+            endDate = java.sql.Date.valueOf(LocalDate.now());
+        }
+        return khachHangRepository.findByKH(keyword, tt,startDate,endDate, page_index, page_size);
+    }
+//    List<KhachHang> findByTrangThai(int tt);
+
 
 }

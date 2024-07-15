@@ -1,7 +1,13 @@
-(function () {
-    searchKH("");
-})();
-
+// (function () {
+//     searchKH("");
+// })();
+// function resetForm() {
+//     document.getElementById("trangThai").value = "";
+//     document.getElementById("searchInput").value = "";
+//     document.getElementById("startDate").value = "";
+//     document.getElementById("endDate").value = "";
+// }
+//
 function searchKH(keyword, page_index = 1, page_size = 5) {
     console.log(keyword);
     var url = '/admin/search-khach-hang?keyword=' + encodeURIComponent(keyword);
@@ -14,7 +20,89 @@ function searchKH(keyword, page_index = 1, page_size = 5) {
         })
         .catch(error => console.error('Error:', error));
 }
+(function () {
+    initPage();
+})();
+function getPageNumber(button) {
+    var status = document.getElementById("trangThai").value;
+    var keyword = document.getElementById("searchInput").value;
+    var startDate = document.getElementById("startDate").value;
+    var endDate = document.getElementById("endDate").value;
+    var pageNumber = button.innerText.trim();
 
+    searchKhachHang({
+        keyword: keyword,
+        trangThai: status !== "" ? status : null,
+        page_index: pageNumber,
+        page_size: 7,
+        startDate:startDate !== "" ? startDate : null,
+        endDate :endDate !== "" ? endDate : null
+
+    });
+
+
+}
+
+function resetForm() {
+    document.getElementById("trangThai").value = "";
+    document.getElementById("searchInput").value = "";
+    document.getElementById("startDate").value = "";
+    document.getElementById("endDate").value = "";
+}
+
+function OnSearchKH() {
+    var status = document.getElementById("trangThai").value;
+    var keyword = document.getElementById("searchInput").value;
+    var startDate = document.getElementById("startDate").value;
+    var endDate = document.getElementById("endDate").value;
+    var obj = {
+        keyword: keyword,
+        trangThai: status != "" ? status : null,
+        vai_tro: vaiTro != "" ? vaiTro : null,
+        page_index: 1,
+        page_size: 5,
+        startDate: startDate !== "" ? startDate : null,
+        endDate : endDate !== "" ? endDate : null
+    }
+
+    console.log(obj);
+
+    searchKhachHang(obj);
+}
+
+function initPage() {
+    searchKhachHang({
+        keyword: "",
+        trangThai: null,
+        page_index: 1,
+        page_size: 7,
+        startDate : null,
+        endDate : null
+    });
+}
+
+function searchKhachHang(obj) {
+
+    Object.keys(obj).forEach((k) => obj[k] == null && delete obj[k]);
+
+    var params = new URLSearchParams(obj);
+
+    var url = '/admin/search-khach-hang?' + params.toString();
+
+    fetch(url, obj)
+        .then(response => response.text())
+        .then(data => {
+            var tableBody = document.getElementById('formkh');
+            if (tableBody) {
+                tableBody.innerHTML = data.trim();
+            } else {
+                console.error('Element with id "formkh" not found.');
+                // Optionally handle the case where the element is not found
+            }
+        })
+        .catch(error => console.error('Error:', error));
+
+}
 function validateForm() {
     let isValid = true;
 
