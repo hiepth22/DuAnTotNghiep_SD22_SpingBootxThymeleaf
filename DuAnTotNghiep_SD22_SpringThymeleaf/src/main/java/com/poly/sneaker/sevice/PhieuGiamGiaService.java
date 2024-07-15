@@ -1,6 +1,6 @@
 package com.poly.sneaker.sevice;
 
-
+import com.poly.sneaker.Request.PhieuGiamGiaRequest;
 import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.PhieuGiamGiaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +45,7 @@ public class PhieuGiamGiaService {
     public PhieuGiamGia update(Long id, PhieuGiamGia newpgg) {
         Optional<PhieuGiamGia> optional = phieuGiamGiaRepository.findById(id);
         return optional.map(o -> {
-
             o.setMa(newpgg.getMa());
-            o.setTen(newpgg.getTen());
             o.setSoLuong(newpgg.getSoLuong());
             o.setHinhThucGiam(newpgg.getHinhThucGiam());
             o.setDonToiThieu(newpgg.getDonToiThieu());

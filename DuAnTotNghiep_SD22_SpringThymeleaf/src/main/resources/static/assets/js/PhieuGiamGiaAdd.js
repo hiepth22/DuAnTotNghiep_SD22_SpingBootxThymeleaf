@@ -102,13 +102,12 @@ document.getElementById('confirmButton').addEventListener('click', function() {
 });
 function addPgg() {
     const form = document.getElementById('myForm');
-    const formData = new FormData(form);
 
     // Thêm lớp 'disabled' và thay đổi văn bản của nút Lưu
     const confirmButton = document.getElementById('confirmButton');
     confirmButton.classList.add('disabled');
 
-    axios.post('/admin/add', formData)
+    axios.post('/admin/SavePhieuGiamGia', new FormData(form) )
         .then(response => {
             // Xóa lớp 'disabled' và thay đổi văn bản của nút Lưu khi hoàn thành
             confirmButton.classList.remove('disabled');
@@ -121,6 +120,7 @@ function addPgg() {
             ).then(() => {
                 window.location.href = '/admin/phieu-giam-gia';
             });
+            console.log(formData)
         })
         .catch(error => {
             // Xóa lớp 'disabled' và thay đổi văn bản của nút Lưu khi có lỗi
