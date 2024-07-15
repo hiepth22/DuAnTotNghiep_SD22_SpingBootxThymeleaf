@@ -141,7 +141,7 @@
                 <h6 class="card-title m-0"> Cập Nhật Phiếu Giảm Giá</h6>
             </div>
             <div class="card-body">
-                <form th:action="@{/admin/updatePhieuGiamGia/{id}(id=${pgg.id})}" method="post" class="row g-3"  th:object="${pgg}" onsubmit="validateForm()">
+                <form th:action="@{/admin/savePhieuGiamGia/{id}(id=${pgg.id})}" method="post" class="row g-3"  th:object="${pgg}" onsubmit="validateForm()">
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <div class="row">
@@ -212,7 +212,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary me-2">Save</button>
+                        <button type="submit" class="btn btn-primary me-2" id="confirmButton" >Save</button>
                         <a th:href="@{/admin/phieu-giam-gia}" class="btn btn-secondary">Close</a>
                     </div>
                 </form>

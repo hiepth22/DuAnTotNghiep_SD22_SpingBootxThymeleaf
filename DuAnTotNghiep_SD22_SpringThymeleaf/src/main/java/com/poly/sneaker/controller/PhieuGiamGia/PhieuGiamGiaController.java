@@ -78,32 +78,28 @@ public class PhieuGiamGiaController {
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
 //            PhieuGiamGia pggnew = new PhieuGiamGia();
-
-
 //            pgg.setMa("VC"+  phieuGiamGiaService.getall().size() );
-            pgg.setMa(generateMaPhieuGiamGia());
-            pgg.setSoLuong(pgg.getSoLuong());
-            pgg.setHinhThucGiam(pgg.getHinhThucGiam());
-            pgg.setDonToiThieu(pgg.getDonToiThieu());
-            pgg.setGiaTriGiam(pgg.getGiaTriGiam());
-            pgg.setGiamToiDa(pgg.getGiamToiDa());
-            pgg.setNgayBatDau(LocalDate.now());
-            pgg.setNgayKetThuc(LocalDate.now());
-            pgg.setTrangThai(1);
-            phieuGiamGiaService.Add(pgg);
-
-
 
             return "redirect:/admin/phieu-giam-gia";
-
         }
+//        pgg.setMa(generateMaPhieuGiamGia());
+        pgg.setMa(pgg.getMa());
+        pgg.setSoLuong(pgg.getSoLuong());
+        pgg.setHinhThucGiam(pgg.getHinhThucGiam());
+        pgg.setDonToiThieu(pgg.getDonToiThieu());
+        pgg.setGiaTriGiam(pgg.getGiaTriGiam());
+        pgg.setGiamToiDa(pgg.getGiamToiDa());
+        pgg.setNgayBatDau(LocalDate.now());
+        pgg.setNgayKetThuc(LocalDate.now());
+        pgg.setTrangThai(1);
+        phieuGiamGiaService.Add(pgg);
         return "redirect:/admin/phieu-giam-gia";
     }
 
-    private String generateMaPhieuGiamGia() {
-        String ma = String.valueOf(phieuGiamGiaRepository.count() + 1);
-        return "PGG" + ma;
-    }
+//    private String generateMaPhieuGiamGia() {
+//        String ma = String.valueOf(phieuGiamGiaRepository.count() + 1);
+//        return "PGG" + ma;
+//    }
 
     @GetMapping("/UpdatePhieuGiamGia/{id}")
     public String showEmployeeDetail(@PathVariable("id") Long id, Model model) {
@@ -112,8 +108,10 @@ public class PhieuGiamGiaController {
         return "admin/PhieuGiamGia/PhieuGiamGiaUpdate";
     }
 
-    @PostMapping("/updatePhieuGiamGia/{id}")
+    @PostMapping("/savePhieuGiamGia/{id}")
     public String updatePhieuGiamGia(@PathVariable("id") Long id, @Valid @ModelAttribute("pgg") PhieuGiamGia pgg, BindingResult result) {
+
+        System.out.println(pgg);
         if (result.hasErrors()) {
             PhieuGiamGia updatedPgg = phieuGiamGiaService.update(id, pgg);
             if (updatedPgg != null) {
