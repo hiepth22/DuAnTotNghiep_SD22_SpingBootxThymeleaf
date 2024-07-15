@@ -39,7 +39,7 @@ public class HoaDonAPI {
 
     @GetMapping("")
     public Page<HoaDon> hienThiHoaDonApi(@RequestParam(name = "tab", required = false, defaultValue = "0") int tab,
-                                         @RequestParam(name = "ma", required = false) String ma,
+                                         @RequestParam(name = "keyword", required = false) String keyword,
                                          @RequestParam(name = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
                                          @RequestParam(name = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
                                          @RequestParam(name = "page", required = false, defaultValue = "0") int page,
@@ -48,15 +48,15 @@ public class HoaDonAPI {
         Pageable pageable = PageRequest.of(page, size);
 
         if (tab == 0) {
-            return hoaDonService.findHoaDonByMaAndNgayTao(ma, startDate, endDate, pageable);
+            return hoaDonService.findHoaDonByMaAndNgayTao(keyword, startDate, endDate, pageable);
         }
 
-        if (ma != null && startDate != null && endDate != null) {
-            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(ma, startDate, endDate, tab, pageable);
-        } else if (ma == null && startDate != null && endDate != null) {
+        if (keyword != null && startDate != null && endDate != null) {
+            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(keyword, startDate, endDate, tab, pageable);
+        } else if (keyword == null && startDate != null && endDate != null) {
             return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(null, startDate, endDate, tab, pageable);
-        } else if (ma != null && startDate == null && endDate == null) {
-            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(ma, null, null, tab, pageable);
+        } else if (keyword != null && startDate == null && endDate == null) {
+            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(keyword, null, null, tab, pageable);
         } else {
             return hoaDonService.getAllByTrangThai(tab, pageable);
         }
