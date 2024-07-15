@@ -101,7 +101,6 @@ public class AnhService {
                     .url(url)
                     .trangThai(1)
                     .ngayTao(new Date())
-                    .sanPhamChiTiet(sanPhamChiTiet)
                     .build();
             anhList.add(anh);
         }
