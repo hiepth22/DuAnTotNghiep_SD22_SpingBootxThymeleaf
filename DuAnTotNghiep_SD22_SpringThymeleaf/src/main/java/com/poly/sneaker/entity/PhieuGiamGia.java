@@ -12,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -60,6 +61,16 @@ public class PhieuGiamGia {
     @Column(name = "ngayKetThuc")
     private LocalDate ngayKetThuc;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "ngayTao")
+    private LocalDateTime ngayTao;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "ngayCapNhat")
+    private LocalDateTime ngayCapNhat;
+
+    private String nguoiTao;
+    private String nguoiCapNhat;
 
     @Column(name = "trangThai")
     private Integer trangThai;

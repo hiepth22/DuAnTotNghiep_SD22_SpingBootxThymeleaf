@@ -74,26 +74,32 @@ public class PhieuGiamGiaController {
     }
 
     @PostMapping("/SavePhieuGiamGia")
-    public String addPhieuGiamGia(@Valid @ModelAttribute("phieuGiamGia") PhieuGiamGiaRequest pgg, BindingResult result, Model model) {
+    public String addPhieuGiamGia(@Valid @ModelAttribute("phieuGiamGia") PhieuGiamGia pgg, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
-            PhieuGiamGia pggnew = new PhieuGiamGia();
+//            PhieuGiamGia pggnew = new PhieuGiamGia();
 
-            pggnew.setMa("VC"+  phieuGiamGiaService.getall().size() );
-            pggnew.setSoLuong(pgg.getSoLuong());
-            pggnew.setHinhThucGiam(pgg.getHinhThucGiam());
-            pggnew.setDonToiThieu(pgg.getDonToiThieu());
-            pggnew.setGiaTriGiam(pgg.getGiaTriGiam());
-            pggnew.setGiamToiDa(pgg.getGiamToiDa());
-            pggnew.setNgayBatDau(LocalDate.now());
-            pggnew.setNgayKetThuc(LocalDate.now());
-            pggnew.setTrangThai(pgg.getTrangThai());
-            phieuGiamGiaService.Add(pggnew);
+//            pgg.setMa("VC"+  phieuGiamGiaService.getall().size() );
+            pgg.setMa(generateMaPhieuGiamGia());
+            pgg.setSoLuong(pgg.getSoLuong());
+            pgg.setHinhThucGiam(pgg.getHinhThucGiam());
+            pgg.setDonToiThieu(pgg.getDonToiThieu());
+            pgg.setGiaTriGiam(pgg.getGiaTriGiam());
+            pgg.setGiamToiDa(pgg.getGiamToiDa());
+            pgg.setNgayBatDau(LocalDate.now());
+            pgg.setNgayKetThuc(LocalDate.now());
+            pgg.setTrangThai(1);
+            phieuGiamGiaService.Add(pgg);
 
             return "redirect:/admin/phieu-giam-gia";
 
         }
         return "redirect:/admin/phieu-giam-gia";
+    }
+
+    private String generateMaPhieuGiamGia() {
+        String ma = String.valueOf(phieuGiamGiaRepository.count() + 1);
+        return "PGG" + ma;
     }
 
     @GetMapping("/UpdatePhieuGiamGia/{id}")
