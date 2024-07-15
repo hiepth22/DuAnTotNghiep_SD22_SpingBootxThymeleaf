@@ -204,7 +204,7 @@ $(document).ready(function () {
         <tr>
             <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
             <td class="px-6 py-4 whitespace-nowrap font-bold">
-                <h1>${item.idSanPhamChiTiet.sanPham.ten}</h1>
+                <h1>${item.sanPhamChiTiet.sanPham.ten}</h1>
             </td>
             <td class="px-6 py-4 whitespace-nowrap font-bold">
                 <h1>${item.soLuong}</h1>

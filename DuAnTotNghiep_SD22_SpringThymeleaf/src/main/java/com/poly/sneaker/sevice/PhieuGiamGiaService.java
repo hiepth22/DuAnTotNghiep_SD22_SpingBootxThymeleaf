@@ -48,7 +48,7 @@ public class PhieuGiamGiaService {
             o.setMa(newpgg.getMa());
             o.setSoLuong(newpgg.getSoLuong());
             o.setHinhThucGiam(newpgg.getHinhThucGiam());
-//            o.setDonToiThieu(newpgg.getDonToiThieu());
+            o.setDonToiThieu(newpgg.getDonToiThieu());
             o.setGiaTriGiam(newpgg.getGiaTriGiam());
             o.setGiamToiDa(newpgg.getGiamToiDa());
             o.setNgayBatDau(newpgg.getNgayBatDau());
