@@ -79,7 +79,7 @@ public class PhieuGiamGiaController {
             model.addAttribute("errors", result.getAllErrors());
 //            PhieuGiamGia pggnew = new PhieuGiamGia();
 
-<<<<<<< HEAD
+
 //            pgg.setMa("VC"+  phieuGiamGiaService.getall().size() );
             pgg.setMa(generateMaPhieuGiamGia());
             pgg.setSoLuong(pgg.getSoLuong());
@@ -91,18 +91,8 @@ public class PhieuGiamGiaController {
             pgg.setNgayKetThuc(LocalDate.now());
             pgg.setTrangThai(1);
             phieuGiamGiaService.Add(pgg);
-=======
-            pggnew.setMa("VC"+  phieuGiamGiaService.getall().size() );
-            pggnew.setSoLuong(pgg.getSoLuong());
-            pggnew.setHinhThucGiam(pgg.getHinhThucGiam());
-            pggnew.setDonToiThieu(pgg.getDonToiThieu());
-            pggnew.setGiaTriGiam(pgg.getGiaTriGiam());
-            pggnew.setGiamToiDa(pgg.getGiamToiDa());
-            pggnew.setNgayBatDau(new Date());
-            pggnew.setNgayKetThuc(new Date());
-            pggnew.setTrangThai(pgg.getTrangThai());
-            phieuGiamGiaService.Add(pggnew);
->>>>>>> 21bf85f77715286dc56d0755ca8392c099c2880d
+
+
 
             return "redirect:/admin/phieu-giam-gia";
 
