@@ -67,18 +67,47 @@
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
         <div class="container mt-5">
             <form method="get" class="mt-3 mb-3" id="searchForm">
-                <div class="input-group">
+                <div class="input-group mb-3">
                     <input type="text" id="searchInput" name="keyword" class="form-control" placeholder="Tìm kiếm"
                            oninput="searchKH(event.target.value);">
-                    <select class="form-select form-select-sm" id="statusFilter" onchange="filterByStatus(this.value);">
-                        <option value="all">Tất cả</option>
-                        <option value="active">Hoạt động</option>
-                        <option value="inactive">Ngưng hoạt động</option>
-                    </select>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label for="trangThai" class="col-sm-4 col-form-label">Trạng thái:</label>
+                            <div class="col-sm-8">
+                                <select id="trangThai" name="trangThai" >
+                                    <option value="">Tất cả</option>
+                                    <option value="0">Hoạt Động</option>
+                                    <option value="1">Ngưng Hoạt Động</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label for="startDate" class="col-sm-5 col-form-label ">Khoảng Ngày Sinh:</label>
+                            <div class="col-sm-7">
+                                <input type="date" name="startDate" id="startDate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label for="endDate" class="col-sm-5 col-form-label text-center">-</label>
+                            <div class="col-sm-7">
+                                <input type="date" name="endDate" id="endDate">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group-append text-center">
+                    <button type="button" class="btn btn-success" onclick="OnSearchKH">Tìm kiếm</button>
+                    <button type="button" class="btn btn-warning" onclick="resetForm()">Làm Mới Bộ Lọc</button>
                 </div>
             </form>
             <div class="table-responsive" id="formkh">
-
+                    <!--Danh sach khach Hang duoc hien thi-->
             </div>
         </div>
     </div>
