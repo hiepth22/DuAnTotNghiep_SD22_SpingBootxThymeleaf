@@ -1,6 +1,6 @@
 package com.poly.sneaker.sevice;
 
-import com.poly.sneaker.Request.PhieuGiamGiaRequest;
+
 import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.PhieuGiamGiaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +45,12 @@ public class PhieuGiamGiaService {
     public PhieuGiamGia update(Long id, PhieuGiamGia newpgg) {
         Optional<PhieuGiamGia> optional = phieuGiamGiaRepository.findById(id);
         return optional.map(o -> {
+
             o.setMa(newpgg.getMa());
+            o.setTen(newpgg.getTen());
             o.setSoLuong(newpgg.getSoLuong());
             o.setHinhThucGiam(newpgg.getHinhThucGiam());
-//            o.setDonToiThieu(newpgg.getDonToiThieu());
+            o.setDonToiThieu(newpgg.getDonToiThieu());
             o.setGiaTriGiam(newpgg.getGiaTriGiam());
             o.setGiamToiDa(newpgg.getGiamToiDa());
             o.setNgayBatDau(newpgg.getNgayBatDau());
@@ -68,7 +70,6 @@ public class PhieuGiamGiaService {
         return phieuGiamGiaRepository.existsById(id);
     }
 
-
     public Boolean trangthai(int tt) {
         return phieuGiamGiaRepository.findByTrangThai(tt).size() > 0;
     }
@@ -76,6 +77,25 @@ public class PhieuGiamGiaService {
         Optional<PhieuGiamGia> optional = phieuGiamGiaRepository.findById(id);
         return optional.map(o -> o).orElse(null);
     }
+
+    public List<PhieuGiamGia> search(String keyword) {
+        return phieuGiamGiaRepository.findByTen(keyword);
+    }
+
+    public List<PhieuGiamGia> getAll() {
+        return phieuGiamGiaRepository.findAll();
+    }
+
+    public Page<PhieuGiamGia> getAllPage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return phieuGiamGiaRepository.findAll(pageable);
+    }
+
+//    public Page<PhieuGiamGia> getAllPhieu(Pageable pageable) {
+//    }
+//
+//    public Page<PhieuGiamGia> searchTrangThai(String status, Pageable pageable) {
+//    }
 
 //    public Page<PhieuGiamGia> getAllPhieu(Pageable pageable) {
 //    }
