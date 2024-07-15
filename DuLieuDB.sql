@@ -651,18 +651,6 @@ VALUES
 ----------------------------------------------------------------------------------------------------------------------------------------
 
 
-	
--- Phương thức thanh toán 2 dữ liệu ----------------------------------------------------------------------------------------------------------------------------------------
-
-INSERT INTO [dbo].[phuong_thuc_thanh_toan] (
-    [tenThanhToan], [loaiThanhToan], [ghiChu], [ngayTao], [ngayCapNhat], [nguoiTao], [nguoiCapNhat], [trangThai]
-) VALUES
-    (N'Tiền mặt', 1, N'', '2024-07-15 08:00:00', '2024-07-15 08:00:00', 1, 1, 1),
-	(N'Chuyển khoản', 0, N'', '2024-07-15 08:00:00', '2024-07-15 08:00:00', 1, 1, 1);
-
-----------------------------------------------------------------------------------------------------------------------------------------
-
-
 
 -- Hóa Đơn 30 dữ liệu ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -841,6 +829,50 @@ INSERT INTO [dbo].[hoa_don_chi_tiet] (
     (1, 960000, 1, 30, 1);
 
 ----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+-- Phương thức thanh toán 2 dữ liệu ----------------------------------------------------------------------------------------------------------------------------------------
+
+INSERT INTO [dbo].[phuong_thuc_thanh_toan] 
+    ([idHoaDon], [tenThanhToan], [loaiThanhToan], [ghiChu], [ngayTao], [ngayCapNhat], [nguoiTao], [nguoiCapNhat], [trangThai]) 
+VALUES
+    (1, 'Tiền mặt', 1, 'Ghi chú 1', GETDATE(), GETDATE(), 1, 1, 1),
+    (2, 'Tiền mặt', 1, 'Ghi chú 2', GETDATE(), GETDATE(), 1, 1, 1),
+    (3, 'Tiền mặt', 1, 'Ghi chú 3', GETDATE(), GETDATE(), 1, 1, 1),
+    (4, 'Tiền mặt', 1, 'Ghi chú 4', GETDATE(), GETDATE(), 1, 1, 1),
+    (5, 'Tiền mặt', 1, 'Ghi chú 5', GETDATE(), GETDATE(), 1, 1, 1),
+    (6, 'Tiền mặt', 1, 'Ghi chú 6', GETDATE(), GETDATE(), 1, 1, 1),
+    (7, 'Tiền mặt', 1, 'Ghi chú 7', GETDATE(), GETDATE(), 1, 1, 1),
+    (8, 'Tiền mặt', 1, 'Ghi chú 8', GETDATE(), GETDATE(), 1, 1, 1),
+    (9, 'Tiền mặt', 1, 'Ghi chú 9', GETDATE(), GETDATE(), 1, 1, 1),
+    (10, 'Tiền mặt', 1, 'Ghi chú 10', GETDATE(), GETDATE(), 1, 1, 1),
+    (11, 'Tiền mặt', 1, 'Ghi chú 11', GETDATE(), GETDATE(), 1, 1, 1),
+    (12, 'Tiền mặt', 1, 'Ghi chú 12', GETDATE(), GETDATE(), 1, 1, 1),
+    (13, 'Tiền mặt', 1, 'Ghi chú 13', GETDATE(), GETDATE(), 1, 1, 1),
+    (14, 'Tiền mặt', 1, 'Ghi chú 14', GETDATE(), GETDATE(), 1, 1, 1),
+    (15, 'Tiền mặt', 1, 'Ghi chú 15', GETDATE(), GETDATE(), 1, 1, 1),
+    (16, 'Tiền mặt', 1, 'Ghi chú 16', GETDATE(), GETDATE(), 1, 1, 1),
+    (17, 'Tiền mặt', 1, 'Ghi chú 17', GETDATE(), GETDATE(), 1, 1, 1),
+    (18, 'Tiền mặt', 1, 'Ghi chú 18', GETDATE(), GETDATE(), 1, 1, 1),
+    (19, 'Tiền mặt', 1, 'Ghi chú 19', GETDATE(), GETDATE(), 1, 1, 1),
+    (20, 'Tiền mặt', 1, 'Ghi chú 20', GETDATE(), GETDATE(), 1, 1, 1),
+    (21, 'Tiền mặt', 1, 'Ghi chú 21', GETDATE(), GETDATE(), 1, 1, 1),
+    (22, 'Tiền mặt', 1, 'Ghi chú 22', GETDATE(), GETDATE(), 1, 1, 1),
+    (23, 'Tiền mặt', 1, 'Ghi chú 23', GETDATE(), GETDATE(), 1, 1, 1),
+    (24, 'Tiền mặt', 1, 'Ghi chú 24', GETDATE(), GETDATE(), 1, 1, 1),
+    (25, 'Tiền mặt', 1, 'Ghi chú 25', GETDATE(), GETDATE(), 1, 1, 1),
+    (26, 'Tiền mặt', 1, 'Ghi chú 26', GETDATE(), GETDATE(), 1, 1, 1),
+    (27, 'Tiền mặt', 1, 'Ghi chú 27', GETDATE(), GETDATE(), 1, 1, 1),
+    (28, 'Tiền mặt', 1, 'Ghi chú 28', GETDATE(), GETDATE(), 1, 1, 1),
+    (29, 'Tiền mặt', 1, 'Ghi chú 29', GETDATE(), GETDATE(), 1, 1, 1),
+    (30, 'Tiền mặt', 1, 'Ghi chú 30', GETDATE(), GETDATE(), 1, 1, 1);
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 
 -- dữ liệu ----------------------------------------------------------------------------------------------------------------------------------------
