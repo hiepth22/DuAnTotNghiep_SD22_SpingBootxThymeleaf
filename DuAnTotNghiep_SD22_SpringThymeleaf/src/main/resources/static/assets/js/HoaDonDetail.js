@@ -184,6 +184,8 @@ $(document).ready(function () {
 
                 // danhSachSanPhamIn(hdctList);
 
+                getPhuongThucThanhToan();
+
                 inHoaDon(hd, hdctList);
 
                 checkCurrentStep();
@@ -195,6 +197,40 @@ $(document).ready(function () {
             }
         });
     }
+
+    const getPhuongThucThanhToan = () => {
+        $.ajax({
+            url: `/api/hoa-don/phuong-thuc-thanh-toan/${idHoaDon}`,
+            method: 'GET',
+            success: function (result) {
+
+                if (result && typeof result === 'object') {
+                    let list = "";
+                    $("#lichSuThanhToan").empty();
+
+                    list += `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">1</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${formatVND(result.hoaDon.tongTien)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${result.trangThai}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${formatDate(result.ngayTao)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap"><span class="status bg-red-500 text-white rounded-lg ">${loaiThanhToan(result.loaiThanhToan)}</span></td>
+                    <td class="px-6 py-4 whitespace-nowrap"><span class="status bg-green-500 text-white rounded-lg mt-5 ">${result.tenThanhToan}</span></td>
+                    <td class="px-6 py-4 whitespace-nowrap">${result.ghiChu}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${result.nguoiCapNhat}</td>
+                </tr>`;
+
+                    $("#lichSuThanhToan").html(list);
+                } else {
+                    console.error('Unexpected API response format:', result);
+                }
+            },
+            error: function (error) {
+                console.error('Lỗi Lịch sử thanh toán:', error);
+            }
+        });
+    };
+
 
     function inHoaDon(hd, hdctList) {
         let danhSachSP = '';
@@ -428,6 +464,17 @@ $(document).ready(function () {
                 return 'Online';
             case 2:
                 return 'Tại quầy';
+            default:
+                return 'Không xác định'
+        }
+    }
+
+    const loaiThanhToan = (tt) => {
+        switch (tt) {
+            case true:
+                return 'Trả sau';
+            case 2:
+                return 'Trả trước';
             default:
                 return 'Không xác định'
         }
