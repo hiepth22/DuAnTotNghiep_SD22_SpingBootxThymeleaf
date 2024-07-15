@@ -21,7 +21,7 @@ public class HoaDonChiTiet {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "idSanPhamChiTiet")
+    @JoinColumn(name = "idChiTietSanPham")
     private SanPhamChiTiet sanPhamChiTiet;
 
     @ManyToOne
