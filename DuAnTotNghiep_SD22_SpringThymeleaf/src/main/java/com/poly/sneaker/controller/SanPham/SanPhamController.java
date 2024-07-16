@@ -76,13 +76,9 @@ public class SanPhamController {
 
     @GetMapping("/san-pham/{sanPhamId}")
     public String hienThiSanPhamChiTiet(@PathVariable("sanPhamId") Long sanPhamId,
-                                        @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                         Model model) {
-        int pageSize = 1000;
-        Page<SanPhamChiTiet> sanPhamChiTietsPage = SPCTservice.getSanPhamChiTietBySanPhamId(sanPhamId, pageNo, pageSize);
-        model.addAttribute("totalPage", sanPhamChiTietsPage.getTotalPages());
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("sanPhamChiTiets", sanPhamChiTietsPage.getContent());
+        List<SanPhamChiTiet> sanPhamChiTiets = SPCTservice.getAll();
+        model.addAttribute("sanPhamChiTiets", sanPhamChiTiets);
         model.addAttribute("sanPhamId", sanPhamId);
         return "/admin/SanPham/sanPhamChiTietPage";
     }

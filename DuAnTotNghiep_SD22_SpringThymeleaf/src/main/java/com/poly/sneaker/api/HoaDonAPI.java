@@ -35,6 +35,8 @@ public class HoaDonAPI {
     private SanPhamChiTietService sanPhamChiTietService;
     @Autowired
     private BanHangService banHangService;
+    @Autowired
+    private PhuongThucThanhToanService phuongThucThanhToanService;
 
 
     @GetMapping("")
@@ -148,6 +150,11 @@ public class HoaDonAPI {
         hoaDonChiTiet.setHoaDon(hoaDonChiTiet.getHoaDon());
         hoaDonChiTiet.setSanPhamChiTiet(hoaDonChiTiet.getSanPhamChiTiet());
         return ResponseEntity.ok(banHangService.add(hoaDonChiTiet));
+    }
+
+    @GetMapping("/phuong-thuc-thanh-toan/{id}")
+    public ResponseEntity<?> phuongThucThanhToan (@PathVariable("id") Long id){
+        return ResponseEntity.ok(phuongThucThanhToanService.detail(id));
     }
 
 

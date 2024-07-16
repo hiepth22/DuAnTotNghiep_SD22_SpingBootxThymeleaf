@@ -71,7 +71,7 @@ $(document).ready(function () {
                     <span class="bg-green-500 rounded-lg text-white">${trangThaiSanPham(item.trangThai)}</span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <button class="deleteSP" data-id="${item.id}">
+                    <button class="deleteSP" data-id="${item.id}" id="xoaSP-${item.id}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-7" style="color: #B94A00">
                             <path fill-rule="evenodd" d="M7.22 3.22A.75.75 0 0 1 7.75 3h9A2.25 2.25 0 0 1 19 5.25v9.5A2.25 2.25 0 0 1 16.75 17h-9a.75.75 0 0 1-.53-.22L.97 10.53a.75.75 0 0 1 0-1.06l6.25-6.25Zm3.06 4a.75.75 0 1 0-1.06 1.06L10.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L12 8.94l-1.72-1.72Z" clip-rule="evenodd" />
                         </svg>
@@ -184,6 +184,8 @@ $(document).ready(function () {
 
                 // danhSachSanPhamIn(hdctList);
 
+                getPhuongThucThanhToan();
+
                 inHoaDon(hd, hdctList);
 
                 checkCurrentStep();
@@ -195,6 +197,40 @@ $(document).ready(function () {
             }
         });
     }
+
+    const getPhuongThucThanhToan = () => {
+        $.ajax({
+            url: `/api/hoa-don/phuong-thuc-thanh-toan/${idHoaDon}`,
+            method: 'GET',
+            success: function (result) {
+
+                if (result && typeof result === 'object') {
+                    let list = "";
+                    $("#lichSuThanhToan").empty();
+
+                    list += `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">1</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${formatVND(result.hoaDon.tongTien)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${result.trangThai}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${formatDate(result.ngayTao)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap"><span class="status bg-red-500 text-white rounded-lg ">${loaiThanhToan(result.loaiThanhToan)}</span></td>
+                    <td class="px-6 py-4 whitespace-nowrap"><span class="status bg-green-500 text-white rounded-lg mt-5 ">${result.tenThanhToan}</span></td>
+                    <td class="px-6 py-4 whitespace-nowrap">${result.ghiChu}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${result.nguoiCapNhat}</td>
+                </tr>`;
+
+                    $("#lichSuThanhToan").html(list);
+                } else {
+                    console.error('Unexpected API response format:', result);
+                }
+            },
+            error: function (error) {
+                console.error('Lỗi Lịch sử thanh toán:', error);
+            }
+        });
+    };
+
 
     function inHoaDon(hd, hdctList) {
         let danhSachSP = '';
@@ -356,12 +392,18 @@ $(document).ready(function () {
 
     function checkCurrentStep() {
         const button = document.getElementById("hienThiDanhSachSanPham");
+        const buttonsDeleteSP = document.querySelectorAll(".deleteSP");
         if (currentStep > 1) {
             button.style.display = "none";
+            buttonsDeleteSP.forEach(button => button.style.display = "none");
+
         } else {
             button.style.display = "block";
+            buttonsDeleteSP.forEach(button => button.style.display = "block");
         }
     }
+
+
 
     $(document).on("click", ".pageBtn", function () {
         let page = $(this).text() - 1;
@@ -422,6 +464,17 @@ $(document).ready(function () {
                 return 'Online';
             case 2:
                 return 'Tại quầy';
+            default:
+                return 'Không xác định'
+        }
+    }
+
+    const loaiThanhToan = (tt) => {
+        switch (tt) {
+            case true:
+                return 'Trả sau';
+            case 2:
+                return 'Trả trước';
             default:
                 return 'Không xác định'
         }
