@@ -13,10 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+
 
 
 @Controller
@@ -26,17 +24,6 @@ public class PhieuGiamGiaController {
 
     @Autowired
     PhieuGiamGiaService phieuGiamGiaService;
-
-//    @GetMapping
-//    public String getAllPhieu(Model model, @RequestParam(defaultValue = "1") int page) {
-//        Page<PhieuGiamGia> phieuGiamGias;
-//        if (page < 1) page = 1;
-//        Pageable pageable = PageRequest.of(page - 1, 5);
-//        phieuGiamGias = phieuGiamGiaService.getAllPhieu(pageable);
-//        model.addAttribute("page", phieuGiamGias);
-//        return "admin/PhieuGiamGia/PhieuGiamGia";
-//    }
-
 
 
     @GetMapping("/phieu-giam-gia")

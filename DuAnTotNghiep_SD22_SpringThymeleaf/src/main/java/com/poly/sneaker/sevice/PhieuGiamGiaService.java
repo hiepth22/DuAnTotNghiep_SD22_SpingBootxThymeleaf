@@ -74,35 +74,15 @@ public class PhieuGiamGiaService {
         return optional.map(o -> o).orElse(null);
     }
 
-    public List<PhieuGiamGia> search(String keyword) {
-        return phieuGiamGiaRepository.findByTen(keyword);
-    }
 
     public List<PhieuGiamGia> getAll() {
         return phieuGiamGiaRepository.findAll();
     }
 
-    public Page<PhieuGiamGia> getAllPage(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return phieuGiamGiaRepository.findAll(pageable);
-    }
 
 
 
-//    public Page<PhieuGiamGia> getAllPhieu(Pageable pageable) {
-//        Pageable sortedByIdDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "phieuGiamGiaId"));
-//        Page<PhieuGiamGia> phieuGiamGias = phieuGiamGiaRepository.findAll(sortedByIdDesc);
-//
-//        for (PhieuGiamGia phieu : phieuGiamGias) {
-//            String newStatus = phieu.getTrangThaiHienTai();
-//            if (!newStatus.equals(phieu.getTrangThai())) {
-//                phieu.setTrangThai(1);
-//                phieuGiamGiaRepository.save(phieu);
-//            }
-//        }
-//
-//        return phieuGiamGias;
-//    }
+
 
 
 
