@@ -182,11 +182,9 @@ $(document).ready(function () {
 
                 getDanhSachSanPham(0, 3);
 
-                // danhSachSanPhamIn(hdctList);
+                getPhuongThucThanhToan(tongTien);
 
-                getPhuongThucThanhToan();
-
-                inHoaDon(hd, hdctList);
+                inHoaDon(hd, hdctList, tongTien);
 
                 checkCurrentStep();
 
@@ -198,7 +196,7 @@ $(document).ready(function () {
         });
     }
 
-    const getPhuongThucThanhToan = () => {
+    const getPhuongThucThanhToan = (tongTien) => {
         $.ajax({
             url: `/api/hoa-don/phuong-thuc-thanh-toan/${idHoaDon}`,
             method: 'GET',
@@ -211,7 +209,7 @@ $(document).ready(function () {
                     list += `
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap">1</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${formatVND(result.hoaDon.tongTien)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${formatVND(tongTien)}</td>
                     <td class="px-6 py-4 whitespace-nowrap">${result.trangThai}</td>
                     <td class="px-6 py-4 whitespace-nowrap">${formatDate(result.ngayTao)}</td>
                     <td class="px-6 py-4 whitespace-nowrap"><span class="status bg-red-500 text-white rounded-lg ">${loaiThanhToan(result.loaiThanhToan)}</span></td>
@@ -232,7 +230,7 @@ $(document).ready(function () {
     };
 
 
-    function inHoaDon(hd, hdctList) {
+    function inHoaDon(hd, hdctList, tongTien) {
         let danhSachSP = '';
 
         hdctList.forEach((item, index) => {
@@ -296,7 +294,7 @@ $(document).ready(function () {
         <div class="invoice-footer mt-4 flex justify-between">
             <div>
                 <p class="font-semibold">Tiền thu người nhận:</p>
-                <p>${formatVND(hd.tongTien)}</p>
+                <p>${formatVND(tongTien)}</p>
             </div>
             <div class="signature text-center">
                 <p class="font-semibold">Chữ ký người nhận</p>
