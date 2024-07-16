@@ -76,4 +76,7 @@ public class PhieuGiamGia {
     private Integer trangThai;
 
 
+
+
+
 }
