@@ -107,7 +107,7 @@ function addPgg() {
     const confirmButton = document.getElementById('confirmButton');
     confirmButton.classList.add('disabled');
 
-    axios.post('/admin/SavePhieuGiamGia', new FormData(form) )
+    axios.get('/admin/SavePhieuGiamGia', new FormData(form) )
         .then(response => {
             // Xóa lớp 'disabled' và thay đổi văn bản của nút Lưu khi hoàn thành
             confirmButton.classList.remove('disabled');

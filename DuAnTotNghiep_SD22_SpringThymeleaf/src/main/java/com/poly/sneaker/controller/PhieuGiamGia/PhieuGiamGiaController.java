@@ -30,7 +30,7 @@ public class PhieuGiamGiaController {
 
     @Autowired
     PhieuGiamGiaService phieuGiamGiaService;
-    PhieuGiamGiaRepository phieuGiamGiaRepository;
+//    PhieuGiamGiaRepository phieuGiamGiaRepository;
 
 
     @GetMapping("/phieu-giam-gia")
@@ -83,14 +83,13 @@ public class PhieuGiamGiaController {
 
     @PostMapping("/savePhieuGiamGia/{id}")
     public String updatePhieuGiamGia(@PathVariable("id") Long id, @Valid @ModelAttribute("pgg") PhieuGiamGia pgg, BindingResult result) {
-
         System.out.println(pgg);
         if (result.hasErrors()) {
-            PhieuGiamGia updatedPgg = phieuGiamGiaService.update(id, pgg);
-            if (updatedPgg != null) {
-                return "redirect:/admin/phieu-giam-gia";
+            return "admin/PhieuGiamGia/PhieuGiamGiaUpdate";
             }
-
+        PhieuGiamGia updatedPgg = phieuGiamGiaService.update(id, pgg);
+        if (updatedPgg != null) {
+            return "redirect:/admin/phieu-giam-gia";
         }
         return "admin/PhieuGiamGia/PhieuGiamGiaUpdate";
     }
