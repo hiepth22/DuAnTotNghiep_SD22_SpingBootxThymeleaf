@@ -96,7 +96,7 @@ public class PhieuGiamGiaController {
         }
         return "admin/PhieuGiamGia/PhieuGiamGiaUpdate";
     }
-    
+
     @PostMapping("/phieu-giam-gia/{id}/delete")
     public ResponseEntity<String> deleteTrangThai(@PathVariable("id") Long id, @RequestBody Map<String, Integer> requestBody) {
         Integer trangThai = requestBody.get("trangThai");
