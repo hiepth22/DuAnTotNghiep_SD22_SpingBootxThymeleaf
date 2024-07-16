@@ -2,6 +2,7 @@ package com.poly.sneaker.api;
 
 import com.poly.sneaker.entity.Anh;
 import com.poly.sneaker.entity.SanPhamChiTiet;
+import com.poly.sneaker.repository.SanPhamChiTietRepository;
 import com.poly.sneaker.sevice.AnhService;
 import com.poly.sneaker.sevice.SanPhamChiTietService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class SanPhamChiTietAPI {
     private SanPhamChiTietService spctService;
 
     @Autowired
+    private SanPhamChiTietRepository spctRepository;
+
+    @Autowired
     private AnhService anhService;
 
     @PostMapping("/save")
@@ -34,6 +38,12 @@ public class SanPhamChiTietAPI {
                                                 ){
        return ResponseEntity.ok(spctService.saveToDatabase(sanPhamChiTiets));
     }
+
+//    @GetMapping("/count")
+//    public ResponseEntity<Long> getCountBySanPhamId(@RequestParam Long sanPhamId) {
+//        long count = spctService.countBySanPhamId(sanPhamId);
+//        return ResponseEntity.ok(count);
+//    }
 
 //    @GetMapping("/search")
 //    public ResponseEntity<?> searchSanPhamChiTiet(@RequestParam("keyword") String keyword,

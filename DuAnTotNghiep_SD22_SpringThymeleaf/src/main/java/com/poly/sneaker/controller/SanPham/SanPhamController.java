@@ -75,13 +75,13 @@ public class SanPhamController {
 
 
     @GetMapping("/san-pham/{sanPhamId}")
-    public String hienThiSanPhamChiTiet(@PathVariable("sanPhamId") Long sanPhamId,
-                                        Model model) {
-        List<SanPhamChiTiet> sanPhamChiTiets = SPCTservice.getAll();
+    public String hienThiSanPhamChiTiet(@PathVariable("sanPhamId") Long sanPhamId, Model model) {
+        List<SanPhamChiTiet> sanPhamChiTiets = SPCTservice.findBySanPhamId(sanPhamId);
         model.addAttribute("sanPhamChiTiets", sanPhamChiTiets);
         model.addAttribute("sanPhamId", sanPhamId);
         return "/admin/SanPham/sanPhamChiTietPage";
     }
+
 
     @GetMapping("/san-pham/{sanPhamId}/update/{id}")
     public String updateSanPhamChiTiet(@PathVariable("sanPhamId") Long sanPhamId, @PathVariable("id") Long id, Model model) {
