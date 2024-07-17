@@ -1,10 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giao diện tab giống như Chrome</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .tab {
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .tab-active {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-bottom: none;
+        }
+    </style>
 </head>
-<body>
-$END$
+<body class="bg-gray-100 p-4">
+<div class="max-w-4xl mx-auto bg-white rounded-lg shadow">
+    <div class="p-4 flex justify-between items-center">
+        <h2 class="text-xl font-semibold">Các tab</h2>
+        <button id="them-tab" class="px-4 py-2 bg-blue-500 text-white rounded-full">Thêm Tab</button>
+    </div>
+    <div class="border-b">
+        <div id="container-tab" class="flex space-x-2">
+            <!-- Các tab sẽ được chèn động vào đây -->
+        </div>
+    </div>
+    <div class="p-4">
+        <div id="container-noi-dung">
+            <!-- Nội dung của từng tab sẽ được chèn động vào đây -->
+        </div>
+    </div>
+</div>
+
+<script>
+    let duLieuTab = [
+        { id: 1, tieuDe: "Tab 1", noiDung: "Nội dung của Tab 1." },
+    ];
+
+    const containerTab = document.getElementById('container-tab');
+    const containerNoiDung = document.getElementById('container-noi-dung');
+
+    function hienThiCacTab() {
+        containerTab.innerHTML = '';
+        containerNoiDung.innerHTML = '';
+
+        duLieuTab.forEach((tab, index) => {
+            const nutTab = document.createElement('button');
+            nutTab.classList.add('tab', 'px-4', 'py-2', 'bg-gray-200', 'hover:bg-gray-300');
+            if (index === 0) nutTab.classList.add('tab-active');
+            nutTab.textContent = tab.tieuDe;
+            nutTab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
+                document.querySelectorAll('.tab-content').forEach(noiDung => noiDung.classList.add('hidden'));
+
+                nutTab.classList.add('tab-active');
+                document.getElementById(`noi-dung-tab-${tab.id}`).classList.remove('hidden');
+            });
+            containerTab.appendChild(nutTab);
+
+            const noiDungTab = document.createElement('div');
+            noiDungTab.id = `noi-dung-tab-${tab.id}`;
+            noiDungTab.classList.add('tab-content', 'p-4');
+            if (index !== 0) noiDungTab.classList.add('hidden');
+            noiDungTab.innerHTML = `<p>${tab.noiDung}</p>`;
+            containerNoiDung.appendChild(noiDungTab);
+        });
+    }
+
+    document.getElementById('them-tab').addEventListener('click', () => {
+        const idTabMoi = duLieuTab.length + 1;
+        duLieuTab.push({
+            id: idTabMoi,
+            tieuDe: `Tab ${idTabMoi}`,
+            noiDung: `Nội dung của Tab ${idTabMoi}.`
+        });
+        hienThiCacTab();
+    });
+
+    hienThiCacTab();
+</script>
 </body>
 </html>

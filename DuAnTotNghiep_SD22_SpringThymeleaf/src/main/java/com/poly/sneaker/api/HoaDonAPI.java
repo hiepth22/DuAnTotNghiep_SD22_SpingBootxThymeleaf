@@ -157,6 +157,10 @@ public class HoaDonAPI {
         return ResponseEntity.ok(phuongThucThanhToanService.detail(id));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> detailHoaDon(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(hoaDonService.getHoaDonByID(id));
+    }
 
 
 

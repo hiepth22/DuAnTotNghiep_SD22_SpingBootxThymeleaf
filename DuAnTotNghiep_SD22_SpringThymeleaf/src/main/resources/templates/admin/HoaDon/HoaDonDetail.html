@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Order Details</title>
     <link rel="stylesheet" href="output.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+<!--    <script src="https://cdn.tailwindcss.com"></script>-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <head th:replace="~{admin/fragments/head :: head}"></head>
     <style>
@@ -47,7 +47,9 @@
 
                             </div>
                             <div class="mt-8 flex gap-2">
-                                <button id="hienThiLichSu" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:text-gray-100">Lịch sử
+                                <button id="hienThiLichSu"
+                                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:text-gray-100">
+                                    Lịch sử
                                 </button>
                             </div>
 
@@ -58,7 +60,7 @@
 
         </div>
 
-        <div id="" class="bg-white h-40 w-full m-auto mt-5 p-6 rounded-lg shadow-md">
+        <div class="bg-white h-40 w-full m-auto mt-5 p-6 rounded-lg shadow-md">
             <table id="tableLichSuThanhToan" class="min-w-full divide-y divide-gray-200  ">
                 <thead class="bg-blue-500">
                 <tr>
@@ -81,7 +83,7 @@
                         Phương thức thanh toán
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                       Ghi chú
+                        Ghi chú
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                         Người xác nhận
@@ -94,8 +96,20 @@
 
         </div>
 
+        <div class="bg-white h-96 w-full m-auto mt-5 p-6 rounded-lg shadow-md ">
+            <div class="grid gap-4 grid-cols-2">
+                <div id="maHoaDon"></div>
+                <div>
+                    <button id="thayDoiThongTinHoaDon"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"> Thay
+                        đổi
+                    </button>
+                </div>
+            </div>
 
-        <div id="thongTinHoaDon" class="bg-white h-80 w-full m-auto mt-5 p-6 rounded-lg shadow-md"></div>
+            <div id="thongTinHoaDon"></div>
+        </div>
+
         <div id="hoaDonChiTietWrapper" class="bg-white h-[40%] w-full m-auto mt-5 p-6 rounded-lg shadow-md">
             <div id="hoaDonChiTiet" class="h-full">
                 <div class="grid gap-4 grid-cols-2">
@@ -103,7 +117,8 @@
                         <h1 class="text-xl mt-3 ml-3 mb-4 font-bold">Thông tin sản phẩm đã mua</h1>
                     </div>
                     <div class="flex justify-end ">
-                        <button id="hienThiDanhSachSanPham" class="bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-4 hover:bg-blue-600 hover:text-gray-100">
+                        <button id="hienThiDanhSachSanPham"
+                                class="bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-4 hover:bg-blue-600 hover:text-gray-100">
                             Thêm sản phẩm
                         </button>
                     </div>
@@ -272,14 +287,20 @@
                     </div>
                     <div class="bg-gray-50 px-4 py-3 flex justify-between items-center">
                         <div class="flex items-center space-x-2">
-                            <button id="prevPageBtn" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                            <button id="prevPageBtn"
+                                    class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M12.707 15.293a1 1 0 0 1-1.414 1.414l-4-4a1 1 0 0 1 0-1.414l4-4a1 1 0 0 1 1.414 1.414L9.414 12H16a1 1 0 0 1 0 2h-6.586l3.293 3.293z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd"
+                                          d="M12.707 15.293a1 1 0 0 1-1.414 1.414l-4-4a1 1 0 0 1 0-1.414l4-4a1 1 0 0 1 1.414 1.414L9.414 12H16a1 1 0 0 1 0 2h-6.586l3.293 3.293z"
+                                          clip-rule="evenodd"/>
                                 </svg>
                             </button>
-                            <button id="nextPageBtn" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                            <button id="nextPageBtn"
+                                    class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M7.293 15.293a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414-1.414L10.586 12H4a1 1 0 0 1 0-2h6.586l-3.293-3.293a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414 0z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd"
+                                          d="M7.293 15.293a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414-1.414L10.586 12H4a1 1 0 0 1 0-2h6.586l-3.293-3.293a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414 0z"
+                                          clip-rule="evenodd"/>
                                 </svg>
                             </button>
                         </div>
@@ -287,7 +308,9 @@
                         </div>
                     </div>
                     <div class="flex justify-end mb-3 mr-3">
-                        <button id="dongDanhSachSanPham" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:text-gray-100">Xác nhận
+                        <button id="dongDanhSachSanPham"
+                                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:text-gray-100">
+                            Xác nhận
                         </button>
                     </div>
                 </div>
@@ -298,11 +321,77 @@
 
     </div>
 </div>
+
+<div id="modalThongTinHoaDon" class="fixed z-10 inset-0 overflow-y-auto hidden">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+        </div>
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-xl">
+            <div class="bg-white px-4 pt-5 pb-4">
+               <div id="formThayDoiThongTin">
+                   <form id="chinh-sua-form w-72">
+                       <div class="form-group">
+                           <label for="edit-ten">Tên Khách Hàng</label>
+                           <input type="text" class="form-control" id="edit-ten" value="">
+                       </div>
+                       <div class="form-group">
+                           <label for="edit-tuoi">Số điện thoại</label>
+                           <input type="text" class="form-control" id="edit-tuoi" value="">
+                       </div>
+                       <div class="grid gap-4 grid-cols-3">
+                           <div class="form-group">
+                               <label for="edit-tinhthanh">Tỉnh/Thành phố</label>
+                               <select class="form-control" id="edit-tinhthanh">
+                                   <option value="" selected>Chọn tỉnh thành</option>
+                               </select>
+                           </div>
+                           <div class="form-group">
+                               <label for="edit-quanhuyen">Quận/Huyện</label>
+                               <select class="form-control" id="edit-quanhuyen">
+                                   <option value="" selected>Chọn quận huyện</option>
+                               </select>
+                           </div>
+                           <div class="form-group">
+                               <label for="edit-phuongxa">Phường/Xã</label>
+                               <select class="form-control" id="edit-phuongxa">
+                                   <option value="" selected>Chọn phường xã</option>
+                               </select>
+                           </div>
+                       </div>
+                       <div class="form-group">
+                           <label for="edit-diachi">Địa chỉ cụ thể</label>
+                           <input type="text" class="form-control" id="edit-diachi">
+                       </div>
+                       <div class="form-group">
+                           <label for="">Phí vận chuyển</label>
+                           <input type="number" min="0" class="form-control" id=""  placeholder="0 VNĐ">
+                       </div>
+                       <div class="form-group">
+                           <label for="">Ghi chú</label>
+                           <textarea id="noteThongTin" class="w-full p-2 border rounded" rows="4"></textarea>
+                       </div>
+                   </form>
+               </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 flex justify-end">
+                <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-5"
+                        id="dongThayDoiThongTinHoaDon">Hủy
+                </button>
+
+                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-5"
+                        id="luuThongTinHoaDon">Lưu
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="invoice-container max-w-screen-md mx-auto p-4 border border-gray-300 bg-white hidden">
     <div id="inHoaDon">
     </div>
 </div>
-
 
 
 <script th:src="@{/assets/js/HoaDonDetail.js}"></script>

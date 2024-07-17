@@ -3,13 +3,23 @@ $(document).ready(function () {
     const pathArray = window.location.pathname.split('/');
     const idHoaDon = pathArray[pathArray.length - 1];
 
+    var $editDiaChi = $('#edit-diachi');
+    var $editTinhThanh = $('#edit-tinhthanh');
+    var $editQuanHuyen = $('#edit-quanhuyen');
+    var $editPhuongXa = $('#edit-phuongxa');
+    var citiesData = [];
+
+
     const formatVND = (tongtien) => {
         return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
     }
 
     function hienThiThongTinHoaDon(hd) {
-        $('#thongTinHoaDon').html(`
+        $('#maHoaDon').html(`
             <h1 class="text-xl mt-3 ml-3 mb-4 font-bold">Thông tin đơn hàng: <span class="font-normal">${hd.ma}</span></h1>
+        `);
+
+        $('#thongTinHoaDon').html(`
             <span class="flex items-center w-[99%] m-auto">
                 <span class="h-px flex-1 bg-gray-500"></span>
                 <span class="h-px flex-1 bg-gray-500"></span>
@@ -38,6 +48,10 @@ $(document).ready(function () {
                 </div>
             </div>
         `);
+
+        // $('#formThayDoiThongTin').html(`
+        //
+        // `);
     }
 
     function hienThiDanhSachSP(hdctList) {
@@ -190,8 +204,60 @@ $(document).ready(function () {
 
                 xoaSanPham(idHoaDon);
 
+                getThongTinKhachHang()
+
             }, error: function (xhr, status, error) {
                 console.error('Lỗi fetchHoaDonDetail:', error);
+            }
+        });
+    }
+
+
+    function getThongTinKhachHang() {
+        $.ajax({
+            url: 'https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json',
+            dataType: 'json',
+            success: function(data) {
+                citiesData = data;
+                $editTinhThanh.empty().append('<option value="" selected>Chọn tỉnh thành</option>');
+                $.each(data, function(index, city) {
+                    $editTinhThanh.append('<option value="' + city.Id + '">' + city.Name + '</option>');
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Lỗi khi tải dữ liệu:', error);
+            }
+        });
+
+        $editTinhThanh.on('change', function() {
+            var cityId = $(this).val();
+            if (cityId) {
+                $editQuanHuyen.empty().append('<option value="" selected>Chọn quận huyện</option>');
+                var selectedCity = citiesData.find(city => city.Id === cityId);
+                if (selectedCity) {
+                    $.each(selectedCity.Districts, function(index, district) {
+                        $editQuanHuyen.append('<option value="' + district.Id + '">' + district.Name + '</option>');
+                    });
+                }
+            } else {
+                $editQuanHuyen.empty().append('<option value="" selected>Chọn quận huyện</option>');
+                $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
+            }
+        });
+
+        $editQuanHuyen.on('change', function() {
+            var districtId = $(this).val();
+            if (districtId) {
+                // Clear and populate phường/xã dropdown
+                $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
+                var selectedDistrict = citiesData.flatMap(city => city.Districts).find(district => district.Id === districtId);
+                if (selectedDistrict) {
+                    $.each(selectedDistrict.Wards, function(index, ward) {
+                        $editPhuongXa.append('<option value="' + ward.Id + '">' + ward.Name + '</option>');
+                    });
+                }
+            } else {
+                $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
             }
         });
     }
@@ -391,7 +457,10 @@ $(document).ready(function () {
     function checkCurrentStep() {
         const button = document.getElementById("hienThiDanhSachSanPham");
         const buttonsDeleteSP = document.querySelectorAll(".deleteSP");
-        if (currentStep > 1) {
+        const buttonPre  = document.getElementById("prevBtn");
+        if(currentStep == 1){
+            buttonPre.style.display = 'none';
+        } else if(currentStep > 1) {
             button.style.display = "none";
             buttonsDeleteSP.forEach(button => button.style.display = "none");
 
@@ -571,6 +640,16 @@ $(document).ready(function () {
         $('#modalLichSu').addClass('hidden');
     }
 
+    function showModalThongTinHoaDon() {
+        $('#modalThongTinHoaDon').removeClass('hidden');
+    }
+
+    function hideModalThongTinHoaDon() {
+        $('#modalThongTinHoaDon').addClass('hidden');
+        $('#modalThongTinHoaDon').val('');
+        $('#modalThongTinHoaDon').addClass('hidden');
+    }
+
 
     $('#hienThiGhiChu').click(function () {
         nextStep = currentStep + 1;
@@ -600,6 +679,16 @@ $(document).ready(function () {
     $('#dongDanhSachSanPham').click(function () {
         hideModalDanhSachSanPham();
     })
+
+    $('#thayDoiThongTinHoaDon').click(function () {
+        showModalThongTinHoaDon();
+        fetchHoaDonDetail(idHoaDon);
+    });
+
+    $('#dongThayDoiThongTinHoaDon').click(function () {
+        hideModalThongTinHoaDon();
+    });
+
 
 
     const totalSteps = 6;
