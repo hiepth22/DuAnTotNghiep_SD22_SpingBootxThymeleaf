@@ -21,7 +21,7 @@ public class SanPhamService {
     }
 
     public Page<SanPham> pagination(int pageNo){
-        Pageable pageable = PageRequest.of(pageNo - 1, 5);
+        Pageable pageable = PageRequest.of(pageNo - 1, 10000);
         return repository.findAll(pageable);
     }
 

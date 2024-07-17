@@ -81,6 +81,9 @@ function resetForm() {
     //
     // }
 
-
+$('#trangThaiPggFilter').on('change', function () {
+    const selectedTrangThaiPgg = $(this).val();
+    $('#data-table-pgg').DataTable().column(9).search(selectedTrangThaiPgg).draw();
+});
 
 

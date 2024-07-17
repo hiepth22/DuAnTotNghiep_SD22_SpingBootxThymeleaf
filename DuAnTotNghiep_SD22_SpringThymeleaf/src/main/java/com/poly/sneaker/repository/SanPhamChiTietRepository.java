@@ -20,10 +20,8 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
             "from [san_pham_chi_tiet] where idSanPham = ?1", nativeQuery = true)
     List<SanPhamChiTiet> findBySanPham(Long id);
 
-    @Query(value = "SELECT spct FROM SanPhamChiTiet spct WHERE spct.sanPham.id = :sanPhamId")
-    Page<SanPhamChiTiet> findBySanPhamId(@Param("sanPhamId") Long sanPhamId, Pageable pageable);
-
-
     @Query(value = "select top 1 * from [san_pham_chi_tiet] order by id desc", nativeQuery = true)
     SanPhamChiTiet findIdLonNhat();
+
+    List<SanPhamChiTiet> findBySanPhamId(Long sanPhamId);
 }

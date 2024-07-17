@@ -28,11 +28,9 @@ public class SanPhamChiTietService {
         return repository.findAll();
     }
 
-    public Page<SanPhamChiTiet> getSanPhamChiTietBySanPhamId(Long sanPhamId, int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-        return repository.findBySanPhamId(sanPhamId, pageable);
+    public List<SanPhamChiTiet> findBySanPhamId(Long sanPhamId) {
+        return repository.findBySanPhamId(sanPhamId);
     }
-
 
     public List<SanPhamChiTiet> getAllSanPham(Long idSP) {
         return repository.findBySanPham(idSP);
