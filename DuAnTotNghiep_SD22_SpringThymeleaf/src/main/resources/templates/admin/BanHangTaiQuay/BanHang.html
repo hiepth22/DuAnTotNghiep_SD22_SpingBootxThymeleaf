@@ -82,12 +82,11 @@
                 tabContent.id = `tab-content-${tab.id}`;
                 tabContent.classList.add('tab-content', 'p-4');
                 if (index !== 0) tabContent.classList.add('hidden');
-                tabContent.innerHTML = tab.content; // Hiển thị nội dung đã lưu trữ nếu có
+                tabContent.innerHTML = tab.content;
                 contentContainer.appendChild(tabContent);
 
-                // Hiển thị nội dung của tab đầu tiên ngay khi tải trang
                 if (index === 0 && tab.contentLoaded) {
-                    tabButton.click(); // Kích hoạt sự kiện click để hiển thị nội dung
+                    tabButton.click();
                 }
             });
         }

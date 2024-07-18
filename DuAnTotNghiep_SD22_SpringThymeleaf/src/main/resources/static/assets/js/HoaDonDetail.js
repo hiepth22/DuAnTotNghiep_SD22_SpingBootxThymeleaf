@@ -192,20 +192,24 @@ $(document).ready(function () {
 
             $('#edit-diachi').val(specificAddress);
 
-            $editTinhThanh.val($editTinhThanh.find("option:contains('" + city + "')").val()).change();
+            setTimeout(function() {
+
+                $editTinhThanh.val($editTinhThanh.find("option:contains('" + city + "')").val()).change();
+            }, 100);
 
             setTimeout(function() {
 
                 $editQuanHuyen.val($editQuanHuyen.find("option:contains('" + district + "')").val()).change();
-            }, 500);
+            }, 100);
 
             setTimeout(function() {
                 $editPhuongXa.val($editPhuongXa.find("option:contains('" + ward + "')").val());
-            }, 1000);
+            }, 100);
         } else {
             console.error('Invalid address format:', address);
         }
     }
+
 
     function fetchHoaDonDetail(idHoaDon) {
         $.ajax({
@@ -238,6 +242,7 @@ $(document).ready(function () {
                 xoaSanPham(idHoaDon);
 
                 getThongTinKhachHang()
+
 
             }, error: function (xhr, status, error) {
                 console.error('Lỗi fetchHoaDonDetail:', error);
@@ -491,16 +496,29 @@ $(document).ready(function () {
         const button = document.getElementById("hienThiDanhSachSanPham");
         const buttonsDeleteSP = document.querySelectorAll(".deleteSP");
         const buttonPre  = document.getElementById("prevBtn");
+        const buttonNext  = document.getElementById("hienThiGhiChu");
+        const buttonThayDoiThongTin  = document.getElementById("thayDoiThongTinHoaDon");
         if(currentStep == 1){
             buttonPre.style.display = 'none';
         } else if(currentStep > 1) {
             button.style.display = "none";
             buttonsDeleteSP.forEach(button => button.style.display = "none");
+            buttonThayDoiThongTin.style.display = "none";
+            if (currentStep >= 6){
+                buttonNext.style.display = "none";
 
-        } else {
+            }else {
+                buttonNext.style.display = "block";
+            }
+
+
+        }else {
             button.style.display = "block";
             buttonsDeleteSP.forEach(button => button.style.display = "block");
+            buttonThayDoiThongTin.style.display = "block";
+
         }
+
     }
 
 
