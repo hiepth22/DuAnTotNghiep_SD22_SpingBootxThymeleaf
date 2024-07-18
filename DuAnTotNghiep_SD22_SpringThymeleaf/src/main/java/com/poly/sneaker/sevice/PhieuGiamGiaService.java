@@ -1,13 +1,13 @@
 package com.poly.sneaker.sevice;
 
+
+
 import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.PhieuGiamGiaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -18,15 +18,14 @@ public class PhieuGiamGiaService {
     private PhieuGiamGiaRepository phieuGiamGiaRepository;
 
     public List<PhieuGiamGia> getall() {
-
         return phieuGiamGiaRepository.findAll();
     }
     public List<PhieuGiamGia> getall(int tt) {
         return phieuGiamGiaRepository.findByTrangThai(tt);
     }
-    public Page<PhieuGiamGia> page(Pageable pageable,int tt) {
-        return phieuGiamGiaRepository.findByTrangThai(tt,pageable);
-    }
+//    public Page<PhieuGiamGia> page(Pageable pageable,int tt) {
+//        return phieuGiamGiaRepository.findByTrangThai(tt,pageable);
+//    }
 
     public PhieuGiamGia Add(PhieuGiamGia Pgg) {
         return phieuGiamGiaRepository.save(Pgg);
@@ -55,7 +54,7 @@ public class PhieuGiamGiaService {
             return phieuGiamGiaRepository.save(o);
         }).orElse(null);
     }
-    public PhieuGiamGia updateTrangThai(Long id, Integer trangThai){
+    public PhieuGiamGia updateTrangThai(Long id, Integer tt){
         Optional<PhieuGiamGia> optional = phieuGiamGiaRepository.findById(id);
         return optional.map(o -> {
             o.setTrangThai(0);
@@ -74,18 +73,12 @@ public class PhieuGiamGiaService {
         return optional.map(o -> o).orElse(null);
     }
 
-
-    public List<PhieuGiamGia> getAll() {
-        return phieuGiamGiaRepository.findAll();
-    }
-
-
-
-
-
-
-
-
-
-
+//
+//    public List<PhieuGiamGiaDTO> loc(String keyword, Optional<Integer> tt, Optional<Integer> hinhThucGiam,
+//                                       Integer page_index, Integer page_size, Date startDate, Date endDate ) {
+//        if (startDate != null && endDate == null) {
+//            endDate = java.sql.Date.valueOf(LocalDate.now());
+//        }
+//        return phieuGiamGiaRepository.findBypgg(keyword, tt, hinhThucGiam,startDate,endDate, page_index, page_size);
+//    }
 }

@@ -1,6 +1,7 @@
 package com.poly.sneaker.controller.PhieuGiamGia;
 
-import com.poly.sneaker.entity.NhanVien;
+
+
 import com.poly.sneaker.entity.PhieuGiamGia;
 import com.poly.sneaker.sevice.PhieuGiamGiaService;
 import jakarta.validation.Valid;
@@ -12,9 +13,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-
+import java.util.Optional;
 
 
 @Controller
@@ -32,6 +36,65 @@ public class PhieuGiamGiaController {
         return "admin/PhieuGiamGia/PhieuGiamGiaIndext";
 
     }
+
+//    @GetMapping("/search-phieu-giam-gia")
+//    public String search(
+//            @RequestParam(name = "keyword", required = false) String keyword,
+//            @RequestParam(name = "trangThai") Optional<Integer> trangThai,
+//            @RequestParam(name = "hinhThucGiam") Optional<Integer> hinhThucGiam,
+//            @RequestParam(name = "page_index", required = false) Integer page_index,
+//            @RequestParam(name = "page_size", required = false) Integer page_size,
+//            @RequestParam(name = "startDate", required = false) Date startDate,
+//            @RequestParam(name = "endDate", required = false) Date endDate,
+//            Model model
+//    ) {
+//
+//        if (page_index == null || page_index < 1) {
+//            page_index = 1;
+//        }
+//        if (page_size == null || page_size < 1) {
+//            page_size = 7;
+//        }
+//
+//        List<PhieuGiamGiaDTO> results = phieuGiamGiaService.loc(keyword, trangThai, hinhThucGiam,
+//                (page_index - 1) * page_size, page_size,startDate,endDate);
+//
+//        List<PhieuGiamGia> lstPgg = new ArrayList<>();
+//        for (PhieuGiamGiaDTO pgg : results) {
+//            lstPgg.add(new PhieuGiamGia(pgg.getId(),
+//                    pgg.getTen(),
+//                    pgg.getMa(),
+//                    pgg.getSoLuong(),
+//                    pgg.getHinhThucGiam(),
+//                    pgg.getGiaTriGiam(),
+//                    pgg.getDonToiThieu(),
+//                    pgg.getGiamToiDa(),
+//                    pgg.getNgayBatDau(),
+//                    pgg.getNgayKetThuc(),
+//                    pgg.getNgayTao(),
+//                    pgg.getNgayCapNhat(),
+//                    pgg.getNguoiTao(),
+//                    pgg.getNguoiCapNhat(),
+//                    pgg.getTrangThai()
+//
+//                    ));
+//        }
+//
+//        model.addAttribute("pgg", lstPgg);
+//
+//        int totalRows = 0;
+//        if (results != null && !results.isEmpty()) {
+//            totalRows = results.get(0).getTotalRow();
+//        }
+//        int totalPages = (int) Math.ceil((double) totalRows / page_size);
+//
+//        model.addAttribute("totalPage1", totalPages);
+//        model.addAttribute("TotalPage", totalRows);
+//        model.addAttribute("CurrentPage", page_index);
+//
+//        return "admin/PhieuGiamGia/PhieuGiamGia";
+//    }
+
 
     @GetMapping("/addPhieuGiamGia")
     public String PhieuGiamGiaAdd(Model model) {
@@ -63,7 +126,6 @@ public class PhieuGiamGiaController {
     }
 
 
-
     @GetMapping("/UpdatePhieuGiamGia/{id}")
     public String showEmployeeDetail(@PathVariable("id") Long id, Model model) {
         PhieuGiamGia pgg = phieuGiamGiaService.findById(id);
@@ -76,7 +138,7 @@ public class PhieuGiamGiaController {
         System.out.println(pgg);
         if (result.hasErrors()) {
             return "admin/PhieuGiamGia/PhieuGiamGiaUpdate";
-            }
+        }
         PhieuGiamGia updatedPgg = phieuGiamGiaService.update(id, pgg);
         if (updatedPgg != null) {
             return "redirect:/admin/phieu-giam-gia";

@@ -56,34 +56,20 @@ function toggleSwitch(element, id, isChecked) {
             element.checked = !isChecked;
         });
 }
+(function () {
+    initPage();
+})();
 function resetForm() {
     document.getElementById("trangThai").value = "";
     document.getElementById("searchInput").value = "";
     document.getElementById("hinhThucGiam").value = "";
-    document.getElementById("ngayBatDau").value = "";
-    document.getElementById("ngayKetThuc").value = "";
+    document.getElementById("startDate").value = "";
+    document.getElementById("endDate").value = "";
 }
-    // function OnSearchEmployee() {
-    //     var status = document.getElementById("trangThai").value;
-    //     var keyword = document.getElementById("searchInput").value;
-    //     var hinhThucGiam = document.getElementById("hinhThucGiam").value;
-    //     var ngayBatDau = document.getElementById("ngayBatDau").value;
-    //     var ngayKetThuc = document.getElementById("ngayKetThuc").value;
-    //     var obj = {
-    //         keyword: keyword,
-    //         trangThai: status != "" ? status : null,
-    //         hinhThucGiam: hinhThucGiam != "" ? hinhThucGiam : null,
-    //         page_index: 1,
-    //         page_size: 5,
-    //         ngayBatDau: ngayBatDau !== "" ? ngayBatDau : null,
-    //         ngayKetThuc : ngayKetThuc !== "" ? ngayKetThuc : null
-    //     }
-    //
-    // }
 
-$('#trangThaiPggFilter').on('change', function () {
-    const selectedTrangThaiPgg = $(this).val();
-    $('#data-table-pgg').DataTable().column(9).search(selectedTrangThaiPgg).draw();
-});
+
+
+
+
 
 
