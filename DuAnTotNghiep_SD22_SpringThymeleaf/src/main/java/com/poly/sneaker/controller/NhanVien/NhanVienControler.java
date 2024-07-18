@@ -176,7 +176,7 @@ public class NhanVienControler {
 
     @PostMapping("/updateNhanVien/{id}")
     public String updateNhanVien(@PathVariable("id") Long id, @Valid @ModelAttribute("nv") NhanVien nv, BindingResult result
-    ,@RequestParam(name = "img", required = false) MultipartFile img) {
+            ,@RequestParam(name = "img", required = false) MultipartFile img) {
         if (result.hasErrors()) {
             return "admin/NhanVien/NhanVienUpdate";
         }

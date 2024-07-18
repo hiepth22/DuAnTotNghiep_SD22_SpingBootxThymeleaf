@@ -17,12 +17,14 @@ import com.poly.sneaker.sevice.NhaSanXuatService;
 import com.poly.sneaker.sevice.SanPhamChiTietService;
 import com.poly.sneaker.sevice.SanPhamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -75,4 +77,5 @@ public class SanPhamChiTietController {
 
         return "admin/SanPham/sanPhamAddPage";
     }
+
 }

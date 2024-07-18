@@ -2,10 +2,16 @@ package com.poly.sneaker.api;
 
 import com.poly.sneaker.entity.Anh;
 import com.poly.sneaker.entity.SanPhamChiTiet;
+import com.poly.sneaker.repository.SanPhamChiTietRepository;
 import com.poly.sneaker.sevice.AnhService;
 import com.poly.sneaker.sevice.SanPhamChiTietService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +28,9 @@ public class SanPhamChiTietAPI {
     private SanPhamChiTietService spctService;
 
     @Autowired
+    private SanPhamChiTietRepository spctRepository;
+
+    @Autowired
     private AnhService anhService;
 
     @PostMapping("/save")
@@ -29,4 +38,18 @@ public class SanPhamChiTietAPI {
                                                 ){
        return ResponseEntity.ok(spctService.saveToDatabase(sanPhamChiTiets));
     }
+
+//    @GetMapping("/count")
+//    public ResponseEntity<Long> getCountBySanPhamId(@RequestParam Long sanPhamId) {
+//        long count = spctService.countBySanPhamId(sanPhamId);
+//        return ResponseEntity.ok(count);
+//    }
+
+//    @GetMapping("/search")
+//    public ResponseEntity<?> searchSanPhamChiTiet(@RequestParam("keyword") String keyword,
+//                                                  @RequestParam("page") int page,
+//                                                  @RequestParam("size") int size) {
+//        Page<SanPhamChiTiet> result = spctService.search(keyword, page, size);
+//        return ResponseEntity.ok(result.getContent());
+//    }
 }

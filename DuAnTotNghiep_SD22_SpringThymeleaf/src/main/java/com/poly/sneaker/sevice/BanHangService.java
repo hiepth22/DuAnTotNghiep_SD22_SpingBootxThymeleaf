@@ -33,5 +33,9 @@ public class BanHangService {
         return hoaDonChiTietRepository.save(hoaDonChiTiet);
     }
 
+    public List<HoaDon> getHoaDonCho() {
+        return hoaDonRepository.findHoaDonCho();
+    }
+
 
 }
