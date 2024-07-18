@@ -20,9 +20,11 @@ function searchKH(keyword, page_index = 1, page_size = 5) {
         })
         .catch(error => console.error('Error:', error));
 }
+
 (function () {
     initPage();
 })();
+
 function getPageNumber(button) {
     var status = document.getElementById("trangThai").value;
     var keyword = document.getElementById("searchInput").value;
@@ -35,8 +37,8 @@ function getPageNumber(button) {
         trangThai: status !== "" ? status : null,
         page_index: pageNumber,
         page_size: 7,
-        startDate:startDate !== "" ? startDate : null,
-        endDate :endDate !== "" ? endDate : null
+        startDate: startDate !== "" ? startDate : null,
+        endDate: endDate !== "" ? endDate : null
 
     });
 
@@ -62,7 +64,7 @@ function OnSearchKH() {
         page_index: 1,
         page_size: 5,
         startDate: startDate !== "" ? startDate : null,
-        endDate : endDate !== "" ? endDate : null
+        endDate: endDate !== "" ? endDate : null
     }
 
     console.log(obj);
@@ -76,8 +78,8 @@ function initPage() {
         trangThai: null,
         page_index: 1,
         page_size: 7,
-        startDate : null,
-        endDate : null
+        startDate: null,
+        endDate: null
     });
 }
 
@@ -103,6 +105,7 @@ function searchKhachHang(obj) {
         .catch(error => console.error('Error:', error));
 
 }
+
 function validateForm() {
     let isValid = true;
 
@@ -241,6 +244,7 @@ function checkTrangThai(element, id) {
         }
     });
 }
+
 // function checkTrangThai(checkbox, id) {
 //     Swal.fire({
 //         title: 'Bạn có chắc chắn?',
@@ -303,7 +307,7 @@ function toggleSwitch(id, isChecked) {
             $('#notification2').addClass('show1');
 
             // Tự động ẩn thông báo sau 3 giây
-            setTimeout(function() {
+            setTimeout(function () {
                 $('#notification2').removeClass('show1');
             }, 3000);
         })
@@ -330,6 +334,56 @@ function toggleSwitch(id, isChecked) {
             });
         });
 }
+
+$(document).ready(function () {
+    console.log("JavaScript is working"); // Kiểm tra JavaScript đã hoạt động
+
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        console.log("Modal is being shown"); // Kiểm tra sự kiện show.bs.modal
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var khId = button.data('kh-id'); // Extract info from data-* attributes
+        console.log('Customer ID:', khId); // Kiểm tra giá trị khId
+
+        if (khId) {
+            $.ajax({
+                url: '/api/khach-hang/dia-chi/' + khId,
+                method: 'GET',
+                success: function (data) {
+                    console.log('Received data:', data); // Kiểm tra dữ liệu nhận được
+                    var modal = $('#exampleModal');
+                    var modalBody = modal.find('.modal-body #modal-address-details');
+                    modalBody.empty(); // Clear previous data
+                    console.log(data);
+                    if (data.length > 0) {
+                        data.forEach(function (diaChi) {
+                            console.log('Thành công');
+                            modalBody.append(`
+                                <div class="address-block mb-3 d-flex justify-content-between align-items-center" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+                                    <div>
+                                        <strong style="display: block; margin-bottom: 5px;">${diaChi.ten}</strong>
+                                        <p style="margin: 0;">${diaChi.moTaChiTiet}, ${diaChi.soNha}, ${diaChi.phuongXa}, ${diaChi.quanHuyen}, ${diaChi.thanhPho}</p>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-orange btn-sm btn-update-address" data-dia-chi-id="${diaChi.id}" style="border: 1px solid orange; background-color: white; color: black;"><i class="bi bi-pencil-square"></i></button>
+                                </div>
+                            `);
+                        });
+                    } else {
+                        console.log('Không thành công');
+                        modalBody.append('<li>Không có địa chỉ</li>');
+                    }
+                },
+                error: function () {
+                    var modal = $('#exampleModal');
+                    var modalBody = modal.find('.modal-body #modal-address-details');
+                    modalBody.empty();
+                    modalBody.append('<li>Không thể tải địa chỉ</li>');
+                }
+            });
+        } else {
+            console.log("Customer ID is undefined or null");
+        }
+    });
+});
 
 
 // function toggleSwitch(id, isChecked) {
@@ -428,49 +482,49 @@ function toggleSwitch(id, isChecked) {
 //         });
 //     });
 
-    // Xác nhận và xử lý toggle trạng thái
-    // $('.toggle-checkbox').on('click', function () {
-    //     var checkbox = $(this);
-    //     var isChecked = checkbox.is(':checked');
-    //     var khId = checkbox.data('id');
-    //     var trangThai = isChecked ? 1 : 0;
-    //
-    //     confirmToggle(checkbox, khId, trangThai);
-    // });
+// Xác nhận và xử lý toggle trạng thái
+// $('.toggle-checkbox').on('click', function () {
+//     var checkbox = $(this);
+//     var isChecked = checkbox.is(':checked');
+//     var khId = checkbox.data('id');
+//     var trangThai = isChecked ? 1 : 0;
+//
+//     confirmToggle(checkbox, khId, trangThai);
+// });
 
-    // function confirmToggle(element, id, trangThai) {
-    //     var confirmed = confirm("THAY ĐỔI TRẠNG THÁI KHÁCH HÀNG?");
-    //
-    //     if (confirmed) {
-    //         toggleSwitch(element, id, trangThai);
-    //     } else {
-    //         element.prop('checked', !trangThai);
-    //     }
-    // }
+// function confirmToggle(element, id, trangThai) {
+//     var confirmed = confirm("THAY ĐỔI TRẠNG THÁI KHÁCH HÀNG?");
+//
+//     if (confirmed) {
+//         toggleSwitch(element, id, trangThai);
+//     } else {
+//         element.prop('checked', !trangThai);
+//     }
+// }
 
-    // function toggleSwitch(element, id, trangThai) {
-    //     var url = `/admin/khach-hang/${id}/delete`;
-    //     var data = {trangThai: trangThai};
-    //
-    //     fetch(url, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(data),
-    //     })
-    //         .then(response => {
-    //             if (!response.ok) {
-    //                 throw new Error(`HTTP error! Status: ${response.status}`);
-    //             }
-    //             alert(`THÀNH CÔNG!!!`);
-    //         })
-    //         .catch(error => {
-    //             console.error('Error updating customer status:', error);
-    //             alert('LỖI!!!!');
-    //             element.prop('checked', !trangThai); // Đặt lại trạng thái checkbox nếu có lỗi
-    //         });
-    // }
+// function toggleSwitch(element, id, trangThai) {
+//     var url = `/admin/khach-hang/${id}/delete`;
+//     var data = {trangThai: trangThai};
+//
+//     fetch(url, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(data),
+//     })
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error(`HTTP error! Status: ${response.status}`);
+//             }
+//             alert(`THÀNH CÔNG!!!`);
+//         })
+//         .catch(error => {
+//             console.error('Error updating customer status:', error);
+//             alert('LỖI!!!!');
+//             element.prop('checked', !trangThai); // Đặt lại trạng thái checkbox nếu có lỗi
+//         });
+// }
 
 
 // function toggleSwitch(element, id, isChecked) {

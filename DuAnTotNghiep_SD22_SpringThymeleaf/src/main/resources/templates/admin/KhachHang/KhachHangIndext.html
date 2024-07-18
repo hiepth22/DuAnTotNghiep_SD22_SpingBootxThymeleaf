@@ -6,7 +6,7 @@
 <!--    <link rel="icon" type="image/svg+xml"-->
 <!--          href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309">-->
     <title>Danh Sách Khách Hàng</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css" integrity="sha384-wEmeIV1mKuiQg6MfSILgIEKoF84Cdj4xC8wYpL8kmVVFIYZXOUrMR/3M1F0dHT5W" crossorigin="anonymous">
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css" integrity="sha384-wEmeIV1mKuiQg6MfSILgIEKoF84Cdj4xC8wYpL8kmVVFIYZXOUrMR/3M1F0dHT5W" crossorigin="anonymous">-->
 </head>
 <style>
     .notification {
@@ -78,8 +78,8 @@
                             <div class="col-sm-8">
                                 <select id="trangThai" name="trangThai" >
                                     <option value="">Tất cả</option>
-                                    <option value="0">Hoạt Động</option>
-                                    <option value="1">Ngưng Hoạt Động</option>
+                                    <option value="1">Hoạt Động</option>
+                                    <option value="0">Ngưng Hoạt Động</option>
                                 </select>
                             </div>
                         </div>
@@ -130,28 +130,6 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script th:src="@{/assets/js/main.js}"></script>
 
-<!--<script>-->
-<!--    const getLichSuHD = (idKh) => {-->
-<!--        $.ajax({-->
-<!--            url: '/api/khach-hang/dia-chi/' + idKh,-->
-<!--            method: 'get',-->
-<!--            success: function (result) {-->
-<!--                let list = "";-->
-<!--                $("#modal-address-details").empty();-->
-<!--                for (let i = 0; i < result.length; i++) {-->
-<!--                    list += `-->
-<!--                    <li>${result[i].thanhPho}</li>-->
-<!--                    `;-->
-<!--                }-->
-<!--                $("#modal-address-details").html(list);-->
-<!--            },-->
-<!--            error: function (xhr, status, error) {-->
-<!--                console.error('Error:', error);-->
-<!--            }-->
-<!--        });-->
-<!--    }-->
-<!--</script>-->
-<!--<div th:replace="templates/admin/KhachHang/DiaChi :: diaChiModal"></div>-->
 </body>
 
 </html>

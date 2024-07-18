@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Danh Sách Khách Hàng</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/css/bootstrap.min.css" integrity="sha384-3g6flao6YV/GL1tYjSi5lsPj6Y/JxuYwN2s4cmg7eI/9StZvj+ARlf6shZCl5f29" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.1/font/bootstrap-icons.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRkz1p2tzlZ1x58lH6gpG5KqfZSOaB4o4hjOE6iF7" crossorigin="anonymous"></head>
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/css/bootstrap.min.css" integrity="sha384-3g6flao6YV/GL1tYjSi5lsPj6Y/JxuYwN2s4cmg7eI/9StZvj+ARlf6shZCl5f29" crossorigin="anonymous">-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.1/font/bootstrap-icons.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRkz1p2tzlZ1x58lH6gpG5KqfZSOaB4o4hjOE6iF7" crossorigin="anonymous">-->
+</head>
 <body>
 <div class="container mt-4">
     <h2 class="mb-4">Danh Sách Khách Hàng</h2>
@@ -16,6 +16,7 @@
         <thead class="text-center">
         <tr>
             <th scope="col">STT</th>
+            <th scope="col">ID</th>
             <th scope="col">Mã</th>
             <th scope="col">Tên</th>
             <th scope="col">SĐT</th>
@@ -30,7 +31,7 @@
         <tbody>
         <tr th:each="kh, status : ${kh}" class="text-center">
             <td th:text="${status.index + 1}"></td>
-<!--            <td th:text="${kh.id}"></td>-->
+            <td th:text="${kh.id}"></td>
             <td th:text="${kh.ma}"></td>
             <td th:text="${kh.ten}"></td>
             <td th:text="${kh.sdt}"></td>
@@ -54,42 +55,30 @@
                 <a th:href="@{/admin/view-update/{id}(id=${kh.id})}" class="btn btn-outline-success btn-sm">
                     <i class="bi bi-pencil-square"></i>
                 </a>
-<!--                <a th:href="@{/admin/khach-hang/dia-chi/{id}(id=${kh.id})}" class="btn btn-outline-success btn-sm">-->
-<!--                    <i class="bi bi-pencil-square"></i>-->
-<!--                </a>-->
-                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-kh-id="1">
-                    <i class="bi bi-geo-alt"></i> Địa chỉ
-                </button>
+                <a type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" th:data-kh-id="${kh.id}">
+                    <i class="bi bi-geo-alt"></i>
+                </a>
             </td>
         </tr>
         </tbody>
     </table>
     <ul class="text-center">
-
-
         <div class="btn-group" role="group">
             <button type="button" class="btn btn-outline-primary">Previous</button>
-
             <div id="paginationButtons" class="btn-group" role="group">
-
                 <button type="button" class="btn btn-outline-primary" th:each="page : ${#numbers.sequence(1, totalPage1)}"
                         th:text="${page}" th:id="'pageBtn-' + ${page}" onclick="getPageNumber(this)"></button>
             </div>
-
             <button type="button" class="btn btn-outline-primary">Next</button>
         </div>
-
-
-
     </ul>
 </div>
 
-<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="bi bi-geo-alt-fill"></i> Địa chỉ khách hàng</h5>
+                <h6 class="modal-title"><i class="bi bi-geo-alt-fill"></i> Địa chỉ</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -104,42 +93,45 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        $('#exampleModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var khId = button.data('kh-id'); // Extract info from data-* attributes
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        console.log("JavaScript is working"); // Kiểm tra JavaScript đã hoạt động-->
 
-            $.ajax({
-                url: '/khach-hang/dia-chi/' + khId,
-                method: 'GET',
-                success: function (data) {
-                    console.log(data); // Kiểm tra dữ liệu nhận được
-                    var modal = $('#exampleModal');
-                    var modalBody = modal.find('.modal-body #modal-address-details');
-                    modalBody.empty(); // Clear previous data
+<!--        $('#exampleModal').on('show.bs.modal', function (event) {-->
+<!--            console.log("Modal is being shown"); // Kiểm tra sự kiện show.bs.modal-->
+<!--            var button = $(event.relatedTarget); // Button that triggered the modal-->
+<!--            var khId = button.data('kh-id'); // Extract info from data-* attributes-->
+<!--            console.log('Customer ID:', khId); // Kiểm tra giá trị khId-->
 
-                    if (data.length > 0) {
-                        data.forEach(function (diaChi) {
-                            modalBody.append('<li>' + diaChi.thanhPho + '</li>');
-                        });
-                    } else {
-                        modalBody.append('<li>Không có địa chỉ</li>');
-                    }
-                },
-                error: function () {
-                    var modal = $('#exampleModal');
-                    var modalBody = modal.find('.modal-body #modal-address-details');
-                    modalBody.empty();
-                    modalBody.append('<li>Không thể tải địa chỉ</li>');
-                }
-            });
-        });
-    });
+<!--            $.ajax({-->
+<!--                url: '/khach-hang/dia-chi/' + khId,-->
+<!--                method: 'GET',-->
+<!--                success: function (data) {-->
+<!--                    console.log('Received data:', data); // Kiểm tra dữ liệu nhận được-->
+<!--                    var modal = $('#exampleModal');-->
+<!--                    var modalBody = modal.find('.modal-body #modal-address-details');-->
+<!--                    modalBody.empty(); // Clear previous data-->
 
-</script>
+<!--                    if (data.length > 0) {-->
+<!--                        data.forEach(function (diaChi) {-->
+<!--                            modalBody.append('<li>' + diaChi.thanhPho + '</li>');-->
+<!--                        });-->
+<!--                    } else {-->
+<!--                        modalBody.append('<li>Không có địa chỉ</li>');-->
+<!--                    }-->
+<!--                },-->
+<!--                error: function () {-->
+<!--                    var modal = $('#exampleModal');-->
+<!--                    var modalBody = modal.find('.modal-body #modal-address-details');-->
+<!--                    modalBody.empty();-->
+<!--                    modalBody.append('<li>Không thể tải địa chỉ</li>');-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>-->
 </body>
 </html>
