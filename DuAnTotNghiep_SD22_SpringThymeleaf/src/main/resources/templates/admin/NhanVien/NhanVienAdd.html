@@ -87,22 +87,22 @@
                     <br/>
                     <br/>
                     <br/>
-<!--                    <div class="d-flex flex-column align-items-center">-->
-<!--                        <div class="image-placeholder rounded-circle mb-2"-->
-<!--                             style="width: 250px; height: 250px; background-color: #e9ecef; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; border-radius: 50%;"-->
-<!--                             th:style="'background-image: url(' + ${preview} + '); background-size: cover;'"-->
-<!--                             onclick="document.getElementById('fileInput').click();">-->
-<!--                            <img th:src="${prev iew}" alt="Preview"-->
-<!--                                 style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%;"/>-->
-<!--                            <span th:unless="${preview}"-->
-<!--                                  style="font-size: 24px; color: #6c757d; cursor: pointer;">+</span>-->
-<!--                        </div>-->
-<!--                        <p>-->
-<!--                            <input type="file" id="fileInput" name="img" class="form-control"-->
-<!--                                   accept="image/png, image/jpeg, image/jpg" onchange="handleImageChange(this)"-->
-<!--                                   style="display: none;"/>-->
-<!--                        </p>-->
-<!--                    </div>-->
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="image-placeholder rounded-circle mb-2"
+                             style="width: 250px; height: 250px; background-color: #e9ecef; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; border-radius: 50%;"
+                             th:style="'background-image: url(' + ${preview} + '); background-size: cover;'"
+                             onclick="document.getElementById('fileInput').click();">
+                            <img th:src="${preview}" alt="Preview"
+                                 style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%;"/>
+                            <span th:unless="${preview}"
+                                  style="font-size: 24px; color: #6c757d; cursor: pointer;">+</span>
+                        </div>
+                        <p>
+                            <input type="file" id="fileInput" name="img" class="form-control"
+                                   accept="image/png, image/jpeg, image/jpg" onchange="handleImageChange(this)"
+                                   style="display: none;"/>
+                        </p>
+                    </div>
                 </div>
 
                 <div class="col-md-4">
