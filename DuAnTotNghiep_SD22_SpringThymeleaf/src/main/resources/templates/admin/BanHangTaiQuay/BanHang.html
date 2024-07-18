@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giao diện tab giống như Chrome</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Chrome-like Tabs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
         .tab {
             border-top-left-radius: 8px;
@@ -19,69 +20,186 @@
     </style>
 </head>
 <body class="bg-gray-100 p-4">
-<div class="max-w-4xl mx-auto bg-white rounded-lg shadow">
+<div class="w-[70%] mx-auto bg-white rounded-lg shadow">
     <div class="p-4 flex justify-between items-center">
-        <h2 class="text-xl font-semibold">Các tab</h2>
-        <button id="them-tab" class="px-4 py-2 bg-blue-500 text-white rounded-full">Thêm Tab</button>
+        <h2 class="text-xl font-semibold"></h2>
+        <button id="add-tab" class="px-4 py-2 bg-blue-500 text-white rounded-full">Add Tab</button>
     </div>
     <div class="border-b">
-        <div id="container-tab" class="flex space-x-2">
-            <!-- Các tab sẽ được chèn động vào đây -->
+        <div id="tabs-container" class="flex space-x-2">
         </div>
     </div>
     <div class="p-4">
-        <div id="container-noi-dung">
-            <!-- Nội dung của từng tab sẽ được chèn động vào đây -->
+        <div class="flex justify-end">
+
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-3"
+                    id="QRCode">QR Code
+            </button>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    id="dongLichSu">Thêm sản phẩm
+            </button>
+        </div>
+        <div id="content-container">
         </div>
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    let duLieuTab = [
-        { id: 1, tieuDe: "Tab 1", noiDung: "Nội dung của Tab 1." },
-    ];
+    $(document).ready(function () {
+        const formatVND = (tongtien) => {
+            return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+        }
+        let tabsData = [];
 
-    const containerTab = document.getElementById('container-tab');
-    const containerNoiDung = document.getElementById('container-noi-dung');
+        const tabsContainer = document.getElementById('tabs-container');
+        const contentContainer = document.getElementById('content-container');
 
-    function hienThiCacTab() {
-        containerTab.innerHTML = '';
-        containerNoiDung.innerHTML = '';
+        function renderTabs() {
+            tabsContainer.innerHTML = '';
+            contentContainer.innerHTML = '';
 
-        duLieuTab.forEach((tab, index) => {
-            const nutTab = document.createElement('button');
-            nutTab.classList.add('tab', 'px-4', 'py-2', 'bg-gray-200', 'hover:bg-gray-300');
-            if (index === 0) nutTab.classList.add('tab-active');
-            nutTab.textContent = tab.tieuDe;
-            nutTab.addEventListener('click', () => {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
-                document.querySelectorAll('.tab-content').forEach(noiDung => noiDung.classList.add('hidden'));
+            tabsData.forEach((tab, index) => {
+                const tabButton = document.createElement('button');
+                tabButton.classList.add('tab', 'px-4', 'py-2', 'bg-gray-200', 'hover:bg-gray-300');
+                if (index === 0) tabButton.classList.add('tab-active');
+                tabButton.textContent = tab.title;
+                tabButton.addEventListener('click', () => {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
 
-                nutTab.classList.add('tab-active');
-                document.getElementById(`noi-dung-tab-${tab.id}`).classList.remove('hidden');
+                    tabButton.classList.add('tab-active');
+                    const tabContent = document.getElementById(`tab-content-${tab.id}`);
+                    tabContent.classList.remove('hidden');
+
+                    if (!tabsData[index].contentLoaded) {
+                        getDuLieu(tab.id);
+                    }
+                });
+                tabsContainer.appendChild(tabButton);
+
+                const tabContent = document.createElement('div');
+                tabContent.id = `tab-content-${tab.id}`;
+                tabContent.classList.add('tab-content', 'p-4');
+                if (index !== 0) tabContent.classList.add('hidden');
+                tabContent.innerHTML = tab.content; // Hiển thị nội dung đã lưu trữ nếu có
+                contentContainer.appendChild(tabContent);
+
+                // Hiển thị nội dung của tab đầu tiên ngay khi tải trang
+                if (index === 0 && tab.contentLoaded) {
+                    tabButton.click(); // Kích hoạt sự kiện click để hiển thị nội dung
+                }
             });
-            containerTab.appendChild(nutTab);
+        }
 
-            const noiDungTab = document.createElement('div');
-            noiDungTab.id = `noi-dung-tab-${tab.id}`;
-            noiDungTab.classList.add('tab-content', 'p-4');
-            if (index !== 0) noiDungTab.classList.add('hidden');
-            noiDungTab.innerHTML = `<p>${tab.noiDung}</p>`;
-            containerNoiDung.appendChild(noiDungTab);
+        document.getElementById('add-tab').addEventListener('click', () => {
+            taoHoaDon();
         });
-    }
 
-    document.getElementById('them-tab').addEventListener('click', () => {
-        const idTabMoi = duLieuTab.length + 1;
-        duLieuTab.push({
-            id: idTabMoi,
-            tieuDe: `Tab ${idTabMoi}`,
-            noiDung: `Nội dung của Tab ${idTabMoi}.`
-        });
-        hienThiCacTab();
+        function taoHoaDon() {
+            $.ajax({
+                url: `/api/ban-hang/tao-hoa-don`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({}),
+                success: function (response) {
+                    idHoaDon(() => {
+                        const lastTabIndex = tabsData.length - 1;
+                        document.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
+                        document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+
+                        document.querySelectorAll('.tab')[lastTabIndex].classList.add('tab-active');
+                        document.querySelectorAll('.tab-content')[lastTabIndex].classList.remove('hidden');
+
+                        getDuLieu(tabsData[lastTabIndex].id);
+                    });
+                },
+            });
+        }
+
+        function idHoaDon(callback) {
+            $.ajax({
+                url: `/api/ban-hang`,
+                method: 'GET',
+                success: function (response) {
+                    tabsData = response.map(hd => ({
+                        id: hd.id,
+                        title: `Tab ${hd.id}`,
+                        content: '',
+                        contentLoaded: false
+                    }));
+
+                    renderTabs();
+                    if (callback) callback();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi fetchDanhSachHoaDon:', error);
+                }
+            });
+        }
+
+        function getDuLieu(idHoaDon) {
+            $.ajax({
+                url: `/api/ban-hang/${idHoaDon}`,
+                method: 'GET',
+                success: function (response) {
+                    console.log('Response from API:', response);
+
+                    const hd = response.hd;
+                    const hdctList = response.hdctList;
+
+                    const tabContent = document.getElementById(`tab-content-${idHoaDon}`);
+                    if (!hdctList || !Array.isArray(hdctList) || hdctList.length === 0) {
+                        tabContent.innerHTML = `<p>Không có chi tiết sản phẩm.</p>`;
+                    } else {
+                        tabContent.innerHTML = `
+                            <table id="tableHoaDonChiTiet" class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-blue-500 text-white">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left">STT</th>
+                                        <th class="px-6 py-3 text-left">Ảnh sản phẩm</th>
+                                        <th class="px-6 py-3 text-left">Sản phẩm</th>
+                                        <th class="px-6 py-3 text-left">Số lượng</th>
+                                        <th class="px-6 py-3 text-left">Tổng tiền</th>
+                                        <th class="px-6 py-3 text-left">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    ${hdctList.map((hdct, index) => `
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap"><img src="${hdct.sanPhamChiTiet.anh.url}" alt="${hdct.sanPhamChiTiet.ten}" class="h-10 w-10 rounded-full"></td>
+                                            <td class="px-6 py-4 whitespace-nowrap font-bold">
+                                                <h1>${hdct.sanPhamChiTiet.ten}</h1>
+                                                <h2 class="text-red-600">${formatVND(hdct.sanPhamChiTiet.giaBan)}</h2>
+                                                <h2 class="font-normal">Kích cỡ: ${hdct.sanPhamChiTiet.kichCo.ten}</h2>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">${hdct.soLuong}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">${formatVND(hdct.soLuong * hdct.sanPhamChiTiet.giaBan)}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <button class="themSanPham bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:text-gray-100">Thùng rác</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    }
+
+                    const tabIndex = tabsData.findIndex(tab => tab.id === idHoaDon);
+                    if (tabIndex !== -1) {
+                        tabsData[tabIndex].content = tabContent.innerHTML;
+                        tabsData[tabIndex].contentLoaded = true;
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi fetchHoaDonDetail:', error);
+                }
+            });
+        }
+
+        idHoaDon();
     });
-
-    hienThiCacTab();
 </script>
 </body>
 </html>

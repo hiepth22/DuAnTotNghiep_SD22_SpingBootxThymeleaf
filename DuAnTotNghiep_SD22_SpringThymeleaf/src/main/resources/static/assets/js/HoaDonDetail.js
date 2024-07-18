@@ -68,12 +68,12 @@ $(document).ready(function () {
                     <img src="https://res.cloudinary.com/deapopcoc/image/upload/${item.sanPhamChiTiet.anh.ten}" alt="Image" class="w-16 h-auto">
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap font-bold">
-                    <h1>${item.sanPhamChiTiet.sanPham.ten}</h1>
+                    <h1>${item.sanPhamChiTiet.ten}</h1>
                     <h2 class="text-red-600">${formatVND(item.sanPhamChiTiet.giaBan)}</h2>
                     <h3> kích cỡ: ${item.sanPhamChiTiet.kichCo.ten}</h3>
                 </td>
                 <td>
-                    <div class="color-container rounded-lg ml-5" style="background-color: ${item.sanPhamChiTiet.mauSac.ten}; width: 50px; height: 20px;"></div>
+                    <div class="color-container rounded-lg ml-5 border-3" style="background-color: ${item.sanPhamChiTiet.mauSac.ten}; width: 50px; height: 20px;"></div>
                 </td>
                 <td>
                     <div class="flex items-center">
@@ -180,11 +180,44 @@ $(document).ready(function () {
     }
 
 
+    function splitAndPopulateAddress(address) {
+        const addressParts = address.split(',').map(part => part.trim());
+        const len = addressParts.length;
+
+        if (len >= 4) {
+            const city = addressParts[len - 1];
+            const district = addressParts[len - 2];
+            const ward = addressParts[len - 3];
+            const specificAddress = addressParts.slice(0, len - 3).join(', ');
+
+            $('#edit-diachi').val(specificAddress);
+
+            $editTinhThanh.val($editTinhThanh.find("option:contains('" + city + "')").val()).change();
+
+            setTimeout(function() {
+
+                $editQuanHuyen.val($editQuanHuyen.find("option:contains('" + district + "')").val()).change();
+            }, 500);
+
+            setTimeout(function() {
+                $editPhuongXa.val($editPhuongXa.find("option:contains('" + ward + "')").val());
+            }, 1000);
+        } else {
+            console.error('Invalid address format:', address);
+        }
+    }
+
     function fetchHoaDonDetail(idHoaDon) {
         $.ajax({
             url: `/api/hoa-don/detail/${idHoaDon}`, method: 'GET', success: function (response) {
                 const hd = response.hd;
                 const hdctList = response.hdctList;
+
+                $('#edit-ten').val(hd.nguoiNhan);
+                $('#edit-sdtNguoiNhan').val(hd.sdtNguoiNhan);
+                $('#noteThongTin').val(hd.ghiChu);
+
+                splitAndPopulateAddress(hd.diaChiNguoiNhan);
 
                 hienThiThongTinHoaDon(hd);
 
