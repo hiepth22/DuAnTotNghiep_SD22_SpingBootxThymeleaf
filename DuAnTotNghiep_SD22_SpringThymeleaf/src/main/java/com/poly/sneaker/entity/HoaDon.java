@@ -20,11 +20,11 @@ public class HoaDon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idPhieuGiamGia")
     private PhieuGiamGia phieuGiamGia;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idNhanVien")
     private NhanVien nhanVien;
 

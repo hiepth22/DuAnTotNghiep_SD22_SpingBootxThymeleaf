@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <div class="col-md-16 d-flex">
-<span class="col-md-11 fw-bold fs-3">Danh Sách Nhân Viên</span>
+
     <div class="col-md-1"><a th:href="@{/admin/addNhanVien}" class="btn btn-primary ">+ Thêm</a></div>
 </div>
 <table class="table table-striped table-hover">
-    <thead class="text-center">
-    <tr>
-        <th scope="col">STT</th>
-        <th scope="col">Ảnh</th>
-        <th scope="col">Tên</th>
-        <th scope="col">Mã</th>
-        <th scope="col">SĐT</th>
-        <th scope="col">Ngày Sinh</th>
-        <th scope="col">Giới Tính</th>
-        <th scope="col">Email</th>
-        <th scope="col">CCCD</th>
-        <th scope="col">Vai Trò</th>
-        <th scope="col">Trạng Thái</th>
-        <th scope="col">Hành Động</th>
+    <thead class="bg-blue-400">
+    <tr >
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">STT</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Mã</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tên</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">SĐT</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ngày Sinh</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Giới Tính</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Email</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">CCCD</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Vai Trò</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Trạng Thái</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Hành Động</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody class="bg-white divide-y divide-gray-200 ">
     <!-- Check if lstNv is not empty -->
     <th:block th:if="${not #lists.isEmpty(lstNv)}">
         <!-- Iterate through lstNv -->
         <tr th:each="nhanvien, status : ${lstNv}" class="text-center">
-            <td th:text="${status.index + 1}"></td>
+            <td th:text="${status.index + 1}" class="px-6 py-4 whitespace-nowrap"></td>
             <td>
                 <img th:src="@{/} +${nhanvien.anh}" class="img-thumbnail" />
             </td>
-            <td th:text="${nhanvien.ten}"></td>
-            <td th:text="${nhanvien.ma}"></td>
-            <td th:text="${nhanvien.sdt}"></td>
-            <td th:text="${#dates.format(nhanvien.ngaySinh, 'dd/MM/yyyy')}"></td>
+            <td th:text="${nhanvien.ma}" class="px-6 py-4 whitespace-nowrap"></td>
+            <td th:text="${nhanvien.ten}" class="px-6 py-4 whitespace-nowrap"></td>
+            <td th:text="${nhanvien.sdt}" class="px-6 py-4 whitespace-nowrap"></td>
+            <td th:text="${#dates.format(nhanvien.ngaySinh, 'dd/MM/yyyy')}" class="px-6 py-4 whitespace-nowrap"></td>
             <td>
                 <span th:if="${nhanvien.gioiTinh} == true">Nam</span>
                 <span th:if="${nhanvien.gioiTinh} == false">Nữ</span>
