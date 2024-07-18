@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="~{admin/fragments/head :: head}"></div>
 <head>
     <meta charset="UTF-8">
-<!--    <link rel="icon" type="image/svg+xml"-->
-<!--          href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309">-->
+    <!--    <link rel="icon" type="image/svg+xml"-->
+    <!--          href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309">-->
     <title>Danh Sách Khách Hàng</title>
-<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css" integrity="sha384-wEmeIV1mKuiQg6MfSILgIEKoF84Cdj4xC8wYpL8kmVVFIYZXOUrMR/3M1F0dHT5W" crossorigin="anonymous">-->
+    <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css" integrity="sha384-wEmeIV1mKuiQg6MfSILgIEKoF84Cdj4xC8wYpL8kmVVFIYZXOUrMR/3M1F0dHT5W" crossorigin="anonymous">-->
 </head>
 <style>
     .notification {
@@ -62,21 +62,25 @@
     <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
     <!-- Sidebar End -->
     <!-- Content Start -->
-    <div class="content">
+    <div class="content flex-grow ml-64 p-4" style="background-color: #f0f0f0;">
         <!-- Navbar Start -->
-        <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
-        <div class="container mt-5">
+        <nav th:replace="~{admin/fragments/navbar :: nav}"
+             class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0"></nav>
+
+        <!-- First Form Block -->
+        <div class="container mx-auto bg-white h-58 w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md h-88 ">
+            <span class="col-md-11 fw-bold fs-4" style="color: black">Lọc Tìm Kiếm</span>
             <form method="get" class="mt-3 mb-3" id="searchForm">
                 <div class="input-group mb-3">
-                    <input type="text" id="searchInput" name="keyword" class="form-control" placeholder="Tìm kiếm"
-                           oninput="searchKH(event.target.value);">
+                    <input type="text" id="searchInput" name="keyword" class="form-control"
+                           placeholder="Tìm kiếm" oninput="searchKH(event.target.value);">
                 </div>
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group row">
-                            <label for="trangThai" class="col-sm-4 col-form-label">Trạng thái:</label>
-                            <div class="col-sm-8">
-                                <select id="trangThai" name="trangThai" >
+                            <label for="trangThai" class="col-sm-5 col-form-label">Trạng thái:</label>
+                            <div class="col-sm-7">
+                                <select id="trangThai" name="trangThai">
                                     <option value="">Tất cả</option>
                                     <option value="1">Hoạt Động</option>
                                     <option value="0">Ngưng Hoạt Động</option>
@@ -84,31 +88,35 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group row">
-                            <label for="startDate" class="col-sm-5 col-form-label ">Khoảng Ngày Sinh:</label>
-                            <div class="col-sm-7">
+                            <label for="startDate" class="col-sm-7 col-form-label ">Khoảng Ngày Sinh:</label>
+                            <div class="col-sm-5">
                                 <input type="date" name="startDate" id="startDate">
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group row">
-                            <label for="endDate" class="col-sm-5 col-form-label text-center">-</label>
-                            <div class="col-sm-7">
+                            <label for="endDate" class="col-sm-2 col-form-label text-center">-</label>
+                            <div class="col-sm-10">
                                 <input type="date" name="endDate" id="endDate">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="input-group-append text-center">
-                    <button type="button" class="btn btn-success" onclick="OnSearchKH">Tìm kiếm</button>
-                    <button type="button" class="btn btn-warning" onclick="resetForm()">Làm Mới Bộ Lọc</button>
+                    <button type="button" class="btn btn-primary" onclick="OnSearchKH">Tìm kiếm</button>
+                    <button type="button" class="btn btn-success" onclick="resetForm()">Làm Mới</button>
                 </div>
             </form>
-            <div class="table-responsive" id="formkh">
-                    <!--Danh sach khach Hang duoc hien thi-->
-            </div>
+        </div>
+
+        <!-- Second Form Block -->
+        <div class="container mx-auto bg-white h-58 w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md h-88 ">
+            <form id="formkh">
+                <!--Danh sach khach Hang duoc hien thi-->
+            </form>
         </div>
     </div>
     <div id="notification2" class="notification">
@@ -118,8 +126,7 @@
 </div>
 
 
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"/>
 <script th:src="@{/assets/js/KhachHang.js}"></script>
 <link rel="stylesheet" th:href="@{/assets/css/KhachHang.css}"/>
 <link rel="stylesheet" th:href="@{/assets/css/style.css}"/>
