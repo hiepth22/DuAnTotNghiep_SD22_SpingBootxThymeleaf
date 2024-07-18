@@ -80,6 +80,9 @@ public class HoaDonService {
         }).orElse(null);
     }
 
+    public Optional<HoaDon> getHoaDonByID(Long id){
+        return hoaDonRepository.findById(id);
+    }
 
 
 

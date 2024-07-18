@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -27,5 +28,10 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Long> {
     @Query(value = "SELECT * FROM hoa_don_chi_tiet WHERE idHoaDon = :idHoaDon", nativeQuery = true)
     List<HoaDonChiTiet> findByIdHD(@Param("id") Long id);
 
+    @Query(value = "select * from hoa_don where trangThai = 8", nativeQuery = true)
+    List<HoaDon> findHoaDonCho();
 
+
+    List<HoaDon> findAllByNgayTaoBetweenAndTrangThaiAndMaContainingIgnoreCaseOrSdtNguoiNhanContainingIgnoreCase(
+            LocalDateTime startDate, LocalDateTime endDate, int trangThai, String ma, String sdt);
 }

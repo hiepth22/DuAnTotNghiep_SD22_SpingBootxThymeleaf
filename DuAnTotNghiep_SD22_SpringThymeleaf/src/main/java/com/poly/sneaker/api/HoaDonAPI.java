@@ -4,6 +4,8 @@ import com.poly.sneaker.entity.HoaDon;
 import com.poly.sneaker.entity.HoaDonChiTiet;
 import com.poly.sneaker.entity.LichSuHoaDon;
 import com.poly.sneaker.entity.SanPhamChiTiet;
+import com.poly.sneaker.repository.HoaDonChiTietRepository;
+import com.poly.sneaker.repository.HoaDonRepository;
 import com.poly.sneaker.sevice.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +38,12 @@ public class HoaDonAPI {
     private SanPhamChiTietService sanPhamChiTietService;
     @Autowired
     private BanHangService banHangService;
+    @Autowired
+    private PhuongThucThanhToanService phuongThucThanhToanService;
+    @Autowired
+    private HoaDonChiTietRepository hoaDonChiTietRepository;
+    @Autowired
+    private HoaDonRepository hoaDonRepository;
 
 
     @GetMapping("")
@@ -150,7 +159,27 @@ public class HoaDonAPI {
         return ResponseEntity.ok(banHangService.add(hoaDonChiTiet));
     }
 
+    @GetMapping("/phuong-thuc-thanh-toan/{id}")
+    public ResponseEntity<?> phuongThucThanhToan (@PathVariable("id") Long id){
+        return ResponseEntity.ok(phuongThucThanhToanService.detail(id));
+    }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> detailHoaDon(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(hoaDonService.getHoaDonByID(id));
+    }
+
+
+    @GetMapping("/search")
+    public ResponseEntity<?> search(
+            @RequestParam(name = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startDate,
+            @RequestParam(name = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endDate,
+            @RequestParam(name = "tab", required = false, defaultValue = "0") int tab,
+            @RequestParam(name = "search", required = false) String search
+    ) {
+        return ResponseEntity.ok(hoaDonRepository.findAllByNgayTaoBetweenAndTrangThaiAndMaContainingIgnoreCaseOrSdtNguoiNhanContainingIgnoreCase(
+                startDate, endDate, tab, search, search));
+    }
 
 
 

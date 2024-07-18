@@ -32,6 +32,9 @@ public class HoaDonChiTietService {
         }).orElse(null);
     }
 
+    public List<HoaDonChiTiet> getHDCT(Long idHoaDon) {
+        return hoaDonChiTietRepository.findByIdHD(idHoaDon);
+    }
 
 
 }

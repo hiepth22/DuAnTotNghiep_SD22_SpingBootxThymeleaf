@@ -3,13 +3,23 @@ $(document).ready(function () {
     const pathArray = window.location.pathname.split('/');
     const idHoaDon = pathArray[pathArray.length - 1];
 
+    var $editDiaChi = $('#edit-diachi');
+    var $editTinhThanh = $('#edit-tinhthanh');
+    var $editQuanHuyen = $('#edit-quanhuyen');
+    var $editPhuongXa = $('#edit-phuongxa');
+    var citiesData = [];
+
+
     const formatVND = (tongtien) => {
         return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
     }
 
     function hienThiThongTinHoaDon(hd) {
-        $('#thongTinHoaDon').html(`
+        $('#maHoaDon').html(`
             <h1 class="text-xl mt-3 ml-3 mb-4 font-bold">Thông tin đơn hàng: <span class="font-normal">${hd.ma}</span></h1>
+        `);
+
+        $('#thongTinHoaDon').html(`
             <span class="flex items-center w-[99%] m-auto">
                 <span class="h-px flex-1 bg-gray-500"></span>
                 <span class="h-px flex-1 bg-gray-500"></span>
@@ -38,6 +48,10 @@ $(document).ready(function () {
                 </div>
             </div>
         `);
+
+        // $('#formThayDoiThongTin').html(`
+        //
+        // `);
     }
 
     function hienThiDanhSachSP(hdctList) {
@@ -54,12 +68,12 @@ $(document).ready(function () {
                     <img src="https://res.cloudinary.com/deapopcoc/image/upload/${item.sanPhamChiTiet.anh.ten}" alt="Image" class="w-16 h-auto">
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap font-bold">
-                    <h1>${item.sanPhamChiTiet.sanPham.ten}</h1>
+                    <h1>${item.sanPhamChiTiet.ten}</h1>
                     <h2 class="text-red-600">${formatVND(item.sanPhamChiTiet.giaBan)}</h2>
                     <h3> kích cỡ: ${item.sanPhamChiTiet.kichCo.ten}</h3>
                 </td>
                 <td>
-                    <div class="color-container rounded-lg ml-5" style="background-color: ${item.sanPhamChiTiet.mauSac.ten}; width: 50px; height: 20px;"></div>
+                    <div class="color-container rounded-lg ml-5 border-3" style="background-color: ${item.sanPhamChiTiet.mauSac.ten}; width: 50px; height: 20px;"></div>
                 </td>
                 <td>
                     <div class="flex items-center">
@@ -71,7 +85,7 @@ $(document).ready(function () {
                     <span class="bg-green-500 rounded-lg text-white">${trangThaiSanPham(item.trangThai)}</span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <button class="deleteSP" data-id="${item.id}">
+                    <button class="deleteSP" data-id="${item.id}" id="xoaSP-${item.id}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-7" style="color: #B94A00">
                             <path fill-rule="evenodd" d="M7.22 3.22A.75.75 0 0 1 7.75 3h9A2.25 2.25 0 0 1 19 5.25v9.5A2.25 2.25 0 0 1 16.75 17h-9a.75.75 0 0 1-.53-.22L.97 10.53a.75.75 0 0 1 0-1.06l6.25-6.25Zm3.06 4a.75.75 0 1 0-1.06 1.06L10.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L12 8.94l-1.72-1.72Z" clip-rule="evenodd" />
                         </svg>
@@ -166,11 +180,48 @@ $(document).ready(function () {
     }
 
 
+    function splitAndPopulateAddress(address) {
+        const addressParts = address.split(',').map(part => part.trim());
+        const len = addressParts.length;
+
+        if (len >= 4) {
+            const city = addressParts[len - 1];
+            const district = addressParts[len - 2];
+            const ward = addressParts[len - 3];
+            const specificAddress = addressParts.slice(0, len - 3).join(', ');
+
+            $('#edit-diachi').val(specificAddress);
+
+            setTimeout(function() {
+
+                $editTinhThanh.val($editTinhThanh.find("option:contains('" + city + "')").val()).change();
+            }, 100);
+
+            setTimeout(function() {
+
+                $editQuanHuyen.val($editQuanHuyen.find("option:contains('" + district + "')").val()).change();
+            }, 100);
+
+            setTimeout(function() {
+                $editPhuongXa.val($editPhuongXa.find("option:contains('" + ward + "')").val());
+            }, 100);
+        } else {
+            console.error('Invalid address format:', address);
+        }
+    }
+
+
     function fetchHoaDonDetail(idHoaDon) {
         $.ajax({
             url: `/api/hoa-don/detail/${idHoaDon}`, method: 'GET', success: function (response) {
                 const hd = response.hd;
                 const hdctList = response.hdctList;
+
+                $('#edit-ten').val(hd.nguoiNhan);
+                $('#edit-sdtNguoiNhan').val(hd.sdtNguoiNhan);
+                $('#noteThongTin').val(hd.ghiChu);
+
+                splitAndPopulateAddress(hd.diaChiNguoiNhan);
 
                 hienThiThongTinHoaDon(hd);
 
@@ -182,13 +233,16 @@ $(document).ready(function () {
 
                 getDanhSachSanPham(0, 3);
 
-                // danhSachSanPhamIn(hdctList);
+                getPhuongThucThanhToan(tongTien);
 
-                inHoaDon(hd, hdctList);
+                inHoaDon(hd, hdctList, tongTien);
 
                 checkCurrentStep();
 
                 xoaSanPham(idHoaDon);
+
+                getThongTinKhachHang()
+
 
             }, error: function (xhr, status, error) {
                 console.error('Lỗi fetchHoaDonDetail:', error);
@@ -196,7 +250,91 @@ $(document).ready(function () {
         });
     }
 
-    function inHoaDon(hd, hdctList) {
+
+    function getThongTinKhachHang() {
+        $.ajax({
+            url: 'https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json',
+            dataType: 'json',
+            success: function(data) {
+                citiesData = data;
+                $editTinhThanh.empty().append('<option value="" selected>Chọn tỉnh thành</option>');
+                $.each(data, function(index, city) {
+                    $editTinhThanh.append('<option value="' + city.Id + '">' + city.Name + '</option>');
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Lỗi khi tải dữ liệu:', error);
+            }
+        });
+
+        $editTinhThanh.on('change', function() {
+            var cityId = $(this).val();
+            if (cityId) {
+                $editQuanHuyen.empty().append('<option value="" selected>Chọn quận huyện</option>');
+                var selectedCity = citiesData.find(city => city.Id === cityId);
+                if (selectedCity) {
+                    $.each(selectedCity.Districts, function(index, district) {
+                        $editQuanHuyen.append('<option value="' + district.Id + '">' + district.Name + '</option>');
+                    });
+                }
+            } else {
+                $editQuanHuyen.empty().append('<option value="" selected>Chọn quận huyện</option>');
+                $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
+            }
+        });
+
+        $editQuanHuyen.on('change', function() {
+            var districtId = $(this).val();
+            if (districtId) {
+                // Clear and populate phường/xã dropdown
+                $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
+                var selectedDistrict = citiesData.flatMap(city => city.Districts).find(district => district.Id === districtId);
+                if (selectedDistrict) {
+                    $.each(selectedDistrict.Wards, function(index, ward) {
+                        $editPhuongXa.append('<option value="' + ward.Id + '">' + ward.Name + '</option>');
+                    });
+                }
+            } else {
+                $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
+            }
+        });
+    }
+
+    const getPhuongThucThanhToan = (tongTien) => {
+        $.ajax({
+            url: `/api/hoa-don/phuong-thuc-thanh-toan/${idHoaDon}`,
+            method: 'GET',
+            success: function (result) {
+
+                if (result && typeof result === 'object') {
+                    let list = "";
+                    $("#lichSuThanhToan").empty();
+
+                    list += `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">1</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${formatVND(tongTien)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${result.trangThai}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${formatDate(result.ngayTao)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap"><span class="status bg-red-500 text-white rounded-lg ">${loaiThanhToan(result.loaiThanhToan)}</span></td>
+                    <td class="px-6 py-4 whitespace-nowrap"><span class="status bg-green-500 text-white rounded-lg mt-5 ">${result.tenThanhToan}</span></td>
+                    <td class="px-6 py-4 whitespace-nowrap">${result.ghiChu}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${result.nguoiCapNhat}</td>
+                </tr>`;
+
+                    $("#lichSuThanhToan").html(list);
+                } else {
+                    console.error('Unexpected API response format:', result);
+                }
+            },
+            error: function (error) {
+                console.error('Lỗi Lịch sử thanh toán:', error);
+            }
+        });
+    };
+
+
+    function inHoaDon(hd, hdctList, tongTien) {
         let danhSachSP = '';
 
         hdctList.forEach((item, index) => {
@@ -260,7 +398,7 @@ $(document).ready(function () {
         <div class="invoice-footer mt-4 flex justify-between">
             <div>
                 <p class="font-semibold">Tiền thu người nhận:</p>
-                <p>${formatVND(hd.tongTien)}</p>
+                <p>${formatVND(tongTien)}</p>
             </div>
             <div class="signature text-center">
                 <p class="font-semibold">Chữ ký người nhận</p>
@@ -356,12 +494,34 @@ $(document).ready(function () {
 
     function checkCurrentStep() {
         const button = document.getElementById("hienThiDanhSachSanPham");
-        if (currentStep > 1) {
+        const buttonsDeleteSP = document.querySelectorAll(".deleteSP");
+        const buttonPre  = document.getElementById("prevBtn");
+        const buttonNext  = document.getElementById("hienThiGhiChu");
+        const buttonThayDoiThongTin  = document.getElementById("thayDoiThongTinHoaDon");
+        if(currentStep == 1){
+            buttonPre.style.display = 'none';
+        } else if(currentStep > 1) {
             button.style.display = "none";
-        } else {
+            buttonsDeleteSP.forEach(button => button.style.display = "none");
+            buttonThayDoiThongTin.style.display = "none";
+            if (currentStep >= 6){
+                buttonNext.style.display = "none";
+
+            }else {
+                buttonNext.style.display = "block";
+            }
+
+
+        }else {
             button.style.display = "block";
+            buttonsDeleteSP.forEach(button => button.style.display = "block");
+            buttonThayDoiThongTin.style.display = "block";
+
         }
+
     }
+
+
 
     $(document).on("click", ".pageBtn", function () {
         let page = $(this).text() - 1;
@@ -422,6 +582,17 @@ $(document).ready(function () {
                 return 'Online';
             case 2:
                 return 'Tại quầy';
+            default:
+                return 'Không xác định'
+        }
+    }
+
+    const loaiThanhToan = (tt) => {
+        switch (tt) {
+            case true:
+                return 'Trả sau';
+            case 2:
+                return 'Trả trước';
             default:
                 return 'Không xác định'
         }
@@ -520,6 +691,16 @@ $(document).ready(function () {
         $('#modalLichSu').addClass('hidden');
     }
 
+    function showModalThongTinHoaDon() {
+        $('#modalThongTinHoaDon').removeClass('hidden');
+    }
+
+    function hideModalThongTinHoaDon() {
+        $('#modalThongTinHoaDon').addClass('hidden');
+        $('#modalThongTinHoaDon').val('');
+        $('#modalThongTinHoaDon').addClass('hidden');
+    }
+
 
     $('#hienThiGhiChu').click(function () {
         nextStep = currentStep + 1;
@@ -549,6 +730,16 @@ $(document).ready(function () {
     $('#dongDanhSachSanPham').click(function () {
         hideModalDanhSachSanPham();
     })
+
+    $('#thayDoiThongTinHoaDon').click(function () {
+        showModalThongTinHoaDon();
+        fetchHoaDonDetail(idHoaDon);
+    });
+
+    $('#dongThayDoiThongTinHoaDon').click(function () {
+        hideModalThongTinHoaDon();
+    });
+
 
 
     const totalSteps = 6;
