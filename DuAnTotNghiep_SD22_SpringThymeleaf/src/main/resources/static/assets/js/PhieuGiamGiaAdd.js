@@ -18,7 +18,7 @@
                         'Bạn đã thêm 1 phiếu giảm giá  mới.',
                         'success'
                     ).then(() => {
-                        add(); // Gọi hàm để xử lý việc gửi form
+                        add();
                     });
                 } else {
                     Swal.fire(
@@ -49,7 +49,7 @@
         progressBar.style.width = '0';
         setTimeout(function() {
             progressBar.style.width = '100%';
-        }, 100);
+        }, 2000);
 
         setTimeout(function() {
             // Remove the show class after the notification disappears
@@ -59,11 +59,8 @@
         }, 3000);
     }
     function validateForm() {
-        var ten = document.getElementById('ten').value.trim();
 
 
-
-        return isValid;
     }
 
 
