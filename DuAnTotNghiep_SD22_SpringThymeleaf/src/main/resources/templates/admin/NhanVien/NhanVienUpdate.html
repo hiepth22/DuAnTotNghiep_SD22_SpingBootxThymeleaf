@@ -161,19 +161,20 @@
                                         <div class="row">
                                             <div class="col-6">
                                                 <select class="form-select form-select-sm mb-3" id="city" aria-label="Chọn tỉnh thành" oninput="validateForm()" >
-                                                    <option value="" selected>Chọn tỉnh thành</option>
+                                                    <option th:value="${thanhpho}" th:text="${thanhpho}"></option>
                                                 </select>
                                             </div>
                                             <div class="col-6">
                                                 <select class="form-select form-select-sm mb-3" id="district" aria-label="Chọn quận huyện" oninput="validateForm()">
-                                                    <option value="" selected>Chọn quận huyện</option>
+                                                    <option th:value="${quan}" th:text="${quan}"></option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-6">
                                                 <select class="form-select form-select-sm mb-3" id="ward" aria-label="Chọn phường xã" oninput="validateForm()" >
-                                                    <option value="" selected>Chọn phường xã</option>
+<!--                                                    <option value="" selected>Chọn phường xã</option>-->
+                                                    <option th:value="${phuong}" th:text="${phuong}"></option>
                                                 </select>
                                             </div>
                                         </div>
@@ -181,8 +182,8 @@
                                             <div class="col-12">
                                                 <label >Địa chỉ Chi tiết:</label>
                                                 <div class="form-group mt-3">
-                                                    <textarea class="form-control" id="diachict" name="diachi" rows="3" oninput="validateForm()"></textarea>
-                                                    <input id="dc" name="dc" rows="3" style="display: none" th:value="*{diachi}"></input>
+                                                    <textarea class="form-control" id="diachi" name="diachi" rows="3" oninput="validateForm()" th:text="${dcct}"></textarea>
+                                                    <input id="dc" name="dc" rows="3" style="display: none" ></input>
                                                 </div>
                                             </div>
                                         </div>
@@ -400,37 +401,6 @@
     }
 </script>
 <script>
-    // Declare data variable globally
-    var data = [];
-
-    function getLastThreeAndRemaining(data) {
-        let parts = data.split(",");
-        let lastThreeParts = parts.slice(-3);
-        let remainingParts = parts.slice(0, parts.length - 3).join(",");
-        return {
-            lastThree: lastThreeParts,
-            remaining: remainingParts
-        };
-    }
-
-    function processInput() {
-        let inputData = document.getElementById("dc").value;
-        let result = getLastThreeAndRemaining(inputData);
-
-        updateSelect("ward", result.lastThree[0]);
-        updateSelect("district", result.lastThree[1]);
-        updateSelect("city", result.lastThree[2]);
-        document.getElementById("diachict").textContent = result.remaining;
-    }
-
-    function updateSelect(selectId, optionText) {
-        let combobox = document.getElementById(selectId);
-        combobox.innerHTML = ""; // Clear previous options
-        let option = document.createElement("option");
-        option.text = optionText;
-        combobox.appendChild(option);
-    }
-
     var citis = document.getElementById("city");
     var districts = document.getElementById("district");
     var wards = document.getElementById("ward");
@@ -442,119 +412,110 @@
 
     // Gửi request lấy dữ liệu
     axios(Parameter).then(function (response) {
-        data = response.data; // Assign response data to global data variable
-        renderCity(data); // Gọi hàm renderCity khi có dữ liệu trả về
+        renderCity(response.data); // Gọi hàm renderCity khi có dữ liệu trả về
     }).catch(function (error) {
         console.error('Error fetching data: ', error);
     });
 
     function renderCity(data) {
         // Hàm để render danh sách các tỉnh/thành phố vào dropdown citis
-        clearOptions(citis); // Xóa các option cũ của citis
         data.forEach(function (city) {
             citis.options[citis.options.length] = new Option(city.Name, city.Id);
         });
 
-        // Reset districts and wards dropdowns
-        clearOptions(districts);
-        clearOptions(wards);
+        // Sự kiện khi chọn tỉnh/thành phố
+        citis.onchange = function () {
+            clearOptions(districts); // Xóa các option cũ của districts
+            clearOptions(wards); // Xóa các option cũ của wards
 
-        // Trigger processInput() to update #dc and #diachict based on default values
-        processInput();
-    }
-
-    // Sự kiện khi chọn tỉnh/thành phố
-    citis.onchange = function () {
-        clearOptions(districts); // Xóa các option cũ của districts
-        clearOptions(wards); // Xóa các option cũ của wards
-
-        // Lọc ra thông tin của tỉnh/thành phố được chọn
-        var selectedCity = data.find(function (city) {
-            return city.Id === citis.value;
-        });
-
-        if (selectedCity) {
-            // Log tên của tỉnh/thành phố được chọn
-            console.log("Selected city:", selectedCity.Name);
-
-            // Render các quận/huyện vào dropdown districts
-            selectedCity.Districts.forEach(function (district) {
-                districts.options[districts.options.length] = new Option(district.Name, district.Id);
+            // Lọc ra thông tin của tỉnh/thành phố được chọn
+            var selectedCity = data.find(function (city) {
+                return city.Id === citis.value;
             });
 
-            // Trigger processInput() to update #dc and #diachict based on default values
-            processInput();
-        }
-    };
+            if (selectedCity) {
+                // Log tên của tỉnh/thành phố được chọn
+                console.log("Selected city:", selectedCity.Name);
 
-    // Sự kiện khi chọn quận/huyện
-    districts.onchange = function () {
-        clearOptions(wards); // Xóa các option cũ của wards
-
-        // Lấy thông tin của tỉnh/thành phố được chọn
-        var selectedCity = data.find(function (city) {
-            return city.Id === citis.value;
-        });
-
-        if (selectedCity) {
-            // Lọc ra thông tin của quận/huyện được chọn
-            var selectedDistrict = selectedCity.Districts.find(function (district) {
-                return district.Id === districts.value;
-            });
-
-            if (selectedDistrict) {
-                // Log tên của quận/huyện được chọn
-                console.log("Selected district:", selectedDistrict.Name);
-
-                // Render các phường/xã vào dropdown wards
-                selectedDistrict.Wards.forEach(function (ward) {
-                    wards.options[wards.options.length] = new Option(ward.Name, ward.Id);
+                // Render các quận/huyện vào dropdown districts
+                selectedCity.Districts.forEach(function (district) {
+                    districts.options[districts.options.length] = new Option(district.Name, district.Id);
                 });
-
-                // Trigger processInput() to update #dc and #diachict based on default values
-                processInput();
             }
-        }
-    };
+        };
 
-    // Sự kiện khi chọn phường/xã
-    wards.onchange = function () {
-        // Lấy thông tin của tỉnh/thành phố được chọn
-        var selectedCity = data.find(function (city) {
-            return city.Id === citis.value;
-        });
+        // Sự kiện khi chọn quận/huyện
+        districts.onchange = function () {
+            clearOptions(wards); // Xóa các option cũ của wards
 
-        if (selectedCity) {
-            // Lọc ra thông tin của quận/huyện được chọn
-            var selectedDistrict = selectedCity.Districts.find(function (district) {
-                return district.Id === districts.value;
+            // Lấy thông tin của tỉnh/thành phố được chọn
+            var selectedCity = data.find(function (city) {
+                return city.Id === citis.value;
             });
 
-            if (selectedDistrict) {
-                var selectedWard = selectedDistrict.Wards.find(function (ward) {
-                    return ward.Id === wards.value;
+            if (selectedCity) {
+                // Lọc ra thông tin của quận/huyện được chọn
+                var selectedDistrict = selectedCity.Districts.find(function (district) {
+                    return district.Id === districts.value;
                 });
 
-                if (selectedWard) {
-                    // Tạo chuỗi để log các thông tin
-                    var logString = selectedWard.Name;
-                    logString += "," + selectedDistrict.Name;
-                    logString += "," + selectedCity.Name;
+                if (selectedDistrict) {
+                    // Log tên của quận/huyện được chọn
+                    console.log("Selected district:", selectedDistrict.Name);
 
-                    // Log chuỗi kết quả ra console
-                    console.log(logString);
+                    // Render các phường/xã vào dropdown wards
+                    selectedDistrict.Wards.forEach(function (ward) {
+                        wards.options[wards.options.length] = new Option(ward.Name, ward.Id);
 
-                    // Cập nhật giá trị vào #dc và #diachict
-                    document.getElementById("dc").value = logString;
-                    document.getElementById("diachict").textContent = getLastThreeAndRemaining(logString).remaining;
+                    });
                 }
             }
-        }
-    };
+        };
+        wards.onchange = function () {
+            // Lấy thông tin của tỉnh/thành phố được chọn
+            var selectedCity = data.find(function (city) {
+                return city.Id === citis.value;
+            });
+
+            if (selectedCity) {
+                // Lọc ra thông tin của quận/huyện được chọn
+                var selectedDistrict = selectedCity.Districts.find(function (district) {
+                    return district.Id === districts.value;
+                });
+
+                if (selectedDistrict) {
+                    var selectedWard = selectedDistrict.Wards.find(function (ward) {
+                        return ward.Id === wards.value;
+                    });
+
+                    if (selectedWard) {
+                        // Tạo chuỗi để log các thông tin
+                        var logString = selectedWard.Name ;
+                        logString += "," + selectedDistrict.Name ;
+                        logString += "," + selectedCity.Name;
+
+                        // Log chuỗi kết quả ra console
+                        console.log(logString);
+                        var logTextarea = document.getElementById("dc");
+                        logTextarea.value = logString;
+
+                        // Ẩn textarea
+                        logTextarea.style.display = "none";
+                    }
+                }
+            }
+        };
+
+
+    }
+
 
     function clearOptions(selectElement) {
-        selectElement.innerHTML = "";
+        for (var i = selectElement.options.length - 1; i > 0; i--) {
+            selectElement.remove(i);
+        }
     }
+
 </script>
 
 
