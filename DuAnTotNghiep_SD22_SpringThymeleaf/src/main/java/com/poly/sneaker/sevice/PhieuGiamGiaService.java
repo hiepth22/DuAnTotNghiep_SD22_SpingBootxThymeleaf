@@ -18,7 +18,7 @@ public class PhieuGiamGiaService {
     private PhieuGiamGiaRepository phieuGiamGiaRepository;
 
     public List<PhieuGiamGia> getall() {
-        return phieuGiamGiaRepository.findAll();
+        return phieuGiamGiaRepository. findAllDesc();
     }
     public List<PhieuGiamGia> getall(int tt) {
         return phieuGiamGiaRepository.findByTrangThai(tt);
@@ -56,6 +56,7 @@ public class PhieuGiamGiaService {
     }
     public PhieuGiamGia updateTrangThai(Long id, Integer tt){
         Optional<PhieuGiamGia> optional = phieuGiamGiaRepository.findById(id);
+
         return optional.map(o -> {
             o.setTrangThai(0);
             return phieuGiamGiaRepository.save(o);

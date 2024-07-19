@@ -182,5 +182,16 @@ public class HoaDonAPI {
     }
 
 
+    @PutMapping("/update-thong-tin-nguoi-nhan/{id}")
+    public ResponseEntity<?> updateThongTinNguoiNhan(@PathVariable("id") Long id, @RequestBody HoaDon hoaDon) {
+        HoaDon updatedHoaDon = hoaDonService.updateThongTinNguoiNhan(id, hoaDon);
+        if (updatedHoaDon != null) {
+            return ResponseEntity.ok(updatedHoaDon);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDon not found");
+        }
+    }
+
+
 
 }

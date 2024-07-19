@@ -227,5 +227,70 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    document.getElementById('confirmButtonupdate').addEventListener('click', function () {
+        if (validateForm()) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn thay đổi thông tin phiếu giảm giá?',
+                text: "Bạn không thể hoàn tác hành động này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Vâng, tiếp tục!',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Đã xác nhận!',
+                        'Bạn đã thay đổi thông tin phiếu giảm giá.',
+                        'success'
+                    ).then(() => {
+                        update(); // Corrected function name
+                    });
+                } else {
+                    Swal.fire(
+                        'Đã hủy!',
+                        'Hành động của bạn đã bị hủy.',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
+
+    function update() {
+        const form = document.getElementById('myForm');
+        const formData = new FormData(form);
+        axios.post('/admin/updatePhieuGiamGia/' + form.id.value, formData)
+            .then(function (response) {
+                showSuccessMessageUpdate();
+            })
+            .catch(function (error) {
+                console.error('Error:', error);
+                // Handle error here
+                Swal.fire(
+                    'Lỗi!',
+                    'Đã xảy ra lỗi trong quá trình cập nhật.',
+                    'error'
+                );
+            });
+    }
+
+    function showSuccessMessageUpdate() {
+        const notification = document.getElementById('notification1');
+        notification.classList.add('show1');
+        const progressBar = document.getElementById('progress-bar1');
+        progressBar.style.width = '0';
+        setTimeout(function () {
+            progressBar.style.width = '100%';
+        }, 2000);
+
+        setTimeout(function () {
+            notification.classList.remove('show1');
+            window.location.href = '/admin/phieu-giam-gia';
+        }, 3000);
+    }
+</script>
 </body>
 </html>

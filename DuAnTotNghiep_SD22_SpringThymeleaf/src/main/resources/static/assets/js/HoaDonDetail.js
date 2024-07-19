@@ -3,6 +3,11 @@ $(document).ready(function () {
     const pathArray = window.location.pathname.split('/');
     const idHoaDon = pathArray[pathArray.length - 1];
 
+    var $phiVanChuyen = $('#phiVanChuyen');
+    var  $nguoiNhan = $('#edit-ten');
+    var $sdtNguoiNhan = $('#edit-sdtNguoiNhan');
+    var $noteThongTin = $('#noteThongTin')
+
     var $editDiaChi = $('#edit-diachi');
     var $editTinhThanh = $('#edit-tinhthanh');
     var $editQuanHuyen = $('#edit-quanhuyen');
@@ -104,20 +109,34 @@ $(document).ready(function () {
         const tongTienThanhToan = tongTien + hd.tienShip;
 
         $('#tongTienChiTiet').html(`
-            <div>
-                <span class="text-lg ">Tổng tiền hàng: <span class="text-lg ml-[11%] text-blue-700">${formatVND(tongTien)}</span></span>
-            </div>
 
+            <div class="grid gap-0 grid-cols-2">
             <div>
-                <span  class="text-lg">Phí vận chuyển: <span class="text-lg ml-20 font-normal">${formatVND(hd.tienShip)}</span></span>
+                <div>
+                     <span class="text-lg ">Tổng tiền hàng: </span></span>
+                </div>
+
+                <div>
+                    <span  class="text-lg">Phí vận chuyển:</span>
+                </div>
+                <span class="flex items-center w-full my-2">
+                    <span class="h-px flex-1 bg-gray-500"></span>
+                </span>
+                <div>
+                    <span  class="text-lg">Tổng tiền thanh toán: </span>
+                </div>
+                </div>  
+                
+                <div >
+                    <div> <span class="text-lg ml-[11%] text-blue-700">${formatVND(tongTien)}</div>
+                    <div ><span class="text-lg ml-20 font-normal">${formatVND(hd.tienShip)}</span></div>
+                    <span class="flex items-center w-full my-2">
+                        <span class="h-px flex-1 bg-gray-500"></span>
+                    </span>
+                    <div><span class="text-lg ml-8 text-blue-700 text-no">${formatVND(tongTienThanhToan)}</span></div>   
+                </div>
             </div>
-            <span class="flex items-center w-[99%] m-auto">
-                <span class="h-px flex-1 bg-gray-500"></span>
-                <span class="h-px flex-1 bg-gray-500"></span>
-            </span>
-            <div>
-                <span  class="text-lg">Tổng tiền thanh toán: <span class="text-lg ml-8 text-blue-700 text-no">${formatVND(tongTienThanhToan)}</span></span>
-            </div>
+           
         `);
     }
 
@@ -166,18 +185,20 @@ $(document).ready(function () {
         });
     }
 
-    function updateThongTinNguoiNhan(nguoiNhan, sdtNguoiNhan, diaChiNguoiNhan, ghichu, idHoaDon) {
+    function updateThongTinNguoiNhan(nguoiNhan, sdtNguoiNhan, diaChiNguoiNhan, tienShip, ghichu) {
         $.ajax({
             url: `/api/hoa-don/update-thong-tin-nguoi-nhan/${idHoaDon}`,
             method: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify({
-                nguoiNhan: nguoiNhan, sdtNguoiNhan: sdtNguoiNhan, diaChiNguoiNhan: diaChiNguoiNhan, ghichu: ghichu
+                nguoiNhan: nguoiNhan, sdtNguoiNhan: sdtNguoiNhan, diaChiNguoiNhan: diaChiNguoiNhan, ghichu: ghichu, tienShip: tienShip
             }),
             success: function (response) {
             },
         });
     }
+
+
 
 
     function splitAndPopulateAddress(address) {
@@ -217,6 +238,7 @@ $(document).ready(function () {
                 const hd = response.hd;
                 const hdctList = response.hdctList;
 
+                $('#phiVanChuyen').val(hd.tienShip);
                 $('#edit-ten').val(hd.nguoiNhan);
                 $('#edit-sdtNguoiNhan').val(hd.sdtNguoiNhan);
                 $('#noteThongTin').val(hd.ghiChu);
@@ -242,6 +264,8 @@ $(document).ready(function () {
                 xoaSanPham(idHoaDon);
 
                 getThongTinKhachHang()
+
+                currentStep = hd.trangThai;
 
 
             }, error: function (xhr, status, error) {
@@ -495,30 +519,42 @@ $(document).ready(function () {
     function checkCurrentStep() {
         const button = document.getElementById("hienThiDanhSachSanPham");
         const buttonsDeleteSP = document.querySelectorAll(".deleteSP");
-        const buttonPre  = document.getElementById("prevBtn");
-        const buttonNext  = document.getElementById("hienThiGhiChu");
-        const buttonThayDoiThongTin  = document.getElementById("thayDoiThongTinHoaDon");
-        if(currentStep == 1){
+        const buttonPre = document.getElementById("prevBtn");
+        const buttonNext = document.getElementById("hienThiGhiChu");
+        const buttonHuy = document.getElementById("huyHoaDon");
+        const buttonThayDoiThongTin = document.getElementById("thayDoiThongTinHoaDon");
+        const soLuongInputs = document.querySelectorAll(".soLuong-input");
+
+        if (currentStep === 1) {
+            // Ẩn nút "Prev" khi ở bước 1
             buttonPre.style.display = 'none';
-        } else if(currentStep > 1) {
-            button.style.display = "none";
-            buttonsDeleteSP.forEach(button => button.style.display = "none");
-            buttonThayDoiThongTin.style.display = "none";
-            if (currentStep >= 6){
-                buttonNext.style.display = "none";
-
-            }else {
-                buttonNext.style.display = "block";
-            }
-
-
-        }else {
             button.style.display = "block";
             buttonsDeleteSP.forEach(button => button.style.display = "block");
             buttonThayDoiThongTin.style.display = "block";
+            soLuongInputs.forEach(input => {
+                input.disabled = false;
+            });
+        } else if (currentStep > 1) {
+            button.style.display = "none";
+            buttonsDeleteSP.forEach(button => button.style.display = "none");
+            buttonThayDoiThongTin.style.display = "none";
 
+            soLuongInputs.forEach(input => {
+                input.disabled = true;
+            });
+
+            if (currentStep >= 6) {
+                buttonNext.style.display = "none";
+                buttonPre.style.display = "none";
+                buttonHuy.style.display = "none";
+            } else {
+                buttonNext.style.display = "block";
+                buttonPre.style.display = "block";
+                buttonHuy.style.display = "block";
+            }
         }
 
+        console.log("currentStep " + currentStep);
     }
 
 
@@ -667,6 +703,27 @@ $(document).ready(function () {
         $('#noteError').addClass('hidden');
     }
 
+    function showNoteModalHuy() {
+        $('#noteModalHuy').removeClass('hidden');
+    }
+
+    function hideNoteModalHuy() {
+        $('#noteModalHuy').addClass('hidden');
+        $('#noteModalHuy').val('');
+        $('#noteModalHuy').addClass('hidden');
+    }
+
+
+    function showNoteModalLui() {
+        $('#noteModalLui').removeClass('hidden');
+    }
+
+    function hideNoteModalLui() {
+        $('#noteModalLui').addClass('hidden');
+        $('#noteModalLui').val('');
+        $('#noteModalLui').addClass('hidden');
+    }
+
 
     function showModalDanhSachSanPham() {
         $('#modalDachSachSanPham').removeClass('hidden');
@@ -715,6 +772,14 @@ $(document).ready(function () {
         hideNoteModal();
     });
 
+    $('#huyHoaDon').click(function () {
+        showNoteModalHuy();
+    });
+
+    $('#huy').click(function () {
+        hideNoteModalHuy();
+    });
+
     $('#hienThiLichSu').click(function () {
         showModalLichSu();
     });
@@ -740,33 +805,87 @@ $(document).ready(function () {
         hideModalThongTinHoaDon();
     });
 
+    $('#luuThongTinHoaDon').click(function () {
+        var nguoiNhan =  $nguoiNhan.val();
+        var sdtNguoiNhan = $sdtNguoiNhan.val();
+        var phiVanChuyen = $phiVanChuyen.val();
+        var ghiChu = $noteThongTin.val();
+
+
+        var selectedCity = $editTinhThanh.find('option:selected').text();
+        var selectedDistrict = $editQuanHuyen.find('option:selected').text();
+        var selectedWard = $editPhuongXa.find('option:selected').text();
+        var specificAddress = $editDiaChi.val();
+        var diaChiDayDu = specificAddress + ', ' + selectedWard + ', ' + selectedDistrict + ', ' + selectedCity;
+        updateThongTinNguoiNhan(nguoiNhan, sdtNguoiNhan, diaChiDayDu, phiVanChuyen, ghiChu);
+        fetchHoaDonDetail(idHoaDon);
+        hideModalThongTinHoaDon();
+    });
+
 
 
     const totalSteps = 6;
 
-    const icons = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" /></svg>', '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M11.003 3.003A8.001 8.001 0 1 0 19 11a.75.75 0 1 0-1.5 0 6.501 6.501 0 1 1-6.497-6.497.75.75 0 1 0 0-1.5Zm2.053 2.353a.75.75 0 0 0-.212 1.04l3.502 5.253a.75.75 0 0 0 1.308-.63l-3.502-5.253a.75.75 0 0 0-1.096-.41Z" clip-rule="evenodd" /></svg>', '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M11.998 21.75a9.751 9.751 0 1 0 0-19.5 9.751 9.751 0 0 0 0 19.5Zm-.75-13.248a.75.75 0 1 1 1.5 0V12a.75.75 0 1 1-1.5 0v-3.498Zm.75 5.748a.75.75 0 1 1 0-1.5h.007a.75.75 0 1 1 0 1.5H12Z" clip-rule="evenodd" /></svg>'];
+    const icons = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">\n' +
+    '  <path fill-rule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625ZM7.5 15a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 7.5 15Zm.75 2.25a.75.75 0 0 0 0 1.5H12a.75.75 0 0 0 0-1.5H8.25Z" clip-rule="evenodd" />\n' +
+    '  <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />\n' +
+     '</svg>\n',
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">\n' +
+        '  <path fill-rule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625ZM7.5 15a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 7.5 15Zm.75 2.25a.75.75 0 0 0 0 1.5H12a.75.75 0 0 0 0-1.5H8.25Z" clip-rule="evenodd" />\n' +
+        '  <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />\n' +
+        '</svg>\n',
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">\n' +
+        '  <path fill-rule="evenodd" d="M9 1.5H5.625c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5Zm6.61 10.936a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 14.47a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />\n' +
+        '  <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />\n' +
+        '</svg>\n',
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">\n' +
+        '  <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z" />\n' +
+        '  <path fill-rule="evenodd" d="m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.163 3.75A.75.75 0 0 1 10 12h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />\n' +
+        '</svg>\n',
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">\n' +
+        '  <path fill-rule="evenodd" d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 0 1 .75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 0 1 9.75 22.5a.75.75 0 0 1-.75-.75v-4.131A15.838 15.838 0 0 1 6.382 15H2.25a.75.75 0 0 1-.75-.75 6.75 6.75 0 0 1 7.815-6.666ZM15 6.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" clip-rule="evenodd" />\n' +
+        '  <path d="M5.26 17.242a.75.75 0 1 0-.897-1.203 5.243 5.243 0 0 0-2.05 5.022.75.75 0 0 0 .625.627 5.243 5.243 0 0 0 5.022-2.051.75.75 0 1 0-1.202-.897 3.744 3.744 0 0 1-3.008 1.51c0-1.23.592-2.323 1.51-3.008Z" />\n' +
+        '</svg>\n',
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">\n' +
+        '  <path d="M10.464 8.746c.227-.18.497-.311.786-.394v2.795a2.252 2.252 0 0 1-.786-.393c-.394-.313-.546-.681-.546-1.004 0-.323.152-.691.546-1.004ZM12.75 15.662v-2.824c.347.085.664.228.921.421.427.32.579.686.579.991 0 .305-.152.671-.579.991a2.534 2.534 0 0 1-.921.42Z" />\n' +
+        '  <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v.816a3.836 3.836 0 0 0-1.72.756c-.712.566-1.112 1.35-1.112 2.178 0 .829.4 1.612 1.113 2.178.502.4 1.102.647 1.719.756v2.978a2.536 2.536 0 0 1-.921-.421l-.879-.66a.75.75 0 0 0-.9 1.2l.879.66c.533.4 1.169.645 1.821.75V18a.75.75 0 0 0 1.5 0v-.81a4.124 4.124 0 0 0 1.821-.749c.745-.559 1.179-1.344 1.179-2.191 0-.847-.434-1.632-1.179-2.191a4.122 4.122 0 0 0-1.821-.75V8.354c.29.082.559.213.786.393l.415.33a.75.75 0 0 0 .933-1.175l-.415-.33a3.836 3.836 0 0 0-1.719-.755V6Z" clip-rule="evenodd" />\n' +
+        '</svg>\n',
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">\n' +
+        '  <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0 1 18 9.375v9.375a3 3 0 0 0 3-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 0 0-.673-.05A3 3 0 0 0 15 1.5h-1.5a3 3 0 0 0-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6ZM13.5 3A1.5 1.5 0 0 0 12 4.5h4.5A1.5 1.5 0 0 0 15 3h-1.5Z" clip-rule="evenodd" />\n' +
+        '  <path fill-rule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625V9.375Zm9.586 4.594a.75.75 0 0 0-1.172-.938l-2.476 3.096-.908-.907a.75.75 0 0 0-1.06 1.06l1.5 1.5a.75.75 0 0 0 1.116-.062l3-3.75Z" clip-rule="evenodd" />\n' +
+        '</svg>\n',
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">\n' +
+        '  <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />\n' +
+        '</svg>\n'
+    ];
 
     let stepsHistory = [];
-    let currentStep = stepsHistory.length > 0 ? stepsHistory.length : 1;
 
 
 
     function createStep(hanhDong, ngayTao, stepNum) {
+        // Xác định màu nền của biểu tượng dựa trên stepNum
+        const iconBgColor = stepNum === 7 ? 'bg-red-600' : 'bg-green-600';
+
         const stepDiv = $(`
         <div class="flex items-center ml-8 step" data-step="${stepNum}">
-            <div class="h-8 w-8 bg-green-600 text-white rounded-full flex items-center justify-center">
-                ${icons[(stepNum - 1) % icons.length]}
+            <div class="h-8 w-8 ${iconBgColor} text-white rounded-full flex items-center justify-center">
+                ${icons[stepNum]}
             </div>
             <div class="ml-4">
                 <h2 class="text-lg font-semibold">${trangThaiSteps(hanhDong)}</h2>
-                <p class="text-gray-600"> ${ngayTao != null ? new Date(ngayTao).toLocaleString('vi-VN', {
+                <p class="text-gray-600">
+                    ${ngayTao != null ? new Date(ngayTao).toLocaleString('vi-VN', {
             day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'
-        }) : ''}</p>
+        }) : ''}
+                </p>
             </div>
         </div>
     `);
+
         return stepDiv;
     }
+
 
     function updateButtonsState() {
         $('#steppers').empty();
@@ -784,14 +903,32 @@ $(document).ready(function () {
 
     }
 
-
     $('#prevBtn').click(function () {
-        if (currentStep > 1) {
-            currentStep--;
-            stepsHistory.push({hanhDong: currentStep, ngayTao: new Date().toISOString()});
-            updateTrangThai(currentStep);
-            updateButtonsState();
+        showNoteModalLui();
+    });
+
+    $('#huyLui').click(function () {
+        hideNoteModalLui();
+    });
+
+    $('#xacNhanLui').click(function () {
+        currentStep--;
+
+        const noteModalLui = $('#noteLui').val();
+        getLichSu();
+
+        if (noteModalLui.length < 10) {
+            $('#noteErrorLui').removeClass('hidden');
+            return;
+        } else {
+            $('#noteErrorLui').addClass('hidden');
         }
+
+        stepsHistory.push({hanhDong: currentStep, ngayTao: new Date().toISOString()});
+        luiTrangThai(currentStep)
+        updateButtonsState();
+        hideNoteModalLui();
+        getLichSu();
 
 
     });
@@ -831,6 +968,25 @@ $(document).ready(function () {
 
     });
 
+    $('#xacNhanHuy').click(function () {
+        currentStep = 7;
+
+        const noteHuy = $('#noteHuy').val();
+
+        if (noteHuy.length < 10) {
+            $('#noteHuyError').removeClass('hidden');
+            return;
+        } else {
+            $('#noteHuyError').addClass('hidden');
+        }
+
+        stepsHistory.push({hanhDong: currentStep, ngayTao: new Date().toISOString()});
+        huyHoaDon(currentStep);
+        updateButtonsState();
+        hideNoteModalHuy();
+        getLichSu();
+
+    });
 
     function fetchStepsData(idHoaDon) {
         $.ajax({
@@ -849,6 +1005,44 @@ $(document).ready(function () {
     }
 
     fetchStepsData(idHoaDon);
+
+    function luiTrangThai(trangThai) {
+        const ghiChu = $('#noteModalLui').val().trim();
+        const hanhDong = trangThai;
+        $.ajax({
+            url: `/api/hoa-don/update-trang-thai/${idHoaDon}`,
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({trangThai: trangThai}),
+            success: function (response) {
+                addHistoryLog(ghiChu, hanhDong);
+                fetchHoaDonDetail(idHoaDon);
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi khi cập nhật trạng thái hóa đơn: ', error);
+                alert('Đã xảy ra lỗi khi cập nhật trạng thái hóa đơn. Vui lòng thử lại sau.');
+            }
+        });
+    }
+
+    function huyHoaDon(trangThai) {
+        const ghiChu = $('#noteHuy').val().trim();
+        const hanhDong = trangThai;
+        $.ajax({
+            url: `/api/hoa-don/update-trang-thai/${idHoaDon}`,
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({trangThai: trangThai}),
+            success: function (response) {
+                addHistoryLog(ghiChu, hanhDong);
+                fetchHoaDonDetail(idHoaDon);
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi khi cập nhật trạng thái hóa đơn: ', error);
+                alert('Đã xảy ra lỗi khi cập nhật trạng thái hóa đơn. Vui lòng thử lại sau.');
+            }
+        });
+    }
 
 
     function updateTrangThai(trangThai) {

@@ -357,17 +357,43 @@ $(document).ready(function () {
                     if (data.length > 0) {
                         data.forEach(function (diaChi) {
                             console.log('Thành công');
+                            var trangThaiClass = diaChi.trangThai === 1 ? 'text-danger' : ''; // Kiểm tra trạng thái để quyết định màu sắc của trái tim
+                            var additionalInfo = diaChi.trangThai === 1 ? `
+                            <div class="additional-info">
+                                <button type="button" class="btn btn-outline-warning btn-sm" style="font-size: 12px;">
+                                    Mặc định
+                                </button>
+                            </div>
+                            ` : ''; // Thêm button khi trạng thái là 1
+
                             modalBody.append(`
-                                <div class="address-block mb-3 d-flex justify-content-between align-items-center" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
-                                    <div>
-                                        <strong style="display: block; margin-bottom: 5px;">${diaChi.ten}</strong>
-                                        <p style="margin: 0;">${diaChi.moTaChiTiet}, ${diaChi.soNha}, ${diaChi.phuongXa}, ${diaChi.quanHuyen}, ${diaChi.thanhPho}</p>
+                                <div class="address-block mb-3" style="border-bottom: 1px solid #ddd; padding: 10px;">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div style="flex: 1; display: flex; align-items: center;">
+                                            <span class="heart-icon ${trangThaiClass}" style="font-size: 20px;">
+                                                <i class="bi bi-heart" data-dia-chi-id="${diaChi.id}" style="cursor: pointer;"></i>
+                                            </span>
+                                            <div style="margin-left: 10px;">
+                                                <strong style="display: block; margin-bottom: 3px; font-size: 14px;">${diaChi.ten}</strong>
+                                                <p style="margin: 0; font-size: 12px;">${diaChi.moTaChiTiet}, ${diaChi.soNha}, ${diaChi.phuongXa}, ${diaChi.quanHuyen}, ${diaChi.thanhPho}</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button type="button" class="btn btn-outline-orange btn-sm btn-update-address" data-dia-chi-id="${diaChi.id}" style="border: 1px solid orange; background-color: white; color: black;"><i class="bi bi-pencil-square"></i></button>
+                                        </div>
                                     </div>
-                                    <button type="button" class="btn btn-outline-orange btn-sm btn-update-address" data-dia-chi-id="${diaChi.id}" style="border: 1px solid orange; background-color: white; color: black;"><i class="bi bi-pencil-square"></i></button>
+                                    ${additionalInfo} <!-- Thêm button khi trạng thái là 1 -->
                                 </div>
-                            `);
+                                `);
                         });
-                    } else {
+
+                        // Xử lý sự kiện khi click vào trái tim để thay đổi màu sắc
+                        $(document).on('click', '.heart-icon .bi-heart', function () {
+                            $(this).toggleClass('text-danger'); // Thêm hoặc bỏ lớp 'text-danger' để thay đổi màu sắc
+                        });
+                    }
+
+                    else {
                         console.log('Không thành công');
                         modalBody.append('<li>Không có địa chỉ</li>');
                     }

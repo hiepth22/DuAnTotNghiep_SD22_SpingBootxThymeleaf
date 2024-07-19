@@ -1,7 +1,5 @@
 package com.poly.sneaker.controller.PhieuGiamGia;
 
-
-
 import com.poly.sneaker.entity.PhieuGiamGia;
 import com.poly.sneaker.sevice.PhieuGiamGiaService;
 import jakarta.validation.Valid;
@@ -118,9 +116,18 @@ public class PhieuGiamGiaController {
         pgg.setDonToiThieu(pgg.getDonToiThieu());
         pgg.setGiaTriGiam(pgg.getGiaTriGiam());
         pgg.setGiamToiDa(pgg.getGiamToiDa());
-        pgg.setNgayBatDau(LocalDate.now());
-        pgg.setNgayKetThuc(LocalDate.now());
-        pgg.setTrangThai(1);
+        pgg.setNgayBatDau(pgg.getNgayBatDau());
+        pgg.setNgayKetThuc(pgg.getNgayKetThuc());
+
+        LocalDate now = LocalDate.now();
+        if (now.isBefore(pgg.getNgayBatDau())) {
+            pgg.setTrangThai(2); // Chưa diễn ra
+        } else if (now.isAfter(pgg.getNgayKetThuc())) {
+            pgg.setTrangThai(1); // Ngừng hoạt động
+        } else {
+            pgg.setTrangThai(0); // Hoạt động
+        }
+
         phieuGiamGiaService.Add(pgg);
         return "redirect:/admin/phieu-giam-gia";
     }
