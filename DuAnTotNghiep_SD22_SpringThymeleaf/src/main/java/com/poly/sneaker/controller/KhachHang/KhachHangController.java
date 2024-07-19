@@ -217,11 +217,11 @@ public class KhachHangController {
         }
     }
 
-    @GetMapping("/khach-hang/dia-chi/{idKH}")
-    @ResponseBody
-    public List<DiaChi> getDiaChi(@PathVariable("idKH") Long idKH) {
-        return diaChiService.getByID(idKH);
-    }
+//    @GetMapping("/khach-hang/dia-chi/{idKH}")
+//    @ResponseBody
+//    public List<DiaChi> getDiaChi(@PathVariable("idKH") Long idKH) {
+//        return diaChiService.getByID(idKH);
+//    }
 
 
 }

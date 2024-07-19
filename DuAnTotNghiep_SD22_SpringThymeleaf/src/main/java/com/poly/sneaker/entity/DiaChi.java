@@ -41,10 +41,10 @@ public class DiaChi {
     private String soNha;
 
     @Column(name = "moTaChiTiet")
-    private Boolean moTa;
+    private String moTaChiTiet;
 
     @Column(name = "tenNguoiNhan")
-    private Boolean tenNguoiNhan;
+    private String ten;
 
     @Column(name = "trangThai")
     private int trangThai;
