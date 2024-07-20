@@ -52,7 +52,7 @@
 
 
 </style>
-<div class="container-xxl position-relative bg-white d-flex p-0">
+<div class="flex">
     <!-- Spinner Start -->
     <div
             id="spinner"
@@ -71,11 +71,11 @@
     <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
     <!-- Sidebar End -->
     <!-- Content Start -->
-    <div class="content">
+    <div class="content flex-grow ml-64 p-4 bg-gray-200 ">
         <!-- Navbar Start -->
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
         <!-- Navbar End -->
-        <div class="container mt-5">
+        <div class="container mx-auto bg-white h-58 w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md h-88">
             <div class="text-center">
                 <span class="fw-bold fs-3 text-center">Thêm Nhân Viên</span>
             </div>
@@ -88,14 +88,14 @@
                     <br/>
                     <br/>
                     <div class="d-flex flex-column align-items-center">
-                        <div class="image-placeholder rounded-circle mb-2"
-                             style="width: 250px; height: 250px; background-color: #e9ecef; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; border-radius: 50%;"
+                        <div class="image-placeholder rounded-circle mb-2 bg-secondary "
+                             style="width: 250px; height: 250px; background-color: #484646; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; border-radius: 50%;"
                              th:style="'background-image: url(' + ${preview} + '); background-size: cover;'"
                              onclick="document.getElementById('fileInput').click();">
                             <img th:src="${preview}" alt="Preview"
                                  style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%;"/>
                             <span th:unless="${preview}"
-                                  style="font-size: 24px; color: #6c757d; cursor: pointer;">+</span>
+                                  style="font-size: 24px; color: #6c757d; cursor: pointer;"></span>
                         </div>
                         <p>
                             <input type="file" id="fileInput" name="img" class="form-control"

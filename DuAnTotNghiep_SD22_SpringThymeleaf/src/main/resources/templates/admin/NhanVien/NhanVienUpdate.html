@@ -58,7 +58,7 @@
 </head>
 
 <body>
-<div class="container-xxl position-relative bg-white d-flex p-0">
+<div class="flex">
     <!-- Spinner Start -->
     <div id="spinner"
          class="show1 bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -71,11 +71,11 @@
     <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
     <!-- Sidebar End -->
     <!-- Content Start -->
-    <div class="content">
+    <div class="content flex-grow ml-64 p-4 bg-gray-200">
         <!-- Navbar Start -->
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
         <!-- Navbar End -->
-        <div class="container mt-5">
+        <div class="container mx-auto bg-white h-58 w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md h-88">
             <div class="text-center">
                 <span class="col-md-11 fw-bold fs-3 text-center">Thông Tin Nhân Viên</span>
             </div>
@@ -89,7 +89,7 @@
                         <br/>
                         <br/>
                         <div class="d-flex flex-column align-items-center">
-                            <div class="image-placeholder rounded-circle mb-2"
+                            <div class="image-placeholder rounded-circle mb-2 bg-secondary"
                                  style="width: 250px; height: 250px; background-color: #3c3c3c; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; border-radius: 50%;"
                                  th:style="'background-image: url('+'/' + *{anh} + '); background-size: cover;'"
 
