@@ -223,18 +223,49 @@ public class NhanVienControler {
                 String extension = FilenameUtils.getExtension(img.getOriginalFilename());
                 String name = UUID.randomUUID().toString() + "." + extension;
                 saveImage(img, name); // Lưu ảnh với tên ngẫu nhiên
-                nv.setAnh("assets/image/" + name); // Thiết lập đường dẫn tương đối cho đối tượng NhanVien
+                nv.setAnh("assets/imageNV/" + name); // Thiết lập đường dẫn tương đối cho đối tượng NhanVien
             }
         } catch (Exception e) {
             e.printStackTrace();
 
         }
-        if (dc.equals("") ) {
-            nv.setDiachi("");
+        NhanVien nvid = sevice.findById(id);
+        if (nv.getDiachi()== null){
+
         }
         else {
-            nv.setDiachi(nv.getDiachi() + "," + dc);
+
+
+            String[] fruits = nvid.getDiachi().split(",");
+
+
+            if (fruits.length >= 3) {
+                StringBuilder remainingElements = new StringBuilder();
+                for (int i = 0; i < fruits.length - 3; i++) {
+                    remainingElements.append(fruits[i]);
+                    if (i < fruits.length - 4) {
+                        remainingElements.append(",");
+                    }
+                }
+
+
+                String lastThreeElements = fruits[fruits.length - 3] + ","
+                        + fruits[fruits.length - 2] + ","
+                        + fruits[fruits.length - 1];
+                if (dc.equals("") ) {
+                    nv.setDiachi(nv.getDiachi() + "," + lastThreeElements);
+                }
+                else {
+                    nv.setDiachi(nv.getDiachi() + "," + dc);
+                }
+
+            } else {
+                // Xử lý khi mảng không đủ 3 phần tử
+                System.out.println("Mảng không có đủ 3 phần tử");
+            }
         }
+
+
 
         NhanVien updatedNv = sevice.update(id, nv);
         if (updatedNv != null) {

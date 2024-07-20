@@ -82,14 +82,20 @@ function validateForm() {
     var isValid = true;
 
 
-    var dc = document.getElementById('dc').value.trim();
+    var city = document.getElementById('city').value.trim();
+    var district = document.getElementById('district').value.trim();
+    var ward = document.getElementById('ward').value.trim();
     var diachi = document.getElementById('diachi').value.trim();
 
 
-    if ( dc === '' ) {
+    if ( city === ''||district === ''|| ward === '' ||diachi === '') {
         document.getElementById('dcError').textContent = 'Vui lòng nhập đầy đủ địa chỉ';
         isValid = false;
     }
+    else {
+        document.getElementById('dcError').textContent = '';
+    }
+
     // if ( diachi === '' ) {
     //     document.getElementById('dcError').textContent = 'Vui lòng nhập đầy đủ địa chỉ';
     //     isValid = false;
@@ -98,12 +104,16 @@ function validateForm() {
     if (ten === '') {
         document.getElementById('tenError').textContent = 'Vui lòng nhập Tên';
         isValid = false;
-    } else if(ten.length < 5 || ten.length > 50)
-    {
+    } else if (ten.length < 5 || ten.length > 50) {
         document.getElementById('tenError').textContent = 'Tên phải từ 5 đến 50 ký tự';
-    }else {
+        isValid = false;
+    } else if (!/^[a-zA-ZÀ-Ỹà-ỹ ]+$/.test(ten)) {
+        document.getElementById('tenError').textContent = 'Tên phải là chữ';
+        isValid = false;
+    } else {
         document.getElementById('tenError').textContent = '';
     }
+
 
     // Validate SĐT
     if (sdt === '') {

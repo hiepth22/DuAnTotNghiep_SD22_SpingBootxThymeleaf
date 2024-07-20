@@ -82,7 +82,7 @@
             <form id="myForm" th:action="@{/admin/updateNhanVien/{id}(id=${nv.id})}" method="post"
                   class="row g-3" th:object="${nv}">
                 <input type="hidden" id="id" th:field="*{id}">
-                <div class="col-md-12 d-flex">
+                <div class="xyz col-md-12 d-flex">
                     <div class="col-md-4">
                         <h1 class="text-center fs-3">Ảnh Đại Diện</h1>
                         <br/>
@@ -90,13 +90,14 @@
                         <br/>
                         <div class="d-flex flex-column align-items-center">
                             <div class="image-placeholder rounded-circle mb-2"
-                                 style="width: 250px; height: 250px; background-color: #e9ecef; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; border-radius: 50%;"
-                                 th:style="'background-image: url(' + ${preview} + '); background-size: cover;'"
+                                 style="width: 250px; height: 250px; background-color: #3c3c3c; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; border-radius: 50%;"
+                                 th:style="'background-image: url('+'/' + *{anh} + '); background-size: cover;'"
+
                                  onclick="document.getElementById('fileInput').click();">
                                 <img th:src="${preview}" alt="Preview"
                                      style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%;"/>
                                 <span th:unless="${preview}"
-                                      style="font-size: 24px; color: #6c757d; cursor: pointer;">+</span>
+                                      style="font-size: 24px; color: #6c757d; cursor: pointer;"></span>
                             </div>
                             <p>
                                 <input type="file" id="fileInput" name="img" class="form-control"
@@ -110,18 +111,23 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <span for="ten" class="form-label">Tên</span>
-                                    <input type="text" class="form-control" id="ten" th:field="*{ten}">
+                                    <input type="text" class="form-control" id="ten" th:field="*{ten}" oninput="validateForm()">
                                     <small class="error" id="tenError"></small>
                                 </div>
                                 <div class="col-md-12">
                                     <label for="sdt" class="form-label">SĐT</label>
-                                    <input type="text" class="form-control" id="sdt" th:field="*{sdt}">
+                                    <input type="text" class="form-control" id="sdt" th:field="*{sdt}" oninput="validateForm()">
                                     <small class="error" id="sdtError"></small>
                                 </div>
                                 <div class="col-md-12">
                                     <label for="ngaySinh" class="form-label">Ngày Sinh</label>
-                                    <input type="date" class="form-control" id="ngaySinh" th:field="*{ngaySinh}">
+                                    <input type="date" class="form-control" id="ngaySinh" th:field="*{ngaySinh}" oninput="validateForm()">
                                     <small class="error" id="ngaySinhError"></small>
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="cccd" class="form-label">CCCD</label>
+                                    <input type="text" class="form-control" id="cccd" th:field="*{cccd}" oninput="validateForm()">
+                                    <small class="error" id="cccdError"></small>
                                 </div>
                                 <div class="col-md-12">
                                     <label class="form-label">Giới Tính</label><br>
@@ -146,11 +152,7 @@
                                     <input type="email" class="form-control" id="email" th:field="*{email}" disabled>
                                     <small class="error" id="emailError"></small>
                                 </div>
-                                <div class="col-md-12">
-                                    <label for="cccd" class="form-label">CCCD</label>
-                                    <input type="text" class="form-control" id="cccd" th:field="*{cccd}">
-                                    <small class="error" id="cccdError"></small>
-                                </div>
+
                                 <div class="col-md-12">
                                     <div class="abc">
                                         <div class="row">
@@ -299,19 +301,32 @@
         var email = document.getElementById('email').value.trim();
         var cccd = document.getElementById('cccd').value.trim();
         var ngaySinh = document.getElementById('ngaySinh').value.trim();
-
+        var city = document.getElementById('city').value.trim();
+        var district = document.getElementById('district').value.trim();
+        var ward = document.getElementById('ward').value.trim();
+        var diachi = document.getElementById('diachi').value.trim();
         var isValid = true;
-
+        if ( city === ''||district === ''|| ward === '' ||diachi === '') {
+            document.getElementById('dcError').textContent = 'Vui lòng nhập đầy đủ địa chỉ';
+            isValid = false;
+        }
+        else {
+            document.getElementById('dcError').textContent = '';
+        }
         // Validate Tên
         if (ten === '') {
             document.getElementById('tenError').textContent = 'Vui lòng nhập Tên';
             isValid = false;
-        } else if(ten.length < 5 || ten.length > 50) {
+        } else if (ten.length < 5 || ten.length > 50) {
             document.getElementById('tenError').textContent = 'Tên phải từ 5 đến 50 ký tự';
+            isValid = false;
+        } else if (!/^[a-zA-ZÀ-Ỹà-ỹ ]+$/.test(ten)) {
+            document.getElementById('tenError').textContent = 'Tên phải là chữ';
             isValid = false;
         } else {
             document.getElementById('tenError').textContent = '';
         }
+
 
         // Validate SĐT
         if (sdt === '') {
