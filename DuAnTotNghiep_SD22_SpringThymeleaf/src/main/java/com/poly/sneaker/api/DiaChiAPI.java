@@ -2,14 +2,15 @@ package com.poly.sneaker.api;
 
 
 import com.poly.sneaker.entity.DiaChi;
+import com.poly.sneaker.entity.KhachHang;
 import com.poly.sneaker.sevice.DiaChiService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,6 +32,21 @@ public class DiaChiAPI {
             return ResponseEntity.ok(diaChiList);
         } catch (Exception e) {
             String errorMessage = "Error retrieving addresses for customer with ID: " + id;
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        }
+    }
+    @PutMapping("/update-trang-thai/{idKh}")
+    public ResponseEntity<?> updateDiaChiStatus(@PathVariable("idKh") Long idKhachHang) {
+            System.out.println("idKh" +idKhachHang);
+            return ResponseEntity.ok(diaChiService.setDiaChi(idKhachHang));
+    }
+    @PutMapping("/update-dia-chi-mac-dinh/{id}")
+    public ResponseEntity<?> updateDiaChiMacDinh(@PathVariable("id") Long id) {
+        try {
+            diaChiService.setDiaChi2(id);
+            return ResponseEntity.ok("Đã cập nhật trạng thái địa chỉ thành công.");
+        } catch (Exception e) {
+            String errorMessage = "Error updating address status for customer with ID: " ;
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }
     }
