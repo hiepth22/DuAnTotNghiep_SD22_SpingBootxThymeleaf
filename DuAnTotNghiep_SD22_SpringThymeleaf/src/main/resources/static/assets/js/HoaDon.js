@@ -8,6 +8,8 @@ const switchTab = (tab) => {
     currentTab = tab;
     getData();
 };
+
+
 const getData = (page = 0, size = 10) => {
     $.ajax({
         url: `/api/hoa-don?tab=${currentTab}&keyword=${searchTxt}&startDate=${startDate}&endDate=${endDate}&page=${page}&size=${size}`,
