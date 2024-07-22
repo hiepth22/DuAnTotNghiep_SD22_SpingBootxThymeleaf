@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.*;
 
@@ -33,7 +34,8 @@ public class NhanVienControler {
     private NhanVienRepository repository;
 
     private final JavaMailSender emailSender;
-//    @Autowired
+
+    //    @Autowired
 //    private PasswordEncoder passwordEncoder;
     @Autowired
     public NhanVienControler(JavaMailSender emailSender) {
@@ -66,7 +68,7 @@ public class NhanVienControler {
         }
 
         List<NhanVienPhanTrang> results = sevice.loc(keyword, trangThai, vaiTro,
-                (page_index - 1) * page_size, page_size,startDate,endDate);
+                (page_index - 1) * page_size, page_size, startDate, endDate);
 
         List<NhanVien> lstNv = new ArrayList<>();
         for (NhanVienPhanTrang nv1 : results) {
@@ -104,7 +106,6 @@ public class NhanVienControler {
     }
 
 
-
     @GetMapping("/addNhanVien")
     public String NhanVienadd() {
         return "admin/NhanVien/NhanVienAdd";
@@ -114,6 +115,7 @@ public class NhanVienControler {
         String ma = String.valueOf(repository.count() + 1);
         return "NV0" + ma;
     }
+
     @PostMapping("/SaveNhanVien")
     public String addNhanVien(@ModelAttribute("nv") NhanVien nv,
                               @RequestParam(name = "dc", required = false) String dc,
@@ -131,6 +133,18 @@ public class NhanVienControler {
             model.addAttribute("errors", "Lỗi khi lưu ảnh: " + e.getMessage());
             return "admin/NhanVien/NhanVienAdd";
         }
+        List<NhanVien> nvmail = repository.findAll();
+        for (NhanVien existingNv : nvmail) {
+            if (existingNv.getEmail().equals(nv.getEmail())) {
+                model.addAttribute("errormail", "loi");
+                return "admin/NhanVien/NhanVienAdd";
+            }
+            else {
+                model.addAttribute("errormail", "oke");
+
+            }
+        }
+
 
         nv.setNgayTao(java.time.LocalDateTime.now());
         nv.setNgayCapNhat(java.time.LocalDateTime.now());
@@ -153,58 +167,56 @@ public class NhanVienControler {
 
     public void saveImage(MultipartFile file, String name) {
         String uploadDir = "./src/main/resources/static/assets/imageNV"; // Đường dẫn đầy đủ đến thư mục lưu trữ ảnh
-        String fileName = name;
+//        String uploadDir = Paths.get("src/main/resources/static/assets/imageNV").toAbsolutePath().toString();
+
         try {
-            FileUploadUtil.saveFile(uploadDir, fileName, file);
+            FileUploadUtil.saveFile(uploadDir, name, file);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
 
-
-
     @GetMapping("/UpdateNhanVien/{id}") //
     public String showEmployeeDetail(@PathVariable("id") Long id, Model model) {
         NhanVien nv = sevice.findById(id);
-        if (nv.getDiachi()== null){
-
-        }
-        else {
-
-
-        String[] fruits = nv.getDiachi().split(",");
-
-// Kiểm tra nếu mảng ít hơn 3 phần tử thì không thực hiện gì
-        if (fruits.length >= 3) {
-            // Lấy 3 phần tử cuối cùng của mảng
-            String lastThreeElements = fruits[fruits.length - 3] + ","
-                    + fruits[fruits.length - 2] + ","
-                    + fruits[fruits.length - 1];
-
-            // Lấy những phần tử còn lại
-            StringBuilder remainingElements = new StringBuilder();
-            for (int i = 0; i < fruits.length - 3; i++) {
-                remainingElements.append(fruits[i]);
-                if (i < fruits.length - 4) {
-                    remainingElements.append(",");
-                }
-            }
-
-            // In kết quả ra console
-            System.out.println("Thành phố : "  + fruits[fruits.length - 1]);
-            System.out.println("quận : "  + fruits[fruits.length - 2]);
-            System.out.println("phường : "  + fruits[fruits.length - 3]);
-            System.out.println("dcct " + remainingElements.toString());
-            model.addAttribute("thanhpho", fruits[fruits.length - 1]);
-            model.addAttribute("quan", fruits[fruits.length - 2]);
-            model.addAttribute("phuong", fruits[fruits.length - 3]);
-            model.addAttribute("dcct", remainingElements.toString());
+        if (nv.getDiachi() == null) {
 
         } else {
-            // Xử lý khi mảng không đủ 3 phần tử
-            System.out.println("Mảng không có đủ 3 phần tử");
-        }
+
+
+            String[] fruits = nv.getDiachi().split(",");
+
+// Kiểm tra nếu mảng ít hơn 3 phần tử thì không thực hiện gì
+            if (fruits.length >= 3) {
+                // Lấy 3 phần tử cuối cùng của mảng
+                String lastThreeElements = fruits[fruits.length - 3] + ","
+                        + fruits[fruits.length - 2] + ","
+                        + fruits[fruits.length - 1];
+
+                // Lấy những phần tử còn lại
+                StringBuilder remainingElements = new StringBuilder();
+                for (int i = 0; i < fruits.length - 3; i++) {
+                    remainingElements.append(fruits[i]);
+                    if (i < fruits.length - 4) {
+                        remainingElements.append(",");
+                    }
+                }
+
+                // In kết quả ra console
+                System.out.println("Thành phố : " + fruits[fruits.length - 1]);
+                System.out.println("quận : " + fruits[fruits.length - 2]);
+                System.out.println("phường : " + fruits[fruits.length - 3]);
+                System.out.println("dcct " + remainingElements.toString());
+                model.addAttribute("thanhpho", fruits[fruits.length - 1]);
+                model.addAttribute("quan", fruits[fruits.length - 2]);
+                model.addAttribute("phuong", fruits[fruits.length - 3]);
+                model.addAttribute("dcct", remainingElements.toString());
+
+            } else {
+                // Xử lý khi mảng không đủ 3 phần tử
+                System.out.println("Mảng không có đủ 3 phần tử");
+            }
         }
 
 
@@ -214,7 +226,7 @@ public class NhanVienControler {
 
     @PostMapping("/updateNhanVien/{id}")
     public String updateNhanVien(@PathVariable("id") Long id, @Valid @ModelAttribute("nv") NhanVien nv, BindingResult result
-            ,@RequestParam(name = "img", required = false) MultipartFile img, @RequestParam(name = "dc", required = false) String dc) {
+            , @RequestParam(name = "img", required = false) MultipartFile img, @RequestParam(name = "dc", required = false) String dc) {
         if (result.hasErrors()) {
             return "admin/NhanVien/NhanVienUpdate";
         }
@@ -222,20 +234,24 @@ public class NhanVienControler {
             if (!img.isEmpty()) {
                 String extension = FilenameUtils.getExtension(img.getOriginalFilename());
                 String name = UUID.randomUUID().toString() + "." + extension;
-                saveImage(img, name); // Lưu ảnh với tên ngẫu nhiên
-                nv.setAnh("assets/imageNV/" + name); // Thiết lập đường dẫn tương đối cho đối tượng NhanVien
+                saveImage(img, name);
+                nv.setAnh("assets/imageNV/" + name);
             }
         } catch (Exception e) {
             e.printStackTrace();
 
         }
+
+
         NhanVien nvid = sevice.findById(id);
-        if (nv.getDiachi()== null){
+        if (nv.getDiachi().equals("")) {
 
+        } else {
+            nv.setDiachi(nv.getDiachi() + "," + dc);
         }
-        else {
+        if (nvid.getDiachi() == null) {
 
-
+        } else {
             String[] fruits = nvid.getDiachi().split(",");
 
 
@@ -247,24 +263,19 @@ public class NhanVienControler {
                         remainingElements.append(",");
                     }
                 }
-
-
                 String lastThreeElements = fruits[fruits.length - 3] + ","
                         + fruits[fruits.length - 2] + ","
                         + fruits[fruits.length - 1];
-                if (dc.equals("") ) {
+                if (dc.equals("")) {
                     nv.setDiachi(nv.getDiachi() + "," + lastThreeElements);
-                }
-                else {
+                } else {
                     nv.setDiachi(nv.getDiachi() + "," + dc);
                 }
 
             } else {
-                // Xử lý khi mảng không đủ 3 phần tử
                 System.out.println("Mảng không có đủ 3 phần tử");
             }
         }
-
 
 
         NhanVien updatedNv = sevice.update(id, nv);
@@ -274,6 +285,7 @@ public class NhanVienControler {
             return "redirect:/admin/nhan-vien";
         }
     }
+
     @PostMapping("/nhan-vien/{id}/update")
     public ResponseEntity<String> updateTrangThaiNhanVien(@PathVariable("id") Long id, @RequestParam Integer trangThai) {
         try {
@@ -285,7 +297,6 @@ public class NhanVienControler {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Có lỗi xảy ra khi cập nhật trạng thái nhân viên");
         }
     }
-
 
 
     //-----------------------------xử lí ảnh mật khẩu và mail->
@@ -314,9 +325,6 @@ public class NhanVienControler {
 
         emailSender.send(message);
     }
-
-
-
 
 
 }
