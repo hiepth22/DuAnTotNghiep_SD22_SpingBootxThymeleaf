@@ -203,7 +203,7 @@ $(document).ready(function () {
                     </div>
                 </td>
             `);
-            tbody.append(uploadRow);
+            tbody.prepend(uploadRow);
 
             table.append(thead);
             table.append(tbody);

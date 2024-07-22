@@ -107,4 +107,8 @@ public class SanPhamChiTietService {
     public List<SanPhamChiTiet> saveToDatabase(List<SanPhamChiTiet> sanPhamChiTiets) {
         return repository.saveAll(sanPhamChiTiets);
     }
+
+    public int countBySanPhamId(Long sanPhamId) {
+        return repository.countBySanPhamId(sanPhamId);
+    }
 }
