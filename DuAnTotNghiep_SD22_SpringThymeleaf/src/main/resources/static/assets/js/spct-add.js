@@ -1,12 +1,13 @@
 $(document).ready(function () {
+    var selectedColors = []; // Khai báo biến bên ngoài hàm để sử dụng trong các hàm khác
+    var selectedSizes = [];  // Khai báo biến bên ngoài hàm để sử dụng trong các hàm khác
+
     function displaySelectedItems(items, containerId) {
         var selectedItemsContainer = $(containerId);
         selectedItemsContainer.empty();
 
         items.forEach(function (item) {
-            var itemWrapper = $(
-                '<div class="selected-item" data-id="' + item.id + '"></div>'
-            );
+            var itemWrapper = $('<div class="selected-item" data-id="' + item.id + '"></div>');
             var itemLabel = $("<label>" + item.name + "</label>");
 
             itemWrapper.append(itemLabel);
@@ -15,7 +16,7 @@ $(document).ready(function () {
     }
 
     $("#saveSizes").click(function () {
-        var selectedSizes = [];
+        selectedSizes = []; // Đặt lại mảng selectedSizes khi nhấn nút lưu kích cỡ
         $("#sizeList input:checked").each(function () {
             var sizeCheckbox = $(this);
             var sizeId = sizeCheckbox.val();
@@ -31,34 +32,32 @@ $(document).ready(function () {
         $("#sizeModal").modal("hide");
     });
 
-
     $("#saveColors").click(function () {
-        var selectedColors = [];
+        selectedColors = []; // Đặt lại mảng selectedColors khi nhấn nút lưu màu
         $("#colorList input:checked").each(function () {
             var colorCheckbox = $(this);
             var colorId = colorCheckbox.val();
-            var colorHex = colorCheckbox.data("color"); // Lấy mã màu từ thuộc tính data-color
+            var colorHex = colorCheckbox.data("color");
             selectedColors.push({
                 id: colorId,
-                color: colorHex, // Sử dụng mã màu thay vì tên
+                color: colorHex,
             });
         });
 
-        // Hiển thị màu sắc trong danh sách chọn
         var container = $("#selectedColors");
-        container.empty(); // Xóa nội dung cũ
+
+        container.empty(); // Xóa nội dung cũ trong container
 
         selectedColors.forEach(function (item) {
             var colorBox = $('<span></span>')
                 .addClass('color-box')
-                .css('background-color', item.color); // Sử dụng màu sắc từ item
+                .css('background-color', item.color);
 
             container.append(colorBox);
         });
 
         $("#colorModal").modal("hide");
     });
-
 
     function sinhMaNgauNhien() {
         const prefix = "SPCT";
@@ -79,6 +78,12 @@ $(document).ready(function () {
         }
         return ma;
     }
+    function dinhDangGia(gia) {
+        if (isNaN(gia)) {
+            return "";
+        }
+        return Number(gia).toLocaleString('vi-VN') + ' VNĐ';
+    }
 
     $(".create-product-btn").click(function () {
         const sanPhamId = $("#sanPham").val();
@@ -88,36 +93,9 @@ $(document).ready(function () {
         const nhaSanXuatId = $("#nhaSanXuat").val();
         const moTa = $("#moTa").val();
 
-        if (!sanPhamId || !coGiayId || !deGiayId || !chatLieuId || !nhaSanXuatId) {
-            alert("Vui lòng chọn đầy đủ thuộc tính.");
-            return;
-        }
-
-        const selectedColors = $("#selectedColors .selected-item")
-            .map(function () {
-                return {
-                    id: $(this).data("id"),
-                    name: $(this).find("label").text(),
-                };
-            })
-            .get();
-
-        const selectedSizes = $("#selectedSizes .selected-item")
-            .map(function () {
-                return {
-                    id: $(this).data("id"),
-                    name: $(this).find("label").text(),
-                };
-            })
-            .get();
-
-        if (selectedColors.length === 0 || selectedSizes.length === 0) {
-            alert("Vui lòng chọn ít nhất một màu sắc và một kích cỡ.");
-            return;
-        }
-
         const usedMa = [];
         const chiTietSanPhams = [];
+
         selectedColors.forEach((mauSac) => {
             selectedSizes.forEach((kichCo) => {
                 const ma = sinhMaDuyNhat(usedMa);
@@ -135,7 +113,7 @@ $(document).ready(function () {
                     chatLieu: { id: chatLieuId },
                     nhaSanXuat: { id: nhaSanXuatId },
                     moTa: moTa,
-                    mauSac: { id: mauSac.id, name: mauSac.name },
+                    mauSac: { id: mauSac.id, color: mauSac.color },
                     kichCo: { id: kichCo.id, name: kichCo.name },
                     ngayTao: new Date().toISOString(),
                     ngayCapNhat: "",
@@ -151,8 +129,6 @@ $(document).ready(function () {
             });
         });
 
-
-
         const colorGroups = chiTietSanPhams.reduce((groups, product) => {
             const { mauSac } = product;
             if (!groups[mauSac.id]) {
@@ -162,40 +138,37 @@ $(document).ready(function () {
             return groups;
         }, {});
 
-
         const productDetailsContainer = $("#productDetails");
         productDetailsContainer.empty();
 
         Object.entries(colorGroups).forEach(([mauSacId, products]) => {
             const tenMauBienThe = products[0].mauSac.name;
-            const colorTitle = $('<h5 class="mt-3"></h5>').text(
-                `Danh sách sản phẩm có màu ${tenMauBienThe}`
-            );
+            const colorTitle = $('<h5 class="mt-3"></h5>').text(`Danh sách sản phẩm có màu ${tenMauBienThe}`);
             const tableWrapper = $('<div class="table-wrapper"></div>');
             const table = $('<table class="table table-bordered"></table>');
             const thead = $("<thead></thead>").html(`
-        <tr>
-            <th scope="col" style="width: 20%">Tên sản phẩm</th>
-            <th scope="col" style="width: 15%">Màu</th>
-            <th scope="col" style="width: 15%">Kích cỡ</th>
-            <th scope="col" style="width: 15%">Cân nặng</th>
-            <th scope="col" style="width: 15%">Giá bán</th>
-            <th scope="col" style="width: 15%">Số lượng</th>
-            <th scope="col" style="width: 10%">Action</th>
-        </tr>
-    `);
+                <tr>
+                    <th scope="col" style="width: 20%">Tên sản phẩm</th>
+                    <th scope="col" style="width: 15%">Màu</th>
+                    <th scope="col" style="width: 15%">Kích cỡ</th>
+                    <th scope="col" style="width: 15%">Cân nặng</th>
+                    <th scope="col" style="width: 15%">Giá bán</th>
+                    <th scope="col" style="width: 15%">Số lượng</th>
+                    <th scope="col" style="width: 10%">Action</th>
+                </tr>
+            `);
             const tbody = $("<tbody></tbody>");
 
             products.forEach((product) => {
                 const row = $("<tr></tr>").html(`
-            <td>${product.sanPham.name}</td>
-            <td>${product.mauSac.name}</td>
-            <td>${product.kichCo.name}</td>
-            <td><input type="text" value="${product.canNang}" class="form-control" style="width: 80px;"></td>
-            <td><input type="text" value="${product.giaBan}" class="form-control" style="width: 120px;"></td>
-            <td><input type="text" value="${product.soLuong}" class="form-control" style="width: 60px;"></td>
-            <td><a class="delete-product"><i class="fa fa-trash"></i></a></td>
-        `);
+                    <td>${product.sanPham.name}</td>
+                    <td><span class="color-box" style="background-color: ${product.mauSac.color};"></span></td>
+                    <td>${product.kichCo.name}</td>
+                    <td><input type="text" value="${product.canNang}" class="form-control" style="width: 80px;"></td>
+                    <td><input type="text" value="${dinhDangGia(product.giaBan)}" class="form-control" style="width: 150px;"></td>
+                    <td><input type="text" value="${product.soLuong}" class="form-control" style="width: 60px;"></td>
+                    <td><a class="delete-product"><i class="fa fa-trash"></i></a></td>
+                `);
                 tbody.append(row);
             });
 
@@ -232,7 +205,8 @@ $(document).ready(function () {
                         products[index].canNang = value;
                         break;
                     case 4:
-                        products[index].giaBan = value;
+                        products[index].giaBan = value.replace(/\D/g, '');
+                        input.val(dinhDangGia(products[index].giaBan));
                         break;
                     case 5:
                         products[index].soLuong = value;
@@ -242,30 +216,26 @@ $(document).ready(function () {
                 }
             });
 
-
             tableWrapper.find(`#file-upload-${mauSacId}`).on("change", function () {
                 var files = $(this).get(0).files;
                 var preview = $(this).closest('.table-wrapper').find(`#preview-${mauSacId}`);
                 var fileArray = Array.from(files);
 
-                    fileArray.forEach((file, index) => {
-                        var reader = new FileReader();
-                        reader.onload = function (e) {
-                            var imagePreview = $(
-                                '<div class="image-preview">' +
-                                '<img src="' + e.target.result + '" alt="' + file.name + '">' +
-                                '<p>' + file.name + '</p>' +
-                                '</div>'
-                            );
-                            preview.append(imagePreview);
-                        };
-                        reader.readAsDataURL(file);
-                    });
+                fileArray.forEach((file, index) => {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        var image = $('<img>').attr('src', e.target.result).addClass('preview-img');
+                        preview.append(image);
+                    };
+                    reader.readAsDataURL(file);
+                });
             });
         });
 
 
-        const saveButton = $('<button class="btn btn-success mt-3 mb-4">Lưu</button>');
+
+const saveButton = $('<button class="btn btn-success mt-3 mb-4">Lưu</button>');
         saveButton.click(function () {
 
             const jsonFormatted = JSON.stringify(chiTietSanPhams);
