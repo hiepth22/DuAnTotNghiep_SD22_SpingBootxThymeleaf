@@ -1,5 +1,6 @@
 package com.poly.sneaker.controller.SanPham;
 
+import com.poly.sneaker.dto.SanPhamDTO;
 import com.poly.sneaker.entity.ChatLieu;
 import com.poly.sneaker.entity.CoGiay;
 import com.poly.sneaker.entity.DeGiay;
@@ -17,18 +18,16 @@ import com.poly.sneaker.sevice.NhaSanXuatService;
 import com.poly.sneaker.sevice.SanPhamChiTietService;
 import com.poly.sneaker.sevice.SanPhamService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.PrivateKey;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -63,15 +62,20 @@ public class SanPhamController {
     private KichCoService kichCoService;
 
     @GetMapping("/san-pham")
-    public String hienThiSanPham(Model model,
-                                 @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo) {
-        Page<SanPham> sanPhams = service.pagination(pageNo);
-        model.addAttribute("totalPage", sanPhams.getTotalPages());
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("sanPhams", sanPhams.getContent());
+    public String hienThiSanPham(Model model) {
+        List<SanPham> sanPhams = sanPhamService.getAll();
+        List<SanPhamDTO> sanPhamDTOs = new ArrayList<>();
 
+        for (SanPham sanPham : sanPhams) {
+            int soLuongChiTiet = SPCTservice.countBySanPhamId(sanPham.getId());
+            SanPhamDTO dto = new SanPhamDTO(sanPham.getId(), sanPham.getTen(), sanPham.getThuongHieu().getTen(), soLuongChiTiet, sanPham.getTrangThai());
+            sanPhamDTOs.add(dto);
+        }
+
+        model.addAttribute("sanPhams", sanPhamDTOs);
         return "/admin/SanPham/sanPhamPage";
     }
+
 
 
     @GetMapping("/san-pham/{sanPhamId}")

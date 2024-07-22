@@ -1,37 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
-<div th:replace="~{admin/fragments/head :: head}"></div>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-<link rel="icon" type="image/svg+xml" href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
-<title>Thêm Mới Phiếu Giảm Giá</title>
+<head>
+    <div th:replace="~{admin/fragments/head :: head}"></div>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
+    <title>Thêm Mới Phiếu Giảm Giá</title>
+</head>
 <body>
 <div class="container-xxl position-relative bg-white d-flex p-0">
     <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
-    <!-- Sidebar End -->
-    <!-- Content Start -->
     <div class="content">
-        <!-- Navbar Start -->
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
         <div class="container mt-5">
             <div class="p-3 mb-2 bg-info text-dark rounded">
                 <h6 class="card-title m-0"> Thêm Mới Phiếu Giảm Giá</h6>
             </div>
             <div class="card-body">
-                <form th:action="@{/admin/SavePhieuGiamGia}" method="post" th:object="${phieuGiamGia}" id="myForm">
+                <form id="myForm">
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-6">
-
                                     <div class="mb-3">
-                                        <label class="form-label">Mã Phiếu:</label>
-                                        <input type="text"
-                                               placeholder="Nhập mã phiếu"
-                                               name="ma" th:field="*{ma}"
-                                               class="form-control"
-                                               oninput="validateForm()">
-                                        <div class="invalid-feedback">Vui lòng nhập mã</div>
+                                        <label for="ma" class="form-label">Mã Giảm Giá:</label>
+                                        <input type="text" id="ma" name="ten" class="form-control" placeholder="Nhập Mã Phiếu Giảm Giá" >
+                                        <div id="maError" class="invalid-feedback"></div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="ten" class="form-label">Tên Phiếu Giảm Giá:</label>
@@ -40,14 +34,14 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Số Lượng:</label>
-                                        <input type="text" placeholder="Nhập số lượng" name="soLuong" th:field="*{soLuong}" class="form-control" oninput="validateForm()">
+                                        <input type="text" placeholder="Nhập số lượng" name="soLuong" class="form-control" oninput="validateForm()">
                                         <div class="invalid-feedback">Vui lòng nhập số lượng</div>
                                     </div>
                                     <div class="form-group">
                                         <div class="d-flex align-items-center">
                                             <div class="lg:col-span-4">
                                                 <label class="font-semibold">Hình Thức Giảm:</label>
-                                                <select th:field="*{hinhThucGiam}" class="form-select form-input mt-2 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0">
+                                                <select name="hinhThucGiam" class="form-select form-input mt-2 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0">
                                                     <option value="0">Tiền mặt</option>
                                                     <option value="1">Phần trăm</option>
                                                 </select>
@@ -57,7 +51,7 @@
                                     <div class="form-group">
                                         <label class="form-label">Đơn Tối Thiểu:</label>
                                         <div class="input-with-unit" data-unit="VND">
-                                            <input type="number" placeholder="Nhập đơn tối thiểu ...." name="donToiThieu" th:field="*{donToiThieu}" class="form-control" oninput="validateForm()">
+                                            <input type="number" placeholder="Nhập đơn tối thiểu ...." name="donToiThieu" class="form-control" oninput="validateForm()">
                                         </div>
                                         <div class="invalid-feedback">Vui lòng nhập đơn tối thiểu</div>
                                     </div>
@@ -65,24 +59,24 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">Giá Trị Giảm:</label>
-                                        <input type="number" placeholder="Nhập giá trị giảm" name="giaTriGiam" class="form-control" th:field="*{giaTriGiam}" oninput="validateForm()">
+                                        <input type="number" placeholder="Nhập giá trị giảm" name="giaTriGiam" class="form-control" oninput="validateForm()">
                                         <div class="invalid-feedback">Vui lòng nhập giá trị giảm</div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Giảm Tối Đa:</label>
-                                        <input type="text" placeholder="Nhập giảm tối đa" name="giamToiDa" class="form-control" th:field="*{giamToiDa}" oninput="validateForm()">
+                                        <input type="text" placeholder="Nhập giảm tối đa" name="giamToiDa" class="form-control" oninput="validateForm()">
                                         <div class="invalid-feedback">Vui lòng nhập giá trị giảm tối đa</div>
                                     </div>
                                     <div class="form-group">
                                         <label class="font-semibold">Ngày Bắt Đầu:</label>
                                         <span class="input-wrapper">
-                                            <input type="date" th:field="*{ngayBatDau}" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" oninput="validateForm()" th:value="${#dates.format(ngayBatDau, 'dd-MM-yyyy')}">
+                                            <input type="date" name="ngayBatDau" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" oninput="validateForm()">
                                         </span>
                                     </div>
                                     <div class="form-group">
                                         <label class="font-semibold">Ngày Kết Thúc:</label>
                                         <span class="input-wrapper">
-                                            <input type="date" th:field="*{ngayKetThuc}" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" th:value="${#dates.format(ngayKetThuc, 'dd-MM-yyyy')}" oninput="validateForm()">
+                                            <input type="date" name="ngayKetThuc" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" oninput="validateForm()">
                                         </span>
                                     </div>
                                 </div>
@@ -90,22 +84,145 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary me-2" id="confirmButton">Save</button>
+                        <button type="button" class="btn btn-primary me-2" id="confirmButton">Save</button>
                         <a th:href="@{/admin/phieu-giam-gia}" class="btn btn-secondary">Close</a>
                     </div>
                 </form>
             </div>
         </div>
+
     </div>
 </div>
-
-
-<script th:src="@{/assets/js/PhieuGiamGiaAdd.js}"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    document.getElementById('confirmButton').addEventListener('click', function(event) {
+        if (validateForm()) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn thêm phiếu giảm giá mới?',
+                text: "Bạn không thể hoàn tác hành động này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Vâng, tiếp tục!',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Đã xác nhận!',
+                        'Bạn đã thêm 1 phiếu giảm giá mới.',
+                        'success'
+                    ).then(() => {
+                        add(); // Gọi hàm để xử lý việc gửi form
+                    });
+                } else {
+                    Swal.fire(
+                        'Đã hủy!',
+                        'Hành động của bạn đã bị hủy.',
+                        'error'
+                    );
+                }
+            });
+        } else {
+            event.preventDefault();
+        }
+    });
+
+    function add() {
+        const form = document.getElementById('myForm');
+        axios.post('/admin/SavePhieuGiamGia', new FormData(form))
+            .then(function(response) {
+                showSuccessMessage();
+                prependNewRecord(response.data); // Thêm bản ghi mới vào đầu danh sách
+            })
+            .catch(function(error) {
+                console.error('Error:', error);
+            });
+    }
+
+    function showSuccessMessage() {
+        const notification = document.getElementById('notification');
+        notification.style.display = 'block';
+        const progressBar = document.getElementById('progress-bar');
+        progressBar.style.width = '0';
+        setTimeout(function() {
+            progressBar.style.width = '100%';
+        }, 2000);
+
+        setTimeout(function() {
+            notification.style.display = 'none';
+        }, 3000);
+    }
+
+
+
+    function validateForm() {
+        let isValid = true;
+        const ten = document.getElementById('ten');
+        const soLuong = document.querySelector('input[name="soLuong"]');
+        const donToiThieu = document.querySelector('input[name="donToiThieu"]');
+        const giaTriGiam = document.querySelector('input[name="giaTriGiam"]');
+        const giamToiDa = document.querySelector('input[name="giamToiDa"]');
+        const ngayBatDau = document.querySelector('input[name="ngayBatDau"]');
+        const ngayKetThuc = document.querySelector('input[name="ngayKetThuc"]');
+
+        if (ten.value.trim() === '') {
+            ten.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            ten.classList.remove('is-invalid');
+        }
+
+        if (soLuong.value.trim() === '') {
+            soLuong.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            soLuong.classList.remove('is-invalid');
+        }
+
+        if (donToiThieu.value.trim() === '') {
+            donToiThieu.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            donToiThieu.classList.remove('is-invalid');
+        }
+
+        if (giaTriGiam.value.trim() === '') {
+            giaTriGiam.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            giaTriGiam.classList.remove('is-invalid');
+        }
+
+        if (giamToiDa.value.trim() === '') {
+            giamToiDa.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            giamToiDa.classList.remove('is-invalid');
+        }
+
+        if (ngayBatDau.value.trim() === '') {
+            ngayBatDau.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            ngayBatDau.classList.remove('is-invalid');
+        }
+
+        if (ngayKetThuc.value.trim() === '') {
+            ngayKetThuc.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            ngayKetThuc.classList.remove('is-invalid');
+        }
+
+        return isValid;
+    }
+</script>
 
 </body>
 </html>

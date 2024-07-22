@@ -4,6 +4,7 @@ package com.poly.sneaker.repository;
 import com.poly.sneaker.dto.KhachHangDTO;
 import com.poly.sneaker.dto.NhanVienPhanTrang;
 
+import com.poly.sneaker.entity.HoaDon;
 import com.poly.sneaker.entity.KhachHang;
 import com.poly.sneaker.entity.PhieuGiamGia;
 import org.springframework.data.domain.Page;
@@ -34,7 +35,8 @@ public interface PhieuGiamGiaRepository extends JpaRepository<PhieuGiamGia, Long
 //                                    @Param("pageIndex") Integer pageIndex,
 //                                    @Param("pageSize") Integer pageSize);
     List<PhieuGiamGia> findByTrangThai(int tt);
-
+    @Query(value = "select * from phieu_giam_gia ORDER BY id DESC", nativeQuery = true)
+    List<PhieuGiamGia> findAllDesc();
 
 
 

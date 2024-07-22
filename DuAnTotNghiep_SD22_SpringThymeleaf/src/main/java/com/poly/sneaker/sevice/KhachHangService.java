@@ -61,11 +61,14 @@ public class KhachHangService {
             kh.setTrangThai(tt);
             return khachHangRepository.save(kh);
         } else {
-            throw new RuntimeException("Không tìm thấy nhân viên với ID: " + id);
+            throw new RuntimeException("Không tìm thấy khách hàng với ID: " + id);
         }
     }
     public Boolean existsById(Long id) {
         return khachHangRepository.existsById(id);
+    }
+    public Boolean trangthai(int tt) {
+        return khachHangRepository.findByTrangThai(tt).size() > 0;
     }
 
     public List<KhachHang> search(String keyword) {

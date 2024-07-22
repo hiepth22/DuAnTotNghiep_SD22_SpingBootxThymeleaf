@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,14 +21,11 @@ public class AnhService {
     @Autowired
     private AnhRepository repository;
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
-
     public List<Anh> getAll() {
         return repository.findAll();
     }
 
-    public Anh add(Anh anh) {
+    public Anh save(Anh anh) {
         return repository.save(anh);
     }
 

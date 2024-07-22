@@ -25,10 +25,11 @@
         <!-- Navbar Start -->
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
         <!-- Navbar End -->
-        <h1 class="text-center mb-4" style="font-size: 2em">Danh Sách Phiếu Giảm Giá</h1>
+        <h1 class="text-3xl font-bold flex justify-items-start" style="font-size: 2em ">Danh Sách Phiếu Giảm Giá</h1>
 
         <div class="container mt-5">
             <div class="container mx-auto bg-white h-58 w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md h-88">
+                <h2 class="text-3xl font-bold flex justify-items-start"  > Bộ lọc: </h2>
                 <form method="get" class="mt-3 mb-3" id="searchForm">
 <!--                    <div class="input-group mb-3">-->
 <!--                        <input type="text" id="searchInput" name="keyword" class="form-control"-->
@@ -122,11 +123,15 @@
                         <td th:text="${#numbers.formatDecimal(phieugiamgia.giamToiDa, 1, 'COMMA', 0, 'POINT')} + ' VND'"></td>
                         <td th:text="${phieugiamgia.ngayBatDau}"></td>
                         <td th:text="${phieugiamgia.ngayKetThuc}"></td>
-                        <td>
-                            <span th:if="${phieugiamgia.trangThai == 0}" class="badge bg-success">Hoạt động</span>
-                            <span th:if="${phieugiamgia.trangThai == 1}" class="badge bg-danger">Ngừng hoạt động</span>
-                            <span th:if="${phieugiamgia.trangThai == 2}" class="badge bg-warning">Chưa diễn ra</span>
-                        </td>
+<td>
+                                <span th:if="${phieugiamgia.trangThai == 0}" class="badge bg-success">Hoạt động</span>
+                                <span th:if="${phieugiamgia.trangThai == 1}" class="badge bg-danger">Ngừng hoạt động</span>
+                                <span th:if="${phieugiamgia.trangThai == 2}" class="badge bg-warning">Chưa diễn ra</span>
+
+</td>
+
+
+
                         <td>
                             <a th:href="@{/admin/UpdatePhieuGiamGia/{id}(id=${phieugiamgia.id})}" class="btn btn-outline-success" style="background-color: #28a745">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16" style="color: #f0f0f0">
@@ -173,20 +178,7 @@
                 "infoEmpty": "Không có dữ liệu",
                 "infoFiltered": "(lọc từ tổng số _MAX_ bản ghi)"
             },
-            "columnDefs": [
-                { "width": "5%", "targets": 0 },   // STT
-                { "width": "10%", "targets": 1 },  // Mã
-                { "width": "15%", "targets": 2 },  // Tên
-                { "width": "10%", "targets": 3 },  // Số Lượng
-                { "width": "10%", "targets": 4 },  // Hình Thức Giảm
-                { "width": "10%", "targets": 5 },  // Đơn Tối Thiểu
-                { "width": "10%", "targets": 6 },  // Giá Trị Giảm
-                { "width": "10%", "targets": 7 },  // Giảm Tối Đa
-                { "width": "10%", "targets": 8 },  // Ngày Bắt Đầu
-                { "width": "10%", "targets": 9 },  // Ngày Kết Thúc
-                { "width": "10%", "targets": 10 }, // Trạng Thái
-                { "width": "10%", "targets": 11 }  // Hành Động
-            ]
+
         });
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -207,7 +199,7 @@
                     status = "Hoạt động";
                 }
 
-                document.getElementById("trangThai").value = status;
+                 document.getElementById("trangThai").innerText= status;
             }
 
             document.getElementById("ngayBatDau").addEventListener("change", updateStatus);
