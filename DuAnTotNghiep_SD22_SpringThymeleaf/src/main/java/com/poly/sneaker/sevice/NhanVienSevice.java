@@ -46,11 +46,15 @@ public class NhanVienSevice {
             } else {
                 o.setAnh(newnv.getAnh());
             }
+            if (newnv.getDiachi().equals("")) {
 
+            } else {
+                o.setDiachi(newnv.getDiachi());
+            }
             o.setCccd(newnv.getCccd());
 //            o.setEmail(newnv.getEmail());
             o.setGioiTinh(newnv.getGioiTinh());
-            o.setDiachi(newnv.getDiachi());
+//            o.setDiachi(newnv.getDiachi());
             o.setNgaySinh(newnv.getNgaySinh());
             o.setSdt(newnv.getSdt());
             o.setVaiTro(newnv.getVaiTro());

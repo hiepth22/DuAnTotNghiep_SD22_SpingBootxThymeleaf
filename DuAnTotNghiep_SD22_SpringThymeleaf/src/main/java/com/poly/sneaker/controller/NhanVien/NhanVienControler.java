@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,7 +33,8 @@ public class NhanVienControler {
     private NhanVienRepository repository;
 
     private final JavaMailSender emailSender;
-
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
     @Autowired
     public NhanVienControler(JavaMailSender emailSender) {
         this.emailSender = emailSender;
@@ -134,7 +136,8 @@ public class NhanVienControler {
         nv.setNgayCapNhat(java.time.LocalDateTime.now());
         nv.setTrangThai(1);
         String newPassword = generateRandomPassword();
-        nv.setMatKhau(newPassword);
+//        String encodedPassword = passwordEncoder.encode(newPassword);
+//        nv.setMatKhau(encodedPassword);
         sendPasswordEmail(nv.getEmail(), nv.getMatKhau());
         nv.setMa(generateMaNhanVien());
 
@@ -164,19 +167,54 @@ public class NhanVienControler {
     @GetMapping("/UpdateNhanVien/{id}") //
     public String showEmployeeDetail(@PathVariable("id") Long id, Model model) {
         NhanVien nv = sevice.findById(id);
-//        String[] fruits = nv.getDiachi().split(",");
-//        String dcct = fruits[0];
-//        String Phuong =  fruits[1];
-//        String quan =  fruits[2];
-//        String tp =  fruits[3];
-//        System.out.println(dcct);
+        if (nv.getDiachi()== null){
+
+        }
+        else {
+
+
+        String[] fruits = nv.getDiachi().split(",");
+
+// Kiểm tra nếu mảng ít hơn 3 phần tử thì không thực hiện gì
+        if (fruits.length >= 3) {
+            // Lấy 3 phần tử cuối cùng của mảng
+            String lastThreeElements = fruits[fruits.length - 3] + ","
+                    + fruits[fruits.length - 2] + ","
+                    + fruits[fruits.length - 1];
+
+            // Lấy những phần tử còn lại
+            StringBuilder remainingElements = new StringBuilder();
+            for (int i = 0; i < fruits.length - 3; i++) {
+                remainingElements.append(fruits[i]);
+                if (i < fruits.length - 4) {
+                    remainingElements.append(",");
+                }
+            }
+
+            // In kết quả ra console
+            System.out.println("Thành phố : "  + fruits[fruits.length - 1]);
+            System.out.println("quận : "  + fruits[fruits.length - 2]);
+            System.out.println("phường : "  + fruits[fruits.length - 3]);
+            System.out.println("dcct " + remainingElements.toString());
+            model.addAttribute("thanhpho", fruits[fruits.length - 1]);
+            model.addAttribute("quan", fruits[fruits.length - 2]);
+            model.addAttribute("phuong", fruits[fruits.length - 3]);
+            model.addAttribute("dcct", remainingElements.toString());
+
+        } else {
+            // Xử lý khi mảng không đủ 3 phần tử
+            System.out.println("Mảng không có đủ 3 phần tử");
+        }
+        }
+
+
         model.addAttribute("nv", nv);
         return "admin/NhanVien/NhanVienUpdate";
     }
 
     @PostMapping("/updateNhanVien/{id}")
     public String updateNhanVien(@PathVariable("id") Long id, @Valid @ModelAttribute("nv") NhanVien nv, BindingResult result
-            ,@RequestParam(name = "img", required = false) MultipartFile img) {
+            ,@RequestParam(name = "img", required = false) MultipartFile img, @RequestParam(name = "dc", required = false) String dc) {
         if (result.hasErrors()) {
             return "admin/NhanVien/NhanVienUpdate";
         }
@@ -185,12 +223,48 @@ public class NhanVienControler {
                 String extension = FilenameUtils.getExtension(img.getOriginalFilename());
                 String name = UUID.randomUUID().toString() + "." + extension;
                 saveImage(img, name); // Lưu ảnh với tên ngẫu nhiên
-                nv.setAnh("assets/image/" + name); // Thiết lập đường dẫn tương đối cho đối tượng NhanVien
+                nv.setAnh("assets/imageNV/" + name); // Thiết lập đường dẫn tương đối cho đối tượng NhanVien
             }
         } catch (Exception e) {
             e.printStackTrace();
 
         }
+        NhanVien nvid = sevice.findById(id);
+        if (nv.getDiachi()== null){
+
+        }
+        else {
+
+
+            String[] fruits = nvid.getDiachi().split(",");
+
+
+            if (fruits.length >= 3) {
+                StringBuilder remainingElements = new StringBuilder();
+                for (int i = 0; i < fruits.length - 3; i++) {
+                    remainingElements.append(fruits[i]);
+                    if (i < fruits.length - 4) {
+                        remainingElements.append(",");
+                    }
+                }
+
+
+                String lastThreeElements = fruits[fruits.length - 3] + ","
+                        + fruits[fruits.length - 2] + ","
+                        + fruits[fruits.length - 1];
+                if (dc.equals("") ) {
+                    nv.setDiachi(nv.getDiachi() + "," + lastThreeElements);
+                }
+                else {
+                    nv.setDiachi(nv.getDiachi() + "," + dc);
+                }
+
+            } else {
+                // Xử lý khi mảng không đủ 3 phần tử
+                System.out.println("Mảng không có đủ 3 phần tử");
+            }
+        }
+
 
 
         NhanVien updatedNv = sevice.update(id, nv);
