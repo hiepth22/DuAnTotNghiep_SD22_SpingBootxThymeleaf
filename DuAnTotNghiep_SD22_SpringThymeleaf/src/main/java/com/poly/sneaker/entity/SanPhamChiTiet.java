@@ -18,8 +18,10 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 @Entity
@@ -93,4 +95,20 @@ public class SanPhamChiTiet {
     private Date ngayTao;
 
     private Date ngayCapNhat;
+
+    public String getFormattedGiaBan() {
+        if (giaBan == null) {
+            return "Chưa có giá";
+        }
+        NumberFormat formatter = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
+        return formatter.format(giaBan) + " VNĐ";
+    }
+
+    public String getFormattedCanNang() {
+        if (canNang == null) {
+            return "Chưa có cân nặng";
+        }
+        NumberFormat formatter = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
+        return formatter.format(canNang) + "g";
+    }
 }
