@@ -25,9 +25,6 @@
         <!-- Navbar Start -->
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
         <!-- Navbar End -->
-        <div class="container mx-auto bg-white h-20 w-[98%] mb-4">
-            <div class="mt-3"></div>
-        </div>
         <div class="form-container">
             <h2 class="form-title">Thêm mới sản phẩm</h2>
             <form th:action="@{/admin/san-pham-chi-tiet/add}" method="post">
@@ -106,11 +103,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- List of colors with checkboxes -->
                     <div id="colorList" th:each="mauSac : ${mauSacs}">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" th:value="${mauSac.id}">
-                            <label class="form-check-label" th:text="${mauSac.ten}"></label>
+                            <input class="form-check-input" type="checkbox"
+                                   th:value="${mauSac.id}"
+                                   th:data-color="${mauSac.ten}">
+                            <label class="form-check-label color-container">
+                                <span class="color-box" th:style="'background-color: ' + ${mauSac.ten}"></span>
+                            </label>
                         </div>
                     </div>
                 </div>

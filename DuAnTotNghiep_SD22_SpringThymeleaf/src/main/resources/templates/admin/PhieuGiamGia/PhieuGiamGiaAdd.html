@@ -24,7 +24,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="ma" class="form-label">Mã Giảm Giá:</label>
-                                        <input type="text" id="ma" name="ten" class="form-control" placeholder="Nhập Mã Phiếu Giảm Giá" >
+                                        <input type="text" id="ma" name="ma" class="form-control" placeholder="Nhập Mã Phiếu Giảm Giá" >
                                         <div id="maError" class="invalid-feedback"></div>
                                     </div>
                                     <div class="mb-3">
@@ -101,6 +101,11 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     document.getElementById('confirmButton').addEventListener('click', function(event) {
+        const ma = document.getElementById('ma');
+        if (ma.value.trim() === '') {
+            ma.value = generateRandomCode();
+        }
+
         if (validateForm()) {
             Swal.fire({
                 title: 'Bạn có chắc chắn thêm phiếu giảm giá mới?',
@@ -133,6 +138,15 @@
         }
     });
 
+    function generateRandomCode() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let code = '';
+        for (let i = 0; i < 8; i++) {
+            code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return code;
+    }
+
     function add() {
         const form = document.getElementById('myForm');
         axios.post('/admin/SavePhieuGiamGia', new FormData(form))
@@ -158,8 +172,6 @@
             notification.style.display = 'none';
         }, 3000);
     }
-
-
 
     function validateForm() {
         let isValid = true;

@@ -54,9 +54,6 @@ $(document).ready(function () {
             </div>
         `);
 
-        // $('#formThayDoiThongTin').html(`
-        //
-        // `);
     }
 
     function hienThiDanhSachSP(hdctList) {
@@ -87,7 +84,7 @@ $(document).ready(function () {
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">${formatVND(tongTienSP)}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="bg-green-500 rounded-lg text-white">${trangThaiSanPham(item.trangThai)}</span>
+                    <span class="bg-green-500 rounded-lg text-white px-4 py-2">${trangThaiSanPham(item.trangThai)}</span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                     <button class="deleteSP" data-id="${item.id}" id="xoaSP-${item.id}">
@@ -253,7 +250,7 @@ $(document).ready(function () {
 
                 hienThiTongTienChiTiet(tongTien, hd);
 
-                getDanhSachSanPham(0, 3);
+                getDanhSachSanPham(0, 5);
 
                 getPhuongThucThanhToan(tongTien);
 
@@ -338,12 +335,16 @@ $(document).ready(function () {
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap">1</td>
                     <td class="px-6 py-4 whitespace-nowrap">${formatVND(tongTien)}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${result.trangThai}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${trangThaiThanhToan(result.trangThai)}</td>
                     <td class="px-6 py-4 whitespace-nowrap">${formatDate(result.ngayTao)}</td>
-                    <td class="px-6 py-4 whitespace-nowrap"><span class="status bg-red-500 text-white rounded-lg ">${loaiThanhToan(result.loaiThanhToan)}</span></td>
-                    <td class="px-6 py-4 whitespace-nowrap"><span class="status bg-green-500 text-white rounded-lg mt-5 ">${result.tenThanhToan}</span></td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                    ${loaiThanhToan(result.loaiThanhToan)}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="status bg-green-500 text-white rounded-lg px-4 py-2">${result.tenThanhToan}</span>
+                    </td>
                     <td class="px-6 py-4 whitespace-nowrap">${result.ghiChu}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${result.nguoiCapNhat}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${result.nguoiTao}</td>
                 </tr>`;
 
                     $("#lichSuThanhToan").html(list);
@@ -366,13 +367,13 @@ $(document).ready(function () {
         <tr>
             <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
             <td class="px-6 py-4 whitespace-nowrap font-bold">
-                <h1>${item.sanPhamChiTiet.sanPham.ten}</h1>
+                <h1>${item.sanPhamChiTiet.ten}</h1>
             </td>
             <td class="px-6 py-4 whitespace-nowrap font-bold">
                 <h1>${item.soLuong}</h1>
             </td>
             <td class="px-6 py-4 whitespace-nowrap font-bold">
-                <h1>${item.sanPhamChiTiet.giaBan}</h1>
+                <h1>${formatVND(item.sanPhamChiTiet.giaBan)}</h1>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">${formatVND(item.soLuong * item.sanPhamChiTiet.giaBan)}</td>
         </tr>`;
@@ -461,19 +462,19 @@ $(document).ready(function () {
                             <img src="https://res.cloudinary.com/deapopcoc/image/upload/${result.content[i].anh.ten}" alt="Ảnh" class="w-16 h-auto">
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap font-bold">
-                            <h1>${result.content[i].sanPham.ten}</h1>
+                            <h1>${result.content[i].ten}</h1>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">${formatVND(result.content[i].giaBan)}</td>
                         <td class="px-6 py-4 whitespace-nowrap">${result.content[i].soLuong}</td>
                         <td class="px-6 py-4 whitespace-nowrap">${result.content[i].kichCo.ten}</td>
                         <td>
-                            <div class="color-container rounded-lg ml-5" style="background-color: ${result.content[i].mauSac.ten}; width: 50px; height: 20px;"></div>
+                            <div class="color-container rounded-lg ml-5 border-3" style="background-color: ${result.content[i].mauSac.ten}; width: 50px; height: 20px;"></div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="bg-green-500 rounded-lg text-white">${trangThaiSanPham(result.content[i].trangThai)}</span>
+                            <span class="bg-green-500 rounded-lg text-white px-2 py-1">${trangThaiSanPham(result.content[i].trangThai)}</span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                           <button class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-4 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm
+                           <button class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-1 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm
                             </button>
                         </td>
                     </tr>`;
@@ -514,7 +515,7 @@ $(document).ready(function () {
         });
     };
 
-    getDanhSachSanPham(0, 3);
+    getDanhSachSanPham(0, 5);
 
     function checkCurrentStep() {
         const button = document.getElementById("hienThiDanhSachSanPham");
@@ -554,21 +555,20 @@ $(document).ready(function () {
             }
         }
 
-        console.log("currentStep " + currentStep);
     }
 
 
 
     $(document).on("click", ".pageBtn", function () {
         let page = $(this).text() - 1;
-        getDanhSachSanPham(page, 3);
+        getDanhSachSanPham(page, 5);
     });
 
     $("#prevPageBtn").on("click", function () {
         let currentPage = $(".pageBtn.bg-gray-400").text();
         if (currentPage > 1) {
             let page = parseInt(currentPage) - 2;
-            getDanhSachSanPham(page, 3);
+            getDanhSachSanPham(page, 5);
         }
     });
 
@@ -578,7 +578,7 @@ $(document).ready(function () {
         let totalPages = $(".pageBtn").length;
         if (currentPage < totalPages) {
             let page = parseInt(currentPage);
-            getDanhSachSanPham(page, 3);
+            getDanhSachSanPham(page, 5);
         }
     });
 
@@ -625,10 +625,10 @@ $(document).ready(function () {
 
     const loaiThanhToan = (tt) => {
         switch (tt) {
+            case false:
+                return '<span class="status bg-red-500 text-white rounded-lg px-4 py-2">Trả sau</span>';
             case true:
-                return 'Trả sau';
-            case 2:
-                return 'Trả trước';
+                return '<span class="status bg-blue-500 text-white rounded-lg px-4 py-2">Thanh toán</span>';
             default:
                 return 'Không xác định'
         }
@@ -655,6 +655,18 @@ $(document).ready(function () {
                 return 'Không xác định';
         }
     }
+
+    const trangThaiThanhToan = (tt) => {
+        switch (tt) {
+            case 1:
+                return 'Tiền mặt';
+            case 2:
+                return 'Chuyển khoản';
+            default:
+                return 'Không xác định';
+        }
+    }
+
 
     const trangThaiSteps = (tt) => {
         switch (tt) {
@@ -864,7 +876,6 @@ $(document).ready(function () {
 
 
     function createStep(hanhDong, ngayTao, stepNum) {
-        // Xác định màu nền của biểu tượng dựa trên stepNum
         const iconBgColor = stepNum === 7 ? 'bg-red-600' : 'bg-green-600';
 
         const stepDiv = $(`
@@ -890,7 +901,7 @@ $(document).ready(function () {
     function updateButtonsState() {
         $('#steppers').empty();
         stepsHistory.forEach((step, index) => {
-            $('#steppers').append(createStep(step.hanhDong, step.ngayTao, index + 1));
+            $('#steppers').append(createStep(step.hanhDong, step.ngayTao, step.hanhDong));
         });
         $('#prevBtn').prop('disabled', currentStep === 1);
         const noteText = $('#noteText').val();
@@ -953,16 +964,19 @@ $(document).ready(function () {
             updateButtonsState();
             hideNoteModal();
             getLichSu();
+        }else if(currentStep == 6){
+            updateTrangThaiPhuongThucThanhToan(idHoaDon);
+            stepsHistory.push({hanhDong: currentStep, ngayTao: new Date().toISOString()});
+            updateTrangThai(currentStep)
+            updateButtonsState();
+            hideNoteModal();
+            getLichSu();
         } else {
-            if (currentStep <= totalSteps) {
-                stepsHistory.push({hanhDong: currentStep, ngayTao: new Date().toISOString()});
-                updateTrangThai(currentStep)
-                updateButtonsState();
-                hideNoteModal();
-                getLichSu();
-            } else {
-                currentStep = totalSteps;
-            }
+            stepsHistory.push({hanhDong: currentStep, ngayTao: new Date().toISOString()});
+            updateTrangThai(currentStep)
+            updateButtonsState();
+            hideNoteModal();
+            getLichSu();
         }
 
 
@@ -1005,6 +1019,19 @@ $(document).ready(function () {
     }
 
     fetchStepsData(idHoaDon);
+
+    function updateTrangThaiPhuongThucThanhToan(idHoaDon) {
+
+        $.ajax({
+            url: `/api/hoa-don/update-trang-thai-thanh-toan/${idHoaDon}`,
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({loaiThanhToan: true}),
+            success: function (response) {
+            },
+        });
+    }
+
 
     function luiTrangThai(trangThai) {
         const ghiChu = $('#noteModalLui').val().trim();

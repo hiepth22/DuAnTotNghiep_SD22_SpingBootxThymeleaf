@@ -24,4 +24,7 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
     SanPhamChiTiet findIdLonNhat();
 
     List<SanPhamChiTiet> findBySanPhamId(Long sanPhamId);
+
+    @Query("SELECT COUNT(spct) FROM SanPhamChiTiet spct WHERE spct.sanPham.id = :sanPhamId")
+    int countBySanPhamId(@Param("sanPhamId") Long sanPhamId);
 }
