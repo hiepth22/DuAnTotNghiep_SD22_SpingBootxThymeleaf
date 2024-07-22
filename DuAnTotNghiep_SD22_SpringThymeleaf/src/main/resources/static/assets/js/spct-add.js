@@ -71,8 +71,6 @@ $(document).ready(function () {
         return ma;
     }
 
-
-
     $(".create-product-btn").click(function () {
         const sanPhamId = $("#sanPham").val();
         const coGiayId = $("#coGiay").val();
@@ -138,7 +136,8 @@ $(document).ready(function () {
                     giaBan: 1000000,
                     soLuong: 10,
                     trangThai: 1,
-                    ngaySanXuat : null
+                    ngaySanXuat : null,
+                    anh : []
                 };
                 chiTietSanPhams.push(chiTietSanPham);
             });
@@ -206,7 +205,7 @@ $(document).ready(function () {
             tbody.append(uploadRow);
 
             table.append(thead);
-            table.append(tbody);
+            table.prepend(tbody);
 
             tableWrapper.append(colorTitle);
             tableWrapper.append(table);
@@ -239,24 +238,28 @@ $(document).ready(function () {
             tableWrapper.find(`#file-upload-${mauSacId}`).on("change", function () {
                 var files = $(this).get(0).files;
                 var preview = $(this).closest('.table-wrapper').find(`#preview-${mauSacId}`);
+                var fileArray = Array.from(files);
 
+                uploadImages(fileArray, function (imageIds) {
+                    // Store image IDs in the product details
+                    products.forEach(product => {
+                        product.anh = imageIds.map(id => ({ id: id }));
+                    });
 
-                for (var i = 0; i < files.length; i++) {
-                    var file = files[i];
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        var imagePreview = $(
-                            '<div class="image-preview">' +
-                            '<img src="' + e.target.result + '" alt="' + file.name + '">' +
-                            '<p>' + file.name + '</p>' +
-                            '</div>'
-                        );
-                        preview.append(imagePreview);
-                    };
-
-                    reader.readAsDataURL(file);
-                }
+                    fileArray.forEach((file, index) => {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var imagePreview = $(
+                                '<div class="image-preview">' +
+                                '<img src="' + e.target.result + '" alt="' + file.name + '">' +
+                                '<p>' + file.name + '</p>' +
+                                '</div>'
+                            );
+                            preview.append(imagePreview);
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                });
             });
         });
 

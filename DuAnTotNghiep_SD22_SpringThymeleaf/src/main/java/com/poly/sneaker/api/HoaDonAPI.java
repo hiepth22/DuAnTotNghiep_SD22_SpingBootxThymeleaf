@@ -1,9 +1,6 @@
 package com.poly.sneaker.api;
 
-import com.poly.sneaker.entity.HoaDon;
-import com.poly.sneaker.entity.HoaDonChiTiet;
-import com.poly.sneaker.entity.LichSuHoaDon;
-import com.poly.sneaker.entity.SanPhamChiTiet;
+import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.HoaDonChiTietRepository;
 import com.poly.sneaker.repository.HoaDonRepository;
 import com.poly.sneaker.sevice.*;
@@ -55,21 +52,26 @@ public class HoaDonAPI {
                                          @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
-
-        if (tab == 0) {
-            return hoaDonService.findHoaDonByMaAndNgayTao(keyword, startDate, endDate, pageable);
+        if(tab == 0){
+            return hoaDonService.getAll(pageable);
         }
 
-        if (keyword != null && startDate != null && endDate != null) {
-            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(keyword, startDate, endDate, tab, pageable);
-        } else if (keyword == null && startDate != null && endDate != null) {
-            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(null, startDate, endDate, tab, pageable);
-        } else if (keyword != null && startDate == null && endDate == null) {
-            return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(keyword, null, null, tab, pageable);
+        if (keyword != null && !keyword.isEmpty()) {
+            if (startDate != null && endDate != null) {
+                return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(keyword, startDate, endDate, tab, pageable);
+            } else {
+                return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(keyword, null, null, tab, pageable);
+            }
         } else {
-            return hoaDonService.getAllByTrangThai(tab, pageable);
+            if (startDate != null && endDate != null) {
+                return hoaDonService.findHoaDonByMaAndNgayTao(keyword, startDate, endDate, pageable);
+            } else {
+                return hoaDonService.getAllByTrangThai(tab, pageable);
+            }
         }
     }
+
+
 
 
     @GetMapping("/detail/{id}")
@@ -190,6 +192,17 @@ public class HoaDonAPI {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDon not found");
         }
+    }
+
+    @PutMapping("/update-trang-thai-thanh-toan/{id}")
+    public ResponseEntity<?> updateTrangThaiThanhToan(@PathVariable("id") Long id, @RequestBody PhuongThucThanhToan phuongThucThanhToan) {
+        PhuongThucThanhToan updateTrangThaiThanhToan = phuongThucThanhToanService.updateTrangThaiThanhToan(id, phuongThucThanhToan);
+        if (updateTrangThaiThanhToan != null) {
+            return ResponseEntity.ok(updateTrangThaiThanhToan);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("phuongthucthanhtoan not found");
+        }
+
     }
 
 

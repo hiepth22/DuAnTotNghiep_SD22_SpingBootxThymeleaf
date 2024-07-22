@@ -30,10 +30,15 @@
         <!-- Navbar Start -->
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
         <div class="grid gap-4 grid-cols-1">
-            <div class="h-72 w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md">
+            <div class="h-96 w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md">
+                <div>
+                    <h1 class="font-bold text-xl">Trạng thái hóa đơn</h1>
+                    <div class="w-full border-t border-gray-500 mt-1 mb-3 "></div>
+                </div>
                 <div class="container mx-auto px-4 py-8">
+
                     <div class="overflow-hidden">
-                        <!-- Steppers Container -->
+
                         <div class="flex items-center  " id="steppers">
 
                         </div>
@@ -60,7 +65,11 @@
 
         </div>
 
-        <div class="bg-white h-40 w-full m-auto mt-5 p-6 rounded-lg shadow-md">
+        <div class="bg-white h-56 w-full m-auto mt-5 p-6 rounded-lg shadow-md">
+            <div>
+                <h1 class="font-bold text-xl">Lịch sử thanh toán</h1>
+                <div class="w-full border-t border-gray-500 mt-1 mb-3 "></div>
+            </div>
             <table id="tableLichSuThanhToan" class="min-w-full divide-y divide-gray-200  ">
                 <thead class="bg-blue-500">
                 <tr>
@@ -366,11 +375,11 @@
                            <input type="text" class="form-control" id="edit-diachi">
                        </div>
                        <div class="form-group">
-                           <label for="">Phí vận chuyển</label>
+                           <label for="phiVanChuyen">Phí vận chuyển</label>
                            <input type="number" min="0" class="form-control" id="phiVanChuyen"  placeholder="0 VNĐ">
                        </div>
                        <div class="form-group">
-                           <label for="">Ghi chú</label>
+                           <label for="noteThongTin">Ghi chú</label>
                            <textarea id="noteThongTin" class="w-full p-2 border rounded" rows="4"></textarea>
                        </div>
                    </form>
