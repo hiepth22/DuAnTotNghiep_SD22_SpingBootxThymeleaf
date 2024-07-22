@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
 <div th:replace="~{admin/fragments/head :: head}"></div>
-
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml"
           href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
     <title>Cập nhật Khách Hàng</title>
@@ -29,6 +27,7 @@
             display: block; /* Hiển thị khi có thông báo */
             animation: fadeOut 3s ease-out forwards; /* Animation fadeOut */
         }
+
         .progress-bar {
             position: absolute;
             bottom: 0;
@@ -50,6 +49,7 @@
                 opacity: 0;
             }
         }
+
         .error {
             color: red;
             font-size: 14px;
@@ -75,92 +75,103 @@
         .custom-radio-input {
             margin: 0;
         }
+
+        .page-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 20px; /* Tạo khoảng cách dưới cho tiêu đề */
+        }
+
+        .form-label {
+            font-weight: bold; /* Đặt label thành chữ in đậm */
+        }
+
+        .mb-3 {
+            margin-bottom: 1.5rem; /* Tăng khoảng cách dưới của mỗi phần tử */
+        }
+
+        .form-control {
+            border-radius: .25rem; /* Đặt bo góc cho các input */
+        }
     </style>
 </head>
 <body>
-<div class="container-xxl position-relative bg-white d-flex p-0">
+<div class="flex">
     <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
     <!-- Sidebar End -->
     <!-- Content Start -->
-    <div class="content">
+    <div class="content flex-grow ml-64 p-4 bg-gray-200">
         <!-- Navbar Start -->
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
-        <div class="container mt-4">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header bg-info text-white">
-                            <h6 class="card-title m-0">Cập Nhật Khách Hàng</h6>
+        <div class="container mx-auto bg-white mt-5 p-6 rounded-lg shadow-md">
+            <div class="page-title">
+                <span class="fw-bold fs-3 text-center">Cập Nhật Khách Hàng</span>
+            </div>
+            <form th:action="@{/admin/update/{id}(id=${kh.id})}" method="post" class="row g-3" th:object="${kh}" id="myForm">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="ten" class="form-label">Tên Khách Hàng:</label>
+                            <input type="text" id="ten" name="ten" class="form-control"
+                                   placeholder="Nhập tên Khách Hàng" th:field="*{ten}" oninput="validateForm()">
+                            <div id="tenError" class="error"></div>
                         </div>
-                        <div class="card-body">
-                            <form th:action="@{/admin/update/{id}(id=${kh.id})}" method="post" class="row g-3"
-                                  th:object="${kh}" id="myForm">
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Tên Khách Hàng:</label>
-                                            <input type="text" placeholder="Nhập tên Khách Hàng" id="ten" name="ten"
-                                                   class="form-control" th:field="*{ten}" oninput="validateForm()">
-                                            <div id="tenError" class="error"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Mã Khách Hàng:</label>
-                                            <input type="text" placeholder="Nhập mã Khách Hàng" name="ma"
-                                                   class="form-control" th:field="*{ma}" id="ma" oninput="validateForm()">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">SĐT:</label>
-                                            <input type="text" placeholder="Nhập SĐT" id="sdt" name="sdt" class="form-control" th:field="*{sdt}" oninput="validateForm()">
-                                            <div id="sdtError" class="error"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Ngày Sinh:</label>
-                                            <input type="date" class="form-control" id="ngaySinh" name="ngaySinh"
-                                                   th:field="*{ngaySinh}" required oninput="validateForm()">
-                                            <div id="ngaySinhError" class="error"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Email:</label>
-                                            <input type="email" placeholder="Nhập Email" id="email" name="email"
-                                                   class="form-control" th:field="*{email}" oninput="validateForm()">
-                                            <div id="emailError" class="error"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Giới Tính:</label>
-                                            <div class="custom-radio-group">
-                                                <div class="custom-radio-label">
-                                                    <input class="custom-radio-input" type="radio" name="gioiTinh"
-                                                           id="gioiTinhNam" th:field="*{gioiTinh}" th:value="true">
-                                                    <label class="form-check-label" for="gioiTinhNam">Nam</label>
-                                                </div>
-                                                <div class="custom-radio-label">
-                                                    <input class="custom-radio-input" type="radio" name="gioiTinh"
-                                                           id="gioiTinhNu" th:field="*{gioiTinh}" th:value="false">
-                                                    <label class="form-check-label" for="gioiTinhNu">Nữ</label>
-                                                </div>
-                                            </div>
-                                            <div id="gioiTinhError" class="invalid-feedback"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">CCCD:</label>
-                                            <input type="text" name="cccd" class="form-control" th:field="*{cccd}" id="cccd" oninput="validateForm()">
-                                            <div id="cccdError" class="error"></div>
-                                        </div>
-                                    </div>
+                        <div class="mb-3">
+                            <label for="ma" class="form-label">Mã Khách Hàng:</label>
+                            <input type="text" id="ma" name="ma" class="form-control"
+                                   placeholder="Nhập mã Khách Hàng" th:field="*{ma}" oninput="validateForm()">
+                        </div>
+                        <div class="mb-3">
+                            <label for="sdt" class="form-label">Số Điện Thoại:</label>
+                            <input type="text" id="sdt" name="sdt" class="form-control"
+                                   placeholder="Nhập SĐT" th:field="*{sdt}" oninput="validateForm()">
+                            <div id="sdtError" class="error"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cccd" class="form-label">CCCD:</label>
+                            <input type="text" id="cccd" name="cccd" class="form-control"
+                                   placeholder="Nhập CCCD" th:field="*{cccd}" oninput="validateForm()">
+                            <div id="cccdError" class="error"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="ngaySinh" class="form-label">Ngày Sinh:</label>
+                            <input type="date" id="ngaySinh" name="ngaySinh" class="form-control"
+                                   th:field="*{ngaySinh}" required oninput="validateForm()">
+                            <div id="ngaySinhError" class="error"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" id="email" name="email" class="form-control"
+                                   placeholder="Nhập Email" th:field="*{email}" oninput="validateForm()">
+                            <div id="emailError" class="error"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Giới Tính:</label>
+                            <div class="custom-radio-group">
+                                <div class="custom-radio-label">
+                                    <input class="custom-radio-input" type="radio" id="gioiTinhNam" name="gioiTinh"
+                                           th:field="*{gioiTinh}" th:value="true">
+                                    <label class="form-check-label" for="gioiTinhNam">Nam</label>
                                 </div>
-                                <div class="text-center">
-                                    <div>
-                                        <button type="submit" class="btn btn-primary me-2" id="confirmButton">Lưu</button>
-                                        <a th:href="@{/admin/khach-hang}" class="btn btn-secondary">Đóng</a>
-                                    </div>
+                                <div class="custom-radio-label">
+                                    <input class="custom-radio-input" type="radio" id="gioiTinhNu" name="gioiTinh"
+                                           th:field="*{gioiTinh}" th:value="false">
+                                    <label class="form-check-label" for="gioiTinhNu">Nữ</label>
                                 </div>
-                            </form>
+                            </div>
+                            <div id="gioiTinhError" class="invalid-feedback"></div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary me-2" id="confirmButton">Lưu</button>
+                    <a th:href="@{/admin/khach-hang}" class="btn btn-secondary">Đóng</a>
+                </div>
+            </form>
         </div>
         <div id="notification" class="notification">
             <span id="notification-text">Thành Công!!</span>
@@ -170,5 +181,6 @@
         <script th:src="@{/assets/js/KhachHangUpdate.js}"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
         <script th:src="@{/assets/js/main.js}"></script>
+    </div>
 </body>
 </html>

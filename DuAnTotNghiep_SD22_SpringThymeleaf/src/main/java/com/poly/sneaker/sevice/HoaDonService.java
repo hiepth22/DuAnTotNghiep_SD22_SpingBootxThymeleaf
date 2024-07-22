@@ -38,11 +38,11 @@ public class HoaDonService {
     }
 
     public Page<HoaDon> findHoaDonByMaAndNgayTaoAndTrangThai(String keyword, Date startDate, Date endDate, int trangThai, Pageable pageable) {
-        return hoaDonRepository.findByMaAndNgayTaoBetweenAndTrangThai(keyword, startDate, endDate, trangThai, pageable);
+        return hoaDonRepository.findByKeywordAndNgayTaoBetweenAndTrangThai(keyword, startDate, endDate, trangThai, pageable);
     }
 
     public Page<HoaDon> findHoaDonByMaAndNgayTao(String keyword, Date startDate, Date endDate, Pageable pageable) {
-        return hoaDonRepository.findByMaAndNgayTaoBetween(keyword, startDate, endDate, pageable);
+        return hoaDonRepository.findByMaAndNgayTaoBetweenAndKeyword(keyword, startDate, endDate, pageable);
     }
 
     public HoaDon add(HoaDon hoaDon) {
@@ -95,6 +95,7 @@ public class HoaDonService {
     public Optional<HoaDon> getHoaDonByID(Long id){
         return hoaDonRepository.findById(id);
     }
+
 
 
 

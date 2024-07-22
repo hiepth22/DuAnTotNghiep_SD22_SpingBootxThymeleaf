@@ -8,6 +8,8 @@ const switchTab = (tab) => {
     currentTab = tab;
     getData();
 };
+
+
 const getData = (page = 0, size = 10) => {
     $.ajax({
         url: `/api/hoa-don?tab=${currentTab}&keyword=${searchTxt}&startDate=${startDate}&endDate=${endDate}&page=${page}&size=${size}`,
@@ -74,23 +76,27 @@ const getData = (page = 0, size = 10) => {
 const trangThai = (tt) => {
     switch (tt) {
         case 1:
-            return '<span class="status bg-blue-500 text-white rounded-lg ">Chờ xác nhận</span>';
+            return '<span class="status bg-gray-500 text-white rounded-lg px-2 py-1">Chờ xác nhận</span>';
         case 2:
-            return '<span class="status bg-green-500 text-white rounded-lg">Đã xác nhận</span>';
+            return '<span class="status bg-teal-700 text-white rounded-lg px-2 py-1">Đã xác nhận</span>';
         case 3:
-            return '<span class="status bg-yellow-500 text-white rounded-lg">Chờ vận chuyển</span>';
+            return '<span class="status bg-yellow-400 text-white rounded-lg px-2 py-1">Chờ vận chuyển</span>';
         case 4:
-            return '<span class="status bg-orange-500 text-white rounded-lg">Vận chuyển</span>';
+            return '<span class="status bg-orange-400 text-white rounded-lg px-2 py-1">Vận chuyển</span>';
         case 5:
-            return '<span class="status bg-purple-500 text-white rounded-lg">Thanh toán</span>';
+            return '<span class="status bg-green-600 text-white rounded-lg px-2 py-1">Thanh toán</span>';
         case 6:
-            return '<span class="status bg-gray-500 text-white rounded-lg">Hoàn thành</span>';
+            return '<span class="status bg-blue-500  text-white rounded-lg px-2 py-1">Hoàn thành</span>';
         case 7:
-            return '<span class="status bg-red-500 text-white rounded-lg">Hủy</span>';
+            return '<span class="status bg-red-600 text-white rounded-lg px-2 py-1">Hủy</span>';
+        case 8:
+            return '<span class="status bg-black text-white rounded-lg px-2 py-1">Hóa đơn chờ</span>';
         default:
-            return '<span class="status bg-black text-white rounded-lg">Không xác định</span>';
+            return '<span class="status bg-black text-white rounded-lg px-2 py-1">Không xác định</span>';
     }
 }
+
+
 
 const trangThaiMua = (tt) => {
     switch (tt) {

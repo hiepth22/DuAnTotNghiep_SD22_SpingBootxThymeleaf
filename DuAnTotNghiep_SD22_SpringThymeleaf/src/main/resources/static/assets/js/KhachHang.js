@@ -1,14 +1,84 @@
-// (function () {
-//     searchKH("");
-// })();
-// function resetForm() {
-//     document.getElementById("trangThai").value = "";
-//     document.getElementById("searchInput").value = "";
-//     document.getElementById("startDate").value = "";
-//     document.getElementById("endDate").value = "";
-// }
-//
-function searchKH(keyword, page_index = 1, page_size = 5) {
+
+(function () {
+    initPage();
+})();
+$(document).ready(function () {
+    console.log("JavaScript is working");
+
+    $('#exampleModal').on('show.bs.modal', function (event) {
+
+        console.log("Modal is about to be shown");
+
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var khId = button.data('kh-id'); // Extract info from data-* attributes
+        console.log('Customer ID:', khId);
+
+        if (khId) {
+            var modalBody = $('#exampleModal').find('.modal-body #modal-address-details');
+            modalBody.empty(); // Clear previous data
+
+            $.ajax({
+                url: '/api/khach-hang/dia-chi/' + khId,
+                method: 'GET',
+                cache: false, // Disable caching
+                dataType: 'json',
+                success: function (data) {
+                    console.log('Received data:', data);
+
+                    if (data && data.length > 0) {
+                        data.forEach(function (diaChi) {
+                            var trangThaiClass = diaChi.trangThai === 1 ? 'text-danger' : ''; // Determine class based on trangThai
+                            var additionalInfo = diaChi.trangThai === 1 ? `
+                            <div class="additional-info">
+                                <button type="button" class="btn btn-outline-warning btn-sm" style="font-size: 12px;" disabled>
+                                    Mặc định
+                                </button>
+                            </div>
+                            ` : '';
+
+                            modalBody.append(`
+                                <div class="address-block mb-3" style="border-bottom: 1px solid #ddd; padding: 10px;">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div style="flex: 1; display: flex; align-items: center;">
+                                            <span class="heart-icon ${trangThaiClass}" style="font-size: 20px;">
+                                                <i class="bi bi-heart" data-dia-chi-id="${diaChi.id}" style="cursor: pointer;"></i>
+                                            </span>
+                                            <div style="margin-left: 10px;">
+                                                <strong style="display: block; margin-bottom: 3px; font-size: 14px;">${diaChi.ten}</strong>
+                                                <p style="margin: 0; font-size: 12px;">${diaChi.moTaChiTiet}, ${diaChi.soNha}, ${diaChi.phuongXa}, ${diaChi.quanHuyen}, ${diaChi.thanhPho}</p>
+                                            </div>
+                                        </div>
+                                        <a href="/dia-chi-view-update/${diaChi.id}" class="btn btn-outline-orange btn-sm btn-update-address" data-dia-chi-id="${diaChi.id}" style="border: 1px solid orange; background-color: white; color: black;">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                    </div>
+                                    ${additionalInfo}
+                                </div>
+                                `);
+                        });
+
+                        // Handle heart icon click
+                        $(document).on('click', '.heart-icon .bi-heart', function () {
+                            $(this).toggleClass('text-danger');
+                        });
+                    } else {
+                        console.log('No address data available');
+                        modalBody.append('<li>Khách Hàng chưa cập nhật địa chỉ</li>');
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Failed to load address data', textStatus, errorThrown);
+                    var modalBody = $('#exampleModal').find('.modal-body #modal-address-details');
+                    modalBody.empty();
+                    modalBody.append('<li>Không thể tải địa chỉ</li>');
+                }
+            });
+        } else {
+            console.error("Customer ID is undefined or null");
+        }
+    });
+});
+function searchKH(keyword, page_index = 1, page_size = 7) {
     console.log(keyword);
     var url = '/admin/search-khach-hang?keyword=' + encodeURIComponent(keyword);
     console.log(url);
@@ -20,11 +90,6 @@ function searchKH(keyword, page_index = 1, page_size = 5) {
         })
         .catch(error => console.error('Error:', error));
 }
-
-(function () {
-    initPage();
-})();
-
 function getPageNumber(button) {
     var status = document.getElementById("trangThai").value;
     var keyword = document.getElementById("searchInput").value;
@@ -60,9 +125,8 @@ function OnSearchKH() {
     var obj = {
         keyword: keyword,
         trangThai: status != "" ? status : null,
-        vai_tro: vaiTro != "" ? vaiTro : null,
         page_index: 1,
-        page_size: 5,
+        page_size: 7,
         startDate: startDate !== "" ? startDate : null,
         endDate: endDate !== "" ? endDate : null
     }
@@ -245,36 +309,6 @@ function checkTrangThai(element, id) {
     });
 }
 
-// function checkTrangThai(checkbox, id) {
-//     Swal.fire({
-//         title: 'Bạn có chắc chắn?',
-//         text: "Bạn không thể hoàn tác hành động này!",
-//         icon: 'warning',
-//         showCancelButton: true,
-//         confirmButtonColor: '#3085d6',
-//         cancelButtonColor: '#d33',
-//         confirmButtonText: 'Vâng, tiếp tục!',
-//         cancelButtonText: 'Hủy'
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             // Call your function to change the status here
-//             changeStatus(id, checkbox.checked);
-//             Swal.fire(
-//                 'Đã xác nhận!',
-//                 'Trạng thái của phiếu giảm giá đã được thay đổi.',
-//                 'success'
-//             );
-//         } else {
-//             // Revert the checkbox status
-//             checkbox.checked = !checkbox.checked;
-//             Swal.fire(
-//                 'Đã hủy!',
-//                 'Hành động của bạn đã bị hủy.',
-//                 'error'
-//             );
-//         }
-//     });
-// }
 function toggleSwitch(id, isChecked) {
     var url = `/admin/khach-hang/${id}/delete`;
     var trangThai = isChecked ? 1 : 0;
@@ -335,246 +369,5 @@ function toggleSwitch(id, isChecked) {
         });
 }
 
-$(document).ready(function () {
-    console.log("JavaScript is working"); // Kiểm tra JavaScript đã hoạt động
-
-    $('#exampleModal').on('show.bs.modal', function (event) {
-        console.log("Modal is being shown"); // Kiểm tra sự kiện show.bs.modal
-        var button = $(event.relatedTarget); // Button that triggered the modal
-        var khId = button.data('kh-id'); // Extract info from data-* attributes
-        console.log('Customer ID:', khId); // Kiểm tra giá trị khId
-
-        if (khId) {
-            $.ajax({
-                url: '/api/khach-hang/dia-chi/' + khId,
-                method: 'GET',
-                success: function (data) {
-                    console.log('Received data:', data); // Kiểm tra dữ liệu nhận được
-                    var modal = $('#exampleModal');
-                    var modalBody = modal.find('.modal-body #modal-address-details');
-                    modalBody.empty(); // Clear previous data
-                    console.log(data);
-                    if (data.length > 0) {
-                        data.forEach(function (diaChi) {
-                            console.log('Thành công');
-                            var trangThaiClass = diaChi.trangThai === 1 ? 'text-danger' : ''; // Kiểm tra trạng thái để quyết định màu sắc của trái tim
-                            var additionalInfo = diaChi.trangThai === 1 ? `
-                            <div class="additional-info">
-                                <button type="button" class="btn btn-outline-warning btn-sm" style="font-size: 12px;">
-                                    Mặc định
-                                </button>
-                            </div>
-                            ` : ''; // Thêm button khi trạng thái là 1
-
-                            modalBody.append(`
-                                <div class="address-block mb-3" style="border-bottom: 1px solid #ddd; padding: 10px;">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div style="flex: 1; display: flex; align-items: center;">
-                                            <span class="heart-icon ${trangThaiClass}" style="font-size: 20px;">
-                                                <i class="bi bi-heart" data-dia-chi-id="${diaChi.id}" style="cursor: pointer;"></i>
-                                            </span>
-                                            <div style="margin-left: 10px;">
-                                                <strong style="display: block; margin-bottom: 3px; font-size: 14px;">${diaChi.ten}</strong>
-                                                <p style="margin: 0; font-size: 12px;">${diaChi.moTaChiTiet}, ${diaChi.soNha}, ${diaChi.phuongXa}, ${diaChi.quanHuyen}, ${diaChi.thanhPho}</p>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <button type="button" class="btn btn-outline-orange btn-sm btn-update-address" data-dia-chi-id="${diaChi.id}" style="border: 1px solid orange; background-color: white; color: black;"><i class="bi bi-pencil-square"></i></button>
-                                        </div>
-                                    </div>
-                                    ${additionalInfo} <!-- Thêm button khi trạng thái là 1 -->
-                                </div>
-                                `);
-                        });
-
-                        // Xử lý sự kiện khi click vào trái tim để thay đổi màu sắc
-                        $(document).on('click', '.heart-icon .bi-heart', function () {
-                            $(this).toggleClass('text-danger'); // Thêm hoặc bỏ lớp 'text-danger' để thay đổi màu sắc
-                        });
-                    }
-
-                    else {
-                        console.log('Không thành công');
-                        modalBody.append('<li>Không có địa chỉ</li>');
-                    }
-                },
-                error: function () {
-                    var modal = $('#exampleModal');
-                    var modalBody = modal.find('.modal-body #modal-address-details');
-                    modalBody.empty();
-                    modalBody.append('<li>Không thể tải địa chỉ</li>');
-                }
-            });
-        } else {
-            console.log("Customer ID is undefined or null");
-        }
-    });
-});
 
 
-// function toggleSwitch(id, isChecked) {
-//     var url = `/admin//khach-hang/${id}/delete`;
-//     var trangThai = isChecked ? 0 : 1;
-//
-//     var data = `trangThai=${trangThai}`;
-//
-//     // Hiển thị spinner loading
-//     $('#spinner').addClass('show');
-//
-//     fetch(url, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/x-www-form-urlencoded',
-//         },
-//         body: data,
-//     })
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error(`HTTP error! Status: ${response.status}`);
-//             }
-//             return response.text(); // Lấy nội dung phản hồi dưới dạng văn bản
-//         })
-//         .then(responseText => {
-//             // Ẩn spinner loading
-//             $('#spinner').removeClass('show');
-//
-//             // Hiển thị thông báo thành công
-//             $('#notification2').addClass('show1');
-//
-//             // // Cập nhật trạng thái checkbox nếu cần thiết
-//             // var checkbox = document.getElementById(`switchButton_${id}`);
-//             // if (checkbox) {
-//             //     checkbox.checked = isChecked;
-//             // } else {
-//             //     console.error(`Không tìm thấy checkbox với id ${id} trong DOM.`);
-//             // }
-//
-//             // Tự động ẩn thông báo sau 3 giây
-//             setTimeout(function() {
-//                 $('#notification2').removeClass('show1');
-//             }, 3000);
-//         })
-//         .catch(error => {
-//             // Xử lý lỗi
-//             console.error('Lỗi khi cập nhật trạng thái:', error);
-//
-//             // Đảo ngược lại trạng thái checkbox nếu có lỗi
-//             var checkbox = document.getElementById(`switchButton_${id}`);
-//             if (checkbox) {
-//                 checkbox.checked = !isChecked;
-//             } else {
-//                 console.error(`Không tìm thấy checkbox với id ${id} trong DOM.`);
-//             }
-//
-//             // Ẩn spinner loading
-//             $('#spinner').removeClass('show');
-//
-//             // Hiển thị thông báo lỗi
-//             Swal.fire({
-//                 icon: 'error',
-//                 title: 'Oops...',
-//                 text: 'Có lỗi xảy ra khi cập nhật trạng thái!',
-//             });
-//         });
-// }
-
-
-// $(document).ready(function () {
-//     // Xử lý khi nhấn vào nút "Địa Chỉ" trong modal
-//     $('#exampleModal').on('show.bs.modal', function (event) {
-//         var button = $(event.relatedTarget);
-//         var khId = button.data('kh-id');
-//
-//         $.ajax({
-//             url: '/admin/khach-hang/dia-chi/' + khId,
-//             method: 'GET',
-//             success: function (data) {
-//                 var modalBody = $('#exampleModal').find('.modal-body #modal-address-details');
-//                 modalBody.empty(); // Xóa dữ liệu trước đó
-//
-//                 if (data.length > 0) {
-//                     data.forEach(function (diaChi) {
-//                         modalBody.append('<li>' + diaChi.thanhPho + '</li>');
-//                     });
-//                 } else {
-//                     modalBody.append('<li>Không có địa chỉ</li>');
-//                 }
-//             },
-//             error: function () {
-//                 var modalBody = $('#exampleModal').find('.modal-body #modal-address-details');
-//                 modalBody.empty();
-//                 modalBody.append('<li>Không thể tải địa chỉ</li>');
-//             }
-//         });
-//     });
-
-// Xác nhận và xử lý toggle trạng thái
-// $('.toggle-checkbox').on('click', function () {
-//     var checkbox = $(this);
-//     var isChecked = checkbox.is(':checked');
-//     var khId = checkbox.data('id');
-//     var trangThai = isChecked ? 1 : 0;
-//
-//     confirmToggle(checkbox, khId, trangThai);
-// });
-
-// function confirmToggle(element, id, trangThai) {
-//     var confirmed = confirm("THAY ĐỔI TRẠNG THÁI KHÁCH HÀNG?");
-//
-//     if (confirmed) {
-//         toggleSwitch(element, id, trangThai);
-//     } else {
-//         element.prop('checked', !trangThai);
-//     }
-// }
-
-// function toggleSwitch(element, id, trangThai) {
-//     var url = `/admin/khach-hang/${id}/delete`;
-//     var data = {trangThai: trangThai};
-//
-//     fetch(url, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(data),
-//     })
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error(`HTTP error! Status: ${response.status}`);
-//             }
-//             alert(`THÀNH CÔNG!!!`);
-//         })
-//         .catch(error => {
-//             console.error('Error updating customer status:', error);
-//             alert('LỖI!!!!');
-//             element.prop('checked', !trangThai); // Đặt lại trạng thái checkbox nếu có lỗi
-//         });
-// }
-
-
-// function toggleSwitch(element, id, isChecked) {
-//     var url = `/admin/khach-hang/${id}/delete`; // Đảm bảo rằng id đã được thay thế đúng giá trị
-//     var data = { trangThai: isChecked ? 0 : 1 };
-//
-//     fetch(url, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(data),
-//     })
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error(`HTTP error! Status: ${response.status}`);
-//             }
-//             alert(`THÀNH CÔNG!!!`);
-//         })
-//         .catch(error => {
-//             console.error('Error updating employee status:', error);
-//             // Xử lý lỗi nếu cần thiết
-//             alert('LỖI!!!!.');
-//             // Đặt lại trạng thái checkbox nếu có lỗi
-//             element.checked = !isChecked;
-//         });
-// }
