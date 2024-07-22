@@ -80,9 +80,9 @@ public class SanPhamChiTiet {
     @JoinColumn(name = "idNhaSanXuat", referencedColumnName = "id")
     private NhaSanXuat nhaSanXuat;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "idAnh")
-    private Set<Anh> anh;
+    private Anh anh;
 
     private Date ngaySanXuat;
 
