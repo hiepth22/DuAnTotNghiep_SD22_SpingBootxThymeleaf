@@ -361,3 +361,15 @@ input[type="file"] {
 .fa-trash:hover {
     color: #bd2130;
 }
+
+.color-box {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+
+

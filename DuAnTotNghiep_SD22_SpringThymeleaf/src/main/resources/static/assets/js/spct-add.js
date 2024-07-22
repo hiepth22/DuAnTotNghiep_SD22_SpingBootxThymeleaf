@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    // Function to display selected items in a container
     function displaySelectedItems(items, containerId) {
         var selectedItemsContainer = $(containerId);
         selectedItemsContainer.empty();
@@ -15,7 +14,6 @@ $(document).ready(function () {
         });
     }
 
-    // Handle click event for saving selected sizes
     $("#saveSizes").click(function () {
         var selectedSizes = [];
         $("#sizeList input:checked").each(function () {
@@ -33,23 +31,34 @@ $(document).ready(function () {
         $("#sizeModal").modal("hide");
     });
 
-    // Handle click event for saving selected colors
+
     $("#saveColors").click(function () {
         var selectedColors = [];
         $("#colorList input:checked").each(function () {
             var colorCheckbox = $(this);
             var colorId = colorCheckbox.val();
-            var colorName = colorCheckbox.next("label").text();
+            var colorHex = colorCheckbox.data("color"); // Lấy mã màu từ thuộc tính data-color
             selectedColors.push({
                 id: colorId,
-                name: colorName,
+                color: colorHex, // Sử dụng mã màu thay vì tên
             });
         });
 
-        displaySelectedItems(selectedColors, "#selectedColors");
+        // Hiển thị màu sắc trong danh sách chọn
+        var container = $("#selectedColors");
+        container.empty(); // Xóa nội dung cũ
+
+        selectedColors.forEach(function (item) {
+            var colorBox = $('<span></span>')
+                .addClass('color-box')
+                .css('background-color', item.color); // Sử dụng màu sắc từ item
+
+            container.append(colorBox);
+        });
 
         $("#colorModal").modal("hide");
     });
+
 
     function sinhMaNgauNhien() {
         const prefix = "SPCT";
@@ -137,7 +146,6 @@ $(document).ready(function () {
                     soLuong: 10,
                     trangThai: 1,
                     ngaySanXuat : null,
-                    anh : []
                 };
                 chiTietSanPhams.push(chiTietSanPham);
             });
@@ -240,12 +248,6 @@ $(document).ready(function () {
                 var preview = $(this).closest('.table-wrapper').find(`#preview-${mauSacId}`);
                 var fileArray = Array.from(files);
 
-                uploadImages(fileArray, function (imageIds) {
-                    // Store image IDs in the product details
-                    products.forEach(product => {
-                        product.anh = imageIds.map(id => ({ id: id }));
-                    });
-
                     fileArray.forEach((file, index) => {
                         var reader = new FileReader();
                         reader.onload = function (e) {
@@ -259,7 +261,6 @@ $(document).ready(function () {
                         };
                         reader.readAsDataURL(file);
                     });
-                });
             });
         });
 
