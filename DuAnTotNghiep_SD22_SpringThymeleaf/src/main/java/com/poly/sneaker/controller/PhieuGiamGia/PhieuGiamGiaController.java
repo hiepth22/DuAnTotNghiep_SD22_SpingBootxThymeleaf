@@ -84,7 +84,14 @@ public class PhieuGiamGiaController {
 
     @PostMapping("/savePhieuGiamGia/{id}")
     public String updatePhieuGiamGia(@PathVariable("id") Long id, @Valid @ModelAttribute("pgg") PhieuGiamGia pgg, BindingResult result) {
-        System.out.println(pgg);
+        LocalDate now = LocalDate.now();
+        if (now.isBefore(pgg.getNgayBatDau())) {
+            pgg.setTrangThai(2); // Chưa diễn ra
+        } else if (now.isAfter(pgg.getNgayKetThuc())) {
+            pgg.setTrangThai(1); // Ngừng hoạt động
+        } else {
+            pgg.setTrangThai(0); // Hoạt động
+        }
         if (result.hasErrors()) {
             return "admin/PhieuGiamGia/PhieuGiamGiaUpdate";
         }

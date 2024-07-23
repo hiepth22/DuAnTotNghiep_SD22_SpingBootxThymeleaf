@@ -152,7 +152,7 @@
         axios.post('/admin/SavePhieuGiamGia', new FormData(form))
             .then(function(response) {
                 showSuccessMessage();
-                prependNewRecord(response.data); // Thêm bản ghi mới vào đầu danh sách
+
             })
             .catch(function(error) {
                 console.error('Error:', error);
