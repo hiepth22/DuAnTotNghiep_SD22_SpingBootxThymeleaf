@@ -32,9 +32,8 @@ public interface KhachHangRepository extends JpaRepository<KhachHang,Long> {
                                 @Param("PAGE_SIZE") Integer page_size);
 
     List<KhachHang> findByTrangThai(int tt);
-<<<<<<< HEAD
+
     Optional<KhachHang> findByEmail(String email);
-=======
-    List<KhachHang> findByEmail(String mail);
->>>>>>> b07b1c6f68d42a7cf256f69ada38acd6e7b1855b
+
+
 }
