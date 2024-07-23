@@ -156,9 +156,11 @@
                                         <div class="invalid-feedback">Vui lòng nhập mã</div>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="ten" class="form-label">Tên Phiếu Giảm Giá:</label>
-                                        <input type="text" id="ten" name="ten" class="form-control" placeholder="Nhập tên Phiếu Giảm Giá" oninput="validateForm()">
-                                        <div id="tenError" class="invalid-feedback"></div>
+                                        <label class="form-label">Tên Phiếu Giảm Giá:</label>
+                                        <input type="text" name="ten" class="form-control"
+                                               placeholder="Nhập tên Phiếu Giảm Giá"
+                                               oninput="validateForm()">
+                                        <div  class="invalid-feedback"></div>
                                     </div>
 
                                     <div class="mb-3">
@@ -227,8 +229,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 <script>
-    document.getElementById('confirmButtonupdate').addEventListener('click', function () {
+    document.getElementById('confirmButton').addEventListener('click', function () {
         if (validateForm()) {
             Swal.fire({
                 title: 'Bạn có chắc chắn muốn thay đổi thông tin phiếu giảm giá?',
@@ -246,7 +250,7 @@
                         'Bạn đã thay đổi thông tin phiếu giảm giá.',
                         'success'
                     ).then(() => {
-                        update(); // Corrected function name
+                        update(); // Đảm bảo hàm update() được gọi
                     });
                 } else {
                     Swal.fire(
@@ -258,38 +262,111 @@
             });
         }
     });
-
     function update() {
         const form = document.getElementById('myForm');
-        const formData = new FormData(form);
-        axios.post('/admin/updatePhieuGiamGia/' + form.id.value, formData)
-            .then(function (response) {
+        axios.post('/admin/updatePhieuGiamGia', new FormData(form))
+            .then(function(response) {
                 showSuccessMessageUpdate();
             })
-            .catch(function (error) {
+            .catch(function(error) {
                 console.error('Error:', error);
-                // Handle error here
-                Swal.fire(
-                    'Lỗi!',
-                    'Đã xảy ra lỗi trong quá trình cập nhật.',
-                    'error'
-                );
             });
     }
+    // function update() {
+    //     const form = document.querySelector('form'); // Hoặc sử dụng ID nếu có
+    //     const formData = new FormData(form);
+    //     axios.post('/admin/updatePhieuGiamGia/' + form.id.value, formData)
+    //         .then(function (response) {
+    //             showSuccessMessageUpdate();
+    //         })
+    //         .catch(function (error) {
+    //             console.error('Error:', error);
+    //             Swal.fire(
+    //                 'Lỗi!',
+    //                 'Đã xảy ra lỗi trong quá trình cập nhật.',
+    //                 'error'
+    //             );
+    //         });
+    // }
 
     function showSuccessMessageUpdate() {
         const notification = document.getElementById('notification1');
-        notification.classList.add('show1');
-        const progressBar = document.getElementById('progress-bar1');
-        progressBar.style.width = '0';
-        setTimeout(function () {
-            progressBar.style.width = '100%';
-        }, 2000);
+        if (notification) {
+            notification.classList.add('show1');
+            const progressBar = document.getElementById('progress-bar1');
+            if (progressBar) {
+                progressBar.style.width = '0';
+                setTimeout(function () {
+                    progressBar.style.width = '100%';
+                }, 2000);
 
-        setTimeout(function () {
-            notification.classList.remove('show1');
-            window.location.href = '/admin/phieu-giam-gia';
-        }, 3000);
+                setTimeout(function () {
+                    notification.classList.remove('show1');
+                    window.location.href = '/admin/phieu-giam-gia';
+                }, 3000);
+            }
+        }
+    }
+    function validateForm() {
+        let isValid = true;
+        const ten = document.getElementById('ten');
+        const soLuong = document.querySelector('input[name="soLuong"]');
+        const donToiThieu = document.querySelector('input[name="donToiThieu"]');
+        const giaTriGiam = document.querySelector('input[name="giaTriGiam"]');
+        const giamToiDa = document.querySelector('input[name="giamToiDa"]');
+        const ngayBatDau = document.querySelector('input[name="ngayBatDau"]');
+        const ngayKetThuc = document.querySelector('input[name="ngayKetThuc"]');
+
+        if (ten.value.trim() === '') {
+            ten.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            ten.classList.remove('is-invalid');
+        }
+
+        if (soLuong.value.trim() === '') {
+            soLuong.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            soLuong.classList.remove('is-invalid');
+        }
+
+        if (donToiThieu.value.trim() === '') {
+            donToiThieu.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            donToiThieu.classList.remove('is-invalid');
+        }
+
+        if (giaTriGiam.value.trim() === '') {
+            giaTriGiam.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            giaTriGiam.classList.remove('is-invalid');
+        }
+
+        if (giamToiDa.value.trim() === '') {
+            giamToiDa.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            giamToiDa.classList.remove('is-invalid');
+        }
+
+        if (ngayBatDau.value.trim() === '') {
+            ngayBatDau.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            ngayBatDau.classList.remove('is-invalid');
+        }
+
+        if (ngayKetThuc.value.trim() === '') {
+            ngayKetThuc.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            ngayKetThuc.classList.remove('is-invalid');
+        }
+
+        return isValid;
     }
 </script>
 </body>
