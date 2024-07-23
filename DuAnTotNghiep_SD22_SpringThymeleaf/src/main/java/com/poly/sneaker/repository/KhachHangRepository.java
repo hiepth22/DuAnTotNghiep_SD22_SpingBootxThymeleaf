@@ -34,10 +34,15 @@ public interface KhachHangRepository extends JpaRepository<KhachHang,Long> {
                                 @Param("PAGE_SIZE") Integer page_size);
 
     List<KhachHang> findByTrangThai(int tt);
+<<<<<<< HEAD
+    Optional<KhachHang> findByEmail(String email);
+    List<KhachHang> findByEmail(String mail);
+=======
 
     Optional<KhachHang> findByEmail(String email);
 
     @Query(value = "select * from khach_hang where id != 1", nativeQuery = true)
     Page<KhachHang> getKhachHangNoID1(Pageable pageable);
 
+>>>>>>> 7dc3cb5c85e0d9433ad4c8699abed5acff619e16
 }
