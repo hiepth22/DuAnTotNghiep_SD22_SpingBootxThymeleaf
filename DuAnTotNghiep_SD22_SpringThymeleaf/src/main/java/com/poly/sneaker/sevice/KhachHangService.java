@@ -64,6 +64,16 @@ public class KhachHangService {
             throw new RuntimeException("Không tìm thấy khách hàng với ID: " + id);
         }
     }
+    public KhachHang resetPassword(String mail, String newpw) {
+        Optional<KhachHang> optional = khachHangRepository.findByEmail(mail);
+        if (optional.isPresent()) {
+            KhachHang kh = optional.get();
+            kh.setMatKhau(newpw);
+            return khachHangRepository.save(kh);
+        } else {
+            throw new RuntimeException("Không tìm thấy khách hàng với email: " + mail);
+        }
+    }
     public Boolean existsById(Long id) {
         return khachHangRepository.existsById(id);
     }
