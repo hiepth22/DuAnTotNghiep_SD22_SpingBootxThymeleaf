@@ -44,10 +44,11 @@
             <td th:text="${kh.cccd}"></td>
             <td>
                 <label class="switch">
-                    <input type="checkbox" id="switchButton_${kh.id}" data-id="${kh.id}"
+                    <input type="checkbox" id="switchButton_${kh.id}_${status.index}" data-id="${kh.id}"
                            data-trang-thai="${kh.trangThai}" class="toggle-checkbox"
                            th:checked="${kh.trangThai}"
                            th:onclick="'checkTrangThai(this, ' + ${kh.id} + ')'" />
+
                     <span class="slider round"></span>
                 </label>
             </td>
@@ -65,17 +66,19 @@
     <div class="d-flex justify-content-center">
         <ul class="text-center">
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-outline-primary">Previous</button>
+                <button type="button" class="btn btn-outline-primary" id="prevBtn" disabled>Previous</button>
                 <div id="paginationButtons" class="btn-group" role="group">
                     <button type="button" class="btn btn-outline-primary" th:each="page : ${#numbers.sequence(1, totalPage1)}"
                             th:text="${page}" th:id="'pageBtn-' + ${page}" onclick="getPageNumber(this)"></button>
                 </div>
-                <button type="button" class="btn btn-outline-primary">Next</button>
+                <button type="button" class="btn btn-outline-primary" id="nextBtn">Next</button>
             </div>
         </ul>
+
     </div>
 </div>
 
+<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

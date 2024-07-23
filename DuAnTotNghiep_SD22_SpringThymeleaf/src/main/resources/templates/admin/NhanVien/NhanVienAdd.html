@@ -165,8 +165,8 @@
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" oninput="validateForm()">
                                 <span id="emailError" class="error"></span>
-<!--                                <span class="error" th:text="${errors}"></span>-->
-
+                                <!-- Display error message from Thymeleaf model attribute -->
+                                <span class="errormail1" th:text="${errormail}" ></span>
                             </div>
                         </div>
                         <div class="abc">
