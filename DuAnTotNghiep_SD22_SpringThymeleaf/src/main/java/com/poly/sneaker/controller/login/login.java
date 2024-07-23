@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Controller
@@ -39,7 +40,7 @@ public class login {
     public String loginSubmit(@RequestParam(name = "email") String email,
                               @RequestParam(name = "matKhau") String matKhau,
                               Model model) {
-        List<KhachHang> lst = khachHangRepository.findByEmail(email);
+        List<KhachHang> lst = khachHangRepository.findByEmail1(email);
         if (!lst.isEmpty()) {
             KhachHang foundKhachHang = lst.get(0);
             if (matKhau.equals(foundKhachHang.getMatKhau())) {
@@ -77,10 +78,11 @@ public class login {
     @PostMapping("/laylaimk")
     public String laylaimk(@RequestParam(name = "email") String email,
                            Model model) {
-        List<KhachHang> lst = khachHangRepository.findByEmail(email);
+        Optional<KhachHang> lst = khachHangRepository.findByEmail(email);
         if (!lst.isEmpty()) {
             String mkmoi =  generateRandomPassword();
             sendPasswordEmail(email ,mkmoi);
+            service.resetPassword(email,mkmoi);
             System.out.println("mkoke");
             return "redirect:laylaimk";
         }

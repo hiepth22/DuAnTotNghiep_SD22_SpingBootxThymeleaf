@@ -35,5 +35,6 @@ public interface KhachHangRepository extends JpaRepository<KhachHang,Long> {
 
     Optional<KhachHang> findByEmail(String email);
 
+    List<KhachHang> findByEmail1(String mail);
 
 }
