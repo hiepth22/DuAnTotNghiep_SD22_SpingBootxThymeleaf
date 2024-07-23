@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-EU15Mvcd1FQOZaJKLhPnPU1mCp7NlqNd9UKf2YiQ1mRJpYbL2q77E96vD6bINd6F6QbKivt20+ufyK8NEPZhcw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
+
+
 <style>
     body {
         width: 100%;
@@ -19,8 +23,8 @@
         padding: 0 15px; /* Add padding to keep content from touching the edges */
     }
 </style>
-<body>
-<div class="content-wrapper bg-light">
+<body class="bg-light">
+<div class="content-wrapper bg-white">
 
     <!-- Pills navs -->
     <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
@@ -78,20 +82,20 @@
                     </div>
                     <div class="col-md-6 d-flex justify-content-center">
                         <!-- Simple link -->
-                        <a href="#">Forgot password?</a>
+                        <a href="#" onclick="showlaylaimk()">Forgot password?</a>
                     </div>
                 </div>
                 <!-- Submit button -->
                 <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
                 <!-- Register buttons -->
-                <div class="text-center">
-                    <p>Not a member? <a href="#"  >Register</a></p>
-                </div>
+<!--                <div class="text-center">-->
+<!--                    <p>Not a member? <a href="#"  >Register</a></p>-->
+<!--                </div>-->
             </form>
 
         </div>
         <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
-            <form>
+            <form th:action="@{/loginadd}" method="post">
                 <div class="text-center mb-3">
                     <p>Sign up with:</p>
                     <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
@@ -115,32 +119,32 @@
 
                 <!-- Name input -->
                 <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="text" id="registerName" class="form-control" />
-                    <label class="form-label" for="registerName">Name</label>
+                    <input type="text" id="ten" name="ten" class="form-control" />
+                    <label class="form-label" for="ten">Họ Và Tên</label>
                 </div>
 
                 <!-- Username input -->
-                <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="text" id="registerUsername" class="form-control" />
-                    <label class="form-label" for="registerUsername">Username</label>
-                </div>
+<!--                <div data-mdb-input-init class="form-outline mb-4">-->
+<!--                    <input type="text" id="registerUsername" class="form-control" />-->
+<!--                    <label class="form-label" for="registerUsername">Username</label>-->
+<!--                </div>-->
 
                 <!-- Email input -->
                 <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="email" id="registerEmail" class="form-control" />
-                    <label class="form-label" for="registerEmail">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" />
+                    <label class="form-label" for="email">Email</label>
                 </div>
 
                 <!-- Password input -->
                 <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="password" id="registerPassword" class="form-control" />
-                    <label class="form-label" for="registerPassword">Password</label>
+                    <input type="password" id="matKhau" name="matKhau" class="form-control" />
+                    <label class="form-label" for="matKhau">Password</label>
                 </div>
 
                 <!-- Repeat Password input -->
                 <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="password" id="registerRepeatPassword" class="form-control" />
-                    <label class="form-label" for="registerRepeatPassword">Repeat password</label>
+                    <input type="password" id="matKhaulai" name="matKhaulai" class="form-control" />
+                    <label class="form-label" for="matKhaulai">Repeat password</label>
                 </div>
 
                 <!-- Checkbox -->
@@ -148,7 +152,7 @@
                     <input class="form-check-input me-2" type="checkbox" value="" id="registerCheck" checked
                            aria-describedby="registerCheckHelpText" />
                     <label class="form-check-label" for="registerCheck">
-                        I have read and agree to the terms
+                        Đông ý với Các Điều Khoản
                     </label>
                 </div>
 
@@ -156,6 +160,16 @@
                 <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-3">Sign in</button>
             </form>
         </div>
+        <div class="tab-pane fade" id="pills-laylaimk" role="tabpanel" aria-labelledby="tab-laylaimk">
+            <form th:action="@{/laylaimk}" method="post">
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-label" for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block mb-4">lấy Lại Mật Khẩu</button>
+            </form>
+        </div>
+
     </div>
     <!-- Pills content -->
 </div>
@@ -173,8 +187,24 @@
 
         var pillsRegisterTab = document.getElementById('pills-register');
         pillsRegisterTab.classList.remove('show', 'active');
+
+        var pillsLayLaiMKTab = document.getElementById('pills-laylaimk');
+        pillsLayLaiMKTab.classList.add('show', 'active');
+
+        var pillsLayLaiMKTab = document.getElementById('pills-laylaimk');
+        pillsLayLaiMKTab.classList.remove('show', 'active');
     }
 </script>
+<script>
+    function showlaylaimk() {
+        var pillsLoginTab = document.getElementById('pills-login');
+        pillsLoginTab.classList.remove('show', 'active'); // Ẩn tab "Đăng nhập"
+
+        var pillsLayLaiMKTab = document.getElementById('pills-laylaimk');
+        pillsLayLaiMKTab.classList.add('show', 'active'); // Hiển thị tab "Lấy lại mật khẩu"
+    }
+</script>
+
 <script>
     function showRegisterTab() {
         var registerTab = document.getElementById('tab-register');
@@ -188,6 +218,11 @@
 
         var pillsLoginTab = document.getElementById('pills-login');
         pillsLoginTab.classList.remove('show', 'active');
+        var pillsLayLaiMKTab = document.getElementById('pills-laylaimk');
+        pillsLayLaiMKTab.classList.add('show', 'active');
+
+        var pillsLayLaiMKTab = document.getElementById('pills-laylaimk');
+        pillsLayLaiMKTab.classList.remove('show', 'active');
     }
 </script>
 
