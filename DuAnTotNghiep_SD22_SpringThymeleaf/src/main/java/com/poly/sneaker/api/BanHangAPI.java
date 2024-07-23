@@ -96,6 +96,20 @@ public class BanHangAPI {
     }
 
 
+    @PutMapping("/update-thong-tin-nguoi-nhan/{id}")
+    public ResponseEntity<?> updateThongTinNguoiNhan(@PathVariable("id") Long id, @RequestBody HoaDon hoaDon) {
+        hoaDon.setNguoiNhan(hoaDon.getNguoiNhan());
+        hoaDon.setSdtNguoiNhan(hoaDon.getSdtNguoiNhan());
+        HoaDon updateThongTinNguoiNhan = banHangService.updateThongTinNguoiNhan(id, hoaDon);
+        if (updateThongTinNguoiNhan != null) {
+            return ResponseEntity.ok(updateThongTinNguoiNhan);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("updateThongTinNguoiNhan not found");
+        }
+
+    }
+
+
 
 
 }

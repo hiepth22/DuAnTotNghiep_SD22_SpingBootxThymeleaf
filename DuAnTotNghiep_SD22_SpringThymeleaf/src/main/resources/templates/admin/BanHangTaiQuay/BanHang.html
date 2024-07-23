@@ -614,8 +614,16 @@
             });
         });
 
-        $("#chonTaiKhoan").on("click", function () {
+
+
+        $("#listKhachHang").off('click', '.chonKhachHang1').on('click', '.chonKhachHang1', function () {
             const idKhachHang = $(this).data('id');
+            const nguoiNhan = $(this).data('nguoi-nhan');
+            const sdtNguoiNhan = $(this).data('sdt-nguoi-nhan');
+
+
+
+            $(this).off('click');
 
             $.ajax({
                 url: `/api/ban-hang/update-khach-hang/${idTabHD}`,
@@ -623,7 +631,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify({
                     khachHang: {
-                        id: idKhachHang
+                            id: idKhachHang
                     }
                 }),
                 success: function () {
@@ -632,8 +640,23 @@
                 },
 
             });
-
+            updateThongTinNguoiNhan(nguoiNhan, sdtNguoiNhan);
         });
+
+        function updateThongTinNguoiNhan(nguoiNhan, sdtNguoiNhan) {
+            $.ajax({
+                url: `/api/ban-hang/update-thong-tin-nguoi-nhan/${idTabHD}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    nguoiNhan: nguoiNhan,
+                    sdtNguoiNhan: sdtNguoiNhan
+                }),
+                success: function (response) {
+                    getDuLieu(idTabHD);
+                },
+            });
+        }
 
 
         function showModalDanhSachSanPham() {
@@ -697,7 +720,7 @@
                         <td class="px-6 py-4 whitespace-nowrap">${result.content[i].email}</td>
                         <td class="px-6 py-4 whitespace-nowrap">${result.content[i].sdt}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <button id="chonKhachHang" class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded mr-3" data-id="${result.content[i].id}">
+                            <button id="chonKhachHang" class="chonKhachHang1 bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded mr-3" data-id="${result.content[i].id}" data-nguoi-nhan="${result.content[i].ten}" data-sdt-nguoi-nhan="${result.content[i].sdt}">
                                 Chọn
                             </button>
                         </td>

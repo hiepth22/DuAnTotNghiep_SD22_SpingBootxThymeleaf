@@ -95,6 +95,7 @@ $(document).ready(function () {
 
         const usedMa = [];
         const chiTietSanPhams = [];
+        const nameProduct = $("#sanPham option:selected").text();
 
         selectedColors.forEach((mauSac) => {
             selectedSizes.forEach((kichCo) => {
@@ -102,11 +103,11 @@ $(document).ready(function () {
                 usedMa.push(ma);
                 const chiTietSanPham = {
                     ma: ma,
-                    ten: "",
+                    ten: nameProduct,
                     barcode: "",
                     sanPham: {
                         id: sanPhamId,
-                        name: $("#sanPham option:selected").text(),
+                        name: nameProduct,
                     },
                     coGiay: { id: coGiayId },
                     deGiay: { id: deGiayId },

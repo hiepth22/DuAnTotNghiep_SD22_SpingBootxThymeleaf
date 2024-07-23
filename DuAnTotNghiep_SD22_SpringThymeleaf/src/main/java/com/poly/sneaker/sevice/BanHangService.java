@@ -46,5 +46,14 @@ public class BanHangService {
         }).orElse(null);
     }
 
+    public HoaDon updateThongTinNguoiNhan(Long id, HoaDon hoaDon) {
+        Optional<HoaDon> optional = hoaDonRepository.findById(id);
+        return optional.map(o -> {
+            o.setNguoiNhan(hoaDon.getNguoiNhan());
+            o.setSdtNguoiNhan(hoaDon.getSdtNguoiNhan());
+            return hoaDonRepository.save(o);
+        }).orElse(null);
+    }
+
 
 }
