@@ -18,7 +18,7 @@ public class PhieuGiamGiaService {
     private PhieuGiamGiaRepository phieuGiamGiaRepository;
 
     public List<PhieuGiamGia> getall() {
-        return phieuGiamGiaRepository. findAllDesc();
+        return phieuGiamGiaRepository.findAllDesc();
     }
     public List<PhieuGiamGia> getall(int tt) {
         return phieuGiamGiaRepository.findByTrangThai(tt);
@@ -41,6 +41,7 @@ public class PhieuGiamGiaService {
         Optional<PhieuGiamGia> optional = phieuGiamGiaRepository.findById(id);
         return optional.map(o -> {
             o.setMa(newpgg.getMa());
+            o.setTen(newpgg.getTen());
             o.setSoLuong(newpgg.getSoLuong());
             o.setHinhThucGiam(newpgg.getHinhThucGiam());
             o.setDonToiThieu(newpgg.getDonToiThieu());

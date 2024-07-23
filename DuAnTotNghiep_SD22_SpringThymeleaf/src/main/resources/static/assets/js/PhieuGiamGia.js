@@ -27,45 +27,37 @@
 //         }
 //     });
 // }
-function changeStatus(id, status) {
-    // Write your logic to change the status here
-    console.log(`Change status of ${id} to ${status}`);
-}
-function toggleSwitch(element, id, isChecked) {
-    var url = `/admin/phieu-giam-gia/${id}/delete`; // Đảm bảo rằng id đã được thay thế đúng giá trị
-    var data = { trangThai: isChecked ? 0 : 1 };
-
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            alert(`THÀNH CÔNG!!!`);
-        })
-        .catch(error => {
-            console.error('Error updating employee status:', error);
-            // Xử lý lỗi nếu cần thiết
-            alert('LỖI!!!!.');
-            // Đặt lại trạng thái checkbox nếu có lỗi
-            element.checked = !isChecked;
-        });
-}
-(function () {
-    initPage();
-})();
-function resetForm() {
-    document.getElementById("trangThai").value = "";
-    document.getElementById("searchInput").value = "";
-    document.getElementById("hinhThucGiam").value = "";
-    document.getElementById("startDate").value = "";
-    document.getElementById("endDate").value = "";
-}
+// function changeStatus(id, status) {
+//     // Write your logic to change the status here
+//     console.log(`Change status of ${id} to ${status}`);
+// }
+// function toggleSwitch(element, id, isChecked) {
+//     var url = `/admin/phieu-giam-gia/${id}/delete`; // Đảm bảo rằng id đã được thay thế đúng giá trị
+//     var data = { trangThai: isChecked ? 0 : 1 };
+//
+//     fetch(url, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(data),
+//     })
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error(`HTTP error! Status: ${response.status}`);
+//             }
+//             alert(`THÀNH CÔNG!!!`);
+//         })
+//         .catch(error => {
+//             console.error('Error updating employee status:', error);
+//             // Xử lý lỗi nếu cần thiết
+//             alert('LỖI!!!!.');
+//             // Đặt lại trạng thái checkbox nếu có lỗi
+//             element.checked = !isChecked;
+//         });
+// }
+//
+//
 
 
 

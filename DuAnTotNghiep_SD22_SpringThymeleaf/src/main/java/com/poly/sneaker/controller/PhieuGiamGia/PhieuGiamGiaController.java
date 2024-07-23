@@ -52,6 +52,7 @@ public class PhieuGiamGiaController {
         }
 //        pgg.setMa(generateMaPhieuGiamGia());
         pgg.setMa(pgg.getMa());
+        pgg.setTen(pgg.getTen());
         pgg.setSoLuong(pgg.getSoLuong());
         pgg.setHinhThucGiam(pgg.getHinhThucGiam());
         pgg.setDonToiThieu(pgg.getDonToiThieu());
