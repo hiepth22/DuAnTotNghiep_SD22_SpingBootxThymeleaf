@@ -1,6 +1,8 @@
 package com.poly.sneaker.repository;
 
 import com.poly.sneaker.dto.KhachHangDTO;
+import com.poly.sneaker.entity.HoaDon;
+import com.poly.sneaker.entity.HoaDonChiTiet;
 import com.poly.sneaker.entity.KhachHang;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,5 +37,7 @@ public interface KhachHangRepository extends JpaRepository<KhachHang,Long> {
 
     Optional<KhachHang> findByEmail(String email);
 
+    @Query(value = "select * from khach_hang where id != 1", nativeQuery = true)
+    Page<KhachHang> getKhachHangNoID1(Pageable pageable);
 
 }
