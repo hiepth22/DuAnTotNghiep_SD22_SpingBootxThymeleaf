@@ -81,6 +81,15 @@ public class SanPhamController {
     @GetMapping("/san-pham/{sanPhamId}")
     public String hienThiSanPhamChiTiet(@PathVariable("sanPhamId") Long sanPhamId, Model model) {
         List<SanPhamChiTiet> sanPhamChiTiets = SPCTservice.findBySanPhamId(sanPhamId);
+        List<DeGiay> deGiays = deGiayService.getAll();
+        List<ChatLieu> chatLieus = chatLieuService.getAll();
+        List<CoGiay> coGiays = coGiayService.getAll();
+        List<KichCo> kichCos = kichCoService.getAll();
+
+        model.addAttribute("deGiays", deGiays);
+        model.addAttribute("chatLieus", chatLieus);
+        model.addAttribute("coGiays", coGiays);
+        model.addAttribute("kichCos", kichCos);
         model.addAttribute("sanPhamChiTiets", sanPhamChiTiets);
         model.addAttribute("sanPhamId", sanPhamId);
         return "/admin/SanPham/sanPhamChiTietPage";
