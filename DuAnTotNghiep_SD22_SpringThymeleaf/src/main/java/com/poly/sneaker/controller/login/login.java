@@ -40,11 +40,11 @@ public class login {
     public String loginSubmit(@RequestParam(name = "email") String email,
                               @RequestParam(name = "matKhau") String matKhau,
                               Model model) {
-        List<KhachHang> lst = khachHangRepository.findByEmail1(email);
+        Optional<KhachHang> lst = khachHangRepository.findByEmail(email);
         if (!lst.isEmpty()) {
-            KhachHang foundKhachHang = lst.get(0);
-            if (matKhau.equals(foundKhachHang.getMatKhau())) {
-                model.addAttribute("khachHang", foundKhachHang);
+            KhachHang kh = lst.get();
+            if (matKhau.equals(kh.getMatKhau())) {
+                model.addAttribute("khachHang", kh);
                 return "client/viewClient";
             }
         }
@@ -84,7 +84,7 @@ public class login {
             sendPasswordEmail(email ,mkmoi);
             service.resetPassword(email,mkmoi);
             System.out.println("mkoke");
-            return "redirect:laylaimk";
+            return "redirect:login";
         }
         else {
 
