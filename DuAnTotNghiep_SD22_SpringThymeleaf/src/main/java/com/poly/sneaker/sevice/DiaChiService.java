@@ -42,6 +42,10 @@ public class DiaChiService {
             return diaChirepository.save(o);
         }).orElse(null);
     }
+    public DiaChi add(DiaChi dc){
+        dc.setIdKH(dc.getIdKH());
+        return diaChirepository.save(dc);
+    }
     public DiaChi findById(Long id) {
         Optional<DiaChi> optional = diaChirepository.findById(id);
         return optional.map(o -> o).orElse(null);
