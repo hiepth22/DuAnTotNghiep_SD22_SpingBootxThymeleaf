@@ -21,25 +21,25 @@ public class DiaChiController {
 
     @GetMapping("/dia-chi-view-update/{id}")
     public String showEmployeeDetail(@PathVariable("id") Long id, Model model) {
-        DiaChi kh = diaChiService.findById(id);
-        if (kh == null) {
+        DiaChi dc = diaChiService.findById(id);
+        if (dc == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Địa chỉ không tìm thấy");
         }
-        model.addAttribute("dc", kh);
+        model.addAttribute("dc", dc);
         return "admin/DiaChi/DiaChiUpdate";
     }
 
-    @PostMapping("/dia-chi-update/{id}")
-    public String update(@PathVariable("id") Long id, @Valid @ModelAttribute("dc") DiaChi kh, BindingResult result) {
-        if (result.hasErrors()) {
-            return "admin/DiaChi/DiaChiUpdate";
-        }
-//        kh.setTrangThai(1);
-        DiaChi updated = diaChiService.update(id, kh);
-        if (updated != null) {
-            return "redirect:/admin/khach-hang";
-        } else {
-            return "redirect:/admin/khach-hang";
-        }
-    }
+//    @PostMapping("/dia-chi-update/{id}")
+//    public String update(@PathVariable("id") Long id, @Valid @ModelAttribute("dc") DiaChi kh, BindingResult result) {
+//        if (result.hasErrors()) {
+//            return "admin/DiaChi/DiaChiUpdate";
+//        }
+////        kh.setTrangThai(1);
+//        DiaChi updated = diaChiService.update(id, kh);
+//        if (updated != null) {
+//            return "redirect:/admin/khach-hang";
+//        } else {
+//            return "redirect:/admin/khach-hang";
+//        }
+//    }
 }

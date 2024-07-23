@@ -1,37 +1,32 @@
-// (function () {
-//     searchKH("");
-// })();
-// function resetForm() {
-//     document.getElementById("trangThai").value = "";
-//     document.getElementById("searchInput").value = "";
-//     document.getElementById("startDate").value = "";
-//     document.getElementById("endDate").value = "";
-// }
-//
+
+(function () {
+    initPage();
+})();
 $(document).ready(function () {
     console.log("JavaScript is working");
 
     $('#exampleModal').on('show.bs.modal', function (event) {
-        console.log("Modal is being shown");
+
+        console.log("Modal is about to be shown");
+
         var button = $(event.relatedTarget); // Button that triggered the modal
         var khId = button.data('kh-id'); // Extract info from data-* attributes
         console.log('Customer ID:', khId);
 
         if (khId) {
+            var modalBody = $('#exampleModal').find('.modal-body #modal-address-details');
+            modalBody.empty(); // Clear previous data
+
             $.ajax({
                 url: '/api/khach-hang/dia-chi/' + khId,
                 method: 'GET',
-                cache: false, // Ngăn trình duyệt cache yêu cầu AJAX
+                cache: false, // Disable caching
+                dataType: 'json',
                 success: function (data) {
                     console.log('Received data:', data);
-                    var modal = $('#exampleModal');
-                    var modalBody = modal.find('.modal-body #modal-address-details');
-                    modalBody.empty(); // Clear previous data
-                    console.log(data);
 
-                    if (data.length > 0) {
+                    if (data && data.length > 0) {
                         data.forEach(function (diaChi) {
-                            console.log('Processing address');
                             var trangThaiClass = diaChi.trangThai === 1 ? 'text-danger' : ''; // Determine class based on trangThai
                             var additionalInfo = diaChi.trangThai === 1 ? `
                             <div class="additional-info">
@@ -56,7 +51,6 @@ $(document).ready(function () {
                                         <a href="/dia-chi-view-update/${diaChi.id}" class="btn btn-outline-orange btn-sm btn-update-address" data-dia-chi-id="${diaChi.id}" style="border: 1px solid orange; background-color: white; color: black;">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
-
                                     </div>
                                     ${additionalInfo}
                                 </div>
@@ -72,20 +66,19 @@ $(document).ready(function () {
                         modalBody.append('<li>Khách Hàng chưa cập nhật địa chỉ</li>');
                     }
                 },
-                error: function () {
-                    console.log('Failed to load address data');
-                    var modal = $('#exampleModal');
-                    var modalBody = modal.find('.modal-body #modal-address-details');
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Failed to load address data', textStatus, errorThrown);
+                    var modalBody = $('#exampleModal').find('.modal-body #modal-address-details');
                     modalBody.empty();
                     modalBody.append('<li>Không thể tải địa chỉ</li>');
                 }
             });
         } else {
-            console.log("Customer ID is undefined or null");
+            console.error("Customer ID is undefined or null");
         }
     });
 });
-function searchKH(keyword, page_index = 1, page_size = 5) {
+function searchKH(keyword, page_index = 1, page_size = 7) {
     console.log(keyword);
     var url = '/admin/search-khach-hang?keyword=' + encodeURIComponent(keyword);
     console.log(url);
@@ -97,11 +90,6 @@ function searchKH(keyword, page_index = 1, page_size = 5) {
         })
         .catch(error => console.error('Error:', error));
 }
-
-(function () {
-    initPage();
-})();
-
 function getPageNumber(button) {
     var status = document.getElementById("trangThai").value;
     var keyword = document.getElementById("searchInput").value;
@@ -137,7 +125,6 @@ function OnSearchKH() {
     var obj = {
         keyword: keyword,
         trangThai: status != "" ? status : null,
-        vai_tro: vaiTro != "" ? vaiTro : null,
         page_index: 1,
         page_size: 7,
         startDate: startDate !== "" ? startDate : null,
