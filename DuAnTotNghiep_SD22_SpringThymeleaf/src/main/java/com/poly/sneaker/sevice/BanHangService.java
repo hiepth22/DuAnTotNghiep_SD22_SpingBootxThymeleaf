@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BanHangService {
@@ -35,6 +36,14 @@ public class BanHangService {
 
     public List<HoaDon> getHoaDonCho() {
         return hoaDonRepository.findHoaDonCho();
+    }
+
+    public HoaDon updateKhachHang(Long id, HoaDon hoaDon) {
+        Optional<HoaDon> optional = hoaDonRepository.findById(id);
+        return optional.map(o -> {
+            o.setKhachHang(hoaDon.getKhachHang());
+            return hoaDonRepository.save(o);
+        }).orElse(null);
     }
 
 

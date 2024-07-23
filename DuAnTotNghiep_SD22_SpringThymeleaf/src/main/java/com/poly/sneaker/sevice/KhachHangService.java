@@ -1,9 +1,12 @@
 package com.poly.sneaker.sevice;
 
 import com.poly.sneaker.dto.KhachHangDTO;
+import com.poly.sneaker.entity.HoaDon;
 import com.poly.sneaker.entity.KhachHang;
 import com.poly.sneaker.repository.KhachHangRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -97,6 +100,11 @@ public class KhachHangService {
         return khachHangRepository.findByKH(keyword, tt,startDate,endDate, page_index, page_size);
     }
 //    List<KhachHang> findByTrangThai(int tt);
+
+
+    public Page<KhachHang> getKhachHangNoID1(Pageable pageable) {
+        return khachHangRepository.getKhachHangNoID1(pageable);
+    }
 
 
 }
