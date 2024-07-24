@@ -1,6 +1,5 @@
 package com.poly.sneaker.sevice;
 
-import com.poly.sneaker.entity.Anh;
 import com.poly.sneaker.entity.ChatLieu;
 import com.poly.sneaker.entity.CoGiay;
 import com.poly.sneaker.entity.DeGiay;
@@ -11,9 +10,6 @@ import com.poly.sneaker.entity.SanPham;
 import com.poly.sneaker.entity.SanPhamChiTiet;
 import com.poly.sneaker.repository.SanPhamChiTietRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
