@@ -45,7 +45,7 @@ public class login {
             KhachHang kh = lst.get();
             if (matKhau.equals(kh.getMatKhau())) {
                 model.addAttribute("khachHang", kh);
-                model.addAttribute("id", kh.getId());
+                model.addAttribute("id", kh.toString());
                 return "client/viewClient";
             }
         }
