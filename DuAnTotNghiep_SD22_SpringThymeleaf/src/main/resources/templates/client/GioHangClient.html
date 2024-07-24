@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SHOSE SEE</title>
+    <link rel="stylesheet" href="/css/output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body class="bg-gray-100">
+<div>
+    <div class="mb-3 mt-20">
+        <h1 class="flex justify-center font-bold text-3xl">Giỏ Hàng</h1>
+        <div class="flex justify-center mt-3">
+            <div class="w-48 h-0.5 bg-orange-500"></div> <!-- Thanh màu cam -->
+        </div>
+    </div>
+
+    <div class="container ml-[15%] bg-white  w-[40%] p-2 rounded-lg shadow-md mt-32 flex gap-32">
+        <div class="">
+           Chọn hết
+        </div>
+        <div class="">
+           Hình Ảnh
+        </div>
+        <div class="">
+            Sản phẩm
+        </div>
+        <div class="">
+            Tổng cộng
+        </div>
+    </div>
+
+    <div id="thongTin">
+
+        </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+
+
+        function getKhacHang(){
+            let idKhachHang;
+
+            $.ajax({
+                url: '/api/session/user',
+                method: 'GET',
+                success: function (response) {
+                    idKhachHang = response.id;
+                    getGoHang(idKhachHang)
+                },
+            });
+        }
+
+        function getGoHang(idKhachHang) {
+            $.ajax({
+                url: `/api/gio-hang/detail/${idKhachHang}`,
+                method: 'GET',
+                success: function (response) {
+                    const gh = response.gh;
+                    const ghct = response.ghct;
+
+                    console.log(gh)
+                    console.log(ghct)
+
+
+
+                },
+            });
+        }
+
+
+        getKhacHang();
+
+    });
+
+</script>
+</body>
+</html>

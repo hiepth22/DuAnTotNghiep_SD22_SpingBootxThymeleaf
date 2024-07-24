@@ -3,6 +3,7 @@ package com.poly.sneaker.controller.login;
 import com.poly.sneaker.entity.KhachHang;
 import com.poly.sneaker.repository.KhachHangRepository;
 import com.poly.sneaker.sevice.KhachHangService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -26,6 +27,9 @@ public class login {
 
     private final JavaMailSender emailSender;
     @Autowired
+    private HttpSession httpSession;
+
+    @Autowired
     public login(JavaMailSender emailSender) {
         this.emailSender = emailSender;
     }
@@ -39,19 +43,37 @@ public class login {
     @PostMapping("/logincheck")
     public String loginSubmit(@RequestParam(name = "email") String email,
                               @RequestParam(name = "matKhau") String matKhau,
-                              Model model) {
+                              Model model, HttpSession session) {
         Optional<KhachHang> lst = khachHangRepository.findByEmail(email);
         if (!lst.isEmpty()) {
             KhachHang kh = lst.get();
             if (matKhau.equals(kh.getMatKhau())) {
                 model.addAttribute("khachHang", kh);
                 model.addAttribute("id", kh.toString());
+                session.setAttribute("khachHang", kh);
                 return "client/viewClient";
             }
         }
         model.addAttribute("error", true);
         return "Login/login";
     }
+
+//    @PostMapping("/logincheck")
+//    public String loginSubmit(@RequestParam(name = "email") String email,
+//                              @RequestParam(name = "matKhau") String matKhau,
+//                              Model model) {
+//        Optional<KhachHang> lst = khachHangRepository.findByEmail(email);
+//        if (lst.isPresent()) {
+//            KhachHang kh = lst.get();
+//            if (matKhau.equals(kh.getMatKhau())) {
+//                model.addAttribute("khachHang", kh);
+//                return "client/viewClient";
+//            }
+//        }
+//        model.addAttribute("error", true);
+//        return "Login/login";
+//    }
+
 
     @PostMapping("/loginadd")
     public String loginadd(@RequestParam(name = "ten") String ten,
