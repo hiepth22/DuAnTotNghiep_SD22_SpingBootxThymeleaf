@@ -17,12 +17,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 @Entity
 @Table(name = "san_pham_chi_tiet")
@@ -43,6 +40,8 @@ public class SanPhamChiTiet {
     private String ten;
 
     private String barcode;
+
+    private String anh;
 
     private Integer soLuong;
 
@@ -82,9 +81,6 @@ public class SanPhamChiTiet {
     @JoinColumn(name = "idNhaSanXuat", referencedColumnName = "id")
     private NhaSanXuat nhaSanXuat;
 
-    @ManyToOne
-    @JoinColumn(name = "idAnh")
-    private Anh anh;
 
     private Date ngaySanXuat;
 

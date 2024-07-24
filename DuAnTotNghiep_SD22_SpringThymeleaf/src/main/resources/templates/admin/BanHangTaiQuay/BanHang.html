@@ -121,7 +121,70 @@
                 <div class="w-full border-t border-gray-500 mt-1 mb-3 "></div>
 
                 <div class="grid gap-4 grid-cols-2">
-                    <div id="test"></div>
+
+                    <div id="thongTinShip2" class="thongTinShip2"></div>
+
+                    <div id="thongTinShip" class="thongTinShip hidden">
+                        <form id="chinh-sua-form" >
+                            <div class="form-group">
+                                <label for="edit-ten" class="block text-sm font-medium text-gray-700">Tên Khách Hàng</label>
+                                <input type="text" id="edit-ten" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-sdtNguoiNhan" class="block text-sm font-medium text-gray-700">Số điện thoại</label>
+                                <input type="text" id="edit-sdtNguoiNhan" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-email" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="text" id="edit-email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="">
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="form-group">
+                                    <label for="edit-tinhthanh" class="block text-sm font-medium text-gray-700">Tỉnh/Thành phố</label>
+                                    <select id="edit-tinhthanh" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                        <option value="" selected>Chọn tỉnh thành</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-quanhuyen" class="block text-sm font-medium text-gray-700">Quận/Huyện</label>
+                                    <select id="edit-quanhuyen" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                        <option value="" selected>Chọn quận huyện</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-phuongxa" class="block text-sm font-medium text-gray-700">Phường/Xã</label>
+                                    <select id="edit-phuongxa" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                        <option value="" selected>Chọn phường xã</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-diachi" class="block text-sm font-medium text-gray-700">Địa chỉ cụ thể</label>
+                                <input type="text" id="edit-diachi" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phiVanChuyen" class="block text-sm font-medium text-gray-700">Phí vận chuyển</label>
+                                <input type="number" id="phiVanChuyen" min="0" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="0 VNĐ">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="noteThongTin" class="block text-sm font-medium text-gray-700">Ghi chú</label>
+                                <textarea id="noteThongTin" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" rows="4"></textarea>
+                            </div>
+                        </form>
+
+                        <div class="flex">
+                            <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/05/Logo-GHN-Slogan-En.png" class="w-[20%] h-[20%]">
+                            <p class="ml-10">Thời gian dự kiện: <span id="thoiGianDuKien"></span></p>
+                        </div>
+
+
+                    </div>
                     <div class="grid gap-2 grid-cols-2">
                         <div>
                             <p class="m-10 flex items-center gap-2">Khách thanh toán:
@@ -260,8 +323,22 @@
 <script>
     $(document).ready(function () {
 
-        const DateNow = new Date();
-        const DateShip = DateNow.setDate(DateNow.getDate() + 4);
+        // var $phiVanChuyen = $('#phiVanChuyen');
+        // var  $nguoiNhan = $('#edit-ten');
+        // var $sdtNguoiNhan = $('#edit-sdtNguoiNhan');
+        // var $noteThongTin = $('#noteThongTin')
+        // var $email = $('#edit-email')
+        // var $thoiGianDuKien = $('#thoiGianDuKien')
+
+
+        var $editDiaChi = $('#edit-diachi');
+        var $editTinhThanh = $('#edit-tinhthanh');
+        var $editQuanHuyen = $('#edit-quanhuyen');
+        var $editPhuongXa = $('#edit-phuongxa');
+        var citiesData = [];
+
+
+
         let tabsData = [];
         let idTabHD = null;
 
@@ -269,86 +346,7 @@
             return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
         }
 
-        $('#toggle-button').on('click', function() {
-            $(this).toggleClass('active');
 
-            if ($(this).hasClass('active')) {
-                $('#test').html(`
-                     <form id="chinh-sua-form" >
-                        <div class="form-group">
-                            <label for="edit-ten" class="block text-sm font-medium text-gray-700">Tên Khách Hàng</label>
-                            <input type="text" id="edit-ten" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="edit-sdtNguoiNhan" class="block text-sm font-medium text-gray-700">Số điện thoại</label>
-                            <input type="text" id="edit-sdtNguoiNhan" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="edit-email" class="block text-sm font-medium text-gray-700">Email</label>
-                            <input type="text" id="edit-email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="">
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div class="form-group">
-                                <label for="edit-tinhthanh" class="block text-sm font-medium text-gray-700">Tỉnh/Thành phố</label>
-                                <select id="edit-tinhthanh" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                                    <option value="" selected>Chọn tỉnh thành</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit-quanhuyen" class="block text-sm font-medium text-gray-700">Quận/Huyện</label>
-                                <select id="edit-quanhuyen" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                                    <option value="" selected>Chọn quận huyện</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit-phuongxa" class="block text-sm font-medium text-gray-700">Phường/Xã</label>
-                                <select id="edit-phuongxa" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                                    <option value="" selected>Chọn phường xã</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="edit-diachi" class="block text-sm font-medium text-gray-700">Địa chỉ cụ thể</label>
-                            <input type="text" id="edit-diachi" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="phiVanChuyen" class="block text-sm font-medium text-gray-700">Phí vận chuyển</label>
-                            <input type="number" id="phiVanChuyen" min="0" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="0 VNĐ">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="noteThongTin" class="block text-sm font-medium text-gray-700">Ghi chú</label>
-                            <textarea id="noteThongTin" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" rows="4"></textarea>
-                        </div>
-                    </form>
-                    
-                    <div class="flex">
-                        <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/05/Logo-GHN-Slogan-En.png" class="w-[20%] h-[20%]">
-                        <p class="ml-10">Thời gian dự kiện: ${formatDateFromTimestamp(DateShip)}</p>
-                    </div>
-
-                    `);
-            } else {
-                $('#test').html(`
-
-                    `);
-            }
-        });
-
-        function formatDateFromTimestamp(timestamp) {
-            const date = new Date(timestamp);
-
-            const day = date.getDate();
-            const month = date.getMonth() + 1;
-            const year = date.getFullYear();
-
-            return `${day}/${month}/${year}`;
-        }
 
 
         const tabsContainer = document.getElementById('tabs-container');
@@ -447,7 +445,7 @@
                     const hdctList = response.hdctList;
 
                     hienThiThongTinNguoiMua(hd);
-
+                    thongTinShip(hd);
 
                     const tabContent = document.getElementById(`tab-content-${idHoaDon}`);
                     if (!hdctList || !Array.isArray(hdctList) || hdctList.length === 0) {
@@ -636,11 +634,11 @@
                 }),
                 success: function () {
                     hideModalKhachHang();
+                    updateThongTinNguoiNhan(nguoiNhan, sdtNguoiNhan);
                     getDuLieu(idTabHD);
                 },
-
             });
-            updateThongTinNguoiNhan(nguoiNhan, sdtNguoiNhan);
+
         });
 
         function updateThongTinNguoiNhan(nguoiNhan, sdtNguoiNhan) {
@@ -658,6 +656,120 @@
             });
         }
 
+        const DateNow = new Date();
+        const DateShip = DateNow.setDate(DateNow.getDate() + 4);
+
+        function formatDateFromTimestamp(timestamp) {
+            const date = new Date(timestamp);
+
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+
+            return `${day}/${month}/${year}`;
+        }
+
+        function findDiaChiKhachHang(specificAddress, city, district, ward) {
+            const addressParts = address.split(',').map(part => part.trim());
+            const len = addressParts.length;
+
+                $('#edit-diachi').val(specificAddress);
+
+                setTimeout(function() {
+
+                    $editTinhThanh.val($editTinhThanh.find("option:contains('" + city + "')").val()).change();
+                }, 100);
+
+                setTimeout(function() {
+
+                    $editQuanHuyen.val($editQuanHuyen.find("option:contains('" + district + "')").val()).change();
+                }, 100);
+
+                setTimeout(function() {
+                    $editPhuongXa.val($editPhuongXa.find("option:contains('" + ward + "')").val());
+                }, 100);
+
+        }
+
+        function thongTinShip(hd){
+
+            $('#edit-ten').val(hd.nguoiNhan);
+            $('#edit-sdtNguoiNhan').val(hd.sdtNguoiNhan);
+            $('#edit-email').val(hd.khachHang.email);
+
+
+            $('#phiVanChuyen').val(hd.tienShip);
+            $('#noteThongTin').val(hd.ghiChu);
+
+            $('#thoiGianDuKien').text(formatDateFromTimestamp(DateShip))
+
+        }
+
+        function toggleThongTinShip(){
+            $('#toggle-button').on('click', function() {
+                $(this).toggleClass('active');
+
+                if ($(this).hasClass('active')) {
+                   hideThongTinShip2();
+                   showThongTinShip();
+                } else {
+                    hideThongTinShip();
+                    showThongTinShip2();
+                }
+            });
+        }
+
+
+
+        function getThongTinKhachHang() {
+            $.ajax({
+                url: 'https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json',
+                dataType: 'json',
+                success: function(data) {
+                    citiesData = data;
+                    $editTinhThanh.empty().append('<option value="" selected>Chọn tỉnh thành</option>');
+                    $.each(data, function(index, city) {
+                        $editTinhThanh.append('<option value="' + city.Id + '">' + city.Name + '</option>');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Lỗi khi tải dữ liệu:', error);
+                }
+            });
+
+            $editTinhThanh.on('change', function() {
+                var cityId = $(this).val();
+                if (cityId) {
+                    $editQuanHuyen.empty().append('<option value="" selected>Chọn quận huyện</option>');
+                    var selectedCity = citiesData.find(city => city.Id === cityId);
+                    if (selectedCity) {
+                        $.each(selectedCity.Districts, function(index, district) {
+                            $editQuanHuyen.append('<option value="' + district.Id + '">' + district.Name + '</option>');
+                        });
+                    }
+                } else {
+                    $editQuanHuyen.empty().append('<option value="" selected>Chọn quận huyện</option>');
+                    $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
+                }
+            });
+
+            $editQuanHuyen.on('change', function() {
+                var districtId = $(this).val();
+                if (districtId) {
+                    // Clear and populate phường/xã dropdown
+                    $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
+                    var selectedDistrict = citiesData.flatMap(city => city.Districts).find(district => district.Id === districtId);
+                    if (selectedDistrict) {
+                        $.each(selectedDistrict.Wards, function(index, ward) {
+                            $editPhuongXa.append('<option value="' + ward.Id + '">' + ward.Name + '</option>');
+                        });
+                    }
+                } else {
+                    $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
+                }
+            });
+        }
+
 
         function showModalDanhSachSanPham() {
             $('#modalDachSachSanPham').removeClass('hidden');
@@ -667,6 +779,25 @@
             $('#modalDachSachSanPham').addClass('hidden');
             $('#modalDachSachSanPham').val('');
         }
+
+        function showThongTinShip2() {
+            $('#thongTinShip2').removeClass('hidden');
+        }
+
+        function hideThongTinShip2() {
+            $('#thongTinShip2').addClass('hidden');
+            $('#thongTinShip2').val('');
+        }
+
+        function showThongTinShip() {
+            $('#thongTinShip').removeClass('hidden');
+        }
+
+        function hideThongTinShip() {
+            $('#thongTinShip').addClass('hidden');
+            $('#thongTinShip').val('');
+        }
+
 
         $('#hienThiDanhSachSanPham').click(function () {
             showModalDanhSachSanPham();
@@ -695,10 +826,13 @@
 
 
 
+        toggleThongTinShip();
+        getThongTinKhachHang();
         idHoaDon();
         getDanhSachSanPham();
         getKhachHang(0, 5);
         getDanhSachSanPham(0, 5);
+
 
     });
 
@@ -855,6 +989,10 @@
 
         });
     };
+
+
+
+
 
 
 </script>
