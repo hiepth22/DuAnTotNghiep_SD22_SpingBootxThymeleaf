@@ -36,6 +36,8 @@ public class SanPham {
     @Column(name = "ten")
     private String ten;
 
+    private Integer soLuong;
+
     private String moTa;
 
     private String nguoiTao;
