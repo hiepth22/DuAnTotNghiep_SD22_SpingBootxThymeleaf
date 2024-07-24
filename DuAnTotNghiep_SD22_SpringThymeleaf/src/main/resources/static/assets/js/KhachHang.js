@@ -78,6 +78,18 @@ $(document).ready(function () {
         }
     });
 });
+function updateDiaChi(nguoiNhan, sdtNguoiNhan, diaChiNguoiNhan, ghichu) {
+    $.ajax({
+        url: `http://localhost:3000/dia-chi-update/${idHoaDon}`,
+        method: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            nguoiNhan: nguoiNhan, sdtNguoiNhan: sdtNguoiNhan, diaChiNguoiNhan: diaChiNguoiNhan, ghichu: ghichu,
+        }),
+        success: function (response) {
+        },
+    });
+}
 function searchKH(keyword, page_index = 1, page_size = 7) {
     console.log(keyword);
     var url = '/admin/search-khach-hang?keyword=' + encodeURIComponent(keyword);

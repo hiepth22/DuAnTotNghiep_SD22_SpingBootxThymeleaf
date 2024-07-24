@@ -1,20 +1,17 @@
 package com.poly.sneaker.api;
 
-import com.poly.sneaker.entity.HoaDon;
-import com.poly.sneaker.entity.HoaDonChiTiet;
-import com.poly.sneaker.entity.LichSuHoaDon;
-import com.poly.sneaker.entity.NhanVien;
-import com.poly.sneaker.sevice.BanHangService;
-import com.poly.sneaker.sevice.HoaDonChiTietService;
-import com.poly.sneaker.sevice.HoaDonService;
+import com.poly.sneaker.entity.*;
+import com.poly.sneaker.sevice.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -34,6 +31,10 @@ public class BanHangAPI {
 
     @Autowired
     private HoaDonChiTietService hoaDonChiTietService;
+    @Autowired
+    private PhieuGiamGiaService phieuGiamGiaService;
+    @Autowired
+    private KhachHangService khachHangService;
 
     @GetMapping("")
     public List<HoaDon> hienThiHoaDonApi() {
@@ -62,7 +63,50 @@ public class BanHangAPI {
         hoaDon.setLoai(2);
         hoaDon.setNguoiTao("admin");
         hoaDon.setTrangThai(8);
+        hoaDon.setNguoiNhan("Khách Vãng Lai");
+        KhachHang kh = new KhachHang();
+        kh.setId(1L);
+        hoaDon.setKhachHang(kh);
+        hoaDon.setTongTien(new BigDecimal(0));
+        hoaDon.setTienShip(new BigDecimal(0));
+        PhieuGiamGia pg = new PhieuGiamGia();
+        pg.setGiaTriGiam(new BigDecimal(0));
         return ResponseEntity.ok(hoaDonService.add(hoaDon));
+    }
+
+    @GetMapping("/khach-hang")
+    public ResponseEntity<?> getKhachHangNoID1(@RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                                               @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(khachHangService.getKhachHangNoID1(pageable));
+    }
+
+    @PutMapping("/update-khach-hang/{id}")
+    public ResponseEntity<?> updateTrangThaiThanhToan(@PathVariable("id") Long id, @RequestBody HoaDon hoaDon) {
+        KhachHang kh = new KhachHang();
+        kh.setId(hoaDon.getKhachHang().getId());
+        hoaDon.setKhachHang(kh);
+        HoaDon updateKhachHangtrongHoaDon = banHangService.updateKhachHang(id, hoaDon);
+        if (updateKhachHangtrongHoaDon != null) {
+            return ResponseEntity.ok(updateKhachHangtrongHoaDon);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("updateKhachHangtrongHoaDon not found");
+        }
+
+    }
+
+
+    @PutMapping("/update-thong-tin-nguoi-nhan/{id}")
+    public ResponseEntity<?> updateThongTinNguoiNhan(@PathVariable("id") Long id, @RequestBody HoaDon hoaDon) {
+        hoaDon.setNguoiNhan(hoaDon.getNguoiNhan());
+        hoaDon.setSdtNguoiNhan(hoaDon.getSdtNguoiNhan());
+        HoaDon updateThongTinNguoiNhan = banHangService.updateThongTinNguoiNhan(id, hoaDon);
+        if (updateThongTinNguoiNhan != null) {
+            return ResponseEntity.ok(updateThongTinNguoiNhan);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("updateThongTinNguoiNhan not found");
+        }
+
     }
 
 

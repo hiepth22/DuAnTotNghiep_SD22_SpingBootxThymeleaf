@@ -18,14 +18,12 @@ public class PhieuGiamGiaService {
     private PhieuGiamGiaRepository phieuGiamGiaRepository;
 
     public List<PhieuGiamGia> getall() {
-        return phieuGiamGiaRepository. findAllDesc();
+        return phieuGiamGiaRepository.findAllDesc();
     }
     public List<PhieuGiamGia> getall(int tt) {
         return phieuGiamGiaRepository.findByTrangThai(tt);
     }
-//    public Page<PhieuGiamGia> page(Pageable pageable,int tt) {
-//        return phieuGiamGiaRepository.findByTrangThai(tt,pageable);
-//    }
+
 
     public PhieuGiamGia Add(PhieuGiamGia Pgg) {
         return phieuGiamGiaRepository.save(Pgg);
@@ -43,6 +41,7 @@ public class PhieuGiamGiaService {
         Optional<PhieuGiamGia> optional = phieuGiamGiaRepository.findById(id);
         return optional.map(o -> {
             o.setMa(newpgg.getMa());
+            o.setTen(newpgg.getTen());
             o.setSoLuong(newpgg.getSoLuong());
             o.setHinhThucGiam(newpgg.getHinhThucGiam());
             o.setDonToiThieu(newpgg.getDonToiThieu());
@@ -74,12 +73,5 @@ public class PhieuGiamGiaService {
         return optional.map(o -> o).orElse(null);
     }
 
-//
-//    public List<PhieuGiamGiaDTO> loc(String keyword, Optional<Integer> tt, Optional<Integer> hinhThucGiam,
-//                                       Integer page_index, Integer page_size, Date startDate, Date endDate ) {
-//        if (startDate != null && endDate == null) {
-//            endDate = java.sql.Date.valueOf(LocalDate.now());
-//        }
-//        return phieuGiamGiaRepository.findBypgg(keyword, tt, hinhThucGiam,startDate,endDate, page_index, page_size);
-//    }
+
 }

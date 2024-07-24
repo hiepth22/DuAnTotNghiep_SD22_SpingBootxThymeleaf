@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chrome-like Tabs</title>
+    <title>Bán hàng tại quầy</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <head th:replace="~{admin/fragments/head :: head}"></head>
+
 
     <style>
         .tab {
@@ -17,40 +20,336 @@
             border: 1px solid #e5e7eb;
             border-bottom: none;
         }
+
+        #toggle-button {
+            background-color: #e0e0e0;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            height: 24px;
+            width: 48px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .toggle-dot {
+            background-color: #ffffff;
+            border-radius: 9999px;
+            height: 16px;
+            width: 16px;
+            position: absolute;
+            top: 50%;
+            left: 4px;
+            transform: translateY(-50%);
+            transition: transform 0.2s;
+        }
+
+        #toggle-button.active {
+            background-color: #2986cc;
+        }
+
+        #toggle-button.active .toggle-dot {
+            transform: translateY(-50%) translateX(24px);
+        }
+
+
     </style>
 </head>
-<body class="bg-gray-100 p-4">
-<div class="w-[70%] mx-auto bg-white rounded-lg shadow">
+<body >
+<div class="flex">
+    <!-- Sidebar Start -->
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}" class="w-64"></div>
+    <!-- Sidebar End -->
+    <!-- Content Start -->
+    <div class="content flex-grow ml-64 p-4 bg-gray-200">
+        <!-- Navbar Start -->
+        <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
+        <!-- Navbar End -->
+        <!-- Main Content -->
+<div class="mx-auto bg-white rounded-lg shadow">
     <div class="p-4 flex justify-between items-center">
         <h2 class="text-xl font-semibold"></h2>
         <button id="add-tab" class="px-4 py-2 bg-blue-500 text-white rounded-full">Add Tab</button>
     </div>
     <div class="border-b">
-        <div id="tabs-container" class="flex space-x-2">
+        <div id="tabs-container" class="flex space-x-2 ml-3">
         </div>
     </div>
     <div class="p-4">
-        <div class="flex justify-end">
+        <div class="grid gap-4 grid-cols-2 mb-5">
+            <div >
+                <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded mr-3"
+                >Danh sách sản phẩm
+                </button>
 
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-3"
-                    id="QRCode">QR Code
-            </button>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    id="dongLichSu">Thêm sản phẩm
-            </button>
+            </div>
+            <div class="flex justify-end">
+
+                <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded mr-3"
+                        id="QRCode">QR Code
+                </button>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded"
+                        id="hienThiDanhSachSanPham" >Thêm sản phẩm
+                </button>
+            </div>
         </div>
-        <div id="content-container">
+        <div class="w-full border-t border-gray-500 mt-1 mb-3 "></div>
+
+        <div id="content-container" class="">
+        </div>
+
+        <div class="mt-5">
+            <div class="w-full border-t border-gray-500 mt-1 mb-3 "></div>
+            <div class="grid gap-4 grid-cols-2 mt-14">
+                <div>
+                    <h1 class="font-bold text-xl">Tài hhoản</h1>
+
+                </div>
+                <div>
+                    <button id="chonTaiKhoan" class=" ml-[60%] bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded"
+                             >Chọn tài khoản
+                    </button>
+                </div>
+            </div>
+            <div class="w-full border-t border-gray-500 mt-1 mb-3 "></div>
+            <div id="thongTinNguoiMua" class="mb-20">
+
+            </div>
+            <div>
+                <h1 class="font-bold text-xl">Khách hàng</h1>
+                <div class="w-full border-t border-gray-500 mt-1 mb-3 "></div>
+
+                <div class="grid gap-4 grid-cols-2">
+                    <div id="test"></div>
+                    <div class="grid gap-2 grid-cols-2">
+                        <div>
+                            <p class="m-10 flex items-center gap-2">Khách thanh toán:
+                                <span class="ml-14">
+                                     <button >
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+                                        </svg>
+                                    </button>
+                                </span>
+
+                            </p>
+                            <p class="m-10">Mã giảm giá:</p>
+                            <p class="flex items-center gap-2 m-10">
+                                Giao hàng:
+                                <button id="toggle-button" class="flex items-center mt-2 ml-5">
+                                    <span class="toggle-dot"></span>
+                                </button>
+
+                            </p>
+                            <p class="m-10">Tiền hàng:</p>
+                            <p class="m-10">Giảm giá:</p>
+                            <p class="m-10">Tổng tiền:</p>
+                        </div>
+                            <div id="thongTinThanhToan">
+                            </div>
+                        </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div id="modalDachSachSanPham" class="fixed inset-0 overflow-y-auto hidden bg-gray-500 bg-opacity-75 ml-20">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl w-[70%] max-h-[80%]">
+            <div class="bg-white px-4 pt-5 pb-4">
+                <table id="tableDanhSachSanPham" class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-blue-500">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            STT
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Ảnh
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Tên Sản Phẩm
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Giá Bán
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Số Lượng
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Kích Thước
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Màu Sắc
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Trạng Thái
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Hành Động
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="danhSachSanPham" class="bg-white divide-y divide-gray-200">
+                    </tbody>
+                </table>
+            </div>
+            <div id="paginationSP" class="flex justify-center mt-4"></div>
+            <div class="flex justify-end mb-3 mr-3">
+                <button id="dongDanhSachSanPham"
+                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:text-gray-100">
+                    Xác nhận
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</div>
+</div>
+
+<div id="modalKhachHang" class="fixed inset-0 overflow-y-auto hidden bg-gray-500 bg-opacity-75 ml-20">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl w-[70%] max-h-[80%]">
+            <div class="bg-white px-4 pt-5 pb-4">
+                <table id="tableKhachHang" class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-blue-500">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            STT
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Ảnh
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Tên khách hàng
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Email
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Số điện thoại
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Hành động
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="listKhachHang" class="bg-white divide-y divide-gray-200">
+                    </tbody>
+                </table>
+            </div>
+            <div id="pagination" class="flex justify-center mt-4"></div>
+            <div class="flex justify-end mb-3 mr-3">
+                <button id="dongKhachHang"
+                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:text-gray-100">
+                    Xác nhận
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
 <script>
     $(document).ready(function () {
+
+        const DateNow = new Date();
+        const DateShip = DateNow.setDate(DateNow.getDate() + 4);
+        let tabsData = [];
+        let idTabHD = null;
+
         const formatVND = (tongtien) => {
             return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
         }
-        let tabsData = [];
+
+        $('#toggle-button').on('click', function() {
+            $(this).toggleClass('active');
+
+            if ($(this).hasClass('active')) {
+                $('#test').html(`
+                     <form id="chinh-sua-form" >
+                        <div class="form-group">
+                            <label for="edit-ten" class="block text-sm font-medium text-gray-700">Tên Khách Hàng</label>
+                            <input type="text" id="edit-ten" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-sdtNguoiNhan" class="block text-sm font-medium text-gray-700">Số điện thoại</label>
+                            <input type="text" id="edit-sdtNguoiNhan" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="text" id="edit-email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label for="edit-tinhthanh" class="block text-sm font-medium text-gray-700">Tỉnh/Thành phố</label>
+                                <select id="edit-tinhthanh" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                    <option value="" selected>Chọn tỉnh thành</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-quanhuyen" class="block text-sm font-medium text-gray-700">Quận/Huyện</label>
+                                <select id="edit-quanhuyen" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                    <option value="" selected>Chọn quận huyện</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-phuongxa" class="block text-sm font-medium text-gray-700">Phường/Xã</label>
+                                <select id="edit-phuongxa" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                    <option value="" selected>Chọn phường xã</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-diachi" class="block text-sm font-medium text-gray-700">Địa chỉ cụ thể</label>
+                            <input type="text" id="edit-diachi" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phiVanChuyen" class="block text-sm font-medium text-gray-700">Phí vận chuyển</label>
+                            <input type="number" id="phiVanChuyen" min="0" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="0 VNĐ">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="noteThongTin" class="block text-sm font-medium text-gray-700">Ghi chú</label>
+                            <textarea id="noteThongTin" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" rows="4"></textarea>
+                        </div>
+                    </form>
+                    
+                    <div class="flex">
+                        <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/05/Logo-GHN-Slogan-En.png" class="w-[20%] h-[20%]">
+                        <p class="ml-10">Thời gian dự kiện: ${formatDateFromTimestamp(DateShip)}</p>
+                    </div>
+
+                    `);
+            } else {
+                $('#test').html(`
+
+                    `);
+            }
+        });
+
+        function formatDateFromTimestamp(timestamp) {
+            const date = new Date(timestamp);
+
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+
+            return `${day}/${month}/${year}`;
+        }
+
 
         const tabsContainer = document.getElementById('tabs-container');
         const contentContainer = document.getElementById('content-container');
@@ -72,6 +371,8 @@
                     const tabContent = document.getElementById(`tab-content-${tab.id}`);
                     tabContent.classList.remove('hidden');
 
+                    idTabHD = tab.id;
+                    getDuLieu(idTabHD);
                     if (!tabsData[index].contentLoaded) {
                         getDuLieu(tab.id);
                     }
@@ -84,11 +385,11 @@
                 if (index !== 0) tabContent.classList.add('hidden');
                 tabContent.innerHTML = tab.content;
                 contentContainer.appendChild(tabContent);
-
-                if (index === 0 && tab.contentLoaded) {
-                    tabButton.click();
-                }
             });
+
+            if (tabsData.length > 0) {
+                document.querySelector('.tab').click();
+            }
         }
 
         document.getElementById('add-tab').addEventListener('click', () => {
@@ -132,7 +433,7 @@
                     if (callback) callback();
                 },
                 error: function (xhr, status, error) {
-                    console.error('Lỗi fetchDanhSachHoaDon:', error);
+                    console.error('Lỗi :', error);
                 }
             });
         }
@@ -142,17 +443,25 @@
                 url: `/api/ban-hang/${idHoaDon}`,
                 method: 'GET',
                 success: function (response) {
-                    console.log('Response from API:', response);
-
                     const hd = response.hd;
                     const hdctList = response.hdctList;
 
+                    hienThiThongTinNguoiMua(hd);
+
+
                     const tabContent = document.getElementById(`tab-content-${idHoaDon}`);
                     if (!hdctList || !Array.isArray(hdctList) || hdctList.length === 0) {
-                        tabContent.innerHTML = `<p>Không có chi tiết sản phẩm.</p>`;
+                        tabContent.innerHTML = `
+                        <div class="content bg-white flex flex-col items-center justify-center py-12">
+                            <div class="text-center">
+                                <img src="https://www.fotofabrikas.lt/data/upload/images/page/empty_cart.png" alt="Empty Cart" class="w-1/2 mx-auto mb-6">
+                                <p class="text-gray-500 text-2xl mb-4">Không có sản phẩm trong giỏ hàng</p>
+                                <p class="text-gray-500 mb-4"></p>
+                            </div>
+                        </div>`;
                     } else {
                         tabContent.innerHTML = `
-                            <table id="tableHoaDonChiTiet" class="min-w-full divide-y divide-gray-200">
+                            <table id="tableHoaDonChiTiet" class="divide-y divide-gray-200 w-full">
                                 <thead class="bg-blue-500 text-white">
                                     <tr>
                                         <th class="px-6 py-3 text-left">STT</th>
@@ -167,7 +476,7 @@
                                     ${hdctList.map((hdct, index) => `
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap"><img src="${hdct.sanPhamChiTiet.anh.url}" alt="${hdct.sanPhamChiTiet.ten}" class="h-10 w-10 rounded-full"></td>
+                                            <td class="px-6 py-4 whitespace-nowrap"> <img src="https://res.cloudinary.com/deapopcoc/image/upload/${hdct.sanPhamChiTiet.anh.ten}" alt="Ảnh" class="w-16 h-auto"></td>
                                             <td class="px-6 py-4 whitespace-nowrap font-bold">
                                                 <h1>${hdct.sanPhamChiTiet.ten}</h1>
                                                 <h2 class="text-red-600">${formatVND(hdct.sanPhamChiTiet.giaBan)}</h2>
@@ -176,7 +485,7 @@
                                             <td class="px-6 py-4 whitespace-nowrap">${hdct.soLuong}</td>
                                             <td class="px-6 py-4 whitespace-nowrap">${formatVND(hdct.soLuong * hdct.sanPhamChiTiet.giaBan)}</td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <button class="themSanPham bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:text-gray-100">Thùng rác</button>
+                                                <button class="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 hover:text-gray-100">Thùng rác</button>
                                             </td>
                                         </tr>
                                     `).join('')}
@@ -191,14 +500,368 @@
                         tabsData[tabIndex].contentLoaded = true;
                     }
                 },
-                error: function (xhr, status, error) {
-                    console.error('Lỗi fetchHoaDonDetail:', error);
-                }
+
+
             });
         }
 
+        function hienThiThongTinNguoiMua(hd) {
+
+
+            if(hd.khachHang.id == 1){
+                $('#thongTinNguoiMua').html(`
+                    <div class="grid gap-4 grid-cols-2 m-10">
+                        <div class="grid gap-4 grid-cols-2">
+                            <div>
+                                <p class="font-semibold">
+                                    Tên khách hàng:
+                                </p>
+                            </div>
+                            <div>
+                                <p>
+                                    <span class="bg-blue-400 hover:bg-blue-700 text-white py-1 px-2 rounded-full">
+                                        ${hd.khachHang.ten}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            }else{
+                $('#thongTinNguoiMua').html(`
+                    <div class="grid gap-4 grid-cols-2 ">
+                        <div class="grid gap-4 grid-cols-2">
+
+                        <div>
+                            <p class="m-10">
+                                Tên khách hàng:
+                            </p>
+                            <p class="m-10">
+                                Số điện thoại:
+                            </p>
+                            <p class="m-10">
+                                Gmail:
+                            </p>
+                        </div>
+
+                        <div>
+                            <p class="m-10">
+                                    ${hd.nguoiNhan}
+                            </p>
+                            <p class="m-10">
+                                ${hd.sdtNguoiNhan}
+                            </p>
+                            <p class="m-10">
+                                ${hd.khachHang.email}
+                            </p>
+                        </div>
+                        </div>
+
+                    </div>
+                `);
+            }
+
+            var tienKhachDua = 0
+            var tienKhachDua = 0;
+            var tienShip = hd.tienShip || 0;
+            var tongTien = hd.tongTien || 0;
+            var giaTriGiam = (hd.phieuGiamGia && hd.phieuGiamGia.giaTriGiam) || 0;
+
+            $('#thongTinThanhToan').html(`
+                <div class="m-10 font-bold">
+                    ${formatVND(tienKhachDua)}
+                </div>
+                <div class="flex items-center gap-2">
+                    <input type="text" class="border border-brown-500 focus:border-black focus:outline-none p-1 rounded-md text-sm flex-1">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white px-2 rounded">
+                        Chọn mã
+                    </button>
+                </div>
+                <div class="m-10">
+                    <span >${formatVND(tienShip)}</span>
+                </div>
+                <div class="m-10 font-bold">
+                    ${formatVND(tongTien)}
+                </div>
+                <div class="m-10 font-bold">
+                    ${formatVND(giaTriGiam)}
+                </div>
+                <div class="m-10 text-red-700 font-bold">
+                    ${formatVND(tongTien - giaTriGiam)}
+                </div>
+            `);
+
+        }
+
+        $("#danhSachSanPham").off('click', '.themSanPham').on('click', '.themSanPham', function () {
+            const itemId = $(this).data('id');
+            const giaBan = $(this).data('gia-ban');
+
+            $(this).off('click');
+            $.ajax({
+                url: `/api/hoa-don/danh-sach-san-pham/add`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    gia: giaBan, trangThai: 1, hoaDon: {id: idTabHD}, sanPhamChiTiet: {id: itemId}
+                }),
+                success: function () {
+                    // location.reload();
+                    hideModalDanhSachSanPham();
+                    getDuLieu(idTabHD);
+                },
+
+            });
+        });
+
+
+
+        $("#listKhachHang").off('click', '.chonKhachHang1').on('click', '.chonKhachHang1', function () {
+            const idKhachHang = $(this).data('id');
+            const nguoiNhan = $(this).data('nguoi-nhan');
+            const sdtNguoiNhan = $(this).data('sdt-nguoi-nhan');
+
+
+
+            $(this).off('click');
+
+            $.ajax({
+                url: `/api/ban-hang/update-khach-hang/${idTabHD}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    khachHang: {
+                            id: idKhachHang
+                    }
+                }),
+                success: function () {
+                    hideModalKhachHang();
+                    getDuLieu(idTabHD);
+                },
+
+            });
+            updateThongTinNguoiNhan(nguoiNhan, sdtNguoiNhan);
+        });
+
+        function updateThongTinNguoiNhan(nguoiNhan, sdtNguoiNhan) {
+            $.ajax({
+                url: `/api/ban-hang/update-thong-tin-nguoi-nhan/${idTabHD}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    nguoiNhan: nguoiNhan,
+                    sdtNguoiNhan: sdtNguoiNhan
+                }),
+                success: function (response) {
+                    getDuLieu(idTabHD);
+                },
+            });
+        }
+
+
+        function showModalDanhSachSanPham() {
+            $('#modalDachSachSanPham').removeClass('hidden');
+        }
+
+        function hideModalDanhSachSanPham() {
+            $('#modalDachSachSanPham').addClass('hidden');
+            $('#modalDachSachSanPham').val('');
+        }
+
+        $('#hienThiDanhSachSanPham').click(function () {
+            showModalDanhSachSanPham();
+        });
+
+        $('#dongDanhSachSanPham').click(function () {
+            hideModalDanhSachSanPham();
+        });
+
+        function showModalKhachHang() {
+            $('#modalKhachHang').removeClass('hidden');
+        }
+
+        function hideModalKhachHang() {
+            $('#modalKhachHang').addClass('hidden');
+            $('#modalKhachHang').val('');
+        }
+
+        $('#chonTaiKhoan').click(function () {
+            showModalKhachHang();
+        });
+
+        $('#dongKhachHang').click(function () {
+            hideModalKhachHang();
+        });
+
+
+
         idHoaDon();
+        getDanhSachSanPham();
+        getKhachHang(0, 5);
+        getDanhSachSanPham(0, 5);
+
     });
+
+    const getKhachHang = (page = 0, size = 5) => {
+        $.ajax({
+            url: `/api/ban-hang/khach-hang?page=${page}&size=${size}`,
+            method: 'GET',
+            data: {},
+            success: function (result) {
+                console.log("API Result: ", result);
+                let list = "";
+                $("#listKhachHang").empty();
+                for (let i = 0; i < result.content.length; i++) {
+                    list += `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].anh}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].ten}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].email}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].sdt}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <button id="chonKhachHang" class="chonKhachHang1 bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded mr-3" data-id="${result.content[i].id}" data-nguoi-nhan="${result.content[i].ten}" data-sdt-nguoi-nhan="${result.content[i].sdt}">
+                                Chọn
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                }
+
+                $("#listKhachHang").html(list);
+
+                let pagination = '';
+                pagination += `
+                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getKhachHang(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
+                `;
+
+                const maxVisiblePages = 3;
+                const halfVisiblePages = Math.floor(maxVisiblePages / 2);
+                let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
+                let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
+
+                if (startPage > 1) {
+                    pagination += `
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getKhachHang(0, ${size})">1</button>
+                `;
+                    if (startPage > 2) {
+                        pagination += `<span class="px-4 py-2">...</span>`;
+                    }
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    pagination += `
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getKhachHang(${i - 1}, ${size})">${i}</button>
+                `;
+                }
+
+                if (endPage < result.totalPages) {
+                    if (endPage < result.totalPages - 1) {
+                        pagination += `<span class="px-4 py-2">...</span>`;
+                    }
+                    pagination += `
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getKhachHang(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
+                `;
+                }
+
+                pagination += `
+                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getKhachHang(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
+                `;
+
+                $("#pagination").html(pagination);
+            }
+        });
+    }
+
+    const formatVND = (tongtien) => {
+        return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+    }
+
+    const getDanhSachSanPham = (page = 0, size = 5) => {
+        $.ajax({
+            url: `/api/hoa-don/danh-sach-san-pham?page=${page}&size=${size}`,
+            method: 'GET',
+            success: function (result) {
+                let list = "";
+                $("#danhSachSanPham").empty();
+                for (let i = 0; i < result.content.length; i++) {
+                    list += `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <img src="https://res.cloudinary.com/deapopcoc/image/upload/${result.content[i].anh.ten}" alt="Ảnh" class="w-16 h-auto">
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap font-bold">
+                            <h1>${result.content[i].ten}</h1>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">${formatVND(result.content[i].giaBan)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].soLuong}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].kichCo.ten}</td>
+                        <td>
+                            <div class="color-container rounded-lg ml-5 border-3" style="background-color: ${result.content[i].mauSac.ten}; width: 50px; height: 20px;"></div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="bg-green-500 rounded-lg text-white px-2 py-1">${result.content[i].trangThai}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                           <button id="hienThiDanhSachSanPham" class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-1 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm
+                            </button>
+                        </td>
+                    </tr>`;
+                }
+
+                $("#danhSachSanPham").html(list);
+
+                let pagination = '';
+                pagination += `
+                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
+            `;
+
+                const maxVisiblePages = 3;
+                const halfVisiblePages = Math.floor(maxVisiblePages / 2);
+                let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
+                let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
+
+                if (startPage > 1) {
+                    pagination += `
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(0, ${size})">1</button>
+                `;
+                    if (startPage > 2) {
+                        pagination += `<span class="px-4 py-2">...</span>`;
+                    }
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    pagination += `
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getDanhSachSanPham(${i - 1}, ${size})">${i}</button>
+                `;
+                }
+
+                if (endPage < result.totalPages) {
+                    if (endPage < result.totalPages - 1) {
+                        pagination += `<span class="px-4 py-2">...</span>`;
+                    }
+                    pagination += `
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
+                `;
+                }
+
+                pagination += `
+                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
+            `;
+
+                $("#paginationSP").html(pagination);
+            }
+
+        });
+    };
+
+
 </script>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+
 </body>
 </html>
