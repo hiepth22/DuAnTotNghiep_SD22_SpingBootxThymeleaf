@@ -1,11 +1,13 @@
 package com.poly.sneaker.controller.DiaChi;
 
+import com.poly.sneaker.dto.DiaChiAdd;
 import com.poly.sneaker.entity.DiaChi;
 import com.poly.sneaker.entity.KhachHang;
 import com.poly.sneaker.sevice.DiaChiService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,12 +16,30 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 public class DiaChiController {
     @Autowired
     DiaChiService diaChiService;
 
+
+    private Long idkh;
+    @GetMapping("/api/khach-hang/dia-chi/{id}")
+    public ResponseEntity<?> getByID(@PathVariable Long id) {
+        try {
+            List<DiaChi> diaChiList = diaChiService.getByID(id);
+            idkh = id;
+            if (diaChiList.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok(diaChiList);
+        } catch (Exception e) {
+            String errorMessage = "Error retrieving addresses for customer with ID: " + id;
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        }
+    }
     @GetMapping("/dia-chi-view-update/{id}")
     public String showEmployeeDetail(@PathVariable("id") Long id, Model model) {
         DiaChi dc = diaChiService.findById(id);
@@ -55,9 +75,11 @@ public class DiaChiController {
             model.addAttribute("errors", result.getAllErrors());
             return "admin/DiaChi/DiaChiAdd";
         }
+      DiaChiAdd dto = new DiaChiAdd(dc.getId(),idkh,dc.getThanhPho(),dc.getQuanHuyen()
+      , dc.getPhuongXa(),dc.getSoNha(),dc.getMoTaChiTiet(),dc.getTen(),dc.getTrangThai(),dc.getNgayTao(),dc.getNgayCapNhat());
+//        dc.setIdKH(idkh);
         dc.setNgayTao(java.time.LocalDateTime.now());
-        dc.setIdKH(dc.getIdKH());
-        diaChiService.add(dc);
+        diaChiService.add(dto);
         redirectAttributes.addFlashAttribute("successMessage", "Địa chỉ đã được thêm thành công.");
         return "redirect:/admin/khach-hang";
     }

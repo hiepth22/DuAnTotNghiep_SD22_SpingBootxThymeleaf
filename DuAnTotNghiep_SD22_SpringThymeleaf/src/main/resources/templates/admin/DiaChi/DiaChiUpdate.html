@@ -13,13 +13,13 @@
             padding: 15px;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            display: none; /* Ẩn ban đầu */
+            display: none;
             z-index: 1000;
         }
 
         .notification.show1 {
-            display: block; /* Hiển thị khi có thông báo */
-            animation: fadeOut 3s ease-out forwards; /* Animation fadeOut */
+            display: block;
+            animation: fadeOut 3s ease-out forwards;
         }
 
         .progress-bar1 {
@@ -29,7 +29,7 @@
             width: 100%;
             height: 5px;
             background-color: #fff;
-            transition: width 3s linear; /* Thời gian hiển thị thanh progress */
+            transition: width 3s linear;
         }
 
         @keyframes fadeOut {
@@ -65,9 +65,9 @@
                     <span class="col-md-11 fw-bold fs-3 text-center">Cập nhật địa chỉ</span>
                 </div>
                 <form id="myForm" th:action="@{/dia-chi-update/{id}(id=${dc.id})}" method="post" class="row g-3" th:object="${dc}">
-                    <input type="hidden" name="thanhPho" th:value="*{thanhPho}">
-                    <input type="hidden" name="quanHuyen" th:value="*{quanHuyen}">
-                    <input type="hidden" name="phuongXa" th:value="*{phuongXa}">
+<!--                    <input type="hidden" name="thanhPho" th:value="*{thanhPho}">-->
+<!--                    <input type="hidden" name="quanHuyen" th:value="*{quanHuyen}">-->
+<!--                    <input type="hidden" name="phuongXa" th:value="*{phuongXa}">-->
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label">Tên Người Nhận:</label>
@@ -77,21 +77,21 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">Tỉnh/Thành Phố</label>
-                            <select class="form-select form-select-sm mb-3" id="city" aria-label="Chọn tỉnh thành"
+                            <select class="form-select form-select-sm mb-3" id="city" aria-label="Chọn tỉnh thành" name="thanhPho"
                                     th:field="*{thanhPho}" oninput="validateForm()">
                                 <option value="" selected>Chọn tỉnh thành</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Quận/Huyện</label>
-                            <select class="form-select form-select-sm mb-3" id="district" aria-label="Chọn quận huyện"
+                            <select class="form-select form-select-sm mb-3" id="district" aria-label="Chọn quận huyện" name="quanHuyen"
                                     th:field="*{quanHuyen}" oninput="validateForm()">
                                 <option value="" selected>Chọn quận huyện</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Phường/Xã</label>
-                            <select class="form-select form-select-sm mb-3" id="ward" aria-label="Chọn phường xã"
+                            <select class="form-select form-select-sm mb-3" id="ward" aria-label="Chọn phường xã" name="phuongXa"
                                     th:field="*{phuongXa}" oninput="validateForm()">
                                 <option value="" selected>Chọn phường xã</option>
                             </select>
@@ -147,7 +147,7 @@
 
         function renderCity(data) {
             data.forEach(function (city) {
-                citis.options[citis.options.length] = new Option(city.Name, city.Id);
+                citis.options[citis.options.length] = new Option(city.Name, city.Name);
             });
 
             citis.onchange = function () {
@@ -155,12 +155,12 @@
                 clearOptions(wards);
 
                 var selectedCity = data.find(function (city) {
-                    return city.Id === citis.value;
+                    return city.Name === citis.value;
                 });
 
                 if (selectedCity) {
                     selectedCity.Districts.forEach(function (district) {
-                        districts.options[districts.options.length] = new Option(district.Name, district.Id);
+                        districts.options[districts.options.length] = new Option(district.Name, district.Name);
                     });
                 }
 
@@ -171,17 +171,17 @@
                 clearOptions(wards);
 
                 var selectedCity = data.find(function (city) {
-                    return city.Id === citis.value;
+                    return city.Name === citis.value;
                 });
 
                 if (selectedCity) {
                     var selectedDistrict = selectedCity.Districts.find(function (district) {
-                        return district.Id === districts.value;
+                        return district.Name === districts.value;
                     });
 
                     if (selectedDistrict) {
                         selectedDistrict.Wards.forEach(function (ward) {
-                            wards.options[wards.options.length] = new Option(ward.Name, ward.Id);
+                            wards.options[wards.options.length] = new Option(ward.Name, ward.Name);
                         });
                     }
                 }
@@ -205,84 +205,64 @@
             var selectedDistrict = districts.options[districts.selectedIndex];
             var selectedWard = wards.options[wards.selectedIndex];
 
-            document.querySelector("input[name='thanhPho']").value = selectedCity ? selectedCity.text : "";
-            document.querySelector("input[name='quanHuyen']").value = selectedDistrict ? selectedDistrict.text : "";
-            document.querySelector("input[name='phuongXa']").value = selectedWard ? selectedWard.text : "";
+            document.querySelector("input[name='thanhPho']").value = selectedCity ? selectedCity.value : "";
+            document.querySelector("input[name='quanHuyen']").value = selectedDistrict ? selectedDistrict.value : "";
+            document.querySelector("input[name='phuongXa']").value = selectedWard ? selectedWard.value : "";
         }
 
         function validateForm() {
             var isValid = true;
-            var ten = document.getElementById('ten').value.trim();
-            var city = document.getElementById('city').value;
-            var district = document.getElementById('district').value;
-            var ward = document.getElementById('ward').value;
+            var ten = document.getElementById("ten").value.trim();
+            var city = citis.value;
+            var district = districts.value;
+            var ward = wards.value;
 
-            if (ten === "") {
-                document.getElementById('tenError').innerText = "Tên không được để trống.";
-                isValid = false;
-            } else {
-                document.getElementById('tenError').innerText = "";
-            }
+            document.getElementById("tenError").innerHTML = ten === "" ? "Vui lòng nhập tên người nhận." : "";
+            isValid = isValid && ten !== "";
 
-            if (city === "" || district === "" || ward === "") {
-                document.getElementById('dcError').innerText = "Vui lòng chọn đầy đủ địa chỉ.";
-                isValid = false;
-            } else {
-                document.getElementById('dcError').innerText = "";
-            }
+            document.getElementById("dcError").innerHTML = city === "" || district === "" || ward === "" ? "Vui lòng chọn đầy đủ địa chỉ." : "";
+            isValid = isValid && city !== "" && district !== "" && ward !== "";
 
             return isValid;
         }
 
-        document.getElementById('confirmButtonupdate').addEventListener('click', function () {
+        document.getElementById("confirmButtonupdate").onclick = function (event) {
+            event.preventDefault();
+
             if (validateForm()) {
                 Swal.fire({
-                    title: 'Bạn có chắc chắn muốn thay đổi địa chỉ?',
-                    text: "Bạn không thể hoàn tác hành động này!",
-                    icon: 'warning',
+                    title: 'Xác nhận',
+                    text: 'Bạn có chắc chắn muốn cập nhật địa chỉ này không?',
+                    icon: 'question',
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Vâng, tiếp tục!',
-                    cancelButtonText: 'Hủy'
+                    confirmButtonText: 'Có',
+                    cancelButtonText: 'Không',
+                    customClass: {
+                        confirmButton: 'btn btn-primary',
+                        cancelButton: 'btn btn-secondary'
+                    },
+                    buttonsStyling: false
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Swal.fire(
-                            'Thành Công!',
-                            'Bạn đã thay đổi thông tin địa chỉ.',
-                            'success'
-                        ).then(() => {
-                            // Hiển thị thông báo thành công
-                            showSuccessMessageUpdate();
-
-                            // Gửi biểu mẫu sau khi thông báo thành công đã được hiển thị
-                            document.getElementById('myForm').submit();
-                        });
-                    } else {
-                        Swal.fire(
-                            'Đã hủy!',
-                            'Hành động của bạn đã bị hủy.',
-                            'error'
-                        );
+                        document.getElementById("myForm").submit();
+                        showNotification1();
                     }
                 });
             }
-        });
+        };
 
-        function showSuccessMessageUpdate() {
-            const notification = document.getElementById('notification1');
+        function showNotification1() {
+            var notification = document.getElementById('notification1');
+            var progressBar = document.getElementById('progress-bar1');
+
             notification.classList.add('show1');
-            const progressBar = document.getElementById('progress-bar1');
-            progressBar.style.width = '0';
-            setTimeout(function () {
-                progressBar.style.width = '100%';
-            }, 100);
+            progressBar.style.width = '100%';
 
             setTimeout(function () {
                 notification.classList.remove('show1');
+                progressBar.style.width = '0';
             }, 3000);
         }
     </script>
 </body>
-
 </html>
