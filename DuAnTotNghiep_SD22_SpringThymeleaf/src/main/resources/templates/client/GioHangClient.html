@@ -1,79 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>SHOSE SEE</title>
+    <title>Giỏ Hàng</title>
     <link rel="stylesheet" href="/css/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body class="bg-gray-100">
 <div>
-    <div class="mb-3 mt-20">
+    <div class="mt-20">
         <h1 class="flex justify-center font-bold text-3xl">Giỏ Hàng</h1>
         <div class="flex justify-center mt-3">
-            <div class="w-48 h-0.5 bg-orange-500"></div> <!-- Thanh màu cam -->
+            <div class="w-48 h-0.5 bg-orange-500"></div>
         </div>
+
     </div>
 
-    <div class="container ml-[15%] bg-white  w-[40%] p-2 rounded-lg shadow-md mt-32 flex gap-32">
-        <div class="">
-           Chọn hết
+    <div class="grid gap-1 ml-2" style="grid-template-columns: 70% 30%;">
+        <div>
+            <div class="flex">
+                <div class="container ml-[15%] bg-white  w-[80%] p-2 rounded-lg shadow-md mt-32 flex gap-40">
+                    <div>
+                        <input id="select-all-checkbox" type="checkbox" class="ml-5 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded">
+                    </div>
+                    <div>Hình Ảnh</div>
+                    <div>Sản phẩm</div>
+                    <div>Tổng cộng</div>
+                </div>
+            </div>
+            <div id="thongTinSP"></div>
+            <div>
+                <button type="button" id="delete-all" class="ml-[15%] mt-5 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5">Xóa tất cả</button>
+                <button type="button" id="continue-shopping" class="ml-[54%] mt-5 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5">Tiếp tục mua hàng</button>
+            </div>
         </div>
-        <div class="">
-           Hình Ảnh
-        </div>
-        <div class="">
-            Sản phẩm
-        </div>
-        <div class="">
-            Tổng cộng
+
+        <div class="container bg-white  w-[80%] p-2 rounded-lg shadow-md mt-32">
+            <div>
+                <h1 class="ml-2 text-2xl font-bold">Đơn hàng</h1>
+                <div class="ml-1 w-96 h-0.5 bg-black"></div>
+            </div>
+            <div class="m-5">
+                <p>Voucher: <span id="voucher">0</span> VNĐ</p>
+            </div>
+            <div class="ml-1 w-96 h-0.5 bg-gray-200"></div>
+            <div class="m-5">
+                <div>
+                    <p>Đơn hàng: <span id="donHang">0</span> VNĐ</p>
+                    <p class="mt-5">Giảm: <span id="discount">0</span> VNĐ</p>
+                </div>
+            </div>
+            <div class="ml-1 w-96 h-0.5 bg-gray-200"></div>
+            <div>
+                <h1 class="text-xl font-bold m-10">Tổng tiền: <span id="total">0</span> VNĐ</h1>
+            </div>
+            <div class="tiepTucSanPham">
+                <button type="button" class="tiepTuc ml-5 w-[90%] h-20 font-bold text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"><a href="/cho-thanh-toan">Tiếp tục thanh toán</a></button>
+            </div>
         </div>
     </div>
-
-    <div id="thongTin">
-
-        </div>
-
 </div>
 
 <script>
     $(document).ready(function () {
+        let discount = 0;
+        let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
 
-
-        function getKhacHang(){
-            let idKhachHang;
-
+        function getKhachHang() {
             $.ajax({
                 url: '/api/session/user',
                 method: 'GET',
                 success: function (response) {
-                    idKhachHang = response.id;
-                    getGoHang(idKhachHang)
+                    let idKhachHang = response.id;
+                    getDuLieuGioHangVaGioHangChiTiet(idKhachHang);
                 },
             });
         }
 
-        function getGoHang(idKhachHang) {
+        function getDuLieuGioHangVaGioHangChiTiet(idKhachHang) {
             $.ajax({
                 url: `/api/gio-hang/detail/${idKhachHang}`,
                 method: 'GET',
                 success: function (response) {
-                    const gh = response.gh;
-                    const ghct = response.ghct;
+                    const gioHangChiTiet = response.ghct;
 
-                    console.log(gh)
-                    console.log(ghct)
+                    let list = "";
+                    $("#thongTinSP").empty();
 
+                    if (Array.isArray(gioHangChiTiet) && gioHangChiTiet.length > 0) {
+                        for (let i = 0; i < gioHangChiTiet.length; i++) {
+                            const item = gioHangChiTiet[i];
+                            const itemString = JSON.stringify(item);
 
+                            list += `
+                        <div id="thongTin" class="container ml-[15%] bg-white w-[80%] p-2 rounded-lg shadow-md mt-3 flex gap-32 h-32">
+                            <div>
+                                <input type="checkbox" class="product-checkbox ml-5 mt-10 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded" data-price="${item.sanPhamChiTiet.giaBan}" data-so-luong="${item.soLuong}" data-item='${itemString}'>
+                            </div>
+                            <div class="w-24">
+                                <img src="https://res.cloudinary.com/deapopcoc/image/upload/${item.sanPhamChiTiet.anh.ten}" alt="Ảnh" class="w-24 h-auto mt-2">
+                            </div>
+                            <div class="w-32">
+                                <div>${item.sanPhamChiTiet.ten}</div>
+                                <div>Giá: ${item.sanPhamChiTiet.giaBan}</div>
+                                <div>Số lượng: ${item.soLuong}</div>
+                            </div>
+                            <div>
+                                <div>Trạng thái</div>
+                                <div>${item.soLuong * item.sanPhamChiTiet.giaBan}</div>
+                                <div>Thùng rác</div>
+                            </div>
+                        </div>`;
+                        }
+                    } else {
+                        list = "<p>Không có sản phẩm nào trong giỏ hàng.</p>";
+                    }
 
+                    $("#thongTinSP").html(list);
+                    restoreCheckboxSelection();
+                    bindCheckboxEvents();
                 },
+                error: function (error) {
+                    console.error('Lỗi khi lấy dữ liệu:', error);
+                }
             });
         }
 
+        function bindCheckboxEvents() {
+            $(".product-checkbox").off('change').on('change', function() {
+                xuLyThayDoiCheckbox();
+            });
 
-        getKhacHang();
+            $("#select-all-checkbox").off('change').on('change', function() {
+                const isChecked = $(this).is(":checked");
+                $(".product-checkbox").prop("checked", isChecked);
+                xuLyThayDoiCheckbox();
+            });
 
+            $("#delete-all").off('click').on('click', function() {
+                $(".product-checkbox").prop("checked", false);
+                $("#select-all-checkbox").prop("checked", false);
+                xuLyThayDoiCheckbox();
+            });
+        }
+
+        function restoreCheckboxSelection() {
+            $(".product-checkbox").each(function() {
+                const item = $(this).data('item');
+                const isChecked = selectedProducts.some(product => JSON.stringify(product) === JSON.stringify(item));
+                $(this).prop("checked", isChecked);
+            });
+            tinhTongTien();
+        }
+
+        function tinhTongTien() {
+            let tongTien = 0;
+            let tatCaDaChon = true;
+            let tongCheckbox = 0;
+
+            $(".product-checkbox").each(function() {
+                tongCheckbox++;
+                if ($(this).is(":checked")) {
+                    const gia = $(this).data('price');
+                    const soLuong = $(this).data('so-luong');
+                    tongTien += gia * soLuong;
+                } else {
+                    tatCaDaChon = false;
+                }
+            });
+
+            $("#donHang").text(tongTien);
+            const tongTienCuoi = tongTien - discount;
+            $("#total").text(tongTienCuoi < 0 ? 0 : tongTienCuoi);
+
+            $("#select-all-checkbox").prop("checked", tatCaDaChon && tongCheckbox > 0);
+        }
+
+        function xuLyThayDoiCheckbox() {
+            selectedProducts = [];
+
+            $(".product-checkbox:checked").each(function() {
+                const item = $(this).data('item');
+                selectedProducts.push(item);
+            });
+
+            localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+            tinhTongTien();
+        }
+
+        getKhachHang();
     });
 
 </script>

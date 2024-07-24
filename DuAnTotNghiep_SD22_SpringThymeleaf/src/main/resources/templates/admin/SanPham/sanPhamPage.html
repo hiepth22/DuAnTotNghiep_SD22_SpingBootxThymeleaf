@@ -47,7 +47,7 @@
                 <th scope="row" th:text="${state.count}"></th>
                 <td th:text="${sanPham.ten}"></td>
                 <td th:text="${sanPham.thuongHieu}"></td>
-                <td th:text="${sanPham.soLuongChiTiet}"></td>
+                <td th:text="${soLuongMap[sanPham.id]}"></td>
                 <td>
                     <span th:if="${sanPham.trangThai == 1}">Đang bán</span>
                     <span th:if="${sanPham.trangThai == 0}">Tạm ngưng</span>
