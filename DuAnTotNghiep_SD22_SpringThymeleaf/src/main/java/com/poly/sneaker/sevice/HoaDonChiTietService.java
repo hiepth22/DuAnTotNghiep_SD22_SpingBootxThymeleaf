@@ -36,5 +36,9 @@ public class HoaDonChiTietService {
         return hoaDonChiTietRepository.findByIdHD(idHoaDon);
     }
 
+    public HoaDonChiTiet add(HoaDonChiTiet hoaDonChiTiet) {
+        return hoaDonChiTietRepository.save(hoaDonChiTiet);
+    }
+
 
 }

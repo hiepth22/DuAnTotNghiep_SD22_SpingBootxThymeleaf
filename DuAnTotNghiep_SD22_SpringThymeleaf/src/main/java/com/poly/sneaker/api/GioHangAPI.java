@@ -2,15 +2,15 @@ package com.poly.sneaker.api;
 
 import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.GioHangRepository;
-import com.poly.sneaker.sevice.DiaChiService;
-import com.poly.sneaker.sevice.GioHangChiTietService;
-import com.poly.sneaker.sevice.GiohangService;
+import com.poly.sneaker.sevice.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,12 +22,16 @@ public class GioHangAPI {
 
     @Autowired
     GiohangService giohangService;
-
     @Autowired
     GioHangChiTietService  gioHangChiTietService;
     @Autowired
     private DiaChiService diaChiService;
-
+    @Autowired
+    private HoaDonService hoaDonService;
+    @Autowired
+    private HoaDonChiTietService hoaDonChiTietService;
+    @Autowired
+    private PhuongThucThanhToanService phuongThucThanhToanService;
 
     @GetMapping("/detail/{id}")
     public ResponseEntity<Map<String, Object>> detail(@PathVariable("id") Long id) {
@@ -57,22 +61,53 @@ public class GioHangAPI {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/them-san-pham-vao-hoa-don")
-    public String loginSubmit(@RequestParam(name = "id") Long id,
-                              @RequestParam(name = "soLuong") int soLuong,
-                              Model model, HttpSession session) {
-//        Optional<KhachHang> lst = khachHangRepository.findByEmail(email);
-//        if (!lst.isEmpty()) {
-//            KhachHang kh = lst.get();
-//            if (matKhau.equals(kh.getMatKhau())) {
-//                model.addAttribute("khachHang", kh);
-//                model.addAttribute("id", kh.toString());
-//                session.setAttribute("khachHang", kh);
-//                return "client/viewClient";
-//            }
-//        }
-        model.addAttribute("error", true);
-        return "Login/login";
+    @PostMapping("/tao-hoa-don-dat-hang")
+    public ResponseEntity<?> taoHoaDonDatHang (@RequestBody HoaDon hoaDon){
+        hoaDon.setDiaChiNguoiNhan(hoaDon.getDiaChiNguoiNhan());
+        System.out.println(hoaDon.getDiaChiNguoiNhan());
+        hoaDon.setNgayTao(LocalDateTime.now());
+        hoaDon.setLoai(1);
+        hoaDon.setTrangThai(1);
+        hoaDon.setMa(hoaDon.getMa());
+        hoaDon.setNguoiNhan(hoaDon.getNguoiNhan());
+        hoaDon.setKhachHang(hoaDon.getKhachHang());
+        hoaDon.setTongTien(hoaDon.getTongTien());
+        hoaDon.setTienShip(hoaDon.getTienShip());
+        hoaDon.setSdtNguoiNhan(hoaDon.getSdtNguoiNhan());
+
+        PhieuGiamGia pg = new PhieuGiamGia();
+        pg.setGiaTriGiam(new BigDecimal(0));
+        HoaDon savedHoaDon = hoaDonService.add(hoaDon);
+        String maHoaDon = "HD0" + savedHoaDon.getId();
+        savedHoaDon.setMa(maHoaDon);
+        hoaDonService.taoMaHoaDon(savedHoaDon.getId(), savedHoaDon);
+        return ResponseEntity.ok(savedHoaDon);
     }
+
+    @PostMapping("/them-san-pham-vao-hoa-don/{id}")
+    public ResponseEntity<?> themSanPhamVaoHoaDon (@PathVariable("id") Long id ,@RequestBody HoaDonChiTiet hoaDonChiTiet){
+        hoaDonChiTiet.setSanPhamChiTiet(hoaDonChiTiet.getSanPhamChiTiet());
+        HoaDon hoaDon = new HoaDon();
+        hoaDon.setId(id);
+        hoaDonChiTiet.setHoaDon(hoaDon);
+        hoaDonChiTiet.setSoLuong(hoaDonChiTiet.getSoLuong());
+        hoaDonChiTiet.setGia(hoaDonChiTiet.getGia());
+        hoaDonChiTiet.setTrangThai(1);
+        return ResponseEntity.ok(hoaDonChiTietService.add(hoaDonChiTiet));
+    }
+
+
+    @PostMapping("/them-phuong-thuc-thanh-toan/{id}")
+    public ResponseEntity<?> themPhuongThucThanhToan (@PathVariable("id") Long id ,@RequestBody PhuongThucThanhToan phuongThucThanhToan){
+        phuongThucThanhToan.setTenThanhToan(phuongThucThanhToan.getTenThanhToan());
+        HoaDon hd = new HoaDon();
+        hd.setId(id);
+        phuongThucThanhToan.setHoaDon(hd);
+        phuongThucThanhToan.setLoaiThanhToan(phuongThucThanhToan.getLoaiThanhToan());
+        phuongThucThanhToan.setTrangThai(phuongThucThanhToan.getTrangThai());
+        phuongThucThanhToan.setNgayTao(LocalDateTime.now());
+        return ResponseEntity.ok(phuongThucThanhToanService.add(phuongThucThanhToan));
+    }
+
 
 }

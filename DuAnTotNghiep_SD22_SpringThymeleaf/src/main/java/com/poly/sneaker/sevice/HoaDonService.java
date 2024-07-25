@@ -49,6 +49,14 @@ public class HoaDonService {
         return hoaDonRepository.save(hoaDon);
     }
 
+    public HoaDon taoMaHoaDon(Long id, HoaDon hoaDon) {
+        Optional<HoaDon> optional = hoaDonRepository.findById(id);
+        return optional.map(o -> {
+            o.setMa(hoaDon.getMa());
+            return hoaDonRepository.save(o);
+        }).orElse(null);
+    }
+
     public HoaDon detail(Long id) {
         Optional<HoaDon> optional = hoaDonRepository.findById(id);
         return optional.map(o -> o).orElse(null);

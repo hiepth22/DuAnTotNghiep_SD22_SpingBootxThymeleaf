@@ -45,7 +45,7 @@ $(document).ready(function () {
                                             </span>
                                             <div style="margin-left: 10px;">
                                                 <strong style="display: block; margin-bottom: 3px; font-size: 14px;">${diaChi.ten}</strong>
-                                                <p style="margin: 0; font-size: 12px;">${diaChi.moTaChiTiet}, ${diaChi.soNha}, ${diaChi.phuongXa}, ${diaChi.quanHuyen}, ${diaChi.thanhPho}</p>
+                                                <p style="margin: 0; font-size: 12px;">${diaChi.moTaChiTiet}, số ${diaChi.soNha}, ${diaChi.phuongXa}, ${diaChi.quanHuyen}, ${diaChi.thanhPho}</p>
                                             </div>
                                         </div>
                                         <a href="/dia-chi-view-update/${diaChi.id}" class="btn btn-outline-orange btn-sm btn-update-address" data-dia-chi-id="${diaChi.id}" style="border: 1px solid orange; background-color: white; color: black;">

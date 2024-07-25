@@ -6,35 +6,242 @@
     <link rel="stylesheet" href="/css/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        .btn-payment {
+            border: 1px solid #808080;
+            /*background-color: #ffffff;*/
+            color: #080808;
+        }
+        .btn-payment.active {
+            border: 1px solid #3182ce;
+            color: #3182ce;
+        }
+        .btn-payment {
+            position: relative;
+            padding-right: 2.5rem;
+        }
+
+        .icon-payment {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
-<div class="flex justify-center">
-    <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-32 flex gap-40">
-       <div class="grid gap-1 grid-cols-1">
-           <div>
-               <h1 class="text-orange-700 text-xl m-5">Địa chỉ đơn hàng</h1>
-           </div>
-           <div class="diaChiKhachHang ml-5 mb-5" id="diaChiKhachHang">
+<div>
+    <div class="flex justify-center">
+        <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-32 flex gap-40">
+            <div class="grid gap-1 grid-cols-1">
+                <div>
+                    <h1 class="text-orange-700 text-xl m-5">Địa chỉ đơn hàng</h1>
+                </div>
+                <div class="diaChiKhachHang ml-5 mb-5" id="diaChiKhachHang">
 
-           </div>
-       </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-center">
+        <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-7 gap-40">
+                <table id="tableHoaDonChiTiet" class="min-w-full divide-y divide-gray-200  ">
+                    <thead class="">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
+                            STT
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider w-[30%]">
+                            Sản
+                            phẩm
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
+                           size
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
+                            Đơn giá
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Số
+                            lượng
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Thành
+                            tiền
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="danhSachSanPham" class="bg-white divide-y divide-gray-200 h-full">
+                    </tbody>
+                </table>
+            <div class="soLuongVaTongTien ml-[75%]" id="soLuongVaTongTien"></div>
+        </div>
+    </div>
+    <div class="flex justify-center">
+        <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-7 gap-40 mb-20">
+            <div class="m-10">
+                <span class=" text-xl font-bold mr-10">Phương thức thanh toán</span>
+                <button id="btnCOD" class="btn-payment w-64 h-14 border py-2 px-4 rounded-md mr-5 active">
+                    Thanh toán khi nhận hàng
+                </button>
+                <button id="btnVNPAY" class="btn-payment w-64 h-14 border py-2 px-4 rounded-md relative">
+                    <span class="flex"> Thanh toán VNPAY</span>
+                    <img src="https://asset.brandfetch.io/idV02t6WJs/idyWhNall8.svg" class="icon-payment absolute w-[40%] h-[40%]">
+                </button>
+            </div>
+            <div class="grid gap-4 grid-cols-2">
+                <div>
+                    <div class="flex">
+                        <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/05/Logo-GHN-Slogan-En.png" class="w-[20%] h-[20%]">
+                        <p class="ml-10">Thời gian nhận hàng dự kiện: <span id="thoiGianDuKien"></span></p>
+                    </div>
+                </div>
+                <div class="ml-56">
+                   <div class="grid gap-4 grid-cols-2">
+                       <div class="font-bold">
+                           <div class="mb-5">Tổng tiền</div>
+                           <div class="mb-5">Phí vận chuyển</div>
+                           <div class="mb-5">Mã giảm giá</div>
+                           <div class="mb-5">Tổng thanh toán</div>
+                       </div>
+                       <div class="font-bold">
+                           <div class="mb-5">:<span id="tongTien"></span></div>
+                           <div class="mb-5">:<span id="phiVanChuyen"></span></div>
+                           <div class="mb-5">:<span id="maGiamGia"></span></div>
+                           <div class="mb-5">:<span id="tongThanhToan"></span></div>
+                       </div>
+                   </div>
+                    <div id="datHang">
+                        <button type="button" class="tiepTuc ml-14 w-[70%] h-16 mb-10 font-bold text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                            <a class="text-xl">Đặt hàng</a>
+                        </button>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script>
     $(document).ready(function () {
-
         let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
-        console.log(selectedProducts); // Log ra danh sách sản phẩm đ
+        let discount = 0;
+        let ship = 0;
+        var tongTien = 0;
+        let nguoiNhan = '';
+        let sdtNguoiNhan = '';
+        let idKhachHang = '';
+
+
+        const DateNow = new Date();
+        const DateShip = DateNow.setDate(DateNow.getDate() + 4);
+
+        $('#thoiGianDuKien').text(formatDateFromTimestamp(DateShip))
+
+        function formatDateFromTimestamp(timestamp) {
+            const date = new Date(timestamp);
+
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+
+            return `${day}/${month}/${year}`;
+        }
+
+        $(document).ready(function () {
+            $('#btnCOD').click(function () {
+                $(this).addClass('active');
+                $('#btnVNPAY').removeClass('active');
+            });
+
+            $('#btnVNPAY').click(function () {
+                $(this).addClass('active');
+                $('#btnCOD').removeClass('active');
+            });
+        });
+
+
+        function hienThiSanPhamDaChon() {
+            let list = "";
+
+            if (Array.isArray(selectedProducts) && selectedProducts.length > 0) {
+                for (let i = 0; i < selectedProducts.length; i++) {
+                    const item = selectedProducts[i];
+                    tongTien += item.soLuong * item.sanPhamChiTiet.giaBan; // Sửa lỗi ở đây
+                    list += `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
+                        <td class="px-6 py-4 whitespace-nowrap flex">
+                            <div>
+                                <img src="https://res.cloudinary.com/deapopcoc/image/upload/${item.sanPhamChiTiet.anh}" alt="Ảnh" class="w-24 h-auto mt-2">
+                            </div>
+                            <div><span>${item.sanPhamChiTiet.ten}</span></div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">${item.sanPhamChiTiet.kichCo.ten}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${item.sanPhamChiTiet.giaBan}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${item.soLuong}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${item.soLuong * item.sanPhamChiTiet.giaBan}</td>
+                    </tr>
+            `;
+                }
+
+                $('#soLuongVaTongTien').html(`
+            <div>Tổng số tiền(${selectedProducts.length} sản phẩm): ${tongTien}</div>
+
+
+        `);
+                $('#tongTien').text(tongTien);
+                $('#phiVanChuyen').text(ship);
+                $('#maGiamGia').text(discount);
+                $('#tongThanhToan').text(tongTien - discount);
+
+            } else {
+                list = "<p>Không có sản phẩm nào được chọn.</p>";
+            }
+
+            $("#danhSachSanPham").html(list);
+
+
+        }
+
+        function thongTinNguoiMua(dckh) {
+
+            if (dckh.trangThai == 1) {
+                $('#diaChiKhachHang').html(`
+                    <div class="flex">
+                        <p class="font-bold">${dckh.idKH.ten} |<span class="font-normal ml-1">${dckh.idKH.sdt}</span> <span id="diaChiSpan" class="font-normal ml-4">${dckh.soNha}, ${dckh.phuongXa}, ${dckh.quanHuyen}, ${dckh.thanhPho}</span></p>
+                        <button class=" ml-10 bg-blue-500 hover:bg-blue-700 text-white px-2 rounded">
+                            Mặc định
+                        </button>
+                        <a class="ml-10 text-blue-700">Thay đổi</a>
+                    </div>
+                `);
+            }
+        }
 
         function getKhachHang() {
             $.ajax({
                 url: '/api/session/user',
                 method: 'GET',
                 success: function (response) {
-                    let idKhachHang = response.id;
+                    idKhachHang = response.id;
+                    nguoiNhan = response.ten;
+                    sdtNguoiNhan = response.sdt;
                     getDuLieu(idKhachHang);
-                },
 
+                    $("#datHang").off('click', '.tiepTuc').on('click', '.tiepTuc', function () {
+
+                        let ship2 = ship;
+                        var tongTien2 = tongTien;
+                        let nguoiNhan2 = nguoiNhan;
+                        let sdtNguoiNhan2 = sdtNguoiNhan;
+                        let diaChiNguoiNhan = $('#diaChiSpan').text().trim();
+                        console.log(diaChiNguoiNhan)
+
+                        taoHoaDonDatHang(nguoiNhan2, idKhachHang, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan);
+                    });
+                },
             });
         }
 
@@ -43,26 +250,102 @@
                 url: `/api/gio-hang/cho-thanh-toan/${idKhachHang}`,
                 method: 'GET',
                 success: function (response) {
-                        thongTinNguoiMua(response.diaChiKH[0]);
+                    thongTinNguoiMua(response.diaChiKH[0]);
+
+                },
+            });
+        }
+
+        function taoHoaDonDatHang(nguoiNhan, KhachHang, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan) {
+
+            $.ajax({
+                url: `/api/gio-hang/tao-hoa-don-dat-hang`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    ma: "1",
+                    nguoiNhan: nguoiNhan,
+                    tongTien: tongTien,
+                    tienShip: tienShip,
+                    sdtNguoiNhan: sdtNguoiNhan,
+                    diaChiNguoiNhan: diaChiNguoinhan,
+                    khachHang: { id: KhachHang }
+                }),
+                success: function (response) {
+                    const idHoaDon = response.id;
+                    addHistoryLog(idHoaDon);
+                    addSanPhamVaoHDCT(idHoaDon);
+                    addPhuongThucThanhToan(idHoaDon);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi khi tạo hóa đơn:', error);
+                }
+            });
+        }
+
+
+        function addHistoryLog(idHoaDon) {
+
+            $.ajax({
+                url: `/api/hoa-don/lich-su-hoa-don/add/${idHoaDon}`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ghiChu: "Chờ xác nhận", hanhDong: 1}),
+                success: function (response) {
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi khi thêm lịch sử:', error);
+                }
+            });
+        }
+
+        function addSanPhamVaoHDCT(idHoaDon) {
+            let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+
+            selectedProducts.forEach(product => {
+                const productData = {
+                    sanPhamChiTiet: product.sanPhamChiTiet,
+                    soLuong: product.soLuong,
+                    gia: product.sanPhamChiTiet.giaBan,
+                    trangThai: 1
+                };
+
+                $.ajax({
+                    url: `/api/gio-hang/them-san-pham-vao-hoa-don/${idHoaDon}`,
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(productData),
+                    success: function (response) {
+                    },
+                    error: function (xhr, status, error) {
+
+                    }
+                });
+            });
+            localStorage.removeItem('selectedProducts');
+        }
+
+        function addPhuongThucThanhToan(idHoaDon) {
+
+            $.ajax({
+                url: `/api/gio-hang/them-phuong-thuc-thanh-toan/${idHoaDon}`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    tenThanhToan: "Tiền mặt",
+                    loaiThanhToan: false,
+                    trangThai: 1
+                }),
+                success: function (response) {
                 },
 
             });
         }
 
-        function thongTinNguoiMua(dckh) {
-            if(dckh.trangThai == 1)
-            $('#diaChiKhachHang').html(`
-                <div class="flex">
-                    <p class="font-bold">${dckh.idKH.ten} |<span class="font-normal ml-1">${dckh.idKH.sdt}</span> <span class="font-normal ml-4">${dckh.soNha}, ${dckh.phuongXa}, ${dckh.quanHuyen}, ${dckh.thanhPho}</span></p>
-                    <button class=" ml-10 bg-blue-500 hover:bg-blue-700 text-white px-2 rounded">
-                        Mặc định
-                    </button>
-                    <a class="ml-10 text-blue-700">Thay đổi</a>
-                </div>
-            `);
-        }
 
+        hienThiSanPhamDaChon();
         getKhachHang();
+
     });
 </script>
 </body>

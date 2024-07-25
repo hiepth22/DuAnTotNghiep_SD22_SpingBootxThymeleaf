@@ -74,7 +74,7 @@ public class HoaDon {
     @Column(name = "sdtNguoiNhan", length = 20)
     private String sdtNguoiNhan;
 
-    @Column(name = "diaChiNguoiNhan", length = 100)
+    @Column(name = "diaChiNguoiNhan", length = 200)
     private String diaChiNguoiNhan;
 
     @Column(name = "ghiChu", length = 200)

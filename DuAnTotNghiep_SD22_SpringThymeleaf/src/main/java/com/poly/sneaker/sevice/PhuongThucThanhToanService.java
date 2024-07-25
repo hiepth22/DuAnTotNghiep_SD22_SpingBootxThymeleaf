@@ -25,11 +25,15 @@ public class PhuongThucThanhToanService {
     }
 
     public PhuongThucThanhToan updateTrangThaiThanhToan(Long id, PhuongThucThanhToan phuongThucThanhToan) {
-        Optional<PhuongThucThanhToan> optional = phuongThucThanhToanRepository.findById(id);
+        Optional<PhuongThucThanhToan> optional = phuongThucThanhToanRepository.findByIdHoaDon(id);
         return optional.map(o -> {
             o.setLoaiThanhToan(phuongThucThanhToan.getLoaiThanhToan());
             return phuongThucThanhToanRepository.save(o);
         }).orElse(null);
+    }
+
+    public PhuongThucThanhToan add(PhuongThucThanhToan phuongThucThanhToan) {
+        return phuongThucThanhToanRepository.save(phuongThucThanhToan);
     }
 
 }

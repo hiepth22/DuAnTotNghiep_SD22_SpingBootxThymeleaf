@@ -54,68 +54,70 @@
 </head>
 
 <body>
-<div class="container-xxl position-relative bg-white d-flex p-0">
+<div class="flex">
     <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
 
-    <div class="content">
+    <div class="content flex-grow ml-64 p-4 bg-gray-200">
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
-        <div class="container d-flex justify-content-center align-items-center vh-100">
-            <div class="container mt-5">
-                <div class="text-center">
-                    <span class="col-md-11 fw-bold fs-3 text-center">Cập nhật địa chỉ</span>
-                </div>
-                <form id="myForm" th:action="@{/dia-chi-update/{id}(id=${dc.id})}" method="post" class="row g-3" th:object="${dc}">
-<!--                    <input type="hidden" name="thanhPho" th:value="*{thanhPho}">-->
-<!--                    <input type="hidden" name="quanHuyen" th:value="*{quanHuyen}">-->
-<!--                    <input type="hidden" name="phuongXa" th:value="*{phuongXa}">-->
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Tên Người Nhận:</label>
-                            <input type="text" placeholder="Nhập tên người nhận" id="ten" name="ten"
-                                   class="form-control" th:field="*{ten}" oninput="validateForm()">
-                            <div id="tenError" class="error"></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Tỉnh/Thành Phố</label>
-                            <select class="form-select form-select-sm mb-3" id="city" aria-label="Chọn tỉnh thành" name="thanhPho"
-                                    th:field="*{thanhPho}" oninput="validateForm()">
-                                <option value="" selected>Chọn tỉnh thành</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Quận/Huyện</label>
-                            <select class="form-select form-select-sm mb-3" id="district" aria-label="Chọn quận huyện" name="quanHuyen"
-                                    th:field="*{quanHuyen}" oninput="validateForm()">
-                                <option value="" selected>Chọn quận huyện</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Phường/Xã</label>
-                            <select class="form-select form-select-sm mb-3" id="ward" aria-label="Chọn phường xã" name="phuongXa"
-                                    th:field="*{phuongXa}" oninput="validateForm()">
-                                <option value="" selected>Chọn phường xã</option>
-                            </select>
-                        </div>
-                        <span id="dcError" class="error"></span>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Số Nhà:</label>
-                            <textarea class="form-control" id="diachict" name="sonha" rows="3" th:field="*{soNha}"
-                                      oninput="validateForm()"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Mô Tả:</label>
-                            <textarea class="form-control" id="mota" name="mota" rows="3" th:field="*{moTaChiTiet}"
-                                      oninput="validateForm()"></textarea>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <a th:href="@{/admin/khach-hang}" class="btn btn-secondary">Đóng</a>
-                        <button type="button" class="btn btn-primary" id="confirmButtonupdate">Lưu</button>
-                    </div>
-                </form>
+        <div class="container mx-auto bg-white h-58 w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md h-88">
+            <div class="text-center">
+                <span class="col-md-11 fw-bold fs-3 text-center">Cập nhật địa chỉ</span>
             </div>
+            <form id="myForm" th:action="@{/dia-chi-update/{id}(id=${dc.id})}" method="post" class="row g-3"
+                  th:object="${dc}">
+                <!--                    <input type="hidden" name="thanhPho" th:value="*{thanhPho}">-->
+                <!--                    <input type="hidden" name="quanHuyen" th:value="*{quanHuyen}">-->
+                <!--                    <input type="hidden" name="phuongXa" th:value="*{phuongXa}">-->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Tên Người Nhận:</label>
+                        <input type="text" placeholder="Nhập tên người nhận" id="ten" name="ten"
+                               class="form-control" th:field="*{ten}" oninput="validateForm()">
+                        <div id="tenError" class="error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tỉnh/Thành Phố</label>
+                        <select class="form-select form-select-sm mb-3" id="city" aria-label="Chọn tỉnh thành"
+                                name="thanhPho"
+                                th:field="*{thanhPho}" oninput="validateForm()">
+                            <option value="" selected>Chọn tỉnh thành</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Quận/Huyện</label>
+                        <select class="form-select form-select-sm mb-3" id="district" aria-label="Chọn quận huyện"
+                                name="quanHuyen"
+                                th:field="*{quanHuyen}" oninput="validateForm()">
+                            <option value="" selected>Chọn quận huyện</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phường/Xã</label>
+                        <select class="form-select form-select-sm mb-3" id="ward" aria-label="Chọn phường xã"
+                                name="phuongXa"
+                                th:field="*{phuongXa}" oninput="validateForm()">
+                            <option value="" selected>Chọn phường xã</option>
+                        </select>
+                    </div>
+                    <span id="dcError" class="error"></span>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Số Nhà:</label>
+                        <textarea class="form-control" id="diachict" name="sonha" rows="3" th:field="*{soNha}"
+                                  oninput="validateForm()"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Mô Tả:</label>
+                        <textarea class="form-control" id="mota" name="mota" rows="3" th:field="*{moTaChiTiet}"
+                                  oninput="validateForm()"></textarea>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a th:href="@{/admin/khach-hang}" class="btn btn-secondary">Đóng</a>
+                    <button type="button" class="btn btn-primary" id="confirmButtonupdate">Lưu</button>
+                </div>
+            </form>
         </div>
     </div>
     <div id="notification1" class="notification">
