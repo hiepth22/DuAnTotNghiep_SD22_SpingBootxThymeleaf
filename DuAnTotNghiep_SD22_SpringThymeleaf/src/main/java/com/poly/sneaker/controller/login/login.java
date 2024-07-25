@@ -51,7 +51,7 @@ public class login {
                 model.addAttribute("khachHang", kh);
                 model.addAttribute("id", kh.toString());
                 session.setAttribute("khachHang", kh);
-                return "client/viewClient";
+                return "redirect:Clien";
             }
         }
         model.addAttribute("error", true);
