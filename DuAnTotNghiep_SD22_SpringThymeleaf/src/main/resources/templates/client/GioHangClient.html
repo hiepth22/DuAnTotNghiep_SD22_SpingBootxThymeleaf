@@ -66,6 +66,7 @@
     $(document).ready(function () {
         let discount = 0;
         let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+        // let selectedProducts = [];
 
         function getKhachHang() {
             $.ajax({
@@ -91,67 +92,41 @@
                     if (Array.isArray(gioHangChiTiet) && gioHangChiTiet.length > 0) {
                         for (let i = 0; i < gioHangChiTiet.length; i++) {
                             const item = gioHangChiTiet[i];
-                            const itemString = JSON.stringify(item);
 
                             list += `
-                        <div id="thongTin" class="container ml-[15%] bg-white w-[80%] p-2 rounded-lg shadow-md mt-3 flex gap-32 h-32">
-                            <div>
-                                <input type="checkbox" class="product-checkbox ml-5 mt-10 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded" data-price="${item.sanPhamChiTiet.giaBan}" data-so-luong="${item.soLuong}" data-item='${itemString}'>
+                            <div id="thongTin" class="container ml-[15%] bg-white w-[80%] p-2 rounded-lg shadow-md mt-3 flex gap-32 h-32">
+                                <div>
+                                    <input type="checkbox" class="product-checkbox ml-5 mt-10 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded" data-price="${item.sanPhamChiTiet.giaBan}" data-so-luong="${item.soLuong}" data-item='${JSON.stringify(item)}'>
+                                </div>
+                                <div class="w-24">
+                                    <img src="https://res.cloudinary.com/deapopcoc/image/upload/${item.sanPhamChiTiet.anh}" alt="Ảnh" class="w-24 h-auto mt-2">
+                                </div>
+                                <div class="w-32">
+                                    <div>${item.sanPhamChiTiet.ten}</div>
+                                    <div>Giá: ${item.sanPhamChiTiet.giaBan}</div>
+                                    <div>Số lượng: ${item.soLuong}</div>
+                                </div>
+                                <div>
+                                    <div>Trạng thái</div>
+                                    <div>${item.soLuong * item.sanPhamChiTiet.giaBan}</div>
+                                    <div>Thùng rác</div>
+                                </div>
                             </div>
-                            <div class="w-24">
-                                <img src="https://res.cloudinary.com/deapopcoc/image/upload/${item.sanPhamChiTiet.anh.ten}" alt="Ảnh" class="w-24 h-auto mt-2">
-                            </div>
-                            <div class="w-32">
-                                <div>${item.sanPhamChiTiet.ten}</div>
-                                <div>Giá: ${item.sanPhamChiTiet.giaBan}</div>
-                                <div>Số lượng: ${item.soLuong}</div>
-                            </div>
-                            <div>
-                                <div>Trạng thái</div>
-                                <div>${item.soLuong * item.sanPhamChiTiet.giaBan}</div>
-                                <div>Thùng rác</div>
-                            </div>
-                        </div>`;
+                            `;
                         }
+                        $(".product-checkbox").off('change').on('change', function() {
+                            xuLyThayDoiCheckbox();
+                        });
                     } else {
                         list = "<p>Không có sản phẩm nào trong giỏ hàng.</p>";
                     }
 
                     $("#thongTinSP").html(list);
-                    restoreCheckboxSelection();
-                    bindCheckboxEvents();
                 },
                 error: function (error) {
                     console.error('Lỗi khi lấy dữ liệu:', error);
                 }
             });
-        }
-
-        function bindCheckboxEvents() {
-            $(".product-checkbox").off('change').on('change', function() {
-                xuLyThayDoiCheckbox();
-            });
-
-            $("#select-all-checkbox").off('change').on('change', function() {
-                const isChecked = $(this).is(":checked");
-                $(".product-checkbox").prop("checked", isChecked);
-                xuLyThayDoiCheckbox();
-            });
-
-            $("#delete-all").off('click').on('click', function() {
-                $(".product-checkbox").prop("checked", false);
-                $("#select-all-checkbox").prop("checked", false);
-                xuLyThayDoiCheckbox();
-            });
-        }
-
-        function restoreCheckboxSelection() {
-            $(".product-checkbox").each(function() {
-                const item = $(this).data('item');
-                const isChecked = selectedProducts.some(product => JSON.stringify(product) === JSON.stringify(item));
-                $(this).prop("checked", isChecked);
-            });
-            tinhTongTien();
         }
 
         function tinhTongTien() {
@@ -177,6 +152,8 @@
             $("#select-all-checkbox").prop("checked", tatCaDaChon && tongCheckbox > 0);
         }
 
+
+
         function xuLyThayDoiCheckbox() {
             selectedProducts = [];
 
@@ -184,14 +161,29 @@
                 const item = $(this).data('item');
                 selectedProducts.push(item);
             });
-
-            localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
             tinhTongTien();
         }
 
+        $("#select-all-checkbox").change(function() {
+            const isChecked = $(this).is(":checked");
+            $(".product-checkbox").prop("checked", isChecked);
+            xuLyThayDoiCheckbox();
+        });
+
+        $(document).on('change', '.product-checkbox', function() {
+            xuLyThayDoiCheckbox();
+        });
+
+        $("#delete-all").click(function() {
+            $(".product-checkbox").prop("checked", false);
+            $("#select-all-checkbox").prop("checked", false);
+            xuLyThayDoiCheckbox();
+        });
+
+
+
         getKhachHang();
     });
-
 </script>
 </body>
 </html>
