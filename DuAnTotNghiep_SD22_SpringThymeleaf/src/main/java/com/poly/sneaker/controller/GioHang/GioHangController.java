@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class GioHangController {
 
-    @GetMapping("/cart")
+    @GetMapping("/gio-hang")
     public String hienThiGiohang(HttpSession session) {
 
         KhachHang khachHang = (KhachHang) session.getAttribute("khachHang");

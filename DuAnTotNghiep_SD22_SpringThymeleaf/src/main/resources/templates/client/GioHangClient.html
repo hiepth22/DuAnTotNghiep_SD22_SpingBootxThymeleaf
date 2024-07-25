@@ -32,11 +32,11 @@
             <div id="thongTinSP"></div>
             <div>
                 <button type="button" id="delete-all" class="ml-[15%] mt-5 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5">Xóa tất cả</button>
-                <button type="button" id="continue-shopping" class="ml-[54%] mt-5 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5">Tiếp tục mua hàng</button>
+                <button type="button" id="continue-shopping" class="ml-[54%] mb-10 mt-5 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5">Tiếp tục mua hàng</button>
             </div>
         </div>
 
-        <div class="container bg-white  w-[80%] p-2 rounded-lg shadow-md mt-32">
+        <div class="container bg-white  w-[80%] h-[55%] p-2 rounded-lg shadow-md mt-32">
             <div>
                 <h1 class="ml-2 text-2xl font-bold">Đơn hàng</h1>
                 <div class="ml-1 w-96 h-0.5 bg-black"></div>
@@ -66,7 +66,8 @@
     $(document).ready(function () {
         let discount = 0;
         let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
-        // let selectedProducts = [];
+
+
 
         function getKhachHang() {
             $.ajax({
@@ -114,6 +115,7 @@
                             </div>
                             `;
                         }
+                        $("#thongTinSP").html(list);
                         $(".product-checkbox").off('change').on('change', function() {
                             xuLyThayDoiCheckbox();
                         });
@@ -121,7 +123,6 @@
                         list = "<p>Không có sản phẩm nào trong giỏ hàng.</p>";
                     }
 
-                    $("#thongTinSP").html(list);
                 },
                 error: function (error) {
                     console.error('Lỗi khi lấy dữ liệu:', error);
@@ -152,8 +153,6 @@
             $("#select-all-checkbox").prop("checked", tatCaDaChon && tongCheckbox > 0);
         }
 
-
-
         function xuLyThayDoiCheckbox() {
             selectedProducts = [];
 
@@ -161,6 +160,9 @@
                 const item = $(this).data('item');
                 selectedProducts.push(item);
             });
+
+            localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+            console.log('Selected products:', selectedProducts);  // Kiểm tra dữ liệu lưu vào localStorage
             tinhTongTien();
         }
 
@@ -179,8 +181,6 @@
             $("#select-all-checkbox").prop("checked", false);
             xuLyThayDoiCheckbox();
         });
-
-
 
         getKhachHang();
     });

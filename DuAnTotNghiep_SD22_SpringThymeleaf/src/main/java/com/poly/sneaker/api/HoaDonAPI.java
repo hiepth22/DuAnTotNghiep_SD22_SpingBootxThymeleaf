@@ -197,15 +197,18 @@ public class HoaDonAPI {
     }
 
     @PutMapping("/update-trang-thai-thanh-toan/{id}")
-    public ResponseEntity<?> updateTrangThaiThanhToan(@PathVariable("id") Long id, @RequestBody PhuongThucThanhToan phuongThucThanhToan) {
-        PhuongThucThanhToan updateTrangThaiThanhToan = phuongThucThanhToanService.updateTrangThaiThanhToan(id, phuongThucThanhToan);
-        if (updateTrangThaiThanhToan != null) {
-            return ResponseEntity.ok(updateTrangThaiThanhToan);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("phuongthucthanhtoan not found");
-        }
+    public ResponseEntity<?> updateTrangThaiThanhToan(
+            @PathVariable("id") Long id,
+            @RequestBody PhuongThucThanhToan phuongThucThanhToan) {
 
+        PhuongThucThanhToan updated = phuongThucThanhToanService.updateTrangThaiThanhToan(id, phuongThucThanhToan);
+        if (updated != null) {
+            return ResponseEntity.ok(updated);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PhuongThucThanhToan not found");
+        }
     }
+
 
 
 
