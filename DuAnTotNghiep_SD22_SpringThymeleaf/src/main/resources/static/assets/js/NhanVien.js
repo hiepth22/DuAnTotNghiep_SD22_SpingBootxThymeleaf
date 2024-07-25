@@ -80,7 +80,6 @@ function searchNhanVien(obj) {
                 tableBody.innerHTML = data.trim();
             } else {
                 console.error('Element with id "fromnv" not found.');
-                // Optionally handle the case where the element is not found
             }
         })
         .catch(error => console.error('Error:', error));
