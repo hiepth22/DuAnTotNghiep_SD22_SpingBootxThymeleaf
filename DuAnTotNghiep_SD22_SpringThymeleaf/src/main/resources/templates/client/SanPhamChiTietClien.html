@@ -145,11 +145,11 @@
 
 <section class="shop_section layout_padding">
     <div class="container">
-        <div class="heading_container heading_center">
-            <h2>Tên Sản Phẩm</h2>
-        </div>
+
         <div class="row">
-            <!-- Cột hiển thị ảnh sản phẩm -->
+            <div class="heading_container heading_center">
+            <h1 class="card-title text-center" th:text="${sanPhamChiTiet.ten}"></h1>
+            </div>
             <div class="col-md-6 mb-4">
                 <div class="card">
                     <a th:href="@{/sanphamchitietclien/{sanPhamId}(sanPhamId=${sanPhamChiTiet.id})}">
