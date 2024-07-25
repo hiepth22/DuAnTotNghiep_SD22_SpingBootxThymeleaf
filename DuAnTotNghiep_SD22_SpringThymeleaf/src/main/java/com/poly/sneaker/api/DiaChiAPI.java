@@ -21,20 +21,7 @@ public class DiaChiAPI {
     DiaChiService diaChiService;
 
 
-    @GetMapping("/dia-chi/{id}")
-    public ResponseEntity<?> getByID(@PathVariable Long id) {
-        try {
-            List<DiaChi> diaChiList = diaChiService.getByID(id);
-            if (diaChiList.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            }
 
-            return ResponseEntity.ok(diaChiList);
-        } catch (Exception e) {
-            String errorMessage = "Error retrieving addresses for customer with ID: " + id;
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-        }
-    }
     @PutMapping("/update-trang-thai/{idKh}")
     public ResponseEntity<?> updateDiaChiStatus(@PathVariable("idKh") Long idKhachHang) {
             System.out.println("idKh" +idKhachHang);

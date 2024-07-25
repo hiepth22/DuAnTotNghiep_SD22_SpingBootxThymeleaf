@@ -1,9 +1,11 @@
 package com.poly.sneaker.sevice;
 
+import com.poly.sneaker.dto.DiaChiAdd;
 import com.poly.sneaker.entity.DiaChi;
 import com.poly.sneaker.entity.KhachHang;
 import com.poly.sneaker.repository.DiaChirepository;
 import com.poly.sneaker.repository.KhachHangRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,9 +44,18 @@ public class DiaChiService {
             return diaChirepository.save(o);
         }).orElse(null);
     }
-    public DiaChi add(DiaChi dc){
-        dc.setIdKH(dc.getIdKH());
-        return diaChirepository.save(dc);
+    public DiaChi add(DiaChiAdd dc){
+        DiaChi newdc = new DiaChi();
+        BeanUtils.copyProperties(dc, newdc);
+        KhachHang khachHang = new KhachHang();
+        khachHang.setId(dc.getIdKH());
+        newdc.setIdKH(khachHang);
+        System.out.println(khachHang);
+        newdc.setThanhPho(dc.getThanhPho());
+        newdc.setQuanHuyen(dc.getQuanHuyen());
+        newdc.setPhuongXa(dc.getPhuongXa());
+
+        return diaChirepository.save(newdc);
     }
     public DiaChi findById(Long id) {
         Optional<DiaChi> optional = diaChirepository.findById(id);
