@@ -44,7 +44,7 @@ public class login {
         model.addAttribute("khachHang", new KhachHang());
         return "redirect:Clien";
     }
-    
+
 
     @PostMapping("/logincheck")
     public String loginSubmit(@RequestParam(name = "email") String email,
