@@ -1,40 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{admin/fragments/head :: head}">
-    <style>
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #4CAF50; /* Màu nền thông báo thành công */
-            color: white;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            display: none; /* Ẩn thông báo khi không cần thiết */
-            z-index: 1000;
-            overflow: hidden; /* Đảm bảo thanh tiến trình không bị tràn ra ngoài */
-        }
-
-        .notification.error {
-            background-color: #f44336; /* Màu nền thông báo lỗi */
-        }
-
-        .notification .progress-bar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background-color: #fff;
-            transition: width 3s linear; /* Thời gian hiển thị thông báo (3 giây) */
-        }
-    </style>
 </head>
 <body>
-<div id="notification" class="notification">Success! Your action was completed
-    <div id="progress-bar" class="progress-bar"></div>
-</div>
+
 <div class="container-xxl position-relative bg-white d-flex p-0">
     <!-- Spinner Start -->
     <div

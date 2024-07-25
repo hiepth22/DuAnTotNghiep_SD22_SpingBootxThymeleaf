@@ -253,8 +253,11 @@ $(document).ready(function () {
             });
         });
 
+
+
         const saveButton = $('<button class="btn btn-success mt-3 mb-4">Lưu</button>');
         saveButton.click(function () {
+
             const jsonFormatted = JSON.stringify(chiTietSanPhams);
             console.log("Dữ liệu gửi đi:", jsonFormatted);
 
@@ -274,38 +277,20 @@ $(document).ready(function () {
                     return response.json();
                 })
                 .then((data) => {
-                    showNotification("Thông tin được lưu thành công!", "success");
-                    setTimeout(() => {
-                        window.location.href = "/admin/san-pham";
-                    }, 3000); // Đợi 3 giây để thông báo hiển thị xong trước khi điều hướng
+                    console.log("Thông tin được lưu:", data);
+                    alert("Lưu thông tin sản phẩm chi tiết thành công!");
+                    window.location.href = "/admin/san-pham";
                 })
                 .catch((error) => {
                     console.error("Lỗi khi lưu thông tin sản phẩm chi tiết:", error);
-                    showNotification("Đã xảy ra lỗi khi lưu thông tin sản phẩm chi tiết. Vui lòng thử lại sau.", "error");
+                    alert(
+                        "Đã xảy ra lỗi khi lưu thông tin sản phẩm chi tiết. Vui lòng thử lại sau."
+                    );
                 });
         });
 
-        function showNotification(message, type) {
-            var notification = document.getElementById('notification');
-            var progressBar = document.getElementById('progress-bar');
-
-            notification.classList.remove('success', 'error');
-            notification.classList.add(type);
-
-            notification.style.display = 'block';
-            progressBar.style.width = '100%';
-
-            setTimeout(function() {
-                progressBar.style.width = '0';
-            }, 10);
-
-            setTimeout(function() {
-                notification.style.display = 'none';
-                progressBar.style.width = '100%';
-            }, 3010);
-        }
-
         productDetailsContainer.append(saveButton);
+
 
     });
 });
