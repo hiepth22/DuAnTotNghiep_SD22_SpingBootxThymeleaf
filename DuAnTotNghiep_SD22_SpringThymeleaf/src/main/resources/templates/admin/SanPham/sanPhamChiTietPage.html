@@ -113,29 +113,29 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <!-- Template Javascript -->
 <script th:src="@{/assets/js/main.js}"></script>
-<script>
-    $(document).ready(function() {
-        var table = $('#productTable').DataTable({
-            "paging": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "pageLength": 10,
-            "lengthMenu": [10, 20, 30, 40, 50],
-            "language": {
-                "paginate": {
-                    "previous": "Trước",
-                    "next": "Sau"
-                },
-                "search": "Tìm kiếm:",
-                "lengthMenu": "Hiển thị _MENU_ bản ghi mỗi trang",
-                "zeroRecords": "Không tìm thấy kết quả phù hợp",
-                "info": "Hiển thị trang _PAGE_ trong tổng số _PAGES_",
-                "infoEmpty": "Không có dữ liệu",
-                "infoFiltered": "(lọc từ tổng số _MAX_ bản ghi)"
-            },
-        });
-    });
-</script>
+<!--<script>-->
+<!--    $(document).ready(function() {-->
+<!--        var table = $('#productTable').DataTable({-->
+<!--            "paging": true,-->
+<!--            "searching": true,-->
+<!--            "ordering": true,-->
+<!--            "info": true,-->
+<!--            "pageLength": 10,-->
+<!--            "lengthMenu": [10, 20, 30, 40, 50],-->
+<!--            "language": {-->
+<!--                "paginate": {-->
+<!--                    "previous": "Trước",-->
+<!--                    "next": "Sau"-->
+<!--                },-->
+<!--                "search": "Tìm kiếm:",-->
+<!--                "lengthMenu": "Hiển thị _MENU_ bản ghi mỗi trang",-->
+<!--                "zeroRecords": "Không tìm thấy kết quả phù hợp",-->
+<!--                "info": "Hiển thị trang _PAGE_ trong tổng số _PAGES_",-->
+<!--                "infoEmpty": "Không có dữ liệu",-->
+<!--                "infoFiltered": "(lọc từ tổng số _MAX_ bản ghi)"-->
+<!--            },-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 </body>
 </html>
