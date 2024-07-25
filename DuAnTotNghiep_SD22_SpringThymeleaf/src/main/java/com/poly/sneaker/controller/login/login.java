@@ -39,6 +39,12 @@ public class login {
         model.addAttribute("khachHang", new KhachHang());
         return "Login/login";
     }
+    @GetMapping("/")
+    public String show(Model model) {
+        model.addAttribute("khachHang", new KhachHang());
+        return "redirect:Clien";
+    }
+    
 
     @PostMapping("/logincheck")
     public String loginSubmit(@RequestParam(name = "email") String email,
@@ -51,7 +57,7 @@ public class login {
                 model.addAttribute("khachHang", kh);
                 model.addAttribute("id", kh.toString());
                 session.setAttribute("khachHang", kh);
-                return "client/viewClient";
+                return "redirect:Clien";
             }
         }
         model.addAttribute("error", true);
