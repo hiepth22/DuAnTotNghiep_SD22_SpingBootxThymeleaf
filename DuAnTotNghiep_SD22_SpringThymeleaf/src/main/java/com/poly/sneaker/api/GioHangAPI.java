@@ -63,8 +63,8 @@ public class GioHangAPI {
 
     @PostMapping("/tao-hoa-don-dat-hang")
     public ResponseEntity<?> taoHoaDonDatHang (@RequestBody HoaDon hoaDon){
+
         hoaDon.setDiaChiNguoiNhan(hoaDon.getDiaChiNguoiNhan());
-        System.out.println(hoaDon.getDiaChiNguoiNhan());
         hoaDon.setNgayTao(LocalDateTime.now());
         hoaDon.setLoai(1);
         hoaDon.setTrangThai(1);
@@ -74,10 +74,11 @@ public class GioHangAPI {
         hoaDon.setTongTien(hoaDon.getTongTien());
         hoaDon.setTienShip(hoaDon.getTienShip());
         hoaDon.setSdtNguoiNhan(hoaDon.getSdtNguoiNhan());
-
         PhieuGiamGia pg = new PhieuGiamGia();
         pg.setGiaTriGiam(new BigDecimal(0));
+
         HoaDon savedHoaDon = hoaDonService.add(hoaDon);
+
         String maHoaDon = "HD0" + savedHoaDon.getId();
         savedHoaDon.setMa(maHoaDon);
         hoaDonService.taoMaHoaDon(savedHoaDon.getId(), savedHoaDon);

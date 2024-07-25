@@ -301,7 +301,6 @@
 
         function addSanPhamVaoHDCT(idHoaDon) {
             let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
-
             selectedProducts.forEach(product => {
                 const productData = {
                     sanPhamChiTiet: product.sanPhamChiTiet,
@@ -309,7 +308,6 @@
                     gia: product.sanPhamChiTiet.giaBan,
                     trangThai: 1
                 };
-
                 $.ajax({
                     url: `/api/gio-hang/them-san-pham-vao-hoa-don/${idHoaDon}`,
                     method: 'POST',
@@ -326,7 +324,6 @@
         }
 
         function addPhuongThucThanhToan(idHoaDon) {
-
             $.ajax({
                 url: `/api/gio-hang/them-phuong-thuc-thanh-toan/${idHoaDon}`,
                 method: 'POST',
@@ -338,7 +335,6 @@
                 }),
                 success: function (response) {
                 },
-
             });
         }
 
