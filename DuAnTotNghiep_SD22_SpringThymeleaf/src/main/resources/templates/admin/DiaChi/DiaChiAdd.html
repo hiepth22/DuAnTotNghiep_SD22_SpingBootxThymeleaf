@@ -46,13 +46,12 @@
 </head>
 
 <body>
-<div class="container-xxl position-relative bg-white d-flex p-0">
+<div class="flex">
     <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
-
-    <div class="content">
+    <div class="content flex-grow ml-64 p-4 bg-gray-200">
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
-        <div class="container d-flex justify-content-center align-items-center vh-100">
-            <div class="container mt-5">
+        <div class="flex">
+            <div class="container mx-auto bg-white h-58 w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md h-88">
                 <div class="text-center">
                     <span class="col-md-11 fw-bold fs-3 text-center">Thêm mới địa chỉ</span>
                 </div>
@@ -110,7 +109,10 @@
             </div>
         </div>
     </div>
-
+    <div id="notification1" class="notification">
+        <span id="notification-text">Thành Công!</span>
+        <div id="progress-bar1" class="progress-bar1"></div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
@@ -136,7 +138,7 @@
         function renderCity(data) {
             // Hàm để render danh sách các tỉnh/thành phố vào dropdown citis
             data.forEach(function (city) {
-                citis.options[citis.options.length] = new Option(city.Name, city.Id);
+                citis.options[citis.options.length] = new Option(city.Name, city.Name); // Chọn city.Name thay vì city.Id
             });
 
             // Sự kiện khi chọn tỉnh/thành phố
@@ -146,13 +148,13 @@
 
                 // Lọc ra thông tin của tỉnh/thành phố được chọn
                 var selectedCity = data.find(function (city) {
-                    return city.Id === citis.value;
+                    return city.Name === citis.value;
                 });
 
                 if (selectedCity) {
                     // Render các quận/huyện vào dropdown districts
                     selectedCity.Districts.forEach(function (district) {
-                        districts.options[districts.options.length] = new Option(district.Name, district.Id);
+                        districts.options[districts.options.length] = new Option(district.Name, district.Name); // Chọn district.Name thay vì district.Id
                     });
                 }
 
@@ -166,19 +168,19 @@
 
                 // Lấy thông tin của tỉnh/thành phố được chọn
                 var selectedCity = data.find(function (city) {
-                    return city.Id === citis.value;
+                    return city.Name === citis.value;
                 });
 
                 if (selectedCity) {
                     // Lọc ra thông tin của quận/huyện được chọn
                     var selectedDistrict = selectedCity.Districts.find(function (district) {
-                        return district.Id === districts.value;
+                        return district.Name === districts.value;
                     });
 
                     if (selectedDistrict) {
                         // Render các phường/xã vào dropdown wards
                         selectedDistrict.Wards.forEach(function (ward) {
-                            wards.options[wards.options.length] = new Option(ward.Name, ward.Id);
+                            wards.options[wards.options.length] = new Option(ward.Name, ward.Name); // Chọn ward.Name thay vì ward.Id
                         });
                     }
                 }
@@ -191,30 +193,22 @@
             wards.onchange = function () {
                 // Lấy thông tin của tỉnh/thành phố được chọn
                 var selectedCity = data.find(function (city) {
-                    return city.Id === citis.value;
+                    return city.Name === citis.value;
                 });
 
                 if (selectedCity) {
                     // Lọc ra thông tin của quận/huyện được chọn
                     var selectedDistrict = selectedCity.Districts.find(function (district) {
-                        return district.Id === districts.value;
+                        return district.Name === districts.value;
                     });
 
                     if (selectedDistrict) {
                         var selectedWard = selectedDistrict.Wards.find(function (ward) {
-                            return ward.Id === wards.value;
+                            return ward.Name === wards.value;
                         });
 
                         if (selectedWard) {
-                            // Tạo chuỗi để log các thông tin
-                            var logString = selectedWard.Name;
-                            logString += "," + selectedDistrict.Name;
-                            logString += "," + selectedCity.Name;
-
-                            // Log chuỗi kết quả ra console
-                            console.log(logString);
-
-                            // Cập nhật giá trị của trường ẩn
+                            // Cập nhật các trường ẩn
                             updateHiddenFields();
                         }
                     }
@@ -222,24 +216,75 @@
             };
         }
 
-        function clearOptions(selectElement) {
-            for (var i = selectElement.options.length - 1; i > 0; i--) {
-                selectElement.remove(i);
-            }
+        // Hàm để xóa các option của một dropdown
+        function clearOptions(dropdown) {
+            dropdown.innerHTML = '';
+            dropdown.options[0] = new Option("Chọn...", ""); // Tùy chọn mặc định
         }
 
+        // Hàm để cập nhật các trường ẩn
         function updateHiddenFields() {
-            // Cập nhật giá trị của các trường ẩn
-            var selectedCity = citis.options[citis.selectedIndex];
-            var selectedDistrict = districts.options[districts.selectedIndex];
-            var selectedWard = wards.options[wards.selectedIndex];
+            var thanhPho = document.querySelector('input[name="thanhPho"]');
+            var quanHuyen = document.querySelector('input[name="quanHuyen"]');
+            var phuongXa = document.querySelector('input[name="phuongXa"]');
 
-            document.getElementsByName("thanhPho")[0].value = selectedCity ? selectedCity.value : "";
-            document.getElementsByName("quanHuyen")[0].value = selectedDistrict ? selectedDistrict.value : "";
-            document.getElementsByName("phuongXa")[0].value = selectedWard ? selectedWard.value : "";
+            thanhPho.value = citis.value;
+            quanHuyen.value = districts.value;
+            phuongXa.value = wards.value;
         }
+        function validateForm() {
+            var isValid = true;
+            var ten = document.getElementById("ten").value.trim();
+            var city = citis.value;
+            var district = districts.value;
+            var ward = wards.value;
 
+            document.getElementById("tenError").innerHTML = ten === "" ? "Vui lòng nhập tên người nhận." : "";
+            isValid = isValid && ten !== "";
+
+            document.getElementById("dcError").innerHTML = city === "" || district === "" || ward === "" ? "Vui lòng chọn đầy đủ địa chỉ." : "";
+            isValid = isValid && city !== "" && district !== "" && ward !== "";
+
+            return isValid;
+        }
+        document.getElementById("confirmButton").onclick = function (event) {
+            event.preventDefault();
+
+            if (validateForm()) {
+                Swal.fire({
+                    title: 'Xác nhận',
+                    text: 'Bạn có chắc chắn muốn Thêm địa chỉ này không?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Có',
+                    cancelButtonText: 'Không',
+                    customClass: {
+                        confirmButton: 'btn btn-primary',
+                        cancelButton: 'btn btn-secondary'
+                    },
+                    buttonsStyling: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("myForm").submit();
+                        showNotification1();
+                    }
+                });
+            }
+        };
+
+        function showNotification1() {
+            var notification = document.getElementById('notification1');
+            var progressBar = document.getElementById('progress-bar1');
+
+            notification.classList.add('show1');
+            progressBar.style.width = '100%';
+
+            setTimeout(function () {
+                notification.classList.remove('show1');
+                progressBar.style.width = '0';
+            }, 3000);
+        }
     </script>
+</div>
 </body>
-
 </html>
