@@ -16,6 +16,9 @@ public interface GioHangRepository extends JpaRepository<GioHang, Long> {
     @Query(value = "SELECT * FROM gio_hang WHERE idTaiKhoan = :idTaiKhoan", nativeQuery = true)
     Optional<GioHang> findByIdTK(@Param("idTaiKhoan") Long idTaiKhoan);
 
+    @Query(value = "SELECT id FROM gio_hang WHERE idTaiKhoan = :idTaiKhoan", nativeQuery = true)
+    Long selectIDGH(@Param("idTaiKhoan") Long idTaiKhoan);
+
 
 
 }

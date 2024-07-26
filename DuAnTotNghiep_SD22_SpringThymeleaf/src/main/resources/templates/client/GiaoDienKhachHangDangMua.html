@@ -79,7 +79,6 @@ $(document).ready(function () {
             url: `/api/khach-hang/thong-tin-hoa-don/${idKhachHang}`,
             method: 'GET',
             success: function (response) {
-                // Dừng việc xóa nội dung hiện có để thêm nội dung mới
                 $("#hoaDonCuaKhachHang").empty();
                 for (let i = 0; i < response.length; i++) {
                     let idHoaDon = response[i].id;

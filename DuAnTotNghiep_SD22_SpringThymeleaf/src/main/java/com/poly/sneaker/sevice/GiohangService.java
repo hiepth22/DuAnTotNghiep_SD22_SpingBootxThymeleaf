@@ -35,5 +35,8 @@ public class GiohangService {
         return gioHangRepository.save(gioHang);
     }
 
+    public Long IdGioHang(Long id) {
+        return gioHangRepository.selectIDGH(id);
+    }
 
 }
