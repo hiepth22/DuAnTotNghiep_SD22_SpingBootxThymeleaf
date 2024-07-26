@@ -24,6 +24,10 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
 
+    <link rel="stylesheet" href="/css/output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
     <!-- Custom CSS -->
     <link rel="stylesheet" th:href="@{/assets/css/clent.css}" />
     <!-- Responsive CSS -->
@@ -153,9 +157,9 @@
                     <p class="card-text" th:text="${'Số lượng: ' + sanPham.soLuong}"></p>
                     <p class="card-text" th:text="${'Mô Tả: ' + sanPham.moTa}"></p>
                     <p class="card-text">Thêm ảnh vào database: ce71af39-aff6-40b8-bbfa-beea1f7a3f44.png</p>
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div id="dsSanPham" class="d-flex justify-content-between align-items-center">
                         <a th:href="@{/cho-thanh-toan}" class="btn btn-primary">Mua Ngay</a>
-                        <a th:href="@{/gio-hang}" class="btn btn-secondary" th:data-id="${sanPham.id}">Thêm Vào Giỏ Hàng</a>
+                        <a class="themSanPham btn btn-secondary " th:data-id="${sanPham.id}">Thêm Vào Giỏ Hàng</a>
                     </div>
                 </div>
             </div>
@@ -280,9 +284,52 @@
             });
         });
 
+        function getKhachHang() {
+            $.ajax({
+                url: '/api/session/user',
+                method: 'GET',
+                success: function (response) {
+                    let idKhachHang = response.id;
+
+                    getIdGioHang(idKhachHang);
+
+                },
+            });
+        }
+
+        function getIdGioHang(idKhachHang) {
+            $.ajax({
+                url: `/api/khach-hang/thong-tin-hoa-don/${idKhachHang}`,
+                method: 'GET',
+                success: function (response) {
+
+                    $("#dsSanPham").off('click', '.themSanPham').on('click', '.themSanPham', function () {
+                        const itemId = $(this).data('id');
+
+                        $(this).off('click');
+                        $.ajax({
+                            url: `/api/gio-hang/them-san-pham/${itemId}`,
+                            method: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                gioHang:  {id: response.id}, sanPhamChiTiet: {id: itemId}
+                            }),
+                            success: function () {
+                            },
+
+                        });
+                    });
+
+                },
+            });
+        }
 
 
 
+
+
+
+        getKhachHang();
     });
 
 </script>

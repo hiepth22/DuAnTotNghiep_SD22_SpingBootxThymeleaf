@@ -110,5 +110,31 @@ public class GioHangAPI {
         return ResponseEntity.ok(phuongThucThanhToanService.add(phuongThucThanhToan));
     }
 
+    @PostMapping("/them-san-pham/{id}")
+    public ResponseEntity<?> themPhuongThucThanhToan (@PathVariable("id") Long id ,@RequestBody GioHangChiTiet gioHangChiTiet){
+        GioHang gh = new GioHang();
+        gh.setId(id);
+        SanPhamChiTiet sp = new SanPhamChiTiet();
+        sp.setId(id);
+
+        gioHangChiTiet.setGioHang(gh);
+        gioHangChiTiet.setSanPhamChiTiet(sp);
+        gioHangChiTiet.setSoLuong(1);
+        gioHangChiTiet.setNgayCapNhat(LocalDateTime.now());
+
+        return ResponseEntity.ok(gioHangChiTietService.add(gioHangChiTiet));
+    }
+
+
+    @GetMapping("/id-gio-hang/{id}")
+    public ResponseEntity<?> idGioHang(@PathVariable("id") Long id) {
+
+        return ResponseEntity.ok(giohangService.IdGioHang(id));
+    }
+
+
+
+
+
 
 }

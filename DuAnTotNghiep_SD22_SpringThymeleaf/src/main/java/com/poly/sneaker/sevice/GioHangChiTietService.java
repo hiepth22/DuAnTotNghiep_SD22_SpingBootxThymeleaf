@@ -1,5 +1,6 @@
 package com.poly.sneaker.sevice;
 
+import com.poly.sneaker.entity.GioHang;
 import com.poly.sneaker.entity.GioHangChiTiet;
 import com.poly.sneaker.entity.HoaDon;
 import com.poly.sneaker.repository.GioHangChiTietRepository;
@@ -17,6 +18,11 @@ public class GioHangChiTietService {
 
     @Autowired
     GioHangChiTietRepository gioHangChiTietRepository;
+
+    public GioHangChiTiet add(GioHangChiTiet gioHangChiTiet) {
+        return gioHangChiTietRepository.save(gioHangChiTiet);
+    }
+
 
 
 }
