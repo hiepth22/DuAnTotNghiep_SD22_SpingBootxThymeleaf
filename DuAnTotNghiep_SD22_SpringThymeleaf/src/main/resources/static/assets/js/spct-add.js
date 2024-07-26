@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    var selectedColors = []; // Khai báo biến bên ngoài hàm để sử dụng trong các hàm khác
-    var selectedSizes = [];  // Khai báo biến bên ngoài hàm để sử dụng trong các hàm khác
+    var selectedColors = [];
+    var selectedSizes = [];
 
     function displaySelectedItems(items, containerId) {
         var selectedItemsContainer = $(containerId);
@@ -16,7 +16,7 @@ $(document).ready(function () {
     }
 
     $("#saveSizes").click(function () {
-        selectedSizes = []; // Đặt lại mảng selectedSizes khi nhấn nút lưu kích cỡ
+        selectedSizes = [];
         $("#sizeList input:checked").each(function () {
             var sizeCheckbox = $(this);
             var sizeId = sizeCheckbox.val();
@@ -33,7 +33,7 @@ $(document).ready(function () {
     });
 
     $("#saveColors").click(function () {
-        selectedColors = []; // Đặt lại mảng selectedColors khi nhấn nút lưu màu
+        selectedColors = [];
         $("#colorList input:checked").each(function () {
             var colorCheckbox = $(this);
             var colorId = colorCheckbox.val();
@@ -46,7 +46,7 @@ $(document).ready(function () {
 
         var container = $("#selectedColors");
 
-        container.empty(); // Xóa nội dung cũ trong container
+        container.empty();
 
         selectedColors.forEach(function (item) {
             var colorBox = $('<span></span>')
@@ -92,6 +92,16 @@ $(document).ready(function () {
         const chatLieuId = $("#chatLieu").val();
         const nhaSanXuatId = $("#nhaSanXuat").val();
         const moTa = $("#moTa").val();
+
+        if (!sanPhamId || sanPhamId === "Chọn sản phẩm" ||
+            !coGiayId || coGiayId === "Chọn cỡ giày" ||
+            !deGiayId || deGiayId === "Chọn đế giày" ||
+            !chatLieuId || chatLieuId === "Chọn chất liệu" ||
+            !nhaSanXuatId || nhaSanXuatId === "Chọn nhà sản xuất" ||
+            selectedColors.length === 0 || selectedSizes.length === 0) {
+            $("#validationModal").modal("show");
+            return;
+        }
 
         const usedMa = [];
         const chiTietSanPhams = [];
@@ -165,9 +175,18 @@ $(document).ready(function () {
                     <td>${product.sanPham.name}</td>
                     <td><span class="color-box" style="background-color: ${product.mauSac.color};"></span></td>
                     <td>${product.kichCo.name}</td>
-                    <td><input type="text" value="${product.canNang}" class="form-control" style="width: 80px;"></td>
-                    <td><input type="text" value="${dinhDangGia(product.giaBan)}" class="form-control" style="width: 150px;"></td>
-                    <td><input type="text" value="${product.soLuong}" class="form-control" style="width: 60px;"></td>
+                    <td>
+                        <input type="text" value="${product.canNang}" class="form-control" style="width: 90px;">
+                        <span class="error-message" style="color: red; display: none;"></span>
+                    </td>
+                    <td>
+                        <input type="text" value="${dinhDangGia(product.giaBan)}" class="form-control" style="width: 170px;">
+                        <span class="error-message" style="color: #ff0000; display: none;"></span>
+                    </td>
+                    <td>
+                        <input type="text" value="${product.soLuong}" class="form-control" style="width: 50px;">
+                        <span class="error-message" style="color: red; display: none;"></span>
+                    </td>
                     <td><a class="delete-product"><i class="fa fa-trash"></i></a></td>
                 `);
                 tbody.append(row);
@@ -236,7 +255,7 @@ $(document).ready(function () {
 
 
 
-const saveButton = $('<button class="btn btn-success mt-3 mb-4">Lưu</button>');
+        const saveButton = $('<button class="btn btn-success mt-3 mb-4">Lưu</button>');
         saveButton.click(function () {
 
             const jsonFormatted = JSON.stringify(chiTietSanPhams);
@@ -271,5 +290,7 @@ const saveButton = $('<button class="btn btn-success mt-3 mb-4">Lưu</button>');
         });
 
         productDetailsContainer.append(saveButton);
+
+
     });
 });

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:replace="~{admin/fragments/head :: head}"></div>
+<head th:replace="~{admin/fragments/head :: head}">
+</head>
 <body>
+
 <div class="container-xxl position-relative bg-white d-flex p-0">
     <!-- Spinner Start -->
     <div
@@ -31,6 +33,7 @@
                 <div class="form-group">
                     <label>Tên sản phẩm</label>
                     <select id="sanPham">
+                        <option selected>Chọn sản phẩm</option>
                         <option th:each="sanPham : ${sanPhams}" th:value="${sanPham.id}" th:text="${sanPham.ten}"></option>
                     </select>
                 </div>
@@ -38,6 +41,7 @@
                     <div class="col">
                         <label>Cổ giày</label>
                         <select id="coGiay">
+                            <option selected>Chọn cổ giày</option>
                             <option th:each="coGiay : ${coGiays}" th:value="${coGiay.id}" th:text="${coGiay.ten}"></option>
                         </select>
                     </div>
@@ -45,6 +49,7 @@
                     <div class="col">
                         <label>Đế giày</label>
                         <select id="deGiay">
+                            <option selected>Chọn đế giày</option>
                             <option th:each="deGiay : ${deGiays}" th:value="${deGiay.id}" th:text="${deGiay.ten}"></option>
                         </select>
                     </div>
@@ -53,12 +58,14 @@
                     <div class="col">
                         <label>Chất liệu</label>
                         <select id=chatLieu>
+                            <option selected>Chọn chất liệu</option>
                             <option th:each="chatLieu : ${chatLieus}" th:value="${chatLieu.id}" th:text="${chatLieu.ten}"></option>
                         </select>
                     </div>
                     <div class="col">
                         <label>Nhà sản xuất</label>
                         <select id="nhaSanXuat">
+                            <option selected>Chọn nhà sản xuất</option>
                             <option th:each="nsx : ${nhaSanXuats}" th:value="${nsx.id}" th:text="${nsx.ten}"></option>
                         </select>
                     </div>
@@ -146,6 +153,27 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Thông Báo -->
+    <div class="modal fade" id="validationModal" tabindex="-1" role="dialog" aria-labelledby="validationModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger fs-4 fw-bold" id="validationModalLabel"><i class="fa-solid fa-circle-exclamation"></i>Thông Báo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body fs-5">
+                    Vui lòng chọn đầy đủ thuộc tính sản phẩm.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

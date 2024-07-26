@@ -12,7 +12,7 @@ const switchTab = (tab) => {
 };
 
 
-const getData = (page = 0, size = 10) => {
+const getData = (page, size) => {
     $.ajax({
         url: `/api/hoa-don?tab=${currentTab}&keyword=${searchTxt}&startDate=${startDate}&endDate=${endDate}&page=${page}&size=${size}`,
         success: function (result) {
