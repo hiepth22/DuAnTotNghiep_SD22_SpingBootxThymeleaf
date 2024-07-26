@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body class="bg-white">
+<div>
+    <div class="flex justify-center">
+        <div class="container bg-gray-100 w-[75%] p-2 rounded-lg shadow-md mt-32 flex gap-40">
+            <div class="grid gap-1 ml-2" style="grid-template-columns: 20% 80%;">
+                <div class="m-5">
+                    <span id="tenKhachHang" class="font-bold"></span>
+                </div>
+                <div>
+                    <div class="mt-5 mb-5">
+                        <ul class="flex border-b cursor-pointer w-full" id="hoaDonTabs" role="tablist">
+                            <li class="w-32" role="presentation">
+                                <a class="tab-link inline-block py-2 px-4 text-blue-500 hover:text-blue-800" data-tab="0">Tất cả</a>
+                            </li>
+                            <li class="w-48" role="presentation">
+                                <a class="tab-link inline-block py-2 px-4 text-blue-500 hover:text-blue-800" data-tab="1">Chờ xác nhận</a>
+                            </li>
+                            <li class="w-48" role="presentation">
+                                <a class="tab-link inline-block py-2 px-4 text-blue-500 hover:text-blue-800" data-tab="3">Chờ vận chuyển</a>
+                            </li>
+                            <li class="w-48" role="presentation">
+                                <a class="tab-link inline-block py-2 px-4 text-blue-500 hover:text-blue-800" data-tab="4">Vận chuyển</a>
+                            </li>
+                            <li class="w-48" role="presentation">
+                                <a class="tab-link inline-block py-2 px-4 text-blue-500 hover:text-blue-800" data-tab="6">Hoàn thành</a>
+                            </li>
+                            <li class="w-48" role="presentation">
+                                <a class="tab-link inline-block py-2 px-4 text-blue-500 hover:text-blue-800" data-tab="7">Hủy</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-white">
+                       <div class="m-5" id="trangThaiDonHang"></div>
+                        <div class="ml-5 w-[95%] h-0.5 bg-gray-200"></div>
+                        <div id="hoaDonCuaKhachHang" >
+
+                        </div>
+                        <div id="tongTien">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function () {
+    var tongTien = 0;
+    var trangThai = 0;
+
+
+    function getKhachHang() {
+        $.ajax({
+            url: '/api/session/user',
+            method: 'GET',
+            success: function (response) {
+                let idKhachHang = response.id;
+                getHoaDonKhachHang(response.id);
+                $('#tenKhachHang').text(response.ten);
+            },
+        });
+    }
+
+    function getHoaDonKhachHang(idKhachHang) {
+        $.ajax({
+            url: `/api/khach-hang/thong-tin-hoa-don/${idKhachHang}`,
+            method: 'GET',
+            success: function (response) {
+                // Dừng việc xóa nội dung hiện có để thêm nội dung mới
+                $("#hoaDonCuaKhachHang").empty();
+                for (let i = 0; i < response.length; i++) {
+                    let idHoaDon = response[i].id;
+                    getHoaDonCTKhachHang(idHoaDon);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi khi lấy hóa đơn:', xhr.responseText || error);
+            }
+        });
+    }
+
+    function getHoaDonCTKhachHang(idHoaDon) {
+        $.ajax({
+            url: `/api/khach-hang/thong-tin-hoa-don-chi-tiet/${idHoaDon}`,
+            method: 'GET',
+            success: function (response) {
+                let list = "";
+                let tongTien = 0;
+                let trangThai = response[0].hoaDon.trangThai;
+
+                for (let i = 0; i < response.length; i++) {
+                    let item = response[i];
+                    tongTien += item.soLuong * item.sanPhamChiTiet.giaBan;
+                    list += `
+                <div class="grid gap-4 grid-cols-2">
+                   <div class="flex">
+                       <div class="ml-5 ">
+                            <img src="https://res.cloudinary.com/deapopcoc/image/upload/${item.sanPhamChiTiet.anh}" alt="Ảnh" class="w-24 h-auto mt-2">
+                       </div>
+                       <div>
+                          <div> <span>${item.sanPhamChiTiet.ten}</span></div>
+                          <div class="flex">
+                               <div>
+                                    <span>${item.sanPhamChiTiet.kichCo.ten} - </span>
+                               </div>
+                               <div class="color-container rounded-lg ml-2 mt-1 border-3" style="background-color: ${item.sanPhamChiTiet.mauSac.ten}; width: 50px; height: 20px;"></div>
+                          </div>
+                           <div><span>x${item.soLuong}</span></div>
+                       </div>
+                   </div>
+                    <div>
+                        <div> <span>${item.sanPhamChiTiet.giaBan * item.soLuong}</span></div>
+                    </div>
+                </div>
+                <div class="ml-5 w-[95%] h-0.5 bg-gray-200"></div>
+            `;
+        }
+
+                $("#hoaDonCuaKhachHang").append(`
+                <div class="hoaDon">
+                    <div>${trangThai}</div>
+                                    <div class="ml-5 w-[95%] h-0.5 bg-gray-200"></div>
+
+                    ${list}
+                    <div>Tổng tiền: ${tongTien}</div>
+                    <div>
+                            <button type="button" class="tiepTuc mb-10 w-36 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:ring-blue-300 rounded-lg px-2.5 py-1">
+                                <a class="">Hủy đơn</a>
+                            </button>
+                            <button type="button" class="tiepTuc mb-10 w-36 text-gray-700 bg-white border border-gray-400 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 rounded-lg px-2.5 py-1">
+                                <a href="/thong-tin-don-hang/${idHoaDon}">Xem đơn hàng</a>
+                            </button>
+                        </div>
+                </div>
+            `);
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi khi lấy chi tiết đơn hàng:', xhr.responseText || error);
+                $("#hoaDonCuaKhachHang").append('<p>Không thể tải dữ liệu cho hóa đơn. Vui lòng thử lại sau.</p>');
+            }
+        });
+    }
+
+
+
+    getKhachHang();
+
+});
+
+</script>
+
+</body>
+</html>

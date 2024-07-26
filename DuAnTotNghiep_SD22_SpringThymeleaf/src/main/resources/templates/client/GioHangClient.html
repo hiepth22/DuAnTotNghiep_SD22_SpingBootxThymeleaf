@@ -56,7 +56,7 @@
                 <h1 class="text-xl font-bold m-10">Tổng tiền: <span id="total">0</span> VNĐ</h1>
             </div>
             <div class="tiepTucSanPham">
-                <button type="button" class="tiepTuc ml-5 w-[90%] h-20 font-bold text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"><a href="/cho-thanh-toan">Tiếp tục thanh toán</a></button>
+                <button type="button" class="tiepTuc ml-5 w-[90%] h-20 font-bold text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"><a class="text-xl" href="/cho-thanh-toan">Tiếp tục thanh toán</a></button>
             </div>
         </div>
     </div>
@@ -66,8 +66,6 @@
     $(document).ready(function () {
         let discount = 0;
         let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
-
-
 
         function getKhachHang() {
             $.ajax({

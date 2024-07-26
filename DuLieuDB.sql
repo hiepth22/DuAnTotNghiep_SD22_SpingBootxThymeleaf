@@ -4,7 +4,7 @@
 INSERT INTO [dbo].[khach_hang] ([ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat])
 VALUES
 	(N'KH001', N'Khách Vãng lai', N'', '', N'', 1, N'', N'', N'', 1, 1, N'admin', N'admin', '2024-01-01', '2024-01-01'),
-	(N'KH002', N'Phạm Thị Bình', N'0987654321', '1995-05-15', N'phamthi.binh@example.com', 0, N'987654321', N'', N'mkbinh456', 2, 1, N'admin', N'admin', '2024-01-01', '2024-01-01'),
+	(N'KH002', N'Nguyễn Bá Đăng', N'0987654321', '1995-05-15', N'dang@gmail.com', 0, N'987654321', N'', N'123', 2, 1, N'admin', N'admin', '2024-01-01', '2024-01-01'),
 	(N'KH003', N'Lê Thị Bảo', N'0369852147', '1998-08-20', N'lethi.bao@example.com', 0, N'369852147', N'', N'bao123mk', 2, 1, N'admin', N'admin', '2024-01-01', '2024-01-01'),
 	(N'KH004', N'Nguyễn Văn Cảnh', N'0912345678', '1997-10-25', N'nguyenvan.canh@example.com', 1, N'912345678', N'', N'mkcanh123', 2, 1, N'admin', N'admin', '2024-01-01', '2024-01-01'),
 	(N'KH005', N'Trần Thị Bình', N'0771234567', '1996-12-30', N'tranthi.binh@example.com', 0, N'771234567', N'', N'mkbtran789', 2, 1, N'admin', N'admin', '2024-01-01', '2024-01-01'),

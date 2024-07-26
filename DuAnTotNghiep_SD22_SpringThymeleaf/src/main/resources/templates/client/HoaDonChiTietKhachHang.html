@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<div>
+    <div class="flex justify-center">
+        <div class="container bg-gray-100 w-[75%] p-2 rounded-lg shadow-md mt-32">
+            <div class="grid gap-1 ml-2" style="grid-template-columns: 20% 80%;">
+                <div class="">
+                    <span id="tenKhachHang" class="font-bold"></span>
+                </div>
+              <div>
+                  <div class="ml-5 flex">
+                      <div>
+                          <span class="text-gray-500"> < TRỞ LẠI</span>
+                      </div>
+                      <div class="ml-[50%]">
+                          <span class="mr-5">Mã Hóa Đơn: </span>
+                          <span>|</span>
+                          <span class="ml-5">Trạng thái</span>
+                      </div>
+                  </div>
+                  <div></div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+$(document).ready(function () {
+
+    function getKhachHang() {
+        $.ajax({
+            url: '/api/session/user',
+            method: 'GET',
+            success: function (response) {
+                let idKhachHang = response.id;
+                $('#tenKhachHang').text(response.ten);
+            },
+        });
+    }
+
+    getKhachHang();
+});
+
+</script>
+
+</body>
+</html>

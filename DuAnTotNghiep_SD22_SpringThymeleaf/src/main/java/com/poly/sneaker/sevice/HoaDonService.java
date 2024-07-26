@@ -105,6 +105,21 @@ public class HoaDonService {
     }
 
 
+    public List<HoaDon> findByIDKHAndTrangThai(Long id) {
+        return hoaDonRepository.findByIDKHAndTrangThai(id);
+    }
+
+    public List<HoaDonChiTiet> findByIDKHAndTrangThaiHDCT(Long id) {
+        try {
+            return hoaDonRepository.findByIDKHAndTrangThaiHDCT(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Lỗi khi lấy chi tiết đơn hàng", e);
+        }
+    }
+
+
+
+
 
 
 }

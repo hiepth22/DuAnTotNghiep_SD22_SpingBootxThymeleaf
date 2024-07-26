@@ -113,7 +113,7 @@
                    </div>
                     <div id="datHang">
                         <button type="button" class="tiepTuc ml-14 w-[70%] h-16 mb-10 font-bold text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">
-                            <a class="text-xl">Đặt hàng</a>
+                            <a class="text-xl" href="#">Đặt hàng</a>
                         </button>
                     </div>
 
@@ -168,7 +168,7 @@
             if (Array.isArray(selectedProducts) && selectedProducts.length > 0) {
                 for (let i = 0; i < selectedProducts.length; i++) {
                     const item = selectedProducts[i];
-                    tongTien += item.soLuong * item.sanPhamChiTiet.giaBan; // Sửa lỗi ở đây
+                    tongTien += item.soLuong * item.sanPhamChiTiet.giaBan;
                     list += `
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
@@ -188,8 +188,6 @@
 
                 $('#soLuongVaTongTien').html(`
             <div>Tổng số tiền(${selectedProducts.length} sản phẩm): ${tongTien}</div>
-
-
         `);
                 $('#tongTien').text(tongTien);
                 $('#phiVanChuyen').text(ship);
