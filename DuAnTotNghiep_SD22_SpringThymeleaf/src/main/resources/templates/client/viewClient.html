@@ -155,7 +155,7 @@
                     <p class="card-text">Thêm ảnh vào database: ce71af39-aff6-40b8-bbfa-beea1f7a3f44.png</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <a th:href="@{/cho-thanh-toan}" class="btn btn-primary">Mua Ngay</a>
-                        <a th:href="@{/gio-hang}" class="btn btn-secondary">Thêm Vào Giỏ Hàng</a>
+                        <a th:href="@{/gio-hang}" class="btn btn-secondary" th:data-id="${sanPham.id}">Thêm Vào Giỏ Hàng</a>
                     </div>
                 </div>
             </div>
@@ -240,7 +240,6 @@
                     $('#modalDescription').text('Mô Tả: ' + data.moTa);
                     $('#modalColor').text('Màu sắc: ' + data.mauSac.ten);
 
-                    // AJAX request to fetch additional product details (e.g., kích cỡ)
                     $.ajax({
                         url: '/sanphamchitietclienkc/' + data.sanPham.id,
                         method: 'GET',
@@ -255,15 +254,12 @@
                             sizeHtml += '</div>';
                             $('#modalSize').html(sizeHtml);
 
-                            // Event listener for size items
                             $('.size-item').click(function () {
                                 // Remove 'selected' class from all items
                                 $('.size-item').removeClass('selected');
 
-                                // Add 'selected' class to the clicked item
                                 $(this).addClass('selected');
 
-                                // Optional: you can perform additional actions here
                                 var selectedSizeId = $(this).data('id');
                                 console.log('Selected size ID:', selectedSizeId);
                             });
@@ -283,11 +279,13 @@
                 }
             });
         });
+
+
+
+
     });
 
 </script>
-
-
 </body>
 
 </html>

@@ -31,4 +31,9 @@ public class GiohangService {
         return gioHangChiTietRepository.findByIdGH(id);
     }
 
+    public GioHang add(GioHang gioHang) {
+        return gioHangRepository.save(gioHang);
+    }
+
+
 }
