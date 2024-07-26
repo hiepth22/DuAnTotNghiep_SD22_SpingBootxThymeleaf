@@ -1,10 +1,13 @@
 package com.poly.sneaker.controller.login;
 
+import com.poly.sneaker.entity.GioHang;
 import com.poly.sneaker.entity.KhachHang;
 import com.poly.sneaker.repository.KhachHangRepository;
+import com.poly.sneaker.sevice.GiohangService;
 import com.poly.sneaker.sevice.KhachHangService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,8 @@ public class login {
 
     @Autowired
     private KhachHangRepository khachHangRepository;
+    @Autowired
+    private GiohangService ghsevice;
     @Autowired
     private KhachHangService service;
 
@@ -95,8 +100,20 @@ public class login {
             kh.setTrangThai(1);
             kh.setNgaytao(java.time.LocalDateTime.now());
             kh.setNgaycapnhap(java.time.LocalDateTime.now());
-            service.Add(kh);
+//            service.Add(kh);
+            KhachHang success = service.Add(kh);
+            if (success != null) {
+
+//                System.out.println(success.getId());
+//                GioHang gh = new GioHang();
+//                gh.setNgayTao(java.time.LocalDateTime.now());
+//                gh.setKhachHang(success);
+//                ghsevice.add(gh);
+            } else {
+
+            }
             return "Login/login";
+
         }
         else {
             return "Login/login";
