@@ -2,12 +2,16 @@ package com.poly.sneaker.controller.ClienController;
 
 import com.poly.sneaker.entity.SanPham;
 import com.poly.sneaker.entity.SanPhamChiTiet;
+import com.poly.sneaker.repository.SanPhamChiTietRepository;
+import com.poly.sneaker.repository.SanPhamRepository;
 import com.poly.sneaker.sevice.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,10 +19,12 @@ import java.util.Map;
 
 @Controller
 public class ClienController {
-
+    @Autowired
+    private SanPhamRepository sanPhamRepository;
     @Autowired
     private SanPhamService service;
-
+    @Autowired
+    private SanPhamChiTietRepository repo;
     @Autowired
     private SanPhamChiTietService SPCTservice;
 
@@ -52,9 +58,25 @@ public class ClienController {
         return "client/viewClient";
     }
     @GetMapping("/sanphamchitietclien/{sanPhamId}")
-    public String hienThiChiTietSanPham(@PathVariable Long sanPhamId, Model model) {
+    @ResponseBody
+    public ResponseEntity<?> getProductDetails(@PathVariable Long sanPhamId) {
         SanPhamChiTiet sanPhamChiTiet = SPCTservice.findById1(sanPhamId);
-        model.addAttribute("sanPhamChiTiet", sanPhamChiTiet);
-        return "client/SanPhamChiTietClien";
+        if (sanPhamChiTiet != null) {
+            return ResponseEntity.ok(sanPhamChiTiet);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+    @GetMapping("/sanphamchitietclienkc/{sanPhamId}")
+    @ResponseBody
+    public ResponseEntity<List<String>> getKichCo(@PathVariable Long sanPhamId) {
+        List<String> kichCoList = repo.findKichCoBySanPhamId(sanPhamId);
+
+        if (!kichCoList.isEmpty()) {
+            return ResponseEntity.ok(kichCoList);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

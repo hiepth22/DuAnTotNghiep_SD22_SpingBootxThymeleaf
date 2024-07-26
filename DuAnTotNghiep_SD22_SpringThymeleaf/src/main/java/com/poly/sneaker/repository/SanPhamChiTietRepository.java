@@ -1,5 +1,7 @@
 package com.poly.sneaker.repository;
 
+import com.poly.sneaker.entity.KichCo;
+import com.poly.sneaker.entity.SanPham;
 import com.poly.sneaker.entity.SanPhamChiTiet;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,4 +29,8 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
 
     @Query("SELECT COUNT(spct) FROM SanPhamChiTiet spct WHERE spct.sanPham.id = :sanPhamId")
     int countBySanPhamId(@Param("sanPhamId") Long sanPhamId);
+
+    @Query("SELECT s.kichCo.ten FROM SanPhamChiTiet s JOIN s.sanPham sp WHERE sp.id = :idSanPham")
+    List<String> findKichCoBySanPhamId(@Param("idSanPham") Long idSanPham);
+
 }
