@@ -41,6 +41,7 @@ $(document).ready(function () {
             selectedColors.push({
                 id: colorId,
                 color: colorHex,
+                name: colorHex
             });
         });
 
@@ -124,7 +125,7 @@ $(document).ready(function () {
                     chatLieu: { id: chatLieuId },
                     nhaSanXuat: { id: nhaSanXuatId },
                     moTa: moTa,
-                    mauSac: { id: mauSac.id, color: mauSac.color },
+                    mauSac: { id: mauSac.id, name: mauSac.name },
                     kichCo: { id: kichCo.id, name: kichCo.name },
                     ngayTao: new Date().toISOString(),
                     ngayCapNhat: "",
@@ -154,7 +155,9 @@ $(document).ready(function () {
 
         Object.entries(colorGroups).forEach(([mauSacId, products]) => {
             const tenMauBienThe = products[0].mauSac.name;
-            const colorTitle = $('<h5 class="mt-3"></h5>').text(`Danh sách sản phẩm có màu ${tenMauBienThe}`);
+            console.log("màu :", tenMauBienThe);
+            const colorTitle = $('<h5 class="mt-3"></h5>').text(`Danh sách sản phẩm có màu ${tenMauBienThe}`)
+                .attr('style', 'font-weight: bold; font-size: 1.25rem; margin-top: 1rem;');
             const tableWrapper = $('<div class="table-wrapper"></div>');
             const table = $('<table class="table table-bordered"></table>');
             const thead = $("<thead></thead>").html(`
@@ -173,7 +176,7 @@ $(document).ready(function () {
             products.forEach((product) => {
                 const row = $("<tr></tr>").html(`
                     <td>${product.sanPham.name}</td>
-                    <td><span class="color-box" style="background-color: ${product.mauSac.color};"></span></td>
+                    <td><span class="color-box" style="background-color: ${product.mauSac.name};"></span></td>
                     <td>${product.kichCo.name}</td>
                     <td>
                         <input type="text" value="${product.canNang}" class="form-control" style="width: 90px;">
