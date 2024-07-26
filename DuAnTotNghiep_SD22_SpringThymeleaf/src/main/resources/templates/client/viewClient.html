@@ -159,7 +159,7 @@
                     <p class="card-text">Thêm ảnh vào database: ce71af39-aff6-40b8-bbfa-beea1f7a3f44.png</p>
                     <div id="dsSanPham" class="d-flex justify-content-between align-items-center">
                         <a th:href="@{/cho-thanh-toan}" class="btn btn-primary">Mua Ngay</a>
-                        <a class="themSanPham btn btn-secondary " th:data-id="${sanPham.id}">Thêm Vào Giỏ Hàng</a>
+                        <a class="themSanPham btn btn-secondary " th:data-id="${sanPham.id}" >Thêm Vào Giỏ Hàng</a>
                     </div>
                 </div>
             </div>
@@ -290,10 +290,11 @@
                 method: 'GET',
                 success: function (response) {
                     let idKhachHang = response.id;
-
                     getIdGioHang(idKhachHang);
-
                 },
+                error: function () {
+                    console.log('Error retrieving user session.');
+                }
             });
         }
 
@@ -302,33 +303,34 @@
                 url: `/api/khach-hang/thong-tin-hoa-don/${idKhachHang}`,
                 method: 'GET',
                 success: function (response) {
-
-                    $("#dsSanPham").off('click', '.themSanPham').on('click', '.themSanPham', function () {
+                    // Đăng ký sự kiện click cho các nút "Thêm Vào Giỏ Hàng"
+                    $("#dsSanPham").on('click', '.themSanPham', function () {
                         const itemId = $(this).data('id');
 
-                        $(this).off('click');
                         $.ajax({
                             url: `/api/gio-hang/them-san-pham/${itemId}`,
                             method: 'POST',
                             contentType: 'application/json',
                             data: JSON.stringify({
-                                gioHang:  {id: response.id}, sanPhamChiTiet: {id: itemId}
+                                gioHang: { id: response.id },
+                                sanPhamChiTiet: { id: itemId }
                             }),
                             success: function () {
+                                alert('Sản phẩm đã được thêm vào giỏ hàng.');
                             },
-
+                            error: function () {
+                                console.log('Error adding product to cart.');
+                            }
                         });
                     });
-
                 },
+                error: function () {
+                    console.log('Error retrieving cart information.');
+                }
             });
         }
 
-
-
-
-
-
+        // Gọi hàm getKhachHang để bắt đầu quá trình
         getKhachHang();
     });
 
