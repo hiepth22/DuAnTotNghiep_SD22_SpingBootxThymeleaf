@@ -2,12 +2,10 @@
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <!-- Các Meta cơ bản -->
+    <!-- Meta tags -->
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- Meta cho thiết bị di động -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <!-- Meta cho trang web -->
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <meta name="author" content="" />
@@ -16,64 +14,88 @@
     <title>sneaker-shoe-see</title>
     <link rel="icon" type="image/svg+xml"
           href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
-    <!-- Stylesheet của slider -->
+
+    <!-- Owl Carousel CSS -->
     <link rel="stylesheet" type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
 
-    <!-- CSS core của Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
 
-    <!-- CSS tùy chỉnh cho template này -->
-    <link rel="stylesheet" th:href="@{/assets/css/clent.css}"/>
-    <!-- CSS responsive -->
-    <link rel="stylesheet" th:href="@{/assets/css/reponse.css}"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/clent.css}" />
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/reponse.css}" />
 </head>
+<style>
+    /* Ensure the size items are displayed in a row with wrapping */
+    #sizeContainer {
+        display: flex;
+        flex-wrap: wrap;
+    }
 
+    .size-item {
+        margin: 5px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        text-align: center;
+        background-color: #f8f9fa;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .size-item:hover {
+        background-color: #e9ecef;
+    }
+
+    .size-item.selected {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+
+</style>
 <body>
 <div class="hero_area">
-    <!-- Phần header -->
-    <header class="header_section ">
-        <nav class="navbar navbar-expand-lg custom_nav-container ">
+    <!-- Header -->
+    <header class="header_section">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
             <a class="navbar-brand" href="index.html">
                 <span>Sneaker Shoe-See shop</span>
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class=""></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse " id="navbarSupportedContent">
-                <ul class="navbar-nav  ">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav">
                     <li class="nav-item">
-                        <p>tìm Kiếm</p>
+                        <p>Tìm Kiếm</p>
                         <input type="text">
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" th:href="@{/}" >Home <span
-                                class="sr-only"></span></a>
+                        <a class="nav-link" th:href="@{/}">Trang Chủ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="client/shop.html" >Shop</a>
+                        <a class="nav-link" href="client/shop.html">Sản Phẩm</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/why}" >Why Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/testimonial}" >Testimonial</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/contact}" >Contact Us</a>
+                        <a class="nav-link" th:href="@{/testimonial}">Về Chúng Tôi</a>
                     </li>
                 </ul>
                 <div class="user_option">
                     <a href="login">
                         <i class="fa fa-user" aria-hidden="true"></i>
-                        <span >Login</span>
+                        <span>Login</span>
                     </a>
-                    <a href="">
+                    <a href="#">
                         <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                     </a>
-                    <form class="form-inline ">
+                    <form class="form-inline">
                         <button class="btn nav_search-btn" type="submit">
                             <i class="fa fa-search" aria-hidden="true"></i>
                         </button>
@@ -94,22 +116,9 @@
                                         <h2>
                                             Chào mừng đến với <br> Shoe-See Shop
                                         </h2>
-                                        <p>
-                                            🌟 **Khám Phá Sự Hoàn Hảo Với Giày Sneaker Mới Nhất Của Chúng Tôi!** 🌟
-                                        </p>
-                                        <p>
-                                            👟 **Thoải Mái Tuyệt Đối, Phong Cách Đỉnh Cao!**
-                                        </p>
-                                        <p>Bạn đang tìm kiếm một đôi giày sneaker hoàn hảo? </p>
-                                        <p>
-                                            Đừng bỏ lỡ cơ hội sở hữu sản phẩm mới nhất của chúng tôi! Được thiết kế với công nghệ tiên tiến và chất liệu cao cấp, giày sneaker của chúng tôi không chỉ mang lại sự thoải mái tuyệt đối mà còn giúp bạn tự tin thể hiện phong cách riêng.
-                                        </p>
-                                        <a href="">
-                                            Contact Us
-                                        </a>
                                     </div>
                                 </div>
-                                <div class="col-md-5 ">
+                                <div class="col-md-5">
                                     <div class="img-box">
                                         <img src="images/slider-img.png" alt="" />
                                     </div>
@@ -117,45 +126,40 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </section>
-
-
 </div>
-
 
 <section class="shop_section layout_padding">
     <div class="container">
         <div class="heading_container heading_center">
             <h2>
-               Danh Sách Sản Phẩm
+                Danh Sách Sản Phẩm
             </h2>
         </div>
         <div class="row">
+            <!-- Thymeleaf loop for products -->
             <div th:each="sanPham : ${sanPhams}" class="col-md-4 mb-4">
                 <div class="card-body">
-                    <a th:href="@{/sanphamchitietclien/{sanPhamId}(sanPhamId=${sanPham.id})}">
-                        <h5 class="card-title" th:text="${'Tên: ' + sanPham.ten}"></h5>
-                        <img th:src="@{'/assets/imageNV/' + ${sanPham.anh}}" class="img-fluid mb-2" alt="Product Image">
+                    <!-- Modal trigger -->
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${sanPham.id}">
+                        <h5 class="card-title" th:text="${sanPham.ten}"></h5>
+                        <img th:src="@{/assets/imageNV/{sanPham.anh}}" class="img-fluid mb-2" alt="Product Image">
                     </a>
+
                     <p class="card-text" th:text="${'Giá: ' + sanPham.giaBan}"></p>
                     <p class="card-text" th:text="${'Số lượng: ' + sanPham.soLuong}"></p>
                     <p class="card-text" th:text="${'Mô Tả: ' + sanPham.moTa}"></p>
-                    <p class="card-text"> thêm ảnh vào data base ở spct : ce71af39-aff6-40b8-bbfa-beea1f7a3f44.png</p>
+                    <p class="card-text">Thêm ảnh vào database: ce71af39-aff6-40b8-bbfa-beea1f7a3f44.png</p>
                     <div class="d-flex justify-content-between align-items-center">
-                        <a th:href="@{/cart}" class="btn btn-primary">Mua Ngay</a>
-                        <a th:href="@{/cart}" class="btn btn-secondary">Thêm Vào Giỏ Hàng</a>
+                        <a th:href="@{/cho-thanh-toan}" class="btn btn-primary">Mua Ngay</a>
+                        <a th:href="@{/gio-hang}" class="btn btn-secondary">Thêm Vào Giỏ Hàng</a>
                     </div>
                 </div>
-
             </div>
         </div>
-
-
         <div class="btn-box">
             <a href="#">
                 View All Products
@@ -163,7 +167,6 @@
         </div>
     </div>
 </section>
-
 
 <section class="footer_section">
     <div class="container">
@@ -173,11 +176,117 @@
     </div>
 </section>
 
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <a>
+                                    <img id="modalImage" class="img-fluid mb-2" alt="Product Image">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title" id="modalProductName"></h5>
+                                    <p class="card-text" id="modalPrice"></p>
+                                    <p class="card-text" id="modalQuantity"></p>
+                                    <p class="card-text" id="modalDescription"></p>
+                                    <p class="card-text" id="modalColor"></p>
+                                    <div id="modalSize" class="mb-3"></div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a id="modalBuyLink" class="btn btn-primary">Mua Ngay</a>
+                                        <a id="modalAddToCartLink" class="btn btn-secondary">Thêm Vào Giỏ Hàng</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-
+<!-- JavaScript -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('[data-bs-toggle="modal"]').click(function () {
+            var productId = $(this).attr('data-id');
+            var productName = $(this).find('.card-title').text();
+
+            // AJAX request to fetch product details
+            $.ajax({
+                url: '/sanphamchitietclien/' + productId,
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#productModalLabel').text(productName);
+                    $('#modalImage').attr('src', '/assets/imageNV/' + data.anh);
+                    $('#modalProductName').text(data.ten);
+                    $('#modalPrice').text('Giá: ' + data.giaBan);
+                    $('#modalQuantity').text('Số lượng: ' + data.soLuong);
+                    $('#modalDescription').text('Mô Tả: ' + data.moTa);
+                    $('#modalColor').text('Màu sắc: ' + data.mauSac.ten);
+
+                    // AJAX request to fetch additional product details (e.g., kích cỡ)
+                    $.ajax({
+                        url: '/sanphamchitietclienkc/' + data.sanPham.id,
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (additionalData) {
+                            var sizeHtml = '<h6>Kích cỡ:</h6><div id="sizeContainer" class="d-flex flex-wrap">';
+
+                            additionalData.forEach(function (item) {
+                                sizeHtml += '<div class="size-item" data-id="' + item + '">' + item + '</div>';
+                            });
+
+                            sizeHtml += '</div>';
+                            $('#modalSize').html(sizeHtml);
+
+                            // Event listener for size items
+                            $('.size-item').click(function () {
+                                // Remove 'selected' class from all items
+                                $('.size-item').removeClass('selected');
+
+                                // Add 'selected' class to the clicked item
+                                $(this).addClass('selected');
+
+                                // Optional: you can perform additional actions here
+                                var selectedSizeId = $(this).data('id');
+                                console.log('Selected size ID:', selectedSizeId);
+                            });
+
+                            $('#modalBuyLink').attr('href', '/gio-hang/' + productId);
+                            $('#modalAddToCartLink').attr('href', '/cart/add/' + productId);
+
+                            $('#productModal').modal('show');
+                        },
+                        error: function () {
+                            console.log('Error loading additional product details.');
+                        }
+                    });
+                },
+                error: function () {
+                    console.log('Error loading product details.');
+                }
+            });
+        });
+    });
+
+</script>
+
 
 </body>
 
