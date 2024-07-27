@@ -217,7 +217,7 @@
 
                 var matchesTrangThai = true;
                 if (trangThai !== "") {
-                    matchesTrangThai = trangThai === (dataStatus === ' đang hoạt động' ? '0' : dataStatus === 'ngừng hoạt động' ? '1' : '2');
+                    matchesTrangThai = trangThai === (dataStatus === 'đang hoạt động' ? '0' : dataStatus === 'ngừng hoạt động' ? '1' : '2');
                 }
 
                 var matchesHinhThucGiam = true;
@@ -245,6 +245,7 @@
             filterTable();
         };
     });
+
 
 
 
