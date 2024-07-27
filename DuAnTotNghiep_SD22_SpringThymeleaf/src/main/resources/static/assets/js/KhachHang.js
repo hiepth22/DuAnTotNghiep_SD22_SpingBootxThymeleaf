@@ -45,7 +45,7 @@ $(document).ready(function () {
                                             </span>
                                             <div style="margin-left: 10px;">
                                                 <strong style="display: block; margin-bottom: 3px; font-size: 14px;">${diaChi.ten}</strong>
-                                                <p style="margin: 0; font-size: 12px;">${diaChi.moTaChiTiet}, ${diaChi.soNha}, ${diaChi.phuongXa}, ${diaChi.quanHuyen}, ${diaChi.thanhPho}</p>
+                                                <p style="margin: 0; font-size: 12px;">${diaChi.moTaChiTiet}, số ${diaChi.soNha}, ${diaChi.phuongXa}, ${diaChi.quanHuyen}, ${diaChi.thanhPho}</p>
                                             </div>
                                         </div>
                                         <a href="/dia-chi-view-update/${diaChi.id}" class="btn btn-outline-orange btn-sm btn-update-address" data-dia-chi-id="${diaChi.id}" style="border: 1px solid orange; background-color: white; color: black;">
@@ -78,6 +78,18 @@ $(document).ready(function () {
         }
     });
 });
+function updateDiaChi(nguoiNhan, sdtNguoiNhan, diaChiNguoiNhan, ghichu) {
+    $.ajax({
+        url: `http://localhost:3000/dia-chi-update/${idHoaDon}`,
+        method: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            nguoiNhan: nguoiNhan, sdtNguoiNhan: sdtNguoiNhan, diaChiNguoiNhan: diaChiNguoiNhan, ghichu: ghichu,
+        }),
+        success: function (response) {
+        },
+    });
+}
 function searchKH(keyword, page_index = 1, page_size = 7) {
     console.log(keyword);
     var url = '/admin/search-khach-hang?keyword=' + encodeURIComponent(keyword);

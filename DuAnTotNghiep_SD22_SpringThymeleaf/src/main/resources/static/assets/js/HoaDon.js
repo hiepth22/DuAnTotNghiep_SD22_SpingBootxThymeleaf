@@ -2,29 +2,33 @@ let currentTab = '';
 let searchTxt = '';
 let startDate = '';
 let endDate = '';
+let page = 0
+let size = 10;
 const switchTab = (tab) => {
     $('.tab-link').removeClass('border-b-2 border-blue-500 rounded-lg shadow-md bg-white');
     $(`a[data-tab="${tab}"]`).addClass('border-b-2 rounded-lg shadow-md bg-white');
     currentTab = tab;
-    getData();
+    getData(page , size);
 };
 
 
-const getData = (page = 0, size = 10) => {
+const getData = (page, size) => {
     $.ajax({
         url: `/api/hoa-don?tab=${currentTab}&keyword=${searchTxt}&startDate=${startDate}&endDate=${endDate}&page=${page}&size=${size}`,
-        data: {},
         success: function (result) {
             let list = "";
             $("#listHoaDon").empty();
+
             result.content.forEach((hoaDon, i) => {
+                const khachHang = hoaDon.khachHang || {};
+
                 list += `<tr>
                             <td class="px-6 py-4 whitespace-nowrap">${i + 1 + page * size}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${hoaDon.ma}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">${hoaDon.khachHang.ten}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">${hoaDon.khachHang.sdt}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${khachHang.ten || ''}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${khachHang.sdt || ''}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${trangThaiMua(hoaDon.loai)}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">${hoaDon.nhanVien.ma}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${hoaDon.nhanVien ? hoaDon.nhanVien.ma : ''}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${hoaDon.ngayTao != null ? new Date(hoaDon.ngayTao).toLocaleDateString('vi-VN') : ''}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${formatVND(hoaDon.tongTien)}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${trangThai(hoaDon.trangThai)}</td>
@@ -36,41 +40,53 @@ const getData = (page = 0, size = 10) => {
                             </a></td>
                           </tr>`;
             });
+
             $("#listHoaDon").html(list);
 
             let pagination = '';
+            const currentPage = result.pageable.pageNumber;
+            const totalPages = result.totalPages;
+            const hasPrevious = currentPage > 0;
+            const hasNext = currentPage < totalPages - 1;
 
-            pagination += `<button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getData(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>`;
+            pagination += `<button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getData(${currentPage - 1}, ${size})" ${!hasPrevious ? 'disabled' : ''}>Previous</button>`;
 
             const maxVisiblePages = 3;
             const halfVisiblePages = Math.floor(maxVisiblePages / 2);
-            let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
-            let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
+            let startPage = Math.max(0, currentPage - halfVisiblePages);
+            let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages - 1);
 
-            if (startPage > 1) {
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(0, endPage - maxVisiblePages + 1);
+            }
+
+            if (startPage > 0) {
                 pagination += `<button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getData(0, ${size})">1</button>`;
-                if (startPage > 2) {
+                if (startPage > 1) {
                     pagination += `<span class="px-4 py-2">...</span>`;
                 }
             }
 
             for (let i = startPage; i <= endPage; i++) {
-                pagination += `<button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getData(${i - 1}, ${size})">${i}</button>`;
+                pagination += `<button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === currentPage ? 'bg-blue-600 text-white' : ''}" onclick="getData(${i}, ${size})">${i + 1}</button>`;
             }
 
-            if (endPage < result.totalPages) {
-                if (endPage < result.totalPages - 1) {
+            if (endPage < totalPages - 1) {
+                if (endPage < totalPages - 2) {
                     pagination += `<span class="px-4 py-2">...</span>`;
                 }
-                pagination += `<button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getData(${result.totalPages - 1}, ${size})">${result.totalPages}</button>`;
+                pagination += `<button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getData(${totalPages - 1}, ${size})">${totalPages}</button>`;
             }
 
-            pagination += `<button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getData(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>`;
+            pagination += `<button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getData(${currentPage + 1}, ${size})" ${!hasNext ? 'disabled' : ''}>Next</button>`;
 
             $("#pagination").html(pagination);
         }
     });
 }
+
+
+
 
 
 const trangThai = (tt) => {
@@ -116,14 +132,14 @@ const formatVND = (tongtien) => {
 
 $(document).ready(function () {
     $(`a[data-tab="0"]`).addClass('border-blue-500 rounded-lg shadow-md bg-white');
-    getData();
+    getData(page , size);
 });
 const onSearch = (event) => {
     event.preventDefault();
     searchTxt = $('#searchTxt').val();
     startDate = $('#startDate').val();
     endDate = $('#endDate').val();
-    getData();
+    getData(page , size);
 }
 
 const resetSearch = () => {
@@ -133,7 +149,7 @@ const resetSearch = () => {
     searchTxt = '';
     startDate = '';
     endDate = '';
-    getData();
+    getData(page , size);
 }
 
 $(".tab-link").click(function () {

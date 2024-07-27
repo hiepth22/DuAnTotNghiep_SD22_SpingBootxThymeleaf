@@ -1,19 +1,8 @@
 package com.poly.sneaker.sevice;
 
-import com.poly.sneaker.entity.Anh;
-import com.poly.sneaker.entity.ChatLieu;
-import com.poly.sneaker.entity.CoGiay;
-import com.poly.sneaker.entity.DeGiay;
-import com.poly.sneaker.entity.KichCo;
-import com.poly.sneaker.entity.MauSac;
-import com.poly.sneaker.entity.NhaSanXuat;
-import com.poly.sneaker.entity.SanPham;
-import com.poly.sneaker.entity.SanPhamChiTiet;
+import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.SanPhamChiTietRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +16,10 @@ public class SanPhamChiTietService {
     public List<SanPhamChiTiet> getAll() {
         return repository.findAll();
     }
-
+    public SanPhamChiTiet findById1(Long id) {
+        Optional<SanPhamChiTiet> optional = repository.findById(id);
+        return optional.map(o -> o).orElse(null);
+    }
     public List<SanPhamChiTiet> findBySanPhamId(Long sanPhamId) {
         return repository.findBySanPhamId(sanPhamId);
     }

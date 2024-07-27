@@ -1,9 +1,13 @@
 package com.poly.sneaker.controller.login;
 
+import com.poly.sneaker.entity.GioHang;
 import com.poly.sneaker.entity.KhachHang;
 import com.poly.sneaker.repository.KhachHangRepository;
+import com.poly.sneaker.sevice.GiohangService;
 import com.poly.sneaker.sevice.KhachHangService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
@@ -21,10 +25,15 @@ public class login {
     @Autowired
     private KhachHangRepository khachHangRepository;
     @Autowired
+    private GiohangService ghsevice;
+    @Autowired
     private KhachHangService service;
 
 
     private final JavaMailSender emailSender;
+    @Autowired
+    private HttpSession httpSession;
+
     @Autowired
     public login(JavaMailSender emailSender) {
         this.emailSender = emailSender;
@@ -35,22 +44,47 @@ public class login {
         model.addAttribute("khachHang", new KhachHang());
         return "Login/login";
     }
+    @GetMapping("/")
+    public String show(Model model) {
+        model.addAttribute("khachHang", new KhachHang());
+        return "redirect:Clien";
+    }
+
 
     @PostMapping("/logincheck")
     public String loginSubmit(@RequestParam(name = "email") String email,
                               @RequestParam(name = "matKhau") String matKhau,
-                              Model model) {
+                              Model model, HttpSession session) {
         Optional<KhachHang> lst = khachHangRepository.findByEmail(email);
         if (!lst.isEmpty()) {
             KhachHang kh = lst.get();
             if (matKhau.equals(kh.getMatKhau())) {
                 model.addAttribute("khachHang", kh);
-                return "client/viewClient";
+                model.addAttribute("id", kh.toString());
+                session.setAttribute("khachHang", kh);
+                return "redirect:Clien";
             }
         }
         model.addAttribute("error", true);
         return "Login/login";
     }
+
+//    @PostMapping("/logincheck")
+//    public String loginSubmit(@RequestParam(name = "email") String email,
+//                              @RequestParam(name = "matKhau") String matKhau,
+//                              Model model) {
+//        Optional<KhachHang> lst = khachHangRepository.findByEmail(email);
+//        if (lst.isPresent()) {
+//            KhachHang kh = lst.get();
+//            if (matKhau.equals(kh.getMatKhau())) {
+//                model.addAttribute("khachHang", kh);
+//                return "client/viewClient";
+//            }
+//        }
+//        model.addAttribute("error", true);
+//        return "Login/login";
+//    }
+
 
     @PostMapping("/loginadd")
     public String loginadd(@RequestParam(name = "ten") String ten,
@@ -66,8 +100,20 @@ public class login {
             kh.setTrangThai(1);
             kh.setNgaytao(java.time.LocalDateTime.now());
             kh.setNgaycapnhap(java.time.LocalDateTime.now());
-            service.Add(kh);
+//            service.Add(kh);
+            KhachHang success = service.Add(kh);
+            if (success != null) {
+
+//                System.out.println(success.getId());
+//                GioHang gh = new GioHang();
+//                gh.setNgayTao(java.time.LocalDateTime.now());
+//                gh.setKhachHang(success);
+//                ghsevice.add(gh);
+            } else {
+
+            }
             return "Login/login";
+
         }
         else {
             return "Login/login";

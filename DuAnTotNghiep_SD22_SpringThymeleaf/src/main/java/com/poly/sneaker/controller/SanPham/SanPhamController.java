@@ -1,6 +1,5 @@
 package com.poly.sneaker.controller.SanPham;
 
-import com.poly.sneaker.dto.SanPhamDTO;
 import com.poly.sneaker.entity.ChatLieu;
 import com.poly.sneaker.entity.CoGiay;
 import com.poly.sneaker.entity.DeGiay;
@@ -26,9 +25,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.security.PrivateKey;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -64,15 +63,16 @@ public class SanPhamController {
     @GetMapping("/san-pham")
     public String hienThiSanPham(Model model) {
         List<SanPham> sanPhams = sanPhamService.getAll();
-        List<SanPhamDTO> sanPhamDTOs = new ArrayList<>();
+        Map<Long, Integer> soLuongMap = new HashMap<>();
 
         for (SanPham sanPham : sanPhams) {
-            int soLuongChiTiet = SPCTservice.countBySanPhamId(sanPham.getId());
-            SanPhamDTO dto = new SanPhamDTO(sanPham.getId(), sanPham.getTen(), sanPham.getThuongHieu().getTen(), soLuongChiTiet, sanPham.getTrangThai());
-            sanPhamDTOs.add(dto);
+            int soLuong = SPCTservice.countBySanPhamId(sanPham.getId());
+            soLuongMap.put(sanPham.getId(), soLuong);
         }
 
-        model.addAttribute("sanPhams", sanPhamDTOs);
+        model.addAttribute("sanPhams", sanPhams);
+        model.addAttribute("soLuongMap", soLuongMap);
+
         return "/admin/SanPham/sanPhamPage";
     }
 
@@ -81,6 +81,15 @@ public class SanPhamController {
     @GetMapping("/san-pham/{sanPhamId}")
     public String hienThiSanPhamChiTiet(@PathVariable("sanPhamId") Long sanPhamId, Model model) {
         List<SanPhamChiTiet> sanPhamChiTiets = SPCTservice.findBySanPhamId(sanPhamId);
+        List<DeGiay> deGiays = deGiayService.getAll();
+        List<ChatLieu> chatLieus = chatLieuService.getAll();
+        List<CoGiay> coGiays = coGiayService.getAll();
+        List<KichCo> kichCos = kichCoService.getAll();
+
+        model.addAttribute("deGiays", deGiays);
+        model.addAttribute("chatLieus", chatLieus);
+        model.addAttribute("coGiays", coGiays);
+        model.addAttribute("kichCos", kichCos);
         model.addAttribute("sanPhamChiTiets", sanPhamChiTiets);
         model.addAttribute("sanPhamId", sanPhamId);
         return "/admin/SanPham/sanPhamChiTietPage";
@@ -117,6 +126,4 @@ public class SanPhamController {
         SanPhamChiTiet sanPhamChiTietUpdate = SPCTservice.update(id, sanPhamChiTiet);
         return "redirect:/admin/san-pham/" + sanPhamId;
     }
-
-
 }

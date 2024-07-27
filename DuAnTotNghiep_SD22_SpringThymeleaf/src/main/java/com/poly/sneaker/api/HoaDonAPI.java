@@ -117,6 +117,7 @@ public class HoaDonAPI {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDon not found");
         }
     }
+
     @PostMapping("/lich-su-hoa-don/add/{id}")
     public ResponseEntity<?> addLichSuHoaDon (@PathVariable("id") Long id,@RequestBody LichSuHoaDon lichSuHoaDon){
         return ResponseEntity.ok(lichSuHoaDonService.add(id, lichSuHoaDon));
@@ -148,8 +149,9 @@ public class HoaDonAPI {
     }
 
     @GetMapping("/danh-sach-san-pham")
-    public ResponseEntity<?> danhSachSanPham (Pageable pageable){
-        Page<SanPhamChiTiet> sanPhamChiTietPage = banHangService.getAllSanPham(pageable);
+    public ResponseEntity<?> danhSachSanPham (@RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                                              @RequestParam(name = "size", required = false, defaultValue = "10") int size){
+        Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(banHangService.getAllSanPham(pageable));
     }
 
@@ -195,15 +197,19 @@ public class HoaDonAPI {
     }
 
     @PutMapping("/update-trang-thai-thanh-toan/{id}")
-    public ResponseEntity<?> updateTrangThaiThanhToan(@PathVariable("id") Long id, @RequestBody PhuongThucThanhToan phuongThucThanhToan) {
-        PhuongThucThanhToan updateTrangThaiThanhToan = phuongThucThanhToanService.updateTrangThaiThanhToan(id, phuongThucThanhToan);
-        if (updateTrangThaiThanhToan != null) {
-            return ResponseEntity.ok(updateTrangThaiThanhToan);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("phuongthucthanhtoan not found");
-        }
+    public ResponseEntity<?> updateTrangThaiThanhToan(
+            @PathVariable("id") Long id,
+            @RequestBody PhuongThucThanhToan phuongThucThanhToan) {
 
+        PhuongThucThanhToan updated = phuongThucThanhToanService.updateTrangThaiThanhToan(id, phuongThucThanhToan);
+        if (updated != null) {
+            return ResponseEntity.ok(updated);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PhuongThucThanhToan not found");
+        }
     }
+
+
 
 
 

@@ -4,38 +4,72 @@
     <link th:href="@{/assets/css/sanPhamHienThi.css}" rel="stylesheet" />
 </head>
 <body>
-<div class="container bg-white">
-    <!-- Spinner Start -->
-    <div
-            id="spinner"
-            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center"
-    >
-        <div
-                class="spinner-border text-primary"
-                style="width: 3rem; height: 3rem"
-                role="status"
-        >
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div>
-    <!-- Spinner End -->
     <!-- Sidebar Start -->
     <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
     <!-- Sidebar End -->
     <!-- Content Start -->
-    <div class="content">
         <!-- Navbar Start -->
+        <div class="content flex-grow ml-64 p-4 bg-gray-200">
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
         <!-- Navbar End -->
-        <div class="container mx-auto bg-white w-full m-auto mt-3 p-2 rounded-lg shadow-md">0
-            <div class="mt-3 search-container">
-                <form action="#" method="get" class="search-form">
-                    <input type="text" placeholder="Tìm kiếm" />
-                    <button type="submit">Tìm kiếm</button>
-                    <button type="button">Làm mới</button>
-                </form>
+
+        <h1 class="text-left text-4xl font-bold mb-4">Danh sách sản phẩm chi tiết</h1>
+
+        <div class="container mx-auto bg-white h-75 w-full m-auto mt-5 p-6 rounded-lg shadow-md">
+            <h2 class="text-left text-2xl font-bold mb-4"><i class="fa-solid fa-filter"></i>Tìm kiếm và bộ lọc</h2>
+            <div class="mb-3 row">
+                <div class="col-8">
+                    <input type="text" class="form-control" placeholder="Nhập thông tin tìm kiếm">
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-primary w-100">Tìm kiếm</button>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-secondary w-100">Hủy lọc</button>
+                </div>
             </div>
+            <div class="mb-3 row">
+                <div class="col-3">
+                    <select class="form-select">
+                        <option selected>Chọn cổ giày</option>
+                        <option th:each="coGiay : ${coGiays}" th:text="${coGiay.ten}"></option>
+                    </select>
+                </div>
+                <div class="col-3">
+                    <select class="form-select">
+                        <option selected>Chọn đế giày</option>
+                        <option th:each="deGiay : ${deGiays}" th:text="${deGiay.ten}"></option>
+                    </select>
+                </div>
+                <div class="col-3">
+                    <select class="form-select">
+                        <option selected>Chọn chất liệu</option>
+                        <option th:each="chatLieu : ${chatLieus}" th:text="${chatLieu.ten}"></option>
+                    </select>
+                </div>
+                <div class="col-3">
+                    <select class="form-select">
+                        <option selected>Chọn kích cỡ</option>
+                        <option th:each="kichCo : ${kichCos}" th:text="${kichCo.ten}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label for="priceRange" class="form-label">Lọc theo khoảng giá</label>
+                    <input type="range" class="form-range" min="0" max="25" id="priceRange" step="1">
+                    <div class="d-flex justify-content-between">
+                        <span id="minPrice">0 VNĐ</span>
+                        <span id="maxPrice">5.000.000 VNĐ</span>
+                    </div>
+                    <div class="d-flex justify-content-between mt-2">
+                        <span id="priceDisplay">0 - 5.000.000 VNĐ</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
         <div class="w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md mb-11">
             <table id="productTable" class="table table-bordered">
                 <thead>
@@ -56,7 +90,7 @@
                 <tr th:each="spct, state : ${sanPhamChiTiets}">
                     <th scope="row" th:text="${state.count}"></th>
                     <td th:text="${spct.ma}"></td>
-                    <td th:text="${spct.sanPham.ten}"></td>
+                    <td th:text="${spct.ten}"></td>
                     <td th:text="${spct.formattedGiaBan}"></td>
                     <td>
                         <span class="color-box" th:style="'background-color: ' + ${spct.mauSac.ten}"></span>
@@ -77,8 +111,6 @@
                 </tbody>
             </table>
         </div>
-
-    </div>
 </div>
 
 <!-- JavaScript Libraries -->
@@ -88,30 +120,31 @@
 <!-- DataTables JS -->
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <!-- Template Javascript -->
+<script th:src="@{/assets/js/sanPhamChiTiet.js}"></script>
 <script th:src="@{/assets/js/main.js}"></script>
-<script>
-    $(document).ready(function() {
-        var table = $('#productTable').DataTable({
-            "paging": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "pageLength": 10,
-            "lengthMenu": [10, 20, 30, 40, 50],
-            "language": {
-                "paginate": {
-                    "previous": "Trước",
-                    "next": "Sau"
-                },
-                "search": "Tìm kiếm:",
-                "lengthMenu": "Hiển thị _MENU_ bản ghi mỗi trang",
-                "zeroRecords": "Không tìm thấy kết quả phù hợp",
-                "info": "Hiển thị trang _PAGE_ trong tổng số _PAGES_",
-                "infoEmpty": "Không có dữ liệu",
-                "infoFiltered": "(lọc từ tổng số _MAX_ bản ghi)"
-            },
-        });
-    });
-</script>
+<!--<script>-->
+<!--    $(document).ready(function() {-->
+<!--        var table = $('#productTable').DataTable({-->
+<!--            "paging": true,-->
+<!--            "searching": true,-->
+<!--            "ordering": true,-->
+<!--            "info": true,-->
+<!--            "pageLength": 10,-->
+<!--            "lengthMenu": [10, 20, 30, 40, 50],-->
+<!--            "language": {-->
+<!--                "paginate": {-->
+<!--                    "previous": "Trước",-->
+<!--                    "next": "Sau"-->
+<!--                },-->
+<!--                "search": "Tìm kiếm:",-->
+<!--                "lengthMenu": "Hiển thị _MENU_ bản ghi mỗi trang",-->
+<!--                "zeroRecords": "Không tìm thấy kết quả phù hợp",-->
+<!--                "info": "Hiển thị trang _PAGE_ trong tổng số _PAGES_",-->
+<!--                "infoEmpty": "Không có dữ liệu",-->
+<!--                "infoFiltered": "(lọc từ tổng số _MAX_ bản ghi)"-->
+<!--            },-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 </body>
 </html>

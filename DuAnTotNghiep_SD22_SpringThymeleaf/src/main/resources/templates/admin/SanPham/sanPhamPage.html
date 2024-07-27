@@ -28,38 +28,6 @@
                 <button class="btn btn-secondary w-100">Hủy lọc</button>
             </div>
         </div>
-        <div class="mb-3 row">
-            <div class="col-3">
-                <select class="form-select">
-                    <option selected>Chọn loại sản phẩm</option>
-                    <!-- Các tùy chọn khác -->
-                </select>
-            </div>
-            <div class="col-3">
-                <select class="form-select">
-                    <option selected>Chọn nhà sản xuất</option>
-                    <!-- Các tùy chọn khác -->
-                </select>
-            </div>
-            <div class="col-3">
-                <select class="form-select">
-                    <option selected>Chọn màu sắc</option>
-                    <!-- Các tùy chọn khác -->
-                </select>
-            </div>
-            <div class="col-3">
-                <select class="form-select">
-                    <option selected>Chọn kích cỡ</option>
-                    <!-- Các tùy chọn khác -->
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <label for="priceRange" class="form-label">Lọc theo khoảng giá</label>
-                <input type="range" class="form-range" min="0" max="1000" id="priceRange">
-            </div>
-        </div>
     </div>
 
     <div class="w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md mb-11">
@@ -78,8 +46,8 @@
             <tr th:each="sanPham, state : ${sanPhams}">
                 <th scope="row" th:text="${state.count}"></th>
                 <td th:text="${sanPham.ten}"></td>
-                <td th:text="${sanPham.thuongHieuTen}"></td>
-                <td th:text="${sanPham.soLuongChiTiet}"></td>
+                <td th:text="${sanPham.thuongHieu.ten}"></td>
+                <td th:text="${soLuongMap[sanPham.id]}"></td>
                 <td>
                     <span th:if="${sanPham.trangThai == 1}">Đang bán</span>
                     <span th:if="${sanPham.trangThai == 0}">Tạm ngưng</span>

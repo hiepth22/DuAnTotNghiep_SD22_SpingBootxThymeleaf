@@ -16,30 +16,23 @@ import java.util.List;
 @Repository
 public interface HoaDonRepository extends JpaRepository<HoaDon, Long> {
 
-    @Query(value = "select * from hoa_don where trangThai = :trangThai", nativeQuery = true)
+    @Query(value = "select * from hoa_don where trangThai = :trangThai and trangThai != 8", nativeQuery = true)
     Page<HoaDon> findAllByTrangThai(@Param("trangThai") int trangThai, Pageable pageable);
 
-//    @Query(value = "SELECT * FROM hoa_don WHERE (ma LIKE %:keyword% OR ngayTao BETWEEN :startDate AND :endDate) AND trangThai = :trangThai", nativeQuery = true)
-//    Page<HoaDon> findByMaAndNgayTaoBetweenAndTrangThai(@Param("keyword") String keyword, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("trangThai") int trangThai, Pageable pageable);
-
     @Query(value = "SELECT h.* FROM hoa_don h " +
-            "JOIN nhan_vien nv ON h.idNhanVien = nv.id " +
+            "left nhan_vien nv ON h.idNhanVien = nv.id " +
             "WHERE ((h.ma LIKE %:keyword% OR h.sdtNguoiNhan LIKE %:keyword% OR nv.ma LIKE %:keyword%)  " +
-            "or h.ngayTao BETWEEN :startDate AND :endDate) AND h.trangThai = :trangThai", nativeQuery = true)
+            "or h.ngayTao BETWEEN :startDate AND :endDate) AND h.trangThai = :trangThai and h.trangThai != 8", nativeQuery = true)
     Page<HoaDon> findByKeywordAndNgayTaoBetweenAndTrangThai(@Param("keyword") String keyword, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("trangThai") int trangThai, Pageable pageable);
 
-
-//    @Query(value = "SELECT * FROM hoa_don WHERE (ma LIKE %:keyword% OR ngayTao BETWEEN :startDate AND :endDate )AND trangThai != 8", nativeQuery = true)
-//    Page<HoaDon> findByMaAndNgayTaoBetween(@Param("keyword") String keyword, @Param("startDate") Date startDate, @Param("endDate") Date endDate, Pageable pageable);
-
     @Query(value = "SELECT h.* FROM hoa_don h " +
-            "JOIN nhan_vien nv ON h.idNhanVien = nv.id " +
+            "left nhan_vien nv ON h.idNhanVien = nv.id " +
             "WHERE ((h.ma LIKE %:keyword% OR h.sdtNguoiNhan LIKE %:keyword% OR nv.ma LIKE %:keyword% ) " +
-            "or h.ngayTao BETWEEN :startDate AND :endDate)", nativeQuery = true)
+            "or h.ngayTao BETWEEN :startDate AND :endDate) and trangThai != 8", nativeQuery = true)
     Page<HoaDon> findByMaAndNgayTaoBetweenAndKeyword(@Param("keyword") String keyword, @Param("startDate") Date startDate, @Param("endDate") Date endDate, Pageable pageable);
 
 
-    @Query(value = "SELECT * FROM hoa_don_chi_tiet WHERE idHoaDon = :idHoaDon", nativeQuery = true)
+    @Query(value = "SELECT * FROM hoa_don_chi_tiet WHERE idHoaDon = :idHoaDon and trangThai != 8", nativeQuery = true)
     List<HoaDonChiTiet> findByIdHD(@Param("id") Long id);
 
     @Query(value = "select * from hoa_don where trangThai = 8", nativeQuery = true)
@@ -48,4 +41,11 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Long> {
 
     List<HoaDon> findAllByNgayTaoBetweenAndTrangThaiAndMaContainingIgnoreCaseOrSdtNguoiNhanContainingIgnoreCase(
             LocalDateTime startDate, LocalDateTime endDate, int trangThai, String ma, String sdt);
+
+    @Query(value = "SELECT * FROM hoa_don WHERE idKhachHang = :idKhachHang and loai = 1", nativeQuery = true)
+    List<HoaDon> findByIDKHAndTrangThai(@Param("idKhachHang") Long idKhachHang);
+
+    @Query(value = "SELECT * FROM hoa_don_chi_tiet WHERE idHoaDon = :idHoaDon", nativeQuery = true)
+    List<HoaDonChiTiet> findByIDKHAndTrangThaiHDCT(@Param("idHoaDon") Long idHoaDon);
+
 }

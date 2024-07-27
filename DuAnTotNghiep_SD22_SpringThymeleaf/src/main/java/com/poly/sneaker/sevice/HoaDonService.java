@@ -49,6 +49,14 @@ public class HoaDonService {
         return hoaDonRepository.save(hoaDon);
     }
 
+    public HoaDon taoMaHoaDon(Long id, HoaDon hoaDon) {
+        Optional<HoaDon> optional = hoaDonRepository.findById(id);
+        return optional.map(o -> {
+            o.setMa(hoaDon.getMa());
+            return hoaDonRepository.save(o);
+        }).orElse(null);
+    }
+
     public HoaDon detail(Long id) {
         Optional<HoaDon> optional = hoaDonRepository.findById(id);
         return optional.map(o -> o).orElse(null);
@@ -95,6 +103,21 @@ public class HoaDonService {
     public Optional<HoaDon> getHoaDonByID(Long id){
         return hoaDonRepository.findById(id);
     }
+
+
+    public List<HoaDon> findByIDKHAndTrangThai(Long id) {
+        return hoaDonRepository.findByIDKHAndTrangThai(id);
+    }
+
+    public List<HoaDonChiTiet> findByIDKHAndTrangThaiHDCT(Long id) {
+        try {
+            return hoaDonRepository.findByIDKHAndTrangThaiHDCT(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Lỗi khi lấy chi tiết đơn hàng", e);
+        }
+    }
+
+
 
 
 

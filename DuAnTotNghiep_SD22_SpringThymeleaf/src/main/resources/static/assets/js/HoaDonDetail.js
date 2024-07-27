@@ -67,7 +67,7 @@ $(document).ready(function () {
             <tr>
                 <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <img src="https://res.cloudinary.com/deapopcoc/image/upload/${item.sanPhamChiTiet.anh.ten}" alt="Image" class="w-16 h-auto">
+                    <img src="https://res.cloudinary.com/deapopcoc/image/upload/${item.sanPhamChiTiet.anh}" alt="Image" class="w-16 h-auto">
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap font-bold">
                     <h1>${item.sanPhamChiTiet.ten}</h1>
@@ -196,9 +196,12 @@ $(document).ready(function () {
     }
 
 
-
-
     function splitAndPopulateAddress(address) {
+        if (!address) {
+            console.error('Address is null or undefined');
+            return;
+        }
+
         const addressParts = address.split(',').map(part => part.trim());
         const len = addressParts.length;
 
@@ -211,12 +214,10 @@ $(document).ready(function () {
             $('#edit-diachi').val(specificAddress);
 
             setTimeout(function() {
-
                 $editTinhThanh.val($editTinhThanh.find("option:contains('" + city + "')").val()).change();
             }, 100);
 
             setTimeout(function() {
-
                 $editQuanHuyen.val($editQuanHuyen.find("option:contains('" + district + "')").val()).change();
             }, 100);
 
@@ -459,7 +460,7 @@ $(document).ready(function () {
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <img src="https://res.cloudinary.com/deapopcoc/image/upload/${result.content[i].anh.ten}" alt="Ảnh" class="w-16 h-auto">
+                            <img src="https://res.cloudinary.com/deapopcoc/image/upload/${result.content[i].anh}" alt="Ảnh" class="w-16 h-auto">
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap font-bold">
                             <h1>${result.content[i].ten}</h1>
@@ -1021,7 +1022,6 @@ $(document).ready(function () {
     fetchStepsData(idHoaDon);
 
     function updateTrangThaiPhuongThucThanhToan(idHoaDon) {
-
         $.ajax({
             url: `/api/hoa-don/update-trang-thai-thanh-toan/${idHoaDon}`,
             method: 'PUT',

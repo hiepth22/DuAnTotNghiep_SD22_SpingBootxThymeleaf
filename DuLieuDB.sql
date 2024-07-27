@@ -4,7 +4,7 @@
 INSERT INTO [dbo].[khach_hang] ([ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat])
 VALUES
 	(N'KH001', N'Khách Vãng lai', N'', '', N'', 1, N'', N'', N'', 1, 1, N'admin', N'admin', '2024-01-01', '2024-01-01'),
-	(N'KH002', N'Phạm Thị Bình', N'0987654321', '1995-05-15', N'phamthi.binh@example.com', 0, N'987654321', N'', N'mkbinh456', 2, 1, N'admin', N'admin', '2024-01-01', '2024-01-01'),
+	(N'KH002', N'Nguyễn Bá Đăng', N'0987654321', '1995-05-15', N'dang@gmail.com', 0, N'987654321', N'', N'123', 2, 1, N'admin', N'admin', '2024-01-01', '2024-01-01'),
 	(N'KH003', N'Lê Thị Bảo', N'0369852147', '1998-08-20', N'lethi.bao@example.com', 0, N'369852147', N'', N'bao123mk', 2, 1, N'admin', N'admin', '2024-01-01', '2024-01-01'),
 	(N'KH004', N'Nguyễn Văn Cảnh', N'0912345678', '1997-10-25', N'nguyenvan.canh@example.com', 1, N'912345678', N'', N'mkcanh123', 2, 1, N'admin', N'admin', '2024-01-01', '2024-01-01'),
 	(N'KH005', N'Trần Thị Bình', N'0771234567', '1996-12-30', N'tranthi.binh@example.com', 0, N'771234567', N'', N'mkbtran789', 2, 1, N'admin', N'admin', '2024-01-01', '2024-01-01'),
@@ -264,39 +264,6 @@ INSERT INTO [dbo].[phieu_giam_gia] (
 
 -- Ảnh 30 dữ liệu ----------------------------------------------------------------------------------------------------------------------------------------
 
-INSERT INTO [dbo].[anh] (
-    [ten], [url], [ngayTao], [ngayCapNhat], [nguoiTao], [nguoiCapNhat], [trangThai]
-) VALUES
-    (N'Ảnh 1', 'https://example.com/anh1.jpg', '2024-01-01 08:00:00', '2024-01-01 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 2', 'https://example.com/anh2.jpg', '2024-01-02 08:00:00', '2024-01-02 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 3', 'https://example.com/anh3.jpg', '2024-01-03 08:00:00', '2024-01-03 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 4', 'https://example.com/anh4.jpg', '2024-01-04 08:00:00', '2024-01-04 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 5', 'https://example.com/anh5.jpg', '2024-01-05 08:00:00', '2024-01-05 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 6', 'https://example.com/anh6.jpg', '2024-01-06 08:00:00', '2024-01-06 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 7', 'https://example.com/anh7.jpg', '2024-01-07 08:00:00', '2024-01-07 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 8', 'https://example.com/anh8.jpg', '2024-01-08 08:00:00', '2024-01-08 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 9', 'https://example.com/anh9.jpg', '2024-01-09 08:00:00', '2024-01-09 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 10', 'https://example.com/anh10.jpg', '2024-01-10 08:00:00', '2024-01-10 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 11', 'https://example.com/anh11.jpg', '2024-01-11 08:00:00', '2024-01-11 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 12', 'https://example.com/anh12.jpg', '2024-01-12 08:00:00', '2024-01-12 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 13', 'https://example.com/anh13.jpg', '2024-01-13 08:00:00', '2024-01-13 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 14', 'https://example.com/anh14.jpg', '2024-01-14 08:00:00', '2024-01-14 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 15', 'https://example.com/anh15.jpg', '2024-01-15 08:00:00', '2024-01-15 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 16', 'https://example.com/anh16.jpg', '2024-01-16 08:00:00', '2024-01-16 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 17', 'https://example.com/anh17.jpg', '2024-01-17 08:00:00', '2024-01-17 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 18', 'https://example.com/anh18.jpg', '2024-01-18 08:00:00', '2024-01-18 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 19', 'https://example.com/anh19.jpg', '2024-01-19 08:00:00', '2024-01-19 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 20', 'https://example.com/anh20.jpg', '2024-01-20 08:00:00', '2024-01-20 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 21', 'https://example.com/anh21.jpg', '2024-01-21 08:00:00', '2024-01-21 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 22', 'https://example.com/anh22.jpg', '2024-01-22 08:00:00', '2024-01-22 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 23', 'https://example.com/anh23.jpg', '2024-01-23 08:00:00', '2024-01-23 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 24', 'https://example.com/anh24.jpg', '2024-01-24 08:00:00', '2024-01-24 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 25', 'https://example.com/anh25.jpg', '2024-01-25 08:00:00', '2024-01-25 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 26', 'https://example.com/anh26.jpg', '2024-01-26 08:00:00', '2024-01-26 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 27', 'https://example.com/anh27.jpg', '2024-01-27 08:00:00', '2024-01-27 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 28', 'https://example.com/anh28.jpg', '2024-01-28 08:00:00', '2024-01-28 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 29', 'https://example.com/anh29.jpg', '2024-01-29 08:00:00', '2024-01-29 08:00:00', 'admin', 'admin', 1),
-    (N'Ảnh 30', 'https://example.com/anh30.jpg', '2024-01-30 08:00:00', '2024-01-30 08:00:00', 'admin', 'admin', 1);
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------
@@ -615,7 +582,7 @@ INSERT INTO [dbo].[san_pham] (
 -- Sản phẩm chi tiết 30 dữ liệu ----------------------------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO [dbo].[san_pham_chi_tiet] 
-    ([ma], [ten], [soLuong], [barcode], [giaBan], [moTa], [canNang], [ngaySanXuat], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [idAnh], [idKichCo], [idMauSac], [idDeGiay], [idChatLieu], [idSanPham], [idCoGiay], [idNhaSanXuat], [trangThai])
+    ([ma], [ten], [soLuong], [barcode], [giaBan], [moTa], [canNang], [ngaySanXuat], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [Anh], [idKichCo], [idMauSac], [idDeGiay], [idChatLieu], [idSanPham], [idCoGiay], [idNhaSanXuat], [trangThai])
 VALUES
     (N'MA001', N'Nike Air Max 1', 100, '1234567890101', 800000, N'Mô tả sản phẩm Nike Air Max 1', 400, '2024-01-01 08:00:00', 'admin', 'admin', '2024-01-01 08:00:00', '2024-01-01 08:00:00', 1, 1, 1, 1, 1, 1, 1, 1, 1),
     (N'MA002', N'Adidas Ultraboost 21', 200, '1234567890102', 900000, N'Mô tả sản phẩm Adidas Ultraboost 21', 350, '2024-02-01 08:00:00', 'admin', 'admin', '2024-02-01 08:00:00', '2024-02-01 08:00:00', 2, 2, 2, 2, 2, 2, 2, 2, 1),
