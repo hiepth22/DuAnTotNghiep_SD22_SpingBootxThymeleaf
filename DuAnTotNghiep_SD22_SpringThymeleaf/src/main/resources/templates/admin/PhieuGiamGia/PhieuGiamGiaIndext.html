@@ -90,7 +90,7 @@
                     </div>
                     <div class="input-group-append text-center">
                         <button type="button" class="px-4 py-2 bg-blue-500 text-white rounded-md  ml-10 mt-5"
-                                onclick="onSearch()" > Tìm kiếm
+                                onclick="filterTable()" > Tìm kiếm
                         </button>
                         <button type="button" class="px-4 py-2 bg-green-500 text-white rounded-md  ml-10 mt-5"
                                 onclick="resetForm()">Làm Mới
@@ -140,7 +140,7 @@
                         <td th:text="${phieugiamgia.ngayBatDau}"></td>
                         <td th:text="${phieugiamgia.ngayKetThuc}"></td>
                         <td>
-                            <span th:if="${phieugiamgia.trangThai == 0}" class="badge bg-success">Hoạt động</span>
+                            <span th:if="${phieugiamgia.trangThai == 0}" class="badge bg-success"> Đang Hoạt động</span>
                             <span th:if="${phieugiamgia.trangThai == 1}" class="badge bg-danger">Ngừng hoạt động</span>
                             <span th:if="${phieugiamgia.trangThai == 2}" class="badge bg-warning">Chưa diễn ra</span>
 
@@ -177,46 +177,9 @@
 <script th:src="@{/assets/js/PhieuGiamGia.js}"></script>
 
 <script>
-    function onSearch() {
-        var keyword = $('#searchInput').val().toLowerCase();
-        var trangThai = $('#trangThai').val();
-        var hinhThucGiam = $('#hinhThucGiam').val();
-        var startDate = $('#startDate').val();
-        var endDate = $('#endDate').val();
 
-        var table = $('#phieuGiamGiaTable').DataTable();
-
-        table.rows().every(function () {
-            var data = this.data();
-            var matchesKeyword = keyword ? data[2].toLowerCase().includes(keyword) : true;
-            var dataStatus = data[10].trim().toLowerCase();
-            var dataHinhThucGiam = data[4].trim().toLowerCase();
-            var dataStartDate = new Date(data[8]);
-            var dataEndDate = new Date(data[9]);
-
-            var matchesTrangThai = true;
-            if (trangThai !== "") {
-                matchesTrangThai = trangThai === (dataStatus === 'hoạt động' ? '0' : dataStatus === 'ngừng hoạt động' ? '1' : '2');
-            }
-
-            var matchesHinhThucGiam = true;
-            if (hinhThucGiam !== "") {
-                matchesHinhThucGiam = hinhThucGiam === (dataHinhThucGiam === 'phần trăm' ? '1' : '0');
-            }
-
-            var matchesStartDate = startDate ? dataStartDate >= new Date(startDate) : true;
-            var matchesEndDate = endDate ? dataEndDate <= new Date(endDate) : true;
-
-            if (matchesKeyword && matchesTrangThai && matchesHinhThucGiam && matchesStartDate && matchesEndDate) {
-                $(this.node()).show();
-            } else {
-                $(this.node()).hide();
-            }
-        });
-    }
 
     $(document).ready(function () {
-        // Initialize DataTables
         var table = $('#phieuGiamGiaTable').DataTable({
             "paging": true,
             "searching": false,
@@ -230,89 +193,58 @@
                 "search": "", // Hide the search bar
                 "lengthMenu": "Hiển thị _MENU_ bản ghi mỗi trang",
                 "zeroRecords": "Không tìm thấy kết quả phù hợp",
-                "info": "Hiển thị trang _PAGE_ trong tổng số _PAGES_"
+                "info": "Hiển thị trang _PAGE_ trong tổng số _PAGES_",
+                // "infoEmpty": "Không có dữ liệu",
+                // "infoFiltered": "(lọc từ tổng số _MAX_ bản ghi)"
             },
             "columnDefs": [
                 { "targets": [4, 10], "visible": true }
             ]
         });
 
-        // Attach event listeners
+        function filterTable() {
+            var keyword = $('#searchInput').val().toLowerCase();
+            var trangThai = $('#trangThai').val();
+            var hinhThucGiam = $('#hinhThucGiam').val();
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+
+            table.rows().every(function () {
+                var data = this.data();
+                var matchesKeyword = keyword ? data[1].toLowerCase().includes(keyword) || data[2].toLowerCase().includes(keyword) : true;
+                var dataStatus = data[10].trim().toLowerCase();
+                var dataHinhThucGiam = data[4].trim().toLowerCase();
+
+                var matchesTrangThai = true;
+                if (trangThai !== "") {
+                    matchesTrangThai = trangThai === (dataStatus === ' đang hoạt động' ? '0' : dataStatus === 'ngừng hoạt động' ? '1' : '2');
+                }
+
+                var matchesHinhThucGiam = true;
+                if (hinhThucGiam !== "") {
+                    matchesHinhThucGiam = hinhThucGiam === (dataHinhThucGiam === 'phần trăm' ? '1' : '0');
+                }
+
+                var matchesStartDate = startDate ? new Date(data[8]) >= new Date(startDate) : true;
+                var matchesEndDate = endDate ? new Date(data[9]) <= new Date(endDate) : true;
+
+                if (matchesKeyword && matchesTrangThai && matchesHinhThucGiam && matchesStartDate && matchesEndDate) {
+                    $(this.node()).show();
+                } else {
+                    $(this.node()).hide();
+                }
+            });
+        }
+
         $('#searchInput, #trangThai, #hinhThucGiam, #startDate, #endDate').on('input change', function () {
-            onSearch();
+            filterTable();
         });
 
         window.resetForm = function() {
             $('#searchForm')[0].reset();
-            onSearch();
+            filterTable();
         };
     });
-    // $(document).ready(function () {
-    //     var table = $('#phieuGiamGiaTable').DataTable({
-    //         "paging": true,
-    //         "searching": false,
-    //         "ordering": true,
-    //         "info": true,
-    //         "language": {
-    //             "paginate": {
-    //                 "previous": "Trước",
-    //                 "next": "Sau"
-    //             },
-    //             "search": "", // Hide the search bar
-    //             "lengthMenu": "Hiển thị _MENU_ bản ghi mỗi trang",
-    //             "zeroRecords": "Không tìm thấy kết quả phù hợp",
-    //             "info": "Hiển thị trang _PAGE_ trong tổng số _PAGES_",
-    //             // "infoEmpty": "Không có dữ liệu",
-    //             // "infoFiltered": "(lọc từ tổng số _MAX_ bản ghi)"
-    //         },
-    //         "columnDefs": [
-    //             { "targets": [4, 10], "visible": true }
-    //         ]
-    //     });
-    //
-    //     function filterTable() {
-    //         var keyword = $('#searchInput').val().toLowerCase();
-    //         var trangThai = $('#trangThai').val();
-    //         var hinhThucGiam = $('#hinhThucGiam').val();
-    //         var startDate = $('#startDate').val();
-    //         var endDate = $('#endDate').val();
-    //
-    //         table.rows().every(function () {
-    //             var data = this.data();
-    //             var matchesKeyword = keyword ? data[1].toLowerCase().includes(keyword) || data[2].toLowerCase().includes(keyword) : true;
-    //             var dataStatus = data[10].trim().toLowerCase();
-    //             var dataHinhThucGiam = data[4].trim().toLowerCase();
-    //
-    //             var matchesTrangThai = true;
-    //             if (trangThai !== "") {
-    //                 matchesTrangThai = trangThai === (dataStatus === 'hoạt động' ? '0' : dataStatus === 'ngừng hoạt động' ? '1' : '2');
-    //             }
-    //
-    //             var matchesHinhThucGiam = true;
-    //             if (hinhThucGiam !== "") {
-    //                 matchesHinhThucGiam = hinhThucGiam === (dataHinhThucGiam === 'phần trăm' ? '1' : '0');
-    //             }
-    //
-    //             var matchesStartDate = startDate ? new Date(data[8]) >= new Date(startDate) : true;
-    //             var matchesEndDate = endDate ? new Date(data[9]) <= new Date(endDate) : true;
-    //
-    //             if (matchesKeyword && matchesTrangThai && matchesHinhThucGiam && matchesStartDate && matchesEndDate) {
-    //                 $(this.node()).show();
-    //             } else {
-    //                 $(this.node()).hide();
-    //             }
-    //         });
-    //     }
-    //
-    //     $('#searchInput, #trangThai, #hinhThucGiam, #startDate, #endDate').on('input change', function () {
-    //         filterTable();
-    //     });
-    //
-    //     window.resetForm = function() {
-    //         $('#searchForm')[0].reset();
-    //         filterTable();
-    //     };
-    // });
 
 
 
@@ -328,7 +260,7 @@
             } else if (currentDate > endDate) {
                 status = "Ngừng hoạt động";
             } else {
-                status = "Hoạt động";
+                status = "Đang Hoạt động";
             }
 
             document.getElementById("status").innerText = status;
@@ -340,34 +272,7 @@
         });
     });
 
-    function confirmToggle(checkbox, id) {
-        Swal.fire({
-            title: 'Bạn có chắc chắn?',
-            text: "Bạn không thể hoàn tác hành động này!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Vâng, tiếp tục!',
-            cancelButtonText: 'Hủy'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                changeStatus(id, checkbox.checked);
-                Swal.fire(
-                    'Đã xác nhận!',
-                    'Trạng thái của phiếu giảm giá đã được thay đổi.',
-                    'success'
-                );
-            } else {
-                checkbox.checked = !checkbox.checked;
-                Swal.fire(
-                    'Đã hủy!',
-                    'Hành động của bạn đã bị hủy.',
-                    'error'
-                );
-            }
-        });
-    }
+
 </script>
 
 
