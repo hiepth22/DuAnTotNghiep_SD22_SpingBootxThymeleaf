@@ -149,6 +149,74 @@
 </div>
 <!-- / quick view -->
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+<section class="shop_section layout_padding">
+    <div class="container">
+        <div class="heading_container heading_center">
+            <h2>
+                Danh Sách Sản Phẩm
+            </h2>
+        </div>
+        <div class="row">
+            <!-- Thymeleaf loop for products -->
+            <div th:each="sanPham : ${sanPhams}" class="col-md-4 mb-4">
+                <div class="card-body">
+                    <!-- Modal trigger -->
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${sanPham.id}">
+                        <h5 class="card-title" th:text="${sanPham.ten}"></h5>
+                        <img th:src="@{/assets/imageNV/{sanPham.anh}}" class="img-fluid mb-2" alt="Product Image">
+                    </a>
+
+                    <p class="card-text" th:text="${'Giá: ' + sanPham.giaBan}"></p>
+                    <p class="card-text" th:text="${'Số lượng: ' + sanPham.soLuong}"></p>
+                    <p class="card-text" th:text="${'Mô Tả: ' + sanPham.moTa}"></p>
+                    <p class="card-text">Thêm ảnh vào database: ce71af39-aff6-40b8-bbfa-beea1f7a3f44.png</p>
+                    <div id="dsSanPham" class="d-flex justify-content-between align-items-center">
+                        <a th:href="@{/cho-thanh-toan}" class="btn btn-primary">Mua Ngay</a>
+                        <a class="themSanPham btn btn-secondary " th:data-id="${sanPham.id}" on>Thêm Vào Giỏ Hàng</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-box">
+            <a href="#">
+                View All Products
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="footer_section">
+    <div class="container">
+        <p>
+            &copy; 2024 All Rights Reserved.
+        </p>
+    </div>
+</section>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        =======
+        <div class="modal fade" id="modallong" tabindex="-1" aria-modal="true" role="dialog">
+            <div class="modal-dialog modal-fullscreen-md-down modal-md modal-dialog-centered">
+                >>>>>>> 5eb0a9761d92775869f7d4d7a084aef46d4ba001
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title fs-5">Cart</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="shopping-cart">
+                            <div class="shopping-cart-content">
+                                <div class="mini-cart cart-list p-0 mt-3">
+                                    <div class="mini-cart-item d-flex border-bottom pb-3">
+                                        <div class="col-lg-2 col-md-3 col-sm-2 me-4">
+                                            <a href="#" title="product-image">
+                                                <img src="images/single-product-thumb1.jpg" class="img-fluid" alt="single-product-item">
+                                            </a>
+=======
 <div class="modal fade" id="modallong" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-fullscreen-md-down modal-md modal-dialog-centered">
         <div class="modal-content">
@@ -192,331 +260,453 @@
                                                     <use xlink:href="#plus"></use>
                                                 </svg>
                                             </button>
+>>>>>>> e6918160d38a53bf0c47dd2f8230e1f47dded4eb
                                         </div>
-                                        <div class="price-code">
-                                            <span class="product-price fs-6">$99</span>
-                                        </div>
-                                    </div>
-                                    <!-- quantity-price -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mini-cart cart-list p-0 mt-3">
-                            <div class="mini-cart-item d-flex border-bottom pb-3">
-                                <div class="col-lg-2 col-md-3 col-sm-2 me-4">
-                                    <a href="#" title="product-image">
-                                        <img src="images/single-product-thumb2.jpg" class="img-fluid" alt="single-product-item">
-                                    </a>
-                                </div>
-                                <div class="col-lg-9 col-md-8 col-sm-8">
-                                    <div class="product-header d-flex justify-content-between align-items-center mb-3">
-                                        <h4 class="product-title fs-6 me-5">Brand Shoes For Men</h4>
-                                        <a href="" class="remove" aria-label="Remove this item" data-product_id="11913"
-                                           data-cart_item_key="abc" data-product_sku="">
-                                            <svg class="close">
-                                                <use xlink:href="#close"></use>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                    <div class="quantity-price d-flex justify-content-between align-items-center">
-                                        <div class="input-group product-qty">
-                                            <button type="button"
-                                                    class="quantity-left-minus btn btn-light rounded-0 rounded-start btn-number"
-                                                    data-type="minus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#minus"></use>
-                                                </svg>
-                                            </button>
-                                            <input type="text" name="quantity" class="form-control input-number quantity" value="1">
-                                            <button type="button" class="quantity-right-plus btn btn-light rounded-0 rounded-end btn-number"
-                                                    data-type="plus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#plus"></use>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        <div class="price-code">
-                                            <span class="product-price fs-6">$99</span>
+                                        <div class="col-lg-9 col-md-8 col-sm-8">
+                                            <div class="product-header d-flex justify-content-between align-items-center mb-3">
+                                                <h4 class="product-title fs-6 me-5">Sport Shoes For Men</h4>
+                                                <a href="" class="remove" aria-label="Remove this item" data-product_id="11913"
+                                                   data-cart_item_key="abc" data-product_sku="">
+                                                    <svg class="close">
+                                                        <use xlink:href="#close"></use>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                            <div class="quantity-price d-flex justify-content-between align-items-center">
+                                                <div class="input-group product-qty">
+                                                    <button type="button"
+                                                            class="quantity-left-minus btn btn-light rounded-0 rounded-start btn-number"
+                                                            data-type="minus">
+                                                        <svg width="16" height="16">
+                                                            <use xlink:href="#minus"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <input type="text" name="quantity" class="form-control input-number quantity" value="1">
+                                                    <button type="button" class="quantity-right-plus btn btn-light rounded-0 rounded-end btn-number"
+                                                            data-type="plus">
+                                                        <svg width="16" height="16">
+                                                            <use xlink:href="#plus"></use>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                                <div class="price-code">
+                                                    <span class="product-price fs-6">$99</span>
+                                                </div>
+                                            </div>
+                                            <!-- quantity-price -->
                                         </div>
                                     </div>
-                                    <!-- quantity-price -->
                                 </div>
-                            </div>
-                        </div>
-                        <!-- cart-list -->
-                        <div class="mini-cart-total d-flex justify-content-between py-4">
-                            <span class="fs-6">Subtotal:</span>
-                            <span class="special-price-code">
+                                <div class="mini-cart cart-list p-0 mt-3">
+                                    <div class="mini-cart-item d-flex border-bottom pb-3">
+                                        <div class="col-lg-2 col-md-3 col-sm-2 me-4">
+                                            <a href="#" title="product-image">
+                                                <img src="images/single-product-thumb2.jpg" class="img-fluid" alt="single-product-item">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-9 col-md-8 col-sm-8">
+                                            <div class="product-header d-flex justify-content-between align-items-center mb-3">
+                                                <h4 class="product-title fs-6 me-5">Brand Shoes For Men</h4>
+                                                <a href="" class="remove" aria-label="Remove this item" data-product_id="11913"
+                                                   data-cart_item_key="abc" data-product_sku="">
+                                                    <svg class="close">
+                                                        <use xlink:href="#close"></use>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                            <div class="quantity-price d-flex justify-content-between align-items-center">
+                                                <div class="input-group product-qty">
+                                                    <button type="button"
+                                                            class="quantity-left-minus btn btn-light rounded-0 rounded-start btn-number"
+                                                            data-type="minus">
+                                                        <svg width="16" height="16">
+                                                            <use xlink:href="#minus"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <input type="text" name="quantity" class="form-control input-number quantity" value="1">
+                                                    <button type="button" class="quantity-right-plus btn btn-light rounded-0 rounded-end btn-number"
+                                                            data-type="plus">
+                                                        <svg width="16" height="16">
+                                                            <use xlink:href="#plus"></use>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                                <div class="price-code">
+                                                    <span class="product-price fs-6">$99</span>
+                                                </div>
+                                            </div>
+                                            <!-- quantity-price -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- cart-list -->
+                                <div class="mini-cart-total d-flex justify-content-between py-4">
+                                    <span class="fs-6">Subtotal:</span>
+                                    <span class="special-price-code">
                   <span class="price-amount amount fs-6" style="opacity: 1;">
                     <bdi>
                       <span class="price-currency-symbol">$</span>198.00 </bdi>
                   </span>
                 </span>
-                        </div>
-                        <div class="modal-footer my-4 justify-content-center">
-                            <button type="button" class="btn btn-red hvr-sweep-to-right dark-sweep">View Cart</button>
-                            <button type="button"
-                                    class="btn btn-outline-gray hvr-sweep-to-right dark-sweep">Checkout</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- cart view -->
-
-<div class="modal fade" id="modallogin" tabindex="-1" aria-modal="true" role="dialog">
-    <div class="modal-dialog modal-fullscreen-md-down modal-md modal-dialog-centered" role="document">
-        <div class="modal-content p-4">
-            <div class="modal-header mx-auto border-0">
-                <h2 class="modal-title fs-3 fw-normal">Login</h2>
-            </div>
-            <div class="modal-body">
-                <div class="login-detail">
-                    <div class="login-form p-0">
-                        <div class="col-lg-12 mx-auto">
-                            <form id="login-form">
-                                <input type="text" name="username" placeholder="Username or Email Address *"
-                                       class="mb-3 ps-3 text-input">
-                                <input type="password" name="password" placeholder="Password" class="ps-3 text-input">
-                                <div class="checkbox d-flex justify-content-between mt-4">
-                                    <p class="checkbox-form">
-                                        <label class="">
-                                            <input name="rememberme" type="checkbox" id="remember-me" value="forever"> Remember me </label>
-                                    </p>
-                                    <p class="lost-password">
-                                        <a href="#">Forgot your password?</a>
-                                    </p>
                                 </div>
-                            </form>
+                                <div class="modal-footer my-4 justify-content-center">
+                                    <button type="button" class="btn btn-red hvr-sweep-to-right dark-sweep">View Cart</button>
+                                    <button type="button"
+                                            class="btn btn-outline-gray hvr-sweep-to-right dark-sweep">Checkout</button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer mt-5 d-flex justify-content-center">
-                        <button type="button" class="btn btn-red hvr-sweep-to-right dark-sweep">Login</button>
-                        <button type="button"
-                                class="btn btn-outline-gray hvr-sweep-to-right dark-sweep">Register</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<!-- Login -->
+        <!-- cart view -->
 
-<header id="header" class="site-header text-black">
+        <div class="modal fade" id="modallogin" tabindex="-1" aria-modal="true" role="dialog">
+            <div class="modal-dialog modal-fullscreen-md-down modal-md modal-dialog-centered" role="document">
+                <div class="modal-content p-4">
+                    <div class="modal-header mx-auto border-0">
+                        <h2 class="modal-title fs-3 fw-normal">Login</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="login-detail">
+                            <div class="login-form p-0">
+                                <div class="col-lg-12 mx-auto">
+                                    <form id="login-form">
+                                        <input type="text" name="username" placeholder="Username or Email Address *"
+                                               class="mb-3 ps-3 text-input">
+                                        <input type="password" name="password" placeholder="Password" class="ps-3 text-input">
+                                        <div class="checkbox d-flex justify-content-between mt-4">
+                                            <p class="checkbox-form">
+                                                <label class="">
+                                                    <input name="rememberme" type="checkbox" id="remember-me" value="forever"> Remember me </label>
+                                            </p>
+                                            <p class="lost-password">
+                                                <a href="#">Forgot your password?</a>
+                                            </p>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="modal-footer mt-5 d-flex justify-content-center">
+                                <button type="button" class="btn btn-red hvr-sweep-to-right dark-sweep">Login</button>
+                                <button type="button"
+                                        class="btn btn-outline-gray hvr-sweep-to-right dark-sweep">Register</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Login -->
 
-    <nav id="header-nav" class="navbar navbar-expand-lg">
-        <div class="container-lg">
-            <a class="navbar-brand" href="index.html">
-                <img src="images/main-logo.png" class="logo" alt="logo">
-            </a>
-            <button class="navbar-toggler d-flex d-lg-none order-3 border-0 p-1 ms-2" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                <svg class="navbar-icon">
-                    <use xlink:href="#navbar-icon"></use>
-                </svg>
-            </button>
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar">
-                <div class="offcanvas-header px-4 pb-0">
-                    <a class="navbar-brand ps-3" href="index.html">
+        <header id="header" class="site-header text-black">
+
+            <nav id="header-nav" class="navbar navbar-expand-lg">
+                <div class="container-lg">
+                    <a class="navbar-brand" href="index.html">
                         <img src="images/main-logo.png" class="logo" alt="logo">
                     </a>
-                    <button type="button" class="btn-close btn-close-black p-5" data-bs-dismiss="offcanvas" aria-label="Close"
-                            data-bs-target="#bdNavbar"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <ul id="navbar" class="navbar-nav fw-bold justify-content-end align-items-center flex-grow-1">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link me-5" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link me-5" href="#">Men</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link me-5" href="#">Women</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link me-5" href="#">Page</a>
-                        </li>
+                    <button class="navbar-toggler d-flex d-lg-none order-3 border-0 p-1 ms-2" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                        <svg class="navbar-icon">
+                            <use xlink:href="#navbar-icon"></use>
+                        </svg>
+                    </button>
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar">
+                        <div class="offcanvas-header px-4 pb-0">
+                            <a class="navbar-brand ps-3" href="index.html">
+                                <img src="images/main-logo.png" class="logo" alt="logo">
+                            </a>
+                            <button type="button" class="btn-close btn-close-black p-5" data-bs-dismiss="offcanvas" aria-label="Close"
+                                    data-bs-target="#bdNavbar"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <ul id="navbar" class="navbar-nav fw-bold justify-content-end align-items-center flex-grow-1">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link me-5" href="#">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link me-5" href="#">Men</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link me-5" href="#">Women</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link me-5" href="#">Page</a>
+                                </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link me-5" href="shop.html">Shop</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link me-5" href="#">Sale</a>
-                        </li>
+                                <li class="nav-item">
+                                    <a class="nav-link me-5" href="shop.html">Shop</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link me-5" href="#">Sale</a>
+                                </li>
 
-                    </ul>
-                </div>
-            </div>
-            <div class="user-items ps-0 ps-md-5">
-                <ul class="d-flex justify-content-end list-unstyled align-item-center m-0">
-                    <li class="pe-3">
-                        <a href="login" data-bs-toggle="modal" data-bs-target="#modallogin" class="border-0">
-                            <svg class="user" width="24" height="24">
-                                <use xlink:href="#user"></use>
-                            </svg>
-                        </a>
-                    </li>
-                    <li class="pe-3">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#modallong" class="border-0">
-                            <svg class="shopping-cart" width="24" height="24">
-                                <use xlink:href="#shopping-cart"></use>
-                            </svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="search-item border-0" data-bs-toggle="collapse" data-bs-target="#search-box" aria-label="Toggle navigation">
-                            <svg class="search" width="24" height="24">
-                                <use xlink:href="#search"></use>
-                            </svg>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
-
-<section id="intro" class="position-relative mt-4">
-    <div class="container-lg">
-        <div class="swiper main-swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="card d-flex flex-row align-items-end border-0 large jarallax-keep-img">
-                        <img src="images/card-image1.jpg" alt="shoes" class="img-fluid jarallax-img">
-                        <div class="cart-concern p-3 m-3 p-lg-5 m-lg-5">
-                            <h2 class="card-title display-3 light">Stylish shoes for Women</h2>
-                            <a href="shop.html"
-                               class="text-uppercase light mt-3 d-inline-block text-hover fw-bold light-border">Shop Now</a>
+                            </ul>
                         </div>
                     </div>
+                    <div class="user-items ps-0 ps-md-5">
+                        <ul class="d-flex justify-content-end list-unstyled align-item-center m-0">
+                            <li class="pe-3">
+                                <a href="login" data-bs-toggle="modal" data-bs-target="#modallogin" class="border-0">
+                                    <svg class="user" width="24" height="24">
+                                        <use xlink:href="#user"></use>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="pe-3">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#modallong" class="border-0">
+                                    <svg class="shopping-cart" width="24" height="24">
+                                        <use xlink:href="#shopping-cart"></use>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="search-item border-0" data-bs-toggle="collapse" data-bs-target="#search-box" aria-label="Toggle navigation">
+                                    <svg class="search" width="24" height="24">
+                                        <use xlink:href="#search"></use>
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="swiper-slide">
-                    <div class="row g-4">
-                        <div class="col-lg-12 mb-4">
-                            <div class="card d-flex flex-row align-items-end border-0 jarallax-keep-img">
-                                <img src="images/card-image2.jpg" alt="shoes" class="img-fluid jarallax-img">
+            </nav>
+        </header>
+
+        <section id="intro" class="position-relative mt-4">
+            <div class="container-lg">
+                <div class="swiper main-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="card d-flex flex-row align-items-end border-0 large jarallax-keep-img">
+                                <img src="images/card-image1.jpg" alt="shoes" class="img-fluid jarallax-img">
                                 <div class="cart-concern p-3 m-3 p-lg-5 m-lg-5">
-                                    <h2 class="card-title style-2 display-4 light">Sports Wear</h2>
+                                    <h2 class="card-title display-3 light">Stylish shoes for Women</h2>
                                     <a href="shop.html"
                                        class="text-uppercase light mt-3 d-inline-block text-hover fw-bold light-border">Shop Now</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
-                            <div class="card d-flex flex-row align-items-end border-0 jarallax-keep-img">
-                                <img src="images/card-image3.jpg" alt="shoes" class="img-fluid jarallax-img">
+                        <div class="swiper-slide">
+                            <div class="row g-4">
+                                <div class="col-lg-12 mb-4">
+                                    <div class="card d-flex flex-row align-items-end border-0 jarallax-keep-img">
+                                        <img src="images/card-image2.jpg" alt="shoes" class="img-fluid jarallax-img">
+                                        <div class="cart-concern p-3 m-3 p-lg-5 m-lg-5">
+                                            <h2 class="card-title style-2 display-4 light">Sports Wear</h2>
+                                            <a href="shop.html"
+                                               class="text-uppercase light mt-3 d-inline-block text-hover fw-bold light-border">Shop Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="card d-flex flex-row align-items-end border-0 jarallax-keep-img">
+                                        <img src="images/card-image3.jpg" alt="shoes" class="img-fluid jarallax-img">
+                                        <div class="cart-concern p-3 m-3 p-lg-5 m-lg-5">
+                                            <h2 class="card-title style-2 display-4 light">Fashion Shoes</h2>
+                                            <a href="shop.html"
+                                               class="text-uppercase light mt-3 d-inline-block text-hover fw-bold light-border">Shop Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="card d-flex flex-row align-items-end border-0 large jarallax-keep-img">
+                                <img src="images/card-image4.jpg" alt="shoes" class="img-fluid jarallax-img">
                                 <div class="cart-concern p-3 m-3 p-lg-5 m-lg-5">
-                                    <h2 class="card-title style-2 display-4 light">Fashion Shoes</h2>
+                                    <h2 class="card-title display-3 light">Stylish shoes for men</h2>
                                     <a href="shop.html"
                                        class="text-uppercase light mt-3 d-inline-block text-hover fw-bold light-border">Shop Now</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="card d-flex flex-row align-items-end border-0 large jarallax-keep-img">
-                        <img src="images/card-image4.jpg" alt="shoes" class="img-fluid jarallax-img">
-                        <div class="cart-concern p-3 m-3 p-lg-5 m-lg-5">
-                            <h2 class="card-title display-3 light">Stylish shoes for men</h2>
-                            <a href="shop.html"
-                               class="text-uppercase light mt-3 d-inline-block text-hover fw-bold light-border">Shop Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="row g-4">
-                        <div class="col-lg-12 mb-4">
-                            <div class="card d-flex flex-row align-items-end border-0 jarallax-keep-img">
-                                <img src="images/card-image5.jpg" alt="shoes" class="img-fluid jarallax-img">
-                                <div class="cart-concern p-3 m-3 p-lg-5 m-lg-5">
-                                    <h2 class="card-title style-2 display-4 light">Men Shoes</h2>
-                                    <a href="shop.html"
-                                       class="text-uppercase light mt-3 d-inline-block text-hover fw-bold light-border">Shop Now</a>
+                        <div class="swiper-slide">
+                            <div class="row g-4">
+                                <div class="col-lg-12 mb-4">
+                                    <div class="card d-flex flex-row align-items-end border-0 jarallax-keep-img">
+                                        <img src="images/card-image5.jpg" alt="shoes" class="img-fluid jarallax-img">
+                                        <div class="cart-concern p-3 m-3 p-lg-5 m-lg-5">
+                                            <h2 class="card-title style-2 display-4 light">Men Shoes</h2>
+                                            <a href="shop.html"
+                                               class="text-uppercase light mt-3 d-inline-block text-hover fw-bold light-border">Shop Now</a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="card d-flex flex-row align-items-end border-0 jarallax-keep-img">
-                                <img src="images/card-image6.jpg" alt="shoes" class="img-fluid jarallax-img">
-                                <div class="cart-concern p-3 m-3 p-lg-5 m-lg-5">
-                                    <h2 class="card-title style-2 display-4 light">Women Shoes</h2>
-                                    <a href="shop.html"
-                                       class="text-uppercase light mt-3 d-inline-block text-hover fw-bold light-border">Shop Now</a>
+                                <div class="col-lg-12">
+                                    <div class="card d-flex flex-row align-items-end border-0 jarallax-keep-img">
+                                        <img src="images/card-image6.jpg" alt="shoes" class="img-fluid jarallax-img">
+                                        <div class="cart-concern p-3 m-3 p-lg-5 m-lg-5">
+                                            <h2 class="card-title style-2 display-4 light">Women Shoes</h2>
+                                            <a href="shop.html"
+                                               class="text-uppercase light mt-3 d-inline-block text-hover fw-bold light-border">Shop Now</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="swiper-pagination"></div>
             </div>
-        </div>
-        <div class="swiper-pagination"></div>
-    </div>
-</section>
-<section class="discount-coupon py-2 my-2 py-md-5 my-md-5">
-    <div class="container">
-        <div class="bg-gray coupon position-relative p-5">
-            <div class="bold-text position-absolute">10% OFF</div>
-            <div class="row justify-content-between align-items-center">
-                <div class="col-lg-7 col-md-12 mb-3">
-                    <div class="coupon-header">
-                        <h2 class="display-7">10% OFF Discount Coupons</h2>
-                        <p class="m-0">Subscribe us to get 10% OFF on all the purchases</p>
+        </section>
+        <section class="discount-coupon py-2 my-2 py-md-5 my-md-5">
+            <div class="container">
+                <div class="bg-gray coupon position-relative p-5">
+                    <div class="bold-text position-absolute">10% OFF</div>
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col-lg-7 col-md-12 mb-3">
+                            <div class="coupon-header">
+                                <h2 class="display-7">10% OFF Discount Coupons</h2>
+                                <p class="m-0">Subscribe us to get 10% OFF on all the purchases</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-12">
+                            <div class="btn-wrap">
+                                <a href="#" class="btn btn-black btn-medium text-uppercase hvr-sweep-to-right">Email me</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-12">
-                    <div class="btn-wrap">
-                        <a href="#" class="btn btn-black btn-medium text-uppercase hvr-sweep-to-right">Email me</a>
+            </div>
+        </section>
+        <section id="featured-products" class="product-store">
+            <div class="container-md">
+                <div class="display-header d-flex align-items-center justify-content-between">
+                    <h2 class="section-title text-uppercase">Featured Products</h2>
+                    <div class="btn-right">
+                        <a href="shop.html" class="d-inline-block text-uppercase text-hover fw-bold">View all</a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section id="featured-products" class="product-store">
-    <div class="container-md">
-        <div class="display-header d-flex align-items-center justify-content-between">
-            <h2 class="section-title text-uppercase">Featured Products</h2>
-            <div class="btn-right">
-                <a href="shop.html" class="d-inline-block text-uppercase text-hover fw-bold">View all</a>
-            </div>
-        </div>
-        <div class="product-content padding-small">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
+                <div class="product-content padding-small">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
 
-                <h1>san pham bán chạy nhất</h1>
-            </div>
-        </div>
-    </div>
-</section>
-<section id="collection-products" class="py-2 my-2 py-md-5 my-md-5">
-    <div class="container-md">
-        <div class="row">
-            <div class="col-lg-6 col-md-6 mb-4">
-                <div class="collection-card card border-0 d-flex flex-row align-items-end jarallax-keep-img">
-                    <img src="images/collection-item1.jpg" alt="product-item" class="border-rounded-10 img-fluid jarallax-img">
-                    <div class="card-detail p-3 m-3 p-lg-5 m-lg-5">
-                        <h3 class="card-title display-3">
-                            <a href="#">Minimal Collection</a>
-                        </h3>
-                        <a href="shop.html" class="text-uppercase mt-3 d-inline-block text-hover fw-bold">Shop Now</a>
+                        <h1>san pham bán chạy nhất</h1>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6">
-                <div class="collection-card card border-0 d-flex flex-row jarallax-keep-img">
-                    <img src="images/collection-item2.jpg" alt="product-item" class="border-rounded-10 img-fluid jarallax-img">
-                    <div class="card-detail p-3 m-3 p-lg-5 m-lg-5">
-                        <h3 class="card-title display-3">
-                            <a href="#">Sneakers Collection</a>
-                        </h3>
-                        <a href="shop.html" class="text-uppercase mt-3 d-inline-block text-hover fw-bold">Shop Now</a>
+        </section>
+        <section id="collection-products" class="py-2 my-2 py-md-5 my-md-5">
+            <div class="container-md">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 mb-4">
+                        <div class="collection-card card border-0 d-flex flex-row align-items-end jarallax-keep-img">
+                            <img src="images/collection-item1.jpg" alt="product-item" class="border-rounded-10 img-fluid jarallax-img">
+                            <div class="card-detail p-3 m-3 p-lg-5 m-lg-5">
+                                <h3 class="card-title display-3">
+                                    <a href="#">Minimal Collection</a>
+                                </h3>
+                                <a href="shop.html" class="text-uppercase mt-3 d-inline-block text-hover fw-bold">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="collection-card card border-0 d-flex flex-row jarallax-keep-img">
+                            <img src="images/collection-item2.jpg" alt="product-item" class="border-rounded-10 img-fluid jarallax-img">
+                            <div class="card-detail p-3 m-3 p-lg-5 m-lg-5">
+                                <h3 class="card-title display-3">
+                                    <a href="#">Sneakers Collection</a>
+                                </h3>
+                                <a href="shop.html" class="text-uppercase mt-3 d-inline-block text-hover fw-bold">Shop Now</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
+        </section>
+        <section id="latest-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">
+            <div class="container-md">
+                <div class="display-header d-flex align-items-center justify-content-between">
+                    <h2 class="section-title text-uppercase">Latest Products</h2>
+                    <div class="btn-right">
+                        <a href="shop.html" class="d-inline-block text-uppercase text-hover fw-bold">View all</a>
+                    </div>
+                </div>
+                <div class="product-content padding-small">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
+                        <h1>san pham moi nhat</h1>
+                    </div>
+                </div>
+        </section>
+
+        <<<<<<< HEAD
+        var selectedSizeId = $(this).data('id');
+        console.log('Selected size ID:', selectedSizeId);
+        });
+
+        $('#modalBuyLink').attr('href', '/gio-hang/' + productId);
+        $('#modalAddToCartLink').attr('href', '/cart/add/' + productId);
+
+        $('#productModal').modal('show');
+        },
+        error: function () {
+        console.log('Error loading additional product details.');
+        }
+        });
+        },
+        error: function () {
+        console.log('Error loading product details.');
+        }
+        });
+        });
+
+        function getKhachHang() {
+        $.ajax({
+        url: '/api/session/user',
+        method: 'GET',
+        success: function (response) {
+        let idKhachHang = response.id;
+
+        getIdGioHang(idKhachHang);
+
+        },
+        });
+        }
+
+        function getIdGioHang(idKhachHang) {
+        $.ajax({
+        url: `/api/khach-hang/thong-tin-hoa-don/${idKhachHang}`,
+        method: 'GET',
+        success: function (response) {
+
+        $("#dsSanPham").off('click', '.themSanPham').on('click', '.themSanPham', function () {
+        const itemId = $(this).data('id');
+
+        $(this).off('click');
+        $.ajax({
+        url: `/api/gio-hang/them-san-pham/${itemId}`,
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+        gioHang:  {id: response.id}, sanPhamChiTiet: {id: itemId}
+        }),
+        success: function () {
+        },
+
+        });
+        });
+
+        },
+        });
+        }
+
+
+
+
+
+
+        getKhachHang();
+        });
+
+        </script>
+        =======
+        <script th:src="@{/assets/js/plugins.js}"></script>
+        <script th:src="@{/assets/js/client.js}"></script>
+        >>>>>>> 5eb0a9761d92775869f7d4d7a084aef46d4ba001
+=======
         </div>
     </div>
 </section>
@@ -539,6 +729,7 @@
 
 <script th:src="@{/assets/js/plugins.js}"></script>
 <script th:src="@{/assets/js/client.js}"></script>
+>>>>>>> e6918160d38a53bf0c47dd2f8230e1f47dded4eb
 </body>
 
 </html>
