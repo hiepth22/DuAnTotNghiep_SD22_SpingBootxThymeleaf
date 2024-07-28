@@ -22,4 +22,6 @@ public interface DiaChirepository extends JpaRepository<DiaChi, Long> {
     @Query(value = "UPDATE dia_chi SET trangThai = 1 WHERE id = :id", nativeQuery = true)
     DiaChi setDiaChi2(@Param("id")Long id);
 
+    @Query(value = "select count (*) from dia_chi where idKhachHang= :idKH", nativeQuery = true)
+    Integer checkTrangThai(@Param("idKH") Long idKhachHang);
 }

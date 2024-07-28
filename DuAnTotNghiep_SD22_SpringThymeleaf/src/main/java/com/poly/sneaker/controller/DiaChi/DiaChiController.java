@@ -30,9 +30,6 @@ public class DiaChiController {
         try {
             List<DiaChi> diaChiList = diaChiService.getByID(id);
             idkh = id;
-            if (diaChiList.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            }
 
             return ResponseEntity.ok(diaChiList);
         } catch (Exception e) {
@@ -40,6 +37,7 @@ public class DiaChiController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }
     }
+
     @GetMapping("/dia-chi-view-update/{id}")
     public String showEmployeeDetail(@PathVariable("id") Long id, Model model) {
         DiaChi dc = diaChiService.findById(id);

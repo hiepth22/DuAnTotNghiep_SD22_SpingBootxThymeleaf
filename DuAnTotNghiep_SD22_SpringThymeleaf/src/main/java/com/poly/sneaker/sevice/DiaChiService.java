@@ -45,17 +45,36 @@ public class DiaChiService {
         }).orElse(null);
     }
     public DiaChi add(DiaChiAdd dc){
-        DiaChi newdc = new DiaChi();
-        BeanUtils.copyProperties(dc, newdc);
-        KhachHang khachHang = new KhachHang();
-        khachHang.setId(dc.getIdKH());
-        newdc.setIdKH(khachHang);
-        System.out.println(khachHang);
-        newdc.setThanhPho(dc.getThanhPho());
-        newdc.setQuanHuyen(dc.getQuanHuyen());
-        newdc.setPhuongXa(dc.getPhuongXa());
+        if (checkTrangThai(dc.getIdKH())==0) {
+            DiaChi newdc = new DiaChi();
+            BeanUtils.copyProperties(dc, newdc);
+            KhachHang khachHang = new KhachHang();
+            khachHang.setId(dc.getIdKH());
+            newdc.setIdKH(khachHang);
+            newdc.setTrangThai(1);
+            System.out.println(khachHang);
+            newdc.setThanhPho(dc.getThanhPho());
+            newdc.setQuanHuyen(dc.getQuanHuyen());
+            newdc.setPhuongXa(dc.getPhuongXa());
+            return diaChirepository.save(newdc);
+        }else {
+            DiaChi newdc = new DiaChi();
+            BeanUtils.copyProperties(dc, newdc);
+            KhachHang khachHang = new KhachHang();
+            khachHang.setId(dc.getIdKH());
+            newdc.setIdKH(khachHang);
+            newdc.setTrangThai(0);
+            System.out.println(khachHang);
+            newdc.setThanhPho(dc.getThanhPho());
+            newdc.setQuanHuyen(dc.getQuanHuyen());
+            newdc.setPhuongXa(dc.getPhuongXa());
+            return diaChirepository.save(newdc);
+        }
 
-        return diaChirepository.save(newdc);
+    }
+    public Integer checkTrangThai(Long idKhachHang){
+        return diaChirepository.checkTrangThai(idKhachHang);
+
     }
     public DiaChi findById(Long id) {
         Optional<DiaChi> optional = diaChirepository.findById(id);

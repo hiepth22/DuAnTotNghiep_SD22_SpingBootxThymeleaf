@@ -4,7 +4,9 @@
 })();
 $(document).ready(function () {
     console.log("JavaScript is working");
-
+    loadDiaChi();
+});
+function loadDiaChi(){
     $('#exampleModal').on('show.bs.modal', function (event) {
 
         console.log("Modal is about to be shown");
@@ -12,31 +14,31 @@ $(document).ready(function () {
         var button = $(event.relatedTarget); // Button that triggered the modal
         var khId = button.data('kh-id'); // Extract info from data-* attributes
         console.log('Customer ID:', khId);
-
-        if (khId) {
-            var modalBody = $('#exampleModal').find('.modal-body #modal-address-details');
-            modalBody.empty(); // Clear previous data
-
-            $.ajax({
-                url: '/api/khach-hang/dia-chi/' + khId,
-                method: 'GET',
-                cache: false, // Disable caching
-                dataType: 'json',
-                success: function (data) {
-                    console.log('Received data:', data);
-
-                    if (data && data.length > 0) {
-                        data.forEach(function (diaChi) {
-                            var trangThaiClass = diaChi.trangThai === 1 ? 'text-danger' : ''; // Determine class based on trangThai
-                            var additionalInfo = diaChi.trangThai === 1 ? `
+        getDiaChi(khId)
+    });
+}
+function getDiaChi(khId){
+    if (khId) {
+        var modalBody = $('#exampleModal').find('.modal-body #modal-address-details');
+        modalBody.empty(); // Clear previous data
+        $.ajax({
+            url: '/api/khach-hang/dia-chi/' + khId,
+            method: 'GET',
+            cache: false, // Disable caching
+            dataType: 'json',
+            success: function (data) {
+                console.log('Received data:', data);
+                if (data && data.length > 0) {
+                    data.forEach(function (diaChi) {
+                        var trangThaiClass = diaChi.trangThai === 1 ? 'text-danger' : ''; // Determine class based on trangThai
+                        var additionalInfo = diaChi.trangThai === 1 ? `
                             <div class="additional-info">
                                 <button type="button" class="btn btn-outline-warning btn-sm" style="font-size: 12px;" disabled>
                                     Mặc định
                                 </button>
                             </div>
                             ` : '';
-
-                            modalBody.append(`
+                        modalBody.append(`
                                 <div class="address-block mb-3" style="border-bottom: 1px solid #ddd; padding: 10px;">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div style="flex: 1; display: flex; align-items: center;">
@@ -55,40 +57,26 @@ $(document).ready(function () {
                                     ${additionalInfo}
                                 </div>
                                 `);
-                        });
+                    });
 
-                        // Handle heart icon click
-                        $(document).on('click', '.heart-icon .bi-heart', function () {
-                            $(this).toggleClass('text-danger');
-                        });
-                    } else {
-                        console.log('No address data available');
-                        modalBody.append('<li>Khách Hàng chưa cập nhật địa chỉ</li>');
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error('Failed to load address data', textStatus, errorThrown);
-                    var modalBody = $('#exampleModal').find('.modal-body #modal-address-details');
-                    modalBody.empty();
-                    modalBody.append('<li>Không thể tải địa chỉ</li>');
+                    // // Handle heart icon click
+                    // $(document).on('click', '.heart-icon .bi-heart', function () {
+                    //     $(this).toggleClass('text-danger');
+                    // });
+                } else {
+                    console.log('No address data available');
+                    modalBody.append('<li>Khách Hàng chưa cập nhật địa chỉ</li>');
                 }
-            });
-        } else {
-            console.error("Customer ID is undefined or null");
-        }
-    });
-});
-function updateDiaChi(nguoiNhan, sdtNguoiNhan, diaChiNguoiNhan, ghichu) {
-    $.ajax({
-        url: `http://localhost:3000/dia-chi-update/${idHoaDon}`,
-        method: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            nguoiNhan: nguoiNhan, sdtNguoiNhan: sdtNguoiNhan, diaChiNguoiNhan: diaChiNguoiNhan, ghichu: ghichu,
-        }),
-        success: function (response) {
-        },
-    });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Failed to load address data', textStatus, errorThrown);
+                modalBody.empty();
+                modalBody.append('<li>Không thể tải địa chỉ</li>');
+            }
+        });
+    } else {
+        console.error("Customer ID is undefined or null");
+    }
 }
 function searchKH(keyword, page_index = 1, page_size = 7) {
     console.log(keyword);
@@ -427,6 +415,8 @@ function toggleSwitch(id, isChecked) {
             });
         });
 }
+
+
 
 
 
