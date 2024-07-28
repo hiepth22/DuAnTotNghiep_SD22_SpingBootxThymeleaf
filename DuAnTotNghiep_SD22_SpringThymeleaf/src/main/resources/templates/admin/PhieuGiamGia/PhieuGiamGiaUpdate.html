@@ -157,7 +157,8 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Tên Phiếu Giảm Giá:</label>
-                                        <input type="text" name="ten" class="form-control"
+                                        <input type="text" name="ten" th:field="*{ten}"
+                                               class="form-control"
                                                placeholder="Nhập tên Phiếu Giảm Giá"
                                                oninput="validateForm()">
                                         <div  class="invalid-feedback"></div>
@@ -298,7 +299,7 @@
                 progressBar.style.width = '0';
                 setTimeout(function () {
                     progressBar.style.width = '100%';
-                }, 2000);
+                }, 3000);
 
                 setTimeout(function () {
                     notification.classList.remove('show1');

@@ -4,7 +4,8 @@
     <div th:replace="~{admin/fragments/head :: head}"></div>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
+    <link rel="icon" type="image/svg+xml"
+          href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
     <title>Thêm Mới Phiếu Giảm Giá</title>
 </head>
 <body>
@@ -24,24 +25,29 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="ma" class="form-label">Mã Giảm Giá:</label>
-                                        <input type="text" id="ma" name="ma" class="form-control" placeholder="Nhập Mã Phiếu Giảm Giá" >
+                                        <input type="text" id="ma" name="ma" class="form-control"
+                                               placeholder="Nhập Mã Phiếu Giảm Giá">
                                         <div id="maError" class="invalid-feedback"></div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="ten" class="form-label">Tên Phiếu Giảm Giá:</label>
-                                        <input type="text" id="ten" name="ten" class="form-control" placeholder="Nhập tên Phiếu Giảm Giá" oninput="validateForm()">
-                                        <div id="tenError" class="invalid-feedback"></div>
+                                        <input type="text" id="ten" name="ten" class="form-control"
+                                               placeholder="Nhập tên Phiếu Giảm Giá" oninput="validateForm()">
+                                        <div id="tenError" class="invalid-feedback"> Vui lòng nhập tên phiếu giảm giá
+                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Số Lượng:</label>
-                                        <input type="text" placeholder="Nhập số lượng" name="soLuong" class="form-control" oninput="validateForm()">
+                                        <input type="number" placeholder="Nhập số lượng" name="soLuong"
+                                               class="form-control" oninput="validateForm()">
                                         <div class="invalid-feedback">Vui lòng nhập số lượng</div>
                                     </div>
                                     <div class="form-group">
                                         <div class="d-flex align-items-center">
                                             <div class="lg:col-span-4">
                                                 <label class="font-semibold">Hình Thức Giảm:</label>
-                                                <select name="hinhThucGiam" class="form-select form-input mt-2 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0">
+                                                <select name="hinhThucGiam" id="hinhThucGiam"
+                                                        class="form-select form-input mt-2 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0">
                                                     <option value="0">Tiền mặt</option>
                                                     <option value="1">Phần trăm</option>
                                                 </select>
@@ -51,32 +57,41 @@
                                     <div class="form-group">
                                         <label class="form-label">Đơn Tối Thiểu:</label>
                                         <div class="input-with-unit" data-unit="VND">
-                                            <input type="number" placeholder="Nhập đơn tối thiểu ...." name="donToiThieu" class="form-control" oninput="validateForm()">
+                                            <input type="number" placeholder="Nhập đơn tối thiểu ...."
+                                                   name="donToiThieu" class="form-control" oninput="validateForm()">
+                                            <div class="invalid-feedback">Vui lòng nhập đơn tối thiểu</div>
                                         </div>
-                                        <div class="invalid-feedback">Vui lòng nhập đơn tối thiểu</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">Giá Trị Giảm:</label>
-                                        <input type="number" placeholder="Nhập giá trị giảm" name="giaTriGiam" class="form-control" oninput="validateForm()">
+                                        <input type="number" placeholder="Nhập giá trị giảm" name="giaTriGiam"
+                                               class="form-control" oninput="validateForm()">
                                         <div class="invalid-feedback">Vui lòng nhập giá trị giảm</div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Giảm Tối Đa:</label>
-                                        <input type="text" placeholder="Nhập giảm tối đa" name="giamToiDa" class="form-control" oninput="validateForm()">
+                                        <input type="number" placeholder="Nhập giảm tối đa" name="giamToiDa"
+                                               class="form-control" oninput="validateForm()">
                                         <div class="invalid-feedback">Vui lòng nhập giá trị giảm tối đa</div>
                                     </div>
                                     <div class="form-group">
                                         <label class="font-semibold">Ngày Bắt Đầu:</label>
                                         <span class="input-wrapper">
-                                            <input type="date" name="ngayBatDau" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" oninput="validateForm()">
+                                            <input type="date" name="ngayBatDau"
+                                                   class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0"
+                                                   placeholder="dd-MM-yyyy" oninput="validateForm()">
+                                            <div class="invalid-feedback">Vui lòng nhập ngày bắt đầu</div>
                                         </span>
                                     </div>
                                     <div class="form-group">
                                         <label class="font-semibold">Ngày Kết Thúc:</label>
                                         <span class="input-wrapper">
-                                            <input type="date" name="ngayKetThuc" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" oninput="validateForm()">
+                                            <input type="date" name="ngayKetThuc"
+                                                   class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0"
+                                                   placeholder="dd-MM-yyyy" oninput="validateForm()">
+                                            <div class="invalid-feedback">Vui lòng nhập ngày kết thúc</div>
                                         </span>
                                     </div>
                                 </div>
@@ -90,7 +105,6 @@
                 </form>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -100,7 +114,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    document.getElementById('confirmButton').addEventListener('click', function(event) {
+    document.getElementById('confirmButton').addEventListener('click', function (event) {
         const ma = document.getElementById('ma');
         if (ma.value.trim() === '') {
             ma.value = generateRandomCode();
@@ -150,11 +164,10 @@
     function add() {
         const form = document.getElementById('myForm');
         axios.post('/admin/SavePhieuGiamGia', new FormData(form))
-            .then(function(response) {
+            .then(function (response) {
                 showSuccessMessage();
-
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console.error('Error:', error);
             });
     }
@@ -164,12 +177,13 @@
         notification.style.display = 'block';
         const progressBar = document.getElementById('progress-bar');
         progressBar.style.width = '0';
-        setTimeout(function() {
+        setTimeout(function () {
             progressBar.style.width = '100%';
         }, 2000);
 
-        setTimeout(function() {
+        setTimeout(function () {
             notification.style.display = 'none';
+            window.location.href = '/admin/phieu-giam-gia';
         }, 3000);
     }
 
@@ -182,6 +196,7 @@
         const giamToiDa = document.querySelector('input[name="giamToiDa"]');
         const ngayBatDau = document.querySelector('input[name="ngayBatDau"]');
         const ngayKetThuc = document.querySelector('input[name="ngayKetThuc"]');
+        const hinhThucGiam = document.getElementById('hinhThucGiam');
 
         if (ten.value.trim() === '') {
             ten.classList.add('is-invalid');
@@ -190,28 +205,33 @@
             ten.classList.remove('is-invalid');
         }
 
-        if (soLuong.value.trim() === '') {
+        if (soLuong.value.trim() === '' || parseInt(soLuong.value) <= 0) {
             soLuong.classList.add('is-invalid');
             isValid = false;
         } else {
             soLuong.classList.remove('is-invalid');
         }
 
-        if (donToiThieu.value.trim() === '') {
+        if (donToiThieu.value.trim() === '' || parseFloat(donToiThieu.value) <= 0) {
             donToiThieu.classList.add('is-invalid');
             isValid = false;
         } else {
             donToiThieu.classList.remove('is-invalid');
         }
 
-        if (giaTriGiam.value.trim() === '') {
+        if (giaTriGiam.value.trim() === '' || parseFloat(giaTriGiam.value) <= 0) {
             giaTriGiam.classList.add('is-invalid');
             isValid = false;
         } else {
-            giaTriGiam.classList.remove('is-invalid');
+            if (hinhThucGiam.value === '1' && (parseFloat(giaTriGiam.value) < 0 || parseFloat(giaTriGiam.value) > 100)) {
+                giaTriGiam.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                giaTriGiam.classList.remove('is-invalid');
+            }
         }
 
-        if (giamToiDa.value.trim() === '') {
+        if (giamToiDa.value.trim() === '' || parseFloat(giamToiDa.value) <= 0) {
             giamToiDa.classList.add('is-invalid');
             isValid = false;
         } else {
@@ -235,6 +255,5 @@
         return isValid;
     }
 </script>
-
 </body>
 </html>
