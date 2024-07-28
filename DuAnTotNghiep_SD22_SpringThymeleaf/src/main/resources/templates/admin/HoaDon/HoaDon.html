@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="/css/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="icon" type="image/svg+xml"
+          href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
     <head th:replace="~{admin/fragments/head :: head}"></head>
 </head>
 <body class="">
@@ -68,6 +70,7 @@
                             <div class="flex items-center space-x-2">
                                 <label for="status" class="w-72 text-right">Loại:</label>
                                 <select name="status" id="status" class="px-4 py-2 border border-gray-300 rounded-md w-full max-w-xs">
+                                    <option value="0">Tất cả</option>
                                     <option value="1">Online</option>
                                     <option value="2">Tại quầy</option>
                                 </select>
@@ -161,9 +164,9 @@
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Loại
                             </th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Mã nhân viên
-                            </th>
+<!--                            <th scope="col"-->
+<!--                                class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Mã nhân viên-->
+<!--                            </th>-->
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ngày
                                 Tạo

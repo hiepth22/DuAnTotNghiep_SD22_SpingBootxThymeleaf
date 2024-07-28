@@ -1,5 +1,6 @@
 let currentTab = '';
 let searchTxt = '';
+let loai = ''
 let startDate = '';
 let endDate = '';
 let page = 0
@@ -14,7 +15,7 @@ const switchTab = (tab) => {
 
 const getData = (page, size) => {
     $.ajax({
-        url: `/api/hoa-don?tab=${currentTab}&keyword=${searchTxt}&startDate=${startDate}&endDate=${endDate}&page=${page}&size=${size}`,
+        url: `/api/hoa-don?tab=${currentTab}&keyword=${searchTxt}&loai=${loai}&startDate=${startDate}&endDate=${endDate}&page=${page}&size=${size}`,
         success: function (result) {
             let list = "";
             $("#listHoaDon").empty();
@@ -28,7 +29,7 @@ const getData = (page, size) => {
                             <td class="px-6 py-4 whitespace-nowrap">${khachHang.ten || ''}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${khachHang.sdt || ''}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${trangThaiMua(hoaDon.loai)}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">${hoaDon.nhanVien ? hoaDon.nhanVien.ma : ''}</td>
+                          
                             <td class="px-6 py-4 whitespace-nowrap">${hoaDon.ngayTao != null ? new Date(hoaDon.ngayTao).toLocaleDateString('vi-VN') : ''}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${formatVND(hoaDon.tongTien)}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${trangThai(hoaDon.trangThai)}</td>
@@ -40,6 +41,7 @@ const getData = (page, size) => {
                             </a></td>
                           </tr>`;
             });
+            // <td className="px-6 py-4 whitespace-nowrap">${hoaDon.nhanVien ? hoaDon.nhanVien.ma : ''}</td>
 
             $("#listHoaDon").html(list);
 
@@ -83,10 +85,7 @@ const getData = (page, size) => {
             $("#pagination").html(pagination);
         }
     });
-}
-
-
-
+};
 
 
 const trangThai = (tt) => {
@@ -139,6 +138,7 @@ const onSearch = (event) => {
     searchTxt = $('#searchTxt').val();
     startDate = $('#startDate').val();
     endDate = $('#endDate').val();
+    loai = $('#status').val();
     getData(page , size);
 }
 

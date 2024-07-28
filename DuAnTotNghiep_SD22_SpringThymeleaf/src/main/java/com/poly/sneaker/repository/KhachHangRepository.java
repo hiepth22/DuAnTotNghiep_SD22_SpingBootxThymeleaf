@@ -36,6 +36,8 @@ public interface KhachHangRepository extends JpaRepository<KhachHang,Long> {
     List<KhachHang> findByTrangThai(int tt);
 
     Optional<KhachHang> findByEmail(String email);
+
+    Optional<KhachHang> findBySdt(String sdt);
 //    List<KhachHang> findByEmail(String mail);
 
     @Query(value = "select * from khach_hang where id != 1", nativeQuery = true)
