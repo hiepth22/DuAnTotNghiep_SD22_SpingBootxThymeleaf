@@ -4,8 +4,7 @@ import com.poly.sneaker.Security.FileUploadUtil;
 import com.poly.sneaker.dto.NhanVienPhanTrang;
 import com.poly.sneaker.entity.NhanVien;
 import com.poly.sneaker.repository.NhanVienRepository;
-import com.poly.sneaker.sevice.NhanVienSevice;
-import jakarta.persistence.Id;
+import com.poly.sneaker.sevice.NhanVienService;
 import jakarta.validation.Valid;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.*;
 
@@ -29,7 +27,7 @@ import java.util.*;
 @RequestMapping("/admin")
 public class NhanVienControler {
     @Autowired
-    private NhanVienSevice sevice;
+    private NhanVienService sevice;
     @Autowired
     private NhanVienRepository repository;
 

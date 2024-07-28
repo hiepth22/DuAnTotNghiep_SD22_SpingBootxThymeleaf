@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class NhanVienSevice {
+public class NhanVienService {
     @Autowired
     private NhanVienRepository nhanVienRepository;
     @Autowired
