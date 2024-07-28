@@ -1,141 +1,156 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 
 <head>
-    <!-- Meta tags -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+    <title>Stylish - Shoes Online Store HTML Template</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="author" content="TemplatesJungle">
+    <meta name="keywords" content="Online Store">
+    <meta name="description" content="Stylish - Shoes Online Store HTML Template">
 
-    <title>sneaker-shoe-see</title>
-    <link rel="icon" type="image/svg+xml"
-          href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
+    <link rel="stylesheet" href="css/vendor.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 
-    <!-- Owl Carousel CSS -->
-    <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-          crossorigin="anonymous">
-
-    <link rel="stylesheet" href="/css/output.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" th:href="@{/assets/css/clent.css}" />
-    <!-- Responsive CSS -->
-    <link rel="stylesheet" th:href="@{/assets/css/reponse.css}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,900;1,900&family=Source+Sans+Pro:wght@400;600;700;900&display=swap"
+            rel="stylesheet">
 </head>
-<style>
-    /* Ensure the size items are displayed in a row with wrapping */
-    #sizeContainer {
-        display: flex;
-        flex-wrap: wrap;
-    }
 
-    .size-item {
-        margin: 5px;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        text-align: center;
-        background-color: #f8f9fa;
-        cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    .size-item:hover {
-        background-color: #e9ecef;
-    }
-
-    .size-item.selected {
-        background-color: #007bff;
-        color: white;
-        border-color: #007bff;
-    }
-
-</style>
 <body>
-<div class="hero_area">
-    <!-- Header -->
-    <header class="header_section">
-        <nav class="navbar navbar-expand-lg custom_nav-container">
-            <a class="navbar-brand" href="index.html">
-                <span>Sneaker Shoe-See shop</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<!-- Loader 4 -->
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <p>Tìm Kiếm</p>
-                        <input type="text">
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" th:href="@{/}">Trang Chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="client/shop.html">Sản Phẩm</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/testimonial}">Về Chúng Tôi</a>
-                    </li>
-                </ul>
-                <div class="user_option">
-                    <a href="login">
-                        <i class="fa fa-user" aria-hidden="true"></i>
-                        <span>Login</span>
-                    </a>
-                    <a href="#">
-                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                    </a>
-                    <form class="form-inline">
-                        <button class="btn nav_search-btn" type="submit">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </button>
-                    </form>
+<div class="preloader" style="position: fixed;top:0;left:0;width: 100%;height: 100%;background-color: #fff;display: flex;align-items: center;justify-content: center;z-index: 9999;">
+    <svg version="1.1" id="L4" width="100" height="100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+         viewBox="0 0 50 100" enable-background="new 0 0 0 0" xml:space="preserve">
+    <circle fill="#111" stroke="none" cx="6" cy="50" r="6">
+      <animate
+              attributeName="opacity"
+              dur="1s"
+              values="0;1;0"
+              repeatCount="indefinite"
+              begin="0.1"/>
+    </circle>
+        <circle fill="#111" stroke="none" cx="26" cy="50" r="6">
+      <animate
+              attributeName="opacity"
+              dur="1s"
+              values="0;1;0"
+              repeatCount="indefinite"
+              begin="0.2"/>
+    </circle>
+        <circle fill="#111" stroke="none" cx="46" cy="50" r="6">
+      <animate
+              attributeName="opacity"
+              dur="1s"
+              values="0;1;0"
+              repeatCount="indefinite"
+              begin="0.3"/>
+    </circle>
+    </svg>
+</div>
+
+<div class="search-box bg-dark position-relative">
+    <div class="search-wrap">
+        <div class="close-button">
+            <svg class="close" style="fill: white;">
+                <use xlink:href="#close"></use>
+            </svg>
+        </div>
+        <form id="search-form" class="text-lg-center text-md-left pt-3" action="index.html" method="get">
+            <input type="text" class="search-input" placeholder="Search...">
+            <svg class="search">
+                <use xlink:href="#search"></use>
+            </svg>
+        </form>
+    </div>
+</div>
+
+<!-- quick view -->
+<div class="modal fade" id="modaltoggle" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen-md-down modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="col-lg-12 col-md-12 me-3">
+                    <div class="image-holder">
+                        <img src="images/summary-item1.jpg" alt="Shoes">
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <section class="slider_section">
-        <div class="slider_container">
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <div class="detail-box">
-                                        <h2>
-                                            Chào mừng đến với <br> Shoe-See Shop
-                                        </h2>
+                <div class="col-lg-12 col-md-12">
+                    <div class="summary">
+                        <div class="summary-content fs-6">
+                            <div class="product-header d-flex justify-content-between mt-4">
+                                <h3 class="display-7">Running Shoes For Men</h3>
+                                <div class="modal-close-btn">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                    </button>
+                                </div>
+                            </div>
+                            <span class="product-price fs-3">$99</span>
+                            <div class="product-details">
+                                <p class="fs-7">Buy good shoes and a good mattress, because when you're not in one you're in the
+                                    other. With four pairs of shoes, I can travel the world.</p>
+                            </div>
+                            <ul class="select">
+                                <li>
+                                    <strong>Colour Shown:</strong> Red, White, Black
+                                </li>
+                                <li>
+                                    <strong>Style:</strong> SM3018-100
+                                </li>
+                            </ul>
+                            <div class="variations-form shopify-cart">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="quantity d-flex pb-4">
+                                            <div
+                                                    class="qty-number align-top qty-number-plus d-flex justify-content-center align-items-center text-center">
+                          <span class="increase-qty plus">
+                            <svg class="plus">
+                              <use xlink:href="#plus"></use>
+                            </svg>
+                          </span>
+                                            </div>
+                                            <input type="number" id="quantity_001" class="input-text text-center" step="1" min="1" name="quantity" value="1" title="Qty">
+                                            <div
+                                                    class="qty-number qty-number-minus d-flex justify-content-center align-items-center text-center">
+                          <span class="increase-qty minus">
+                            <svg class="minus">
+                              <use xlink:href="#minus"></use>
+                            </svg>
+                          </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a rel="nofollow" data-no-instant="" href="#" class="out-stock button">Out of stock</a>
+                                        <button type="submit" class="btn btn-medium btn-black hvr-sweep-to-right">Add to cart</button>
                                     </div>
                                 </div>
-                                <div class="col-md-5">
-                                    <div class="img-box">
-                                        <img src="images/slider-img.png" alt="" />
-                                    </div>
-                                </div>
+                            </div>
+                            <!-- variations-form -->
+                            <div class="categories d-flex flex-wrap pt-3">
+                                <strong class="pe-2">Categories:</strong>
+                                <a href="#" title="categories">Clothing,</a>
+                                <a href="#" title="categories">Men's Clothes,</a>
+                                <a href="#" title="categories">Tops & T-Shirts</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </div>
+<!-- / quick view -->
 
+<<<<<<< HEAD
 <section class="shop_section layout_padding">
     <div class="container">
         <div class="heading_container heading_center">
@@ -144,6 +159,7 @@
             </h2>
         </div>
         <div class="row">
+            <!-- Thymeleaf loop for products -->
             <div th:each="sanPham : ${sanPhams}" class="col-md-4 mb-4">
                 <div class="card-body">
                     <!-- Modal trigger -->
@@ -156,9 +172,9 @@
                     <p class="card-text" th:text="${'Số lượng: ' + sanPham.soLuong}"></p>
                     <p class="card-text" th:text="${'Mô Tả: ' + sanPham.moTa}"></p>
                     <p class="card-text">Thêm ảnh vào database: ce71af39-aff6-40b8-bbfa-beea1f7a3f44.png</p>
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div id="dsSanPham" class="d-flex justify-content-between align-items-center">
                         <a th:href="@{/cho-thanh-toan}" class="btn btn-primary">Mua Ngay</a>
-                        <a th:href="@{/gio-hang}" class="themSanPham btn btn-secondary" th:data-id="${sanPham.id}">Thêm Vào Giỏ Hàng</a>
+                        <a class="themSanPham btn btn-secondary " th:data-id="${sanPham.id}" on>Thêm Vào Giỏ Hàng</a>
                     </div>
                 </div>
             </div>
@@ -182,36 +198,116 @@
 <!-- Bootstrap Modal -->
 <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
+=======
+<div class="modal fade" id="modallong" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-fullscreen-md-down modal-md modal-dialog-centered">
+>>>>>>> 5eb0a9761d92775869f7d4d7a084aef46d4ba001
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="productModalLabel"></h5>
+                <h2 class="modal-title fs-5">Cart</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-6 mb-4">
-                            <div class="card">
-                                <a>
-                                    <img id="modalImage" class="img-fluid mb-2" alt="Product Image">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title" id="modalProductName"></h5>
-                                    <p class="card-text" id="modalPrice"></p>
-                                    <p class="card-text" id="modalQuantity"></p>
-                                    <p class="card-text" id="modalDescription"></p>
-                                    <p class="card-text" id="modalColor"></p>
-                                    <div id="modalSize" class="mb-3"></div>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <a id="modalBuyLink" class="btn btn-primary">Mua Ngay</a>
-                                        <a id="modalAddToCartLink" class="btn btn-secondary">Thêm Vào Giỏ Hàng</a>
+                <div class="shopping-cart">
+                    <div class="shopping-cart-content">
+                        <div class="mini-cart cart-list p-0 mt-3">
+                            <div class="mini-cart-item d-flex border-bottom pb-3">
+                                <div class="col-lg-2 col-md-3 col-sm-2 me-4">
+                                    <a href="#" title="product-image">
+                                        <img src="images/single-product-thumb1.jpg" class="img-fluid" alt="single-product-item">
+                                    </a>
+                                </div>
+                                <div class="col-lg-9 col-md-8 col-sm-8">
+                                    <div class="product-header d-flex justify-content-between align-items-center mb-3">
+                                        <h4 class="product-title fs-6 me-5">Sport Shoes For Men</h4>
+                                        <a href="" class="remove" aria-label="Remove this item" data-product_id="11913"
+                                           data-cart_item_key="abc" data-product_sku="">
+                                            <svg class="close">
+                                                <use xlink:href="#close"></use>
+                                            </svg>
+                                        </a>
                                     </div>
+                                    <div class="quantity-price d-flex justify-content-between align-items-center">
+                                        <div class="input-group product-qty">
+                                            <button type="button"
+                                                    class="quantity-left-minus btn btn-light rounded-0 rounded-start btn-number"
+                                                    data-type="minus">
+                                                <svg width="16" height="16">
+                                                    <use xlink:href="#minus"></use>
+                                                </svg>
+                                            </button>
+                                            <input type="text" name="quantity" class="form-control input-number quantity" value="1">
+                                            <button type="button" class="quantity-right-plus btn btn-light rounded-0 rounded-end btn-number"
+                                                    data-type="plus">
+                                                <svg width="16" height="16">
+                                                    <use xlink:href="#plus"></use>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="price-code">
+                                            <span class="product-price fs-6">$99</span>
+                                        </div>
+                                    </div>
+                                    <!-- quantity-price -->
                                 </div>
                             </div>
+                        </div>
+                        <div class="mini-cart cart-list p-0 mt-3">
+                            <div class="mini-cart-item d-flex border-bottom pb-3">
+                                <div class="col-lg-2 col-md-3 col-sm-2 me-4">
+                                    <a href="#" title="product-image">
+                                        <img src="images/single-product-thumb2.jpg" class="img-fluid" alt="single-product-item">
+                                    </a>
+                                </div>
+                                <div class="col-lg-9 col-md-8 col-sm-8">
+                                    <div class="product-header d-flex justify-content-between align-items-center mb-3">
+                                        <h4 class="product-title fs-6 me-5">Brand Shoes For Men</h4>
+                                        <a href="" class="remove" aria-label="Remove this item" data-product_id="11913"
+                                           data-cart_item_key="abc" data-product_sku="">
+                                            <svg class="close">
+                                                <use xlink:href="#close"></use>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="quantity-price d-flex justify-content-between align-items-center">
+                                        <div class="input-group product-qty">
+                                            <button type="button"
+                                                    class="quantity-left-minus btn btn-light rounded-0 rounded-start btn-number"
+                                                    data-type="minus">
+                                                <svg width="16" height="16">
+                                                    <use xlink:href="#minus"></use>
+                                                </svg>
+                                            </button>
+                                            <input type="text" name="quantity" class="form-control input-number quantity" value="1">
+                                            <button type="button" class="quantity-right-plus btn btn-light rounded-0 rounded-end btn-number"
+                                                    data-type="plus">
+                                                <svg width="16" height="16">
+                                                    <use xlink:href="#plus"></use>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="price-code">
+                                            <span class="product-price fs-6">$99</span>
+                                        </div>
+                                    </div>
+                                    <!-- quantity-price -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- cart-list -->
+                        <div class="mini-cart-total d-flex justify-content-between py-4">
+                            <span class="fs-6">Subtotal:</span>
+                            <span class="special-price-code">
+                  <span class="price-amount amount fs-6" style="opacity: 1;">
+                    <bdi>
+                      <span class="price-currency-symbol">$</span>198.00 </bdi>
+                  </span>
+                </span>
+                        </div>
+                        <div class="modal-footer my-4 justify-content-center">
+                            <button type="button" class="btn btn-red hvr-sweep-to-right dark-sweep">View Cart</button>
+                            <button type="button"
+                                    class="btn btn-outline-gray hvr-sweep-to-right dark-sweep">Checkout</button>
                         </div>
                     </div>
                 </div>
@@ -219,49 +315,278 @@
         </div>
     </div>
 </div>
+<!-- cart view -->
 
-<!-- JavaScript -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('[data-bs-toggle="modal"]').click(function () {
-            var productId = $(this).attr('data-id');
-            var productName = $(this).find('.card-title').text();
+<div class="modal fade" id="modallogin" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-fullscreen-md-down modal-md modal-dialog-centered" role="document">
+        <div class="modal-content p-4">
+            <div class="modal-header mx-auto border-0">
+                <h2 class="modal-title fs-3 fw-normal">Login</h2>
+            </div>
+            <div class="modal-body">
+                <div class="login-detail">
+                    <div class="login-form p-0">
+                        <div class="col-lg-12 mx-auto">
+                            <form id="login-form">
+                                <input type="text" name="username" placeholder="Username or Email Address *"
+                                       class="mb-3 ps-3 text-input">
+                                <input type="password" name="password" placeholder="Password" class="ps-3 text-input">
+                                <div class="checkbox d-flex justify-content-between mt-4">
+                                    <p class="checkbox-form">
+                                        <label class="">
+                                            <input name="rememberme" type="checkbox" id="remember-me" value="forever"> Remember me </label>
+                                    </p>
+                                    <p class="lost-password">
+                                        <a href="#">Forgot your password?</a>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer mt-5 d-flex justify-content-center">
+                        <button type="button" class="btn btn-red hvr-sweep-to-right dark-sweep">Login</button>
+                        <button type="button"
+                                class="btn btn-outline-gray hvr-sweep-to-right dark-sweep">Register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Login -->
 
-            $.ajax({
-                url: '/sanphamchitietclien/' + productId,
-                method: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    $('#productModalLabel').text(productName);
-                    $('#modalImage').attr('src', '/assets/imageNV/' + data.anh);
-                    $('#modalProductName').text(data.ten);
-                    $('#modalPrice').text('Giá: ' + data.giaBan);
-                    $('#modalQuantity').text('Số lượng: ' + data.soLuong);
-                    $('#modalDescription').text('Mô Tả: ' + data.moTa);
-                    $('#modalColor').text('Màu sắc: ' + data.mauSac.ten);
+<header id="header" class="site-header text-black">
 
-                    $.ajax({
-                        url: '/sanphamchitietclienkc/' + data.sanPham.id,
-                        method: 'GET',
-                        dataType: 'json',
-                        success: function (additionalData) {
-                            var sizeHtml = '<h6>Kích cỡ:</h6><div id="sizeContainer" class="d-flex flex-wrap">';
+    <nav id="header-nav" class="navbar navbar-expand-lg">
+        <div class="container-lg">
+            <a class="navbar-brand" href="index.html">
+                <img src="images/main-logo.png" class="logo" alt="logo">
+            </a>
+            <button class="navbar-toggler d-flex d-lg-none order-3 border-0 p-1 ms-2" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <svg class="navbar-icon">
+                    <use xlink:href="#navbar-icon"></use>
+                </svg>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar">
+                <div class="offcanvas-header px-4 pb-0">
+                    <a class="navbar-brand ps-3" href="index.html">
+                        <img src="images/main-logo.png" class="logo" alt="logo">
+                    </a>
+                    <button type="button" class="btn-close btn-close-black p-5" data-bs-dismiss="offcanvas" aria-label="Close"
+                            data-bs-target="#bdNavbar"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul id="navbar" class="navbar-nav fw-bold justify-content-end align-items-center flex-grow-1">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link me-5" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link me-5" href="#">Men</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link me-5" href="#">Women</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link me-5" href="#">Page</a>
+                        </li>
 
-                            additionalData.forEach(function (item) {
-                                sizeHtml += '<div class="size-item" data-id="' + item + '">' + item + '</div>';
-                            });
+                        <li class="nav-item">
+                            <a class="nav-link me-5" href="shop.html">Shop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link me-5" href="#">Sale</a>
+                        </li>
 
-                            sizeHtml += '</div>';
-                            $('#modalSize').html(sizeHtml);
+                    </ul>
+                </div>
+            </div>
+            <div class="user-items ps-0 ps-md-5">
+                <ul class="d-flex justify-content-end list-unstyled align-item-center m-0">
+                    <li class="pe-3">
+                        <a href="login" data-bs-toggle="modal" data-bs-target="#modallogin" class="border-0">
+                            <svg class="user" width="24" height="24">
+                                <use xlink:href="#user"></use>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="pe-3">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modallong" class="border-0">
+                            <svg class="shopping-cart" width="24" height="24">
+                                <use xlink:href="#shopping-cart"></use>
+                            </svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="search-item border-0" data-bs-toggle="collapse" data-bs-target="#search-box" aria-label="Toggle navigation">
+                            <svg class="search" width="24" height="24">
+                                <use xlink:href="#search"></use>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
 
-                            $('.size-item').click(function () {
-                                // Remove 'selected' class from all items
-                                $('.size-item').removeClass('selected');
+<section id="intro" class="position-relative mt-4">
+    <div class="container-lg">
+        <div class="swiper main-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="card d-flex flex-row align-items-end border-0 large jarallax-keep-img">
+                        <img src="images/card-image1.jpg" alt="shoes" class="img-fluid jarallax-img">
+                        <div class="cart-concern p-3 m-3 p-lg-5 m-lg-5">
+                            <h2 class="card-title display-3 light">Stylish shoes for Women</h2>
+                            <a href="shop.html"
+                               class="text-uppercase light mt-3 d-inline-block text-hover fw-bold light-border">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="row g-4">
+                        <div class="col-lg-12 mb-4">
+                            <div class="card d-flex flex-row align-items-end border-0 jarallax-keep-img">
+                                <img src="images/card-image2.jpg" alt="shoes" class="img-fluid jarallax-img">
+                                <div class="cart-concern p-3 m-3 p-lg-5 m-lg-5">
+                                    <h2 class="card-title style-2 display-4 light">Sports Wear</h2>
+                                    <a href="shop.html"
+                                       class="text-uppercase light mt-3 d-inline-block text-hover fw-bold light-border">Shop Now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="card d-flex flex-row align-items-end border-0 jarallax-keep-img">
+                                <img src="images/card-image3.jpg" alt="shoes" class="img-fluid jarallax-img">
+                                <div class="cart-concern p-3 m-3 p-lg-5 m-lg-5">
+                                    <h2 class="card-title style-2 display-4 light">Fashion Shoes</h2>
+                                    <a href="shop.html"
+                                       class="text-uppercase light mt-3 d-inline-block text-hover fw-bold light-border">Shop Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="card d-flex flex-row align-items-end border-0 large jarallax-keep-img">
+                        <img src="images/card-image4.jpg" alt="shoes" class="img-fluid jarallax-img">
+                        <div class="cart-concern p-3 m-3 p-lg-5 m-lg-5">
+                            <h2 class="card-title display-3 light">Stylish shoes for men</h2>
+                            <a href="shop.html"
+                               class="text-uppercase light mt-3 d-inline-block text-hover fw-bold light-border">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="row g-4">
+                        <div class="col-lg-12 mb-4">
+                            <div class="card d-flex flex-row align-items-end border-0 jarallax-keep-img">
+                                <img src="images/card-image5.jpg" alt="shoes" class="img-fluid jarallax-img">
+                                <div class="cart-concern p-3 m-3 p-lg-5 m-lg-5">
+                                    <h2 class="card-title style-2 display-4 light">Men Shoes</h2>
+                                    <a href="shop.html"
+                                       class="text-uppercase light mt-3 d-inline-block text-hover fw-bold light-border">Shop Now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="card d-flex flex-row align-items-end border-0 jarallax-keep-img">
+                                <img src="images/card-image6.jpg" alt="shoes" class="img-fluid jarallax-img">
+                                <div class="cart-concern p-3 m-3 p-lg-5 m-lg-5">
+                                    <h2 class="card-title style-2 display-4 light">Women Shoes</h2>
+                                    <a href="shop.html"
+                                       class="text-uppercase light mt-3 d-inline-block text-hover fw-bold light-border">Shop Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
+<section class="discount-coupon py-2 my-2 py-md-5 my-md-5">
+    <div class="container">
+        <div class="bg-gray coupon position-relative p-5">
+            <div class="bold-text position-absolute">10% OFF</div>
+            <div class="row justify-content-between align-items-center">
+                <div class="col-lg-7 col-md-12 mb-3">
+                    <div class="coupon-header">
+                        <h2 class="display-7">10% OFF Discount Coupons</h2>
+                        <p class="m-0">Subscribe us to get 10% OFF on all the purchases</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-12">
+                    <div class="btn-wrap">
+                        <a href="#" class="btn btn-black btn-medium text-uppercase hvr-sweep-to-right">Email me</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="featured-products" class="product-store">
+    <div class="container-md">
+        <div class="display-header d-flex align-items-center justify-content-between">
+            <h2 class="section-title text-uppercase">Featured Products</h2>
+            <div class="btn-right">
+                <a href="shop.html" class="d-inline-block text-uppercase text-hover fw-bold">View all</a>
+            </div>
+        </div>
+        <div class="product-content padding-small">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
 
-                                $(this).addClass('selected');
+                <h1>san pham bán chạy nhất</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="collection-products" class="py-2 my-2 py-md-5 my-md-5">
+    <div class="container-md">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 mb-4">
+                <div class="collection-card card border-0 d-flex flex-row align-items-end jarallax-keep-img">
+                    <img src="images/collection-item1.jpg" alt="product-item" class="border-rounded-10 img-fluid jarallax-img">
+                    <div class="card-detail p-3 m-3 p-lg-5 m-lg-5">
+                        <h3 class="card-title display-3">
+                            <a href="#">Minimal Collection</a>
+                        </h3>
+                        <a href="shop.html" class="text-uppercase mt-3 d-inline-block text-hover fw-bold">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="collection-card card border-0 d-flex flex-row jarallax-keep-img">
+                    <img src="images/collection-item2.jpg" alt="product-item" class="border-rounded-10 img-fluid jarallax-img">
+                    <div class="card-detail p-3 m-3 p-lg-5 m-lg-5">
+                        <h3 class="card-title display-3">
+                            <a href="#">Sneakers Collection</a>
+                        </h3>
+                        <a href="shop.html" class="text-uppercase mt-3 d-inline-block text-hover fw-bold">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="latest-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">
+    <div class="container-md">
+        <div class="display-header d-flex align-items-center justify-content-between">
+            <h2 class="section-title text-uppercase">Latest Products</h2>
+            <div class="btn-right">
+                <a href="shop.html" class="d-inline-block text-uppercase text-hover fw-bold">View all</a>
+            </div>
+        </div>
+        <div class="product-content padding-small">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
+                <h1>san pham moi nhat</h1>
+            </div>
+        </div>
+</section>
 
+<<<<<<< HEAD
                                 var selectedSizeId = $(this).data('id');
                                 console.log('Selected size ID:', selectedSizeId);
                             });
@@ -286,60 +611,55 @@
             $.ajax({
                 url: '/api/session/user',
                 method: 'GET',
-                success: function(response) {
+                success: function (response) {
                     let idKhachHang = response.id;
-                    getDuLieuGioHang(idKhachHang);
+
+                    getIdGioHang(idKhachHang);
+
                 },
-                error: function() {
-                    console.log('Error retrieving user session.');
-                }
             });
         }
 
-        function getDuLieuGioHang(idKhachHang) {
+        function getIdGioHang(idKhachHang) {
             $.ajax({
-                url: `/api/gio-hang/detail/${idKhachHang}`,
+                url: `/api/khach-hang/thong-tin-hoa-don/${idKhachHang}`,
                 method: 'GET',
-                success: function(response) {
-                    const gioHang = response.gh;
-                    bindThemSanPhamClickEvent(gioHang.id);
-                },
-                error: function() {
-                    console.log('Error fetching cart data.');
-                }
-            });
-        }
+                success: function (response) {
 
-        function bindThemSanPhamClickEvent(gioHangId) {
-            $(document).on('click', '.themSanPham', function() {
-                const itemId = $(this).data('id');
-                themSanPhamVaoGioHang(gioHangId, itemId);
-            });
-        }
+                    $("#dsSanPham").off('click', '.themSanPham').on('click', '.themSanPham', function () {
+                        const itemId = $(this).data('id');
 
-        function themSanPhamVaoGioHang(gioHangId, itemId) {
-            $.ajax({
-                url: `/api/gio-hang/them-san-pham/${itemId}`,
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    gioHang: { id: gioHangId },
-                    sanPhamChiTiet: { id: itemId }
-                }),
-                success: function() {
+                        $(this).off('click');
+                        $.ajax({
+                            url: `/api/gio-hang/them-san-pham/${itemId}`,
+                            method: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                gioHang:  {id: response.id}, sanPhamChiTiet: {id: itemId}
+                            }),
+                            success: function () {
+                            },
+
+                        });
+                    });
 
                 },
-                error: function(xhr, status, error) {
-                    console.error('Error adding product to cart:', xhr.responseText);
-                }
             });
         }
+
+
+
+
 
 
         getKhachHang();
     });
 
 </script>
+=======
+<script th:src="@{/assets/js/plugins.js}"></script>
+<script th:src="@{/assets/js/client.js}"></script>
+>>>>>>> 5eb0a9761d92775869f7d4d7a084aef46d4ba001
 </body>
 
 </html>
