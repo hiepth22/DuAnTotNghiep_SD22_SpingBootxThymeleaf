@@ -212,73 +212,6 @@
 </div>
 <!-- / quick view -->
 
-<<<<<<< HEAD
-=======
-<section class="shop_section layout_padding">
-    <div class="container">
-        <div class="heading_container heading_center">
-            <h2>
-                Danh Sách Sản Phẩm
-            </h2>
-        </div>
-        <div class="row">
-            <!-- Thymeleaf loop for products -->
-            <div th:each="sanPham : ${sanPhams}" class="col-md-4 mb-4">
-                <div class="card-body">
-                    <!-- Modal trigger -->
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${sanPham.id}">
-                        <h5 class="card-title" th:text="${sanPham.ten}"></h5>
-                        <img th:src="@{/assets/imageNV/{sanPham.anh}}" class="img-fluid mb-2" alt="Product Image">
-                    </a>
-
-                    <p class="card-text" th:text="${'Giá: ' + sanPham.giaBan}"></p>
-                    <p class="card-text" th:text="${'Số lượng: ' + sanPham.soLuong}"></p>
-                    <p class="card-text" th:text="${'Mô Tả: ' + sanPham.moTa}"></p>
-                    <p class="card-text">Thêm ảnh vào database: ce71af39-aff6-40b8-bbfa-beea1f7a3f44.png</p>
-                    <div id="dsSanPham" class="d-flex justify-content-between align-items-center">
-                        <a th:href="@{/cho-thanh-toan}" class="btn btn-primary">Mua Ngay</a>
-                        <a class="themSanPham btn btn-secondary " th:data-id="${sanPham.id}" on>Thêm Vào Giỏ Hàng</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="btn-box">
-            <a href="#">
-                View All Products
-            </a>
-        </div>
-    </div>
-</section>
-
-<section class="footer_section">
-    <div class="container">
-        <p>
-            &copy; 2024 All Rights Reserved.
-        </p>
-    </div>
-</section>
-
-<!-- Bootstrap Modal -->
-<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        =======
-        <div class="modal fade" id="modallong" tabindex="-1" aria-modal="true" role="dialog">
-            <div class="modal-dialog modal-fullscreen-md-down modal-md modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2 class="modal-title fs-5">Cart</h2>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="shopping-cart">
-                            <div class="shopping-cart-content">
-                                <div class="mini-cart cart-list p-0 mt-3">
-                                    <div class="mini-cart-item d-flex border-bottom pb-3">
-                                        <div class="col-lg-2 col-md-3 col-sm-2 me-4">
-                                            <a href="#" title="product-image">
-                                                <img src="images/single-product-thumb1.jpg" class="img-fluid" alt="single-product-item">
-                                            </a>
->>>>>>> 2a4fac95a5d5c3df0b9ea02b2e2272f1402240de
 <div class="modal fade" id="modallong" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-fullscreen-md-down modal-md modal-dialog-centered">
         <div class="modal-content">
@@ -492,7 +425,7 @@
     </div>
     <nav id="header-nav" class="navbar navbar-expand-lg">
         <div class="container-lg">
-            <a class="navbar-brand" href="Client">
+            <a class="navbar-brand" href="index.html">
                 <img src="images/main-logo.png" class="logo" alt="logo">
             </a>
             <button class="navbar-toggler d-flex d-lg-none order-3 border-0 p-1 ms-2" type="button" data-bs-toggle="offcanvas"
@@ -658,60 +591,8 @@
         <div class="row">
 
             <div class="col-lg-6 col-md-6">
-              <h1>bgr</h1>
+                <h1>bgr</h1>
             </div>
-<<<<<<< HEAD
-=======
-        </section>
-        <section id="collection-products" class="py-2 my-2 py-md-5 my-md-5">
-            <div class="container-md">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 mb-4">
-                        <div class="collection-card card border-0 d-flex flex-row align-items-end jarallax-keep-img">
-                            <img src="images/collection-item1.jpg" alt="product-item" class="border-rounded-10 img-fluid jarallax-img">
-                            <div class="card-detail p-3 m-3 p-lg-5 m-lg-5">
-                                <h3 class="card-title display-3">
-                                    <a href="#">Minimal Collection</a>
-                                </h3>
-                                <a href="shop.html" class="text-uppercase mt-3 d-inline-block text-hover fw-bold">Shop Now</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="collection-card card border-0 d-flex flex-row jarallax-keep-img">
-                            <img src="images/collection-item2.jpg" alt="product-item" class="border-rounded-10 img-fluid jarallax-img">
-                            <div class="card-detail p-3 m-3 p-lg-5 m-lg-5">
-                                <h3 class="card-title display-3">
-                                    <a href="#">Sneakers Collection</a>
-                                </h3>
-                                <a href="shop.html" class="text-uppercase mt-3 d-inline-block text-hover fw-bold">Shop Now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="latest-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">
-            <div class="container-md">
-                <div class="display-header d-flex align-items-center justify-content-between">
-                    <h2 class="section-title text-uppercase">Latest Products</h2>
-                    <div class="btn-right">
-                        <a href="shop.html" class="d-inline-block text-uppercase text-hover fw-bold">View all</a>
-                    </div>
-                </div>
-                <div class="product-content padding-small">
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
-                        <h1>san pham moi nhat</h1>
-                    </div>
-                </div>
-        </section>
-
-
-        </script>
-
-        <script th:src="@{/assets/js/plugins.js}"></script>
-        <script th:src="@{/assets/js/client.js}"></script>
->>>>>>> 2a4fac95a5d5c3df0b9ea02b2e2272f1402240de
         </div>
     </div>
 </section>
@@ -893,14 +774,11 @@
 
 <script th:src="@{/assets/js/plugins.js}"></script>
 <script th:src="@{/assets/js/client.js}"></script>
-<<<<<<< HEAD
 <script th:src="@{/assets/js/script.js}"></script>
 
 
 
 
-=======
->>>>>>> 2a4fac95a5d5c3df0b9ea02b2e2272f1402240de
 </body>
 
 </html>
