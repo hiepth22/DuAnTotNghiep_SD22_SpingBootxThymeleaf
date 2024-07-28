@@ -1,14 +1,19 @@
 $(document).ready(function () {
 
+    let idSP = [];
+    let itemId = null;
+    let giaBan = null;
+    let soLuongBanDau = null;
+
     const pathArray = window.location.pathname.split('/');
     const idHoaDon = pathArray[pathArray.length - 1];
 
-    var $phiVanChuyen = $('#phiVanChuyen');
-    var  $nguoiNhan = $('#edit-ten');
-    var $sdtNguoiNhan = $('#edit-sdtNguoiNhan');
-    var $noteThongTin = $('#noteThongTin')
+    // var $phiVanChuyen = $('#phiVanChuyen');
+    // var  $nguoiNhan = $('#edit-ten');
+    // var $sdtNguoiNhan = $('#edit-sdtNguoiNhan');
+    // var $noteThongTin = $('#noteThongTin')
 
-    var $editDiaChi = $('#edit-diachi');
+    // var $editDiaChi = $('#edit-diachi');
     var $editTinhThanh = $('#edit-tinhthanh');
     var $editQuanHuyen = $('#edit-quanhuyen');
     var $editPhuongXa = $('#edit-phuongxa');
@@ -159,13 +164,23 @@ $(document).ready(function () {
     function xoaSanPham(idHoaDon) {
         $('.deleteSP').on('click', function () {
             const itemId = $(this).data('id');
-            $.ajax({
-                url: `/api/hoa-don/delete-hd/${idHoaDon}`,
-                method: 'POST',
-                data: {idHoaDonCT: itemId},
-                success: function () {
-                    location.reload();
-                }
+            showConfirm(function() {
+                $.ajax({
+                    url: `/api/hoa-don/delete-hd/${idHoaDon}`,
+                    method: 'POST',
+                    data: {idHoaDonCT: itemId},
+                    success: function () {
+                        showNotification("Xóa sản pẩm thành công", "thanhCong")
+                      fetchHoaDonDetail(idHoaDon)
+                    },
+                    error: function() {
+                        Swal.fire(
+                            'Lỗi!',
+                            'Đã xảy ra lỗi khi xóa sản phẩm.',
+                            'error'
+                        );
+                    }
+                });
             });
         });
     }
@@ -191,6 +206,7 @@ $(document).ready(function () {
                 nguoiNhan: nguoiNhan, sdtNguoiNhan: sdtNguoiNhan, diaChiNguoiNhan: diaChiNguoiNhan, ghichu: ghichu, tienShip: tienShip
             }),
             success: function (response) {
+                fetchHoaDonDetail(idHoaDon);
             },
         });
     }
@@ -232,9 +248,21 @@ $(document).ready(function () {
 
     function fetchHoaDonDetail(idHoaDon) {
         $.ajax({
-            url: `/api/hoa-don/detail/${idHoaDon}`, method: 'GET', success: function (response) {
+            url: `/api/hoa-don/detail/${idHoaDon}`,
+            method: 'GET',
+            success: function (response) {
                 const hd = response.hd;
                 const hdctList = response.hdctList;
+
+                idSP = [];
+
+                for (let i = 0; i < hdctList.length; i++) {
+                    let item = hdctList[i];
+                    idSP.push({
+                        id: item.sanPhamChiTiet.id,
+                        soLuong: item.soLuong
+                    });
+                }
 
                 $('#phiVanChuyen').val(hd.tienShip);
                 $('#edit-ten').val(hd.nguoiNhan);
@@ -247,7 +275,7 @@ $(document).ready(function () {
 
                 const tongTien = hienThiDanhSachSP(hdctList);
 
-                updateTongTien(tongTien, idHoaDon)
+                updateTongTien(tongTien, idHoaDon);
 
                 hienThiTongTienChiTiet(tongTien, hd);
 
@@ -261,16 +289,94 @@ $(document).ready(function () {
 
                 xoaSanPham(idHoaDon);
 
-                getThongTinKhachHang()
+                getThongTinKhachHang();
 
                 currentStep = hd.trangThai;
 
-
-            }, error: function (xhr, status, error) {
+            },
+            error: function (xhr, status, error) {
                 console.error('Lỗi fetchHoaDonDetail:', error);
             }
         });
     }
+
+
+    $("#danhSachSanPham").on('click', '.themSanPham', function () {
+        $(this).off('click');
+        $("#soLuongInput").val(1)
+        showModalSoLuong();
+
+        itemId = $(this).data('id');
+        giaBan = $(this).data('gia-ban');
+
+
+    });
+
+
+    $('#soLuongThayDoi').click(function () {
+
+        const soLuongMoi = parseInt($("#soLuongInput").val(), 10);
+
+
+        let checkTrung = false;
+
+        let soLuongHienTai = 0;
+
+        if (Array.isArray(idSP)) {
+            for (let i = 0; i < idSP.length; i++) {
+                if (idSP[i].id === itemId) {
+                    checkTrung = true;
+                    soLuongHienTai = idSP[i].soLuong;
+                    break;
+                }
+            }
+        }
+
+        const soLuongCuoiCung = checkTrung ? soLuongHienTai + soLuongMoi : soLuongMoi;
+
+
+        const capNhatSoLuongNeuTrung = {
+            gia: giaBan,
+            soLuong: soLuongCuoiCung,
+            trangThai: 1,
+            hoaDon: { id: idHoaDon },
+            sanPhamChiTiet: { id: itemId }
+        };
+
+        if (!checkTrung) {
+            $.ajax({
+                url: `/api/hoa-don/danh-sach-san-pham/add`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    gia: giaBan, soLuong: soLuongMoi,trangThai: 1, hoaDon: { id: idHoaDon }, sanPhamChiTiet: { id: itemId }
+                }),
+                success: function () {
+                    showNotification("Thêm sản pẩm thành công", "thanhCong")
+                    hideModalSoLuong();
+                    hideModalDanhSachSanPham();
+                    fetchHoaDonDetail(idHoaDon);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Lỗi khi gọi API', textStatus, errorThrown);
+                }
+            });
+        } else {
+            $.ajax({
+                url: `/api/hoa-don/update-so-luong-sp`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(capNhatSoLuongNeuTrung),
+                success: function () {
+                    showNotification("Thêm sản pẩm thành công", "thanhCong")
+                    hideModalSoLuong();
+                    hideModalDanhSachSanPham();
+                    fetchHoaDonDetail(idHoaDon);
+                },
+            });
+        }
+    });
+
 
 
     function getThongTinKhachHang() {
@@ -437,18 +543,7 @@ $(document).ready(function () {
     }
 
 
-
-    const generatePaginationButtons = (currentPage, totalPages) => {
-        let buttons = "";
-        for (let i = 1; i <= totalPages; i++) {
-            buttons += `<button class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 pageBtn">${i}</button>`;
-        }
-        $("#paginationButtons").html(buttons);
-
-        $(`.pageBtn:eq(${currentPage})`).addClass("bg-gray-400");
-    };
-
-    const getDanhSachSanPham = (page, size) => {
+    const getDanhSachSanPham = (page = 0, size = 5) => {
         $.ajax({
             url: `/api/hoa-don/danh-sach-san-pham?page=${page}&size=${size}`,
             method: 'GET',
@@ -456,67 +551,82 @@ $(document).ready(function () {
                 let list = "";
                 $("#danhSachSanPham").empty();
                 for (let i = 0; i < result.content.length; i++) {
+
                     list += `
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <img src="https://res.cloudinary.com/deapopcoc/image/upload/${result.content[i].anh}" alt="Ảnh" class="w-16 h-auto">
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap font-bold">
-                            <h1>${result.content[i].ten}</h1>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">${formatVND(result.content[i].giaBan)}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].soLuong}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].kichCo.ten}</td>
-                        <td>
-                            <div class="color-container rounded-lg ml-5 border-3" style="background-color: ${result.content[i].mauSac.ten}; width: 50px; height: 20px;"></div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="bg-green-500 rounded-lg text-white px-2 py-1">${trangThaiSanPham(result.content[i].trangThai)}</span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                           <button class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-1 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm
-                            </button>
-                        </td>
-                    </tr>`;
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <img src="https://res.cloudinary.com/deapopcoc/image/upload/${result.content[i].anh}" alt="Ảnh" class="w-16 h-auto">
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap font-bold">
+                                <h1>${result.content[i].ten}</h1>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">${formatVND(result.content[i].giaBan)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${result.content[i].soLuong}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${result.content[i].kichCo.ten}</td>
+                            <td>
+                                <div class="color-container rounded-lg ml-5 border-3" style="background-color: ${result.content[i].mauSac.ten}; width: 50px; height: 20px;"></div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="bg-green-500 rounded-lg text-white px-2 py-1">${result.content[i].trangThai}</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                               <button id="hienThiDanhSachSanPham" class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-1 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm
+                                </button>
+                            </td>
+                        </tr>`;
                 }
 
                 $("#danhSachSanPham").html(list);
 
-                $(".pagination-info").text(`Trang ${result.number + 1} của ${result.totalPages}`);
+                let pagination = '';
+                pagination += `
+                    <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
+                    `;
 
-                generatePaginationButtons(result.number, result.totalPages);
+                const maxVisiblePages = 3;
+                const halfVisiblePages = Math.floor(maxVisiblePages / 2);
+                let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
+                let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
 
-                $("#danhSachSanPham").off('click', '.themSanPham').on('click', '.themSanPham', function () {
-                    const itemId = $(this).data('id');
-                    const giaBan = $(this).data('gia-ban');
+                if (startPage > 1) {
+                    pagination += `
+                        <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(0, ${size})">1</button>
+                        `;
+                    if (startPage > 2) {
+                        pagination += `<span class="px-4 py-2">...</span>`;
+                    }
+                }
 
-                    $(this).off('click');
-                    $.ajax({
-                        url: `/api/hoa-don/danh-sach-san-pham/add`,
-                        method: 'POST',
-                        contentType: 'application/json',
-                        data: JSON.stringify({
-                            gia: giaBan, trangThai: 1, hoaDon: {id: idHoaDon}, sanPhamChiTiet: {id: itemId}
-                        }),
-                        success: function () {
-                            fetchHoaDonDetail(idHoaDon);
-                            location.reload();
-                            hideModalDanhSachSanPham();
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Lỗi thêm sản phẩm: ', error);
-                        }
-                    });
-                });
+                for (let i = startPage; i <= endPage; i++) {
+                    pagination += `
+                        <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getDanhSachSanPham(${i - 1}, ${size})">${i}</button>
+                        `;
+                }
+
+                if (endPage < result.totalPages) {
+                    if (endPage < result.totalPages - 1) {
+                        pagination += `<span class="px-4 py-2">...</span>`;
+                    }
+                    pagination += `
+                        <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
+                        `;
+                }
+
+                pagination += `
+                    <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
+                    `;
+
+                $("#paginationSP").html(pagination);
             },
-            error: function (error) {
-                console.error('Lỗi khi lấy dữ liệu:', error);
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', status, error);
             }
         });
     };
 
-    getDanhSachSanPham(0, 5);
+
+
 
     function checkCurrentStep() {
         const button = document.getElementById("hienThiDanhSachSanPham");
@@ -557,31 +667,6 @@ $(document).ready(function () {
         }
 
     }
-
-
-
-    $(document).on("click", ".pageBtn", function () {
-        let page = $(this).text() - 1;
-        getDanhSachSanPham(page, 5);
-    });
-
-    $("#prevPageBtn").on("click", function () {
-        let currentPage = $(".pageBtn.bg-gray-400").text();
-        if (currentPage > 1) {
-            let page = parseInt(currentPage) - 2;
-            getDanhSachSanPham(page, 5);
-        }
-    });
-
-
-    $("#nextPageBtn").on("click", function () {
-        let currentPage = $(".pageBtn.bg-gray-400").text();
-        let totalPages = $(".pageBtn").length;
-        if (currentPage < totalPages) {
-            let page = parseInt(currentPage);
-            getDanhSachSanPham(page, 5);
-        }
-    });
 
 
     const getLichSu = () => {
@@ -706,6 +791,16 @@ $(document).ready(function () {
         return `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
     }
 
+    function showModalSoLuong() {
+        $('#modalSoLuong').removeClass('hidden');
+    }
+
+    function hideModalSoLuong() {
+        $('#modalSoLuong').addClass('hidden');
+        $('#modalSoLuong').val('');
+        $('#modalSoLuong').addClass('hidden');
+    }
+
     function showNoteModal() {
         $('#noteModal').removeClass('hidden');
     }
@@ -740,7 +835,7 @@ $(document).ready(function () {
 
     function showModalDanhSachSanPham() {
         $('#modalDachSachSanPham').removeClass('hidden');
-        fetchHoaDonDetail();
+        fetchHoaDonDetail(idHoaDon);
 
     }
 
@@ -816,26 +911,54 @@ $(document).ready(function () {
 
     $('#dongThayDoiThongTinHoaDon').click(function () {
         hideModalThongTinHoaDon();
+        fetchHoaDonDetail(idHoaDon);
     });
 
+
+    $('#dongModalSoLuong').click(function () {
+        hideModalSoLuong();
+    });
+
+
     $('#luuThongTinHoaDon').click(function () {
-        var nguoiNhan =  $nguoiNhan.val();
-        var sdtNguoiNhan = $sdtNguoiNhan.val();
-        var phiVanChuyen = $phiVanChuyen.val();
-        var ghiChu = $noteThongTin.val();
+        var nguoiNhan = $('#edit-ten').val();
+        var sdtNguoiNhan = $('#edit-sdtNguoiNhan').val();
+        var phiVanChuyen = $('#phiVanChuyen').val();
+        var ghiChu = $('#noteThongTin').val();
 
-
-        var selectedCity = $editTinhThanh.find('option:selected').text();
-        var selectedDistrict = $editQuanHuyen.find('option:selected').text();
-        var selectedWard = $editPhuongXa.find('option:selected').text();
-        var specificAddress = $editDiaChi.val();
+        var selectedCity = $('#edit-tinhthanh').find('option:selected').text();
+        var selectedDistrict = $('#edit-quanhuyen').find('option:selected').text();
+        var selectedWard = $('#edit-phuongxa').find('option:selected').text();
+        var specificAddress = $('#edit-diachi').val();
         var diaChiDayDu = specificAddress + ', ' + selectedWard + ', ' + selectedDistrict + ', ' + selectedCity;
+
         updateThongTinNguoiNhan(nguoiNhan, sdtNguoiNhan, diaChiDayDu, phiVanChuyen, ghiChu);
         fetchHoaDonDetail(idHoaDon);
         hideModalThongTinHoaDon();
     });
 
-
+    function showConfirm(callback) {
+        Swal.fire({
+            title: 'Bạn có chắc chắn?',
+            text: "Bạn không thể hoàn tác hành động này!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Vâng, tiếp tục!',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                callback();
+            } else {
+                Swal.fire(
+                    'Đã hủy!',
+                    'Hành động của bạn đã bị hủy.',
+                    'error'
+                );
+            }
+        });
+    }
 
     const totalSteps = 6;
 
@@ -962,6 +1085,7 @@ $(document).ready(function () {
             window.print();
             stepsHistory.push({hanhDong: currentStep, ngayTao: new Date().toISOString()});
             updateTrangThai(currentStep)
+            showNotification("Xác nhận thành công", "thanhCong");
             updateButtonsState();
             hideNoteModal();
             getLichSu();
@@ -969,12 +1093,14 @@ $(document).ready(function () {
             updateTrangThaiPhuongThucThanhToan(idHoaDon);
             stepsHistory.push({hanhDong: currentStep, ngayTao: new Date().toISOString()});
             updateTrangThai(currentStep)
+            showNotification("Thanh toán thành công", "thanhCong");
             updateButtonsState();
             hideNoteModal();
             getLichSu();
         } else {
             stepsHistory.push({hanhDong: currentStep, ngayTao: new Date().toISOString()});
             updateTrangThai(currentStep)
+            showNotification("Xác nhận thành công", "thanhCong");
             updateButtonsState();
             hideNoteModal();
             getLichSu();
@@ -1105,6 +1231,35 @@ $(document).ready(function () {
             }
         });
     }
+
+    function showNotification(message, status) {
+        var notification = document.getElementById('notification');
+        var notificationMessage = document.getElementById('notification-message');
+        var progressBar = document.getElementById('progress-bar');
+
+        notification.className = 'notification'; // Reset class
+        if (status === 'thanhCong') {
+            notification.classList.add('thanhCong');
+        } else if (status === 'thatBai') {
+            notification.classList.add('thatBai');
+        }
+
+        if (message) {
+            notificationMessage.textContent = message;
+            notification.style.display = 'block';
+            progressBar.style.width = '100%';
+
+            setTimeout(function() {
+                progressBar.style.width = '0';
+            }, 10); // Bắt đầu giảm thanh tiến trình ngay lập tức
+
+            setTimeout(function() {
+                notification.style.display = 'none';
+                progressBar.style.width = '100%'; // Đặt lại thanh tiến trình sau khi thông báo ẩn
+            }, 3010); // Thời gian hiển thị thông báo (3010 ms = 3 giây + 10 ms để bắt đầu giảm)
+        }
+    }
+
 
     fetchHoaDonDetail(idHoaDon);
 

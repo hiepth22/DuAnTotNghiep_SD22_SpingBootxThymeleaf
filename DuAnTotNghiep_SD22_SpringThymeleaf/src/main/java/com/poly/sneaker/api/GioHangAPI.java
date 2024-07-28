@@ -113,14 +113,15 @@ public class GioHangAPI {
     @PostMapping("/them-san-pham/{id}")
     public ResponseEntity<?> themPhuongThucThanhToan (@PathVariable("id") Long id ,@RequestBody GioHangChiTiet gioHangChiTiet){
         GioHang gh = new GioHang();
-        gh.setId(id);
+        gh.setId(gioHangChiTiet.getGioHang().getId());
+
         SanPhamChiTiet sp = new SanPhamChiTiet();
-        sp.setId(id);
+        sp.setId(gioHangChiTiet.getSanPhamChiTiet().getId());
 
         gioHangChiTiet.setGioHang(gh);
         gioHangChiTiet.setSanPhamChiTiet(sp);
         gioHangChiTiet.setSoLuong(1);
-        gioHangChiTiet.setNgayCapNhat(LocalDateTime.now());
+        gioHangChiTiet.setNgayTao(LocalDateTime.now());
 
         return ResponseEntity.ok(gioHangChiTietService.add(gioHangChiTiet));
     }

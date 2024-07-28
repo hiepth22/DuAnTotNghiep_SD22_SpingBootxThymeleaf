@@ -47,7 +47,7 @@ public class login {
     @GetMapping("/")
     public String show(Model model) {
         model.addAttribute("khachHang", new KhachHang());
-        return "redirect:Clien";
+        return "redirect:Client";
     }
 
 
@@ -62,7 +62,7 @@ public class login {
                 model.addAttribute("khachHang", kh);
                 model.addAttribute("id", kh.toString());
                 session.setAttribute("khachHang", kh);
-                return "redirect:Clien";
+                return "redirect:Client";
             }
         }
         model.addAttribute("error", true);
