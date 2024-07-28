@@ -144,7 +144,6 @@
             </h2>
         </div>
         <div class="row">
-            <!-- Thymeleaf loop for products -->
             <div th:each="sanPham : ${sanPhams}" class="col-md-4 mb-4">
                 <div class="card-body">
                     <!-- Modal trigger -->
@@ -157,9 +156,9 @@
                     <p class="card-text" th:text="${'Số lượng: ' + sanPham.soLuong}"></p>
                     <p class="card-text" th:text="${'Mô Tả: ' + sanPham.moTa}"></p>
                     <p class="card-text">Thêm ảnh vào database: ce71af39-aff6-40b8-bbfa-beea1f7a3f44.png</p>
-                    <div id="dsSanPham" class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center">
                         <a th:href="@{/cho-thanh-toan}" class="btn btn-primary">Mua Ngay</a>
-                        <a class="themSanPham btn btn-secondary " th:data-id="${sanPham.id}" >Thêm Vào Giỏ Hàng</a>
+                        <a th:href="@{/gio-hang}" class="themSanPham btn btn-secondary" th:data-id="${sanPham.id}">Thêm Vào Giỏ Hàng</a>
                     </div>
                 </div>
             </div>
@@ -230,7 +229,6 @@
             var productId = $(this).attr('data-id');
             var productName = $(this).find('.card-title').text();
 
-            // AJAX request to fetch product details
             $.ajax({
                 url: '/sanphamchitietclien/' + productId,
                 method: 'GET',
@@ -288,49 +286,56 @@
             $.ajax({
                 url: '/api/session/user',
                 method: 'GET',
-                success: function (response) {
+                success: function(response) {
                     let idKhachHang = response.id;
-                    getIdGioHang(idKhachHang);
+                    getDuLieuGioHang(idKhachHang);
                 },
-                error: function () {
+                error: function() {
                     console.log('Error retrieving user session.');
                 }
             });
         }
 
-        function getIdGioHang(idKhachHang) {
+        function getDuLieuGioHang(idKhachHang) {
             $.ajax({
-                url: `/api/khach-hang/thong-tin-hoa-don/${idKhachHang}`,
+                url: `/api/gio-hang/detail/${idKhachHang}`,
                 method: 'GET',
-                success: function (response) {
-                    // Đăng ký sự kiện click cho các nút "Thêm Vào Giỏ Hàng"
-                    $("#dsSanPham").on('click', '.themSanPham', function () {
-                        const itemId = $(this).data('id');
-
-                        $.ajax({
-                            url: `/api/gio-hang/them-san-pham/${itemId}`,
-                            method: 'POST',
-                            contentType: 'application/json',
-                            data: JSON.stringify({
-                                gioHang: { id: response.id },
-                                sanPhamChiTiet: { id: itemId }
-                            }),
-                            success: function () {
-                                alert('Sản phẩm đã được thêm vào giỏ hàng.');
-                            },
-                            error: function () {
-                                console.log('Error adding product to cart.');
-                            }
-                        });
-                    });
+                success: function(response) {
+                    const gioHang = response.gh;
+                    bindThemSanPhamClickEvent(gioHang.id);
                 },
-                error: function () {
-                    console.log('Error retrieving cart information.');
+                error: function() {
+                    console.log('Error fetching cart data.');
                 }
             });
         }
 
-        // Gọi hàm getKhachHang để bắt đầu quá trình
+        function bindThemSanPhamClickEvent(gioHangId) {
+            $(document).on('click', '.themSanPham', function() {
+                const itemId = $(this).data('id');
+                themSanPhamVaoGioHang(gioHangId, itemId);
+            });
+        }
+
+        function themSanPhamVaoGioHang(gioHangId, itemId) {
+            $.ajax({
+                url: `/api/gio-hang/them-san-pham/${itemId}`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    gioHang: { id: gioHangId },
+                    sanPhamChiTiet: { id: itemId }
+                }),
+                success: function() {
+
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error adding product to cart:', xhr.responseText);
+                }
+            });
+        }
+
+
         getKhachHang();
     });
 

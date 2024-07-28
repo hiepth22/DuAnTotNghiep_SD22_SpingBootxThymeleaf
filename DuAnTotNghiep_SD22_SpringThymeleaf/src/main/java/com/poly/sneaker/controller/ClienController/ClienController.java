@@ -49,7 +49,7 @@ public class ClienController {
     @Autowired
     private KichCoService kichCoService;
 
-    @GetMapping("/Clien")
+    @GetMapping("/Client")
     public String hienThiSanPham(Model model) {
         List<SanPhamChiTiet> sanPhams = SPCTservice.getAll();
         model.addAttribute("sanPhams", sanPhams);

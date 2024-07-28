@@ -48,23 +48,21 @@ public class HoaDonAPI {
                                          @RequestParam(name = "keyword", required = false) String keyword,
                                          @RequestParam(name = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
                                          @RequestParam(name = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+                                         @RequestParam(name = "loai", required = false, defaultValue = "0") int loai,
                                          @RequestParam(name = "page", required = false, defaultValue = "0") int page,
                                          @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
-        if(tab == 0){
-            return hoaDonService.getAll(pageable);
-        }
 
-        if (keyword != null && !keyword.isEmpty()) {
-            if (startDate != null && endDate != null) {
-                return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(keyword, startDate, endDate, tab, pageable);
+        if ((keyword != null && !keyword.isEmpty()) || (startDate != null && endDate != null)) {
+            if (tab == 0) {
+                return hoaDonService.findHoaDonByMaAndNgayTao(keyword, loai, startDate, endDate, pageable);
             } else {
-                return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(keyword, null, null, tab, pageable);
+                return hoaDonService.findHoaDonByMaAndNgayTaoAndTrangThai(keyword, loai, startDate, endDate, tab, pageable);
             }
         } else {
-            if (startDate != null && endDate != null) {
-                return hoaDonService.findHoaDonByMaAndNgayTao(keyword, startDate, endDate, pageable);
+            if (tab == 0) {
+                return hoaDonService.getAll(pageable);
             } else {
                 return hoaDonService.getAllByTrangThai(tab, pageable);
             }
@@ -157,7 +155,6 @@ public class HoaDonAPI {
 
     @PostMapping("/danh-sach-san-pham/add")
     public ResponseEntity<?> themSanPham(@RequestBody HoaDonChiTiet hoaDonChiTiet){
-        hoaDonChiTiet.setSoLuong(1);
         hoaDonChiTiet.setHoaDon(hoaDonChiTiet.getHoaDon());
         hoaDonChiTiet.setSanPhamChiTiet(hoaDonChiTiet.getSanPhamChiTiet());
         return ResponseEntity.ok(banHangService.add(hoaDonChiTiet));
@@ -210,6 +207,17 @@ public class HoaDonAPI {
     }
 
 
+    @PutMapping("/update-so-luong-sp")
+    public ResponseEntity<?> updateHoaDonChiTiet(@RequestBody HoaDonChiTiet hoaDonChiTiet) {
+        hoaDonService.updateHoaDonChiTiet(
+                hoaDonChiTiet.getSanPhamChiTiet().getId(),
+                hoaDonChiTiet.getHoaDon().getId(),
+                hoaDonChiTiet.getSoLuong(),
+                hoaDonChiTiet.getGia(),
+                hoaDonChiTiet.getTrangThai()
+        );
+        return ResponseEntity.ok("Cập nhật thành công");
+    }
 
 
 

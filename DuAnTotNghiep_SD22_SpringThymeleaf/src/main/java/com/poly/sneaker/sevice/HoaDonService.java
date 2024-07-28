@@ -5,6 +5,7 @@ import com.poly.sneaker.entity.HoaDonChiTiet;
 import com.poly.sneaker.entity.NhanVien;
 import com.poly.sneaker.repository.HoaDonChiTietRepository;
 import com.poly.sneaker.repository.HoaDonRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +27,7 @@ public class HoaDonService {
 
 
     public Page<HoaDon> getAll(Pageable pageable){
-        return hoaDonRepository.findAll(pageable);
+        return hoaDonRepository.getAllHoaDon(pageable);
     }
 
     public Page<HoaDon> getAllByTrangThai(int trangThai, Pageable pageable){
@@ -37,12 +38,12 @@ public class HoaDonService {
         }
     }
 
-    public Page<HoaDon> findHoaDonByMaAndNgayTaoAndTrangThai(String keyword, Date startDate, Date endDate, int trangThai, Pageable pageable) {
-        return hoaDonRepository.findByKeywordAndNgayTaoBetweenAndTrangThai(keyword, startDate, endDate, trangThai, pageable);
+    public Page<HoaDon> findHoaDonByMaAndNgayTaoAndTrangThai(String keyword, int loai, Date startDate, Date endDate, int trangThai, Pageable pageable) {
+        return hoaDonRepository.findByKeywordAndNgayTaoBetweenAndTrangThai(keyword, loai, startDate, endDate, trangThai, pageable);
     }
 
-    public Page<HoaDon> findHoaDonByMaAndNgayTao(String keyword, Date startDate, Date endDate, Pageable pageable) {
-        return hoaDonRepository.findByMaAndNgayTaoBetweenAndKeyword(keyword, startDate, endDate, pageable);
+    public Page<HoaDon> findHoaDonByMaAndNgayTao(String keyword, int loai, Date startDate, Date endDate, Pageable pageable) {
+        return hoaDonRepository.findByMaAndNgayTaoBetweenAndKeyword(keyword, loai, startDate, endDate, pageable);
     }
 
     public HoaDon add(HoaDon hoaDon) {
@@ -117,9 +118,9 @@ public class HoaDonService {
         }
     }
 
-
-
-
-
+    @Transactional
+    public void updateHoaDonChiTiet(Long idChiTietSanPham, Long idHoaDon, Integer soLuong, BigDecimal gia, Integer trangThai) {
+        hoaDonRepository.updateByIdChiTietSanPhamAndIdHoaDon(soLuong, gia, trangThai, idChiTietSanPham, idHoaDon);
+    }
 
 }

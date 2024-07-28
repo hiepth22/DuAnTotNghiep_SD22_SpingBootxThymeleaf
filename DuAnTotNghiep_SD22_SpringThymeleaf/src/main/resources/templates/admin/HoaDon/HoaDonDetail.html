@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="output.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     <head th:replace="~{admin/fragments/head :: head}"></head>
     <style>
         @media print {
@@ -16,6 +18,37 @@
             body > *:not(.invoice-container) {
                 display: none !important;
             }
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            width: 300px;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
+            color: white;
+        }
+
+        .notification.thanhCong {
+            background-color: #4CAF50;
+        }
+
+        .notification.thatBai {
+            background-color: #f44336;
+        }
+
+        .notification .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #fff;
+            transition: width 3s linear;
         }
     </style>
 
@@ -298,107 +331,76 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="bg-gray-50 px-4 py-3 flex justify-between items-center">
-                        <div class="flex items-center space-x-2">
-                            <button id="prevPageBtn"
-                                    class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                          d="M12.707 15.293a1 1 0 0 1-1.414 1.414l-4-4a1 1 0 0 1 0-1.414l4-4a1 1 0 0 1 1.414 1.414L9.414 12H16a1 1 0 0 1 0 2h-6.586l3.293 3.293z"
-                                          clip-rule="evenodd"/>
-                                </svg>
-                            </button>
-                            <button id="nextPageBtn"
-                                    class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                          d="M7.293 15.293a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414-1.414L10.586 12H4a1 1 0 0 1 0-2h6.586l-3.293-3.293a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414 0z"
-                                          clip-rule="evenodd"/>
-                                </svg>
-                            </button>
-                        </div>
-                        <div id="paginationButtons" class="flex items-center space-x-2">
-                        </div>
-                    </div>
+                    <div id="paginationSP" class="flex justify-center mt-4"></div>
                     <div class="flex justify-end mb-3 mr-3">
-                        <button id="dongDanhSachSanPham"
-                                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:text-gray-100">
+                        <button id="dongDanhSachSanPham" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:text-gray-100">
                             Xác nhận
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
 
+        <div id="modalThongTinHoaDon" class="fixed z-10 inset-0 overflow-y-auto hidden">
+            <div class="flex items-center justify-center min-h-screen">
+                <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                </div>
+                <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-xl">
+                    <div class="bg-white px-4 pt-5 pb-4">
+                        <div id="formThayDoiThongTin">
+                            <form id="chinh-sua-form w-72">
+                                <div class="form-group">
+                                    <label for="edit-ten">Tên Khách Hàng</label>
+                                    <input type="text" class="form-control" id="edit-ten" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-sdtNguoiNhan">Số điện thoại</label>
+                                    <input type="text" class="form-control" id="edit-sdtNguoiNhan" value="">
+                                </div>
+                                <div class="grid gap-4 grid-cols-3">
+                                    <div class="form-group">
+                                        <label for="edit-tinhthanh">Tỉnh/Thành phố</label>
+                                        <select class="form-control" id="edit-tinhthanh">
+                                            <option value="" selected>Chọn tỉnh thành</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit-quanhuyen">Quận/Huyện</label>
+                                        <select class="form-control" id="edit-quanhuyen">
+                                            <option value="" selected>Chọn quận huyện</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit-phuongxa">Phường/Xã</label>
+                                        <select class="form-control" id="edit-phuongxa">
+                                            <option value="" selected>Chọn phường xã</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-diachi">Địa chỉ cụ thể</label>
+                                    <input type="text" class="form-control" id="edit-diachi">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phiVanChuyen">Phí vận chuyển</label>
+                                    <input type="number" min="0" class="form-control" id="phiVanChuyen" placeholder="0 VNĐ">
+                                </div>
+                                <div class="form-group">
+                                    <label for="noteThongTin">Ghi chú</label>
+                                    <textarea id="noteThongTin" class="w-full p-2 border rounded" rows="4"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 flex justify-end">
+                        <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-5" id="dongThayDoiThongTinHoaDon">Hủy</button>
 
-    </div>
-</div>
-
-<div id="modalThongTinHoaDon" class="fixed z-10 inset-0 overflow-y-auto hidden">
-    <div class="flex items-center justify-center min-h-screen">
-        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-        </div>
-        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-xl">
-            <div class="bg-white px-4 pt-5 pb-4">
-               <div id="formThayDoiThongTin">
-                   <form id="chinh-sua-form w-72">
-                       <div class="form-group">
-                           <label for="edit-ten">Tên Khách Hàng</label>
-                           <input type="text" class="form-control" id="edit-ten" value="">
-                       </div>
-                       <div class="form-group">
-                           <label for="edit-sdtNguoiNhan">Số điện thoại</label>
-                           <input type="text" class="form-control" id="edit-sdtNguoiNhan" value="">
-                       </div>
-                       <div class="grid gap-4 grid-cols-3">
-                           <div class="form-group">
-                               <label for="edit-tinhthanh">Tỉnh/Thành phố</label>
-                               <select class="form-control" id="edit-tinhthanh">
-                                   <option value="" selected>Chọn tỉnh thành</option>
-                               </select>
-                           </div>
-                           <div class="form-group">
-                               <label for="edit-quanhuyen">Quận/Huyện</label>
-                               <select class="form-control" id="edit-quanhuyen">
-                                   <option value="" selected>Chọn quận huyện</option>
-                               </select>
-                           </div>
-                           <div class="form-group">
-                               <label for="edit-phuongxa">Phường/Xã</label>
-                               <select class="form-control" id="edit-phuongxa">
-                                   <option value="" selected>Chọn phường xã</option>
-                               </select>
-                           </div>
-                       </div>
-                       <div class="form-group">
-                           <label for="edit-diachi">Địa chỉ cụ thể</label>
-                           <input type="text" class="form-control" id="edit-diachi">
-                       </div>
-                       <div class="form-group">
-                           <label for="phiVanChuyen">Phí vận chuyển</label>
-                           <input type="number" min="0" class="form-control" id="phiVanChuyen"  placeholder="0 VNĐ">
-                       </div>
-                       <div class="form-group">
-                           <label for="noteThongTin">Ghi chú</label>
-                           <textarea id="noteThongTin" class="w-full p-2 border rounded" rows="4"></textarea>
-                       </div>
-                   </form>
-               </div>
-            </div>
-            <div class="bg-gray-50 px-4 py-3 flex justify-end">
-                <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-5"
-                        id="dongThayDoiThongTinHoaDon">Hủy
-                </button>
-
-                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-5"
-                        id="luuThongTinHoaDon">Lưu
-                </button>
+                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-5" id="luuThongTinHoaDon">Lưu</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
 <div id="noteModalHuy" class="fixed z-10 inset-0 overflow-y-auto hidden">
     <div class="flex items-center justify-center min-h-screen">
@@ -458,8 +460,36 @@
     </div>
 </div>
 
+<div id="notification" class="notification">
+    <span id="notification-message"></span>
+    <div id="progress-bar" class="progress-bar"></div>
+</div>
+
+<div id="modalSoLuong" class="fixed z-10 inset-0 overflow-y-auto hidden">
+    <div class="flex items-center justify-center min-h-screen px-4 py-6">
+        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+        </div>
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-md w-full p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold">Số lượng</h2>
+                <button id="dongModalSoLuong" class="text-gray-500 hover:text-gray-900 text-2xl font-bold ml-4">
+                    &times;
+                </button>
+            </div>
+            <div>
+                <input type="number" id="soLuongInput" value="1" min="1" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <button id="soLuongThayDoi" class="mt-4 w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script th:src="@{/assets/js/HoaDonDetail.js}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
