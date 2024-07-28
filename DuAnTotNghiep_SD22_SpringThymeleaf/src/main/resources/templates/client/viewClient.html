@@ -13,9 +13,8 @@
     <meta name="keywords" content="Online Store">
     <meta name="description" content="Stylish - Shoes Online Store HTML Template">
 
-    <link rel="stylesheet" href="css/vendor.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
-
+    <link rel="stylesheet" th:href="@{/assets/css/vendor.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/style.css}"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -150,58 +149,8 @@
 </div>
 <!-- / quick view -->
 
-<<<<<<< HEAD
-<section class="shop_section layout_padding">
-    <div class="container">
-        <div class="heading_container heading_center">
-            <h2>
-                Danh Sách Sản Phẩm
-            </h2>
-        </div>
-        <div class="row">
-            <!-- Thymeleaf loop for products -->
-            <div th:each="sanPham : ${sanPhams}" class="col-md-4 mb-4">
-                <div class="card-body">
-                    <!-- Modal trigger -->
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${sanPham.id}">
-                        <h5 class="card-title" th:text="${sanPham.ten}"></h5>
-                        <img th:src="@{/assets/imageNV/{sanPham.anh}}" class="img-fluid mb-2" alt="Product Image">
-                    </a>
-
-                    <p class="card-text" th:text="${'Giá: ' + sanPham.giaBan}"></p>
-                    <p class="card-text" th:text="${'Số lượng: ' + sanPham.soLuong}"></p>
-                    <p class="card-text" th:text="${'Mô Tả: ' + sanPham.moTa}"></p>
-                    <p class="card-text">Thêm ảnh vào database: ce71af39-aff6-40b8-bbfa-beea1f7a3f44.png</p>
-                    <div id="dsSanPham" class="d-flex justify-content-between align-items-center">
-                        <a th:href="@{/cho-thanh-toan}" class="btn btn-primary">Mua Ngay</a>
-                        <a class="themSanPham btn btn-secondary " th:data-id="${sanPham.id}" on>Thêm Vào Giỏ Hàng</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="btn-box">
-            <a href="#">
-                View All Products
-            </a>
-        </div>
-    </div>
-</section>
-
-<section class="footer_section">
-    <div class="container">
-        <p>
-            &copy; 2024 All Rights Reserved.
-        </p>
-    </div>
-</section>
-
-<!-- Bootstrap Modal -->
-<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-=======
 <div class="modal fade" id="modallong" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-fullscreen-md-down modal-md modal-dialog-centered">
->>>>>>> 5eb0a9761d92775869f7d4d7a084aef46d4ba001
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title fs-5">Cart</h2>
@@ -585,81 +534,11 @@
             </div>
         </div>
 </section>
-
-<<<<<<< HEAD
-                                var selectedSizeId = $(this).data('id');
-                                console.log('Selected size ID:', selectedSizeId);
-                            });
-
-                            $('#modalBuyLink').attr('href', '/gio-hang/' + productId);
-                            $('#modalAddToCartLink').attr('href', '/cart/add/' + productId);
-
-                            $('#productModal').modal('show');
-                        },
-                        error: function () {
-                            console.log('Error loading additional product details.');
-                        }
-                    });
-                },
-                error: function () {
-                    console.log('Error loading product details.');
-                }
-            });
-        });
-
-        function getKhachHang() {
-            $.ajax({
-                url: '/api/session/user',
-                method: 'GET',
-                success: function (response) {
-                    let idKhachHang = response.id;
-
-                    getIdGioHang(idKhachHang);
-
-                },
-            });
-        }
-
-        function getIdGioHang(idKhachHang) {
-            $.ajax({
-                url: `/api/khach-hang/thong-tin-hoa-don/${idKhachHang}`,
-                method: 'GET',
-                success: function (response) {
-
-                    $("#dsSanPham").off('click', '.themSanPham').on('click', '.themSanPham', function () {
-                        const itemId = $(this).data('id');
-
-                        $(this).off('click');
-                        $.ajax({
-                            url: `/api/gio-hang/them-san-pham/${itemId}`,
-                            method: 'POST',
-                            contentType: 'application/json',
-                            data: JSON.stringify({
-                                gioHang:  {id: response.id}, sanPhamChiTiet: {id: itemId}
-                            }),
-                            success: function () {
-                            },
-
-                        });
-                    });
-
-                },
-            });
-        }
+<script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
 
 
-
-
-
-
-        getKhachHang();
-    });
-
-</script>
-=======
 <script th:src="@{/assets/js/plugins.js}"></script>
 <script th:src="@{/assets/js/client.js}"></script>
->>>>>>> 5eb0a9761d92775869f7d4d7a084aef46d4ba001
 </body>
 
 </html>
