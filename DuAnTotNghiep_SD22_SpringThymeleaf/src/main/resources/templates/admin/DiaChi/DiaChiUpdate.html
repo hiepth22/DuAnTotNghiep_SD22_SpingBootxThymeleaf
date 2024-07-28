@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <link rel="icon" type="image/svg+xml"
+          href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
     <div th:replace="~{admin/fragments/head :: head}"></div>
     <style>
         .notification {
@@ -65,9 +67,6 @@
             </div>
             <form id="myForm" th:action="@{/dia-chi-update/{id}(id=${dc.id})}" method="post" class="row g-3"
                   th:object="${dc}">
-                <!--                    <input type="hidden" name="thanhPho" th:value="*{thanhPho}">-->
-                <!--                    <input type="hidden" name="quanHuyen" th:value="*{quanHuyen}">-->
-                <!--                    <input type="hidden" name="phuongXa" th:value="*{phuongXa}">-->
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">Tên Người Nhận:</label>
@@ -117,6 +116,9 @@
                     <a th:href="@{/admin/khach-hang}" class="btn btn-secondary">Đóng</a>
                     <button type="button" class="btn btn-primary" id="confirmButtonupdate">Lưu</button>
                 </div>
+                <input type="hidden" id="hiddenCity" th:value="${dc.thanhPho}">
+                <input type="hidden" id="hiddenDistrict" th:value="${dc.quanHuyen}">
+                <input type="hidden" id="hiddenWard" th:value="${dc.phuongXa}">
             </form>
         </div>
     </div>
@@ -143,6 +145,7 @@
         // Gửi request lấy dữ liệu
         axios(Parameter).then(function (response) {
             renderCity(response.data);
+            setDefaultValues(response.data);
         }).catch(function (error) {
             console.error('Error fetching data: ', error);
         });
@@ -212,57 +215,60 @@
             document.querySelector("input[name='phuongXa']").value = selectedWard ? selectedWard.value : "";
         }
 
-        function validateForm() {
-            var isValid = true;
-            var ten = document.getElementById("ten").value.trim();
-            var city = citis.value;
-            var district = districts.value;
-            var ward = wards.value;
+        function setDefaultValues(data) {
+            var hiddenCity = document.getElementById("hiddenCity").value;
+            var hiddenDistrict = document.getElementById("hiddenDistrict").value;
+            var hiddenWard = document.getElementById("hiddenWard").value;
 
-            document.getElementById("tenError").innerHTML = ten === "" ? "Vui lòng nhập tên người nhận." : "";
-            isValid = isValid && ten !== "";
+            if (hiddenCity) {
+                citis.value = hiddenCity;
+                citis.dispatchEvent(new Event('change'));
 
-            document.getElementById("dcError").innerHTML = city === "" || district === "" || ward === "" ? "Vui lòng chọn đầy đủ địa chỉ." : "";
-            isValid = isValid && city !== "" && district !== "" && ward !== "";
+                var selectedCity = data.find(function (city) {
+                    return city.Name === hiddenCity;
+                });
 
-            return isValid;
+                if (selectedCity && hiddenDistrict) {
+                    districts.value = hiddenDistrict;
+                    districts.dispatchEvent(new Event('change'));
+
+                    var selectedDistrict = selectedCity.Districts.find(function (district) {
+                        return district.Name === hiddenDistrict;
+                    });
+
+                    if (selectedDistrict && hiddenWard) {
+                        wards.value = hiddenWard;
+                    }
+                }
+            }
         }
 
-        document.getElementById("confirmButtonupdate").onclick = function (event) {
-            event.preventDefault();
+        const form = document.getElementById('myForm');
+        const confirmButtonupdate = document.getElementById('confirmButtonupdate');
+        const notification1 = document.getElementById('notification1');
+        const progressBar1 = document.getElementById('progress-bar1');
 
-            if (validateForm()) {
-                Swal.fire({
-                    title: 'Xác nhận',
-                    text: 'Bạn có chắc chắn muốn cập nhật địa chỉ này không?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'Có',
-                    cancelButtonText: 'Không',
-                    customClass: {
-                        confirmButton: 'btn btn-primary',
-                        cancelButton: 'btn btn-secondary'
-                    },
-                    buttonsStyling: false
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById("myForm").submit();
-                        showNotification1();
-                    }
-                });
-            }
-        };
+        confirmButtonupdate.addEventListener('click', function () {
+            Swal.fire({
+                title: 'Xác nhận lưu thông tin?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Lưu',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                    showNotification();
+                }
+            });
+        });
 
-        function showNotification1() {
-            var notification = document.getElementById('notification1');
-            var progressBar = document.getElementById('progress-bar1');
-
-            notification.classList.add('show1');
-            progressBar.style.width = '100%';
-
-            setTimeout(function () {
-                notification.classList.remove('show1');
-                progressBar.style.width = '0';
+        function showNotification() {
+            notification1.classList.add('show1');
+            progressBar1.style.width = '100%';
+            setTimeout(() => {
+                notification1.classList.remove('show1');
+                progressBar1.style.width = '0%';
             }, 3000);
         }
     </script>

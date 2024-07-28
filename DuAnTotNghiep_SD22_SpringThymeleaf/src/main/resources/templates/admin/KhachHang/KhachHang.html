@@ -6,6 +6,18 @@
     <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/css/bootstrap.min.css" integrity="sha384-3g6flao6YV/GL1tYjSi5lsPj6Y/JxuYwN2s4cmg7eI/9StZvj+ARlf6shZCl5f29" crossorigin="anonymous">-->
     <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.1/font/bootstrap-icons.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRkz1p2tzlZ1x58lH6gpG5KqfZSOaB4o4hjOE6iF7" crossorigin="anonymous">-->
 </head>
+<style>
+    .pagination .btn {
+        margin: 0 5px; /* Tạo khoảng cách giữa các trang */
+    }
+
+    .pagination .btn.active {
+        font-weight: bold; /* Tô đậm trang hiện tại */
+        background-color: #007bff;
+        color: white;
+    }
+</style>
+
 <body>
 <div class="container mt-4">
     <h4 class="mb-4">Danh Sách Khách Hàng</h4>
@@ -64,17 +76,14 @@
         </tbody>
     </table>
     <div class="d-flex justify-content-center">
-        <ul class="text-center">
+        <ul class="pagination">
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-outline-primary" id="prevBtn" disabled>Previous</button>
                 <div id="paginationButtons" class="btn-group" role="group">
                     <button type="button" class="btn btn-outline-primary" th:each="page : ${#numbers.sequence(1, totalPage1)}"
                             th:text="${page}" th:id="'pageBtn-' + ${page}" onclick="getPageNumber(this)"></button>
                 </div>
-                <button type="button" class="btn btn-outline-primary" id="nextBtn">Next</button>
             </div>
         </ul>
-
     </div>
 </div>
 

@@ -174,6 +174,7 @@ public class KhachHangController {
         kh.setNgaytao(LocalDateTime.now());
         kh.setTrangThai(1);
         kh.setMatKhau(password);
+        kh.setMa(generateMaKH());
         sendPasswordEmail(kh.getEmail(), kh.getMatKhau());
 
         // Add customer to the database
@@ -184,6 +185,10 @@ public class KhachHangController {
 
         // Redirect to the customer list page
         return "redirect:/admin/khach-hang";
+    }
+    private String generateMaKH() {
+        String ma = String.valueOf(khachHangRepository.count() + 1);
+        return "KH0" + ma;
     }
     @GetMapping("/check-email")
     public ResponseEntity<Boolean> checkEmailExists(@RequestParam String email) {
