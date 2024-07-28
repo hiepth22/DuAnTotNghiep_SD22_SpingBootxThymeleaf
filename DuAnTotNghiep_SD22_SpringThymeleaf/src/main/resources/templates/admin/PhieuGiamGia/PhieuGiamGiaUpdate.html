@@ -140,6 +140,7 @@
             <div class="p-3 mb-2 bg-info text-dark rounded">
                 <h6 class="card-title m-0"> Cập Nhật Phiếu Giảm Giá</h6>
             </div>
+            <br>
             <div class="card-body">
                 <form th:action="@{/admin/savePhieuGiamGia/{id}(id=${pgg.id})}" method="POST" class="row g-3"  th:object="${pgg}" onsubmit="validateForm()">
                     <div class="row mb-3">
