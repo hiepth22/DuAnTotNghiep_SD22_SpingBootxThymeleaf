@@ -233,7 +233,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-    document.getElementById('confirmButton').addEventListener('click', function () {
+    document.getElementById('confirmButton').addEventListener('click', function (event) {
         if (validateForm()) {
             Swal.fire({
                 title: 'Bạn có chắc chắn muốn thay đổi thông tin phiếu giảm giá?',
@@ -251,7 +251,7 @@
                         'Bạn đã thay đổi thông tin phiếu giảm giá.',
                         'success'
                     ).then(() => {
-                        update(); // Đảm bảo hàm update() được gọi
+                        update();
                     });
                 } else {
                     Swal.fire(
@@ -261,6 +261,8 @@
                     );
                 }
             });
+        }else {
+            event.preventDefault();
         }
     });
     function update() {
@@ -291,23 +293,36 @@
     // }
 
     function showSuccessMessageUpdate() {
-        const notification = document.getElementById('notification1');
-        if (notification) {
-            notification.classList.add('show1');
-            const progressBar = document.getElementById('progress-bar1');
-            if (progressBar) {
-                progressBar.style.width = '0';
-                setTimeout(function () {
-                    progressBar.style.width = '100%';
-                }, 3000);
+        const notification = document.getElementById('notification');
+        notification.style.display = 'block';
+        const progressBar = document.getElementById('progress-bar');
+        progressBar.style.width = '0';
+        setTimeout(function () {
+            progressBar.style.width = '100%';
+        }, 2000);
 
-                setTimeout(function () {
-                    notification.classList.remove('show1');
-                    window.location.href = '/admin/phieu-giam-gia';
-                }, 3000);
-            }
-        }
+        setTimeout(function () {
+            notification.style.display = 'none';
+            window.location.href = '/admin/phieu-giam-gia';
+        }, 3000);
     }
+
+    // const notification = document.getElementById('notification');
+        // if (notification) {
+        //     notification.classList.add('show1');
+        //     const progressBar = document.getElementById('progress-bar1');
+        //     if (progressBar) {
+        //         progressBar.style.width = '0';
+        //         setTimeout(function () {
+        //             progressBar.style.width = '100%';
+        //         }, 3000);
+        //
+        //         setTimeout(function () {
+        //             notification.classList.remove('show1');
+        //             window.location.href = '/admin/phieu-giam-gia';
+        //         }, 3000);
+        //     }
+        // }
     function validateForm() {
         let isValid = true;
         const ten = document.getElementById('ten');
