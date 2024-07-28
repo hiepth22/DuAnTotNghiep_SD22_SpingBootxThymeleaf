@@ -181,8 +181,21 @@ function searchKhachHang(obj) {
         .catch(error => console.error('Error:', error));
 
 }
+function checkEmailExists(email, callback) {
+    fetch(`/admin/check-email?email=${encodeURIComponent(email)}`)
+        .then(response => response.json())
+        .then(data => callback(data));
+}
 
-function validateForm() {
+function checkSdtExists(sdt, callback) {
+    fetch(`/admin/check-sdt?sdt=${encodeURIComponent(sdt)}`)
+        .then(response => response.json())
+        .then(data => callback(data));
+}
+
+
+function validateForm(event) {
+    event.preventDefault(); // Ngăn chặn form gửi bình thường
     let isValid = true;
 
     // Validate required fields
@@ -290,8 +303,42 @@ function validateForm() {
         cccd.nextElementSibling.style.display = 'none';
     }
 
-    return isValid;
+    // Kiểm tra email trùng lặp
+    checkEmailExists(email.value.trim(), function(emailExists) {
+        if (emailExists) {
+            isValid = false;
+            email.classList.add('is-invalid');
+            email.nextElementSibling.textContent = 'Email đã tồn tại.';
+            email.nextElementSibling.style.display = 'block';
+        } else {
+            email.classList.remove('is-invalid');
+            email.nextElementSibling.style.display = 'none';
+        }
+
+        // Kiểm tra SDT trùng lặp sau khi kiểm tra email
+        checkSdtExists(sdt.value.trim(), function(sdtExists) {
+            if (sdtExists) {
+                isValid = false;
+                sdt.classList.add('is-invalid');
+                sdt.nextElementSibling.textContent = 'Số điện thoại đã tồn tại.';
+                sdt.nextElementSibling.style.display = 'block';
+            } else {
+                sdt.classList.remove('is-invalid');
+                sdt.nextElementSibling.style.display = 'none';
+            }
+
+            // Nếu tất cả các kiểm tra đều hợp lệ, gửi form
+            if (isValid) {
+                document.getElementById('khachHangForm').submit();
+            }
+        });
+    });
+
+    return false; // Ngăn chặn form gửi bình thường
 }
+
+// Gắn hàm validateForm vào sự kiện submit của form
+document.getElementById('formkh').addEventListener('submit', validateForm);
 
 function checkTrangThai(element, id) {
     var trangThai = $(element).data('trang-thai');

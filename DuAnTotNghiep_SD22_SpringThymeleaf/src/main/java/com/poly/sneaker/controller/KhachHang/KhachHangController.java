@@ -3,6 +3,7 @@ package com.poly.sneaker.controller.KhachHang;
 import com.poly.sneaker.dto.KhachHangDTO;
 import com.poly.sneaker.entity.DiaChi;
 import com.poly.sneaker.entity.KhachHang;
+import com.poly.sneaker.repository.KhachHangRepository;
 import com.poly.sneaker.sevice.DiaChiService;
 import com.poly.sneaker.sevice.KhachHangService;
 import jakarta.validation.Valid;
@@ -29,6 +30,9 @@ public class KhachHangController {
     private KhachHangService sevice;
     @Autowired
     private DiaChiService diaChiService;
+
+    @Autowired
+    KhachHangRepository khachHangRepository;
 
     private final JavaMailSender mailSender;
 
@@ -181,7 +185,17 @@ public class KhachHangController {
         // Redirect to the customer list page
         return "redirect:/admin/khach-hang";
     }
+    @GetMapping("/check-email")
+    public ResponseEntity<Boolean> checkEmailExists(@RequestParam String email) {
+        boolean exists = khachHangRepository.findByEmail(email).isPresent();
+        return ResponseEntity.ok(exists);
+    }
 
+    @GetMapping("/check-sdt")
+    public ResponseEntity<Boolean> checkSdtExists(@RequestParam String sdt) {
+        boolean exists = khachHangRepository.findBySdt(sdt).isPresent();
+        return ResponseEntity.ok(exists);
+    }
 
     @GetMapping("/view-update/{id}")
     public String showEmployeeDetail(@PathVariable("id") Long id, Model model) {

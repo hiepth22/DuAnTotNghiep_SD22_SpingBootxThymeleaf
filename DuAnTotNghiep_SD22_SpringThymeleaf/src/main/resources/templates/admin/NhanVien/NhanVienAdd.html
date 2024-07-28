@@ -120,6 +120,7 @@
                                 <label for="sdt" class="form-label">SĐT</label>
                                 <input type="text" class="form-control" id="sdt" name="sdt" oninput="validateForm()">
                                 <span id="sdtError" class="error"></span>
+                                <span class="error " th:text="${errorsdt}" ></span>
                             </div>
                         </div>
 
@@ -166,7 +167,8 @@
                                 <input type="email" class="form-control" id="email" name="email" oninput="validateForm()">
                                 <span id="emailError" class="error"></span>
                                 <!-- Display error message from Thymeleaf model attribute -->
-                                <span class="errormail1" th:text="${errormail}" ></span>
+
+                                <span class="error" th:if="${errormail != null}" th:text="${errormail}"></span>
                             </div>
                         </div>
                         <div class="abc">

@@ -122,6 +122,7 @@ public class NhanVienControler {
                               @RequestParam(name = "img", required = false) MultipartFile img,
                               Model model) {
         try {
+            // Xử lý ảnh
             if (img != null && !img.isEmpty()) {
                 String extension = FilenameUtils.getExtension(img.getOriginalFilename());
                 String name = UUID.randomUUID().toString() + "." + extension;
@@ -133,26 +134,28 @@ public class NhanVienControler {
             model.addAttribute("errors", "Lỗi khi lưu ảnh: " + e.getMessage());
             return "admin/NhanVien/NhanVienAdd";
         }
-        List<NhanVien> nvmail = repository.findAll();
-        for (NhanVien existingNv : nvmail) {
+
+        // Kiểm tra trùng lặp email và số điện thoại
+        List<NhanVien> nvList = repository.findAll();
+        for (NhanVien existingNv : nvList) {
             if (existingNv.getEmail().equals(nv.getEmail())) {
-                model.addAttribute("errormail", "loi");
+                model.addAttribute("errormail", "Email đã tồn tại!");
                 return "admin/NhanVien/NhanVienAdd";
             }
-            else {
-                model.addAttribute("errormail", "oke");
-
+            if (existingNv.getSdt().equals(nv.getSdt())) {
+                model.addAttribute("errorsdt", "Số điện thoại đã tồn tại!");
+                return "admin/NhanVien/NhanVienAdd";
             }
         }
-
 
         nv.setNgayTao(java.time.LocalDateTime.now());
         nv.setNgayCapNhat(java.time.LocalDateTime.now());
         nv.setTrangThai(1);
+
         String newPassword = generateRandomPassword();
-//        String encodedPassword = passwordEncoder.encode(newPassword);
-//        nv.setMatKhau(encodedPassword);
-        sendPasswordEmail(nv.getEmail(), nv.getMatKhau());
+        // String encodedPassword = passwordEncoder.encode(newPassword);
+        // nv.setMatKhau(encodedPassword);
+        sendPasswordEmail(nv.getEmail(), newPassword);
         nv.setMa(generateMaNhanVien());
 
         if (dc != null) {
@@ -162,7 +165,6 @@ public class NhanVienControler {
         sevice.Add(nv);
         model.addAttribute("successMessage", "Thêm nhân viên thành công!");
         return "redirect:/admin/nhan-vien";
-
     }
 
     public void saveImage(MultipartFile file, String name) {
