@@ -1,6 +1,7 @@
 package com.poly.sneaker.repository;
 
 import com.poly.sneaker.entity.KichCo;
+import com.poly.sneaker.entity.MauSac;
 import com.poly.sneaker.entity.SanPham;
 import com.poly.sneaker.entity.SanPhamChiTiet;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, Long>, JpaSpecificationExecutor<SanPhamChiTiet> {
@@ -33,4 +35,10 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
     @Query("SELECT s.kichCo.ten FROM SanPhamChiTiet s JOIN s.sanPham sp WHERE sp.id = :idSanPham")
     List<String> findKichCoBySanPhamId(@Param("idSanPham") Long idSanPham);
 
+    @Query("SELECT s FROM SanPhamChiTiet s WHERE s.sanPham.ten = :ten AND s.mauSac = :mauSac AND s.kichCo = :kichCo")
+    List<SanPhamChiTiet> findBySanPhamTenAndMauSacAndKichCo(
+            @Param("ten") String ten,
+            @Param("mauSac") MauSac mauSac,
+            @Param("kichCo") KichCo kichCo
+    );
 }
