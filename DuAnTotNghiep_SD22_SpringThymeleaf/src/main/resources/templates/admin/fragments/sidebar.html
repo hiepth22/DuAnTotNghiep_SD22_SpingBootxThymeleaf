@@ -2,25 +2,26 @@
 <div class="sidebar pe-4 pb-3" th:fragment="sidebar" xmlns:th="http://www.w3.org/1999/xhtml">
     <nav class="navbar bg-light navbar-light">
         <a th:href="@{/}" class="navbar-brand mx-4 mb-3">
-            <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
+            <img type="image/svg+xml"
+                  href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
         </a>
-        <div class="d-flex align-items-center ms-4 mb-4">
-            <div class="position-relative">
-                <img class="rounded-circle" src="#" alt="" style="width: 40px; height: 40px" />
-                <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
-            </div>
-            <div class="ms-3">
-                <h6 class="mb-0">John Doe</h6>
-                <span>Admin</span>
-            </div>
-        </div>
+<!--        <div class="d-flex align-items-center ms-4 mb-4">-->
+<!--            <div class="position-relative">-->
+<!--                <img class="rounded-circle" src="#" alt="" style="width: 40px; height: 40px" />-->
+<!--                <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>-->
+<!--            </div>-->
+<!--            <div class="ms-3">-->
+<!--                <h6 class="mb-0">John Doe</h6>-->
+<!--                <span>Admin</span>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="navbar-nav w-100">
             <a th:href="@{#}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Thống kê</a>
             <a th:href="@{/admin/ban-hang-tai-quay}" class="nav-item nav-link"><i class="bi bi-shop-window"></i>Bán hàng tại quầy</a>
 
-            <a th:href="@{/admin/san-pham}" class="nav-item nav-link"><i class="fa-solid fa-box-archive me-2"></i></i>Sản phẩm</a>
+            <a th:href="@{/admin/san-pham}" class="nav-item nav-link"><i class="bi bi-bucket"></i></i>Sản phẩm</a>
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-boxes-packing me-2"></i>Thuộc tính</a>
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-archive"></i></i>Thuộc tính</a>
                 <div class="dropdown-menu bg-transparent border-0">
                     <a th:href="@{/admin/chat-lieu}" class="dropdown-item">Chất liệu</a>
                     <a th:href="@{/admin/co-giay}" class="dropdown-item">Cổ giày</a>
