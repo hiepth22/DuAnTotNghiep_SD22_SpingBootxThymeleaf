@@ -13,9 +13,8 @@
     <meta name="keywords" content="Online Store">
     <meta name="description" content="Stylish - Shoes Online Store HTML Template">
 
-    <link rel="stylesheet" href="css/vendor.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
-
+    <link rel="stylesheet" th:href="@{/assets/css/vendor.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/style.css}"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -151,6 +150,7 @@
 <!-- / quick view -->
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <section class="shop_section layout_padding">
     <div class="container">
         <div class="heading_container heading_center">
@@ -216,6 +216,51 @@
                                             <a href="#" title="product-image">
                                                 <img src="images/single-product-thumb1.jpg" class="img-fluid" alt="single-product-item">
                                             </a>
+=======
+<div class="modal fade" id="modallong" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-fullscreen-md-down modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5">Cart</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="shopping-cart">
+                    <div class="shopping-cart-content">
+                        <div class="mini-cart cart-list p-0 mt-3">
+                            <div class="mini-cart-item d-flex border-bottom pb-3">
+                                <div class="col-lg-2 col-md-3 col-sm-2 me-4">
+                                    <a href="#" title="product-image">
+                                        <img src="images/single-product-thumb1.jpg" class="img-fluid" alt="single-product-item">
+                                    </a>
+                                </div>
+                                <div class="col-lg-9 col-md-8 col-sm-8">
+                                    <div class="product-header d-flex justify-content-between align-items-center mb-3">
+                                        <h4 class="product-title fs-6 me-5">Sport Shoes For Men</h4>
+                                        <a href="" class="remove" aria-label="Remove this item" data-product_id="11913"
+                                           data-cart_item_key="abc" data-product_sku="">
+                                            <svg class="close">
+                                                <use xlink:href="#close"></use>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="quantity-price d-flex justify-content-between align-items-center">
+                                        <div class="input-group product-qty">
+                                            <button type="button"
+                                                    class="quantity-left-minus btn btn-light rounded-0 rounded-start btn-number"
+                                                    data-type="minus">
+                                                <svg width="16" height="16">
+                                                    <use xlink:href="#minus"></use>
+                                                </svg>
+                                            </button>
+                                            <input type="text" name="quantity" class="form-control input-number quantity" value="1">
+                                            <button type="button" class="quantity-right-plus btn btn-light rounded-0 rounded-end btn-number"
+                                                    data-type="plus">
+                                                <svg width="16" height="16">
+                                                    <use xlink:href="#plus"></use>
+                                                </svg>
+                                            </button>
+>>>>>>> e6918160d38a53bf0c47dd2f8230e1f47dded4eb
                                         </div>
                                         <div class="col-lg-9 col-md-8 col-sm-8">
                                             <div class="product-header d-flex justify-content-between align-items-center mb-3">
@@ -570,6 +615,7 @@
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
         </section>
         <section id="latest-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">
             <div class="container-md">
@@ -660,6 +706,30 @@
         <script th:src="@{/assets/js/plugins.js}"></script>
         <script th:src="@{/assets/js/client.js}"></script>
         >>>>>>> 5eb0a9761d92775869f7d4d7a084aef46d4ba001
+=======
+        </div>
+    </div>
+</section>
+<section id="latest-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">
+    <div class="container-md">
+        <div class="display-header d-flex align-items-center justify-content-between">
+            <h2 class="section-title text-uppercase">Latest Products</h2>
+            <div class="btn-right">
+                <a href="shop.html" class="d-inline-block text-uppercase text-hover fw-bold">View all</a>
+            </div>
+        </div>
+        <div class="product-content padding-small">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
+                <h1>san pham moi nhat</h1>
+            </div>
+        </div>
+</section>
+<script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
+
+
+<script th:src="@{/assets/js/plugins.js}"></script>
+<script th:src="@{/assets/js/client.js}"></script>
+>>>>>>> e6918160d38a53bf0c47dd2f8230e1f47dded4eb
 </body>
 
 </html>
