@@ -1,75 +1,3 @@
-document.getElementById('confirmButton').addEventListener('click', function(event) {
-    event.preventDefault(); // Ngăn chặn hành động mặc định của nút submit
-    if (validateForm()) {
-        Swal.fire({
-            title: 'Bạn có chắc chắn thêm khách hàng mới?',
-            text: "Bạn không thể hoàn tác hành động này!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Thêm mới'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                addCustomer();
-            }
-        });
-    }
-});
-
-function addCustomer() {
-    const form = document.getElementById('myForm');
-    const formData = new FormData(form);
-
-    // Thêm lớp 'disabled' và thay đổi văn bản của nút Lưu
-    const confirmButton = document.getElementById('confirmButton');
-    confirmButton.classList.add('disabled');
-    confirmButton.textContent = 'Đang lưu...';
-
-    axios.post('/admin/add', formData)
-        .then(response => {
-            // Xóa lớp 'disabled' và thay đổi văn bản của nút Lưu khi hoàn thành
-            confirmButton.classList.remove('disabled');
-            confirmButton.textContent = 'Lưu';
-
-            Swal.fire(
-                'Thành công!',
-                'Khách hàng đã được thêm mới.',
-                'success'
-            ).then(() => {
-                window.location.href = '/admin/khach-hang'; // Chuyển hướng về trang KhachHang.html
-            });
-        })
-        .catch(error => {
-            // Xóa lớp 'disabled' và thay đổi văn bản của nút Lưu khi có lỗi
-            confirmButton.classList.remove('disabled');
-            confirmButton.textContent = 'Lưu';
-
-            Swal.fire(
-                'Lỗi!',
-                'Có lỗi xảy ra khi thêm khách hàng.',
-                'error'
-            );
-        });
-}
-
-function showSuccessMessage() {
-    const notification = document.getElementById('notification');
-    notification.classList.add('show');
-    const progressBar = document.getElementById('progress-bar');
-    progressBar.style.width = '0%'; // Đặt lại thanh progress
-
-    // Làm cho thanh progress chạy từ 0% đến 100%
-    setTimeout(() => {
-        progressBar.style.width = '100%';
-    }, 100);
-
-    // Ẩn thông báo sau 3 giây
-    setTimeout(() => {
-        notification.classList.remove('show');
-    }, 3000);
-}
-
 function validateForm() {
     let valid = true;
 
@@ -136,4 +64,101 @@ function validateForm() {
     }
 
     return valid;
+}
+
+function checkEmail() {
+    const email = document.getElementById('email').value;
+    const emailError = document.getElementById('emailError');
+    return axios.get(`/admin/check-email?email=${email}`)
+        .then(response => {
+            if (response.data) {
+                emailError.textContent = 'Email đã tồn tại.';
+                return false;
+            } else {
+                emailError.textContent = '';
+                return true;
+            }
+        })
+        .catch(error => {
+            emailError.textContent = 'Có lỗi xảy ra khi kiểm tra email.';
+            return false;
+        });
+}
+
+function checkSdt() {
+    const sdt = document.getElementById('sdt').value;
+    const sdtError = document.getElementById('sdtError');
+    return axios.get(`/admin/check-sdt?sdt=${sdt}`)
+        .then(response => {
+            if (response.data) {
+                sdtError.textContent = 'Số điện thoại đã tồn tại.';
+                return false;
+            } else {
+                sdtError.textContent = '';
+                return true;
+            }
+        })
+        .catch(error => {
+            sdtError.textContent = 'Số điện thoại đã tồn tại.';
+            return false;
+        });
+}
+
+document.getElementById('confirmButton').addEventListener('click', function (event) {
+    event.preventDefault(); // Ngăn chặn hành động mặc định của nút submit
+    if (validateForm()) {
+        Promise.all([checkEmail(), checkSdt()]).then(results => {
+            if (results.every(result => result)) {
+                Swal.fire({
+                    title: 'Bạn có chắc chắn thêm khách hàng mới?',
+                    text: "Bạn không thể hoàn tác hành động này!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Thêm mới'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        addCustomer();
+                    }
+                });
+            }
+        });
+    }
+});
+
+function addCustomer() {
+    const form = document.getElementById('myForm');
+    const formData = new FormData(form);
+
+    // Thêm lớp 'disabled' và thay đổi văn bản của nút Lưu
+    const confirmButton = document.getElementById('confirmButton');
+    confirmButton.classList.add('disabled');
+    confirmButton.textContent = 'Đang lưu...';
+
+    axios.post('/admin/add', formData)
+        .then(response => {
+            // Xóa lớp 'disabled' và thay đổi văn bản của nút Lưu khi hoàn thành
+            confirmButton.classList.remove('disabled');
+            confirmButton.textContent = 'Lưu';
+
+            Swal.fire(
+                'Thành công!',
+                'Khách hàng đã được thêm mới.',
+                'success'
+            ).then(() => {
+                window.location.href = '/admin/khach-hang'; // Chuyển hướng về trang KhachHang.html
+            });
+        })
+        .catch(error => {
+            // Xóa lớp 'disabled' và thay đổi văn bản của nút Lưu khi có lỗi
+            confirmButton.classList.remove('disabled');
+            confirmButton.textContent = 'Lưu';
+
+            Swal.fire(
+                'Lỗi!',
+                'Có lỗi xảy ra khi thêm khách hàng.',
+                'error'
+            );
+        });
 }
