@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,10 +36,13 @@ public interface HoaDonChiTietRepository extends JpaRepository<HoaDonChiTiet, Lo
     @Query(value = "SELECT * FROM hoa_don_chi_tiet WHERE idHoaDon = :idHoaDon", nativeQuery = true)
     List<HoaDonChiTiet> findByIdHD(@Param("idHoaDon") Long idHoaDon);
 
-
-
-
-
+    @Query("SELECT hdct FROM HoaDonChiTiet hdct " +
+            "INNER JOIN hdct.hoaDon hd " +
+            "WHERE hd.ngayThanhToan BETWEEN :startDate AND :endDate " +
+            "AND hd.trangThai = 6")
+    List<HoaDonChiTiet> findHoaDonChiTietByDateRange(
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate);
 
 
 }

@@ -1,36 +1,173 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Thống Kê </title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Invoice Chart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" type="image/svg+xml"
+          href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
 </head>
-<body class="bg-gray-100">
-
-<div class="container mx-auto p-4">
-    <h1 class="text-3xl font-bold mb-4">Thống Kê</h1>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <!-- Total Sales Card -->
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-xl font-semibold mb-2">Total Sales</h2>
-            <p class="text-gray-700 text-2xl" th:text="${totalSales}">0</p>
+<body>
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="w-full max-w-4xl px-4">
+        <div class="mb-4">
+            <button id="last-7-days" class="px-4 py-2 bg-blue-500 text-white rounded">7 ngày</button>
+            <button id="last-month" class="px-4 py-2 bg-blue-500 text-white rounded">Tháng</button>
+            <button id="last-year" class="px-4 py-2 bg-blue-500 text-white rounded">Năm</button>
         </div>
-
-        <!-- Number of Products Card -->
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-xl font-semibold mb-2">Number of Products</h2>
-            <p class="text-gray-700 text-2xl" th:text="${numberOfProducts}">0</p>
-        </div>
-
-        <!-- Number of Customers Card -->
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-xl font-semibold mb-2">Number of Customers</h2>
-            <p class="text-gray-700 text-2xl" th:text="${numberOfCustomers}">0</p>
-        </div>
+        <canvas id="invoiceChart" class="w-full h-80"></canvas>
     </div>
 </div>
 
+<script>
+    let chartInstance = null;
+
+    function fetchData(startDate, endDate) {
+        const url = `/api/hoa-don/data?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
+        return $.ajax({
+            url: url,
+            method: 'GET',
+            dataType: 'json'
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.error('Error fetching data:', textStatus, errorThrown);
+            alert('Failed to fetch data. Check the console for more details.');
+        });
+    }
+
+    function getDates(startDate, endDate) {
+        const dates = [];
+        for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+            dates.push(new Date(d).toISOString().split('T')[0]);
+        }
+        return dates;
+    }
+
+    function formatDateToUTC(date) {
+        const d = new Date(date);
+        d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+        return d.toISOString().split('T')[0];
+    }
+
+    function updateChart(startDate, endDate) {
+        const dates = getDates(new Date(startDate), new Date(endDate));
+        let invoiceCounts = new Array(dates.length).fill(0);
+        let productCounts = new Array(dates.length).fill(0);
+
+        fetchData(startDate, endDate).done(function(data) {
+            const invoicesByDate = {};
+
+            data.forEach(invoice => {
+                if (invoice.hoaDon.trangThai === 6) {
+                    let dateString = formatDateToUTC(invoice.hoaDon.ngayThanhToan);
+                    if (!invoicesByDate[dateString]) {
+                        invoicesByDate[dateString] = { uniqueIds: new Set(), productCount: 0 };
+                    }
+                    invoicesByDate[dateString].uniqueIds.add(invoice.hoaDon.id);
+                    invoicesByDate[dateString].productCount += invoice.soLuong;
+                }
+            });
+
+            dates.forEach(date => {
+                if (invoicesByDate[date]) {
+                    invoiceCounts[dates.indexOf(date)] = invoicesByDate[date].uniqueIds.size;
+                    productCounts[dates.indexOf(date)] = invoicesByDate[date].productCount;
+                }
+            });
+
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            var ctx = document.getElementById('invoiceChart').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: 'Hóa đơn',
+                            data: invoiceCounts,
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 0.5)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Sản phẩm',
+                            data: productCounts,
+                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                            borderColor: 'rgba(255, 99, 132, 0.5)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        });
+    }
+
+    $(document).ready(function() {
+        function getDateRange(period) {
+            const endDate = new Date();
+            let startDate;
+
+            switch (period) {
+                case 'last-7-days':
+                    startDate = new Date();
+                    startDate.setDate(endDate.getDate() - 6);
+                    break;
+                case 'last-month':
+                    startDate = new Date();
+                    startDate.setMonth(endDate.getMonth() - 1);
+                    break;
+                case 'last-year':
+                    startDate = new Date();
+                    startDate.setFullYear(endDate.getFullYear() - 1);
+                    break;
+                default:
+                    startDate = new Date();
+                    startDate.setDate(endDate.getDate() - 6);
+                    break;
+            }
+
+            return {
+                startDate: startDate.toISOString(),
+                endDate: endDate.toISOString()
+            };
+        }
+
+        const initialRange = getDateRange('last-7-days');
+        updateChart(initialRange.startDate, initialRange.endDate);
+
+        $('#last-7-days').click(function() {
+            const range = getDateRange('last-7-days');
+            updateChart(range.startDate, range.endDate);
+        });
+
+        $('#last-month').click(function() {
+            const range = getDateRange('last-month');
+            updateChart(range.startDate, range.endDate);
+        });
+
+        $('#last-year').click(function() {
+            const range = getDateRange('last-year');
+            updateChart(range.startDate, range.endDate);
+        });
+    });
+
+</script>
 </body>
 </html>
