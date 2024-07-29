@@ -3,37 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Chart</title>
+    <title>Invoice Charts</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="icon" type="image/svg+xml"
           href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
+    <head th:replace="~{admin/fragments/head :: head}"></head>
+    <style>
+        .legend-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.75rem;
+        }
+        .legend-color-box {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.5rem;
+            border-radius: 0.25rem;
+        }
+        .h-60 {
+            height: 15rem;
+        }
+    </style>
 </head>
 <body>
-<div class="flex items-center justify-center min-h-screen bg-gray-100">
-    <div class="w-full max-w-4xl px-4">
-        <div class="mb-4">
-            <button id="last-7-days" class="px-4 py-2 bg-blue-500 text-white rounded">7 ngày</button>
-            <button id="last-month" class="px-4 py-2 bg-blue-500 text-white rounded">Tháng</button>
-            <button id="last-year" class="px-4 py-2 bg-blue-500 text-white rounded">Năm</button>
+<div class="flex">
+    <!-- Sidebar Start -->
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}" class="w-64"></div>
+    <!-- Sidebar End -->
+    <!-- Content Start -->
+    <div class="content flex-grow ml-64 p-4 bg-gray-200">
+        <!-- Navbar Start -->
+        <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
+        <!-- Navbar End -->
+        <!-- Main Content -->
+        <div class="flex justify-items-start mb-10">
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-9">
+                    <path fill-rule="evenodd" d="M2.25 2.25a.75.75 0 0 0 0 1.5H3v10.5a3 3 0 0 0 3 3h1.21l-1.172 3.513a.75.75 0 0 0 1.424.474l.329-.987h8.418l.33.987a.75.75 0 0 0 1.422-.474l-1.17-3.513H18a3 3 0 0 0 3-3V3.75h.75a.75.75 0 0 0 0-1.5H2.25Zm6.54 15h6.42l.5 1.5H8.29l.5-1.5Zm8.085-8.995a.75.75 0 1 0-.75-1.299 12.81 12.81 0 0 0-3.558 3.05L11.03 8.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l2.47-2.47 1.617 1.618a.75.75 0 0 0 1.146-.102 11.312 11.312 0 0 1 3.612-3.321Z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <h2 class="text-3xl font-bold flex justify-items-start">Thống kê</h2>
         </div>
-        <canvas id="invoiceChart" class="w-full h-80"></canvas>
+
+    <div class="container mx-auto bg-white h-auto w-full m-auto mt-5 p-6 rounded-lg shadow-md flex justify-center items-center">
+        <div class="w-full max-w-4xl px-4 mt-10 ">
+            <div class="flex justify-center items-center text-3xl font-bold mb-10">Biểu đồ thống kê hóa đơn và sản phẩm</div>
+            <div class="mb-4 ml-[67%]">
+                <button id="last-7-days" class="px-4 py-2 bg-blue-500 text-white rounded">7 ngày</button>
+                <button id="last-month" class="px-4 py-2 bg-blue-500 text-white rounded">Tháng</button>
+                <button id="last-year" class="px-4 py-2 bg-blue-500 text-white rounded">Năm</button>
+            </div>
+            <div class="relative w-full ">
+                <canvas id="invoiceChartBar" class="w-full h-80"></canvas>
+            </div>
+        </div>
     </div>
-</div>
+    <div class="container mx-auto bg-white h-auto w-full m-auto mt-5 p-6 rounded-lg shadow-md">
+        <div class="flex">
+            <div class="bg-gray-100 p-6 rounded-lg shadow-md w-[54%] mr-[2%]">
+                <div class="flex justify-center items-center text-3xl font-bold mb-10"> Sản phẩm bán chạy nhất</div>
+
+            </div>
+           <div class="bg-gray-100 w-[44%] p-6 rounded-lg shadow-md">
+               <div class="flex justify-center items-center text-3xl font-bold mb-10">Trạng thái đơn hàng</div>
+               <div class="relative flex justify-center items-center w-full ">
+                   <div class="mr-10"> <canvas id="invoiceChartDoughnut" class="w-[40%] h-60"></canvas></div>
+                   <div id="legend" class="legend-container"></div>
+               </div>
+           </div>
+
+
+        </div>
+
+        <div class="grid gap-4 grid-cols-2">
+
+        </div>
+    </div>
 
 <script>
-    let chartInstance = null;
+    let chartInstanceBar = null;
+    let chartInstanceDoughnut = null;
 
-    function fetchData(startDate, endDate) {
-        const url = `/api/hoa-don/data?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
+    const getDanhSachSanPham = (page = 0, size = 5) => {
+        $.ajax({
+            url: `/api/hoa-don/danh-sach-san-pham?page=${page}&size=${size}`,
+            method: 'GET',
+            success: function (result) {
+                let list = "";
+                $("#danhSachSanPham").empty();
+                for (let i = 0; i < result.content.length; i++) {
+
+                    list += `
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <img src="https://res.cloudinary.com/deapopcoc/image/upload/${result.content[i].anh}" alt="Ảnh" class="w-16 h-auto">
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap font-bold">
+                                <h1>${result.content[i].ten}</h1>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">${formatVND(result.content[i].giaBan)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${result.content[i].soLuong}</td>
+
+                        </tr>`;
+                }
+
+                $("#danhSachSanPham").html(list);
+
+                let pagination = '';
+                pagination += `
+                    <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
+                    `;
+
+                const maxVisiblePages = 3;
+                const halfVisiblePages = Math.floor(maxVisiblePages / 2);
+                let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
+                let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
+
+                if (startPage > 1) {
+                    pagination += `
+                        <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(0, ${size})">1</button>
+                        `;
+                    if (startPage > 2) {
+                        pagination += `<span class="px-4 py-2">...</span>`;
+                    }
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    pagination += `
+                        <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getDanhSachSanPham(${i - 1}, ${size})">${i}</button>
+                        `;
+                }
+
+                if (endPage < result.totalPages) {
+                    if (endPage < result.totalPages - 1) {
+                        pagination += `<span class="px-4 py-2">...</span>`;
+                    }
+                    pagination += `
+                        <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
+                        `;
+                }
+
+                pagination += `
+                    <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
+                    `;
+
+                $("#paginationSP").html(pagination);
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+            }
+        });
+    };
+
+
+
+    function fetchBarChartData(startDate, endDate) {
+        const url = `/api/hoa-don/bar-chart-data?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
         return $.ajax({
             url: url,
             method: 'GET',
             dataType: 'json'
         }).fail(function(jqXHR, textStatus, errorThrown) {
-            console.error('Error fetching data:', textStatus, errorThrown);
-            alert('Failed to fetch data. Check the console for more details.');
+            console.error('Error fetching bar chart data:', textStatus, errorThrown);
+            alert('Failed to fetch bar chart data. Check the console for more details.');
+        });
+    }
+
+    function fetchDoughnutChartData() {
+        const url = '/api/hoa-don/doughnut-chart-data';
+        return $.ajax({
+            url: url,
+            method: 'GET',
+            dataType: 'json'
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.error('Error fetching doughnut chart data:', textStatus, errorThrown);
+            alert('Failed to fetch doughnut chart data. Check the console for more details.');
         });
     }
 
@@ -51,12 +204,12 @@
         return d.toISOString().split('T')[0];
     }
 
-    function updateChart(startDate, endDate) {
+    function updateBarChart(startDate, endDate) {
         const dates = getDates(new Date(startDate), new Date(endDate));
         let invoiceCounts = new Array(dates.length).fill(0);
         let productCounts = new Array(dates.length).fill(0);
 
-        fetchData(startDate, endDate).done(function(data) {
+        fetchBarChartData(startDate, endDate).done(function(data) {
             const invoicesByDate = {};
 
             data.forEach(invoice => {
@@ -77,12 +230,12 @@
                 }
             });
 
-            if (chartInstance) {
-                chartInstance.destroy();
+            if (chartInstanceBar) {
+                chartInstanceBar.destroy();
             }
 
-            var ctx = document.getElementById('invoiceChart').getContext('2d');
-            chartInstance = new Chart(ctx, {
+            var ctxBar = document.getElementById('invoiceChartBar').getContext('2d');
+            chartInstanceBar = new Chart(ctxBar, {
                 type: 'bar',
                 data: {
                     labels: dates,
@@ -119,6 +272,134 @@
         });
     }
 
+    function updateDoughnutChart() {
+        fetchDoughnutChartData().done(function(data) {
+            // Đếm số lượng đơn hàng theo trạng thái
+            const statusCount = {
+                8: 0, // Hóa Đơn Chờ
+                1: 0, // Chờ Xác Nhận
+                2: 0, // Xác Nhận
+                3: 0, // Chờ Vận Chuyển
+                4: 0, // Vận Chuyển
+                5: 0, // Đã Thanh Toán
+                6: 0, // Thành Công
+                7: 0  // Đã Hủy
+            };
+
+            data.forEach(order => {
+                const status = order.trangThai;
+                if (statusCount.hasOwnProperty(status)) {
+                    statusCount[status]++;
+                }
+            });
+
+            if (chartInstanceDoughnut) {
+                chartInstanceDoughnut.destroy();
+            }
+
+            var ctxDoughnut = document.getElementById('invoiceChartDoughnut').getContext('2d');
+            chartInstanceDoughnut = new Chart(ctxDoughnut, {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        'Hóa Đơn Chờ',
+                        'Chờ Xác Nhận',
+                        'Xác Nhận',
+                        'Chờ Vận Chuyển',
+                        'Vận Chuyển',
+                        'Đã Thanh Toán',
+                        'Thành Công',
+                        'Đã Hủy'
+                    ],
+                    datasets: [{
+                        data: [
+                            statusCount[8], // Hóa Đơn Chờ
+                            statusCount[1], // Chờ Xác Nhận
+                            statusCount[2], // Xác Nhận
+                            statusCount[3], // Chờ Vận Chuyển
+                            statusCount[4], // Vận Chuyển
+                            statusCount[5], // Đã Thanh Toán
+                            statusCount[6], // Thành Công
+                            statusCount[7]  // Đã Hủy
+                        ],
+                        backgroundColor: [
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+                            '#4BC0C0',
+                            '#9966FF',
+                            '#FF9F40',
+                            '#FF6384',
+                            '#36A2EB'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    let label = tooltipItem.label || '';
+                                    let value = tooltipItem.raw || 0;
+                                    let total = tooltipItem.chart._metasets[0].total;
+                                    let percentage = ((value / total) * 100).toFixed(2) + '%';
+                                    return label + ': ' + percentage;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            updateLegend(statusCount);
+        });
+    }
+
+
+    function updateLegend(statusCount) {
+        const legendContainer = $('#legend');
+        legendContainer.empty();
+
+        const statusLabels = [
+            'Hóa Đơn Chờ',
+            'Chờ Xác Nhận',
+            'Xác Nhận',
+            'Chờ Vận Chuyển',
+            'Vận Chuyển',
+            'Đã Thanh Toán',
+            'Thành Công',
+            'Đã Hủy'
+        ];
+
+        const colors = [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+            '#4BC0C0',
+            '#9966FF',
+            '#FF9F40',
+            '#FF6384',
+            '#36A2EB'
+        ];
+
+        statusLabels.forEach((label, index) => {
+            const color = colors[index];
+            const count = statusCount[index + 1] || 0;
+            const percentage = ((count / Object.values(statusCount).reduce((a, b) => a + b, 0)) * 100).toFixed(2) + '%';
+
+            const legendItem = $(`<div class="legend-item">
+                <div class="legend-color-box" style="background-color: ${color};"></div>
+                <span>${label}: ${count} (${percentage})</span>
+            </div>`);
+
+            legendContainer.append(legendItem);
+        });
+    }
+
     $(document).ready(function() {
         function getDateRange(period) {
             const endDate = new Date();
@@ -150,24 +431,24 @@
         }
 
         const initialRange = getDateRange('last-7-days');
-        updateChart(initialRange.startDate, initialRange.endDate);
+        updateBarChart(initialRange.startDate, initialRange.endDate);
+        updateDoughnutChart();
 
         $('#last-7-days').click(function() {
             const range = getDateRange('last-7-days');
-            updateChart(range.startDate, range.endDate);
+            updateBarChart(range.startDate, range.endDate);
         });
 
         $('#last-month').click(function() {
             const range = getDateRange('last-month');
-            updateChart(range.startDate, range.endDate);
+            updateBarChart(range.startDate, range.endDate);
         });
 
         $('#last-year').click(function() {
             const range = getDateRange('last-year');
-            updateChart(range.startDate, range.endDate);
+            updateBarChart(range.startDate, range.endDate);
         });
     });
-
 </script>
 </body>
 </html>

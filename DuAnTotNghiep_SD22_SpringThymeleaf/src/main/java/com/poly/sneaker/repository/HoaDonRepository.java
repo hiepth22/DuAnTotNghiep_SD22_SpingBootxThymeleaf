@@ -1,5 +1,6 @@
 package com.poly.sneaker.repository;
 
+import com.poly.sneaker.dto.SanPhamBanChayDTO;
 import com.poly.sneaker.entity.HoaDon;
 import com.poly.sneaker.entity.HoaDonChiTiet;
 import jakarta.transaction.Transactional;
@@ -61,5 +62,32 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Long> {
                                              @Param("trangThai") Integer trangThai,
                                              @Param("idChiTietSanPham") Long idChiTietSanPham,
                                              @Param("idHoaDon") Long idHoaDon);
+
+    @Query(value = "SELECT * FROM hoa_don", nativeQuery = true)
+    List<HoaDon> getAll2();
+
+    @Query(value = "SELECT TOP 10\n" +
+            "    dbo.san_pham_chi_tiet.id, \n" +
+            "    dbo.san_pham_chi_tiet.anh,\n" +
+            "    dbo.san_pham_chi_tiet.ten,\n" +
+            "    dbo.san_pham_chi_tiet.giaBan,\n" +
+            "    SUM(dbo.hoa_don_chi_tiet.soLuong) AS tongSoLuong\n" +
+            "FROM \n" +
+            "    dbo.hoa_don \n" +
+            "INNER JOIN \n" +
+            "    dbo.hoa_don_chi_tiet ON dbo.hoa_don.id = dbo.hoa_don_chi_tiet.idHoaDon \n" +
+            "INNER JOIN \n" +
+            "    dbo.san_pham_chi_tiet ON dbo.hoa_don_chi_tiet.idChiTietSanPham = dbo.san_pham_chi_tiet.id\n" +
+            "WHERE \n" +
+            "    dbo.hoa_don.trangThai = 6\n" +
+            "GROUP BY\n" +
+            "    dbo.san_pham_chi_tiet.id, \n" +
+            "    dbo.san_pham_chi_tiet.anh,\n" +
+            "    dbo.san_pham_chi_tiet.ten,\n" +
+            "    dbo.san_pham_chi_tiet.giaBan\n" +
+            "ORDER BY \n" +
+            "    tongSoLuong DESC;", nativeQuery = true)
+    List<Object[]> getSanPhamBanChayNhat();
+
 
 }

@@ -1,5 +1,6 @@
 package com.poly.sneaker.api;
 
+import com.poly.sneaker.dto.SanPhamBanChayDTO;
 import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.HoaDonChiTietRepository;
 import com.poly.sneaker.repository.HoaDonRepository;
@@ -42,7 +43,6 @@ public class HoaDonAPI {
     private HoaDonChiTietRepository hoaDonChiTietRepository;
     @Autowired
     private HoaDonRepository hoaDonRepository;
-
 
     @GetMapping("")
     public Page<HoaDon> hienThiHoaDonApi(@RequestParam(name = "tab", required = false, defaultValue = "0") int tab,
@@ -224,7 +224,7 @@ public class HoaDonAPI {
     }
 
 
-    @GetMapping("/data")
+    @GetMapping("/bar-chart-data")
     public ResponseEntity<List<HoaDonChiTiet>> getHoaDonChiTietByDateRange(
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
@@ -233,6 +233,15 @@ public class HoaDonAPI {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/doughnut-chart-data")
+    public ResponseEntity<List<HoaDon>> getAllDataHoaDon() {
+        return ResponseEntity.ok(hoaDonService.findAll());
+    }
+
+    @GetMapping("/san-pham-ban-chay-nhat")
+    public List<SanPhamBanChayDTO> getSanPhamBanChayNhat() {
+        return hoaDonService.getTop10Products();
+    }
 
 
 }
