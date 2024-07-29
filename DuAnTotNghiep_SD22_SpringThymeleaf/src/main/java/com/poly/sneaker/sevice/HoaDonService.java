@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -67,6 +68,7 @@ public class HoaDonService {
     public HoaDon updateTrangThai(Long id, HoaDon hoaDon) {
         Optional<HoaDon> optional = hoaDonRepository.findById(id);
         return optional.map(o -> {
+            o.setNgayThanhToan(hoaDon.getNgayThanhToan());
             o.setTrangThai(hoaDon.getTrangThai());
             return hoaDonRepository.save(o);
         }).orElse(null);
