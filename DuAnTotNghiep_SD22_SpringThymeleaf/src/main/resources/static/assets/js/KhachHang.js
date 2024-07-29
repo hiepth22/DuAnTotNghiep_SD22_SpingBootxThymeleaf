@@ -8,9 +8,7 @@ $(document).ready(function () {
 });
 function loadDiaChi(){
     $('#exampleModal').on('show.bs.modal', function (event) {
-
         console.log("Modal is about to be shown");
-
         var button = $(event.relatedTarget); // Button that triggered the modal
         var khId = button.data('kh-id'); // Extract info from data-* attributes
         console.log('Customer ID:', khId);

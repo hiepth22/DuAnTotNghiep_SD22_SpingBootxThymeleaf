@@ -132,18 +132,24 @@ public class NhanVienControler {
             model.addAttribute("errors", "Lỗi khi lưu ảnh: " + e.getMessage());
             return "admin/NhanVien/NhanVienAdd";
         }
+        boolean hasErrors = false;
 
-        // Kiểm tra trùng lặp email và số điện thoại
         List<NhanVien> nvList = repository.findAll();
         for (NhanVien existingNv : nvList) {
             if (existingNv.getEmail().equals(nv.getEmail())) {
                 model.addAttribute("errormail", "Email đã tồn tại!");
-                return "admin/NhanVien/NhanVienAdd";
+                hasErrors = true;
             }
             if (existingNv.getSdt().equals(nv.getSdt())) {
                 model.addAttribute("errorsdt", "Số điện thoại đã tồn tại!");
-                return "admin/NhanVien/NhanVienAdd";
+                hasErrors = true;
             }
+        }
+
+        if (hasErrors) {
+            // Nếu có lỗi, giữ dữ liệu đã nhập để người dùng không phải nhập lại
+            model.addAttribute("nv", nv);
+            return "admin/NhanVien/NhanVienAdd";
         }
 
         nv.setNgayTao(java.time.LocalDateTime.now());

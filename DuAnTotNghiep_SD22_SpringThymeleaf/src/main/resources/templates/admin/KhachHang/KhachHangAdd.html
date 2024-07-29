@@ -138,13 +138,13 @@
                         <div class="mb-3">
                             <label for="ten" class="form-label">Tên Khách Hàng:</label>
                             <input type="text" id="ten" name="ten" class="form-control"
-                                   placeholder="Nhập tên Khách Hàng" oninput="validateForm()">
+                                   placeholder="Nhập tên Khách Hàng" onblur="checkDuplicateTen()" oninput="validateForm()">
                             <div id="tenError" class="error"></div>
                         </div>
                         <div class="mb-3">
                             <label for="sdt" class="form-label">Số Điện Thoại:</label>
                             <input type="text" id="sdt" name="sdt" class="form-control"
-                                   placeholder="Nhập SĐT" oninput="validateForm()">
+                                   placeholder="Nhập SĐT" onblur="checkSdt()" oninput="validateForm()">
                             <div id="sdtError" class="error"></div>
                         </div>
                         <div class="mb-3">
@@ -164,7 +164,7 @@
                         <div class="mb-3">
                             <label for="email" class="form-label">Email:</label>
                             <input type="email" id="email" name="email" class="form-control"
-                                   placeholder="Nhập Email" oninput="validateForm()">
+                                   placeholder="Nhập Email" onblur="checkEmail()" oninput="validateForm()">
                             <div id="emailError" class="error"></div>
                         </div>
                         <div class="form-group mb-3">
