@@ -1,5 +1,7 @@
 package com.poly.sneaker.sevice;
 
+import com.poly.sneaker.dto.SanPhamBanChayDTO;
+import com.poly.sneaker.dto.SanPhamDTO;
 import com.poly.sneaker.entity.HoaDon;
 import com.poly.sneaker.entity.HoaDonChiTiet;
 import com.poly.sneaker.entity.NhanVien;
@@ -13,9 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class HoaDonService {
@@ -29,6 +29,11 @@ public class HoaDonService {
 
     public Page<HoaDon> getAll(Pageable pageable){
         return hoaDonRepository.getAllHoaDon(pageable);
+    }
+
+
+    public List<HoaDon> findAll(){
+        return hoaDonRepository.findAll();
     }
 
     public Page<HoaDon> getAllByTrangThai(int trangThai, Pageable pageable){
@@ -124,5 +129,23 @@ public class HoaDonService {
     public void updateHoaDonChiTiet(Long idChiTietSanPham, Long idHoaDon, Integer soLuong, BigDecimal gia, Integer trangThai) {
         hoaDonRepository.updateByIdChiTietSanPhamAndIdHoaDon(soLuong, gia, trangThai, idChiTietSanPham, idHoaDon);
     }
+
+    public List<SanPhamBanChayDTO> getTop10Products() {
+        List<Object[]> result = hoaDonRepository.getSanPhamBanChayNhat();
+        List<SanPhamBanChayDTO> top10Products = new ArrayList<>();
+
+        for (Object[] row : result) {
+            SanPhamBanChayDTO sanPhamBanChayDTO = new SanPhamBanChayDTO();
+            sanPhamBanChayDTO.setId((Long) row[0]);
+            sanPhamBanChayDTO.setAnh((String) row[1]);
+            sanPhamBanChayDTO.setTen((String) row[2]);
+            sanPhamBanChayDTO.setGiaBan((BigDecimal) row[3]);
+            sanPhamBanChayDTO.setTongSoLuong((Long) row[4]);
+            top10Products.add(sanPhamBanChayDTO);
+        }
+        
+        return top10Products;
+    }
+
 
 }
