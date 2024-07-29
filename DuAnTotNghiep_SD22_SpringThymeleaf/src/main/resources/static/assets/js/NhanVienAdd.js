@@ -47,12 +47,23 @@ document.getElementById('confirmButton').addEventListener('click', function() {
 
 function add() {
     const form = document.getElementById('myForm');
-    axios.post('/admin/SaveNhanVien', new FormData(form))
+    const formData = new FormData(form);
+
+    axios.post('/admin/SaveNhanVien', formData)
         .then(function(response) {
-            showSuccessMessage();
+            // Xử lý phản hồi thành công từ server
+            if (response.status === 200 && response.data.success) {
+                showSuccessMessage();
+            } else {
+                // Xử lý lỗi nếu phản hồi không thành công
+                // showErrors(response.data.errors);
+                console.error('Error:', response.data.errors);
+            }
         })
         .catch(function(error) {
             console.error('Error:', error);
+            // Hiển thị thông báo lỗi chung nếu có lỗi trong quá trình gửi yêu cầu
+            // showErrors({ general: 'Đã xảy ra lỗi khi gửi yêu cầu.' });
         });
 }
 
@@ -73,7 +84,7 @@ function showSuccessMessage() {
     }, 3000);
 }
 function validateForm() {
-    var ten = document.getElementById('ten').value;
+    var ten = document.getElementById('ten').value.trim();
     var sdt = document.getElementById('sdt').value.trim();
     var email = document.getElementById('email').value.trim();
     var cccd = document.getElementById('cccd').value.trim();
@@ -117,16 +128,15 @@ function validateForm() {
     if (ten === '') {
         document.getElementById('tenError').textContent = 'Vui lòng nhập Tên';
         isValid = false;
-    } else if (ten.trim()!== ten) {
-        document.getElementById('tenError').textContent = 'Tên không được có khoảng trắng ở đầu hoặc cuối';
-        isValid = false;
-    } else if (ten.length < 5 || ten.length > 50) {
+    }  else if (ten.length < 5 || ten.length > 50) {
         document.getElementById('tenError').textContent = 'Tên phải từ 5 đến 50 ký tự';
         isValid = false;
     } else if (!/^[a-zA-ZÀ-Ỹà-ỹ ]+$/.test(ten)) {
         document.getElementById('tenError').textContent = 'Tên phải là chữ';
         isValid = false;
     } else {
+        var Ten = document.getElementById("ten");
+        Ten.value = ten;
         document.getElementById('tenError').textContent = '';
     }
 
@@ -151,6 +161,8 @@ function validateForm() {
         document.getElementById('emailError').textContent = 'Email không hợp lệ';
         isValid = false;
     } else {
+        var Mail = document.getElementById("email");
+        Mail.value = email;
         document.getElementById('emailError').textContent = '';
     }
 
