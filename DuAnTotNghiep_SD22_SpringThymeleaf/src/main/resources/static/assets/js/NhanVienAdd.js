@@ -79,18 +79,18 @@ function validateForm() {
     var cccd = document.getElementById('cccd').value.trim();
     var ngaySinh = document.getElementById('ngaySinh').value.trim();
 
-    var valimail = document.getElementById('valimail').textContent.trim();
+    // var valimail = document.getElementById('valimail').textContent.trim();
 
     // Biến kiểm tra tính hợp lệ
     var isValid = true;
 
     // Kiểm tra điều kiện để xác định nếu email đã tồn tại
-    if (valimail === '') {
-        document.getElementById('valimail').textContent = 'Email Đã Tồn Tại';
-        isValid = false;
-    } else {
-        document.getElementById('valimail').textContent = '';
-    }
+    // if (valimail === '') {
+    //     document.getElementById('valimail').textContent = 'Email Đã Tồn Tại';
+    //     isValid = false;
+    // } else {
+    //     document.getElementById('valimail').textContent = '';
+    // }
     var city = document.getElementById('city').value.trim();
     var district = document.getElementById('district').value.trim();
     var ward = document.getElementById('ward').value.trim();

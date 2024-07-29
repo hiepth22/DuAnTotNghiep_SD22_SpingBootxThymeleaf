@@ -57,6 +57,12 @@ public class ClienController {
 
         return "client/viewClient";
     }
+    @GetMapping("/shop")
+    public String hienThiSanPhamall(Model model) {
+        List<SanPhamChiTiet> sanPhams = SPCTservice.getAll();
+        model.addAttribute("sanPhams", sanPhams);
+        return "client/shop";
+    }
     @GetMapping("/sanphamchitietclien/{sanPhamId}")
     @ResponseBody
     public ResponseEntity<?> getProductDetails(@PathVariable Long sanPhamId) {

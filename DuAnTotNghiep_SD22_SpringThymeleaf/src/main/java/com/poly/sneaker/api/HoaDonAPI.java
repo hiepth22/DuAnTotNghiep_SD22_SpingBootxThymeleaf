@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
@@ -108,6 +109,9 @@ public class HoaDonAPI {
 
     @PutMapping("/update-trang-thai/{id}")
     public ResponseEntity<?> updateTrangThai(@PathVariable("id") Long id, @RequestBody HoaDon hoaDon) {
+        LocalDateTime now = LocalDateTime.now();
+        hoaDon.setNgayThanhToan(now);
+        hoaDon.setTrangThai(hoaDon.getTrangThai());
         HoaDon updatedHoaDon = hoaDonService.updateTrangThai(id, hoaDon);
         if (updatedHoaDon != null) {
             return ResponseEntity.ok(updatedHoaDon);
@@ -217,6 +221,16 @@ public class HoaDonAPI {
                 hoaDonChiTiet.getTrangThai()
         );
         return ResponseEntity.ok("Cập nhật thành công");
+    }
+
+
+    @GetMapping("/data")
+    public ResponseEntity<List<HoaDonChiTiet>> getHoaDonChiTietByDateRange(
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+        endDate = endDate.withHour(23).withMinute(59).withSecond(59).withNano(0);
+        List<HoaDonChiTiet> result = hoaDonChiTietService.getHoaDonChiTietByDateRange(startDate, endDate);
+        return ResponseEntity.ok(result);
     }
 
 
