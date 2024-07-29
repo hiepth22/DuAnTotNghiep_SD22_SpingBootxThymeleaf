@@ -52,9 +52,9 @@
                                 <div class="col-sm-8">
                                     <select id="trangThai" name="trangThai">
                                         <option value="">Tất cả</option>
-                                        <option value="1">Đang hoạt động</option>
-                                        <option value="0">Ngừng hoạt động</option>
-                                        <option value="">Chưa diễn ra</option>
+                                        <option value="0">Đang hoạt động</option>
+                                        <option value="1">Ngừng hoạt động</option>
+                                        <option value="2">Chưa diễn ra</option>
                                     </select>
                                 </div>
                             </div>
@@ -178,11 +178,10 @@
 
 <script>
 
-
     $(document).ready(function () {
         var table = $('#phieuGiamGiaTable').DataTable({
             "paging": true,
-            "searching": false,
+            "searching": true,
             "ordering": true,
             "info": true,
             "language": {
@@ -194,12 +193,9 @@
                 "lengthMenu": "Hiển thị _MENU_ bản ghi mỗi trang",
                 "zeroRecords": "Không tìm thấy kết quả phù hợp",
                 "info": "Hiển thị trang _PAGE_ trong tổng số _PAGES_",
-                // "infoEmpty": "Không có dữ liệu",
-                // "infoFiltered": "(lọc từ tổng số _MAX_ bản ghi)"
-            },
-            "columnDefs": [
-                { "targets": [4, 10], "visible": true }
-            ]
+                "infoEmpty": "Không có dữ liệu",
+                "infoFiltered": "(lọc từ tổng số _MAX_ bản ghi)"
+            }
         });
 
         function filterTable() {
@@ -209,31 +205,35 @@
             var startDate = $('#startDate').val();
             var endDate = $('#endDate').val();
 
-            table.rows().every(function () {
-                var data = this.data();
-                var matchesKeyword = keyword ? data[1].toLowerCase().includes(keyword) || data[2].toLowerCase().includes(keyword) : true;
-                var dataStatus = data[10].trim().toLowerCase();
-                var dataHinhThucGiam = data[4].trim().toLowerCase();
+            $.fn.dataTable.ext.search.push(
+                function (settings, data, dataIndex) {
+                    var matchesKeyword = keyword ? (data[1].toLowerCase().includes(keyword) || data[2].toLowerCase().includes(keyword)) : true;
 
-                var matchesTrangThai = true;
-                if (trangThai !== "") {
-                    matchesTrangThai = trangThai === (dataStatus === 'đang hoạt động' ? '0' : dataStatus === 'ngừng hoạt động' ? '1' : '2');
+                    var dataStatus = $(table.row(dataIndex).node()).find('td:eq(10) .badge').text().trim().toLowerCase();
+                    var dataHinhThucGiam = $(table.row(dataIndex).node()).find('td:eq(4) button').text().trim().toLowerCase();
+
+                    var matchesTrangThai = true;
+                    if (trangThai !== "") {
+                        matchesTrangThai = (trangThai === '0' && dataStatus === 'đang hoạt động') ||
+                            (trangThai === '1' && dataStatus === 'ngừng hoạt động') ||
+                            (trangThai === '2' && dataStatus === 'chưa diễn ra');
+                    }
+
+                    var matchesHinhThucGiam = true;
+                    if (hinhThucGiam !== "") {
+                        matchesHinhThucGiam = (hinhThucGiam === '0' && dataHinhThucGiam === 'tiền mặt') ||
+                            (hinhThucGiam === '1' && dataHinhThucGiam === 'phần trăm');
+                    }
+
+                    var matchesStartDate = startDate ? new Date(data[8]) >= new Date(startDate) : true;
+                    var matchesEndDate = endDate ? new Date(data[9]) <= new Date(endDate) : true;
+
+                    return matchesKeyword && matchesTrangThai && matchesHinhThucGiam && matchesStartDate && matchesEndDate;
                 }
+            );
 
-                var matchesHinhThucGiam = true;
-                if (hinhThucGiam !== "") {
-                    matchesHinhThucGiam = hinhThucGiam === (dataHinhThucGiam === 'phần trăm' ? '1' : '0');
-                }
-
-                var matchesStartDate = startDate ? new Date(data[8]) >= new Date(startDate) : true;
-                var matchesEndDate = endDate ? new Date(data[9]) <= new Date(endDate) : true;
-
-                if (matchesKeyword && matchesTrangThai && matchesHinhThucGiam && matchesStartDate && matchesEndDate) {
-                    $(this.node()).show();
-                } else {
-                    $(this.node()).hide();
-                }
-            });
+            table.draw();
+            $.fn.dataTable.ext.search.pop();
         }
 
         $('#searchInput, #trangThai, #hinhThucGiam, #startDate, #endDate').on('input change', function () {
@@ -245,9 +245,6 @@
             filterTable();
         };
     });
-
-
-
 
     document.addEventListener("DOMContentLoaded", function () {
         function updateStatus() {
