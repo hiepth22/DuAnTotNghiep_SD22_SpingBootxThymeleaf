@@ -20,6 +20,12 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
 
     List<SanPhamChiTiet> findByMa(String ma);
 
+    @Query(value = "SELECT *\n" +
+            "FROM san_pham_chi_tiet\n" +
+            "where soLuong<10\n" +
+            "ORDER BY soLuong ASC;", nativeQuery = true)
+    List<SanPhamChiTiet> getSanPhamSapHetHang();
+
     @Query(value = "select * \n" +
             "from [san_pham_chi_tiet] where idSanPham = ?1", nativeQuery = true)
     List<SanPhamChiTiet> findBySanPham(Long id);
@@ -41,4 +47,5 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
             @Param("mauSac") MauSac mauSac,
             @Param("kichCo") KichCo kichCo
     );
+
 }

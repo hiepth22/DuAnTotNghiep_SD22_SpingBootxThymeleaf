@@ -5,11 +5,14 @@ import com.poly.sneaker.dto.SanPhamDTO;
 import com.poly.sneaker.entity.HoaDon;
 import com.poly.sneaker.entity.HoaDonChiTiet;
 import com.poly.sneaker.entity.NhanVien;
+import com.poly.sneaker.entity.SanPhamChiTiet;
 import com.poly.sneaker.repository.HoaDonChiTietRepository;
 import com.poly.sneaker.repository.HoaDonRepository;
+import com.poly.sneaker.repository.SanPhamChiTietRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +28,8 @@ public class HoaDonService {
 
     @Autowired
     private HoaDonChiTietRepository hoaDonChiTietRepository;
+    @Autowired
+    private SanPhamChiTietRepository sanPhamChiTietRepository;
 
 
     public Page<HoaDon> getAll(Pageable pageable){
@@ -131,21 +136,26 @@ public class HoaDonService {
     }
 
     public List<SanPhamBanChayDTO> getTop10Products() {
-        List<Object[]> result = hoaDonRepository.getSanPhamBanChayNhat();
-        List<SanPhamBanChayDTO> top10Products = new ArrayList<>();
+        List<SanPhamBanChayDTO> result = hoaDonRepository.getSanPhamBanChayNhat(PageRequest.of(0, 5));
+//        List<SanPhamBanChayDTO> top10Products = new ArrayList<>();
+//
+//        for (Object[] row : result) {
+//            SanPhamBanChayDTO sanPhamBanChayDTO = new SanPhamBanChayDTO();
+//            sanPhamBanChayDTO.setId((Long) row[0]);
+//            sanPhamBanChayDTO.setAnh((String) row[1]);
+//            sanPhamBanChayDTO.setTen((String) row[2]);
+//            sanPhamBanChayDTO.setGiaBan((BigDecimal) row[3]);
+//            sanPhamBanChayDTO.setTongSoLuong((Long) row[4]);
+//            top10Products.add(sanPhamBanChayDTO);
+//        }
 
-        for (Object[] row : result) {
-            SanPhamBanChayDTO sanPhamBanChayDTO = new SanPhamBanChayDTO();
-            sanPhamBanChayDTO.setId((Long) row[0]);
-            sanPhamBanChayDTO.setAnh((String) row[1]);
-            sanPhamBanChayDTO.setTen((String) row[2]);
-            sanPhamBanChayDTO.setGiaBan((BigDecimal) row[3]);
-            sanPhamBanChayDTO.setTongSoLuong((Long) row[4]);
-            top10Products.add(sanPhamBanChayDTO);
-        }
-
-        return top10Products;
+        return result;
     }
+
+    public List<SanPhamChiTiet> getSanPhamSapHetHang() {
+        return sanPhamChiTietRepository.getSanPhamSapHetHang();
+    }
+
 
 
 }

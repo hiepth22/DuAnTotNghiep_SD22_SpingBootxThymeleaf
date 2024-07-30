@@ -240,8 +240,12 @@ public class HoaDonAPI {
 
     @GetMapping("/san-pham-ban-chay-nhat")
     public List<SanPhamBanChayDTO> getSanPhamBanChayNhat() {
-        System.out.println(hoaDonService.getTop10Products());
         return hoaDonService.getTop10Products();
+    }
+
+    @GetMapping("/san-pham-sap-het-hang")
+    public List<SanPhamChiTiet> getSanPhamSapHetHang() {
+        return hoaDonService.getSanPhamSapHetHang();
     }
 
 

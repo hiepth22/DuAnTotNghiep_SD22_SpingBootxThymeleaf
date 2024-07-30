@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SanPhamBanChayDTO extends SanPhamChiTiet {
+public class SanPhamBanChayDTO {
 
 
     private Long id;
@@ -19,7 +19,6 @@ public class SanPhamBanChayDTO extends SanPhamChiTiet {
     private String ten;
     private BigDecimal giaBan;
     private Long tongSoLuong;
-
 
 
 }

@@ -3,6 +3,7 @@ package com.poly.sneaker.repository;
 import com.poly.sneaker.dto.SanPhamBanChayDTO;
 import com.poly.sneaker.entity.HoaDon;
 import com.poly.sneaker.entity.HoaDonChiTiet;
+import com.poly.sneaker.entity.SanPhamChiTiet;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +43,6 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Long> {
     Page<HoaDon> getAllHoaDon(Pageable pageable);
 
 
-
     @Query(value = "SELECT * FROM hoa_don_chi_tiet WHERE idHoaDon = :idHoaDon and trangThai != 8 ", nativeQuery = true)
     List<HoaDonChiTiet> findByIdHD(@Param("id") Long id);
 
@@ -56,7 +56,7 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Long> {
     List<HoaDonChiTiet> findByIDKHAndTrangThaiHDCT(@Param("idHoaDon") Long idHoaDon);
 
     @Modifying
-    @Query(value = "UPDATE hoa_don_chi_tiet SET soLuong = :soLuong, gia = :gia, trangThai = :trangThai WHERE idChiTietSanPham = :idChiTietSanPham AND idHoaDon = :idHoaDon" ,nativeQuery = true)
+    @Query(value = "UPDATE hoa_don_chi_tiet SET soLuong = :soLuong, gia = :gia, trangThai = :trangThai WHERE idChiTietSanPham = :idChiTietSanPham AND idHoaDon = :idHoaDon", nativeQuery = true)
     void updateByIdChiTietSanPhamAndIdHoaDon(@Param("soLuong") Integer soLuong,
                                              @Param("gia") BigDecimal gia,
                                              @Param("trangThai") Integer trangThai,
@@ -66,28 +66,19 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Long> {
     @Query(value = "SELECT * FROM hoa_don", nativeQuery = true)
     List<HoaDon> getAll2();
 
-    @Query(value = "SELECT TOP 10\n" +
-            "    dbo.san_pham_chi_tiet.id, \n" +
-            "    dbo.san_pham_chi_tiet.anh,\n" +
-            "    dbo.san_pham_chi_tiet.ten,\n" +
-            "    dbo.san_pham_chi_tiet.giaBan,\n" +
-            "    SUM(dbo.hoa_don_chi_tiet.soLuong) AS tongSoLuong\n" +
-            "FROM \n" +
-            "    dbo.hoa_don \n" +
+    @Query(value = "SELECT new com.poly.sneaker.dto.SanPhamBanChayDTO(spct.id, spct.anh, spct.ten, spct.giaBan, SUM(hdct.soLuong))" +
+            "FROM HoaDon hd \n" +
             "INNER JOIN \n" +
-            "    dbo.hoa_don_chi_tiet ON dbo.hoa_don.id = dbo.hoa_don_chi_tiet.idHoaDon \n" +
+            "    HoaDonChiTiet hdct ON hd.id = hdct.hoaDon.id \n" +
             "INNER JOIN \n" +
-            "    dbo.san_pham_chi_tiet ON dbo.hoa_don_chi_tiet.idChiTietSanPham = dbo.san_pham_chi_tiet.id\n" +
+            "    SanPhamChiTiet spct ON hdct.sanPhamChiTiet.id = spct.id \n" +
             "WHERE \n" +
-            "    dbo.hoa_don.trangThai = 6\n" +
-            "GROUP BY\n" +
-            "    dbo.san_pham_chi_tiet.id, \n" +
-            "    dbo.san_pham_chi_tiet.anh,\n" +
-            "    dbo.san_pham_chi_tiet.ten,\n" +
-            "    dbo.san_pham_chi_tiet.giaBan\n" +
-            "ORDER BY \n" +
-            "    tongSoLuong DESC;", nativeQuery = true)
-    List<Object[]> getSanPhamBanChayNhat();
+            "    hd.trangThai = 6\n" +
+            "GROUP BY spct.id, spct.anh, spct.ten, spct.giaBan\n" +
+            "ORDER BY SUM(hdct.soLuong) DESC ")
+    List<SanPhamBanChayDTO> getSanPhamBanChayNhat(Pageable pageable);
+
+
 
 
 }

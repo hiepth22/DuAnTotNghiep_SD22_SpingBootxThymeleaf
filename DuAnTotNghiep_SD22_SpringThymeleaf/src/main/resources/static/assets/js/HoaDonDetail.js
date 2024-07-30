@@ -3,7 +3,6 @@ $(document).ready(function () {
     let idSP = [];
     let itemId = null;
     let giaBan = null;
-    let soLuongBanDau = null;
 
     const pathArray = window.location.pathname.split('/');
     const idHoaDon = pathArray[pathArray.length - 1];
@@ -182,6 +181,17 @@ $(document).ready(function () {
                     }
                 });
             });
+        });
+    }
+
+    function updateSoLuongSanPhamKhiDaMua() {
+        $.ajax({
+            url: `/api/hoa-don/update-tong-tien/${idHoaDon}`,
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({tongTien: tongTien}),
+            success: function (response) {
+            },
         });
     }
 
