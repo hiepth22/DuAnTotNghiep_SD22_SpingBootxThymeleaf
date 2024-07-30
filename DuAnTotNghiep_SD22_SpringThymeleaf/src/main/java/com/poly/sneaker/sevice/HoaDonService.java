@@ -143,7 +143,7 @@ public class HoaDonService {
             sanPhamBanChayDTO.setTongSoLuong((Long) row[4]);
             top10Products.add(sanPhamBanChayDTO);
         }
-        
+
         return top10Products;
     }
 
