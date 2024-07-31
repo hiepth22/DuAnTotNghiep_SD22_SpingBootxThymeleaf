@@ -15,6 +15,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -118,20 +119,11 @@ public class NhanVienControler {
     public String addNhanVien(@ModelAttribute("nv") NhanVien nv,
                               @RequestParam(name = "dc", required = false) String dc,
                               @RequestParam(name = "img", required = false) MultipartFile img,
-                              Model model) {
-        try {
-            // Xử lý ảnh
-            if (img != null && !img.isEmpty()) {
-                String extension = FilenameUtils.getExtension(img.getOriginalFilename());
-                String name = UUID.randomUUID().toString() + "." + extension;
-                saveImage(img, name); // Lưu ảnh với tên ngẫu nhiên
-                nv.setAnh("assets/imageNV/" + name); // Thiết lập đường dẫn tương đối cho đối tượng NhanVien
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("errors", "Lỗi khi lưu ảnh: " + e.getMessage());
-            return "admin/NhanVien/NhanVienAdd";
-        }
+                              Model model) throws IOException {
+//        String extension = FilenameUtils.getExtension(img.getOriginalFilename());
+//        String name = UUID.randomUUID().toString() + "." + extension;
+//        saveImage(img, name); // Lưu ảnh với tên ngẫu nhiên
+//        nv.setAnh("assets/imageNV/" + name);
 
         // Kiểm tra trùng lặp email và số điện thoại
         List<NhanVien> nvList = repository.findAll();
@@ -154,22 +146,35 @@ public class NhanVienControler {
         String newPassword = generateRandomPassword();
         // String encodedPassword = passwordEncoder.encode(newPassword);
         // nv.setMatKhau(encodedPassword);
+        String getma = generateMaNhanVien();
         sendPasswordEmail(nv.getEmail(), newPassword);
-        nv.setMa(generateMaNhanVien());
+        nv.setMa(getma);
 
         if (dc != null) {
             nv.setDiachi(nv.getDiachi() + "," + dc);
         }
+        String fileName = StringUtils.cleanPath(img.getOriginalFilename());
+        String uploadDir = "./src/main/resources/static/assets/imageNV";
+        nv.setAnh("assets/imageNV/" + fileName);
 
-        sevice.Add(nv);
+        FileUploadUtil.saveFile(uploadDir, fileName, img);
         model.addAttribute("successMessage", "Thêm nhân viên thành công!");
+        sevice.Add(nv);
         return "redirect:/admin/nhan-vien";
     }
+    @GetMapping("/check-emailnv")
+    public ResponseEntity<Boolean> checkEmailExists(@RequestParam String email) {
+        boolean exists = repository.findByEmail(email).isPresent();
+        return ResponseEntity.ok(exists);
+    }
 
+    @GetMapping("/check-sdtnv")
+    public ResponseEntity<Boolean> checkSdtExists(@RequestParam String sdt) {
+        boolean exists = repository.findBySdt(sdt).isPresent();
+        return ResponseEntity.ok(exists);
+    }
     public void saveImage(MultipartFile file, String name) {
         String uploadDir = "./src/main/resources/static/assets/imageNV"; // Đường dẫn đầy đủ đến thư mục lưu trữ ảnh
-//        String uploadDir = Paths.get("src/main/resources/static/assets/imageNV").toAbsolutePath().toString();
-
         try {
             FileUploadUtil.saveFile(uploadDir, name, file);
         } catch (IOException e) {

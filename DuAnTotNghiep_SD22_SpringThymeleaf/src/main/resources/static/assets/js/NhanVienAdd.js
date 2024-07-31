@@ -51,19 +51,10 @@ function add() {
 
     axios.post('/admin/SaveNhanVien', formData)
         .then(function(response) {
-            // Xử lý phản hồi thành công từ server
-            if (response.status === 200 && response.data.success) {
-                showSuccessMessage();
-            } else {
-                // Xử lý lỗi nếu phản hồi không thành công
-                // showErrors(response.data.errors);
-                console.error('Error:', response.data.errors);
-            }
+            showSuccessMessage();
         })
         .catch(function(error) {
             console.error('Error:', error);
-            // Hiển thị thông báo lỗi chung nếu có lỗi trong quá trình gửi yêu cầu
-            // showErrors({ general: 'Đã xảy ra lỗi khi gửi yêu cầu.' });
         });
 }
 
@@ -83,52 +74,36 @@ function showSuccessMessage() {
         window.location.href = '/admin/nhan-vien';
     }, 3000);
 }
-function validateForm() {
+async function validateForm() {
     var ten = document.getElementById('ten').value.trim();
     var sdt = document.getElementById('sdt').value.trim();
     var email = document.getElementById('email').value.trim();
     var cccd = document.getElementById('cccd').value.trim();
     var ngaySinh = document.getElementById('ngaySinh').value.trim();
-
-    // var valimail = document.getElementById('valimail').textContent.trim();
+    const emailError = document.getElementById('emailError');
+    const sdtError = document.getElementById('sdtError');
 
     // Biến kiểm tra tính hợp lệ
     var isValid = true;
 
-    // Kiểm tra điều kiện để xác định nếu email đã tồn tại
-    // if (valimail === '') {
-    //     document.getElementById('valimail').textContent = 'Email Đã Tồn Tại';
-    //     isValid = false;
-    // } else {
-    //     document.getElementById('valimail').textContent = '';
-    // }
+    // Kiểm tra địa chỉ
     var city = document.getElementById('city').value.trim();
     var district = document.getElementById('district').value.trim();
     var ward = document.getElementById('ward').value.trim();
     var diachi = document.getElementById('diachi').value.trim();
-    // var errormail1 = document.getElementById('errormail1').value.trim();
 
-    // if(errormail1 ===''){
-    //     document.getElementById('errormail1').textContent = 'mail đã tồn tại';
-    //     isValid = false;
-    // }
-    if ( city === ''||district === ''|| ward === '' ||diachi === '') {
+    if (city === '' || district === '' || ward === '' || diachi === '') {
         document.getElementById('dcError').textContent = 'Vui lòng nhập đầy đủ địa chỉ';
         isValid = false;
-    }
-    else {
+    } else {
         document.getElementById('dcError').textContent = '';
     }
 
-    // if ( diachi === '' ) {
-    //     document.getElementById('dcError').textContent = 'Vui lòng nhập đầy đủ địa chỉ';
-    //     isValid = false;
-    // }
-
+    // Validate Tên
     if (ten === '') {
         document.getElementById('tenError').textContent = 'Vui lòng nhập Tên';
         isValid = false;
-    }  else if (ten.length < 5 || ten.length > 50) {
+    } else if (ten.length < 5 || ten.length > 50) {
         document.getElementById('tenError').textContent = 'Tên phải từ 5 đến 50 ký tự';
         isValid = false;
     } else if (!/^[a-zA-ZÀ-Ỹà-ỹ ]+$/.test(ten)) {
@@ -140,65 +115,96 @@ function validateForm() {
         document.getElementById('tenError').textContent = '';
     }
 
-
-
     // Validate SĐT
     if (sdt === '') {
-        document.getElementById('sdtError').textContent = 'Vui lòng nhập SĐT';
+        sdtError.textContent = 'Vui lòng nhập SĐT';
         isValid = false;
     } else if (!/^\d{10}$/.test(sdt)) {
-        document.getElementById('sdtError').textContent = 'SĐT không hợp lệ';
+        sdtError.textContent = 'SĐT không hợp lệ';
         isValid = false;
     } else {
-        document.getElementById('sdtError').textContent = '';
+        // Kiểm tra số điện thoại đã tồn tại
+        const isSdtAvailable = await checkSdtnv();
+        if (!isSdtAvailable) {
+            sdtError.textContent = 'Số điện thoại đã tồn tại.';
+            isValid = false;
+        } else {
+            sdtError.textContent = '';
+        }
     }
 
     // Validate Email
     if (email === '') {
-        document.getElementById('emailError').textContent = 'Vui lòng nhập Email';
+        emailError.textContent = 'Vui lòng nhập Email';
         isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(email)) { // Kiểm tra định dạng Email
-        document.getElementById('emailError').textContent = 'Email không hợp lệ';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+        emailError.textContent = 'Email không hợp lệ';
         isValid = false;
     } else {
-        var Mail = document.getElementById("email");
-        Mail.value = email;
-        document.getElementById('emailError').textContent = '';
+        // Kiểm tra email đã tồn tại
+        const isEmailAvailable = await checkEmailnv();
+        if (!isEmailAvailable) {
+            emailError.textContent = 'Email đã tồn tại.';
+            isValid = false;
+        } else {
+            var Mail = document.getElementById("email");
+            Mail.value = email;
+            emailError.textContent = '';
+        }
     }
 
     // Validate CCCD
     if (cccd === '') {
         document.getElementById('cccdError').textContent = 'Vui lòng nhập CCCD';
         isValid = false;
-    } else if (!/^\d{9,12}$/.test(cccd)) { // Kiểm tra CCCD có từ 9 đến 12 chữ số
+    } else if (!/^\d{9,12}$/.test(cccd)) {
         document.getElementById('cccdError').textContent = 'CCCD phải có từ 9 đến 12 chữ số';
         isValid = false;
     } else {
         document.getElementById('cccdError').textContent = '';
     }
 
-
+    // Validate Ngày Sinh
     if (ngaySinh === '') {
         document.getElementById('ngaySinhError').textContent = 'Vui lòng chọn Ngày Sinh';
         isValid = false;
     } else {
         document.getElementById('ngaySinhError').textContent = '';
-
-        // Kiểm tra tuổi từ ngày sinh
         var age = calculateAge(ngaySinh);
         if (age < 18) {
             document.getElementById('ngaySinhError').textContent = 'Bạn phải đủ 18 tuổi trở lên';
             isValid = false;
-        }
-        else if (age > 60) {
-            document.getElementById('ngaySinhError').textContent = ' tuổi Phải Nhỏ hơn 60';
+        } else if (age > 60) {
+            document.getElementById('ngaySinhError').textContent = 'Tuổi phải nhỏ hơn 60';
             isValid = false;
         }
     }
 
-
     return isValid;
 }
+
+async function checkEmailnv() {
+    const email = document.getElementById('email').value;
+    try {
+        const response = await axios.get(`/admin/check-emailnv?email=${email}`);
+        return !response.data;
+    } catch (error) {
+        console.error('Error checking email:', error);
+        return false;
+    }
+}
+
+async function checkSdtnv() {
+    const sdt = document.getElementById('sdt').value;
+    try {
+        const response = await axios.get(`/admin/check-sdtnv?sdt=${sdt}`);
+        return !response.data;
+    } catch (error) {
+        console.error('Error checking phone number:', error);
+        return false;
+    }
+}
+
 
 
 function calculateAge(birthday) {
@@ -221,4 +227,37 @@ function calculateAge(birthday) {
 
     return age;
 }
+// function checkEmailnv() {
+//     const email = document.getElementById('email').value;
+//
+//     return axios.get(`/admin/check-emailnv?email=${email}`)
+//         .then(response => {
+//             if (response.data) {
+//                 return false;
+//             } else {
+//                 return true;
+//             }
+//         })
+//         .catch(error => {
+//
+//             return false;
+//         });
+// }
+//
+// function checkSdtnv() {
+//     const sdt = document.getElementById('sdt').value;
+//     const sdtError = document.getElementById('sdtError');
+//     return axios.get(`/admin/check-sdtnv?sdt=${sdt}`)
+//         .then(response => {
+//             if (response.data) {
+//                 return false;
+//             } else {
+//                 return true;
+//             }
+//         })
+//         .catch(error => {
+//             sdtError.textContent = 'Số điện thoại đã tồn tại.';
+//             return false;
+//         });
+// }
 

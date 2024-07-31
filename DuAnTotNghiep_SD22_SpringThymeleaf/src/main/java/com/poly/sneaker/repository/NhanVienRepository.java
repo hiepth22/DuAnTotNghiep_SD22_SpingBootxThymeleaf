@@ -1,6 +1,7 @@
 package com.poly.sneaker.repository;
 
 import com.poly.sneaker.dto.NhanVienPhanTrang;
+import com.poly.sneaker.entity.KhachHang;
 import com.poly.sneaker.entity.NhanVien;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +28,9 @@ public interface NhanVienRepository extends JpaRepository<NhanVien, Long> {
 
     List<NhanVien> findByTrangThai(int tt);
 
-    Boolean existsByEmail(String mail);
 
+    Optional<NhanVien> findByEmail(String email);
+
+    Optional<NhanVien> findBySdt(String sdt);
     Page<NhanVien> findByTrangThai(int trangThai, Pageable pageable);
 }
