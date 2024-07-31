@@ -3,7 +3,6 @@ $(document).ready(function () {
     let idSP = [];
     let itemId = null;
     let giaBan = null;
-    let soLuongBanDau = null;
 
     const pathArray = window.location.pathname.split('/');
     const idHoaDon = pathArray[pathArray.length - 1];
@@ -185,6 +184,17 @@ $(document).ready(function () {
         });
     }
 
+    function updateSoLuongSanPhamKhiDaMua() {
+        $.ajax({
+            url: `/api/hoa-don/update-tong-tien/${idHoaDon}`,
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({tongTien: tongTien}),
+            success: function (response) {
+            },
+        });
+    }
+
 
     function updateTongTien(tongTien, idHoaDon) {
         $.ajax({
@@ -279,11 +289,11 @@ $(document).ready(function () {
 
                 hienThiTongTienChiTiet(tongTien, hd);
 
-                getDanhSachSanPham(0, 5);
-
                 getPhuongThucThanhToan(tongTien);
 
                 inHoaDon(hd, hdctList, tongTien);
+
+                getDanhSachSanPham(0, 5);
 
                 checkCurrentStep();
 
@@ -541,90 +551,6 @@ $(document).ready(function () {
         </div>
     `);
     }
-
-
-    const getDanhSachSanPham = (page = 0, size = 5) => {
-        $.ajax({
-            url: `/api/hoa-don/danh-sach-san-pham?page=${page}&size=${size}`,
-            method: 'GET',
-            success: function (result) {
-                let list = "";
-                $("#danhSachSanPham").empty();
-                for (let i = 0; i < result.content.length; i++) {
-
-                    list += `
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <img src="https://res.cloudinary.com/deapopcoc/image/upload/${result.content[i].anh}" alt="Ảnh" class="w-16 h-auto">
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap font-bold">
-                                <h1>${result.content[i].ten}</h1>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">${formatVND(result.content[i].giaBan)}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">${result.content[i].soLuong}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">${result.content[i].kichCo.ten}</td>
-                            <td>
-                                <div class="color-container rounded-lg ml-5 border-3" style="background-color: ${result.content[i].mauSac.ten}; width: 50px; height: 20px;"></div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="bg-green-500 rounded-lg text-white px-2 py-1">${result.content[i].trangThai}</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                               <button id="hienThiDanhSachSanPham" class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-1 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm
-                                </button>
-                            </td>
-                        </tr>`;
-                }
-
-                $("#danhSachSanPham").html(list);
-
-                let pagination = '';
-                pagination += `
-                    <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
-                    `;
-
-                const maxVisiblePages = 3;
-                const halfVisiblePages = Math.floor(maxVisiblePages / 2);
-                let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
-                let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
-
-                if (startPage > 1) {
-                    pagination += `
-                        <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(0, ${size})">1</button>
-                        `;
-                    if (startPage > 2) {
-                        pagination += `<span class="px-4 py-2">...</span>`;
-                    }
-                }
-
-                for (let i = startPage; i <= endPage; i++) {
-                    pagination += `
-                        <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getDanhSachSanPham(${i - 1}, ${size})">${i}</button>
-                        `;
-                }
-
-                if (endPage < result.totalPages) {
-                    if (endPage < result.totalPages - 1) {
-                        pagination += `<span class="px-4 py-2">...</span>`;
-                    }
-                    pagination += `
-                        <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
-                        `;
-                }
-
-                pagination += `
-                    <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
-                    `;
-
-                $("#paginationSP").html(pagination);
-            },
-            error: function (xhr, status, error) {
-                console.error('AJAX Error:', status, error);
-            }
-        });
-    };
-
 
 
 
@@ -1264,5 +1190,93 @@ $(document).ready(function () {
     fetchHoaDonDetail(idHoaDon);
 
 });
+
+
+const formatVND2 = (tongtien) => {
+    return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+}
+
+
+const getDanhSachSanPham = (page = 0, size = 5) => {
+    $.ajax({
+        url: `/api/hoa-don/danh-sach-san-pham?page=${page}&size=${size}`,
+        method: 'GET',
+        success: function (result) {
+            let list = "";
+            $("#danhSachSanPham").empty();
+            for (let i = 0; i < result.content.length; i++) {
+                list += `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <img src="https://res.cloudinary.com/deapopcoc/image/upload/${result.content[i].anh}" alt="Ảnh" class="w-16 h-auto">
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap font-bold">
+                            <h1>${result.content[i].ten}</h1>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">${formatVND2(result.content[i].giaBan)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].soLuong}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].kichCo.ten}</td>
+                        <td>
+                            <div class="color-container rounded-lg ml-5 border-3" style="background-color: ${result.content[i].mauSac.ten}; width: 50px; height: 20px;"></div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="bg-green-500 rounded-lg text-white px-2 py-1">${result.content[i].trangThai}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                           <button id="hienThiDanhSachSanPham" class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-1 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm
+                            </button>
+                        </td>
+                    </tr>`;
+            }
+
+            $("#danhSachSanPham").html(list);
+
+            let pagination = '';
+            pagination += `
+                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
+            `;
+
+            const maxVisiblePages = 3;
+            const halfVisiblePages = Math.floor(maxVisiblePages / 2);
+            let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
+            let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
+
+            if (startPage > 1) {
+                pagination += `
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(0, ${size})">1</button>
+                `;
+                if (startPage > 2) {
+                    pagination += `<span class="px-4 py-2">...</span>`;
+                }
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                pagination += `
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getDanhSachSanPham(${i - 1}, ${size})">${i}</button>
+                `;
+            }
+
+            if (endPage < result.totalPages) {
+                if (endPage < result.totalPages - 1) {
+                    pagination += `<span class="px-4 py-2">...</span>`;
+                }
+                pagination += `
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
+                `;
+            }
+
+            pagination += `
+                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
+            `;
+
+            $("#paginationSP").html(pagination);
+        }
+
+    });
+};
+
+
+
 
 
