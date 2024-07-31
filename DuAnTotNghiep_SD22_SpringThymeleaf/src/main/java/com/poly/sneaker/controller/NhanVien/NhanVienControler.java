@@ -125,19 +125,19 @@ public class NhanVienControler {
 //        saveImage(img, name); // Lưu ảnh với tên ngẫu nhiên
 //        nv.setAnh("assets/imageNV/" + name);
 
-        // Kiểm tra trùng lặp email và số điện thoại
-        List<NhanVien> nvList = repository.findAll();
-        for (NhanVien existingNv : nvList) {
-            if (existingNv.getEmail().equals(nv.getEmail())) {
-                model.addAttribute("errormail", "Email đã tồn tại!");
-                System.out.println("trung mail");
-                return "admin/NhanVien/NhanVienAdd";
-            }
-            if (existingNv.getSdt().equals(nv.getSdt())) {
-                model.addAttribute("errorsdt", "Số điện thoại đã tồn tại!");
-                return "admin/NhanVien/NhanVienAdd";
-            }
-        }
+//        // Kiểm tra trùng lặp email và số điện thoại
+//        List<NhanVien> nvList = repository.findAll();
+//        for (NhanVien existingNv : nvList) {
+//            if (existingNv.getEmail().equals(nv.getEmail())) {
+//                model.addAttribute("errormail", "Email đã tồn tại!");
+//                System.out.println("trung mail");
+//                return "admin/NhanVien/NhanVienAdd";
+//            }
+//            if (existingNv.getSdt().equals(nv.getSdt())) {
+//                model.addAttribute("errorsdt", "Số điện thoại đã tồn tại!");
+//                return "admin/NhanVien/NhanVienAdd";
+//            }
+//        }
 
         nv.setNgayTao(java.time.LocalDateTime.now());
         nv.setNgayCapNhat(java.time.LocalDateTime.now());
@@ -153,6 +153,9 @@ public class NhanVienControler {
         if (dc != null) {
             nv.setDiachi(nv.getDiachi() + "," + dc);
         }
+        String extension = FilenameUtils.getExtension(img.getOriginalFilename());
+        String name = UUID.randomUUID().toString() + "." + extension;
+
         String fileName = StringUtils.cleanPath(img.getOriginalFilename());
         String uploadDir = "./src/main/resources/static/assets/imageNV";
         nv.setAnh("assets/imageNV/" + fileName);
