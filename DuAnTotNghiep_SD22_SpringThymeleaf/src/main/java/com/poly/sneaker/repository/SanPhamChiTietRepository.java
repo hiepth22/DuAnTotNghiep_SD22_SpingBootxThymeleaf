@@ -1,5 +1,8 @@
 package com.poly.sneaker.repository;
 
+import com.poly.sneaker.entity.ChatLieu;
+import com.poly.sneaker.entity.CoGiay;
+import com.poly.sneaker.entity.DeGiay;
 import com.poly.sneaker.entity.KichCo;
 import com.poly.sneaker.entity.MauSac;
 import com.poly.sneaker.entity.SanPham;
@@ -41,11 +44,12 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
     @Query("SELECT s.kichCo.ten FROM SanPhamChiTiet s JOIN s.sanPham sp WHERE sp.id = :idSanPham")
     List<String> findKichCoBySanPhamId(@Param("idSanPham") Long idSanPham);
 
-    @Query("SELECT s FROM SanPhamChiTiet s WHERE s.sanPham.ten = :ten AND s.mauSac = :mauSac AND s.kichCo = :kichCo")
-    List<SanPhamChiTiet> findBySanPhamTenAndMauSacAndKichCo(
-            @Param("ten") String ten,
-            @Param("mauSac") MauSac mauSac,
-            @Param("kichCo") KichCo kichCo
+    Optional<SanPhamChiTiet> findByKichCoAndMauSacAndDeGiayAndChatLieuAndTenAndCoGiay(
+            KichCo kichCo,
+            MauSac mauSac,
+            DeGiay deGiay,
+            ChatLieu chatLieu,
+            String ten,
+            CoGiay coGiay
     );
-
 }
