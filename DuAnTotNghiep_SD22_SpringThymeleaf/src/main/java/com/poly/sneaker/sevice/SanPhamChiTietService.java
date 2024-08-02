@@ -97,23 +97,8 @@ public class SanPhamChiTietService {
         return repository.findByMa(ma).size() > 0;
     }
 
-    public List<SanPhamChiTiet> saveToDatabase(List<SanPhamChiTiet> sanPhamChiTietList) {
-        for (SanPhamChiTiet sanPhamChiTiet : sanPhamChiTietList) {
-            String ten = sanPhamChiTiet.getSanPham().getTen();
-            MauSac mauSac = sanPhamChiTiet.getMauSac();
-            KichCo kichCo = sanPhamChiTiet.getKichCo();
-
-            List<SanPhamChiTiet> existingSanPhamList = repository.findBySanPhamTenAndMauSacAndKichCo(ten, mauSac, kichCo);
-
-            if (!existingSanPhamList.isEmpty()) {
-                SanPhamChiTiet existingSanPham = existingSanPhamList.get(0);
-                existingSanPham.setSoLuong(existingSanPham.getSoLuong() + sanPhamChiTiet.getSoLuong());
-                repository.save(existingSanPham);
-            } else {
-                repository.save(sanPhamChiTiet);
-            }
-        }
-        return sanPhamChiTietList;
+    public List<SanPhamChiTiet> saveToDatabase(List<SanPhamChiTiet> sanPhamChiTiets) {
+        return repository.saveAll(sanPhamChiTiets);
     }
 
     public int countBySanPhamId(Long sanPhamId) {
