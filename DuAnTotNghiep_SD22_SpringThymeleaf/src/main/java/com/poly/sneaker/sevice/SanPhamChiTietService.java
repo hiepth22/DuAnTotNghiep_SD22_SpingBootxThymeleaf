@@ -98,7 +98,25 @@ public class SanPhamChiTietService {
     }
 
     public List<SanPhamChiTiet> saveToDatabase(List<SanPhamChiTiet> sanPhamChiTiets) {
-        return repository.saveAll(sanPhamChiTiets);
+        for (SanPhamChiTiet sanPhamChiTiet : sanPhamChiTiets) {
+            Optional<SanPhamChiTiet> existingSanPhamChiTiet = repository.findByKichCoAndMauSacAndDeGiayAndChatLieuAndTenAndCoGiay(
+                    sanPhamChiTiet.getKichCo(),
+                    sanPhamChiTiet.getMauSac(),
+                    sanPhamChiTiet.getDeGiay(),
+                    sanPhamChiTiet.getChatLieu(),
+                    sanPhamChiTiet.getTen(),
+                    sanPhamChiTiet.getCoGiay()
+            );
+
+            if (existingSanPhamChiTiet.isPresent()) {
+                SanPhamChiTiet existing = existingSanPhamChiTiet.get();
+                existing.setSoLuong(existing.getSoLuong() + sanPhamChiTiet.getSoLuong());
+                repository.save(existing);
+            } else {
+                repository.save(sanPhamChiTiet);
+            }
+        }
+        return repository.findAll();
     }
 
     public int countBySanPhamId(Long sanPhamId) {
