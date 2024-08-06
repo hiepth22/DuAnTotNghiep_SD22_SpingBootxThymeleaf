@@ -120,32 +120,14 @@ public class NhanVienControler {
                               @RequestParam(name = "dc", required = false) String dc,
                               @RequestParam(name = "img", required = false) MultipartFile img,
                               Model model) throws IOException {
-//        String extension = FilenameUtils.getExtension(img.getOriginalFilename());
-//        String name = UUID.randomUUID().toString() + "." + extension;
-//        saveImage(img, name); // Lưu ảnh với tên ngẫu nhiên
-//        nv.setAnh("assets/imageNV/" + name);
-
-//        // Kiểm tra trùng lặp email và số điện thoại
-//        List<NhanVien> nvList = repository.findAll();
-//        for (NhanVien existingNv : nvList) {
-//            if (existingNv.getEmail().equals(nv.getEmail())) {
-//                model.addAttribute("errormail", "Email đã tồn tại!");
-//                System.out.println("trung mail");
-//                return "admin/NhanVien/NhanVienAdd";
-//            }
-//            if (existingNv.getSdt().equals(nv.getSdt())) {
-//                model.addAttribute("errorsdt", "Số điện thoại đã tồn tại!");
-//                return "admin/NhanVien/NhanVienAdd";
-//            }
-//        }
 
         nv.setNgayTao(java.time.LocalDateTime.now());
         nv.setNgayCapNhat(java.time.LocalDateTime.now());
         nv.setTrangThai(1);
 
         String newPassword = generateRandomPassword();
-        // String encodedPassword = passwordEncoder.encode(newPassword);
-        // nv.setMatKhau(encodedPassword);
+//         String encodedPassword = passwordEncoder.encode(newPassword);
+         nv.setMatKhau(newPassword);
         String getma = generateMaNhanVien();
         sendPasswordEmail(nv.getEmail(), newPassword);
         nv.setMa(getma);
@@ -153,8 +135,8 @@ public class NhanVienControler {
         if (dc != null) {
             nv.setDiachi(nv.getDiachi() + "," + dc);
         }
-        String extension = FilenameUtils.getExtension(img.getOriginalFilename());
-        String name = UUID.randomUUID().toString() + "." + extension;
+//        String extension = FilenameUtils.getExtension(img.getOriginalFilename());
+//        String name = UUID.randomUUID().toString() + "." + extension;
 
         String fileName = StringUtils.cleanPath(img.getOriginalFilename());
         String uploadDir = "./src/main/resources/static/assets/imageNV";
@@ -196,14 +178,13 @@ public class NhanVienControler {
 
             String[] fruits = nv.getDiachi().split(",");
 
-// Kiểm tra nếu mảng ít hơn 3 phần tử thì không thực hiện gì
-            if (fruits.length >= 3) {
-                // Lấy 3 phần tử cuối cùng của mảng
-                String lastThreeElements = fruits[fruits.length - 3] + ","
-                        + fruits[fruits.length - 2] + ","
-                        + fruits[fruits.length - 1];
 
-                // Lấy những phần tử còn lại
+            if (fruits.length >= 3) {
+
+//                String lastThreeElements = fruits[fruits.length - 3] + ","
+//                        + fruits[fruits.length - 2] + ","
+//                        + fruits[fruits.length - 1];
+
                 StringBuilder remainingElements = new StringBuilder();
                 for (int i = 0; i < fruits.length - 3; i++) {
                     remainingElements.append(fruits[i]);
@@ -308,7 +289,7 @@ public class NhanVienControler {
     }
 
 
-    //-----------------------------xử lí ảnh mật khẩu và mail->
+
     private String generateRandomPassword() {
         String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
