@@ -82,6 +82,8 @@
                     <th scope="col">Màu sắc</th>
                     <th scope="col">Kích cỡ</th>
                     <th scope="col">Cân nặng</th>
+                    <th scope="col">Loại cổ</th>
+                    <th scope="col">Loại đế</th>
                     <th scope="col">Số lượng</th>
                     <th scope="col">Trạng thái</th>
                     <th scope="col">Action</th>
@@ -98,6 +100,8 @@
                     </td>
                     <td th:text="${spct.kichCo.ten}"></td>
                     <td th:text="${spct.formattedCanNang}"></td>
+                    <td th:text="${spct.coGiay.ten}"></td>
+                    <td th:text="${spct.deGiay.ten}"></td>
                     <td th:text="${spct.soLuong}"></td>
                     <td>
                         <span th:if="${spct.trangThai == 1}">Đang bán</span>

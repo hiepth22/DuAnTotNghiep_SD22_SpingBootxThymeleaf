@@ -13,10 +13,10 @@
     <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
     <!-- Navbar End -->
 
-    <h1 class="text-left text-4xl font-bold mb-4">Danh sách sản phẩm</h1>
+    <h1 class="text-left text-4xl font-bold mb-4">Quản lý thương hiệu</h1>
 
     <div class="container mx-auto bg-white h-75 w-full m-auto mt-5 p-6 rounded-lg shadow-md">
-        <h2 class="text-left text-2xl font-bold mb-4"><i class="fa-solid fa-filter"></i>Tìm kiếm và bộ lọc</h2>
+        <h2 class="text-left text-2xl font-bold mb-4"><i class="fa-solid fa-filter"></i>Tìm kiếm</h2>
         <div class="mb-3 row">
             <div class="col-8">
                 <input type="text" class="form-control" placeholder="Tìm kiếm">
@@ -25,37 +25,30 @@
                 <button class="btn btn-primary w-100">Tìm kiếm</button>
             </div>
             <div class="col-2">
-                <button class="btn btn-secondary w-100">Hủy lọc</button>
+                <button class="btn btn-secondary w-100">Reset</button>
             </div>
         </div>
     </div>
-    <div class="container mx-auto mt-3 d-flex justify-content-end">
-        <a href="/admin/san-pham-chi-tiet/add" class="btn btn-success">Thêm mới sản phẩm</a>
-    </div>
-    <div class="w-full m-auto mt-3 bg-white p-6 rounded-lg shadow-md mb-11">
+
+    <div class="w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md mb-11">
         <table class="table table-bordered" id="productTable">
             <thead>
             <tr>
                 <th scope="col">STT</th>
-                <th scope="col">Tên sản phẩm</th>
-                <th scope="col">Thương hiệu</th>
-                <th scope="col">Số lượng</th>
+                <th scope="col">Tên thương hiệu</th>
                 <th scope="col">Trạng thái</th>
                 <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="sanPham, state : ${sanPhams}">
+            <tr th:each="thuongHieu, state : ${thuongHieus}">
                 <th scope="row" th:text="${state.count}"></th>
-                <td th:text="${sanPham.ten}"></td>
-                <td th:text="${sanPham.thuongHieu.ten}"></td>
-                <td th:text="${soLuongMap[sanPham.id]}"></td>
+                <td th:text="${thuongHieu.ten}"></td>
                 <td>
-                    <span th:if="${sanPham.trangThai == 1}">Đang bán</span>
-                    <span th:if="${sanPham.trangThai == 0}">Tạm ngưng</span>
+                    <span th:if="${thuongHieu.trangThai == 1}">Đang hoạt động</span>
+                    <span th:if="${thuongHieu.trangThai == 0}">Tạm ngưng</span>
                 </td>
                 <td>
-                    <a th:href="@{/admin/san-pham/{id}(id=${sanPham.id})}"><i class="fa-solid fa-eye"></i></a>
                 </td>
             </tr>
             </tbody>
