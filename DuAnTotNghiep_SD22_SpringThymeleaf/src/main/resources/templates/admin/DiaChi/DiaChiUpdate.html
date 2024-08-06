@@ -209,7 +209,6 @@
             var selectedCity = citis.options[citis.selectedIndex];
             var selectedDistrict = districts.options[districts.selectedIndex];
             var selectedWard = wards.options[wards.selectedIndex];
-
             document.querySelector("input[name='thanhPho']").value = selectedCity ? selectedCity.value : "";
             document.querySelector("input[name='quanHuyen']").value = selectedDistrict ? selectedDistrict.value : "";
             document.querySelector("input[name='phuongXa']").value = selectedWard ? selectedWard.value : "";
