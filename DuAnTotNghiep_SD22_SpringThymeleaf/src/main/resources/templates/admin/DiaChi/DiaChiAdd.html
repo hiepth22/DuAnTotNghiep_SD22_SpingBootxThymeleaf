@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
+<title>Thêm mới địa chỉ</title>
 <head>
     <link rel="icon" type="image/svg+xml"
           href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
@@ -52,63 +52,61 @@
     <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
     <div class="content flex-grow ml-64 p-4 bg-gray-200">
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
-        <div class="flex">
-            <div class="container mx-auto bg-white h-58 w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md h-88">
-                <div class="text-center">
-                    <span class="col-md-11 fw-bold fs-3 text-center">Thêm mới địa chỉ</span>
-                </div>
-                <form id="myForm" th:action="@{dia-chi-add}" method="post" class="row g-3" th:object="${dc}">
-                    <input type="hidden" name="thanhPho" th:value="*{thanhPho}">
-                    <input type="hidden" name="quanHuyen" th:value="*{quanHuyen}">
-                    <input type="hidden" name="phuongXa" th:value="*{phuongXa}">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Tên Người Nhận:</label>
-                            <input type="text" placeholder="Nhập tên người nhận" id="ten" name="ten"
-                                   class="form-control" th:field="*{ten}" oninput="validateForm()">
-                            <div id="tenError" class="error"></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Tỉnh/Thành Phố</label>
-                            <select class="form-select form-select-sm mb-3" id="city" aria-label="Chọn tỉnh thành"
-                                    th:field="*{thanhPho}" oninput="validateForm()">
-                                <option value="" selected>Chọn tỉnh thành</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Quận/Huyện</label>
-                            <select class="form-select form-select-sm mb-3" id="district" aria-label="Chọn quận huyện"
-                                    th:field="*{quanHuyen}" oninput="validateForm()">
-                                <option value="" selected>Chọn quận huyện</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Phường/Xã</label>
-                            <select class="form-select form-select-sm mb-3" id="ward" aria-label="Chọn phường xã"
-                                    th:field="*{phuongXa}" oninput="validateForm()">
-                                <option value="" selected>Chọn phường xã</option>
-                            </select>
-                        </div>
-                        <span id="dcError" class="error"></span>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Số Nhà:</label>
-                            <textarea class="form-control" id="diachict" name="sonha" rows="3" th:field="*{soNha}"
-                                      oninput="validateForm()"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Mô Tả:</label>
-                            <textarea class="form-control" id="mota" name="mota" rows="3" th:field="*{moTaChiTiet}"
-                                      oninput="validateForm()"></textarea>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <a th:href="@{/admin/khach-hang}" class="btn btn-secondary">Đóng</a>
-                        <button type="submit" class="btn btn-primary" id="confirmButton">Save</button>
-                    </div>
-                </form>
+        <div class="container mx-auto bg-white h-58 w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md h-88">
+            <div class="text-center">
+                <span class="col-md-11 fw-bold fs-3 text-center">Thêm mới địa chỉ</span>
             </div>
+            <form id="myForm" th:action="@{dia-chi-add}" method="post" class="row g-3" th:object="${dc}">
+                <input type="hidden" name="thanhPho" th:value="*{thanhPho}">
+                <input type="hidden" name="quanHuyen" th:value="*{quanHuyen}">
+                <input type="hidden" name="phuongXa" th:value="*{phuongXa}">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Tên Người Nhận:</label>
+                        <input type="text" placeholder="Nhập tên người nhận" id="ten" name="ten"
+                               class="form-control" th:field="*{ten}" oninput="validateForm()">
+                        <div id="tenError" class="error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tỉnh/Thành Phố</label>
+                        <select class="form-select form-select-sm mb-3" id="city" aria-label="Chọn tỉnh thành"
+                                th:field="*{thanhPho}" oninput="validateForm()">
+                            <option value="" selected>Chọn tỉnh thành</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Quận/Huyện</label>
+                        <select class="form-select form-select-sm mb-3" id="district" aria-label="Chọn quận huyện"
+                                th:field="*{quanHuyen}" oninput="validateForm()">
+                            <option value="" selected>Chọn quận huyện</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phường/Xã</label>
+                        <select class="form-select form-select-sm mb-3" id="ward" aria-label="Chọn phường xã"
+                                th:field="*{phuongXa}" oninput="validateForm()">
+                            <option value="" selected>Chọn phường xã</option>
+                        </select>
+                    </div>
+                    <span id="dcError" class="error"></span>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Số Nhà:</label>
+                        <textarea class="form-control" id="diachict" name="sonha" rows="3" th:field="*{soNha}"
+                                  oninput="validateForm()"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Mô Tả:</label>
+                        <textarea class="form-control" id="mota" name="mota" rows="3" th:field="*{moTaChiTiet}"
+                                  oninput="validateForm()"></textarea>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a th:href="@{/admin/khach-hang}" class="btn btn-secondary">Đóng</a>
+                    <button type="button" class="btn btn-primary" id="confirmButton">Save</button>
+                </div>
+            </form>
         </div>
     </div>
     <div id="notification1" class="notification">
@@ -121,172 +119,197 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="@{/assets/js/main.js}"></script>
     <script>
-        var citis = document.getElementById("city");
-        var districts = document.getElementById("district");
-        var wards = document.getElementById("ward");
-        var Parameter = {
-            url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-            method: "GET",
-            responseType: "json", // Chỉnh responseType thành json để nhận dữ liệu JSON trực tiếp
-        };
+        document.addEventListener('DOMContentLoaded', function () {
+            var citis = document.getElementById("city");
+            var districts = document.getElementById("district");
+            var wards = document.getElementById("ward");
 
-        // Gửi request lấy dữ liệu
-        axios(Parameter).then(function (response) {
-            renderCity(response.data); // Gọi hàm renderCity khi có dữ liệu trả về
-        }).catch(function (error) {
-            console.error('Error fetching data: ', error);
-        });
+            var Parameter = {
+                url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+                method: "GET",
+                responseType: "json",
+            };
 
-        function renderCity(data) {
-            // Hàm để render danh sách các tỉnh/thành phố vào dropdown citis
-            data.forEach(function (city) {
-                citis.options[citis.options.length] = new Option(city.Name, city.Name); // Chọn city.Name thay vì city.Id
+            axios(Parameter).then(function (response) {
+                renderCity(response.data);
+                setDefaultValues(response.data);
+            }).catch(function (error) {
+                console.error('Error fetching data: ', error);
             });
 
-            // Sự kiện khi chọn tỉnh/thành phố
-            citis.onchange = function () {
-                clearOptions(districts); // Xóa các option cũ của districts
-                clearOptions(wards); // Xóa các option cũ của wards
-
-                // Lọc ra thông tin của tỉnh/thành phố được chọn
-                var selectedCity = data.find(function (city) {
-                    return city.Name === citis.value;
+            function renderCity(data) {
+                data.forEach(function (city) {
+                    citis.options[citis.options.length] = new Option(city.Name, city.Name);
                 });
 
-                if (selectedCity) {
-                    // Render các quận/huyện vào dropdown districts
-                    selectedCity.Districts.forEach(function (district) {
-                        districts.options[districts.options.length] = new Option(district.Name, district.Name); // Chọn district.Name thay vì district.Id
-                    });
-                }
+                citis.onchange = function () {
+                    clearOptions(districts);
+                    clearOptions(wards);
 
-                // Cập nhật các trường ẩn
-                updateHiddenFields();
-            };
-
-            // Sự kiện khi chọn quận/huyện
-            districts.onchange = function () {
-                clearOptions(wards); // Xóa các option cũ của wards
-
-                // Lấy thông tin của tỉnh/thành phố được chọn
-                var selectedCity = data.find(function (city) {
-                    return city.Name === citis.value;
-                });
-
-                if (selectedCity) {
-                    // Lọc ra thông tin của quận/huyện được chọn
-                    var selectedDistrict = selectedCity.Districts.find(function (district) {
-                        return district.Name === districts.value;
+                    var selectedCity = data.find(function (city) {
+                        return city.Name === citis.value;
                     });
 
-                    if (selectedDistrict) {
-                        // Render các phường/xã vào dropdown wards
-                        selectedDistrict.Wards.forEach(function (ward) {
-                            wards.options[wards.options.length] = new Option(ward.Name, ward.Name); // Chọn ward.Name thay vì ward.Id
+                    if (selectedCity) {
+                        selectedCity.Districts.forEach(function (district) {
+                            districts.options[districts.options.length] = new Option(district.Name, district.Name);
                         });
                     }
-                }
 
-                // Cập nhật các trường ẩn
-                updateHiddenFields();
-            };
+                    updateHiddenFields();
+                };
 
-            // Sự kiện khi chọn phường/xã
-            wards.onchange = function () {
-                // Lấy thông tin của tỉnh/thành phố được chọn
-                var selectedCity = data.find(function (city) {
-                    return city.Name === citis.value;
-                });
+                districts.onchange = function () {
+                    clearOptions(wards);
 
-                if (selectedCity) {
-                    // Lọc ra thông tin của quận/huyện được chọn
-                    var selectedDistrict = selectedCity.Districts.find(function (district) {
-                        return district.Name === districts.value;
+                    var selectedCity = data.find(function (city) {
+                        return city.Name === citis.value;
                     });
 
-                    if (selectedDistrict) {
-                        var selectedWard = selectedDistrict.Wards.find(function (ward) {
-                            return ward.Name === wards.value;
+                    if (selectedCity) {
+                        var selectedDistrict = selectedCity.Districts.find(function (district) {
+                            return district.Name === districts.value;
                         });
 
-                        if (selectedWard) {
-                            // Cập nhật các trường ẩn
-                            updateHiddenFields();
+                        if (selectedDistrict) {
+                            selectedDistrict.Wards.forEach(function (ward) {
+                                wards.options[wards.options.length] = new Option(ward.Name, ward.Name);
+                            });
+                        }
+                    }
+
+                    updateHiddenFields();
+                };
+
+                wards.onchange = function () {
+                    updateHiddenFields();
+                };
+            }
+
+            function clearOptions(selectElement) {
+                for (var i = selectElement.options.length - 1; i > 0; i--) {
+                    selectElement.remove(i);
+                }
+            }
+
+            function updateHiddenFields() {
+                var selectedCity = citis.options[citis.selectedIndex];
+                var selectedDistrict = districts.options[districts.selectedIndex];
+                var selectedWard = wards.options[wards.selectedIndex];
+
+                document.querySelector("input[name='thanhPho']").value = selectedCity ? selectedCity.value : "";
+                document.querySelector("input[name='quanHuyen']").value = selectedDistrict ? selectedDistrict.value : "";
+                document.querySelector("input[name='phuongXa']").value = selectedWard ? selectedWard.value : "";
+            }
+
+            function setDefaultValues(data) {
+                var defaultCity = document.querySelector("input[name='thanhPho']").value;
+                var defaultDistrict = document.querySelector("input[name='quanHuyen']").value;
+                var defaultWard = document.querySelector("input[name='phuongXa']").value;
+
+                if (defaultCity) {
+                    citis.value = defaultCity;
+                    var selectedCity = data.find(function (city) {
+                        return city.Name === defaultCity;
+                    });
+
+                    if (selectedCity) {
+                        selectedCity.Districts.forEach(function (district) {
+                            districts.options[districts.options.length] = new Option(district.Name, district.Name);
+                        });
+
+                        if (defaultDistrict) {
+                            districts.value = defaultDistrict;
+                            var selectedDistrict = selectedCity.Districts.find(function (district) {
+                                return district.Name === defaultDistrict;
+                            });
+
+                            if (selectedDistrict) {
+                                selectedDistrict.Wards.forEach(function (ward) {
+                                    wards.options[wards.options.length] = new Option(ward.Name, ward.Name);
+                                });
+
+                                if (defaultWard) {
+                                    wards.value = defaultWard;
+                                }
+                            }
                         }
                     }
                 }
-            };
-        }
-
-        // Hàm để xóa các option của một dropdown
-        function clearOptions(dropdown) {
-            dropdown.innerHTML = '';
-            dropdown.options[0] = new Option("Chọn...", ""); // Tùy chọn mặc định
-        }
-
-        // Hàm để cập nhật các trường ẩn
-        function updateHiddenFields() {
-            var thanhPho = document.querySelector('input[name="thanhPho"]');
-            var quanHuyen = document.querySelector('input[name="quanHuyen"]');
-            var phuongXa = document.querySelector('input[name="phuongXa"]');
-
-            thanhPho.value = citis.value;
-            quanHuyen.value = districts.value;
-            phuongXa.value = wards.value;
-        }
-        function validateForm() {
-            var isValid = true;
-            var ten = document.getElementById("ten").value.trim();
-            var city = citis.value;
-            var district = districts.value;
-            var ward = wards.value;
-
-            document.getElementById("tenError").innerHTML = ten === "" ? "Vui lòng nhập tên người nhận." : "";
-            isValid = isValid && ten !== "";
-
-            document.getElementById("dcError").innerHTML = city === "" || district === "" || ward === "" ? "Vui lòng chọn đầy đủ địa chỉ." : "";
-            isValid = isValid && city !== "" && district !== "" && ward !== "";
-
-            return isValid;
-        }
-        document.getElementById("confirmButton").onclick = function (event) {
-            event.preventDefault();
-
-            if (validateForm()) {
-                Swal.fire({
-                    title: 'Xác nhận',
-                    text: 'Bạn có chắc chắn muốn Thêm địa chỉ này không?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'Có',
-                    cancelButtonText: 'Không',
-                    customClass: {
-                        confirmButton: 'btn btn-primary',
-                        cancelButton: 'btn btn-secondary'
-                    },
-                    buttonsStyling: false
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById("myForm").submit();
-                        showNotification1();
-                    }
-                });
             }
-        };
+        });
 
-        function showNotification1() {
-            var notification = document.getElementById('notification1');
-            var progressBar = document.getElementById('progress-bar1');
+        document.getElementById('confirmButton').addEventListener('click', function () {
+            Swal.fire({
+                title: 'Xác nhận lưu thông tin?',
+                text: "Bạn có chắc muốn lưu địa chỉ này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Lưu',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    validateAndSubmitForm();
+                }
+            });
+        });
 
-            notification.classList.add('show1');
-            progressBar.style.width = '100%';
+        function validateAndSubmitForm() {
+            var form = document.getElementById('myForm');
+            var ten = document.getElementById('ten').value.trim();
+            var city = document.getElementById('city').value;
+            var district = document.getElementById('district').value;
+            var ward = document.getElementById('ward').value;
+            var diachict = document.getElementById('diachict').value.trim();
+            var mota = document.getElementById('mota').value.trim();
 
-            setTimeout(function () {
-                notification.classList.remove('show1');
-                progressBar.style.width = '0';
-            }, 3000);
+            var errors = false;
+
+            if (ten === '') {
+                document.getElementById('tenError').textContent = 'Tên không được để trống';
+                errors = true;
+            } else {
+                document.getElementById('tenError').textContent = '';
+            }
+
+            if (city === '' || district === '' || ward === '') {
+                document.getElementById('dcError').textContent = 'Vui lòng chọn đầy đủ Tỉnh/Thành phố, Quận/Huyện, Phường/Xã';
+                errors = true;
+            } else {
+                document.getElementById('dcError').textContent = '';
+            }
+
+            if (!errors) {
+                form.submit();
+                Swal.fire(
+                    'Thành công!',
+                    'Địa chỉ của bạn đã được lưu.',
+                    'success'
+                );
+            }
+        }
+
+        function validateForm() {
+            var ten = document.getElementById('ten').value.trim();
+            var city = document.getElementById('city').value;
+            var district = document.getElementById('district').value;
+            var ward = document.getElementById('ward').value;
+
+            if (ten === '') {
+                document.getElementById('tenError').textContent = 'Tên không được để trống';
+            } else {
+                document.getElementById('tenError').textContent = '';
+            }
+
+            if (city === '' || district === '' || ward === '') {
+                document.getElementById('dcError').textContent = 'Vui lòng chọn đầy đủ Tỉnh/Thành phố, Quận/Huyện, Phường/Xã';
+            } else {
+                document.getElementById('dcError').textContent = '';
+            }
         }
     </script>
-</div>
 </body>
+
 </html>
