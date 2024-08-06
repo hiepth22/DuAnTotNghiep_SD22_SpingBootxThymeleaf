@@ -121,7 +121,7 @@
                         <div class="mb-3">
                             <label for="sdt" class="form-label">Số Điện Thoại:</label>
                             <input type="text" id="sdt" name="sdt" class="form-control"
-                                   placeholder="Nhập SĐT" th:field="*{sdt}" oninput="validateForm()">
+                                   placeholder="Nhập SĐT" th:field="*{sdt}" oninput="validateForm()" disabled>
                             <div id="sdtError" class="error"></div>
                         </div>
                         <div class="mb-3">
@@ -141,7 +141,7 @@
                         <div class="mb-3">
                             <label for="email" class="form-label">Email:</label>
                             <input type="email" id="email" name="email" class="form-control"
-                                   placeholder="Nhập Email" th:field="*{email}" oninput="validateForm()">
+                                   placeholder="Nhập Email" th:field="*{email}" oninput="validateForm()" disabled>
                             <div id="emailError" class="error"></div>
                         </div>
                         <div class="mb-3">
