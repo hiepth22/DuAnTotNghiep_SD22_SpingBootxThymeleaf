@@ -48,7 +48,19 @@
         }
 
     </style>
-
+    <style>
+        .card-title {
+            text-decoration: none;
+            color: black;
+        }
+        a {
+            text-decoration: none; /* Loại bỏ gạch chân cho tất cả các liên kết */
+        }
+        .bold-red {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
     <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,900;1,900&family=Source+Sans+Pro:wght@400;600;700;900&display=swap"
             rel="stylesheet">
@@ -569,16 +581,15 @@
         </div>
         <div class="row">
             <!-- Thymeleaf loop for products -->
-            <div th:each="sanPham : ${sanPhams}" class="col-md-4 mb-4">
+            <div th:each="sanPham : ${sanPhams}" class="col-md-3 mb-3 text-center" >
                 <div class="card-body">
                     <!-- Modal trigger -->
                     <a href="#" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${sanPham.id}">
+                        <img th:src="'https://res.cloudinary.com/deapopcoc/image/upload/' + ${sanPham.anh}" alt="Ảnh" style="width: 300px; height: 300px; object-fit: cover;">
                         <h5 class="card-title" th:text="${sanPham.ten}"></h5>
-                        <img th:src="@{/assets/imageNV/${sanPham.anh}}" class="img-fluid mb-2" alt="Product Image">
                     </a>
-
-                    <p class="card-text" th:text="${'Giá: ' + sanPham.giaBan}"></p>
-                    <p class="card-text" th:text="${'Số lượng: ' + sanPham.soLuong}"></p>
+                    <p class="card-text bold-red" th:text="${sanPham.giaBan} + ' VND'"></p><!--                    toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })-->
+<!--                    <p class="card-text" th:text="${sanPham.soLuong}"></p>-->
                     <div id="dsSanPham" class="d-flex justify-content-between align-items-center">
                         <a th:href="@{/cho-thanh-toan}" class="btn btn-primary">Mua Ngay</a>
                         <a class="themSanPham btn btn-secondary " th:data-id="${sanPham.id}">Thêm Vào Giỏ Hàng</a>
@@ -614,10 +625,10 @@
                             <div class="card">
                                 <div class="card-body">
                                     <!-- Tên sản phẩm -->
-                                    <h5 class="card-title" id="modalProductName">Tên sản phẩm</h5>
+<!--                                    <h5 class="card-title" id="modalProductName">Tên sản phẩm</h5>-->
 
                                     <!-- Giá sản phẩm -->
-                                    <p class="card-text" id="modalPrice">Giá sản phẩm</p>
+                                    <p class="card-text" style="color: red" id="modalPrice">Giá sản phẩm</p>
 
                                     <!-- Số lượng sản phẩm -->
                                     <p class="card-text" id="modalQuantity">Số lượng sản phẩm</p>
@@ -835,11 +846,11 @@
                 dataType: 'json',
                 success: function (data) {
                     $('#productModalLabel').text(productName);
-                    $('#modalImage').attr('src', '/assets/imageNV/' + data.anh);
-                    $('#modalProductName').text(data.ten);
-                    $('#modalPrice').text('Giá: ' + data.giaBan);
-                    $('#modalQuantity').text('Số lượng: ' + data.soLuong);
-                    $('#modalDescription').text('Mô Tả: ' + data.moTa);
+                    // $('#modalImage').attr('src', '/assets/imageNV/' + data.anh);
+                    $('#modalImage').attr('src', 'https://res.cloudinary.com/deapopcoc/image/upload/' + data.anh);
+                    $('#modalPrice').text( data.giaBan +' VND');
+                    $('#modalQuantity').text( data.soLuong);
+                    $('#modalDescription').text(data.moTa);
                     $('#modalColor').html(`
     <div class="color-container rounded-lg" style="background-color: ${data.mauSac.ten}; width: 50px; height: 20px;"></div>
 `);
