@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="icon" type="image/svg+xml"
+      href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
+<div th:replace="~{client/fragmentsClient/head :: head}"></div>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -8,6 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body class="bg-white">
+<div th:replace="~{client/fragmentsClient/header :: header}"></div>
 <div>
     <div class="flex justify-center">
         <div class="container bg-gray-100 w-[75%] p-2 rounded-lg shadow-md mt-32 flex gap-40">

@@ -1,10 +1,14 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{client/fragmentsClient/head :: head}"></div>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>SHOSE SEE</title>
     <link rel="stylesheet" href="/css/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/svg+xml"
+          href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
         .btn-payment {
@@ -33,6 +37,7 @@
 </head>
 <body class="bg-gray-100">
 <div>
+    <div th:replace="~{client/fragmentsClient/header :: header}"></div>
     <div class="flex justify-center">
         <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-32 flex gap-40">
             <div class="grid gap-1 grid-cols-1">

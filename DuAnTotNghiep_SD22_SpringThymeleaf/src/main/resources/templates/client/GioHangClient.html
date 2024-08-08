@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{client/fragmentsClient/head :: head}"></div>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -6,11 +8,16 @@
     <link rel="stylesheet" href="/css/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="icon" type="image/svg+xml"
+          href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+
 </head>
 <body class="bg-gray-100">
+<div th:replace="~{client/fragmentsClient/header :: header}"></div>
 <div>
     <div class="mt-20">
-        <h1 class="flex justify-center font-bold text-3xl">Giỏ Hàng</h1>
+        <h4 class="flex justify-center font-bold text-3xl">Giỏ hàng của bạn</h4>
         <div class="flex justify-center mt-3">
             <div class="w-48 h-0.5 bg-orange-500"></div>
         </div>
