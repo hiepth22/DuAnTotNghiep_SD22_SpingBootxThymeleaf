@@ -59,8 +59,8 @@
                             STT
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider w-[30%]">
-                            Sản
-                            phẩm
+                           <span class="ml-14"> Sản
+                            phẩm</span>
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
                            size
@@ -79,7 +79,7 @@
                     <tbody id="danhSachSanPham" class="bg-white divide-y divide-gray-200 h-full">
                     </tbody>
                 </table>
-            <div class="soLuongVaTongTien ml-[75%]" id="soLuongVaTongTien"></div>
+            <div class="soLuongVaTongTien ml-[65%]" id="soLuongVaTongTien"></div>
         </div>
     </div>
     <div class="flex justify-center">
@@ -110,10 +110,10 @@
                            <div class="mb-5">Tổng thanh toán</div>
                        </div>
                        <div class="font-bold">
-                           <div class="mb-5">:<span id="tongTien"></span></div>
-                           <div class="mb-5">:<span id="phiVanChuyen"></span></div>
-                           <div class="mb-5">:<span id="maGiamGia"></span></div>
-                           <div class="mb-5">:<span id="tongThanhToan"></span></div>
+                           <div class="mb-5">:<span class="ml-1" id="tongTien"></span></div>
+                           <div class="mb-5">:<span class="ml-1" id="phiVanChuyen"></span></div>
+                           <div class="mb-5">:<span class="ml-1" id="maGiamGia"></span></div>
+                           <div class="mb-5">:<span class="ml-1" id="tongThanhToan"></span></div>
                        </div>
                    </div>
                     <div id="datHang">
@@ -137,6 +137,10 @@
         let nguoiNhan = '';
         let sdtNguoiNhan = '';
         let idKhachHang = '';
+
+        const formatVND = (tongtien) => {
+            return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+        }
 
 
         const DateNow = new Date();
@@ -181,23 +185,23 @@
                             <div>
                                 <img src="https://res.cloudinary.com/deapopcoc/image/upload/${item.sanPhamChiTiet.anh}" alt="Ảnh" class="w-24 h-auto mt-2">
                             </div>
-                            <div><span>${item.sanPhamChiTiet.ten}</span></div>
+                            <div class="m-4 font-bold"><span>${item.sanPhamChiTiet.ten}</span></div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">${item.sanPhamChiTiet.kichCo.ten}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${item.sanPhamChiTiet.giaBan}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${formatVND(item.sanPhamChiTiet.giaBan)}</td>
                         <td class="px-6 py-4 whitespace-nowrap">${item.soLuong}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${item.soLuong * item.sanPhamChiTiet.giaBan}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${formatVND(item.soLuong * item.sanPhamChiTiet.giaBan)}</td>
                     </tr>
             `;
                 }
 
                 $('#soLuongVaTongTien').html(`
-            <div>Tổng số tiền(${selectedProducts.length} sản phẩm): ${tongTien}</div>
+            <div>Tổng số tiền(${selectedProducts.length} sản phẩm): ${formatVND(tongTien)}</div>
         `);
-                $('#tongTien').text(tongTien);
+                $('#tongTien').text(formatVND(tongTien));
                 $('#phiVanChuyen').text(ship);
                 $('#maGiamGia').text(discount);
-                $('#tongThanhToan').text(tongTien - discount);
+                $('#tongThanhToan').text(formatVND(tongTien - discount));
 
             } else {
                 list = "<p>Không có sản phẩm nào được chọn.</p>";

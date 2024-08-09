@@ -39,4 +39,12 @@ public class GiohangService {
         return gioHangRepository.selectIDGH(id);
     }
 
+    public GioHangChiTiet updateSoLuong(Long id, GioHangChiTiet gioHangChiTiet) {
+        Optional<GioHangChiTiet> optional = gioHangChiTietRepository.findById(id);
+        return optional.map(o -> {
+            o.setSoLuong(gioHangChiTiet.getSoLuong());
+            return gioHangChiTietRepository.save(o);
+        }).orElse(null);
+    }
+
 }

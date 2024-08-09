@@ -133,6 +133,13 @@ public class GioHangAPI {
         return ResponseEntity.ok(giohangService.IdGioHang(id));
     }
 
+    @PutMapping("/update-so-luong-sp/{id}")
+    public ResponseEntity<?> updateSoLuongSPTrongGioHangChiTiet(@PathVariable("id") Long id,
+                                                                @RequestBody GioHangChiTiet gioHangChiTiet) {
+        return ResponseEntity.ok(giohangService.updateSoLuong(id, gioHangChiTiet));
+    }
+
+
 
 
 

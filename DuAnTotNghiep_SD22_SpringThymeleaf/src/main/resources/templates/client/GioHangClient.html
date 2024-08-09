@@ -49,18 +49,18 @@
                 <div class="ml-3 w-80 h-0.5 bg-black"></div>
             </div>
             <div class="m-5">
-                <p>Voucher: <span id="voucher">0</span> VNĐ</p>
+                <p>Voucher: <span id="voucher">0</span></p>
             </div>
             <div class="ml-3 w-80 h-0.5 bg-gray-200"></div>
             <div class="m-5">
                 <div>
-                    <p>Đơn hàng: <span id="donHang">0</span> VNĐ</p>
-                    <p class="mt-5">Giảm: <span id="discount">0</span> VNĐ</p>
+                    <p>Đơn hàng: <span id="donHang">0</span></p>
+                    <p class="mt-5">Giảm: <span id="discount">0</span></p>
                 </div>
             </div>
             <div class="ml-3 w-80 h-0.5 bg-gray-200"></div>
             <div>
-                <h1 class="text-xl font-bold m-10">Tổng tiền: <span id="total">0</span> VNĐ</h1>
+                <h1 class="text-xl font-bold m-10">Tổng tiền: <span id="total">0</span></h1>
             </div>
             <div class="tiepTucSanPham">
                 <button type="button" class="tiepTuc ml-5 w-[90%] h-20 font-bold text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"><a href="/cho-thanh-toan">Tiếp tục thanh toán</a></button>
@@ -108,14 +108,20 @@
                                     <img src="https://res.cloudinary.com/deapopcoc/image/upload/${item.sanPhamChiTiet.anh}" alt="Ảnh" class="w-24 h-auto mt-2">
                                 </div>
                                 <div class="w-32">
-                                    <div>${item.sanPhamChiTiet.ten}</div>
-                                    <div>Giá: ${item.sanPhamChiTiet.giaBan}</div>
-                                    <div>Số lượng: ${item.soLuong}</div>
+                                    <div class="font-bold">${item.sanPhamChiTiet.ten}</div>
+                                    <div class="text-red-500">${formatVND(item.sanPhamChiTiet.giaBan)}</div>
+                                    <div>
+                                        <input type="number" class="soLuong-input bg-gray-100 w-[50%] border border-gray-300 rounded-md px-2 py-1" value="${item.soLuong}" min="1" data-id="${item.id}" id="soLuong-${item.id}" name="soLuong-${item.id}">
+                                    </div>
                                 </div>
-                                <div>
-                                    <div>Trạng thái</div>
-                                    <div>${item.soLuong * item.sanPhamChiTiet.giaBan}</div>
-                                    <div>Thùng rác</div>
+                                <div class=>
+                                    <div class="mb-3 ml-2">${trangThaiSP(item.sanPhamChiTiet.trangThai)}</div>
+                                    <div class="text-red-500 mb-3">${formatVND(item.soLuong * item.sanPhamChiTiet.giaBan)}</div>
+                                    <div class="ml-7">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                            <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
                             `;
@@ -135,6 +141,39 @@
             });
         }
 
+        $('#thongTinSP').on('change', '.soLuong-input', function () {
+            const id = $(this).data('id');
+            const SoLuongMoi = $(this).val();
+
+            $.ajax({
+                url: `/api/gio-hang/update-so-luong-sp/${id}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({id: id, soLuong: SoLuongMoi}),
+                success: function (response) {
+                    getKhachHang();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi khi cập nhật số lượng sản phẩm:', error);
+                }
+            });
+        });
+
+        const formatVND = (tongtien) => {
+            return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+        }
+
+        const trangThaiSP = (tt) => {
+            switch (tt) {
+                case 1:
+                    return '<span class="status bg-green-500 text-white rounded-lg px-1">Còn hàng</span>';
+                case 2:
+                    return '<span class="status bg-red-500 text-white rounded-lg px-1">Hết hàng</span>';
+                default:
+                    return 'Không xác định'
+            }
+        }
+
         function tinhTongTien() {
             let tongTien = 0;
             let tatCaDaChon = true;
@@ -151,9 +190,9 @@
                 }
             });
 
-            $("#donHang").text(tongTien);
+            $("#donHang").text(formatVND(tongTien));
             const tongTienCuoi = tongTien - discount;
-            $("#total").text(tongTienCuoi < 0 ? 0 : tongTienCuoi);
+            $("#total").text(formatVND(tongTienCuoi) < 0 ? 0 : formatVND(tongTienCuoi));
 
             $("#select-all-checkbox").prop("checked", tatCaDaChon && tongCheckbox > 0);
         }
@@ -167,7 +206,7 @@
             });
 
             localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
-            console.log('Selected products:', selectedProducts);  // Kiểm tra dữ liệu lưu vào localStorage
+            console.log('Selected products:', selectedProducts);
             tinhTongTien();
         }
 
