@@ -5,6 +5,7 @@ import com.poly.sneaker.repository.ChatLieuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,8 @@ public class ChatLieuService {
     }
 
     public ChatLieu add(ChatLieu chatLieu) {
+        chatLieu.setNgayTao(new Date());
+        chatLieu.setNguoiTao("admin");
         return repository.save(chatLieu);
     }
 
@@ -38,9 +41,9 @@ public class ChatLieuService {
         Optional<ChatLieu> optional = repository.findById(id);
         return optional.map(o -> {
             o.setTen(newChatLieu.getTen());
-            o.setNgayTao(newChatLieu.getNgayTao());
+//            o.setNgayTao(newChatLieu.getNgayTao());
             o.setNgayCapNhat(newChatLieu.getNgayCapNhat());
-            o.setNguoiTao(newChatLieu.getNguoiTao());
+//            o.setNguoiTao(newChatLieu.getNguoiTao());
             o.setNguoiCapNhat(newChatLieu.getNguoiCapNhat());
             o.setTrangThai(newChatLieu.getTrangThai());
 
