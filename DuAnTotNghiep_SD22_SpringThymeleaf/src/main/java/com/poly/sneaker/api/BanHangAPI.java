@@ -43,7 +43,7 @@ public class BanHangAPI {
 
 //    @GetMapping("/{id}")
 //    public List<HoaDonChiTiet> hienThiHoaDonApi(@PathVariable("id") Long id) {
-//        return hoaDonChiTietService.getHDCT(id);
+
 //    }
 
     @GetMapping("/{id}")
