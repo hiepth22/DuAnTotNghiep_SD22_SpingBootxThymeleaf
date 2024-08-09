@@ -137,18 +137,6 @@ public class HoaDonService {
 
     public List<SanPhamBanChayDTO> getTop10Products() {
         List<SanPhamBanChayDTO> result = hoaDonRepository.getSanPhamBanChayNhat(PageRequest.of(0, 5));
-//        List<SanPhamBanChayDTO> top10Products = new ArrayList<>();
-//
-//        for (Object[] row : result) {
-//            SanPhamBanChayDTO sanPhamBanChayDTO = new SanPhamBanChayDTO();
-//            sanPhamBanChayDTO.setId((Long) row[0]);
-//            sanPhamBanChayDTO.setAnh((String) row[1]);
-//            sanPhamBanChayDTO.setTen((String) row[2]);
-//            sanPhamBanChayDTO.setGiaBan((BigDecimal) row[3]);
-//            sanPhamBanChayDTO.setTongSoLuong((Long) row[4]);
-//            top10Products.add(sanPhamBanChayDTO);
-//        }
-
         return result;
     }
 
