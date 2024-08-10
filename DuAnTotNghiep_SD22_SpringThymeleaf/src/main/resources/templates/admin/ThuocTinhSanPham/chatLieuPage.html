@@ -40,6 +40,7 @@
                 <th scope="col">Tên chất liệu</th>
                 <th scope="col">Ngày tạo</th>
                 <th scope="col">Người tạo</th>
+                <th scope="col">Ngày cập nhật</th>
                 <th scope="col">Trạng thái</th>
                 <th scope="col">Action</th>
             </tr>
@@ -50,6 +51,7 @@
                 <td th:text="${chatLieu.ten}"></td>
                 <td th:text="${#dates.format(chatLieu.ngayTao, 'yyyy-MM-dd')}"></td>
                 <td th:text="${chatLieu.nguoiTao}"></td>
+                <td th:text="${chatLieu.ngayCapNhat != null ? #dates.format(chatLieu.ngayCapNhat, 'yyyy-MM-dd') : 'Chưa có thay đổi'}"></td>
                 <td>
                     <span th:if="${chatLieu.trangThai == 1}">Đang hoạt động</span>
                     <span th:if="${chatLieu.trangThai == 0}">Tạm ngưng</span>

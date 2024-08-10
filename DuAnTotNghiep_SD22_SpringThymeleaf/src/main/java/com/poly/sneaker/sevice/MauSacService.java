@@ -5,6 +5,7 @@ import com.poly.sneaker.repository.MauSacRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,9 @@ public class MauSacService {
     }
 
     public MauSac add(MauSac mauSac) {
+        mauSac.setNgayTao(new Date());
+        mauSac.setNgayCapNhat(null);
+        mauSac.setNguoiTao("admin");
         return repository.save(mauSac);
     }
 

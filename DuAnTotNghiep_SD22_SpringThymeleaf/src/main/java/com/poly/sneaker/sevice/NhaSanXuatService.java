@@ -5,6 +5,7 @@ import com.poly.sneaker.repository.NhaSanXuatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,9 @@ public class NhaSanXuatService {
     }
 
     public NhaSanXuat add(NhaSanXuat nhaSanXuat) {
+        nhaSanXuat.setNgayCapNhat(null);
+        nhaSanXuat.setNgayTao(new Date());
+        nhaSanXuat.setNguoiTao("admin");
         return repository.save(nhaSanXuat);
     }
 

@@ -20,6 +20,7 @@ public class ChatLieuService {
 
     public ChatLieu add(ChatLieu chatLieu) {
         chatLieu.setNgayTao(new Date());
+        chatLieu.setNgayCapNhat(null);
         chatLieu.setNguoiTao("admin");
         return repository.save(chatLieu);
     }

@@ -5,6 +5,7 @@ import com.poly.sneaker.repository.CoGiayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,9 @@ public class CoGiayService {
     }
 
     public CoGiay add(CoGiay coGiay) {
+        coGiay.setNgayTao(new Date());
+        coGiay.setNgayCapNhat(null);
+        coGiay.setNguoiTao("admin");
         return repository.save(coGiay);
     }
 

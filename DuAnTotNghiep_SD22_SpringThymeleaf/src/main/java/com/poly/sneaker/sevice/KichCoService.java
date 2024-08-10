@@ -5,6 +5,7 @@ import com.poly.sneaker.repository.KichCoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,9 @@ public class KichCoService {
     }
 
     public KichCo add(KichCo kichCo) {
+        kichCo.setNgayTao(new Date());
+        kichCo.setNgayCapNhat(null);
+        kichCo.setNguoiTao("admin");
         return repository.save(kichCo);
     }
 

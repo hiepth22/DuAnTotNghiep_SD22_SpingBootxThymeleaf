@@ -29,8 +29,10 @@
             </div>
         </div>
     </div>
-
-    <div class="w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md mb-11">
+    <div class="container mx-auto mt-3 d-flex justify-content-end">
+        <a href="/admin/de-giay/add" class="btn btn-success">Thêm mới đế giày</a>
+    </div>
+    <div class="w-full m-auto mt-3 bg-white p-6 rounded-lg shadow-md mb-11">
         <table class="table table-bordered" id="productTable">
             <thead>
             <tr>
@@ -48,7 +50,12 @@
                     <span th:if="${deGiay.trangThai == 1}">Đang hoạt động</span>
                     <span th:if="${deGiay.trangThai == 0}">Tạm ngưng</span>
                 </td>
-                <td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <form th:action="@{/admin/de-giay/update/{id}(id=${deGiay.id})}" method="get">
+                        <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </form>
                 </td>
             </tr>
             </tbody>
