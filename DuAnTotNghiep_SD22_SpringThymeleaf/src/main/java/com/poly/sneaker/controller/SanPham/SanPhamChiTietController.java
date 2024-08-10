@@ -58,7 +58,9 @@ public class SanPhamChiTietController {
 
 
     @GetMapping("/add")
-    public String addSanPhamChiTiet(Model model){
+    public String addSanPhamChiTiet(
+                                    Model model){
+
         List<SanPham> sanPhams = sanPhamService.getAll();
         List<DeGiay> deGiays = deGiayService.getAll();
         List<NhaSanXuat> nhaSanXuats = nhaSanXuatService.getAll();

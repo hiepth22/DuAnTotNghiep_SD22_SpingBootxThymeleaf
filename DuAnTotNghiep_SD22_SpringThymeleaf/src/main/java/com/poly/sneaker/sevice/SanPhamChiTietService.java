@@ -3,6 +3,9 @@ package com.poly.sneaker.sevice;
 import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.SanPhamChiTietRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -122,4 +125,10 @@ public class SanPhamChiTietService {
     public int countBySanPhamId(Long sanPhamId) {
         return repository.countBySanPhamId(sanPhamId);
     }
+
+    public Page<SanPhamChiTiet> paginationBySanPhamId(Long sanPhamId, int pageNo) {
+        Pageable pageable = PageRequest.of(pageNo - 1, 10);
+        return repository.findBySanPhamId(sanPhamId, pageable);
+    }
+
 }

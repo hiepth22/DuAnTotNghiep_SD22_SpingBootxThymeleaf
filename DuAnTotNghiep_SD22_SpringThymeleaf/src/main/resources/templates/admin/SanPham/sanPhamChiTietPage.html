@@ -115,6 +115,26 @@
                 </tr>
                 </tbody>
             </table>
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
+                        <a class="page-link" th:href="@{'/admin/san-pham/' + ${sanPhamId} + '?pageNo=' + ${currentPage - 1}}">
+                            Previous
+                        </a>
+                    </li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPage)}"
+                        th:classappend="${currentPage == i} ? 'active' : ''">
+                        <a class="page-link" th:href="@{'/admin/san-pham/' + ${sanPhamId} + '?pageNo=' + ${i}}" th:text="${i}"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentPage == totalPage} ? 'disabled' : ''">
+                        <a class="page-link" th:href="@{'/admin/san-pham/' + ${sanPhamId} + '?pageNo=' + ${currentPage + 1}}">
+                            Next
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+
         </div>
 </div>
 

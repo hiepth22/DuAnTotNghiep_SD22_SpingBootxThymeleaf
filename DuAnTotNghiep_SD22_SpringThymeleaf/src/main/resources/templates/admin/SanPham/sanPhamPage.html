@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="~{admin/fragments/head :: head}">
-    <link th:href="@{/assets/css/sanPhamHienThi.css}" rel="stylesheet" />
+    <link th:href="@{/assets/css/sanPhamHienThi.css}" rel="stylesheet"/>
 </div>
 <body>
 <!-- Sidebar Start -->
@@ -16,18 +16,22 @@
     <h1 class="text-left text-4xl font-bold mb-4">Danh sách sản phẩm</h1>
 
     <div class="container mx-auto bg-white h-75 w-full m-auto mt-5 p-6 rounded-lg shadow-md">
-        <h2 class="text-left text-2xl font-bold mb-4"><i class="fa-solid fa-filter"></i>Tìm kiếm và bộ lọc</h2>
-        <div class="mb-3 row">
-            <div class="col-8">
-                <input type="text" class="form-control" placeholder="Tìm kiếm">
+        <h2 class="text-left text-2xl font-bold mb-4"><i class="fa-solid fa-filter"></i>Tìm kiếm</h2>
+        <form action="/admin/san-pham" method="get">
+            <div class="mb-3 row">
+                <div class="col-8">
+                    <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="Tìm kiếm">
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-secondary w-100" onclick="window.location.href='/admin/san-pham'">Làm mới</button>
+                </div>
+
             </div>
-            <div class="col-2">
-                <button class="btn btn-primary w-100">Tìm kiếm</button>
-            </div>
-            <div class="col-2">
-                <button class="btn btn-secondary w-100">Hủy lọc</button>
-            </div>
-        </div>
+        </form>
+
     </div>
     <div class="container mx-auto mt-3 d-flex justify-content-end">
         <a href="/admin/san-pham-chi-tiet/add" class="btn btn-success">Thêm mới sản phẩm</a>
@@ -60,6 +64,21 @@
             </tr>
             </tbody>
         </table>
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link">Previous</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPage)}"
+                    th:classappend="${currentPage == i} ? 'active' : ''">
+                    <a class="page-link" th:href="@{${keyword != null && keyword!='' ? '?keyword='+keyword+'&':'?'}+'pageNo=' + ${i}}" th:text="${i}"></a>
+                </li>
+                <li class="page-item" }>
+                    <a class="page-link">Next</a>
+                </li>
+            </ul>
+        </nav>
+
     </div>
 </div>
 <!-- JavaScript Libraries -->

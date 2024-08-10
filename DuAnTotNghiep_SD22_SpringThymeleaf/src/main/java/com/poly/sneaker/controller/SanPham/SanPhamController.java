@@ -17,6 +17,8 @@ import com.poly.sneaker.sevice.NhaSanXuatService;
 import com.poly.sneaker.sevice.SanPhamChiTietService;
 import com.poly.sneaker.sevice.SanPhamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.List;
@@ -61,8 +64,11 @@ public class SanPhamController {
     private KichCoService kichCoService;
 
     @GetMapping("/san-pham")
-    public String hienThiSanPham(Model model) {
-        List<SanPham> sanPhams = sanPhamService.getAll();
+    public String hienThiSanPham(Model model,
+                                 @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                 @Param("keyword") String keyword) {
+//        List<SanPham> sanPhams = sanPhamService.getAll();
+        Page<SanPham> sanPhams = this.sanPhamService.pagination(pageNo);
         Map<Long, Integer> soLuongMap = new HashMap<>();
 
         for (SanPham sanPham : sanPhams) {
@@ -70,6 +76,13 @@ public class SanPhamController {
             soLuongMap.put(sanPham.getId(), soLuong);
         }
 
+        if (keyword != null){
+            sanPhams = this.sanPhamService.searchSanPham(keyword, pageNo);
+            model.addAttribute("keyword", keyword);
+        }
+
+        model.addAttribute("totalPage",sanPhams.getTotalPages());
+        model.addAttribute("currentPage",pageNo);
         model.addAttribute("sanPhams", sanPhams);
         model.addAttribute("soLuongMap", soLuongMap);
 
@@ -79,8 +92,10 @@ public class SanPhamController {
 
 
     @GetMapping("/san-pham/{sanPhamId}")
-    public String hienThiSanPhamChiTiet(@PathVariable("sanPhamId") Long sanPhamId, Model model) {
-        List<SanPhamChiTiet> sanPhamChiTiets = SPCTservice.findBySanPhamId(sanPhamId);
+    public String hienThiSanPhamChiTiet(@PathVariable("sanPhamId") Long sanPhamId,
+                                        Model model,
+                                        @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo) {
+        Page<SanPhamChiTiet> sanPhamChiTiets = SPCTservice.paginationBySanPhamId(sanPhamId, pageNo);
         List<DeGiay> deGiays = deGiayService.getAll();
         List<ChatLieu> chatLieus = chatLieuService.getAll();
         List<CoGiay> coGiays = coGiayService.getAll();
@@ -90,6 +105,8 @@ public class SanPhamController {
         model.addAttribute("chatLieus", chatLieus);
         model.addAttribute("coGiays", coGiays);
         model.addAttribute("kichCos", kichCos);
+        model.addAttribute("totalPage",sanPhamChiTiets.getTotalPages());
+        model.addAttribute("currentPage",pageNo);
         model.addAttribute("sanPhamChiTiets", sanPhamChiTiets);
         model.addAttribute("sanPhamId", sanPhamId);
         return "/admin/SanPham/sanPhamChiTietPage";

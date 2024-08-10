@@ -52,4 +52,6 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
             String ten,
             CoGiay coGiay
     );
+
+    Page<SanPhamChiTiet> findBySanPhamId(Long sanPhamId, Pageable pageable);
 }
