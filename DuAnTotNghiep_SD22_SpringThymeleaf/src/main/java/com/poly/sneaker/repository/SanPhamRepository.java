@@ -13,6 +13,12 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Long>, JpaSpec
 
     List<SanPham> findByTen(String ten);
 
-    @Query("SELECT s FROM SanPham s WHERE s.ten like %?1%")
+    @Query("SELECT s FROM SanPham s " +
+            "LEFT JOIN s.thuongHieu t " +
+            "WHERE s.ten LIKE %?1% " +
+            "OR s.moTa LIKE %?1% " +
+            "OR t.ten LIKE %?1% " +
+            "OR s.trangThai LIKE %?1%")
     List<SanPham> searchSP(String keyword);
+
 }
