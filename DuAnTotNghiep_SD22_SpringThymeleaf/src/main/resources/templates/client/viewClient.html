@@ -506,7 +506,7 @@
 <section id="featured-products" class="product-store">
     <div class="container-md">
         <div class="display-header d-flex align-items-center justify-content-between">
-            <h2 class="section-title text-uppercase">Sản Phẩm Tiêu Biểu</h2>
+            <h2 class="section-title text-uppercase">Sản Phẩm Ban chay</h2>
             <div class="btn-right">
                 <a href="shop" class="d-inline-block text-uppercase text-hover fw-bold">View all</a>
             </div>
@@ -532,7 +532,9 @@
                 <a href="shop" class="d-inline-block text-uppercase text-hover fw-bold">Xem tất cả</a>
             </div>
         </div>
-        <!-- Danh sách sản phẩm sẽ được chèn vào đây -->
+        <div class="row" id="products-list">
+            <!-- Danh sách sản phẩm sẽ được chèn vào đây -->
+        </div>
     </div>
 </section>
 
@@ -548,43 +550,55 @@
 <script>
     $(document).ready(function() {
         $.ajax({
-            url: '/san-pham-moi-nhat', // Endpoint để lấy dữ liệu
+            url: '/san-pham-moi-nhat', // Endpoint để lấy dữ liệu sản phẩm
             method: 'GET',
             dataType: 'json',
             success: function(data) {
-                const productsContainer = $('#latest-products');
-                const productsList = $('<div class="products-list"></div>');
+                console.log('Dữ liệu nhận được:', data);
+
+                const productsContainer = $('#products-list');
+                productsContainer.empty(); // Xóa nội dung cũ
 
                 if (Array.isArray(data) && data.length > 0) {
                     data.forEach(product => {
                         const productName = product.ten || 'Không có tên';
-                        const productPrice = product.giaBan ? product.giaBan.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) : 'Không có giá';
+                        const productPrice = product.giaBan != null ? product.giaBan.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) : 'Không có giá';
+                        const productImage = product.anh ? `https://res.cloudinary.com/deapopcoc/image/upload/${product.anh}` : 'path/to/default-image.jpg'; // Đường dẫn hình ảnh mặc định nếu không có
+
                         const productElement = $(`
-                            <div class="product-item">
-                                <h3 class="product-title">${productName}</h3>
-                                <p class="product-price">Giá: ${productPrice}</p>
+                            <div class="col-md-2 col-sm-4 mb-4">
+                                <div class="card" data-id="${product.id}">
+                                    <a href="#">
+                                        <img class="img-fluid mb-2" src="${productImage}" alt="Product Image">
+                                    </a>
+                                    <div class="card-body">
+                                        <h5 class="card-title">${productName}</h5>
+                                        <p class="card-text" style="color: red">${productPrice}</p>
+                                    </div>
+                                </div>
                             </div>
                         `);
-                        productsList.append(productElement);
+
+                        productsContainer.append(productElement);
+                    });
+
+                    // Thêm sự kiện click cho các sản phẩm
+                    $('.card').on('click', function() {
+                        const productId = $(this).data('id');
+                        console.log('ID sản phẩm được chọn:', productId);
+                        // window.location.href = `/san-pham/${productId}`;
                     });
                 } else {
                     productsContainer.append('<p>Không có dữ liệu sản phẩm.</p>');
                 }
-
-                productsContainer.append(productsList);
             },
             error: function(xhr, status, error) {
                 console.error('Lỗi khi lấy dữ liệu:', error);
-                $('#latest-products').append('<p>Đã xảy ra lỗi khi lấy dữ liệu sản phẩm.</p>');
+                $('#products-list').append('<p>Đã xảy ra lỗi khi lấy dữ liệu sản phẩm.</p>');
             }
         });
     });
 </script>
-
-
-
-
-
 
 <!-- Nạp JavaScript của Chocolat -->
 <script src="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/js/chocolat.min.js"></script>

@@ -55,6 +55,6 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
 
     Page<SanPhamChiTiet> findBySanPhamId(Long sanPhamId, Pageable pageable);
 
-    @Query("SELECT s.ten,s.giaBan FROM SanPhamChiTiet s ORDER BY s.ngayTao DESC")
-    List<String> findTop12NamesByNgayTaoDesc(Pageable pageable);
+    @Query("SELECT s FROM SanPhamChiTiet s ORDER BY s.ngayTao DESC")
+    List<SanPhamChiTiet> findTop12NamesByNgayTaoDesc(Pageable pageable);
 }
