@@ -1,7 +1,9 @@
 package com.poly.sneaker.controller.ClienController;
 
+import com.poly.sneaker.dto.SanPhamBanChayDTO;
 import com.poly.sneaker.entity.SanPham;
 import com.poly.sneaker.entity.SanPhamChiTiet;
+import com.poly.sneaker.repository.HoaDonRepository;
 import com.poly.sneaker.repository.SanPhamChiTietRepository;
 import com.poly.sneaker.repository.SanPhamRepository;
 import com.poly.sneaker.sevice.*;
@@ -29,6 +31,9 @@ public class ClienController {
     private SanPhamChiTietRepository repo;
     @Autowired
     private SanPhamChiTietService SPCTservice;
+
+    @Autowired
+    private HoaDonRepository hoaDonRepository;
 
     @Autowired
     private SanPhamService sanPhamService;
@@ -91,6 +96,12 @@ public class ClienController {
     public ResponseEntity<?> getTop12NewestProducts() {
         Pageable pageable = PageRequest.of(0, 12); // Trang 0, số lượng 12
         List<SanPhamChiTiet> spmn = repo.findTop12NamesByNgayTaoDesc(pageable);
+        return ResponseEntity.ok(spmn);
+    }
+    @GetMapping("/san-pham-ban-chay")
+    public ResponseEntity<?> getTop12spbanchay() {
+        Pageable pageable = PageRequest.of(0, 12);
+        List<SanPhamBanChayDTO> spmn = hoaDonRepository.getSanPhamBanChayNhat(pageable);
         return ResponseEntity.ok(spmn);
     }
 

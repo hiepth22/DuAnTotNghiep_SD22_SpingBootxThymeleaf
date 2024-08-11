@@ -503,27 +503,20 @@
     </nav>
 </header>
 
-<section id="featured-products" class="product-store">
+<section id="top-selling-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">
     <div class="container-md">
         <div class="display-header d-flex align-items-center justify-content-between">
-            <h2 class="section-title text-uppercase">Sản Phẩm Ban chay</h2>
+            <h2 class="section-title text-uppercase">Sản Phẩm Bán Chạy Nhất</h2>
             <div class="btn-right">
-                <a href="shop" class="d-inline-block text-uppercase text-hover fw-bold">View all</a>
+                <a href="shop" class="d-inline-block text-uppercase text-hover fw-bold">Xem tất cả</a>
             </div>
         </div>
-
-    </div>
-</section>
-<section id="collection-products" class="py-2 my-2 py-md-5 my-md-5">
-    <div class="container-md">
-        <div class="row">
-
-            <div class="col-lg-6 col-md-6">
-                <h1>bgr</h1>
-            </div>
+        <div class="row" id="products-list1">
+            <!-- Danh sách sản phẩm sẽ được chèn vào đây -->
         </div>
     </div>
 </section>
+
 <section id="latest-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">
     <div class="container-md">
         <div class="display-header d-flex align-items-center justify-content-between">
@@ -586,7 +579,7 @@
                     $('.card').on('click', function() {
                         const productId = $(this).data('id');
                         console.log('ID sản phẩm được chọn:', productId);
-                        // window.location.href = `/san-pham/${productId}`;
+                        window.location.href = `/san-pham/${productId}`;
                     });
                 } else {
                     productsContainer.append('<p>Không có dữ liệu sản phẩm.</p>');
@@ -599,6 +592,60 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: '/san-pham-ban-chay', // Endpoint để lấy dữ liệu sản phẩm bán chạy nhất
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                console.log('Dữ liệu nhận được:', data);
+
+                const productsContainer = $('#products-list1');
+                productsContainer.empty(); // Xóa nội dung cũ
+
+                if (Array.isArray(data) && data.length > 0) {
+                    data.forEach(product => {
+                        const productName = product.ten || 'Không có tên';
+                        const productPrice = product.giaBan != null ? product.giaBan.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) : 'Không có giá';
+                        const productImage = product.anh ? `https://res.cloudinary.com/deapopcoc/image/upload/${product.anh}` : 'path/to/default-image.jpg'; // Đường dẫn hình ảnh mặc định nếu không có
+
+                        const productElement = $(`
+                            <div class="col-md-2 col-sm-4 mb-4">
+                                <div class="card" data-id="${product.id}">
+                                    <a href="#">
+                                        <img class="img-fluid mb-2" src="${productImage}" alt="Product Image">
+                                    </a>
+                                    <div class="card-body">
+                                        <h5 class="card-title">${productName}</h5>
+                                        <p class="card-text" style="color: red">${productPrice}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+
+                        productsContainer.append(productElement);
+                    });
+
+                    // Thêm sự kiện click cho các sản phẩm
+                    $('.card').on('click', function() {
+                        const productId = $(this).data('id');
+                        console.log('ID sản phẩm được chọn:', productId);
+                        // Xử lý ID sản phẩm, ví dụ điều hướng đến trang chi tiết sản phẩm
+                        window.location.href = `/san-pham/${productId}`;
+                    });
+                } else {
+                    productsContainer.append('<p>Không có dữ liệu sản phẩm.</p>');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Lỗi khi lấy dữ liệu:', error);
+                $('#products-list1').append('<p>Đã xảy ra lỗi khi lấy dữ liệu sản phẩm.</p>');
+            }
+        });
+    });
+</script>
+
 
 <!-- Nạp JavaScript của Chocolat -->
 <script src="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/js/chocolat.min.js"></script>
