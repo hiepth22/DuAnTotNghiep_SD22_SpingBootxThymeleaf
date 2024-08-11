@@ -6,6 +6,8 @@ import com.poly.sneaker.repository.SanPhamChiTietRepository;
 import com.poly.sneaker.repository.SanPhamRepository;
 import com.poly.sneaker.sevice.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -84,5 +86,13 @@ public class ClienController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/san-pham-moi-nhat")
+    public ResponseEntity<List<String>> getTop12NewestProducts() {
+        Pageable pageable = PageRequest.of(0, 12); // Trang 0, số lượng 12
+        List<String> spmn = repo.findTop12NamesByNgayTaoDesc(pageable);
+        return ResponseEntity.ok(spmn);
+    }
+
 
 }

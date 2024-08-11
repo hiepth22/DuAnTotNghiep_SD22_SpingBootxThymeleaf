@@ -412,7 +412,6 @@
             var productId = $(this).attr('data-id');
             var productName = $(this).find('.card-title').text();
 
-            // AJAX request to fetch product details
             $.ajax({
                 url: '/sanphamchitietclien/' + productId,
                 method: 'GET',
