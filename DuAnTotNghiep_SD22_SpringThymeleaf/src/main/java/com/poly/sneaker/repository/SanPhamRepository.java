@@ -17,8 +17,7 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Long>, JpaSpec
             "LEFT JOIN s.thuongHieu t " +
             "WHERE s.ten LIKE %?1% " +
             "OR s.moTa LIKE %?1% " +
-            "OR t.ten LIKE %?1% " +
-            "OR s.trangThai = 1 ")
+            "OR t.ten LIKE %?1% ")
     List<SanPham> searchSP(String keyword);
 
 }
