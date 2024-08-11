@@ -26,7 +26,9 @@
             display: flex;
             flex-wrap: wrap;
         }
-
+        body {
+            background-color: #E8E8E8; /* Đổi màu nền thành màu xám nhạt */
+        }
         .size-item {
             margin: 5px;
             padding: 10px;
@@ -47,6 +49,105 @@
             color: white;
             border-color: #007bff;
         }
+        /* Định dạng hàng sản phẩm để có khoảng cách nhỏ hơn và 5 sản phẩm mỗi hàng */
+        .row {
+            margin-left: -5px; /* Giảm khoảng cách giữa các cột */
+            margin-right: -5px; /* Giảm khoảng cách giữa các cột */
+        }
+
+        /* Định dạng mỗi sản phẩm */
+        .col-md-2 {
+            padding-left: 5px; /* Khoảng cách bên trái của cột */
+            padding-right: 5px; /* Khoảng cách bên phải của cột */
+        }
+
+        .card-body {
+            position: relative; /* Để định vị các nút */
+            background-color: #F5F5F5; /* Nền màu xám nhạt */
+            border-radius: 3px; /* Bo tròn các góc của thẻ sản phẩm */
+            border: 1px solid transparent; /* Đường viền ẩn khi chưa di chuột vào */
+            overflow: hidden; /* Đảm bảo rằng nội dung không bị tràn ra ngoài các góc bo tròn */
+            transition: border-color 0.3s; /* Hiệu ứng chuyển tiếp khi thay đổi màu đường viền */
+        }
+
+        /* Định dạng hình ảnh trong thẻ sản phẩm */
+        .card-body img {
+            width: 100%; /* Để hình ảnh khớp với khung */
+            height: 250px; /* Giữ tỷ lệ của hình ảnh */
+            border-radius: 8px; /* Bo tròn góc của hình ảnh */
+            display: block; /* Loại bỏ khoảng cách dưới hình ảnh */
+            margin-bottom: 10px;
+            margin-right: 5px;
+        }
+
+        /* Định dạng phần chứa nút */
+        .product-buttons {
+            position: absolute; /* Đặt phần chứa nút ở vị trí tuyệt đối */
+            top: 10px; /* Cách phần trên cùng của phần chứa sản phẩm */
+            right: 10px; /* Cách phần bên phải của phần chứa sản phẩm */
+            display: flex; /* Hiển thị các nút nằm ngang */
+            gap: 5px; /* Khoảng cách giữa các nút */
+            opacity: 0; /* Ẩn phần chứa nút ban đầu */
+            transition: opacity 0.3s; /* Hiệu ứng chuyển tiếp khi hiện các nút */
+        }
+
+        /* Định dạng khi di chuột vào phần sản phẩm */
+        .card-body:hover .product-buttons {
+            opacity: 1; /* Hiển thị phần chứa nút khi di chuột vào phần sản phẩm */
+        }
+
+        /* Định dạng nút */
+        .product-buttons .btn {
+            background-color: rgba(255, 255, 255, 0.8); /* Màu nền trắng mờ */
+            border: none;
+            border-radius: 50%; /* Bo tròn các nút thành hình tròn */
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s; /* Hiệu ứng chuyển tiếp khi đổi màu nền */
+        }
+
+        /* Định dạng khi di chuột vào nút */
+        .product-buttons .btn:hover {
+            background-color: rgba(135, 206, 250, 1); /* Màu xanh dương nhạt khi di chuột vào nút */
+        }
+
+        /* Hiệu ứng hover làm nổi bật thẻ sản phẩm */
+        .card-body:hover {
+            border-color: #f77f00; /* Hiện đường viền màu cam khi di chuột vào */
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Hiệu ứng hover làm nổi bật thẻ sản phẩm */
+        .card-body:hover .product-buttons {
+            opacity: 1; /* Hiển thị phần chứa nút khi di chuột vào phần sản phẩm */
+        }
+
+        /* Định dạng tiêu đề sản phẩm */
+        .card-title {
+            color: #333;
+            margin-top: 10px;
+        }
+
+        /* Định dạng giá sản phẩm */
+        .product-price {
+            font-size: 15px;
+            color: #d9534f; /* Màu đỏ đậm */
+            /*font-weight: bold;*/
+        }
+
+
+        .product-buttons i {
+            font-size: 20px; /* Kích thước của icon */
+            color: #333; /* Màu của icon */
+        }
+
+        /* Hiệu ứng hover làm nổi bật thẻ sản phẩm */
+
 
     </style>
     <style>
@@ -190,22 +291,35 @@
 </section>
 <section class="shop_section layout_padding">
     <div class="container">
-        <div class="heading_container heading_center" style="margin-bottom: 30px;">
-            <h4 class="section-title text-uppercase" style="text-align: center; margin-bottom: 10px;">Tất Cả Sản Phẩm</h4>
-            <div class="flex justify-center mt-3" style="display: flex; justify-content: center;">
-                <div class="w-48 h-0.5 bg-orange-500" style="width: 150px; height: 3px; background-color: #FF8C00; margin: 0 auto;"></div>
+        <div class="heading_container heading_center" style="margin-bottom: 30px; ">
+            <div style="display: flex; flex-direction: column; align-items: center; width: 100%; background-color: #f0f0f0;">
+                <h5 class="section-title text-uppercase" style="text-align: center; margin-bottom: 10px; width: 100%; padding-left: 15px; box-sizing: border-box;">Tất Cả Sản Phẩm</h5>
+                <div class="flex justify-center mt-3" style="display: flex; justify-content: center; width: 100%; box-sizing: border-box;">
+                    <div class="w-48 h-0.5 bg-orange-500" style="width: calc(100% - 30px); height: 3px; background-color: #FF8C00;"></div>
+                </div>
             </div>
         </div>
         <div class="row">
             <!-- Thymeleaf loop for products -->
-            <div th:each="sanPham : ${sanPhams}" class="col-md-3 mb-3 text-center">
-                <div class="card-body" style="border: 1px solid black; padding: 15px; border-radius: 8px;">
+            <div th:each="sanPham : ${sanPhams}" class="col-md-2 mb-3"> <!-- Changed col-md-3 to col-md-2 -->
+                <div class="card-body" style="text-align: left;">
+                    <!-- Hidden buttons -->
+                    <div class="product-buttons">
+                        <a href="#" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${sanPham.id}">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    </div>
                     <!-- Modal trigger -->
                     <a href="#" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${sanPham.id}">
-                        <img th:src="'https://res.cloudinary.com/deapopcoc/image/upload/' + ${sanPham.anh}" alt="Ảnh" style="width: 275px; height: 275px; object-fit: cover;">
-                        <h6 class="card-title" th:text="${sanPham.ten}"></h6>
+                        <img th:src="'https://res.cloudinary.com/deapopcoc/image/upload/' + ${sanPham.anh}" alt="Ảnh" style="width: calc(100% + 30px); height: 250px; border-radius: 8px; display: block; margin: 0 -15px 10px -15px; box-sizing: border-box;">
+                        <h6 class="card-title" th:text="${sanPham.ten}" style=" color: #333; margin-top: 10px; margin-left: 15px;"></h6>
                     </a>
-                    <p class="product-price card-text bold-red" th:text="${sanPham.giaBan}"></p>
+                    <!-- New Button -->
+                    <a href="#" style="display: inline-block; margin: 5px 0; padding: 2px 5px; border: 1px solid #FF8C00; border-radius: 2px; color: #FF8C00; text-decoration: none; font-size: 10px; background-color: transparent; text-align: center; margin-left: 15px;">
+                        Giá Siêu Hời
+                    </a>
+                    <a href="#" class="product-price card-text" th:text="${sanPham.giaBan}" style="font-size: 17px; color: #d9534f; margin-left: 15px; margin-bottom: 10px; display: block;"></a>
+
                 </div>
             </div>
         </div>
@@ -307,7 +421,7 @@
                     $('#productModalLabel').text(productName);
                     // $('#modalImage').attr('src', '/assets/imageNV/' + data.anh);
                     $('#modalImage').attr('src', 'https://res.cloudinary.com/deapopcoc/image/upload/' + data.anh);
-                    $('#modalPrice').text( data.giaBan +' VND');
+                    $('#modalPrice').text(' ₫'+ data.giaBan);
                     $('#modalQuantity').text( data.soLuong);
                     $('#modalDescription').text(data.moTa);
                     $('#modalColor').html(`
@@ -414,9 +528,10 @@
 
         // Duyệt qua tất cả các phần tử và định dạng giá
         priceElements.forEach(function(priceElement) {
-            const price = parseFloat(priceElement.textContent.replace(/\./g, '').replace(' VND', ''));
-            priceElement.textContent = formatNumber(price) + ' VND';
+            const price = parseFloat(priceElement.textContent.replace(/\./g, '').replace(' ₫', ''));
+            priceElement.textContent = '₫ ' + formatNumber(price) ;
         });
+
     });
 </script>
 
