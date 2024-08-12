@@ -36,8 +36,6 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
     @Query(value = "select top 1 * from [san_pham_chi_tiet] order by id desc", nativeQuery = true)
     SanPhamChiTiet findIdLonNhat();
 
-    List<SanPhamChiTiet> findBySanPhamId(Long sanPhamId);
-
     @Query("SELECT COUNT(spct) FROM SanPhamChiTiet spct WHERE spct.sanPham.id = :sanPhamId")
     int countBySanPhamId(@Param("sanPhamId") Long sanPhamId);
 
@@ -57,4 +55,17 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
 
     @Query("SELECT s FROM SanPhamChiTiet s ORDER BY s.ngayTao DESC")
     List<SanPhamChiTiet> findTop12NamesByNgayTaoDesc(Pageable pageable);
+
+    @Query("SELECT s FROM SanPhamChiTiet s " +
+            "JOIN s.deGiay d " +
+            "JOIN s.coGiay c " +
+            "WHERE s.sanPham.id = ?1 " +
+            "AND (s.ten LIKE %?2% " +
+            "OR s.moTa LIKE %?2% " +
+            "OR d.ten LIKE %?2% " +
+            "OR c.ten LIKE %?2%)")
+    List<SanPhamChiTiet> searchSPCT(Long sanPhamId, String keyword);
+
+    @Query("SELECT s FROM SanPhamChiTiet s WHERE s.sanPham.id = ?1")
+    List<SanPhamChiTiet> findBySanPhamId(Long sanPhamId);
 }

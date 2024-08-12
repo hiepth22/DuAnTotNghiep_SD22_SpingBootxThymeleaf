@@ -1,34 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{admin/fragments/head :: head}">
-    <link th:href="@{/assets/css/sanPhamHienThi.css}" rel="stylesheet" />
+    <link th:href="@{/assets/css/sanPhamHienThi.css}" rel="stylesheet"/>
 
 </head>
 <body>
-    <!-- Sidebar Start -->
-    <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
-    <!-- Sidebar End -->
-    <!-- Content Start -->
-        <!-- Navbar Start -->
-        <div class="content flex-grow ml-64 p-4 bg-gray-200">
-        <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
-        <!-- Navbar End -->
+<!-- Sidebar Start -->
+<div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+<!-- Sidebar End -->
+<!-- Content Start -->
+<!-- Navbar Start -->
+<div class="content flex-grow ml-64 p-4 bg-gray-200">
+    <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
+    <!-- Navbar End -->
 
-        <h1 class="text-left text-4xl font-bold mb-4">Danh sách sản phẩm chi tiết</h1>
+    <h1 class="text-left text-4xl font-bold mb-4">Danh sách sản phẩm chi tiết</h1>
 
-        <div class="container mx-auto bg-white h-75 w-full m-auto mt-5 p-6 rounded-lg shadow-md">
-            <h2 class="text-left text-2xl font-bold mb-4"><i class="fa-solid fa-filter"></i>Tìm kiếm và bộ lọc</h2>
+    <div class="container mx-auto bg-white h-75 w-full m-auto mt-5 p-6 rounded-lg shadow-md">
+        <h2 class="text-left text-2xl font-bold mb-4"><i class="fa-solid fa-filter"></i>Tìm kiếm và bộ lọc</h2>
+        <form th:action="@{/admin/san-pham/{sanPhamId}(sanPhamId=${sanPhamId})}" method="get">
             <div class="mb-3 row">
                 <div class="col-8">
-                    <input type="text" class="form-control" placeholder="Nhập thông tin tìm kiếm">
+                    <input type="text" class="form-control" name="keyword" th:value="${keyword}"
+                           placeholder="Nhập thông tin tìm kiếm">
                 </div>
                 <div class="col-2">
-                    <button class="btn btn-primary w-100">Tìm kiếm</button>
+                    <button class="btn btn-primary w-100" type="submit">Tìm kiếm</button>
                 </div>
                 <div class="col-2">
                     <button class="btn btn-secondary w-100">Hủy lọc</button>
                 </div>
             </div>
+        </form>
             <div class="mb-3 row">
                 <div class="col-3">
                     <select class="form-select">
@@ -68,74 +71,68 @@
                     </div>
                 </div>
             </div>
+    </div>
 
-        </div>
+    <div class="w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md mb-11">
+        <table id="productTable" class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Mã</th>
+                <th scope="col">Tên sản phẩm</th>
+                <th scope="col">Giá bán</th>
+                <th scope="col">Màu sắc</th>
+                <th scope="col">Kích cỡ</th>
+                <th scope="col">Cân nặng</th>
+                <th scope="col">Loại cổ</th>
+                <th scope="col">Loại đế</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="spct, state : ${sanPhamChiTiets}">
+                <th scope="row" th:text="${state.count}"></th>
+                <td th:text="${spct.ma}"></td>
+                <td th:text="${spct.ten}"></td>
+                <td th:text="${spct.formattedGiaBan}"></td>
+                <td>
+                    <span class="color-box" th:style="'background-color: ' + ${spct.mauSac.ten}"></span>
+                </td>
+                <td th:text="${spct.kichCo.ten}"></td>
+                <td th:text="${spct.formattedCanNang}"></td>
+                <td th:text="${spct.coGiay.ten}"></td>
+                <td th:text="${spct.deGiay.ten}"></td>
+                <td th:text="${spct.soLuong}"></td>
+                <td>
+                    <span th:if="${spct.trangThai == 1}">Đang bán</span>
+                    <span th:if="${spct.trangThai == 0}">Tạm ngưng</span>
+                </td>
+                <td>
+                    <a th:href="@{'/admin/san-pham/' + ${spct.sanPham.id} + '/update/' + ${spct.id}}">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link">Previous</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPage)}"
+                    th:classappend="${currentPage == i} ? 'active' : ''">
+                    <a class="page-link" th:href="@{${keyword != null && keyword!='' ? '?keyword='+keyword+'&':'?'}+'pageNo=' + ${i}}" th:text="${i}"></a>
+                </li>
+                <li class="page-item" }>
+                    <a class="page-link">Next</a>
+                </li>
+            </ul>
+        </nav>
 
-        <div class="w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md mb-11">
-            <table id="productTable" class="table table-bordered">
-                <thead>
-                <tr>
-                    <th scope="col">STT</th>
-                    <th scope="col">Mã</th>
-                    <th scope="col">Tên sản phẩm</th>
-                    <th scope="col">Giá bán</th>
-                    <th scope="col">Màu sắc</th>
-                    <th scope="col">Kích cỡ</th>
-                    <th scope="col">Cân nặng</th>
-                    <th scope="col">Loại cổ</th>
-                    <th scope="col">Loại đế</th>
-                    <th scope="col">Số lượng</th>
-                    <th scope="col">Trạng thái</th>
-                    <th scope="col">Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="spct, state : ${sanPhamChiTiets}">
-                    <th scope="row" th:text="${state.count}"></th>
-                    <td th:text="${spct.ma}"></td>
-                    <td th:text="${spct.ten}"></td>
-                    <td th:text="${spct.formattedGiaBan}"></td>
-                    <td>
-                        <span class="color-box" th:style="'background-color: ' + ${spct.mauSac.ten}"></span>
-                    </td>
-                    <td th:text="${spct.kichCo.ten}"></td>
-                    <td th:text="${spct.formattedCanNang}"></td>
-                    <td th:text="${spct.coGiay.ten}"></td>
-                    <td th:text="${spct.deGiay.ten}"></td>
-                    <td th:text="${spct.soLuong}"></td>
-                    <td>
-                        <span th:if="${spct.trangThai == 1}">Đang bán</span>
-                        <span th:if="${spct.trangThai == 0}">Tạm ngưng</span>
-                    </td>
-                    <td>
-                        <a th:href="@{'/admin/san-pham/' + ${spct.sanPham.id} + '/update/' + ${spct.id}}">
-                            <i class="fa-solid fa-eye"></i>
-                        </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <nav>
-                <ul class="pagination justify-content-center">
-                    <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
-                        <a class="page-link" th:href="@{'/admin/san-pham/' + ${sanPhamId} + '?pageNo=' + ${currentPage - 1}}">
-                            Previous
-                        </a>
-                    </li>
-                    <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPage)}"
-                        th:classappend="${currentPage == i} ? 'active' : ''">
-                        <a class="page-link" th:href="@{'/admin/san-pham/' + ${sanPhamId} + '?pageNo=' + ${i}}" th:text="${i}"></a>
-                    </li>
-                    <li class="page-item" th:classappend="${currentPage == totalPage} ? 'disabled' : ''">
-                        <a class="page-link" th:href="@{'/admin/san-pham/' + ${sanPhamId} + '?pageNo=' + ${currentPage + 1}}">
-                            Next
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-
-        </div>
+    </div>
 </div>
 
 <!-- JavaScript Libraries -->
@@ -147,29 +144,5 @@
 <!-- Template Javascript -->
 <script th:src="@{/assets/js/sanPhamChiTiet.js}"></script>
 <script th:src="@{/assets/js/main.js}"></script>
-<!--<script>-->
-<!--    $(document).ready(function() {-->
-<!--        var table = $('#productTable').DataTable({-->
-<!--            "paging": true,-->
-<!--            "searching": true,-->
-<!--            "ordering": true,-->
-<!--            "info": true,-->
-<!--            "pageLength": 10,-->
-<!--            "lengthMenu": [10, 20, 30, 40, 50],-->
-<!--            "language": {-->
-<!--                "paginate": {-->
-<!--                    "previous": "Trước",-->
-<!--                    "next": "Sau"-->
-<!--                },-->
-<!--                "search": "Tìm kiếm:",-->
-<!--                "lengthMenu": "Hiển thị _MENU_ bản ghi mỗi trang",-->
-<!--                "zeroRecords": "Không tìm thấy kết quả phù hợp",-->
-<!--                "info": "Hiển thị trang _PAGE_ trong tổng số _PAGES_",-->
-<!--                "infoEmpty": "Không có dữ liệu",-->
-<!--                "infoFiltered": "(lọc từ tổng số _MAX_ bản ghi)"-->
-<!--            },-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->
 </body>
 </html>

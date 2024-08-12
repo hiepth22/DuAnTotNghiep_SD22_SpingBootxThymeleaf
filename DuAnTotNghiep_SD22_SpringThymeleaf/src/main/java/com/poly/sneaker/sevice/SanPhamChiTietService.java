@@ -4,6 +4,7 @@ import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.SanPhamChiTietRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,6 @@ public class SanPhamChiTietService {
     public SanPhamChiTiet findById1(Long id) {
         Optional<SanPhamChiTiet> optional = repository.findById(id);
         return optional.map(o -> o).orElse(null);
-    }
-    public List<SanPhamChiTiet> findBySanPhamId(Long sanPhamId) {
-        return repository.findBySanPhamId(sanPhamId);
     }
 
     public List<SanPhamChiTiet> getAllSanPham(Long idSP) {
@@ -126,9 +124,31 @@ public class SanPhamChiTietService {
         return repository.countBySanPhamId(sanPhamId);
     }
 
+    public List<SanPhamChiTiet> findBySanPhamId(Long sanPhamId) {
+        return repository.findBySanPhamId(sanPhamId);
+    }
+
     public Page<SanPhamChiTiet> paginationBySanPhamId(Long sanPhamId, int pageNo) {
         Pageable pageable = PageRequest.of(pageNo - 1, 10);
         return repository.findBySanPhamId(sanPhamId, pageable);
     }
+
+    public List<SanPhamChiTiet> searchSanPhamChiTiet(Long sanPhamId, String keyword) {
+        return repository.searchSPCT(sanPhamId, keyword);
+    }
+
+    public Page<SanPhamChiTiet> searchSanPhamChiTiet(Long sanPhamId, String keyword, Integer pageNo) {
+        List<SanPhamChiTiet> list = repository.searchSPCT(sanPhamId, keyword);
+
+        Pageable pageable = PageRequest.of(pageNo - 1, 10);
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), list.size());
+
+        list = list.subList(start, end);
+
+        return new PageImpl<>(list, pageable, list.size());
+    }
+
 
 }

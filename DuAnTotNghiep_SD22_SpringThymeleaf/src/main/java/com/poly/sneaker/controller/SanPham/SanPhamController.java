@@ -67,7 +67,6 @@ public class SanPhamController {
     public String hienThiSanPham(Model model,
                                  @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                  @Param("keyword") String keyword) {
-//        List<SanPham> sanPhams = sanPhamService.getAll();
         Page<SanPham> sanPhams = this.sanPhamService.pagination(pageNo);
         Map<Long, Integer> soLuongMap = new HashMap<>();
 
@@ -91,11 +90,39 @@ public class SanPhamController {
 
 
 
+//    @GetMapping("/san-pham/{sanPhamId}")
+//    public String hienThiSanPhamChiTiet(@PathVariable("sanPhamId") Long sanPhamId,
+//                                        Model model,
+//                                        @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo) {
+//        Page<SanPhamChiTiet> sanPhamChiTiets = SPCTservice.paginationBySanPhamId(sanPhamId, pageNo);
+//        List<DeGiay> deGiays = deGiayService.getAll();
+//        List<ChatLieu> chatLieus = chatLieuService.getAll();
+//        List<CoGiay> coGiays = coGiayService.getAll();
+//        List<KichCo> kichCos = kichCoService.getAll();
+//
+//        model.addAttribute("deGiays", deGiays);
+//        model.addAttribute("chatLieus", chatLieus);
+//        model.addAttribute("coGiays", coGiays);
+//        model.addAttribute("kichCos", kichCos);
+//        model.addAttribute("totalPage",sanPhamChiTiets.getTotalPages());
+//        model.addAttribute("currentPage",pageNo);
+//        model.addAttribute("sanPhamChiTiets", sanPhamChiTiets);
+//        model.addAttribute("sanPhamId", sanPhamId);
+//        return "/admin/SanPham/sanPhamChiTietPage";
+//    }
+
     @GetMapping("/san-pham/{sanPhamId}")
     public String hienThiSanPhamChiTiet(@PathVariable("sanPhamId") Long sanPhamId,
-                                        Model model,
-                                        @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo) {
-        Page<SanPhamChiTiet> sanPhamChiTiets = SPCTservice.paginationBySanPhamId(sanPhamId, pageNo);
+                                        @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                        @RequestParam(name = "keyword", required = false) String keyword,
+                                        Model model) {
+        Page<SanPhamChiTiet> sanPhamChiTiets = this.SPCTservice.paginationBySanPhamId(sanPhamId, pageNo);
+
+        if (keyword != null) {
+            sanPhamChiTiets = SPCTservice.searchSanPhamChiTiet(sanPhamId, keyword, pageNo);
+            model.addAttribute("keyword", keyword);
+        }
+
         List<DeGiay> deGiays = deGiayService.getAll();
         List<ChatLieu> chatLieus = chatLieuService.getAll();
         List<CoGiay> coGiays = coGiayService.getAll();
@@ -105,12 +132,14 @@ public class SanPhamController {
         model.addAttribute("chatLieus", chatLieus);
         model.addAttribute("coGiays", coGiays);
         model.addAttribute("kichCos", kichCos);
-        model.addAttribute("totalPage",sanPhamChiTiets.getTotalPages());
-        model.addAttribute("currentPage",pageNo);
+        model.addAttribute("totalPage", sanPhamChiTiets.getTotalPages());
+        model.addAttribute("currentPage", pageNo);
         model.addAttribute("sanPhamChiTiets", sanPhamChiTiets);
         model.addAttribute("sanPhamId", sanPhamId);
+
         return "/admin/SanPham/sanPhamChiTietPage";
     }
+
 
 
     @GetMapping("/san-pham/{sanPhamId}/update/{id}")
