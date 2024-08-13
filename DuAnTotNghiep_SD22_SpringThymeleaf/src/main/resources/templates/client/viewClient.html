@@ -296,7 +296,6 @@
 <!-- / quick view -->
 <!-- cart view -->
 <!-- Login -->
-
 <div th:replace="~{client/fragmentsClient/header :: header}"></div>
 
 <section id="top-selling-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">
@@ -383,8 +382,7 @@
                                             Giá Siêu Hời
                                         </a>
                                         <a href="#" class="product-price card-text" style="font-size: 17px; color: #d9534f; margin-left: 15px; margin-bottom: 10px; display: block;text-decoration: none;">${productPrice}</a>
-
-                                </div>
+</div>
                             </div>
                         `);
 
@@ -438,7 +436,7 @@
                                         </a>
                                     </div>
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${product.id}">
-                                            <img src="${productImage}" alt="Product Image" style="width: calc(100% + 30px); height: 250px; border-radius: 8px; display: block; margin: 0 -15px 10px -15px; box-sizing: border-box;">
+<img src="${productImage}" alt="Product Image" style="width: calc(100% + 30px); height: 250px; border-radius: 8px; display: block; margin: 0 -15px 10px -15px; box-sizing: border-box;">
                                             <h6 class="card-title" style=" color: #333; margin-top: 10px; margin-left: 15px;text-decoration: none;">${productName}</h6>
                                         </a>
                                         <!-- New Button -->
