@@ -3,6 +3,7 @@ package com.poly.sneaker.sevice;
 import com.poly.sneaker.entity.GioHang;
 import com.poly.sneaker.entity.GioHangChiTiet;
 import com.poly.sneaker.entity.HoaDon;
+import com.poly.sneaker.entity.HoaDonChiTiet;
 import com.poly.sneaker.repository.GioHangChiTietRepository;
 import com.poly.sneaker.repository.GioHangRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,13 @@ public class GioHangChiTietService {
         return gioHangChiTietRepository.save(gioHangChiTiet);
     }
 
+    public GioHangChiTiet deleteById(Long id) {
+        Optional<GioHangChiTiet> optional = gioHangChiTietRepository.findById(id);
+        return optional.map(o -> {
+            gioHangChiTietRepository.delete(o);
+            return o;
+        }).orElse(null);
+    }
 
 
 }
