@@ -94,7 +94,7 @@ public class ClienController {
 
     @GetMapping("/san-pham-moi-nhat")
     public ResponseEntity<?> getTop12NewestProducts() {
-        Pageable pageable = PageRequest.of(0, 12); // Trang 0, số lượng 12
+        Pageable pageable = PageRequest.of(0, 12);
         List<SanPhamChiTiet> spmn = repo.findTop12NamesByNgayTaoDesc(pageable);
         return ResponseEntity.ok(spmn);
     }
