@@ -41,9 +41,21 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
 
     @Query("SELECT s.kichCo.ten FROM SanPhamChiTiet s JOIN s.sanPham sp WHERE sp.id = :idSanPham")
     List<String> findKichCoBySanPhamId(@Param("idSanPham") Long idSanPham);
+
     @Query("SELECT s.anh FROM SanPhamChiTiet s JOIN s.sanPham sp WHERE sp.id = :idSanPham")
     List<String> findanhBySanPhamId(@Param("idSanPham") Long idSanPham);
 
+    @Query("SELECT s.kichCo.ten FROM SanPhamChiTiet s WHERE s.sanPham.id = :idSanPham "
+            + "AND (:anh IS NULL OR s.anh LIKE %:anh%)")
+    List<String> findKichCoBySanPhamIdAndImageName(
+            @Param("idSanPham") Long idSanPham,
+            @Param("anh") String anh
+    );
+
+
+    @Query("SELECT s.id FROM SanPhamChiTiet s WHERE s.anh = :anh and s.sanPham.id = :idSanPham")
+    List<Long> findIdsByAnhContaining(@Param("anh") Long anh,
+     @Param("idSanPham") Long idSanPham);
     Optional<SanPhamChiTiet> findByKichCoAndMauSacAndDeGiayAndChatLieuAndTenAndCoGiay(
             KichCo kichCo,
             MauSac mauSac,

@@ -15,11 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class ClienController {
@@ -74,6 +73,17 @@ public class ClienController {
         model.addAttribute("sanPhams", sanPhamChiTiet);
         return "client/SanPhamChiTiet";
     }
+
+    @GetMapping("/sanphamchitietclien/{sanPhamId}")
+    @ResponseBody
+    public ResponseEntity<?> getProductDetails(@PathVariable Long sanPhamId) {
+        SanPhamChiTiet sanPhamChiTiet = SPCTservice.findById1(sanPhamId);
+        if (sanPhamChiTiet != null) {
+            return ResponseEntity.ok(sanPhamChiTiet);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
     @GetMapping("/sanphamchitietclienkc/{sanPhamId}")
     @ResponseBody
     public ResponseEntity<List<String>> getKichCo(@PathVariable Long sanPhamId) {
@@ -89,9 +99,37 @@ public class ClienController {
     @ResponseBody
     public ResponseEntity<List<String>> getanh(@PathVariable Long sanPhamId) {
         List<String> kichCoList = repo.findanhBySanPhamId(sanPhamId);
+        Set<String> uniqueKichCoSet = new HashSet<>(kichCoList);
 
+        // Chuyển Set trở lại thành List nếu cần
+        List<String> uniqueKichCoList = new ArrayList<>(uniqueKichCoSet);
+
+        // In ra danh sách kết quả
+        System.out.println(uniqueKichCoList);
         if (!kichCoList.isEmpty()) {
-            return ResponseEntity.ok(kichCoList);
+            return ResponseEntity.ok(uniqueKichCoList);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @GetMapping("/kichco/{idSanPham}/{anh}")
+    public ResponseEntity<List<String>> getDetails(
+            @PathVariable Long idSanPham,
+            @PathVariable String anh
+
+    ) {
+        List<String> details = repo.findKichCoBySanPhamIdAndImageName(idSanPham, anh);
+        return ResponseEntity.ok(details);
+    }
+
+    @GetMapping("/sanphamchitietclientanhspct/{anh}/{idSanPham}")
+    @ResponseBody
+    public ResponseEntity<List<Long>> getanhspct(@PathVariable Long anh,
+    @PathVariable Long idSanPham) {
+        List<Long> list = repo.findIdsByAnhContaining(anh,idSanPham);
+
+        if (!list.isEmpty()) {
+            return ResponseEntity.ok(list);
         } else {
             return ResponseEntity.notFound().build();
         }

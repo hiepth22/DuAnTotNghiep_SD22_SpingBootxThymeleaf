@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>San Pham</title>
+    <!-- Link đến CSS của Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!--    <link rel="stylesheet" th:href="@{/assets/css/vendor.css}">-->
+    <link rel="stylesheet" th:href="@{/assets/css/style.css}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/css/chocolat.css">
+    <style>
+        .product-img {
+            width: 700px;
+            height: 700px;
+            border-radius: 8px;
+        }
+        .product-card {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .product-container {
+            display: flex;
+            align-items: center;
+        }
+        .product-info {
+            margin-left: 15px;
+        }
+        .size {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .anh {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .size-item {
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            flex: 1 1 18%;
+            box-sizing: border-box;
+        }
+        .size-item.selected {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .anh-item {
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            flex: 1 1 18%;
+            box-sizing: border-box;
+        }
+        .anh-item.selected {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .anh-item {
+            cursor: pointer;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            max-width: 70px;
+            max-height: 70px;
+            object-fit: cover;
+        }
+
+        .anh-item.selected {
+            border-color: #007bff;
+        }
+
+    </style>
+</head>
+<body>
+<!--<div th:replace="~{client/fragmentsClient/header :: header}"></div>-->
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div th:each="sp : ${sanPhams}" class="col-12 mb-3 product-card" th:data-product-id="${sp.sanPham.id}">
+            <div class="product-container" style="border: #0c0e12 1px solid">
+                <div class="col-md-4">
+                    <img th:src="'https://res.cloudinary.com/deapopcoc/image/upload/' + ${sp.anh}" alt="Ảnh" class="product-img" style="border: #0c0e12 1px solid">
+                </div>
+                <div class="col-md-8 product-info">
+                    <h2 class="h5 mb-1" th:text="${sp.ten}">Tên sản phẩm</h2>
+                    <h2 class="h6 text-muted" th:text="${sp.giaBan}">Giá sản phẩm</h2>
+                    <div class="anh col-md-12" id="anh-${sp.sanPham.id}"></div>
+                    <br>
+                    <p>chọn size:</p>
+                    <div class="size col-md-12" id="size-${sp.sanPham.id}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <a>
+                                    <img id="modalImage" class="img-fluid mb-2" alt="Product Image">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <!-- Tên sản phẩm -->
+                                    <!--                                    <h5 class="card-title" id="modalProductName">Tên sản phẩm</h5>-->
+
+                                    <!-- Giá sản phẩm -->
+                                    <p class="card-text" style="color: red" id="modalPrice">Giá sản phẩm</p>
+
+                                    <!-- Số lượng sản phẩm -->
+                                    <p class="card-text" id="modalQuantity">Số lượng sản phẩm</p>
+
+                                    <!-- Mô tả sản phẩm -->
+                                    <p class="card-text" id="modalDescription">Mô tả sản phẩm</p>
+
+                                    <!-- Màu sắc sản phẩm -->
+                                    <p class="card-text" id="modalColor">
+                                        <!-- Màu sắc sẽ được chèn vào đây -->
+                                    </p>
+
+                                    <!-- Kích thước sản phẩm -->
+                                    <div id="modalSize" class="mb-3">
+                                        <!-- Kích thước sẽ được chèn vào đây -->
+                                    </div>
+
+                                    <!-- Các nút hành động -->
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a id="modalBuyLink" class="btn btn-primary" href="#">Mua Ngay</a>
+                                        <a id="modalAddToCartLink" class="btn btn-secondary" href="#">Thêm Vào Giỏ Hàng</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Link đến JS của Bootstrap và jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        $('[data-bs-toggle="modal"]').click(function () {-->
+<!--            var productId = $(this).attr('data-id');-->
+<!--            var productName = $(this).find('.card-title').text();-->
+
+<!--            $.ajax({-->
+<!--                url: '/sanphamchitietclien/' + productId,-->
+<!--                method: 'GET',-->
+<!--                dataType: 'json',-->
+<!--                success: function (data) {-->
+<!--                    $('#productModalLabel').text(productName);-->
+<!--                    // $('#modalImage').attr('src', '/assets/imageNV/' + data.anh);-->
+<!--                    $('#modalImage').attr('src', 'https://res.cloudinary.com/deapopcoc/image/upload/' + data.anh);-->
+<!--                    $('#modalPrice').text(' ₫' + data.giaBan);-->
+<!--                    $('#modalQuantity').text(data.soLuong);-->
+<!--                    $('#modalDescription').text(data.moTa);-->
+<!--                    $('#modalColor').html(`-->
+<!--    <div class="color-container rounded-lg" style="background-color: ${data.mauSac.ten}; width: 50px; height: 20px;"></div>-->
+<!--`);-->
+<!--                    $.ajax({-->
+<!--                        url: '/sanphamchitietclienkc/' + data.sanPham.id,-->
+<!--                        method: 'GET',-->
+<!--                        dataType: 'json',-->
+<!--                        success: function (additionalData) {-->
+<!--                            var sizeHtml = '<h6>Kích cỡ:</h6><div id="sizeContainer" class="d-flex flex-wrap">';-->
+
+<!--                            additionalData.forEach(function (item) {-->
+<!--                                sizeHtml += '<div class="size-item" data-id="' + item + '">' + item + '</div>';-->
+<!--                            });-->
+
+<!--                            sizeHtml += '</div>';-->
+<!--                            $('#modalSize').html(sizeHtml);-->
+
+
+<!--                            $('.size-item').click(function () {-->
+<!--                                $('.size-item').removeClass('selected');-->
+<!--                                $(this).addClass('selected');-->
+<!--                                var selectedSizeId = $(this).data('id');-->
+<!--                                console.log('Selected size ID:', selectedSizeId);-->
+<!--                            });-->
+
+<!--                            $('#modalBuyLink').attr('href', '/gio-hang/' + productId);-->
+<!--                            $('#modalAddToCartLink').attr('href', '/cart/add/' + productId);-->
+
+<!--                            $('#productModal').modal('show');-->
+<!--                        },-->
+<!--                        error: function () {-->
+<!--                            console.log('Error loading additional product details.');-->
+<!--                        }-->
+<!--                    });-->
+<!--                },-->
+<!--                error: function () {-->
+<!--                    console.log('Error loading product details.');-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const productCards = document.querySelectorAll('.product-card');
+
+        productCards.forEach(productCard => {
+            const productId = productCard.getAttribute('data-product-id');
+            const sizeDiv = productCard.querySelector('.size');
+            const mauDiv = productCard.querySelector('.anh');
+            const sizeUrl = `/sanphamchitietclienkc/${productId}`;
+            fetch(sizeUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    if (sizeDiv) {
+                        sizeDiv.innerHTML = '';
+
+                        if (data && Array.isArray(data)) {
+                            data.forEach(size => {
+                                const sizeItemDiv = document.createElement('div');
+                                sizeItemDiv.className = 'size-item';
+                                sizeItemDiv.textContent = size;
+                                sizeItemDiv.addEventListener('click', () => {
+                                    document.querySelectorAll('.size-item').forEach(item => item.classList.remove('selected'));
+                                    sizeItemDiv.classList.add('selected');
+                                    console.log(sizeItemDiv.textContent);
+                                });
+
+                                sizeDiv.appendChild(sizeItemDiv);
+                            });
+                        } else {
+                            sizeDiv.textContent = 'Không có thông tin kích thước.';
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Có lỗi xảy ra:', error);
+                    if (sizeDiv) {
+                        sizeDiv.textContent = 'Có lỗi xảy ra khi lấy dữ liệu.';
+                    }
+                });
+
+            const mauUrl = `/sanphamchitietclientanh/${productId}`;
+            fetch(mauUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    if (mauDiv) {
+                        mauDiv.innerHTML = '';
+
+                        if (data && Array.isArray(data)) {
+                            data.forEach(anh => {
+                                const imgElement = document.createElement('img');
+                                imgElement.className = 'anh-item col-md-6';
+                                imgElement.src = `https://res.cloudinary.com/deapopcoc/image/upload/${anh}`;
+                                imgElement.alt = 'Ảnh sản phẩm';
+                                imgElement.dataset.anh = anh;
+
+                                imgElement.addEventListener('click', () => {
+                                    document.querySelectorAll('.anh-item').forEach(item => item.classList.remove('selected'));
+                                    imgElement.classList.add('selected');
+                                    console.log(imgElement.dataset.anh);
+                                });
+
+                                mauDiv.appendChild(imgElement);
+                            });
+                        } else {
+                            mauDiv.textContent = 'Không có thông tin ảnh.';
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Có lỗi xảy ra:', error);
+                    if (mauDiv) {
+                        mauDiv.textContent = 'Có lỗi xảy ra khi lấy dữ liệu.';
+                    }
+                });
+
+
+        });
+    });
+</script>
+
+</body>
+</html>
