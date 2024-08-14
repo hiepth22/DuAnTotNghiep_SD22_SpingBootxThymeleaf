@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
 <div th:replace="~{client/fragmentsClient/head :: head}"></div>
 <html lang="vi">
 <head>
@@ -39,7 +39,7 @@
             <div id="thongTinSP"></div>
             <div>
                 <button type="button" id="delete-all" class="ml-[15%] mt-5 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5">Xóa tất cả</button>
-                <button type="button" id="continue-shopping" class="ml-[54%] mb-10 mt-5 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5">Tiếp tục mua hàng</button>
+                <button type="button" id="continue-shopping" class="ml-[54%] mb-10 mt-5 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5"><a href="/shop">Tiếp tục mua hàng</a></button>
             </div>
         </div>
 
@@ -73,6 +73,7 @@
     $(document).ready(function () {
         let discount = 0;
         let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+        let idGioHang = null;
 
         function getKhachHang() {
             $.ajax({
@@ -91,6 +92,10 @@
                 method: 'GET',
                 success: function (response) {
                     const gioHangChiTiet = response.ghct;
+                    const  gioHang = response.gh
+
+                    idGioHang = gioHang.id;
+
 
                     let list = "";
                     $("#thongTinSP").empty();
@@ -143,6 +148,18 @@
             });
 
         }
+
+        $("#delete-all").click(function() {
+            $.ajax({
+                url: `/api/gio-hang/delete-all-sp/${idGioHang}`,
+                method: 'POST',
+                success: function () {
+                    getKhachHang();
+                },
+
+            });
+        });
+
 
 
         $('#thongTinSP').on('click', '.deleteSP', function () {
@@ -224,7 +241,6 @@
             });
 
             localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
-            console.log('Selected products:', selectedProducts);
             tinhTongTien();
         }
 

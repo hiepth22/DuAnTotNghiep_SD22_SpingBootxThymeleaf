@@ -6,6 +6,7 @@ import com.poly.sneaker.entity.HoaDon;
 import com.poly.sneaker.entity.HoaDonChiTiet;
 import com.poly.sneaker.repository.GioHangChiTietRepository;
 import com.poly.sneaker.repository.GioHangRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,11 @@ public class GioHangChiTietService {
             gioHangChiTietRepository.delete(o);
             return o;
         }).orElse(null);
+    }
+
+    @Transactional
+    public void deleteGioHangChiTietByIdGioHang(Long idGioHang) {
+        gioHangChiTietRepository.deleteByIdGioHang(idGioHang);
     }
 
 

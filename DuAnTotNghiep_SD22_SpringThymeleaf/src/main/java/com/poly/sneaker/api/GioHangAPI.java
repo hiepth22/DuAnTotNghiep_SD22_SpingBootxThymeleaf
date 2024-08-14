@@ -140,8 +140,14 @@ public class GioHangAPI {
     }
 
     @PostMapping("/delete-sp/{id}")
-    public ResponseEntity<?> updateHoaDon(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteSP(@PathVariable("id") Long id) {
         return ResponseEntity.ok(gioHangChiTietService.deleteById(id));
+    }
+
+    @PostMapping("/delete-all-sp/{id}")
+    public ResponseEntity<Void> deleteAllSP(@PathVariable("id") Long id) {
+        gioHangChiTietService.deleteGioHangChiTietByIdGioHang(id);
+        return ResponseEntity.ok().build();
     }
 
 
