@@ -1,11 +1,9 @@
 package com.poly.sneaker.sevice;
 
-import com.poly.sneaker.entity.GioHang;
-import com.poly.sneaker.entity.GioHangChiTiet;
-import com.poly.sneaker.entity.HoaDon;
-import com.poly.sneaker.entity.HoaDonChiTiet;
+import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.GioHangChiTietRepository;
 import com.poly.sneaker.repository.GioHangRepository;
+import com.poly.sneaker.repository.PhieuGiamGiaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +18,8 @@ public class GiohangService {
 
     @Autowired
     GioHangChiTietRepository gioHangChiTietRepository;
+    @Autowired
+    private PhieuGiamGiaRepository phieuGiamGiaRepository;
 
     public GioHang detail(Long id) {
         Optional<GioHang> optional = gioHangRepository.findByIdTK(id);
@@ -45,6 +45,10 @@ public class GiohangService {
             o.setSoLuong(gioHangChiTiet.getSoLuong());
             return gioHangChiTietRepository.save(o);
         }).orElse(null);
+    }
+
+    public List<PhieuGiamGia> getPhieuGiamGia() {
+        return phieuGiamGiaRepository.getPGGConHanSD();
     }
 
 }

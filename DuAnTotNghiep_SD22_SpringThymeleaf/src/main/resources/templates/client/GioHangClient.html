@@ -11,6 +11,14 @@
     <link rel="icon" type="image/svg+xml"
           href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <style>
+        .voucher-disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            background-color: #f0f0f0;
+        }
+
+    </style>
 
 </head>
 <body class="bg-gray-100">
@@ -43,13 +51,13 @@
             </div>
         </div>
 
-        <div class="container bg-white  w-[80%] h-[70%] p-2 rounded-lg shadow-md mt-32">
+        <div class="container bg-white  w-[80%] h-[600px] p-2 rounded-lg shadow-md mt-32">
             <div>
                 <h1 class="ml-2 text-2xl font-bold">Đơn hàng</h1>
                 <div class="ml-3 w-80 h-0.5 bg-black"></div>
             </div>
             <div class="m-5">
-                <p>Voucher: <span id="voucher">0</span></p>
+                <p>Voucher: <button id="phieuGiamGia" class="text-blue-700 ml-10">Chọn mã giảm giá</button></p>
             </div>
             <div class="ml-3 w-80 h-0.5 bg-gray-200"></div>
             <div class="m-5">
@@ -63,7 +71,31 @@
                 <h1 class="text-xl font-bold m-10">Tổng tiền: <span id="total">0</span></h1>
             </div>
             <div class="tiepTucSanPham">
-                <button type="button" class="tiepTuc ml-5 w-[90%] h-20 font-bold text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"><a href="/cho-thanh-toan">Tiếp tục thanh toán</a></button>
+                <button id="btnTiepTuc" type="button" class="tiepTuc ml-5 w-[90%] h-20 font-bold text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:ring-orange-300 rounded-lg text-xl px-5 py-2.5 opacity-50 cursor-not-allowed " onclick="window.location.href='/shop';" disabled >
+                    Tiếp tục thanh toán
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalPhieuGiamGia" class="fixed z-10 inset-0 overflow-y-auto hidden">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+        </div>
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-lg w-full h-[50%]">
+            <div id="listPhieuGiamGia" class="bg-white px-4 pt-5 pb-4">
+
+            </div>
+            <div class="bg-gray-50 px-4 py-3 flex justify-end">
+                <button id="huyPhieuGiamGia"
+                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">Hủy
+                </button>
+                <button id="chonPhieuGiamGia"
+                        class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">Chọn
+                </button>
             </div>
         </div>
     </div>
@@ -73,6 +105,7 @@
     $(document).ready(function () {
         let discount = 0;
         let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+        let sale = JSON.parse(localStorage.getItem('sale')) || [];
         let idGioHang = null;
 
         function getKhachHang() {
@@ -85,6 +118,29 @@
                 },
             });
         }
+
+        $(document).on('click', 'input[name="phieuGiamGia"]', function() {
+            const $this = $(this);
+            const isChecked = $this.is(':checked');
+
+            if (isChecked) {
+                const previouslyChecked = $this.data('previouslyChecked');
+                if (previouslyChecked) {
+                    $this.prop('checked', false);
+                    $this.data('previouslyChecked', false);
+                    sale = [];
+                    $("#discount").text("0 VNĐ");
+                } else {
+                    $('input[name="phieuGiamGia"]').data('previouslyChecked', false);
+                    $this.data('previouslyChecked', true);
+                    const item = $this.data('item');
+                    sale = [item];
+                    $("#discount").text(formatVND(item.giamToiDa));
+                }
+                localStorage.setItem('sale', JSON.stringify(sale));
+                tinhTongTien();
+            }
+        });
 
         function getDuLieuGioHangVaGioHangChiTiet(idKhachHang) {
             $.ajax({
@@ -149,18 +205,100 @@
 
         }
 
+        const getPhuongThucThanhToan = (tongTien) => {
+            $.ajax({
+                url: `/api/hoa-don/phuong-thuc-thanh-toan/${idHoaDon}`,
+                method: 'GET',
+                success: function (result) {
+
+                    if (result && typeof result === 'object') {
+                        let list = "";
+                        $("#lichSuThanhToan").empty();
+
+                        list += `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">1</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${formatVND(tongTien)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${trangThaiThanhToan(result.trangThai)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${formatDate(result.ngayTao)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                    ${loaiThanhToan(result.loaiThanhToan)}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="status bg-green-500 text-white rounded-lg px-4 py-2">${result.tenThanhToan}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">${result.ghiChu}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${result.nguoiTao}</td>
+                </tr>`;
+
+                        $("#lichSuThanhToan").html(list);
+                    } else {
+                        console.error('Unexpected API response format:', result);
+                    }
+                },
+                error: function (error) {
+                    console.error('Lỗi Lịch sử thanh toán:', error);
+                }
+            });
+        };
+
+        function getPhieuGiamGia() {
+            $.ajax({
+                url: `/api/gio-hang/phieu-giam-gia`,
+                method: 'GET',
+                success: function (response) {
+                    let list = "";
+                    $("#listPhieuGiamGia").empty();
+
+                    const tongTien = parseInt($("#donHang").text().replace(/\./g, '').replace(' VNĐ', ''));
+
+                    response.forEach((phieuGiamGia, i) => {
+                        const isDisabled = tongTien < phieuGiamGia.donToiThieu;
+                        const disabledClass = isDisabled ? 'voucher-disabled' : '';
+                        console.log(`Voucher ${phieuGiamGia.ten} - Đơn tối thiểu: ${phieuGiamGia.donToiThieu}, Tổng tiền: ${tongTien}, Bị xám: ${isDisabled}`);
+
+                        list += `
+                    <div class="grid gap-1 grid-cols-2 border-1 border-gray-300 p-4 rounded-lg ${disabledClass}">
+                        <div class="flex">
+                            <img class="w-[50%] h-auto" src="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309">
+                            <div class="mt-4 ml-4">
+                                <span class="font-bold text-orange-500 text-4xl">Se</span><span class="text-4xl text-orange-500">e</span>
+                            </div>
+                        </div>
+                        <div class="flex">
+                           <div>
+                                <div>${phieuGiamGia.ten}</div>
+                                <div>Giảm: ${formatVND(phieuGiamGia.giamToiDa)}</div>
+                                <div class="text-orange-500">Đơn tối thiểu: ${formatVND(phieuGiamGia.donToiThieu)}</div>
+                                <div>HSD: ${phieuGiamGia.ngayKetThuc}</div>
+                            </div>
+                            <div class="mt-10">
+                                <input type="radio" name="phieuGiamGia" value="${phieuGiamGia.id}" data-item='${JSON.stringify(phieuGiamGia)}' ${isDisabled ? 'disabled' : ''}>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                `;
+                    });
+                    $("#listPhieuGiamGia").html(list);
+                },
+            });
+        }
+
+
+
         $("#delete-all").click(function() {
             $.ajax({
                 url: `/api/gio-hang/delete-all-sp/${idGioHang}`,
                 method: 'POST',
                 success: function () {
                     getKhachHang();
+                    xuLyThayDoiCheckbox();
+                    getPhieuGiamGia();
                 },
 
             });
         });
-
-
 
         $('#thongTinSP').on('click', '.deleteSP', function () {
             const itemId = $(this).data('id');
@@ -169,13 +307,15 @@
                 method: 'POST',
                 success: function () {
                     getKhachHang();
+                    xuLyThayDoiCheckbox();
+                    getPhieuGiamGia();
                 },
               
             });
         });
 
 
-    $('#thongTinSP').on('change', '.soLuong-input', function () {
+        $('#thongTinSP').on('change', '.soLuong-input', function () {
             const id = $(this).data('id');
             const SoLuongMoi = $(this).val();
 
@@ -186,6 +326,8 @@
                 data: JSON.stringify({id: id, soLuong: SoLuongMoi}),
                 success: function (response) {
                     getKhachHang();
+                    getPhieuGiamGia();
+                    tinhTongTien();
                 },
                 error: function (xhr, status, error) {
                     console.error('Lỗi khi cập nhật số lượng sản phẩm:', error);
@@ -197,6 +339,24 @@
         const formatVND = (tongtien) => {
             return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
         }
+
+        function updateContinueButton() {
+            const totalAmount = parseInt($("#total").text().replace(/\./g, '').replace(' VNĐ', ''));
+            const $continueButton = $("#btnTiepTuc");
+
+            if (totalAmount > 0) {
+                $continueButton.prop("disabled", false);
+                $continueButton.removeClass("opacity-50 cursor-not-allowed");
+                $continueButton.off('click').on('click', function() {
+                    window.location.href = "/cho-thanh-toan";
+                });
+            } else {
+                $continueButton.prop("disabled", true);
+                $continueButton.addClass("opacity-50 cursor-not-allowed");
+                $continueButton.off('click');
+            }
+        }
+
 
         const trangThaiSP = (tt) => {
             switch (tt) {
@@ -213,6 +373,14 @@
             let tongTien = 0;
             let tatCaDaChon = true;
             let tongCheckbox = 0;
+            let discount = 0;
+
+            const selectedPhieu = $("input[name='phieuGiamGia']:checked");
+
+            if (selectedPhieu.length > 0) {
+                const item = selectedPhieu.data('item');
+                discount = item.giamToiDa;
+            }
 
             $(".product-checkbox").each(function() {
                 tongCheckbox++;
@@ -226,23 +394,47 @@
             });
 
             $("#donHang").text(formatVND(tongTien));
-            const tongTienCuoi = tongTien - discount;
-            $("#total").text(formatVND(tongTienCuoi) < 0 ? 0 : formatVND(tongTienCuoi));
 
-            $("#select-all-checkbox").prop("checked", tatCaDaChon && tongCheckbox > 0);
+            if (tongTien === 0) {
+                $("#discount").text("0 VNĐ");
+                $("#total").text(formatVND(0));
+                $("input[name='phieuGiamGia']").prop("checked", false);
+                localStorage.removeItem('sale');
+            } else {
+                const tongTienCuoi = tongTien - discount;
+                $("#total").text(formatVND(tongTienCuoi) < 0 ? 0 : formatVND(tongTienCuoi));
+                $("#select-all-checkbox").prop("checked", tatCaDaChon && tongCheckbox > 0);
+            }
+
+            updateContinueButton();
         }
 
         function xuLyThayDoiCheckbox() {
-            selectedProducts = [];
+            let selectedProducts = [];
 
             $(".product-checkbox:checked").each(function() {
                 const item = $(this).data('item');
                 selectedProducts.push(item);
+                getPhieuGiamGia();
             });
 
             localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
             tinhTongTien();
         }
+
+        $("#select-all-checkbox").change(function() {
+            const isChecked = $(this).is(":checked");
+            $(".product-checkbox").prop("checked", isChecked);
+            xuLyThayDoiCheckbox();
+            getPhieuGiamGia();
+        });
+
+        $(document).on('change', '.product-checkbox', function() {
+            xuLyThayDoiCheckbox();
+            getPhieuGiamGia();
+        });
+
+
 
         $("#select-all-checkbox").change(function() {
             const isChecked = $(this).is(":checked");
@@ -258,9 +450,44 @@
             $(".product-checkbox").prop("checked", false);
             $("#select-all-checkbox").prop("checked", false);
             xuLyThayDoiCheckbox();
+            getPhieuGiamGia();
+        });
+
+        function hideModalPhieuGiamGia() {
+            $('#modalPhieuGiamGia').addClass('hidden');
+            $('#modalPhieuGiamGia').val('');
+            $('#modalPhieuGiamGia').addClass('hidden');
+        }
+
+        function showModalPhieuGiamGia() {
+            $('#modalPhieuGiamGia').removeClass('hidden');
+        }
+
+        $('#phieuGiamGia').click(function () {
+            showModalPhieuGiamGia();
+        })
+
+        $('#huyPhieuGiamGia').click(function () {
+            hideModalPhieuGiamGia();
+        })
+
+        $("#chonPhieuGiamGia").click(function() {
+            const selectedPhieu = $("input[name='phieuGiamGia']:checked");
+
+            if (selectedPhieu.length > 0) {
+                const item = selectedPhieu.data('item');
+                sale = [item];
+                $("#discount").text(formatVND(item.giamToiDa));
+                localStorage.setItem('sale', JSON.stringify(sale));
+            } else {
+                $("#discount").text("0 VNĐ");
+            }
+            tinhTongTien();
+            hideModalPhieuGiamGia();
         });
 
         getKhachHang();
+        getPhieuGiamGia();
     });
 </script>
 </body>

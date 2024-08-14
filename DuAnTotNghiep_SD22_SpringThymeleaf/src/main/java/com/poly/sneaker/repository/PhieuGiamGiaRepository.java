@@ -38,6 +38,12 @@ public interface PhieuGiamGiaRepository extends JpaRepository<PhieuGiamGia, Long
     @Query(value = "select * from phieu_giam_gia ORDER BY id DESC", nativeQuery = true)
     List<PhieuGiamGia> findAllDesc();
 
+    @Query(value = "SELECT  * FROM phieu_giam_gia WHERE GETDATE() BETWEEN ngayBatdau AND ngayKetThuc;", nativeQuery = true)
+    List<PhieuGiamGia> getPGGConHanSD();
+
+
+
+
 
 
 }

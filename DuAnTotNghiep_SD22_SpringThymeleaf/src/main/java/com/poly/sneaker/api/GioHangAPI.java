@@ -150,6 +150,11 @@ public class GioHangAPI {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/phieu-giam-gia")
+    public List<PhieuGiamGia> phieuGiamGia() {
+        return giohangService.getPhieuGiamGia();
+    }
+
 
 
 
