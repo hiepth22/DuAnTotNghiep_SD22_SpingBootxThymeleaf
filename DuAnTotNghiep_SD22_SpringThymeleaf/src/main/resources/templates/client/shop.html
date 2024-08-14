@@ -325,63 +325,6 @@
         </div>
     </div>
 </section>
-<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="productModalLabel"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-6 mb-4">
-                            <div class="card">
-                                <a>
-                                    <img id="modalImage" class="img-fluid mb-2" alt="Product Image">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <!-- Tên sản phẩm -->
-<!--                                    <h5 class="card-title" id="modalProductName">Tên sản phẩm</h5>-->
-
-                                    <!-- Giá sản phẩm -->
-                                    <p class="card-text" style="color: red" id="modalPrice">Giá sản phẩm</p>
-
-                                    <!-- Số lượng sản phẩm -->
-                                    <p class="card-text" id="modalQuantity">Số lượng sản phẩm</p>
-
-                                    <!-- Mô tả sản phẩm -->
-                                    <p class="card-text" id="modalDescription">Mô tả sản phẩm</p>
-
-                                    <!-- Màu sắc sản phẩm -->
-                                    <p class="card-text" id="modalColor">
-                                        <!-- Màu sắc sẽ được chèn vào đây -->
-                                    </p>
-
-                                    <!-- Kích thước sản phẩm -->
-                                    <div id="modalSize" class="mb-3">
-                                        <!-- Kích thước sẽ được chèn vào đây -->
-                                    </div>
-
-                                    <!-- Các nút hành động -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <a id="modalBuyLink" class="btn btn-primary" href="#">Mua Ngay</a>
-                                        <a id="modalAddToCartLink" class="btn btn-secondary" href="#">Thêm Vào Giỏ Hàng</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- JavaScript -->
 
@@ -505,27 +448,20 @@
             });
         }
 
-        // Gọi hàm getKhachHang để bắt đầu quá trình
         getKhachHang();
     });
 
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Lấy tất cả các phần tử có id 'product-price'
         const priceElements = document.querySelectorAll('.product-price');
-
-        // Hàm định dạng giá với dấu phân cách ngàn
         function formatNumber(number) {
             return number.toLocaleString('vi-VN');
         }
-
-        // Duyệt qua tất cả các phần tử và định dạng giá
         priceElements.forEach(function(priceElement) {
             const price = parseFloat(priceElement.textContent.replace(/\./g, '').replace(' ₫', ''));
             priceElement.textContent = '₫ ' + formatNumber(price) ;
         });
-
     });
 </script>
 

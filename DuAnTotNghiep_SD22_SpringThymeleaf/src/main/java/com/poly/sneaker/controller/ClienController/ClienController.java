@@ -60,8 +60,6 @@ public class ClienController {
     public String hienThiSanPham(Model model) {
         List<SanPhamChiTiet> sanPhams = SPCTservice.getAll();
         model.addAttribute("sanPhams", sanPhams);
-
-
         return "client/viewClient";
     }
     @GetMapping("/shop")
@@ -70,20 +68,27 @@ public class ClienController {
         model.addAttribute("sanPhams", sanPhams);
         return "client/shop";
     }
-    @GetMapping("/sanphamchitietclien/{sanPhamId}")
-    @ResponseBody
-    public ResponseEntity<?> getProductDetails(@PathVariable Long sanPhamId) {
+    @GetMapping("/san-pham/{sanPhamId}")
+    public String hienThiSanPham (@PathVariable Long sanPhamId ,Model model) {
         SanPhamChiTiet sanPhamChiTiet = SPCTservice.findById1(sanPhamId);
-        if (sanPhamChiTiet != null) {
-            return ResponseEntity.ok(sanPhamChiTiet);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        model.addAttribute("sanPhams", sanPhamChiTiet);
+        return "client/SanPhamChiTiet";
     }
     @GetMapping("/sanphamchitietclienkc/{sanPhamId}")
     @ResponseBody
     public ResponseEntity<List<String>> getKichCo(@PathVariable Long sanPhamId) {
         List<String> kichCoList = repo.findKichCoBySanPhamId(sanPhamId);
+
+        if (!kichCoList.isEmpty()) {
+            return ResponseEntity.ok(kichCoList);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @GetMapping("/sanphamchitietclientanh/{sanPhamId}")
+    @ResponseBody
+    public ResponseEntity<List<String>> getanh(@PathVariable Long sanPhamId) {
+        List<String> kichCoList = repo.findanhBySanPhamId(sanPhamId);
 
         if (!kichCoList.isEmpty()) {
             return ResponseEntity.ok(kichCoList);

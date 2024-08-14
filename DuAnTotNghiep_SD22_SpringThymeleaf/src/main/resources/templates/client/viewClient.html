@@ -309,7 +309,7 @@
             </div>
         </div>
         <div class="row" id="products-list1">
-            <!-- Danh sách sản phẩm sẽ được chèn vào đây -->
+
         </div>
         <div class="btn-right" style="text-align: center;">
             <a href="shop" class="btn custom-btn" style=" padding: 10px 20px; border-radius: 4px; width: 150px; text-align: center;">Xem tất cả</a>
@@ -328,7 +328,7 @@
             </div>
         </div>
         <div class="row" id="products-list">
-            <!-- Danh sách sản phẩm sẽ được chèn vào đây -->
+
         </div>
         <div class="btn-right" style="text-align: center;">
             <a href="shop" class="btn custom-btn" style=" padding: 10px 20px; border-radius: 4px; width: 150px; text-align: center;">Xem tất cả</a>
@@ -367,13 +367,13 @@
 
                         const productElement = $(`
                             <div class="col-md-2 col-sm-4 mb-4">
-                                 <div class="card-body" style="text-align: left;">
+                                 <div class="card-body" style="text-align: left;" data-id="${product.id}">
                                     <div class="product-buttons">
-                                        <a href="#" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${product.id}">
+                                        <a href="#" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#productModal">
                                             <i class="bi bi-eye"></i>
                                         </a>
                                     </div>
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${product.id}">
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#productModal">
                                             <img src="${productImage}" alt="Product Image" style="width: calc(100% + 30px); height: 250px; border-radius: 8px; display: block; margin: 0 -15px 10px -15px; box-sizing: border-box;">
                                             <h6 class="card-title" style=" color: #333; margin-top: 10px; margin-left: 15px;text-decoration: none;">${productName}</h6>
                                         </a>
@@ -390,7 +390,7 @@
                     });
 
                     // Thêm sự kiện click cho các sản phẩm
-                    $('.card').on('click', function () {
+                    $('.card-body').on('click', function () {
                         const productId = $(this).data('id');
                         console.log('ID sản phẩm được chọn:', productId);
                         window.location.href = `/san-pham/${productId}`;
@@ -406,17 +406,18 @@
         });
     });
 </script>
+
 <script>
     $(document).ready(function () {
         $.ajax({
-            url: '/san-pham-ban-chay', // Endpoint để lấy dữ liệu sản phẩm bán chạy nhất
+            url: '/san-pham-ban-chay',
             method: 'GET',
             dataType: 'json',
             success: function (data) {
                 console.log('Dữ liệu nhận được:', data);
 
                 const productsContainer = $('#products-list1');
-                productsContainer.empty(); // Xóa nội dung cũ
+                productsContainer.empty();
 
                 if (Array.isArray(data) && data.length > 0) {
                     data.forEach(product => {
@@ -450,12 +451,9 @@
 
                         productsContainer.append(productElement);
                     });
-
-                    // Thêm sự kiện click cho các sản phẩm
                     $('.card').on('click', function () {
                         const productId = $(this).data('id');
                         console.log('ID sản phẩm được chọn:', productId);
-                        // Xử lý ID sản phẩm, ví dụ điều hướng đến trang chi tiết sản phẩm
                         window.location.href = `/san-pham/${productId}`;
                     });
                 } else {
