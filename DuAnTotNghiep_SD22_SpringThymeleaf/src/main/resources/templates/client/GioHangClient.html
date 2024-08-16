@@ -255,7 +255,7 @@
                     response.forEach((phieuGiamGia, i) => {
                         const isDisabled = tongTien < phieuGiamGia.donToiThieu;
                         const disabledClass = isDisabled ? 'voucher-disabled' : '';
-                        console.log(`Voucher ${phieuGiamGia.ten} - Đơn tối thiểu: ${phieuGiamGia.donToiThieu}, Tổng tiền: ${tongTien}, Bị xám: ${isDisabled}`);
+                        // console.log(`Voucher ${phieuGiamGia.ten} - Đơn tối thiểu: ${phieuGiamGia.donToiThieu}, Tổng tiền: ${tongTien}, Bị xám: ${isDisabled}`);
 
                         list += `
                     <div class="grid gap-1 grid-cols-2 border-1 border-gray-300 p-4 rounded-lg ${disabledClass}">

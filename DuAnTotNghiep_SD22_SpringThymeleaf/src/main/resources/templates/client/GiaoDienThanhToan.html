@@ -45,7 +45,7 @@
                 <div>
                     <h1 class="text-orange-700 text-xl m-5">Địa chỉ đơn hàng</h1>
                 </div>
-                <div class="diaChiKhachHang ml-5 mb-5" id="diaChiKhachHang">
+                <div class="diaChiKhachHang ml-10 mb-5" id="diaChiKhachHang">
 
                 </div>
             </div>
@@ -80,11 +80,23 @@
                     <tbody id="danhSachSanPham" class="bg-white divide-y divide-gray-200 h-full">
                     </tbody>
                 </table>
-            <div class="soLuongVaTongTien ml-[65%]" id="soLuongVaTongTien"></div>
+
+
+            <div class="soLuongVaTongTien ml-[60%]" id="soLuongVaTongTien"></div>
+
         </div>
     </div>
+
+    <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-5">
+        <div class="grid gap-1 grid-cols-2 m-3">
+            <div class="text-orange-500 text-xl">Voucher</div>
+            <div id="voucher" class="ml-[50%] text-orange-500 py-2 px-4 border-2 border-orange-500 rounded-lg text-center cursor-pointer bg-white font-semibold w-[200px]">
+            </div>
+        </div>
+
+    </div>
     <div class="flex justify-center">
-        <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-7 gap-40 mb-20">
+        <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-5 gap-40 mb-20">
             <div class="m-10">
                 <span class=" text-xl font-bold mr-10">Phương thức thanh toán</span>
                 <button id="btnCOD" class="btn-payment w-64 h-14 border py-2 px-4 rounded-md mr-5 active">
@@ -102,19 +114,19 @@
                         <p class="ml-10">Thời gian nhận hàng dự kiện: <span id="thoiGianDuKien"></span></p>
                     </div>
                 </div>
-                <div class="ml-56">
+                <div class="ml-28">
                    <div class="grid gap-4 grid-cols-2">
-                       <div class="font-bold">
+                       <div class="text-gray-600">
                            <div class="mb-5">Tổng tiền</div>
                            <div class="mb-5">Phí vận chuyển</div>
                            <div class="mb-5">Mã giảm giá</div>
                            <div class="mb-5">Tổng thanh toán</div>
                        </div>
-                       <div class="font-bold">
-                           <div class="mb-5">:<span class="ml-1" id="tongTien"></span></div>
-                           <div class="mb-5">:<span class="ml-1" id="phiVanChuyen"></span></div>
-                           <div class="mb-5">:<span class="ml-1" id="maGiamGia"></span></div>
-                           <div class="mb-5">:<span class="ml-1" id="tongThanhToan"></span></div>
+                       <div class="text-gray-600">
+                           <div class="mb-5"><span class="ml-1" id="tongTien"></span></div>
+                           <div class="mb-5"><span class="ml-1" id="phiVanChuyen"></span></div>
+                           <div class="mb-5"><span class="ml-1" id="maGiamGia"></span></div>
+                           <div class="mb-5"><span class="ml-1 text-orange-500 text-2xl" id="tongThanhToan"></span></div>
                        </div>
                    </div>
                     <div id="datHang">
@@ -132,12 +144,15 @@
 <script>
     $(document).ready(function () {
         let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+        let sale = JSON.parse(localStorage.getItem('sale')) || [];
         let discount = 0;
         let ship = 0;
         var tongTien = 0;
         let nguoiNhan = '';
         let sdtNguoiNhan = '';
         let idKhachHang = '';
+        let soLuongSPTong = 0;
+
 
         const formatVND = (tongtien) => {
             return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
@@ -174,11 +189,11 @@
 
         function hienThiSanPhamDaChon() {
             let list = "";
-
             if (Array.isArray(selectedProducts) && selectedProducts.length > 0) {
                 for (let i = 0; i < selectedProducts.length; i++) {
                     const item = selectedProducts[i];
                     tongTien += item.soLuong * item.sanPhamChiTiet.giaBan;
+                    soLuongSPTong += item.soLuong;
                     list += `
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
@@ -195,14 +210,20 @@
                     </tr>
             `;
                 }
+                discount = sale[0].giamToiDa;
+                console.log(discount)
 
                 $('#soLuongVaTongTien').html(`
-            <div>Tổng số tiền(${selectedProducts.length} sản phẩm): ${formatVND(tongTien)}</div>
+            <div>Tổng số tiền(${soLuongSPTong} sản phẩm): <span class="text-orange-500 text-xl ml-5">${formatVND(tongTien - discount)}</span></div>
         `);
+
+
                 $('#tongTien').text(formatVND(tongTien));
                 $('#phiVanChuyen').text(ship);
-                $('#maGiamGia').text(discount);
+                $('#maGiamGia').text(formatVND(discount));
                 $('#tongThanhToan').text(formatVND(tongTien - discount));
+                $('#voucher').text(formatVND(-sale[0].giamToiDa));
+
 
             } else {
                 list = "<p>Không có sản phẩm nào được chọn.</p>";
