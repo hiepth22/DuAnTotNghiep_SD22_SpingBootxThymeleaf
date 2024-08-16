@@ -1,191 +1,320 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
+    <title>ShoeSee - Online Store</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>San Pham</title>
-    <!-- Link đến CSS của Bootstrap -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="author" content="TemplatesJungle">
+    <meta name="keywords" content="Online Store">
+    <meta name="description" content="Stylish - Shoes Online Store HTML Template">
+
     <link rel="stylesheet" th:href="@{/assets/css/vendor.css}">
-    <link rel="stylesheet" th:href="@{/assets/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/css/chocolat.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,900;1,900&family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+
     <style>
-        .product-img {
-            width: 700px;
-            height: 700px;
-            border-radius: 8px;
-        }
-        .product-card {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .product-container {
+        #products-list {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
         }
+        .selected-image {
+            border: 2px solid #00f; /* Viền xanh dương */
+            box-sizing: border-box; /* Đảm bảo kích thước hình ảnh không bị thay đổi */
+        }
+
+        .product-container {
+            flex: 1;
+            padding: 10px;
+        }
+
         .product-info {
-            width: 700px;
-            height: 700px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-sizing: border-box;
         }
-        .size, .anh {
+
+        .product-info img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .additional-images {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
         }
-        .size-item, .anh-item {
-            cursor: pointer;
-            padding: 5px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            text-align: center;
-            flex: 1 1 18%;
-            box-sizing: border-box;
-        }
-        .size-item.selected, .anh-item.selected {
-            background-color: #007bff;
-            color: #fff;
-        }
-        .anh-item {
-            max-width: 70px;
-            max-height: 70px;
+
+        .additional-images img {
+            width: 70px;
+            height: 70px;
             object-fit: cover;
+            border-radius: 8px;
         }
-        .anh-item.selected {
-            border-color: #007bff;
+        .size-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+
+
+        .size-container p {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .size-container p:hover {
+            background-color: #e0e0e0;
+        }
+
+        .size-container .selected-size {
+            border: 2px solid #00f; /* Viền xanh dương khi được chọn */
+            background-color: #e0e0e0; /* Thay đổi nền khi được chọn */
+        }
+
+
+        @media (max-width: 767px) {
+            #products-list {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
+
 <body>
 <div th:replace="~{client/fragmentsClient/header :: header}"></div>
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div th:each="sp : ${sanPhams}" class="col-12 mb-3 product-card" th:data-product-id="${sp.sanPham.id}" th:data-product-anh="${sp.anh}">
-            <div class="product-container" style="border: #0c0e12 1px solid">
-                <div class="col-md-8">
-                    <img th:src="'https://res.cloudinary.com/deapopcoc/image/upload/' + ${sp.anh}" alt="Ảnh" class="product-img" style="border: #0c0e12 1px solid">
-                </div>
-                <div class="col-md-4 product-info">
-                    <h2 class="h5 mb-1" th:text="${sp.ten}">Tên sản phẩm</h2>
-                    <h2 class="h6 text-muted" th:text="${sp.giaBan}">Giá sản phẩm</h2>
-                    <div class="anh col-md-12" id="anh-${sp.sanPham.id}"></div>
-                    <br>
-                    <p>Chọn size:</p>
-                    <div class="size col-md-12" id="size-${sp.sanPham.id}"></div>
 
-                    <!-- Thêm hàng chứa các nút -->
-                    <div class=" justify-content-start mt-3">
-                        <button type="button" class="btn btn-primary me-2">Mua ngay</button>
-                        <button type="button" class="btn btn-secondary">Thêm vào giỏ hàng</button>
-                    </div>
-                </div>
-
+<section id="latest-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">
+    <div class="container-md">
+        <div class="heading_container heading_center" style="margin-bottom: 30px;">
+            <div style="display: flex; align-items: center; justify-content: center; width: 100%; background-color: #E8E8E8;">
+                <div style="width: 12%; height: 3px; background-color: #FF8C00;"></div>
             </div>
         </div>
+
+        <div class="row d-flex" id="products-list">
+            <div class=" d-flex">
+                <div id="anh" class="col-md-8"></div>
+                <div class="col-md-4">
+                    <div id="ten" class="col-md-12"></div>
+                    <div id="mau" class="col-md-12"></div>
+                </div>
+            </div><!-- Added div for additional images -->
+        </div>
     </div>
-</div>
-<div>
-    <h1>Sản Phẩm Liên Quan</h1>
-</div>
-<div th:replace="~{client/fragmentsClient/footer :: footer}"></div>
-<!-- Link đến JS của Bootstrap và jQuery -->
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/jarallax@1.12.0/dist/jarallax.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jarallax@1.12.0/dist/jarallax-video.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const productCards = document.querySelectorAll('.product-card');
+    $(document).ready(function () {
+        const path = window.location.pathname;
+        const pathParts = path.split('/');
+        const sanPhamId = pathParts[pathParts.length - 1];
 
-        productCards.forEach(productCard => {
-            const productId = productCard.getAttribute('data-product-id');
-            const anh = productCard.getAttribute('data-product-anh');
-            const sizeDiv = productCard.querySelector('.size');
-            const mauDiv = productCard.querySelector('.anh');
-            const sizeUrl = `/kichco/${productId}/${anh}`;
-            const mauUrl = `/sanphamchitietclientanh/${productId}`;
+        if (!sanPhamId) {
+            console.error('Không tìm thấy ID sản phẩm trong URL.');
+            $('#products-list').append('<p>Không có ID sản phẩm.</p>');
+            return;
+        }
 
-            // Fetch and display images
-            fetch(mauUrl)
-                .then(response => response.json())
-                .then(data => {
-                    if (mauDiv) {
-                        mauDiv.innerHTML = '';
-                        if (Array.isArray(data)) {
-                            data.forEach(anh => {
-                                const imgElement = document.createElement('img');
-                                imgElement.className = 'anh-item';
-                                imgElement.src = `https://res.cloudinary.com/deapopcoc/image/upload/${anh}`;
-                                imgElement.alt = 'Ảnh sản phẩm';
-                                imgElement.dataset.anh = anh;
+        // Lấy dữ liệu sản phẩm chính
+        $.ajax({
+            url: `/sanphamchitietclien/${sanPhamId}`,
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log('Dữ liệu sản phẩm chính:', data); // Debug output
 
-                                imgElement.addEventListener('click', () => {
-                                    document.querySelectorAll('.anh-item').forEach(item => item.classList.remove('selected'));
-                                    imgElement.classList.add('selected');
-                                    $.ajax({
-                                        url: `/sanphamchitietclientanhspct/${imgElement.dataset.anh}/${productId}`,
-                                        method: 'GET',
-                                        success: function (response) {
-                                            const firstElement = response[0];
-                                            console.log(firstElement);
-                                            window.location.href = `/san-pham/${firstElement}`;
-                                        },
-                                        error: function () {
-                                            console.log('Error retrieving product details.');
-                                        }
-                                    });
-                                });
+                const productsContainer = $('#mau'); // Container for additional images
+                const anhsp = $('#anh');
+                const ten = $('#ten');
+                productsContainer.empty();
 
-                                mauDiv.appendChild(imgElement);
+                if (data && typeof data === 'object' && data.id) {
+                    const productName = data.ten || 'Không có tên';
+                    const productPrice = data.giaBan != null ? data.giaBan.toLocaleString('vi-VN', {
+                        style: 'currency',
+                        currency: 'VND'
+                    }) : 'Không có giá';
+                    const productImage = data.anh ? `https://res.cloudinary.com/deapopcoc/image/upload/${data.anh}` : 'path/to/default-image.jpg';
+
+                    // Tạo cột gộp chứa tên, giá và hình ảnh chính
+                    const mainImage = $(`
+                    <img src="${productImage}" alt="Product Image" style="width: 700px; height: 700px; border-radius: 8px;">
+                `);
+                    const productDetails = $(`
+                    <div class="product-container">
+                        <div class="product-info">
+                            <h1 class="card-title" style="color: #333; margin-top: 10px;">${productName}</h1>
+                            <p class="product-price" style="font-size: 17px; color: #d9534f; margin-bottom: 10px;">${productPrice}</p>
+                        </div>
+                    </div>
+                `);
+
+                    // Thêm thông tin sản phẩm vào container
+                    anhsp.append(mainImage);
+                    ten.append(productDetails);
+
+                    // Tạo div chứa các hình ảnh bổ sung
+                    const additionalImagesDiv = $('<div class="additional-images"></div>');
+
+                    // Lấy thêm dữ liệu từ endpoint khác nếu cần
+                    $.ajax({
+                        url: `/sanphamchitietclientanh/${data.sanPham.id}`,
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (additionalData) {
+                            console.log('Dữ liệu bổ sung nhận được:', additionalData); // Debug output
+                            const additionalImages = additionalData || [];
+
+                            additionalImages.forEach(img => {
+                                const imageName = img;
+
+                                const additionalImageDiv = $(`
+                                <div>
+                                    <img src="https://res.cloudinary.com/deapopcoc/image/upload/${img}" alt="Additional Product Image" data-name="${imageName}">
+                                </div>
+                            `);
+                                additionalImagesDiv.append(additionalImageDiv);
                             });
-                        } else {
-                            mauDiv.textContent = 'Không có thông tin ảnh.';
-                        }
-                    }
-                })
-                .catch(error => {
-                    console.error('Có lỗi xảy ra:', error);
-                    if (mauDiv) {
-                        mauDiv.textContent = 'Có lỗi xảy ra khi lấy dữ liệu.';
-                    }
-                });
 
-            // Fetch and display sizes
-            fetch(sizeUrl)
-                .then(response => response.json())
-                .then(data => {
-                    if (sizeDiv) {
-                        sizeDiv.innerHTML = '';
-                        if (Array.isArray(data)) {
-                            data.forEach(size => {
-                                const sizeItemDiv = document.createElement('div');
-                                sizeItemDiv.className = 'size-item';
-                                sizeItemDiv.textContent = size;
-                                sizeItemDiv.dataset.size = size;
+                            // Thêm các hình ảnh bổ sung vào container
+                            productsContainer.append(additionalImagesDiv);
 
-                                sizeItemDiv.addEventListener('click', () => {
-                                    document.querySelectorAll('.size-item').forEach(item => item.classList.remove('selected'));
-                                    sizeItemDiv.classList.add('selected');
-                                    console.log('Selected size:', sizeItemDiv.dataset.size);
+                            // Thêm sự kiện click vào các hình ảnh bổ sung
+                            $('.additional-images img').on('click', function () {
+                                // Loại bỏ lớp 'selected-image' từ tất cả các hình ảnh
+                                $('.additional-images img').removeClass('selected-image');
+
+                                // Thêm lớp 'selected-image' vào hình ảnh được click
+                                $(this).addClass('selected-image');
+
+                                const imageName = $(this).data('name');
+                                console.log('Tên hình ảnh:', imageName);
+                                anhsp.empty();
+                                const mainImage = $(`
+                    <img src="https://res.cloudinary.com/deapopcoc/image/upload/${imageName}" alt="Product Image" style="width: 700px; height: 700px; border-radius: 8px;">
+                `);
+                                anhsp.append(mainImage);
+                                // Xóa các kích cỡ cũ trước khi thêm mới
+                                $('.size-container').remove();
+
+                                $.ajax({
+                                    url: `/kichco/${data.sanPham.id}/${imageName}`,
+                                    method: 'GET',
+                                    dataType: 'json',
+                                    success: function (sizes) {
+                                        console.log('Sizes:', sizes); // Debug output
+
+                                        const sizeDiv = $('<div class="size-container"></div>');
+                                        sizes.forEach(size => {
+                                            const sizeElement = $(`
+                                            <p>${size}</p>
+                                        `);
+                                            sizeDiv.append(sizeElement);
+                                        });
+
+                                        // Thêm các kích cỡ vào container
+                                        productsContainer.append(sizeDiv);
+
+                                        // Thêm sự kiện click vào các kích cỡ
+                                        $('.size-container p').on('click', function () {
+                                            // Loại bỏ lớp 'selected-size' từ tất cả các kích cỡ
+                                            $('.size-container p').removeClass('selected-size');
+
+                                            // Thêm lớp 'selected-size' vào kích cỡ được click
+                                            $(this).addClass('selected-size');
+
+                                            // Hiển thị tên kích cỡ được chọn
+                                            const selectedSize = $(this).text();
+                                            console.log('Kích cỡ được chọn:', selectedSize);
+                                        });
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error('Lỗi khi lấy dữ liệu kích cỡ:', error);
+                                    }
                                 });
-
-                                sizeDiv.appendChild(sizeItemDiv);
                             });
-                        } else {
-                            sizeDiv.textContent = 'Không có thông tin kích thước.';
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Lỗi khi lấy dữ liệu bổ sung:', error);
                         }
-                    }
-                })
-                .catch(error => {
-                    console.error('Có lỗi xảy ra:', error);
-                    if (sizeDiv) {
-                        sizeDiv.textContent = 'Có lỗi xảy ra khi lấy dữ liệu.';
-                    }
-                });
+                    });
+                    $.ajax({
+                        url: `/kichco/${data.sanPham.id}/${data.anh}`,
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (sizes) {
+                            console.log('Sizes:', sizes); // Debug output
+
+                            const sizeDiv = $('<div class="size-container"></div>');
+                            sizes.forEach(size => {
+                                const sizeElement = $(`
+                                            <p>${size}</p>
+                                        `);
+                                sizeDiv.append(sizeElement);
+                            });
+
+                            // Thêm các kích cỡ vào container
+                            productsContainer.append(sizeDiv);
+
+                            // Thêm sự kiện click vào các kích cỡ
+                            $('.size-container p').on('click', function () {
+                                // Loại bỏ lớp 'selected-size' từ tất cả các kích cỡ
+                                $('.size-container p').removeClass('selected-size');
+
+                                // Thêm lớp 'selected-size' vào kích cỡ được click
+                                $(this).addClass('selected-size');
+
+                                // Hiển thị tên kích cỡ được chọn
+                                const selectedSize = $(this).text();
+                                console.log('Kích cỡ được chọn:', selectedSize);
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Lỗi khi lấy dữ liệu kích cỡ:', error);
+                        }
+                    });
+                } else {
+                    productsContainer.append('<p>Không có dữ liệu sản phẩm.</p>');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi khi lấy dữ liệu:', error);
+                $('#products-list').append('<p>Đã xảy ra lỗi khi lấy dữ liệu sản phẩm.</p>');
+            }
         });
     });
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 
+
+
+
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/js/chocolat.min.js"></script>
+<script th:src="@{/assets/js/plugins.js}"></script>
+<script th:src="@{/assets/js/client.js}"></script>
+<script th:src="@{/assets/js/script.js}"></script>
+
+<div th:replace="~{client/fragmentsClient/footer :: footer}"></div>
 </body>
+
 </html>
