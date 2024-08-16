@@ -17,13 +17,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/css/chocolat.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,900;1,900&family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,900;1,900&family=Source+Sans+Pro:wght@400;600;700;900&display=swap"
+          rel="stylesheet">
 
     <style>
         #products-list {
             display: flex;
             flex-wrap: wrap;
         }
+
         .selected-image {
             border: 2px solid #00f; /* Viền xanh dương */
             box-sizing: border-box; /* Đảm bảo kích thước hình ảnh không bị thay đổi */
@@ -60,13 +62,13 @@
             object-fit: cover;
             border-radius: 8px;
         }
+
         .size-container {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
             margin-top: 20px;
         }
-
 
 
         .size-container p {
@@ -111,8 +113,30 @@
             <div class=" d-flex">
                 <div id="anh" class="col-md-8"></div>
                 <div class="col-md-4">
-                    <div id="ten" class="col-md-12"></div>
-                    <div id="mau" class="col-md-12"></div>
+                    <div class="col-md-12 ">
+                        <div id="ten"></div>
+                        <div class="d-flex">
+                            <p style=" margin-right: 5px ">Giá :</p>
+                            <div id="gia"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Chọn Màu :</p>
+                        <div id="mau" class="col-md-12"></div>
+                        <p>Chọn Size :</p>
+                        <div id="size" class="col-md-12"></div>
+                    </div>
+
+                    <div id="sl" class="col-md-12 d-flex">
+                        <div class="d-flex md-8">
+                            <button class="btn btn-light" onclick="decrease()">-</button>
+                            <input class="text-center btn btn-light" type="text" id="quantity" value="1" min="1"
+                                   style="width: 50px">
+                            <button class="btn btn-light" onclick="increase()">+</button>
+                        </div>
+                        <div id="soluongton" class="md-4" style="margin-top:5px  "></div>
+                    </div>
+
                 </div>
             </div><!-- Added div for additional images -->
         </div>
@@ -122,6 +146,20 @@
 <script src="https://cdn.jsdelivr.net/npm/jarallax@1.12.0/dist/jarallax.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jarallax@1.12.0/dist/jarallax-video.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function increase() {
+        let quantity = document.getElementById('quantity');
+        quantity.value = parseInt(quantity.value) + 1;
+    }
+
+    function decrease() {
+        let quantity = document.getElementById('quantity');
+        if (quantity.value > 1) {
+            quantity.value = parseInt(quantity.value) - 1;
+        }
+    }
+
+</script>
 <script>
     $(document).ready(function () {
         const path = window.location.pathname;
@@ -144,7 +182,11 @@
 
                 const productsContainer = $('#mau'); // Container for additional images
                 const anhsp = $('#anh');
+                const sizesp = $('#size');
+
                 const ten = $('#ten');
+                const gia = $('#gia');
+                const sltonsp = $('#soluongton');
                 productsContainer.empty();
 
                 if (data && typeof data === 'object' && data.id) {
@@ -159,18 +201,21 @@
                     const mainImage = $(`
                     <img src="${productImage}" alt="Product Image" style="width: 700px; height: 700px; border-radius: 8px;">
                 `);
-                    const productDetails = $(`
-                    <div class="product-container">
-                        <div class="product-info">
+                    const tensp = $(`
+
                             <h1 class="card-title" style="color: #333; margin-top: 10px;">${productName}</h1>
+
+                `);
+                    const giasp = $(`
+
                             <p class="product-price" style="font-size: 17px; color: #d9534f; margin-bottom: 10px;">${productPrice}</p>
-                        </div>
-                    </div>
+
                 `);
 
                     // Thêm thông tin sản phẩm vào container
                     anhsp.append(mainImage);
-                    ten.append(productDetails);
+                    ten.append(tensp);
+                    gia.append(giasp);
 
                     // Tạo div chứa các hình ảnh bổ sung
                     const additionalImagesDiv = $('<div class="additional-images"></div>');
@@ -208,6 +253,8 @@
 
                                 const imageName = $(this).data('name');
                                 console.log('Tên hình ảnh:', imageName);
+                                const sizemau = "";
+                                gia.empty();
                                 anhsp.empty();
                                 const mainImage = $(`
                     <img src="https://res.cloudinary.com/deapopcoc/image/upload/${imageName}" alt="Product Image" style="width: 700px; height: 700px; border-radius: 8px;">
@@ -222,29 +269,86 @@
                                     dataType: 'json',
                                     success: function (sizes) {
                                         console.log('Sizes:', sizes); // Debug output
+                                        const sizegia = sizes[0];
+                                        $.ajax({
+                                            url: `/gia-ban/${data.sanPham.id}/${sizegia}/${imageName}`,
+                                            method: 'GET',
+                                            dataType: 'json',
+                                            success: function (giaanh) {
+                                                const giakhichonanh = giaanh != null ? giaanh.toLocaleString('vi-VN', {
+                                                    style: 'currency',
+                                                    currency: 'VND'
+                                                }) : 'Không có giá';
+                                                const giaspanh = $(`
+
+                                                          <p class="product-price" style="font-size: 17px; color: #d9534f; margin-bottom: 10px;">${giakhichonanh}</p>
+
+                                                             `);
+                                                gia.append(giaspanh);
+                                            },
+                                            error: function (xhr, status, error) {
+                                                console.error('Lỗi khi lấy dữ liệu kích cỡ:', error);
+                                            }
+                                        });
 
                                         const sizeDiv = $('<div class="size-container"></div>');
                                         sizes.forEach(size => {
                                             const sizeElement = $(`
+
                                             <p>${size}</p>
                                         `);
                                             sizeDiv.append(sizeElement);
                                         });
 
-                                        // Thêm các kích cỡ vào container
-                                        productsContainer.append(sizeDiv);
 
-                                        // Thêm sự kiện click vào các kích cỡ
+                                        sizesp.append(sizeDiv);
                                         $('.size-container p').on('click', function () {
-                                            // Loại bỏ lớp 'selected-size' từ tất cả các kích cỡ
                                             $('.size-container p').removeClass('selected-size');
-
-                                            // Thêm lớp 'selected-size' vào kích cỡ được click
                                             $(this).addClass('selected-size');
 
                                             // Hiển thị tên kích cỡ được chọn
                                             const selectedSize = $(this).text();
                                             console.log('Kích cỡ được chọn:', selectedSize);
+                                            sltonsp.empty();
+                                            gia.empty();
+                                            $.ajax({
+                                                url: `/gia-ban/${data.sanPham.id}/${selectedSize}/${imageName}`,
+                                                method: 'GET',
+                                                dataType: 'json',
+                                                success: function (giaban) {
+                                                    console.log('giasize:', giaban);
+                                                    const giakhichonsize = giaban != null ? giaban.toLocaleString('vi-VN', {
+                                                        style: 'currency',
+                                                        currency: 'VND'
+                                                    }) : 'Không có giá';
+                                                    const giaspsize = $(`
+
+                                                          <p class="product-price" style="font-size: 17px; color: #d9534f; margin-bottom: 10px;">${giakhichonsize}</p>
+
+                                                             `);
+                                                    gia.append(giaspsize);
+                                                },
+                                                error: function (xhr, status, error) {
+                                                    console.error('Lỗi khi lấy dữ liệu kích cỡ:', error);
+                                                }
+                                            });
+                                            $.ajax({
+                                                url: `/SLton/${data.sanPham.id}/${imageName}/${selectedSize}`,
+                                                method: 'GET',
+                                                dataType: 'json',
+                                                success: function (sl) {
+                                                    console.log('số lượng tồn:', sl);
+                                                    const slton = $(`
+                                                                    <div>
+                                                                <p class="product-price" style="font-size: 17px; color: #000000; margin-bottom: 10px;">${sl + ' sản Phẩm có sẳn'}</p>
+                                                                </div>
+                                                                  `);
+                                                    sltonsp.append(slton);
+                                                },
+                                                error: function (xhr, status, error) {
+                                                    console.error('Lỗi khi lấy dữ liệu kích cỡ:', error);
+                                                }
+                                            });
                                         });
                                     },
                                     error: function (xhr, status, error) {
@@ -264,6 +368,7 @@
                         success: function (sizes) {
                             console.log('Sizes:', sizes); // Debug output
 
+
                             const sizeDiv = $('<div class="size-container"></div>');
                             sizes.forEach(size => {
                                 const sizeElement = $(`
@@ -273,7 +378,7 @@
                             });
 
                             // Thêm các kích cỡ vào container
-                            productsContainer.append(sizeDiv);
+                            sizesp.append(sizeDiv);
 
                             // Thêm sự kiện click vào các kích cỡ
                             $('.size-container p').on('click', function () {
@@ -302,9 +407,6 @@
             }
         });
     });
-
-
-
 
 
 </script>

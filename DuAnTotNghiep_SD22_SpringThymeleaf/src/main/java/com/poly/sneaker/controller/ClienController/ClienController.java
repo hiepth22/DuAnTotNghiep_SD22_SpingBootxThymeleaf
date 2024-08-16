@@ -134,6 +134,23 @@ public class ClienController {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/gia-ban/{idSanPham}/{ten}/{anh}")
+    @ResponseBody
+    public List<Double> getGiaBan(
+            @PathVariable Long idSanPham,
+            @PathVariable String ten,
+            @PathVariable String anh) {
+        return repo.findGiaBan(idSanPham, ten, anh);
+    }
+    @GetMapping("/SLton/{idSanPham}/{anh}/{size}")
+    @ResponseBody
+    public List<Integer> getSL(
+            @PathVariable Long idSanPham,
+            @PathVariable String size,
+            @PathVariable String anh) {
+        return repo.findSoLuong(idSanPham, anh,size );
+    }
+
 
     @GetMapping("/san-pham-moi-nhat")
     public ResponseEntity<?> getTop12NewestProducts() {
