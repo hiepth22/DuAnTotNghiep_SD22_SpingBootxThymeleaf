@@ -340,8 +340,11 @@
                                                     console.log('số lượng tồn:', sl);
                                                     const slton = $(`
                                                                     <div>
-                                                                <p class="product-price" style="font-size: 17px; color: #000000; margin-bottom: 10px;">${sl + ' sản Phẩm có sẳn'}</p>
-                                                                </div>
+                                                                          <p class="product-price" style="font-size: 17px; color: #000000; margin-bottom: 10px; opacity: 0.5;margin-left: 10px">
+                                                                           ${sl + ' sản phẩm có sẵn'}
+                                                                          </p>
+
+                                                                     </div>
                                                                   `);
                                                     sltonsp.append(slton);
                                                 },
