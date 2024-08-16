@@ -84,11 +84,11 @@
         <div class="form-container sign-up-container">
             <form th:action="@{/loginadd}" method="post">
                 <h1>Đăng Ký</h1>
-                <div class="social-container">
-                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-                </div>
+<!--                <div class="social-container">-->
+<!--                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>-->
+<!--                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>-->
+<!--                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>-->
+<!--                </div>-->
                 <input type="text" id="ten" name="ten" class="form-control"placeholder="Họ và tên" />
                 <input type="email" id="email" name="email" class="form-control" placeholder="Email"/>
                 <input type="password" id="matKhau" name="matKhau" class="form-control" placeholder="Mật Khẩu"/>
@@ -99,11 +99,11 @@
         <div class="form-container sign-in-container">
             <form th:action="@{/logincheck}" method="post">
                 <h1>Đăng Nhập</h1>
-                <div class="social-container">
-                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-                </div>
+<!--                <div class="social-container">-->
+<!--                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>-->
+<!--                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>-->
+<!--                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>-->
+<!--                </div>-->
                 <input type="email" name="email" class="form-control" placeholder="Email"/>
                 <input type="password" id="matKhau" name="matKhau" class="form-control" placeholder="Password">
                 <div th:if="${error}">
