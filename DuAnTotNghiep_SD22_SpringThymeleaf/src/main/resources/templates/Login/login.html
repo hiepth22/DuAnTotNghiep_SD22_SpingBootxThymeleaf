@@ -62,6 +62,24 @@
         color: red;
         font-size: 12px;
         padding-bottom: 4px;
+        text-align: left;
+    }
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        display: none; /* Ẩn ban đầu */
+        z-index: 1000;
+    }
+
+    .notification.show {
+        display: block; /* Hiển thị khi có thông báo */
+        animation: fadeOut 3s ease-out forwards; /* Animation fadeOut */
     }
 
 </style>
@@ -213,19 +231,24 @@
     function checkEmail() {
         const email = document.getElementById('email').value;
         const emailError = document.getElementById('emailError');
-        axios.get(`/check-email?email=${encodeURIComponent(email)}`)
+
+        axios.get(`/check-email?email=${email}`)
             .then(response => {
                 console.log('Response data:', response.data); // Kiểm tra dữ liệu phản hồi từ server
-                if (response.data.exists) { // Giả sử phản hồi là { exists: true/false }
+                if (response.data) { // Giả sử phản hồi là { exists: true/false }
                     emailError.textContent = 'Email đã tồn tại.';
+                    return false;
                 } else {
                     emailError.textContent = '';
+                    return true;
                 }
             })
             .catch(error => {
                 console.error('Error occurred:', error); // In lỗi ra console để kiểm tra
-                emailError.textContent = 'Email đã tồn tại.';
+                emailError.textContent = 'Lỗi kiểm tra email.';
+                return false;
             });
+
     }
 
     // Gọi checkEmail() khi trường email mất focus
