@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/assets/css/Login.css}">
     <title>Login</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-EU15Mvcd1FQOZaJKLhPnPU1mCp7NlqNd9UKf2YiQ1mRJpYbL2q77E96vD6bINd6F6QbKivt20+ufyK8NEPZhcw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 </head>
 <style>
     /* Thu nhỏ container */
@@ -42,164 +42,197 @@
         margin-bottom: 15px; /* Thêm khoảng cách giữa các input */
     }
 
-    /* Bo tròn các input */
-    input[type="text"], input[type="email"], input[type="password"] {
-        border-radius: 5px;
-        padding: 10px;
-    }
-    .see-custom { /* Hoặc text-5xl nếu bạn có các lớp tương ứng */
-        font-weight: bold;
-    }
-    .see-custom span {
-        font-size: 2.5rem; /* Kích thước giống với thẻ h1 */
-        font-weight: bold; /* Giữ font-weight đậm */
-    }
+    /*!* Bo tròn các input *!*/
+    /*input[type="text"], input[type="email"], input[type="password"] {*/
+    /*    border-radius: 5px;*/
+    /*    padding: 10px;*/
+    /*}*/
 
-
-    .see-custom .text-orange-bold {
-        font-size: 2.5rem; /* Kích thước giống với thẻ h1 */
-        color: #FF5722; /* Màu cam đậm */
-        font-weight: bold;
-    }
-    .see-custom .text-orange-bold1 {
-        font-size: 2.5rem; /* Kích thước giống với thẻ h1 */
-        color: #FF7043; /* Màu cam đậm */
-        font-weight: bold;
-    }
-
-    .see-custom .text-orange-light1 {
-        font-size: 2.5rem; /* Kích thước giống với thẻ h1 */
-        color: #FF8C00; /* Màu cam nhạt */
-        font-weight: bold;
-    }
-    .see-custom .text-orange-light {
-        font-size: 2.5rem; /* Kích thước giống với thẻ h1 */
-        color: #FFA726; /* Màu cam nhạt */
-        font-weight: normal;
+    /*.see-custom .text-orange-bold {*/
+    /*    font-size: 2.5rem; !* Kích thước giống với thẻ h1 *!*/
+    /*    color: #FF5722; !* Màu cam đậm *!*/
+    /*    font-weight: bold;*/
+    /*}*/
+    /*.see-custom .text-orange-light {*/
+    /*    font-size: 2.5rem; !* Kích thước giống với thẻ h1 *!*/
+    /*    color: #FFA726; !* Màu cam nhạt *!*/
+    /*    font-weight: normal;*/
+    /*}*/
+    .error {
+        color: red;
+        font-size: 12px;
+        padding-bottom: 4px;
     }
 
 </style>
 <body>
-    <div class="container" id="container">
-        <div class="form-container sign-up-container">
-            <form th:action="@{/loginadd}" method="post">
-                <h1>Đăng Ký</h1>
-<!--                <div class="social-container">-->
-<!--                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>-->
-<!--                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>-->
-<!--                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>-->
-<!--                </div>-->
-                <input type="text" id="ten" name="ten" class="form-control"placeholder="Họ và tên" />
-                <input type="email" id="email" name="email" class="form-control" placeholder="Email"/>
-                <input type="password" id="matKhau" name="matKhau" class="form-control" placeholder="Mật Khẩu"/>
-                <input type="password" id="matKhaulai" name="matKhaulai" class="form-control" placeholder="Nhập lại mật khẩu"/>
-                <button style="border-radius: 25px">Đăng Ký</button>
-            </form>
-        </div>
-        <div class="form-container sign-in-container">
-            <form th:action="@{/logincheck}" method="post">
-                <h1>Đăng Nhập</h1>
-<!--                <div class="social-container">-->
-<!--                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>-->
-<!--                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>-->
-<!--                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>-->
-<!--                </div>-->
-                <input type="email" name="email" class="form-control" placeholder="Email"/>
-                <input type="password" id="matKhau" name="matKhau" class="form-control" placeholder="Password">
-                <div th:if="${error}">
-                    <p style="color: red;">Email và mật khẩu không hợp lệ</p>
-                </div>
-                <div class="col-md-6 d-flex justify-content-center">
-                    <!-- Simple link -->
-                    <a href="#" onclick="showlaylaimk()">Forgot password?</a>
-                </div>
-                <button style="border-radius: 25px">Đăng Nhập</button>
-            </form>
-<!--            <div class="tab-pane fade" id="pills-laylaimk" role="tabpanel" aria-labelledby="tab-laylaimk">-->
-<!--                <form th:action="@{/laylaimk}" method="post">-->
-<!--                    <div data-mdb-input-init class="form-outline mb-4">-->
-<!--                        <label class="form-label" for="email">Email</label>-->
-<!--                        <input type="email" id="email" name="email" class="form-control" />-->
-<!--                    </div>-->
-<!--                    <button type="submit" class="btn btn-primary btn-block mb-4">lấy Lại Mật Khẩu</button>-->
-<!--                </form>-->
-<!--            </div>-->
-        </div>
-        <div class="overlay-container">
-            <div class="overlay">
-                <div class="overlay-panel overlay-left">
-                    <h1>ShoeSee</h1>
-                    <h1>Xin Chào</h1>
-                    <p>Đăng ký tài khoản để nhận nhiều ưu đãi mới</p>
-                    <button class="ghost" id="signIn">Đăng Nhập</button>
-                </div>
-                <div class="overlay-panel overlay-right">
-                    <h1>ShoeSee</h1>
-                    <h1>Chào mừng trở lại!</h1>
-                    <p>Vui lòng đăng nhập!!</p>
-                    <button class="ghost" id="signUp">Đăng Ký</button>
-                </div>
+<div class="container" id="container">
+    <div class="form-container sign-up-container">
+        <form th:action="@{/loginadd}" method="post" onsubmit="return validateForm();">
+            <h1 style="margin-bottom: 10px">Đăng ký</h1>
+            <input type="text" id="ten" name="ten" class="form-control" placeholder="Họ và tên"
+                   oninput="validateForm()"/>
+            <div id="tenError" class="error"></div>
+
+            <input type="email" id="email" name="email" class="form-control"
+                   placeholder="Email" onblur="checkEmail()" oninput="validateForm()"/>
+            <div id="emailError" class="error"></div>
+
+            <input type="password" id="matKhau" name="matKhau" class="form-control"
+                   placeholder="Mật Khẩu" oninput="validateForm()"/>
+            <div id="matKhauError" class="error"></div>
+
+            <input type="password" id="matKhaulai" name="matKhaulai" class="form-control"
+                   placeholder="Nhập lại mật khẩu" oninput="validateForm()"/>
+            <div id="matKhaulaiError" class="error"></div>
+
+            <!-- Đổi ID của nút "Đăng Ký" để dễ quản lý -->
+            <button id="confirmButton" style="border-radius: 25px" type="button">Đăng Ký</button>
+        </form>
+    </div>
+    <div class="form-container sign-in-container">
+        <form th:action="@{/logincheck}" method="post"onsubmit="return validateForm1();">
+
+            <h1 style="margin-bottom: 10px">Đăng Nhập</h1>
+            <input type="email" id="emaillong" name="email" class="form-control"
+                   placeholder="Email" oninput="validateForm1()"/>
+            <div id="emaillongError" class="error"></div>
+            <input type="password" id="matKhaulong" name="matKhau" class="form-control"
+                   placeholder="Mật Khẩu" oninput="validateForm1()"/>
+            <div id="matKhaulongError" class="error"></div>
+            <div th:if="${error}">
+                <p style="color: red;">Email và mật khẩu không hợp lệ</p>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center" style="margin-bottom: 10px">
+                <a href="#" onclick="showlaylaimk()">Forgot password?</a>
+            </div>
+            <button style="border-radius: 25px" type="submit">Đăng Nhập</button>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>ShoeSee</h1>
+                <h1>Xin Chào</h1>
+                <p>Đăng ký tài khoản để nhận nhiều ưu đãi mới</p>
+                <button class="ghost" id="signIn">Đăng Nhập</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>ShoeSee</h1>
+                <h1>Chào mừng trở lại!</h1>
+                <p>Vui lòng đăng nhập!!</p>
+                <button class="ghost" id="signUp">Đăng Ký</button>
             </div>
         </div>
     </div>
-    <!-- Pills content -->
+</div>
+<div id="notification" class="notification">
+    <span id="notification-text">Đăng Ký thành Công!!</span>
+    <div id="progress-bar" class="progress-bar"></div>
+</div>
 </body>
 <script>
-    function showLoginTab() {
-        var loginTab = document.getElementById('tab-login');
-        loginTab.classList.add('active');
+    function validateForm() {
+        let valid = true;
 
-        var registerTab = document.getElementById('tab-register');
-        registerTab.classList.remove('active');
+        // Kiểm tra Tên
+        const ten = document.getElementById('ten').value;
+        const tenError = document.getElementById('tenError');
+        if (ten.trim() === '') {
+            tenError.textContent = 'Tên không được để trống.';
+            valid = false;
+        } else {
+            tenError.textContent = '';
+        }
 
-        var pillsLoginTab = document.getElementById('pills-login');
-        pillsLoginTab.classList.add('show', 'active');
+        // Kiểm tra Email
+        const email = document.getElementById('email').value;
+        const emailError = document.getElementById('emailError');
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailPattern.test(email)) {
+            emailError.textContent = 'Email không hợp lệ.';
+            valid = false;
+        } else {
+            emailError.textContent = '';
+        }
 
-        var pillsRegisterTab = document.getElementById('pills-register');
-        pillsRegisterTab.classList.remove('show', 'active');
+        // Kiểm tra Mật Khẩu
+        const matKhau = document.getElementById('matKhau').value;
+        const matKhauError = document.getElementById('matKhauError');
+        const matKhaulai = document.getElementById('matKhaulai').value;
+        const matKhaulaiError = document.getElementById('matKhaulaiError');
+        const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // Yêu cầu mật khẩu có ít nhất 8 ký tự bao gồm chữ và số
 
-        var pillsLayLaiMKTab = document.getElementById('pills-laylaimk');
-        pillsLayLaiMKTab.classList.add('show', 'active');
+        if (!passwordPattern.test(matKhau)) {
+            matKhauError.textContent = 'Mật khẩu phải có ít nhất 8 ký tự và bao gồm cả chữ và số.';
+            valid = false;
+        } else {
+            matKhauError.textContent = '';
+        }
 
-        var pillsLayLaiMKTab = document.getElementById('pills-laylaimk');
-        pillsLayLaiMKTab.classList.remove('show', 'active');
+        if (matKhaulai.trim() === '') {
+            matKhaulaiError.textContent = 'Vui lòng nhập lại mật khẩu.';
+            valid = false;
+        } else if (matKhau !== matKhaulai) {
+            matKhaulaiError.textContent = 'Mật khẩu và nhập lại mật khẩu không trùng khớp.';
+            valid = false;
+        } else {
+            matKhaulaiError.textContent = '';
+        }
+
+        return valid;
     }
-</script>
-<script>
-    function showlaylaimk() {
-        var pillsLoginTab = document.getElementById('pills-login');
-        pillsLoginTab.classList.remove('show', 'active'); // Ẩn tab "Đăng nhập"
+    function validateForm1() {
+        let valid = true;
+        // Kiểm tra Email
+        const email = document.getElementById('emaillong').value;
+        const emailError = document.getElementById('emaillongError'); // Sửa ID sai
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailPattern.test(email)) {
+            emailError.textContent = 'Email không hợp lệ.';
+            valid = false;
+        }else if(email.trim() === ''){
+            emailError.textContent = 'Vui lòng nhập Email.';
+            valid = false;
+        }
+        else {
+            emailError.textContent = '';
+        }
+        const matKhau = document.getElementById('matKhaulong').value;
+        const matKhauError = document.getElementById('matKhaulongError');
+        if (matKhau.trim() === '') {
+            matKhauError.textContent = 'Vui lòng nhập mật khẩu.';
+            valid = false;
+        } else {
+            matKhauError.textContent = '';
+        }
 
-        var pillsLayLaiMKTab = document.getElementById('pills-laylaimk');
-        pillsLayLaiMKTab.classList.add('show', 'active'); // Hiển thị tab "Lấy lại mật khẩu"
+        return valid;
     }
-</script>
 
-<script>
-    function showRegisterTab() {
-        var registerTab = document.getElementById('tab-register');
-        registerTab.classList.add('active');
-
-        var loginTab = document.getElementById('tab-login');
-        loginTab.classList.remove('active');
-
-        var pillsRegisterTab = document.getElementById('pills-register');
-        pillsRegisterTab.classList.add('show', 'active');
-
-        var pillsLoginTab = document.getElementById('pills-login');
-        pillsLoginTab.classList.remove('show', 'active');
-        var pillsLayLaiMKTab = document.getElementById('pills-laylaimk');
-        pillsLayLaiMKTab.classList.add('show', 'active');
-
-        var pillsLayLaiMKTab = document.getElementById('pills-laylaimk');
-        pillsLayLaiMKTab.classList.remove('show', 'active');
+    function checkEmail() {
+        const email = document.getElementById('email').value;
+        const emailError = document.getElementById('emailError');
+        axios.get(`/check-email?email=${encodeURIComponent(email)}`)
+            .then(response => {
+                console.log('Response data:', response.data); // Kiểm tra dữ liệu phản hồi từ server
+                if (response.data.exists) { // Giả sử phản hồi là { exists: true/false }
+                    emailError.textContent = 'Email đã tồn tại.';
+                } else {
+                    emailError.textContent = '';
+                }
+            })
+            .catch(error => {
+                console.error('Error occurred:', error); // In lỗi ra console để kiểm tra
+                emailError.textContent = 'Email đã tồn tại.';
+            });
     }
-</script>
-<script>
+
+    // Gọi checkEmail() khi trường email mất focus
+    document.getElementById('email').addEventListener('blur', checkEmail);
     const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
     const container = document.getElementById('container');
-
     signUpButton.addEventListener('click', () => {
         container.classList.add("right-panel-active");
     });
@@ -207,7 +240,33 @@
     signInButton.addEventListener('click', () => {
         container.classList.remove("right-panel-active");
     });
+
+    document.getElementById("confirmButton").addEventListener("click", function () {
+        if (validateForm()) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn đăng ký?',
+                text: 'Thông tin của bạn sẽ được lưu trữ.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đăng Ký',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Đăng ký thành công!',
+                        'Bạn đã đăng ký thành công.',
+                        'success'
+                    ).then(() => {
+                        // Submit form nếu xác nhận thành công
+                        document.querySelector("form").submit();
+                    });
+                }
+            });
+        }
+    });
+
 </script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>

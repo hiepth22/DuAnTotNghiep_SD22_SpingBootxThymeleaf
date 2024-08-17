@@ -50,7 +50,11 @@ public class login {
         return "redirect:Client";
     }
 
-
+    @GetMapping("/check-email")
+    public ResponseEntity<Boolean> checkEmailExists(@RequestParam String email) {
+        boolean exists = khachHangRepository.findByEmail(email).isPresent();
+        return ResponseEntity.ok(exists);
+    }
     @PostMapping("/logincheck")
     public String loginSubmit(@RequestParam(name = "email") String email,
                               @RequestParam(name = "matKhau") String matKhau,
