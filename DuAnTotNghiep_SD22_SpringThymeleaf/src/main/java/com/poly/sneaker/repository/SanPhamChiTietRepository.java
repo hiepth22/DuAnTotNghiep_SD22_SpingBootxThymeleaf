@@ -86,12 +86,21 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
     @Query("SELECT s FROM SanPhamChiTiet s " +
             "JOIN s.deGiay d " +
             "JOIN s.coGiay c " +
-            "WHERE s.sanPham.id = ?1 " +
-            "AND (s.ten LIKE %?2% " +
-            "OR s.moTa LIKE %?2% " +
-            "OR d.ten LIKE %?2% " +
-            "OR c.ten LIKE %?2%)")
-    List<SanPhamChiTiet> searchSPCT(Long sanPhamId, String keyword);
+            "JOIN s.chatLieu cl " +
+            "JOIN s.kichCo k " +
+            "WHERE s.sanPham.id = :sanPhamId " +
+            "AND (:keyword IS NULL OR s.ten LIKE %:keyword% OR s.moTa LIKE %:keyword% OR d.ten LIKE %:keyword% OR c.ten LIKE %:keyword%) " +
+            "AND (:coGiayId IS NULL OR c.id = :coGiayId) " +
+            "AND (:deGiayId IS NULL OR d.id = :deGiayId) " +
+            "AND (:chatLieuId IS NULL OR cl.id = :chatLieuId) " +
+            "AND (:kichCoId IS NULL OR k.id = :kichCoId)")
+    List<SanPhamChiTiet> filterAndSearchSPCT(@Param("sanPhamId") Long sanPhamId,
+                                             @Param("keyword") String keyword,
+                                             @Param("coGiayId") Long coGiayId,
+                                             @Param("deGiayId") Long deGiayId,
+                                             @Param("chatLieuId") Long chatLieuId,
+                                             @Param("kichCoId") Long kichCoId);
+
 
     @Query("SELECT s FROM SanPhamChiTiet s WHERE s.sanPham.id = ?1")
     List<SanPhamChiTiet> findBySanPhamId(Long sanPhamId);

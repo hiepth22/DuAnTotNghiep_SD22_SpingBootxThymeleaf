@@ -133,12 +133,8 @@ public class SanPhamChiTietService {
         return repository.findBySanPhamId(sanPhamId, pageable);
     }
 
-    public List<SanPhamChiTiet> searchSanPhamChiTiet(Long sanPhamId, String keyword) {
-        return repository.searchSPCT(sanPhamId, keyword);
-    }
-
-    public Page<SanPhamChiTiet> searchSanPhamChiTiet(Long sanPhamId, String keyword, Integer pageNo) {
-        List<SanPhamChiTiet> list = repository.searchSPCT(sanPhamId, keyword);
+    public Page<SanPhamChiTiet> filterAndSearchSanPhamChiTiet(Long sanPhamId, String keyword, Long coGiayId, Long deGiayId, Long chatLieuId, Long kichCoId, Integer pageNo) {
+        List<SanPhamChiTiet> list = repository.filterAndSearchSPCT(sanPhamId, keyword, coGiayId, deGiayId, chatLieuId, kichCoId);
 
         Pageable pageable = PageRequest.of(pageNo - 1, 10);
 
@@ -149,6 +145,5 @@ public class SanPhamChiTietService {
 
         return new PageImpl<>(list, pageable, list.size());
     }
-
 
 }
