@@ -421,6 +421,8 @@
 
                 if (Array.isArray(data) && data.length > 0) {
                     data.forEach(product => {
+                        const idspct = product.id;
+                        console.log("id" + idspct);
                         const productName = product.ten || 'Không có tên';
                         const productPrice = product.giaBan != null ? product.giaBan.toLocaleString('vi-VN', {
                             style: 'currency',
@@ -429,43 +431,47 @@
                         const productImage = product.anh ? `https://res.cloudinary.com/deapopcoc/image/upload/${product.anh}` : 'path/to/default-image.jpg'; // Đường dẫn hình ảnh mặc định nếu không có
 
                         const productElement = $(`
-                            <div class="col-md-2 col-sm-4 mb-4">
-                                 <div class="card-body" style="text-align: left;">
-                                    <div class="product-buttons">
-                                        <a href="#" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#productModal" data-id="${product.id}">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                    </div>
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${product.id}">
-                                             <img src="${productImage}" alt="Product Image" style="width: calc(100% + 30px); height: 250px; border-radius: 8px; display: block; margin: 0 -15px 10px -15px; box-sizing: border-box;">
-                                            <h6 class="card-title" style=" color: #333; margin-top: 10px; margin-left: 15px;text-decoration: none;">${productName}</h6>
-                                        </a>
-                                        <!-- New Button -->
-                        <a href="#" style="display: inline-block; margin: 5px 0; padding: 2px 5px; border: 1px solid #FF8C00; border-radius: 2px; color: #FF8C00; text-decoration: none; font-size: 10px; background-color: transparent; text-align: center; margin-left: 15px;">
-                        Giá Siêu Hời
-                        </a>
-                        <a href="#" class="product-price card-text" style="font-size: 17px; color: #d9534f; margin-left: 15px; margin-bottom: 10px; display: block;text-decoration: none;">${productPrice}</a>
-
+                        <div class="col-md-2 col-sm-4 mb-4">
+                            <div class="card-body" style="text-align: left;">
+                                <div class="product-buttons">
+                                    <a href="#" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#productModal" data-id="${idspct}">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </div>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#productModal" data-id="${idspct}">
+                                    <img src="${productImage}" alt="Product Image" style="width: calc(100% + 30px); height: 250px; border-radius: 8px; display: block; margin: 0 -15px 10px -15px; box-sizing: border-box;">
+                                    <h6 class="card-title" style="color: #333; margin-top: 10px; margin-left: 15px;text-decoration: none;">${productName}</h6>
+                                </a>
+                                <!-- New Button -->
+                                <a href="#" style="display: inline-block; margin: 5px 0; padding: 2px 5px; border: 1px solid #FF8C00; border-radius: 2px; color: #FF8C00; text-decoration: none; font-size: 10px; background-color: transparent; text-align: center; margin-left: 15px;">
+                                    Giá Siêu Hời
+                                </a>
+                                <a href="#" class="product-price card-text" style="font-size: 17px; color: #d9534f; margin-left: 15px; margin-bottom: 10px; display: block;text-decoration: none;">${productPrice}</a>
+                            </div>
                         </div>
-                        `);
+                    `);
 
                         productsContainer.append(productElement);
-                        });
-                        $('.card').on('click', function () {
+                    });
+
+                    // Đăng ký sự kiện click sau khi phần tử đã được thêm vào DOM
+                    $('#products-list1').on('click', 'a[data-id]', function () {
                         const productId = $(this).data('id');
                         console.log('ID sản phẩm được chọn:', productId);
                         window.location.href = `/san-pham/${productId}`;
-                        });
-                        } else {
-                        productsContainer.append('<p>Không có dữ liệu sản phẩm.</p>');
-                        }
-                        },
-                        error: function (xhr, status, error) {
-                        console.error('Lỗi khi lấy dữ liệu:', error);
-                        $('#products-list1').append('<p>Đã xảy ra lỗi khi lấy dữ liệu sản phẩm.</p>');
-                        }
-                        });
-                        });
+                    });
+
+                } else {
+                    productsContainer.append('<p>Không có dữ liệu sản phẩm.</p>');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi khi lấy dữ liệu:', error);
+                $('#products-list1').append('<p>Đã xảy ra lỗi khi lấy dữ liệu sản phẩm.</p>');
+            }
+        });
+    });
+
 </script>
 
 
