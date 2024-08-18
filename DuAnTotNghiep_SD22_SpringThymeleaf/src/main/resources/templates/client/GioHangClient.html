@@ -159,7 +159,6 @@
                     if (Array.isArray(gioHangChiTiet) && gioHangChiTiet.length > 0) {
                         for (let i = 0; i < gioHangChiTiet.length; i++) {
                             const item = gioHangChiTiet[i];
-
                             list += `
                             <div id="thongTin" class="container ml-[15%] bg-white w-[80%] p-2 rounded-lg shadow-md mt-3 flex gap-32 h-32">
                                 <div>
@@ -172,7 +171,7 @@
                                     <div class="font-bold">${item.sanPhamChiTiet.ten}</div>
                                     <div class="text-red-500">${formatVND(item.sanPhamChiTiet.giaBan)}</div>
                                     <div>
-                                        <input type="number" class="soLuong-input bg-gray-100 w-[50%] border border-gray-300 rounded-md px-2 py-1" value="${item.soLuong}" min="1" data-id="${item.id}" id="soLuong-${item.id}" name="soLuong-${item.id}">
+                                        <input type="number"  max="${item.sanPhamChiTiet.soLuong}" class="soLuong-input bg-gray-100 w-[50%] border border-gray-300 rounded-md px-2 py-1" value="${item.soLuong}" min="1" data-id="${item.id}" id="soLuong-${item.id}" name="soLuong-${item.id}">
                                     </div>
                                 </div>
                                 <div class=>
@@ -255,7 +254,6 @@
                     response.forEach((phieuGiamGia, i) => {
                         const isDisabled = tongTien < phieuGiamGia.donToiThieu;
                         const disabledClass = isDisabled ? 'voucher-disabled' : '';
-                        // console.log(`Voucher ${phieuGiamGia.ten} - Đơn tối thiểu: ${phieuGiamGia.donToiThieu}, Tổng tiền: ${tongTien}, Bị xám: ${isDisabled}`);
 
                         list += `
                     <div class="grid gap-1 grid-cols-2 border-1 border-gray-300 p-4 rounded-lg ${disabledClass}">
@@ -317,23 +315,28 @@
 
         $('#thongTinSP').on('change', '.soLuong-input', function () {
             const id = $(this).data('id');
-            const SoLuongMoi = $(this).val();
+            let SoLuongMoi = $(this).val();
+            const max = parseInt($(this).attr('max'));
+
+            if (SoLuongMoi > max) {
+                SoLuongMoi = max;
+                $(this).val(max);
+            }
 
             $.ajax({
                 url: `/api/gio-hang/update-so-luong-sp/${id}`,
                 method: 'PUT',
                 contentType: 'application/json',
-                data: JSON.stringify({id: id, soLuong: SoLuongMoi}),
+                data: JSON.stringify({ id: id, soLuong: SoLuongMoi }),
                 success: function (response) {
                     getKhachHang();
                     getPhieuGiamGia();
                     tinhTongTien();
                 },
-                error: function (xhr, status, error) {
-                    console.error('Lỗi khi cập nhật số lượng sản phẩm:', error);
-                }
+
             });
         });
+
 
 
         const formatVND = (tongtien) => {

@@ -155,6 +155,11 @@ public class GioHangAPI {
         return giohangService.getPhieuGiamGia();
     }
 
+    @GetMapping("/dia-chi-khach-hang/{id}")
+    public List<DiaChi> phieuGiamGia(@PathVariable("id") Long id) {
+        return diaChiService.getByID(id);
+    }
+
 
 
 

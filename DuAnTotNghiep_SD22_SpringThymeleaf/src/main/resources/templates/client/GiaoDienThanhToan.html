@@ -141,6 +141,27 @@
         </div>
     </div>
 </div>
+
+<div id="modalDiaChi" class="fixed z-10 inset-0 overflow-y-auto hidden">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+        </div>
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-lg w-full h-[50%]">
+            <div id="listDiaChi" class="bg-white px-4 pt-5 pb-4">
+
+            </div>
+            <div class="bg-gray-50 px-4 py-3 flex justify-end">
+                <button id="huyDiaChi"
+                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">Hủy
+                </button>
+                <button id="xacNhanDiaChi"
+                        class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">Xác nhận
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready(function () {
         let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
@@ -243,7 +264,7 @@
                         <button class=" ml-10 bg-blue-500 hover:bg-blue-700 text-white px-2 rounded">
                             Mặc định
                         </button>
-                        <a class="ml-10 text-blue-700">Thay đổi</a>
+                        <a class="ml-10 text-blue-700"><button id="thayDoiDiaChi">Thay đổi</button></a>
                     </div>
                 `);
             }
@@ -258,6 +279,7 @@
                     nguoiNhan = response.ten;
                     sdtNguoiNhan = response.sdt;
                     getDuLieu(idKhachHang);
+                    getDiaChiKhachHang(idKhachHang);
 
                     $("#datHang").off('click', '.tiepTuc').on('click', '.tiepTuc', function () {
 
@@ -365,6 +387,57 @@
                 },
             });
         }
+
+        function getDiaChiKhachHang(idKhachHang) {
+            $.ajax({
+                url: `/api/gio-hang/dia-chi-khach-hang/${idKhachHang}`,
+                method: 'GET',
+                success: function (response) {
+                    console.log(response)
+                    let list = "";
+                    $("#listKhachHang").empty();
+
+                    response.forEach((diaChi, i) => {
+
+                        list += `
+                    <div class="grid gap-1 grid-cols-2 border-1 border-gray-300 p-4 rounded-lg">
+                        <div class="flex">
+                            <div>
+                            ${diaChi.quanHuyen}
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <br>
+                `;
+                    });
+                    $("#listKhachHang").html(list);
+                },
+            });
+        }
+
+        // <div class="mt-10">
+        //     <input type="radio" name="phieuGiamGia" value="${diaChi.id}" data-item='${JSON.stringify(diaChi)}'>
+        // </div>
+
+        function hideModalDiaChi() {
+            $('#modalDiaChi').addClass('hidden');
+            $('#modalDiaChi').val('');
+            $('#modalDiaChi').addClass('hidden');
+        }
+
+        function showModalDiaChi() {
+            $('#modalDiaChi').removeClass('hidden');
+        }
+
+        $(document).on('click', '#thayDoiDiaChi', function () {
+            showModalDiaChi();
+        });
+
+        // $('#huyPhieuGiamGia').click(function () {
+        //     hideModalPhieuGiamGia();
+        // })
 
 
         hienThiSanPhamDaChon();
