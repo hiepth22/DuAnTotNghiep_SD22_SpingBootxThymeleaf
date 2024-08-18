@@ -32,16 +32,16 @@ public class HoaDonService {
     private SanPhamChiTietRepository sanPhamChiTietRepository;
 
 
-    public Page<HoaDon> getAll(Pageable pageable){
+    public Page<HoaDon> getAll(Pageable pageable) {
         return hoaDonRepository.getAllHoaDon(pageable);
     }
 
 
-    public List<HoaDon> findAll(){
+    public List<HoaDon> findAll() {
         return hoaDonRepository.findAll();
     }
 
-    public Page<HoaDon> getAllByTrangThai(int trangThai, Pageable pageable){
+    public Page<HoaDon> getAllByTrangThai(int trangThai, Pageable pageable) {
         if (trangThai == 0) {
             return hoaDonRepository.findAll(pageable);
         } else {
@@ -94,11 +94,16 @@ public class HoaDonService {
     }
 
     public HoaDonChiTiet updateSoLuong(Long id, HoaDonChiTiet hdct) {
-        Optional<HoaDonChiTiet> optional = hoaDonChiTietRepository.findById(id);
-        return optional.map(o -> {
-            o.setSoLuong(hdct.getSoLuong());
-            return hoaDonChiTietRepository.save(o);
-        }).orElse(null);
+        HoaDonChiTiet hoaDonChiTiet = hoaDonChiTietRepository.findById(id).orElse(null);
+
+        if (hoaDonChiTiet == null) {
+            return null;
+        }
+
+        hoaDonChiTiet.setSoLuong(hdct.getSoLuong());
+
+        return hoaDonChiTietRepository.save(hoaDonChiTiet);
+
     }
 
     public HoaDon updateThongTinNguoiNhan(Long id, HoaDon hd) {
@@ -113,7 +118,7 @@ public class HoaDonService {
         }).orElse(null);
     }
 
-    public Optional<HoaDon> getHoaDonByID(Long id){
+    public Optional<HoaDon> getHoaDonByID(Long id) {
         return hoaDonRepository.findById(id);
     }
 
@@ -143,7 +148,6 @@ public class HoaDonService {
     public List<SanPhamChiTiet> getSanPhamSapHetHang() {
         return sanPhamChiTietRepository.getSanPhamSapHetHang();
     }
-
 
 
 }

@@ -83,7 +83,7 @@ $(document).ready(function () {
                 </td>
                 <td>
                     <div class="flex items-center">
-                        <input type="number" class="soLuong-input bg-gray-100 w-[30%] border border-gray-300 rounded-md px-2 py-1" value="${item.soLuong}" min="1" data-id="${item.id}" id="soLuong-${item.id}" name="soLuong-${item.id}">
+                        <input type="number" class="soLuong-input bg-gray-100 w-[30%] border border-gray-300 rounded-md px-2 py-1" value="${item.soLuong}" min="1" data-id="${item.id}" id="soLuong-${item.id}" name="soLuong-${item.id}" >
                     </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">${formatVND(tongTienSP)}</td>
@@ -107,7 +107,11 @@ $(document).ready(function () {
 
 
     function hienThiTongTienChiTiet(tongTien, hd) {
-        const tongTienThanhToan = tongTien + hd.tienShip;
+
+
+        const tongTienSauGiam = tongTien - hd.phieuGiamGia.giamToiDa;
+
+        const tongTienThanhToan = hd.tongTienSauGiam + hd.tienShip;
 
         $('#tongTienChiTiet').html(`
 
@@ -134,7 +138,7 @@ $(document).ready(function () {
                     <span class="flex items-center w-full my-2">
                         <span class="h-px flex-1 bg-gray-500"></span>
                     </span>
-                    <div><span class="text-lg ml-8 text-blue-700 text-no">${formatVND(tongTienThanhToan)}</span></div>   
+                    <div><span class="text-lg ml-8 text-blue-700 text-no">${formatVND(tongTienSauGiam)}</span></div>   
                 </div>
             </div>
            
@@ -145,12 +149,16 @@ $(document).ready(function () {
         const id = $(this).data('id');
         const SoLuongMoi = $(this).val();
 
+        console.log("SoLuongMoi", SoLuongMoi);
+
+
         $.ajax({
             url: `/api/hoa-don/update-so-luong/${id}`,
             method: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify({id: id, soLuong: SoLuongMoi}),
             success: function (response) {
+                console.log(response)
                 fetchHoaDonDetail(idHoaDon);
             },
             error: function (xhr, status, error) {
@@ -196,12 +204,13 @@ $(document).ready(function () {
     }
 
 
-    function updateTongTien(tongTien, idHoaDon) {
+    function updateTongTien(tongTien, hd,idHoaDon) {
+        const tongTienSauKhiGiam = tongTien - hd.phieuGiamGia.giamToiDa;
         $.ajax({
             url: `/api/hoa-don/update-tong-tien/${idHoaDon}`,
             method: 'PUT',
             contentType: 'application/json',
-            data: JSON.stringify({tongTien: tongTien}),
+            data: JSON.stringify({tongTien: tongTien, tongTienSauGiam: tongTienSauKhiGiam}),
             success: function (response) {
             },
         });
@@ -285,11 +294,11 @@ $(document).ready(function () {
 
                 const tongTien = hienThiDanhSachSP(hdctList);
 
-                updateTongTien(tongTien, idHoaDon);
+                updateTongTien(tongTien, hd, idHoaDon);
 
                 hienThiTongTienChiTiet(tongTien, hd);
 
-                getPhuongThucThanhToan(tongTien);
+                getPhuongThucThanhToan(tongTien, hd);
 
                 inHoaDon(hd, hdctList, tongTien);
 
@@ -438,7 +447,8 @@ $(document).ready(function () {
         });
     }
 
-    const getPhuongThucThanhToan = (tongTien) => {
+    const getPhuongThucThanhToan = (tongTien, hd) => {
+        const  tongTienSauKhiGiam = tongTien - hd.phieuGiamGia.giamToiDa;
         $.ajax({
             url: `/api/hoa-don/phuong-thuc-thanh-toan/${idHoaDon}`,
             method: 'GET',
@@ -451,7 +461,7 @@ $(document).ready(function () {
                     list += `
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap">1</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${formatVND(tongTien)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${formatVND(tongTienSauKhiGiam)}</td>
                     <td class="px-6 py-4 whitespace-nowrap">${trangThaiThanhToan(result.trangThai)}</td>
                     <td class="px-6 py-4 whitespace-nowrap">${formatDate(result.ngayTao)}</td>
                     <td class="px-6 py-4 whitespace-nowrap">

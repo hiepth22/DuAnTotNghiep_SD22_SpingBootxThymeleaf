@@ -115,12 +115,22 @@ public class SanPhamController {
     public String hienThiSanPhamChiTiet(@PathVariable("sanPhamId") Long sanPhamId,
                                         @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                         @RequestParam(name = "keyword", required = false) String keyword,
+                                        @RequestParam(name = "coGiay", required = false) Long coGiayId,
+                                        @RequestParam(name = "deGiay", required = false) Long deGiayId,
+                                        @RequestParam(name = "chatLieu", required = false) Long chatLieuId,
+                                        @RequestParam(name = "kichCo", required = false) Long kichCoId,
                                         Model model) {
+
         Page<SanPhamChiTiet> sanPhamChiTiets = this.SPCTservice.paginationBySanPhamId(sanPhamId, pageNo);
 
-        if (keyword != null) {
-            sanPhamChiTiets = SPCTservice.searchSanPhamChiTiet(sanPhamId, keyword, pageNo);
+        // Áp dụng tìm kiếm và lọc
+        if (keyword != null || coGiayId != null || deGiayId != null || chatLieuId != null || kichCoId != null) {
+            sanPhamChiTiets = SPCTservice.filterAndSearchSanPhamChiTiet(sanPhamId, keyword, coGiayId, deGiayId, chatLieuId, kichCoId, pageNo);
             model.addAttribute("keyword", keyword);
+            model.addAttribute("coGiayId", coGiayId);
+            model.addAttribute("deGiayId", deGiayId);
+            model.addAttribute("chatLieuId", chatLieuId);
+            model.addAttribute("kichCoId", kichCoId);
         }
 
         List<DeGiay> deGiays = deGiayService.getAll();
@@ -139,6 +149,7 @@ public class SanPhamController {
 
         return "/admin/SanPham/sanPhamChiTietPage";
     }
+
 
 
 

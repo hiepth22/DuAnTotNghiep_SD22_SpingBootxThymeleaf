@@ -31,7 +31,7 @@ const getData = (page, size) => {
                             <td class="px-6 py-4 whitespace-nowrap">${trangThaiMua(hoaDon.loai)}</td>
                           
                             <td class="px-6 py-4 whitespace-nowrap">${hoaDon.ngayTao != null ? new Date(hoaDon.ngayTao).toLocaleDateString('vi-VN') : ''}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">${formatVND(hoaDon.tongTien)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${formatVND(hoaDon.tongTienSauGiam)}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${trangThai(hoaDon.trangThai)}</td>
                             <td class="px-6 py-4 whitespace-nowrap"><a href="/hoa-don/detail/${hoaDon.id}">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">

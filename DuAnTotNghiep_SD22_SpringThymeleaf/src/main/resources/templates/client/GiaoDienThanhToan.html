@@ -11,10 +11,8 @@
           href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
-<!--        tuan cho-->
         .btn-payment {
             border: 1px solid #808080;
-            /*background-color: #ffffff;*/
             color: #080808;
         }
         .btn-payment.active {
@@ -33,6 +31,10 @@
             transform: translateY(-50%);
             width: 20px;
             height: 20px;
+        }
+        .labl > input + div{ /* DIV STYLES */
+            cursor:pointer;
+            border:2px solid transparent;
         }
     </style>
 </head>
@@ -173,6 +175,7 @@
         let sdtNguoiNhan = '';
         let idKhachHang = '';
         let soLuongSPTong = 0;
+        var tongTienSauKhiGiam = 0;
 
 
         const formatVND = (tongtien) => {
@@ -232,7 +235,8 @@
             `;
                 }
                 discount = sale[0].giamToiDa;
-                console.log(discount)
+                tongTienSauKhiGiam = tongTien - discount;
+                console.log(tongTienSauKhiGiam);
 
                 $('#soLuongVaTongTien').html(`
             <div>Tổng số tiền(${soLuongSPTong} sản phẩm): <span class="text-orange-500 text-xl ml-5">${formatVND(tongTien - discount)}</span></div>
@@ -242,7 +246,7 @@
                 $('#tongTien').text(formatVND(tongTien));
                 $('#phiVanChuyen').text(ship);
                 $('#maGiamGia').text(formatVND(discount));
-                $('#tongThanhToan').text(formatVND(tongTien - discount));
+                $('#tongThanhToan').text(formatVND(tongTienSauKhiGiam));
                 $('#voucher').text(formatVND(-sale[0].giamToiDa));
 
 
@@ -279,7 +283,7 @@
                     nguoiNhan = response.ten;
                     sdtNguoiNhan = response.sdt;
                     getDuLieu(idKhachHang);
-                    getDiaChiKhachHang(idKhachHang);
+                    getDiaChiKhachHang(response);
 
                     $("#datHang").off('click', '.tiepTuc').on('click', '.tiepTuc', function () {
 
@@ -288,9 +292,10 @@
                         let nguoiNhan2 = nguoiNhan;
                         let sdtNguoiNhan2 = sdtNguoiNhan;
                         let diaChiNguoiNhan = $('#diaChiSpan').text().trim();
+                        var tongTienSauKhiGiam2 = tongTienSauKhiGiam
                         console.log(diaChiNguoiNhan)
 
-                        taoHoaDonDatHang(nguoiNhan2, idKhachHang, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan);
+                        taoHoaDonDatHang(nguoiNhan2, idKhachHang, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, tongTienSauKhiGiam2);
                     });
                 },
             });
@@ -307,15 +312,20 @@
             });
         }
 
-        function taoHoaDonDatHang(nguoiNhan, KhachHang, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan) {
+        function taoHoaDonDatHang(nguoiNhan, KhachHang, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan, tongTienSauKhiGiam) {
+            let idPhieuGiamGia = sale[0].id
             $.ajax({
                 url: `/api/gio-hang/tao-hoa-don-dat-hang`,
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
+                    phieuGiamGia: {
+                        id: idPhieuGiamGia
+                    },
                     ma: "1",
                     nguoiNhan: nguoiNhan,
                     tongTien: tongTien,
+                    tongTienSauGiam: tongTienSauKhiGiam,
                     tienShip: tienShip,
                     sdtNguoiNhan: sdtNguoiNhan,
                     diaChiNguoiNhan: diaChiNguoinhan,
@@ -388,31 +398,34 @@
             });
         }
 
-        function getDiaChiKhachHang(idKhachHang) {
+        function getDiaChiKhachHang(khachHang) {
             $.ajax({
-                url: `/api/gio-hang/dia-chi-khach-hang/${idKhachHang}`,
+                url: `/api/gio-hang/dia-chi-khach-hang/${khachHang.id}`,
                 method: 'GET',
                 success: function (response) {
                     console.log(response)
                     let list = "";
-                    $("#listKhachHang").empty();
+                    $("#listDiaChi").empty();
 
                     response.forEach((diaChi, i) => {
 
                         list += `
-                    <div class="grid gap-1 grid-cols-2 border-1 border-gray-300 p-4 rounded-lg">
+                    <div class="grid gap-1 grid-cols-1 border-1 border-gray-300 p-4 rounded-lg">
                         <div class="flex">
-                            <div>
-                            ${diaChi.quanHuyen}
+                             <div class="radioDiaChi mr-2">
+                                    <input type="radio" name="phieuGiamGia" id="radioDiaChi" value="${diaChi.id}" data-item='${JSON.stringify(diaChi)}'>
                             </div>
-
-
-                        </div>
+                            <div class="mr-3">${khachHang.ten}</div>
+                            <div class="text-gray-600">| ${khachHang.sdt}</div>
+                            </div>
+                            <div>
+                                <div class="ml-5 text-gray-600">${`${diaChi.moTaChiTiet}, ${diaChi.thanhPho}`}</div>
+                            </div>
                     </div>
                     <br>
                 `;
                     });
-                    $("#listKhachHang").html(list);
+                    $("#listDiaChi").html(list);
                 },
             });
         }

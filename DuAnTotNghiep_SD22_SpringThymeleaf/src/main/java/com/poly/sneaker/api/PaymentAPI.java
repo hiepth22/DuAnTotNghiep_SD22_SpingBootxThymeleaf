@@ -22,14 +22,14 @@ public class PaymentAPI {
     public ResponseEntity<?> createPayment() throws UnsupportedEncodingException {
 
 //        String orderType = "other";
-        long amount = 10000*100;
+        long amount = 1000000*100;
 //        String bankCode = req.getParameter("bankCode");
 
         String vnp_TxnRef = Config.getRandomNumber(8);
 //        String vnp_IpAddr = Config.getIpAddress(req);
         String orderType = "other";
 
-//        long amount = 10000*100;
+        String vnp_IpAddr = "13.160.92.202";
 
         String vnp_TmnCode = Config.vnp_TmnCode;
 
@@ -44,9 +44,9 @@ public class PaymentAPI {
         vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
         vnp_Params.put("vnp_Locale", "vn");
         vnp_Params.put("vnp_OrderType", orderType);
+        vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
+        vnp_Params.put("vnp_ReturnUrl", Config.vnp_ReturnUrl);
 
-
-//        vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
