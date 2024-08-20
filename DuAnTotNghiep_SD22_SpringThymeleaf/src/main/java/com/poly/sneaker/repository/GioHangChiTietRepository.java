@@ -32,8 +32,8 @@ public interface GioHangChiTietRepository extends JpaRepository<GioHangChiTiet, 
 
     @Query("SELECT ghct.sanPhamChiTiet FROM GioHangChiTiet ghct " +
             "JOIN ghct.sanPhamChiTiet spct " +
-            "WHERE spct.id = :idSanPham AND ghct.id = :idGioHang")
-    List<String> findDetailsBySanPhamIdAndGioHangId(
+            "WHERE spct.id = :idSanPham AND ghct.gioHang.id = :idGioHang")
+    List<SanPhamChiTiet> findDetailsBySanPhamIdAndGioHangId(
             @Param("idSanPham") Long idSanPham,
             @Param("idGioHang") Long idGioHang
     );

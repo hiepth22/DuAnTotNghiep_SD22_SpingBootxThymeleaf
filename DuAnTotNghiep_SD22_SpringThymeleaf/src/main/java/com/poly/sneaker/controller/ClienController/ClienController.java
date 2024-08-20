@@ -172,9 +172,9 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
     gioHangChiTiet.setSoLuong(sl);
     SanPhamChiTiet sp = repo.findidspct(idsp, anh, size);
     Long checkgh=ghrepo.selectIDGH(idkh);
-    List<String> checksp =gioHangChiTietRepository.findDetailsBySanPhamIdAndGioHangId(sp.getId(),checkgh);
-
-    if(checksp==null){
+    List<SanPhamChiTiet> checksp =gioHangChiTietRepository.findDetailsBySanPhamIdAndGioHangId(sp.getId(),checkgh);
+    System.out.println(checksp);
+    if(checksp.isEmpty()){
             gioHangChiTiet.setSanPhamChiTiet(sp);
             gioHangChiTietService.add(gioHangChiTiet);
     }
@@ -194,8 +194,6 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
     // Tạo phản hồi
     Map<String, Object> response = new HashMap<>();
     response.put("giỏ_hàng", gh);
-    response.put("trạng_thái", gh == null ? "Tạo mới" : "Tồn tại");
-
     return ResponseEntity.ok(response);
 }
 
