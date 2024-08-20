@@ -156,7 +156,7 @@
             color: black;
         }
         a {
-            text-decoration: none; /* Loại bỏ gạch chân cho tất cả các liên kết */
+            text-decoration: none;
         }
         .bold-red {
             color: red;
@@ -300,21 +300,17 @@
             </div>
         </div>
         <div class="row">
-            <!-- Thymeleaf loop for products -->
             <div th:each="sanPham : ${sanPhams}" class="col-md-2 mb-3"> <!-- Changed col-md-3 to col-md-2 -->
                 <div class="card-body" style="text-align: left;">
-                    <!-- Hidden buttons -->
                     <div class="product-buttons">
                         <a href="#" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${sanPham.id}">
                             <i class="bi bi-eye"></i>
                         </a>
                     </div>
-                    <!-- Modal trigger -->
                     <a href="#" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${sanPham.id}">
                         <img th:src="'https://res.cloudinary.com/deapopcoc/image/upload/' + ${sanPham.anh}" alt="Ảnh" style="width: calc(100% + 30px); height: 250px; border-radius: 8px; display: block; margin: 0 -15px 10px -15px; box-sizing: border-box;">
                         <h6 class="card-title" th:text="${sanPham.ten}" style=" color: #333; margin-top: 10px; margin-left: 15px;"></h6>
                     </a>
-                    <!-- New Button -->
                     <a href="#" style="display: inline-block; margin: 5px 0; padding: 2px 5px; border: 1px solid #FF8C00; border-radius: 2px; color: #FF8C00; text-decoration: none; font-size: 10px; background-color: transparent; text-align: center; margin-left: 15px;">
                         Giá Siêu Hời
                     </a>
@@ -326,16 +322,11 @@
     </div>
 </section>
 
-<!-- JavaScript -->
 
-<!-- Thêm thư viện jarallax -->
 <script src="https://cdn.jsdelivr.net/npm/jarallax@1.12.0/dist/jarallax.min.js"></script>
-<!-- Thêm thư viện jarallax-video (nếu cần) -->
 <script src="https://cdn.jsdelivr.net/npm/jarallax@1.12.0/dist/jarallax-video.min.js"></script>
-<!-- Thêm JavaScript của Chocolat -->
 <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 
-<!-- Nạp JavaScript của Chocolat -->
 <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
 
 
@@ -345,110 +336,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    $(document).ready(function () {
-        $('[data-bs-toggle="modal"]').click(function () {
-            var productId = $(this).attr('data-id');
-            var productName = $(this).find('.card-title').text();
-
-            $.ajax({
-                url: '/sanphamchitietclien/' + productId,
-                method: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    $('#productModalLabel').text(productName);
-                    // $('#modalImage').attr('src', '/assets/imageNV/' + data.anh);
-                    $('#modalImage').attr('src', 'https://res.cloudinary.com/deapopcoc/image/upload/' + data.anh);
-                    $('#modalPrice').text(' ₫'+ data.giaBan);
-                    $('#modalQuantity').text( data.soLuong);
-                    $('#modalDescription').text(data.moTa);
-                    $('#modalColor').html(`
-    <div class="color-container rounded-lg" style="background-color: ${data.mauSac.ten}; width: 50px; height: 20px;"></div>
-`);
-                    $.ajax({
-                        url: '/sanphamchitietclienkc/' + data.sanPham.id,
-                        method: 'GET',
-                        dataType: 'json',
-                        success: function (additionalData) {
-                            var sizeHtml = '<h6>Kích cỡ:</h6><div id="sizeContainer" class="d-flex flex-wrap">';
-
-                            additionalData.forEach(function (item) {
-                                sizeHtml += '<div class="size-item" data-id="' + item + '">' + item + '</div>';
-                            });
-
-                            sizeHtml += '</div>';
-                            $('#modalSize').html(sizeHtml);
-
-
-                            $('.size-item').click(function () {
-                                $('.size-item').removeClass('selected');
-                                $(this).addClass('selected');
-                                var selectedSizeId = $(this).data('id');
-                                console.log('Selected size ID:', selectedSizeId);
-                            });
-
-                            $('#modalBuyLink').attr('href', '/gio-hang/' + productId);
-                            $('#modalAddToCartLink').attr('href', '/cart/add/' + productId);
-
-                            $('#productModal').modal('show');
-                        },
-                        error: function () {
-                            console.log('Error loading additional product details.');
-                        }
-                    });
-                },
-                error: function () {
-                    console.log('Error loading product details.');
-                }
-            });
-        });
-
-        function getKhachHang() {
-            $.ajax({
-                url: '/api/session/user',
-                method: 'GET',
-                success: function (response) {
-                    let idKhachHang = response.id;
-                    getIdGioHang(idKhachHang);
-                },
-                error: function () {
-                    console.log('Error retrieving user session.');
-                }
-            });
-        }
-
-        function getIdGioHang(idKhachHang) {
-            $.ajax({
-                url: `/api/khach-hang/thong-tin-hoa-don/${idKhachHang}`,
-                method: 'GET',
-                success: function (response) {
-                    // Đăng ký sự kiện click cho các nút "Thêm Vào Giỏ Hàng"
-                    $("#dsSanPham").on('click', '.themSanPham', function () {
-                        const itemId = $(this).data('id');
-
-                        $.ajax({
-                            url: `/api/gio-hang/them-san-pham/${itemId}`,
-                            method: 'POST',
-                            contentType: 'application/json',
-                            data: JSON.stringify({
-                                gioHang: {id: response.id},
-                                sanPhamChiTiet: {id: itemId}
-                            }),
-                            success: function () {
-                                alert('Sản phẩm đã được thêm vào giỏ hàng.');
-                            },
-                            error: function () {
-                                console.log('Error adding product to cart.');
-                            }
-                        });
-                    });
-                },
-                error: function () {
-                    console.log('Error retrieving cart information.');
-                }
-            });
-        }
-
-        getKhachHang();
+    $('#products-list1').on('click', 'a[data-id]', function () {
+        const productId = $(this).data('id');
+        console.log('ID sản phẩm được chọn:', productId);
+        window.location.href = `/san-pham/${productId}`;
     });
 
 </script>

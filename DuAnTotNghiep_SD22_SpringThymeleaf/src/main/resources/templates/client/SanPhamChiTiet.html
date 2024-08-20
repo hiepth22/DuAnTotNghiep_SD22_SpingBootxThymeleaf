@@ -85,8 +85,8 @@
         }
 
         .size-container .selected-size {
-            border: 2px solid #00f; /* Viền xanh dương khi được chọn */
-            background-color: #e0e0e0; /* Thay đổi nền khi được chọn */
+            border: 2px solid #00f;
+            background-color: #e0e0e0;
         }
 
 
@@ -294,7 +294,7 @@
                                     method: 'GET',
                                     dataType: 'json',
                                     success: function (sizes) {
-                                        console.log('Sizes:', sizes); // Debug output
+                                        console.log('Sizes:', sizes);
                                         const sizegia = sizes[0];
                                         $.ajax({
                                             url: `/gia-ban/${data.sanPham.id}/${sizegia}/${imageName}`,
@@ -332,7 +332,6 @@
                                             $('.size-container p').removeClass('selected-size');
                                             $(this).addClass('selected-size');
 
-                                            // Hiển thị tên kích cỡ được chọn
                                             const selectedSize = $(this).text();
                                             console.log('Kích cỡ được chọn v:', selectedSize);
                                             sltonsp.empty();
@@ -400,7 +399,6 @@
 
                                                                             },
                                                                             error: function(xhr, status, error) {
-                                                                                // Xử lý lỗi
                                                                                 console.error('Error:', error);
                                                                             }
                                                                         });
@@ -438,7 +436,7 @@
                         method: 'GET',
                         dataType: 'json',
                         success: function (sizes) {
-                            console.log('Sizes:', sizes); // Debug output
+                            console.log('Sizes:', sizes);
 
 
                             const sizeDiv = $('<div class="size-container"></div>');
@@ -454,13 +452,10 @@
 
 
                             $('.size-container p').on('click', function () {
-                                // Loại bỏ lớp 'selected-size' từ tất cả các kích cỡ
                                 $('.size-container p').removeClass('selected-size');
 
-                                // Thêm lớp 'selected-size' vào kích cỡ được click
                                 $(this).addClass('selected-size');
 
-                                // Hiển thị tên kích cỡ được chọn
                                 const selectedSize = $(this).text();
                                 console.log('Kích cỡ được chọn v:', selectedSize);
                                 document.getElementById('themgiohang').addEventListener('click', function() {
