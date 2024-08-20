@@ -35,7 +35,7 @@ public class GioHangChiTietService {
         gioHangChiTietRepository.deleteByIdGioHang(idGioHang);
     }
     public GioHangChiTiet updateSL(Long idspct, Integer sl) {
-        Optional<GioHangChiTiet> optional = gioHangChiTietRepository.findByspct(idspct);
+        Optional<GioHangChiTiet> optional = gioHangChiTietRepository.findBySanPhamChiTietId(idspct);
         if (optional.isPresent()) {
             GioHangChiTiet gioHangChiTiet = optional.get();
             gioHangChiTiet.setSoLuong(sl);

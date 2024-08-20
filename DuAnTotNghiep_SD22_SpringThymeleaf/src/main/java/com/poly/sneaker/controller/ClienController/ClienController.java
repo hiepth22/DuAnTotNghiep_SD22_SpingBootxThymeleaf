@@ -157,7 +157,6 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
 
     GioHang gh = giohangService.detail(idkh);
     if (gh == null) {
-
         GioHang ghnew = new GioHang();
         KhachHang kh = new KhachHang();
         kh.setId(idkh);
@@ -172,19 +171,24 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
     gioHangChiTiet.setGioHang(gh);
     gioHangChiTiet.setSoLuong(sl);
     SanPhamChiTiet sp = repo.findidspct(idsp, anh, size);
-    List<SanPhamChiTiet> checksp =repo.findDetailsBySanPhamId(sp.getId());
-    if(checksp.isEmpty()){
-        if (sp != null) {
+    Long checkgh=ghrepo.selectIDGH(idkh);
+    List<String> checksp =gioHangChiTietRepository.findDetailsBySanPhamIdAndGioHangId(sp.getId(),checkgh);
+
+    if(checksp==null){
             gioHangChiTiet.setSanPhamChiTiet(sp);
             gioHangChiTietService.add(gioHangChiTiet);
-        } else {
-            return ResponseEntity.badRequest().body(Collections.singletonMap("error", "SanPhamChiTiet not found"));
-        }
     }
     else {
-        Optional<GioHangChiTiet> ghct= gioHangChiTietRepository.findByspct(sp.getId());
-        Integer slmoi =ghct.get().getSoLuong()+sl;
-       gioHangChiTietService.updateSL(sp.getId(),slmoi);
+        Optional<GioHangChiTiet> ghct = gioHangChiTietRepository.findBySanPhamChiTietId(sp.getId());
+
+        if (ghct.isPresent()) {
+            GioHangChiTiet existingGioHangChiTiet = ghct.get();
+            Integer slmoi = existingGioHangChiTiet.getSoLuong() + sl;
+            gioHangChiTietService.updateSL(sp.getId(), slmoi);
+        } else {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("error", "GioHangChiTiet not found"));
+        }
+
     }
 
     // Tạo phản hồi

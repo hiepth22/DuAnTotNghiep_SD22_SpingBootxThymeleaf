@@ -3,6 +3,7 @@ package com.poly.sneaker.repository;
 import com.poly.sneaker.entity.DiaChi;
 import com.poly.sneaker.entity.GioHang;
 import com.poly.sneaker.entity.GioHangChiTiet;
+import com.poly.sneaker.entity.SanPhamChiTiet;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -22,7 +23,18 @@ public interface GioHangChiTietRepository extends JpaRepository<GioHangChiTiet, 
     @Query(value = "DELETE FROM gio_hang_chi_tiet WHERE idGioHang = :idGioHang", nativeQuery = true)
     void deleteByIdGioHang(@Param("idGioHang") Long idGioHang);
 
-    @Query(value = "SELECT * FROM gio_hang_chi_tiet WHERE  idSanPhamChiTiet= :idSanPhamChiTiet", nativeQuery = true)
-    Optional<GioHangChiTiet> findByspct(@Param("idSanPhamChiTiet") Long idSanPhamChiTiet);
+    @Query("SELECT ghct FROM GioHangChiTiet ghct " +
+            "JOIN ghct.sanPhamChiTiet spct " +
+            "WHERE spct.id = :idSanPhamChiTiet ")
+    Optional<GioHangChiTiet> findBySanPhamChiTietId(@Param("idSanPhamChiTiet") Long idSanPhamChiTiet);
 
+
+
+    @Query("SELECT ghct.sanPhamChiTiet FROM GioHangChiTiet ghct " +
+            "JOIN ghct.sanPhamChiTiet spct " +
+            "WHERE spct.id = :idSanPham AND ghct.id = :idGioHang")
+    List<String> findDetailsBySanPhamIdAndGioHangId(
+            @Param("idSanPham") Long idSanPham,
+            @Param("idGioHang") Long idGioHang
+    );
 }

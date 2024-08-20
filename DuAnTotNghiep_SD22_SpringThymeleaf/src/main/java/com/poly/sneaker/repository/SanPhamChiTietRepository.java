@@ -75,10 +75,9 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
             @Param("anh") String anh,
             @Param("size") String size
     );
-    @Query("SELECT spct FROM GioHangChiTiet ghct " +
-            "JOIN ghct.sanPhamChiTiet spct " +
-            "WHERE spct.id = :idSanPham")
-    List<SanPhamChiTiet> findDetailsBySanPhamId(@Param("idSanPham") Long idSanPham);
+
+
+
 
     @Query("SELECT s.id FROM SanPhamChiTiet s WHERE s.anh = :anh and s.sanPham.id = :idSanPham")
     List<Long> findIdsByAnhContaining(@Param("anh") Long anh,

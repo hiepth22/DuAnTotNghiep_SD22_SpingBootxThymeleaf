@@ -268,7 +268,6 @@
                                             if (selectedSize === null || selectedSize === undefined ||
                                                 imageName === null || imageName === undefined ||
                                                 idKhachHang === null || idKhachHang === undefined) {
-                                                alert('Một hoặc nhiều giá trị bị thiếu: selectedSize, imageName hoặc idKhachHang');
                                             } else {
                                                 console.log("đã oke" + selectedSize + ", imge" + imageName + " id kh" + idKhachHang);
                                             }
@@ -387,7 +386,7 @@
                                                                     method: 'GET',
                                                                     success: function (response) {
                                                                         let idKhachHang = response.id;
-                                                                        console.log("đã oke " + selectedSize + ", imge " + imageName + " id kh " + idKhachHang  );
+
                                                                         var inputElement = document.getElementById('quantity');
 
                                                                         var soluongspkhithem = inputElement.value;
