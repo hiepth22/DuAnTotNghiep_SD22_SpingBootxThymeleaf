@@ -89,6 +89,13 @@ public class SanPhamChiTietService {
             return repository.save(o);
         }).orElse(null);
     }
+    public SanPhamChiTiet updateSL(Long id,Integer sl) {
+        Optional<SanPhamChiTiet> optional = repository.findById(id);
+        return optional.map(o -> {
+            o.setSoLuong(sl);
+            return repository.save(o);
+        }).orElse(null);
+    }
 
     public Boolean existingById(Long id) {
         return repository.existsById(id);

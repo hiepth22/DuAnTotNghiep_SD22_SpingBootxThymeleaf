@@ -1,11 +1,8 @@
 package com.poly.sneaker.controller.ClienController;
 
 import com.poly.sneaker.dto.SanPhamBanChayDTO;
-import com.poly.sneaker.entity.SanPham;
-import com.poly.sneaker.entity.SanPhamChiTiet;
-import com.poly.sneaker.repository.HoaDonRepository;
-import com.poly.sneaker.repository.SanPhamChiTietRepository;
-import com.poly.sneaker.repository.SanPhamRepository;
+import com.poly.sneaker.entity.*;
+import com.poly.sneaker.repository.*;
 import com.poly.sneaker.sevice.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -22,10 +19,7 @@ import java.util.*;
 
 @Controller
 public class ClienController {
-    @Autowired
-    private SanPhamRepository sanPhamRepository;
-    @Autowired
-    private SanPhamService service;
+
     @Autowired
     private SanPhamChiTietRepository repo;
     @Autowired
@@ -33,27 +27,16 @@ public class ClienController {
 
     @Autowired
     private HoaDonRepository hoaDonRepository;
+    @Autowired
+    GioHangChiTietService  gioHangChiTietService;
+    @Autowired
+    private GioHangRepository ghrepo;
+    @Autowired
+    GiohangService giohangService;
 
     @Autowired
-    private SanPhamService sanPhamService;
+    GioHangChiTietRepository gioHangChiTietRepository;
 
-    @Autowired
-    private DeGiayService deGiayService;
-
-    @Autowired
-    private NhaSanXuatService nhaSanXuatService;
-
-    @Autowired
-    private ChatLieuService chatLieuService;
-
-    @Autowired
-    private CoGiayService coGiayService;
-
-    @Autowired
-    private MauSacService mauSacService;
-
-    @Autowired
-    private KichCoService kichCoService;
 
     @GetMapping("/Client")
     public String hienThiSanPham(Model model) {
@@ -164,6 +147,53 @@ public class ClienController {
         List<SanPhamBanChayDTO> spmn = hoaDonRepository.getSanPhamBanChayNhat(pageable);
         return ResponseEntity.ok(spmn);
     }
+//    themsp vào gh
+@GetMapping("/detailcheckgh/{idkh}/{anh}/{size}/{idsp}/{sl}")
+public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idkh,
+                                                  @PathVariable("anh") String anh,
+                                                  @PathVariable("size") String size,
+                                                  @PathVariable("idsp") Long idsp,
+                                                  @PathVariable("sl") Integer sl) {
+
+    GioHang gh = giohangService.detail(idkh);
+    if (gh == null) {
+
+        GioHang ghnew = new GioHang();
+        KhachHang kh = new KhachHang();
+        kh.setId(idkh);
+        ghnew.setKhachHang(kh);
+        ghrepo.save(ghnew);
+
+        gh = giohangService.detail(idkh);
+    }
+
+
+    GioHangChiTiet gioHangChiTiet = new GioHangChiTiet();
+    gioHangChiTiet.setGioHang(gh);
+    gioHangChiTiet.setSoLuong(sl);
+    SanPhamChiTiet sp = repo.findidspct(idsp, anh, size);
+    List<SanPhamChiTiet> checksp =repo.findDetailsBySanPhamId(sp.getId());
+    if(checksp.isEmpty()){
+        if (sp != null) {
+            gioHangChiTiet.setSanPhamChiTiet(sp);
+            gioHangChiTietService.add(gioHangChiTiet);
+        } else {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("error", "SanPhamChiTiet not found"));
+        }
+    }
+    else {
+        Optional<GioHangChiTiet> ghct= gioHangChiTietRepository.findByspct(sp.getId());
+        Integer slmoi =ghct.get().getSoLuong()+sl;
+       gioHangChiTietService.updateSL(sp.getId(),slmoi);
+    }
+
+    // Tạo phản hồi
+    Map<String, Object> response = new HashMap<>();
+    response.put("giỏ_hàng", gh);
+    response.put("trạng_thái", gh == null ? "Tạo mới" : "Tồn tại");
+
+    return ResponseEntity.ok(response);
+}
 
 
 }

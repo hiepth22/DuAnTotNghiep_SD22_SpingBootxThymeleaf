@@ -22,5 +22,7 @@ public interface GioHangChiTietRepository extends JpaRepository<GioHangChiTiet, 
     @Query(value = "DELETE FROM gio_hang_chi_tiet WHERE idGioHang = :idGioHang", nativeQuery = true)
     void deleteByIdGioHang(@Param("idGioHang") Long idGioHang);
 
+    @Query(value = "SELECT * FROM gio_hang_chi_tiet WHERE  idSanPhamChiTiet= :idSanPhamChiTiet", nativeQuery = true)
+    Optional<GioHangChiTiet> findByspct(@Param("idSanPhamChiTiet") Long idSanPhamChiTiet);
 
 }

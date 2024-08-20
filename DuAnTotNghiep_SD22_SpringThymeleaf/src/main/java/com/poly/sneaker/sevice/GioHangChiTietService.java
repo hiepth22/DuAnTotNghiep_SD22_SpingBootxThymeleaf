@@ -1,9 +1,6 @@
 package com.poly.sneaker.sevice;
 
-import com.poly.sneaker.entity.GioHang;
-import com.poly.sneaker.entity.GioHangChiTiet;
-import com.poly.sneaker.entity.HoaDon;
-import com.poly.sneaker.entity.HoaDonChiTiet;
+import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.GioHangChiTietRepository;
 import com.poly.sneaker.repository.GioHangRepository;
 import jakarta.transaction.Transactional;
@@ -37,6 +34,15 @@ public class GioHangChiTietService {
     public void deleteGioHangChiTietByIdGioHang(Long idGioHang) {
         gioHangChiTietRepository.deleteByIdGioHang(idGioHang);
     }
-
+    public GioHangChiTiet updateSL(Long idspct, Integer sl) {
+        Optional<GioHangChiTiet> optional = gioHangChiTietRepository.findByspct(idspct);
+        if (optional.isPresent()) {
+            GioHangChiTiet gioHangChiTiet = optional.get();
+            gioHangChiTiet.setSoLuong(sl);
+            return gioHangChiTietRepository.save(gioHangChiTiet);
+        } else {
+            throw new RuntimeException("Không tìm thấy nhân viên với ID: " + idspct);
+        }
+    }
 
 }

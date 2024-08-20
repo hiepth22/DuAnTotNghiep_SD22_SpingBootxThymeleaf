@@ -123,6 +123,7 @@
                     <div>
                         <p>Chọn Màu :</p>
                         <div id="mau" class="col-md-12"></div>
+
                         <p>Chọn Size :</p>
                         <div id="size" class="col-md-12"></div>
                     </div>
@@ -135,6 +136,11 @@
                             <button class="btn btn-light" onclick="increase()">+</button>
                         </div>
                         <div id="soluongton" class="md-4" style="margin-top:5px  "></div>
+                    </div>
+                    <br>
+                    <div id="mua">
+                        <button class="btn btn-danger" id="muangay">Mua Ngay</button>
+                        <button class="btn btn-outline-warning" id="themgiohang">Thêm Giỏ Hàng</button>
                     </div>
 
                 </div>
@@ -165,6 +171,8 @@
         const path = window.location.pathname;
         const pathParts = path.split('/');
         const sanPhamId = pathParts[pathParts.length - 1];
+        let slconlai ;
+
 
         if (!sanPhamId) {
             console.error('Không tìm thấy ID sản phẩm trong URL.');
@@ -172,15 +180,15 @@
             return;
         }
 
-        // Lấy dữ liệu sản phẩm chính
+
         $.ajax({
             url: `/sanphamchitietclien/${sanPhamId}`,
             method: 'GET',
             dataType: 'json',
             success: function (data) {
-                console.log('Dữ liệu sản phẩm chính:', data); // Debug output
+                console.log('Dữ liệu sản phẩm chính:', data);
 
-                const productsContainer = $('#mau'); // Container for additional images
+                const productsContainer = $('#mau');
                 const anhsp = $('#anh');
                 const sizesp = $('#size');
 
@@ -197,7 +205,7 @@
                     }) : 'Không có giá';
                     const productImage = data.anh ? `https://res.cloudinary.com/deapopcoc/image/upload/${data.anh}` : 'path/to/default-image.jpg';
 
-                    // Tạo cột gộp chứa tên, giá và hình ảnh chính
+
                     const mainImage = $(`
                     <img src="${productImage}" alt="Product Image" style="width: 700px; height: 700px; border-radius: 8px;">
                 `);
@@ -212,15 +220,15 @@
 
                 `);
 
-                    // Thêm thông tin sản phẩm vào container
+
                     anhsp.append(mainImage);
                     ten.append(tensp);
                     gia.append(giasp);
 
-                    // Tạo div chứa các hình ảnh bổ sung
+
                     const additionalImagesDiv = $('<div class="additional-images"></div>');
 
-                    // Lấy thêm dữ liệu từ endpoint khác nếu cần
+
                     $.ajax({
                         url: `/sanphamchitietclientanh/${data.sanPham.id}`,
                         method: 'GET',
@@ -240,17 +248,36 @@
                                 additionalImagesDiv.append(additionalImageDiv);
                             });
 
-                            // Thêm các hình ảnh bổ sung vào container
+
                             productsContainer.append(additionalImagesDiv);
 
-                            // Thêm sự kiện click vào các hình ảnh bổ sung
+
                             $('.additional-images img').on('click', function () {
-                                // Loại bỏ lớp 'selected-image' từ tất cả các hình ảnh
+
                                 $('.additional-images img').removeClass('selected-image');
 
-                                // Thêm lớp 'selected-image' vào hình ảnh được click
-                                $(this).addClass('selected-image');
 
+                                $(this).addClass('selected-image');
+                                document.getElementById('themgiohang').addEventListener('click', function() {
+                                    $.ajax({
+                                        url: '/api/session/user',
+                                        method: 'GET',
+                                        success: function (response) {
+                                            let idKhachHang = response.id;
+                                            let selectedSize = null
+                                            if (selectedSize === null || selectedSize === undefined ||
+                                                imageName === null || imageName === undefined ||
+                                                idKhachHang === null || idKhachHang === undefined) {
+                                                alert('Một hoặc nhiều giá trị bị thiếu: selectedSize, imageName hoặc idKhachHang');
+                                            } else {
+                                                console.log("đã oke" + selectedSize + ", imge" + imageName + " id kh" + idKhachHang);
+                                            }
+                                        },
+                                        error: function (xhr, status, error) {
+                                            window.location.href = `/login`;
+                                        }
+                                    });
+                                });
                                 const imageName = $(this).data('name');
                                 console.log('Tên hình ảnh:', imageName);
                                 const sizemau = "";
@@ -260,7 +287,7 @@
                     <img src="https://res.cloudinary.com/deapopcoc/image/upload/${imageName}" alt="Product Image" style="width: 700px; height: 700px; border-radius: 8px;">
                 `);
                                 anhsp.append(mainImage);
-                                // Xóa các kích cỡ cũ trước khi thêm mới
+
                                 $('.size-container').remove();
 
                                 $.ajax({
@@ -308,9 +335,10 @@
 
                                             // Hiển thị tên kích cỡ được chọn
                                             const selectedSize = $(this).text();
-                                            console.log('Kích cỡ được chọn:', selectedSize);
+                                            console.log('Kích cỡ được chọn v:', selectedSize);
                                             sltonsp.empty();
                                             gia.empty();
+
                                             $.ajax({
                                                 url: `/gia-ban/${data.sanPham.id}/${selectedSize}/${imageName}`,
                                                 method: 'GET',
@@ -338,6 +366,8 @@
                                                 dataType: 'json',
                                                 success: function (sl) {
                                                     console.log('số lượng tồn:', sl);
+                                                    slconlai = sl
+                                                    console.log("hmmmm"+slconlai);
                                                     const slton = $(`
                                                                     <div>
                                                                           <p class="product-price" style="font-size: 17px; color: #000000; margin-bottom: 10px; opacity: 0.5;margin-left: 10px">
@@ -347,6 +377,46 @@
                                                                      </div>
                                                                   `);
                                                     sltonsp.append(slton);
+                                                    document.getElementById('themgiohang').addEventListener('click', function() {
+                                                        $.ajax({
+                                                            url: '/api/session/user',
+                                                            method: 'GET',
+                                                            success: function (response) {
+                                                                $.ajax({
+                                                                    url: '/api/session/user',
+                                                                    method: 'GET',
+                                                                    success: function (response) {
+                                                                        let idKhachHang = response.id;
+                                                                        console.log("đã oke " + selectedSize + ", imge " + imageName + " id kh " + idKhachHang  );
+                                                                        var inputElement = document.getElementById('quantity');
+
+                                                                        var soluongspkhithem = inputElement.value;
+                                                                        $.ajax({
+                                                                            url: `/detailcheckgh/${idKhachHang}/${imageName}/${selectedSize}/${data.sanPham.id}/${soluongspkhithem}`,
+                                                                            type: 'GET',
+                                                                            success: function(response) {
+
+                                                                                console.log('Response:', response);
+
+
+                                                                            },
+                                                                            error: function(xhr, status, error) {
+                                                                                // Xử lý lỗi
+                                                                                console.error('Error:', error);
+                                                                            }
+                                                                        });
+                                                                    },
+                                                                    error: function (xhr, status, error) {
+                                                                        window.location.href = `/login`;
+                                                                    }
+                                                                });
+                                                            },
+                                                            error: function (xhr, status, error) {
+                                                                window.location.href = `/login`;
+                                                            }
+                                                        });
+
+                                                    });
                                                 },
                                                 error: function (xhr, status, error) {
                                                     console.error('Lỗi khi lấy dữ liệu kích cỡ:', error);
@@ -380,10 +450,10 @@
                                 sizeDiv.append(sizeElement);
                             });
 
-                            // Thêm các kích cỡ vào container
+
                             sizesp.append(sizeDiv);
 
-                            // Thêm sự kiện click vào các kích cỡ
+
                             $('.size-container p').on('click', function () {
                                 // Loại bỏ lớp 'selected-size' từ tất cả các kích cỡ
                                 $('.size-container p').removeClass('selected-size');
@@ -393,7 +463,22 @@
 
                                 // Hiển thị tên kích cỡ được chọn
                                 const selectedSize = $(this).text();
-                                console.log('Kích cỡ được chọn:', selectedSize);
+                                console.log('Kích cỡ được chọn v:', selectedSize);
+                                document.getElementById('themgiohang').addEventListener('click', function() {
+                                    $.ajax({
+                                        url: '/api/session/user',
+                                        method: 'GET',
+                                        success: function (response) {
+                                            let idKhachHang = response.id;
+                                            let abc = null;
+
+                                        },
+                                        error: function (xhr, status, error) {
+                                            window.location.href = `/login`;
+                                        }
+                                    });
+
+                                });
                             });
                         },
                         error: function (xhr, status, error) {
