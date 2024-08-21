@@ -108,8 +108,10 @@ $(document).ready(function () {
 
     function hienThiTongTienChiTiet(tongTien, hd) {
 
+        const tongTienSauKhiGiam = tongTien - (hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0);
 
-        const tongTienSauGiam = tongTien - hd.phieuGiamGia.giamToiDa;
+        const voucher = hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0
+        // const tongTienSauGiam = tongTien - hd.phieuGiamGia.giamToiDa;
 
         const tongTienThanhToan = hd.tongTienSauGiam + hd.tienShip;
 
@@ -138,11 +140,11 @@ $(document).ready(function () {
                 <div >
                     <div> <span class="text-lg ml-[11%] text-blue-700">${formatVND(tongTien)}</div>
                     <div ><span class="text-lg ml-20 font-normal">${formatVND(hd.tienShip)}</span></div>
-                    <div ><span class="text-lg ml-20 font-normal">${formatVND(hd.phieuGiamGia.giamToiDa)}</span></div>
+                    <div ><span class="text-lg ml-20 font-normal">${formatVND(voucher)}</span></div>
                     <span class="flex items-center w-full my-2">
                         <span class="h-px flex-1 bg-gray-500"></span>
                     </span>
-                    <div><span class="text-lg ml-8 text-blue-700 text-no">${formatVND(tongTienSauGiam)}</span></div>   
+                    <div><span class="text-lg ml-8 text-blue-700 text-no">${formatVND(tongTienSauKhiGiam)}</span></div>   
                 </div>
             </div>
            
@@ -209,7 +211,8 @@ $(document).ready(function () {
 
 
     function updateTongTien(tongTien, hd,idHoaDon) {
-        const tongTienSauKhiGiam = tongTien - hd.phieuGiamGia.giamToiDa;
+        const tongTienSauKhiGiam = tongTien - (hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0);
+        // const tongTienSauKhiGiam = tongTien - hd.phieuGiamGia.giamToiDa;
         $.ajax({
             url: `/api/hoa-don/update-tong-tien/${idHoaDon}`,
             method: 'PUT',
@@ -452,7 +455,8 @@ $(document).ready(function () {
     }
 
     const getPhuongThucThanhToan = (tongTien, hd) => {
-        const  tongTienSauKhiGiam = tongTien - hd.phieuGiamGia.giamToiDa;
+        const tongTienSauKhiGiam = tongTien - (hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0);
+        console.log(hd);
         $.ajax({
             url: `/api/hoa-don/phuong-thuc-thanh-toan/${idHoaDon}`,
             method: 'GET',

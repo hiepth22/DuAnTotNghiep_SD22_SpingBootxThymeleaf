@@ -234,7 +234,7 @@
                     </tr>
             `;
                 }
-                discount = sale[0].giamToiDa;
+                discount = sale[0]?.giamToiDa || 0;
                 tongTienSauKhiGiam = tongTien - discount;
 
                 $('#soLuongVaTongTien').html(`
@@ -246,7 +246,7 @@
                 $('#phiVanChuyen').text(ship);
                 $('#maGiamGia').text(formatVND(discount));
                 $('#tongThanhToan').text(formatVND(tongTienSauKhiGiam));
-                $('#voucher').text(formatVND(-sale[0].giamToiDa));
+                $('#voucher').text(formatVND(-discount));
 
 
             } else {
