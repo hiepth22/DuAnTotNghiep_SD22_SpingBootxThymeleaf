@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
@@ -19,13 +20,14 @@ import java.util.*;
 public class PaymentAPI {
 
     @GetMapping("/create_payment")
-    public ResponseEntity<?> createPayment() throws UnsupportedEncodingException {
+    public ResponseEntity<?> createPayment(@RequestParam(name = "amount") long amount,
+                                           @RequestParam(name = "TxnRef") String TxnRef) throws UnsupportedEncodingException {
 
 //        String orderType = "other";
-        long amount = 1000000*100;
+        long amountT = amount*100;
 //        String bankCode = req.getParameter("bankCode");
 
-        String vnp_TxnRef = Config.getRandomNumber(8);
+//        String vnp_TxnRef = Config.getRandomNumber(8);
 //        String vnp_IpAddr = Config.getIpAddress(req);
         String orderType = "other";
 
@@ -37,11 +39,11 @@ public class PaymentAPI {
         vnp_Params.put("vnp_Version", Config.vnp_Version);
         vnp_Params.put("vnp_Command", Config.vnp_Command);
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
-        vnp_Params.put("vnp_Amount", String.valueOf(amount));
+        vnp_Params.put("vnp_Amount", String.valueOf(amountT));
         vnp_Params.put("vnp_CurrCode", "VND");
         vnp_Params.put("vnp_BankCode", "NCB");
-        vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
+        vnp_Params.put("vnp_TxnRef", TxnRef);
+        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + TxnRef);
         vnp_Params.put("vnp_Locale", "vn");
         vnp_Params.put("vnp_OrderType", orderType);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);

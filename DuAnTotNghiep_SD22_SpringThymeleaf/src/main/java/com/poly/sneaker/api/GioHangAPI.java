@@ -82,6 +82,9 @@ public class GioHangAPI {
         String maHoaDon = "HD0" + savedHoaDon.getId();
         savedHoaDon.setMa(maHoaDon);
         hoaDonService.taoMaHoaDon(savedHoaDon.getId(), savedHoaDon);
+
+
+
         return ResponseEntity.ok(savedHoaDon);
     }
 
@@ -94,7 +97,9 @@ public class GioHangAPI {
         hoaDonChiTiet.setSoLuong(hoaDonChiTiet.getSoLuong());
         hoaDonChiTiet.setGia(hoaDonChiTiet.getGia());
         hoaDonChiTiet.setTrangThai(1);
-        return ResponseEntity.ok(hoaDonChiTietService.add(hoaDonChiTiet));
+        HoaDonChiTiet saveHDCT = hoaDonChiTietService.add(hoaDonChiTiet);
+
+        return ResponseEntity.ok(saveHDCT);
     }
 
 

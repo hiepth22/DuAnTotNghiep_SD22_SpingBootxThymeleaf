@@ -124,6 +124,9 @@ $(document).ready(function () {
                 <div>
                     <span  class="text-lg">Phí vận chuyển:</span>
                 </div>
+                <div>
+                    <span  class="text-lg">Voucher:</span>
+                </div>
                 <span class="flex items-center w-full my-2">
                     <span class="h-px flex-1 bg-gray-500"></span>
                 </span>
@@ -135,6 +138,7 @@ $(document).ready(function () {
                 <div >
                     <div> <span class="text-lg ml-[11%] text-blue-700">${formatVND(tongTien)}</div>
                     <div ><span class="text-lg ml-20 font-normal">${formatVND(hd.tienShip)}</span></div>
+                    <div ><span class="text-lg ml-20 font-normal">${formatVND(hd.phieuGiamGia.giamToiDa)}</span></div>
                     <span class="flex items-center w-full my-2">
                         <span class="h-px flex-1 bg-gray-500"></span>
                     </span>

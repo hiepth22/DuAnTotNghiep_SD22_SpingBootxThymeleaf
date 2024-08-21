@@ -49,7 +49,7 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Long> {
     List<HoaDon> findAllByNgayTaoBetweenAndTrangThaiAndMaContainingIgnoreCaseOrSdtNguoiNhanContainingIgnoreCase(
             LocalDateTime startDate, LocalDateTime endDate, int trangThai, String ma, String sdt);
 
-    @Query(value = "SELECT * FROM hoa_don WHERE idKhachHang = :idKhachHang and loai = 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM hoa_don WHERE idKhachHang = :idKhachHang and loai = 1 ORDER BY id DESC", nativeQuery = true)
     List<HoaDon> findByIDKHAndTrangThai(@Param("idKhachHang") Long idKhachHang);
 
     @Query(value = "SELECT * FROM hoa_don_chi_tiet WHERE idHoaDon = :idHoaDon", nativeQuery = true)

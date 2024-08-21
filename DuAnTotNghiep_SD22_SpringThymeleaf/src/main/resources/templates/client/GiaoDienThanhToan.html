@@ -14,15 +14,14 @@
         .btn-payment {
             border: 1px solid #808080;
             color: #080808;
-        }
-        .btn-payment.active {
-            border: 1px solid #3182ce;
-            color: #3182ce;
-        }
-        .btn-payment {
             position: relative;
             padding-right: 2.5rem;
         }
+        .btn-payment.active {
+            border: 1px solid #FFA500 !important;
+            color: #FFA500;
+        }
+
 
         .icon-payment {
             position: absolute;
@@ -101,9 +100,10 @@
         <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-5 gap-40 mb-20">
             <div class="m-10">
                 <span class=" text-xl font-bold mr-10">Phương thức thanh toán</span>
-                <button id="btnCOD" class="btn-payment w-64 h-14 border py-2 px-4 rounded-md mr-5 active">
+                <button id="btnCOD" class="btn-payment w-64 h-14 py-2 px-4 rounded-md mr-5 active">
                     Thanh toán khi nhận hàng
                 </button>
+
                 <button id="btnVNPAY" class="btn-payment w-64 h-14 border py-2 px-4 rounded-md relative">
                     <span class="flex"> Thanh toán VNPAY</span>
                     <img src="https://asset.brandfetch.io/idV02t6WJs/idyWhNall8.svg" class="icon-payment absolute w-[40%] h-[40%]">
@@ -133,7 +133,7 @@
                    </div>
                     <div id="datHang">
                         <button type="button" class="tiepTuc ml-14 w-[70%] h-16 mb-10 font-bold text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">
-                            <a class="text-xl" href="/Client">Đặt hàng</a>
+                            Đặt hàng
                         </button>
                     </div>
 
@@ -236,7 +236,6 @@
                 }
                 discount = sale[0].giamToiDa;
                 tongTienSauKhiGiam = tongTien - discount;
-                console.log(tongTienSauKhiGiam);
 
                 $('#soLuongVaTongTien').html(`
             <div>Tổng số tiền(${soLuongSPTong} sản phẩm): <span class="text-orange-500 text-xl ml-5">${formatVND(tongTien - discount)}</span></div>
@@ -287,15 +286,31 @@
 
                     $("#datHang").off('click', '.tiepTuc').on('click', '.tiepTuc', function () {
 
-                        let ship2 = ship;
-                        var tongTien2 = tongTien;
-                        let nguoiNhan2 = nguoiNhan;
-                        let sdtNguoiNhan2 = sdtNguoiNhan;
-                        let diaChiNguoiNhan = $('#diaChiSpan').text().trim();
-                        var tongTienSauKhiGiam2 = tongTienSauKhiGiam
-                        console.log(diaChiNguoiNhan)
+                        if ($('#btnCOD').hasClass('active')) {
+                            let ship2 = ship;
+                            var tongTien2 = tongTien;
+                            let nguoiNhan2 = nguoiNhan;
+                            let sdtNguoiNhan2 = sdtNguoiNhan;
+                            let diaChiNguoiNhan = $('#diaChiSpan').text().trim();
+                            var tongTienSauKhiGiam2 = tongTienSauKhiGiam;
 
-                        taoHoaDonDatHang(nguoiNhan2, idKhachHang, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, tongTienSauKhiGiam2);
+                            taoHoaDonDatHang(nguoiNhan2, idKhachHang, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, tongTienSauKhiGiam2);
+
+                            window.location.href = '/Client';
+
+                        } else if ($('#btnVNPAY').hasClass('active')) {
+                            let ship2 = ship;
+                            var tongTien2 = tongTien;
+                            let nguoiNhan2 = nguoiNhan;
+                            let sdtNguoiNhan2 = sdtNguoiNhan;
+                            let diaChiNguoiNhan = $('#diaChiSpan').text().trim();
+                            var tongTienSauKhiGiam2 = tongTienSauKhiGiam;
+
+                            taoHoaDonDatHangTraTruoc(nguoiNhan2, idKhachHang, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, tongTienSauKhiGiam2);
+
+                        } else {
+                            alert("Vui lòng chọn phương thức thanh toán.");
+                        }
                     });
                 },
             });
@@ -311,6 +326,51 @@
                 },
             });
         }
+
+        function chuyenKhoan(amount, TxnRef){
+            $.ajax({
+                url: `/api/payment/create_payment?amount=${amount}&TxnRef=${TxnRef}`,
+                method: 'GET',
+                contentType: 'application/json',
+                data:{},
+                success: function (response) {
+                    window.location.href = response.url;
+                },
+            });
+        }
+
+        function taoHoaDonDatHangTraTruoc(nguoiNhan, KhachHang, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan, tongTienSauKhiGiam) {
+            let idPhieuGiamGia = sale[0].id
+            $.ajax({
+                url: `/api/gio-hang/tao-hoa-don-dat-hang`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    phieuGiamGia: {
+                        id: idPhieuGiamGia
+                    },
+                    ma: "1",
+                    nguoiNhan: nguoiNhan,
+                    tongTien: tongTien,
+                    tongTienSauGiam: tongTienSauKhiGiam,
+                    tienShip: tienShip,
+                    sdtNguoiNhan: sdtNguoiNhan,
+                    diaChiNguoiNhan: diaChiNguoinhan,
+                    khachHang: { id: KhachHang }
+                }),
+                success: function (response) {
+                    const idHoaDon = response.id;
+                    addHistoryLog(idHoaDon);
+                    addSanPhamVaoHDCT(idHoaDon);
+                    addPhuongThucThanhToanChuyenKhoan(idHoaDon);
+                    chuyenKhoan(response.tongTienSauGiam, response.ma);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi khi tạo hóa đơn:', error);
+                }
+            });
+        }
+
 
         function taoHoaDonDatHang(nguoiNhan, KhachHang, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan, tongTienSauKhiGiam) {
             let idPhieuGiamGia = sale[0].id
@@ -379,6 +439,17 @@
 
                     }
                 });
+                // $.ajax({
+                //     url: `/api/gio-hang/delete-sp/${pro}`,
+                //     method: 'POST',
+                //     contentType: 'application/json',
+                //     data: JSON.stringify(productData),
+                //     success: function (response) {
+                //     },
+                //     error: function (xhr, status, error) {
+                //
+                //     }
+                // });
             });
             localStorage.removeItem('selectedProducts');
         }
@@ -398,12 +469,26 @@
             });
         }
 
+        function addPhuongThucThanhToanChuyenKhoan(idHoaDon) {
+            $.ajax({
+                url: `/api/gio-hang/them-phuong-thuc-thanh-toan/${idHoaDon}`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    tenThanhToan: "Chuyển Khoản",
+                    loaiThanhToan: true,
+                    trangThai: 1
+                }),
+                success: function (response) {
+                },
+            });
+        }
+
         function getDiaChiKhachHang(khachHang) {
             $.ajax({
                 url: `/api/gio-hang/dia-chi-khach-hang/${khachHang.id}`,
                 method: 'GET',
                 success: function (response) {
-                    console.log(response)
                     let list = "";
                     $("#listDiaChi").empty();
 
