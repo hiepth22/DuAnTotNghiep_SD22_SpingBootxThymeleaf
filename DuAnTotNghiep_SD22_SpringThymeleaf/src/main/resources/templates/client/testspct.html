@@ -65,7 +65,7 @@
         <div th:each="sp : ${sanPhams}" class="col-12 mb-3 product-card" th:data-product-id="${sp.sanPham.id}" th:data-product-anh="${sp.anh}">
             <div class="product-container" style="border: #0c0e12 1px solid">
                 <div class="col-md-8">
-                    <img th:src="'https://res.cloudinary.com/deapopcoc/image/upload/' + ${sp.anh}" alt="Ảnh" class="product-img" style="border: #0c0e12 1px solid">
+                    <img th:src="'${sp.anh}" alt="Ảnh" class="product-img" style="border: #0c0e12 1px solid">
                 </div>
                 <div class="col-md-4 product-info">
                     <h2 class="h5 mb-1" th:text="${sp.ten}">Tên sản phẩm</h2>
@@ -112,7 +112,7 @@
                             data.forEach(anh => {
                                 const imgElement = document.createElement('img');
                                 imgElement.className = 'anh-item';
-                                imgElement.src = `https://res.cloudinary.com/deapopcoc/image/upload/${anh}`;
+                                imgElement.src = `${anh}`;
                                 imgElement.alt = 'Ảnh sản phẩm';
                                 imgElement.dataset.anh = anh;
 

@@ -308,7 +308,7 @@
                         </a>
                     </div>
                     <a href="#" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${sanPham.id}">
-                        <img th:src="'https://res.cloudinary.com/deapopcoc/image/upload/' + ${sanPham.anh}" alt="Ảnh" style="width: calc(100% + 30px); height: 250px; border-radius: 8px; display: block; margin: 0 -15px 10px -15px; box-sizing: border-box;">
+                        <img th:src="${sanPham.anh}" alt="Ảnh" style="width: calc(100% + 30px); height: 250px; border-radius: 8px; display: block; margin: 0 -15px 10px -15px; box-sizing: border-box;">
                         <h6 class="card-title" th:text="${sanPham.ten}" style=" color: #333; margin-top: 10px; margin-left: 15px;"></h6>
                     </a>
                     <a href="#" style="display: inline-block; margin: 5px 0; padding: 2px 5px; border: 1px solid #FF8C00; border-radius: 2px; color: #FF8C00; text-decoration: none; font-size: 10px; background-color: transparent; text-align: center; margin-left: 15px;">

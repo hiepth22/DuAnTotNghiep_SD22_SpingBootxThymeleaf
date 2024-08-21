@@ -363,7 +363,7 @@
                             style: 'currency',
                             currency: 'VND'
                         }) : 'Không có giá';
-                        const productImage = product.anh ? `https://res.cloudinary.com/deapopcoc/image/upload/${product.anh}` : 'path/to/default-image.jpg'; // Đường dẫn hình ảnh mặc định nếu không có
+                        const productImage = product.anh ? `${product.anh}` : 'path/to/default-image.jpg'; // Đường dẫn hình ảnh mặc định nếu không có
 
                         const productElement = $(`
                             <div class="col-md-2 col-sm-4 mb-4">
@@ -428,7 +428,7 @@
                             style: 'currency',
                             currency: 'VND'
                         }) : 'Không có giá';
-                        const productImage = product.anh ? `https://res.cloudinary.com/deapopcoc/image/upload/${product.anh}` : 'path/to/default-image.jpg'; // Đường dẫn hình ảnh mặc định nếu không có
+                        const productImage = product.anh ? `${product.anh}` : 'path/to/default-image.jpg'; // Đường dẫn hình ảnh mặc định nếu không có
 
                         const productElement = $(`
                         <div class="col-md-2 col-sm-4 mb-4">

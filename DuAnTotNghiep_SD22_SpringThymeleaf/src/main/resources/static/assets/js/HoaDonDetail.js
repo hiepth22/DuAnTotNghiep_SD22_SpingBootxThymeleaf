@@ -71,7 +71,7 @@ $(document).ready(function () {
             <tr>
                 <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <img src="https://res.cloudinary.com/deapopcoc/image/upload/${item.sanPhamChiTiet.anh}" alt="Image" class="w-16 h-auto">
+                    <img src="${item.sanPhamChiTiet.anh}" alt="Image" class="w-16 h-auto">
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap font-bold">
                     <h1>${item.sanPhamChiTiet.ten}</h1>
@@ -1227,7 +1227,7 @@ const getDanhSachSanPham = (page = 0, size = 5) => {
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <img src="https://res.cloudinary.com/deapopcoc/image/upload/${result.content[i].anh}" alt="Ảnh" class="w-16 h-auto">
+                            <img src=${result.content[i].anh}" alt="Ảnh" class="w-16 h-auto">
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap font-bold">
                             <h1>${result.content[i].ten}</h1>

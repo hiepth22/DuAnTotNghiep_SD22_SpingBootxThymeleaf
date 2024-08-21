@@ -203,7 +203,7 @@
                         style: 'currency',
                         currency: 'VND'
                     }) : 'Không có giá';
-                    const productImage = data.anh ? `https://res.cloudinary.com/deapopcoc/image/upload/${data.anh}` : 'path/to/default-image.jpg';
+                    const productImage = data.anh ? `${data.anh}` : 'path/to/default-image.jpg';
 
 
                     const mainImage = $(`
@@ -242,7 +242,7 @@
 
                                 const additionalImageDiv = $(`
                                 <div>
-                                    <img src="https://res.cloudinary.com/deapopcoc/image/upload/${img}" alt="Additional Product Image" data-name="${imageName}">
+                                    <img src="${img}" alt="Additional Product Image" data-name="${imageName}">
                                 </div>
                             `);
                                 additionalImagesDiv.append(additionalImageDiv);
@@ -283,7 +283,7 @@
                                 gia.empty();
                                 anhsp.empty();
                                 const mainImage = $(`
-                    <img src="https://res.cloudinary.com/deapopcoc/image/upload/${imageName}" alt="Product Image" style="width: 700px; height: 700px; border-radius: 8px;">
+                    <img src="${imageName}" alt="Product Image" style="width: 700px; height: 700px; border-radius: 8px;">
                 `);
                                 anhsp.append(mainImage);
 
