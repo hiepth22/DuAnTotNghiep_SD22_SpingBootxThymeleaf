@@ -1,7 +1,7 @@
 $(document).ready(function () {
     var selectedColors = [];
     var selectedSizes = [];
-    var colorImages = {}; // Object to store image URLs for each color
+    var colorImages = {};
 
     function clickCreateProductButton() {
         $(".create-product-btn").click();
@@ -101,7 +101,7 @@ $(document).ready(function () {
             contentType: false
         }).done(function(response) {
             if (response && response.secure_url) {
-                colorImages[colorId] = response.secure_url; // Save the full URL
+                colorImages[colorId] = response.secure_url;
             } else {
                 console.error("Không có secure_url trong phản hồi:", response);
             }
@@ -157,7 +157,7 @@ $(document).ready(function () {
                     soLuong: 10,
                     trangThai: 1,
                     ngaySanXuat: null,
-                    anh: colorImages[mauSac.id] || "" // Placeholder for image URL
+                    anh: colorImages[mauSac.id] || ""
                 };
                 chiTietSanPhams.push(chiTietSanPham);
             });
@@ -188,12 +188,9 @@ $(document).ready(function () {
             }
         });
 
-        // Wait for all image uploads to finish
         Promise.all(allUploads).then(() => {
-            // Cập nhật thông tin ảnh cho sản phẩm
             updateProductImages(chiTietSanPhams);
 
-            // Hiển thị thông tin sản phẩm
             displayProductDetails(chiTietSanPhams);
         }).catch((error) => {
             console.error("Lỗi khi tải ảnh:", error);
@@ -266,7 +263,6 @@ $(document).ready(function () {
 
             productDetailsContainer.append(tableWrapper);
 
-            // Handle the file input change event to display preview
             tableWrapper.find(`#file-upload-${mauSacId}`).on("change", function () {
                 var files = $(this).get(0).files;
                 var preview = $(this).closest('.table-wrapper').find(`#preview-${mauSacId}`);
@@ -282,7 +278,6 @@ $(document).ready(function () {
                 }
             });
 
-            // Show the image preview if URL exists
             if (colorImages[mauSacId]) {
                 var preview = $(`#preview-${mauSacId}`);
                 var image = $('<img>').attr('src', colorImages[mauSacId]).addClass('preview-img');
@@ -290,12 +285,9 @@ $(document).ready(function () {
             }
         });
 
-        // Add save button
         const saveButton = $('<button class="btn btn-success mt-3 mb-4">Lưu</button>');
         saveButton.click(function () {
-            // Gọi hàm clickCreateProductButton
 
-            // Đợi 3 giây sau đó mới thực hiện việc lưu dữ liệu
             const jsonFormatted = JSON.stringify(chiTietSanPhams);
             console.log("Dữ liệu gửi đi:", jsonFormatted);
 

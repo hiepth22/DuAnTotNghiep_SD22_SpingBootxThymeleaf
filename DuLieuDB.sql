@@ -43,46 +43,47 @@ VALUES
 -- Địa chỉ cho khách hàng
 INSERT INTO [dbo].[dia_chi] ([idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai])
 VALUES
-	(2, N'TP Hồ Chí Minh', N'Quận 1', N'Bến Nghé', N'123', N'Nhà số 123, đường Bến Nghé, Quận 1', N'Nguyễn Thị A', N'admin', N'admin', '2024-01-01', '2024-01-01', 1),
-	(2, N'TP Hồ Chí Minh', N'Quận 2', N'Thảo Điền', N'456', N'Nhà số 456, đường Thảo Điền, Quận 2', N'Nguyễn Thị A', N'admin', N'admin', '2024-01-01', '2024-01-01', 0),
-	(2, N'TP Hồ Chí Minh', N'Quận 3', N'Phú Nhuận', N'789', N'Nhà số 789, đường Phú Nhuận, Quận 3', N'Nguyễn Thị A', N'admin', N'admin', '2024-01-01', '2024-01-01', 0);
+	(2, N'TP Hà Nội', N'Quận Hoàn Kiếm', N'Phan Chu Trinh', N'Ngõ 11', N'Nhà số 123, đường Phan Chu Trinh, Quận Hoàn Kiếm', N'Nguyễn Thị A', N'admin', N'admin', '2024-01-01', '2024-01-01', 1),
+	(2, N'TP Hà Nội', N'Quận Cầu Giấy', N'Dịch Vọng', N'Ngõ 12', N'Nhà số 456, đường Dịch Vọng, Quận Cầu Giấy', N'Nguyễn Thị A', N'admin', N'admin', '2024-01-01', '2024-01-01', 0),
+	(2, N'TP Hà Nội', N'Quận Đống Đa', N'Khâm Thiên', N'Ngõ 13', N'Nhà số 789, đường Khâm Thiên, Quận Đống Đa', N'Nguyễn Thị A', N'admin', N'admin', '2024-01-01', '2024-01-01', 0);
 
 -- Địa chỉ cho khách hàng 
 INSERT INTO [dbo].[dia_chi] ([idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai])
 VALUES
-	(3, N'TP Hồ Chí Minh', N'Quận 4', N'Tân Kiểng', N'321', N'Nhà số 321, đường Tân Kiểng, Quận 4', N'Trần Văn B', N'admin', N'admin', '2024-01-01', '2024-01-01', 1),
-	(3, N'TP Hồ Chí Minh', N'Quận 5', N'An Hội', N'654', N'Nhà số 654, đường An Hội, Quận 5', N'Trần Văn B', N'admin', N'admin', '2024-01-01', '2024-01-01', 0),
-	(3, N'TP Hồ Chí Minh', N'Quận 6', N'Phạm Văn Hai', N'987', N'Nhà số 987, đường Phạm Văn Hai, Quận 6', N'Trần Văn B', N'admin', N'admin' ,'2024-01-01', '2024-01-01', 0)
-
--- Địa chỉ cho khách hàng
-INSERT INTO [dbo].[dia_chi] ([idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai])
-VALUES
-	(4, N'TP Hồ Chí Minh', N'Quận 7', N'Tân Thuận Đông', N'246', N'Nhà số 246, đường Tân Thuận Đông, Quận 7', N'Nguyễn Văn C', N'admin', N'admin', '2024-01-01', '2024-01-01', 1),
-	(4, N'TP Hồ Chí Minh', N'Quận 8', N'Tân Hưng', N'579', N'Nhà số 579, đường Tân Hưng, Quận 8', N'Nguyễn Văn C', N'admin', N'admin', '2024-01-01', '2024-01-01', 0),
-	(4, N'TP Hồ Chí Minh', N'Quận 9', N'Phước Long', N'891', N'Nhà số 891, đường Phước Long, Quận 9', N'Nguyễn Văn C', N'admin', N'admin', '2024-01-01', '2024-01-01', 0);
-
--- Địa chỉ cho khách hàng 
-INSERT INTO [dbo].[dia_chi] ([idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai])
-VALUES
-	(5, N'TP Hồ Chí Minh', N'Quận 10', N'Tân Bình', N'357', N'Nhà số 357, đường Tân Bình, Quận 10', N'Trần Thị D', N'admin', N'admin', '2024-01-01', '2024-01-01', 1),
-	(5, N'TP Hồ Chí Minh', N'Quận 11', N'Tân Phú', N'684', N'Nhà số 684, đường Tân Phú, Quận 11', N'Trần Thị D', N'admin', N'admin', '2024-01-01', '2024-01-01', 0),
-	(5, N'TP Hồ Chí Minh', N'Quận 12', N'Phước Long', N'987', N'Nhà số 987, đường Phước Long, Quận 12', N'Trần Thị D', N'admin', N'admin', '2024-01-01', '2024-01-01', 0);
+	(3, N'TP Hà Nội', N'Quận Ba Đình', N'Kim Mã', N'Ngõ 21', N'Nhà số 321, đường Kim Mã, Quận Ba Đình', N'Trần Văn B', N'admin', N'admin', '2024-01-01', '2024-01-01', 1),
+	(3, N'TP Hà Nội', N'Quận Hoàng Mai', N'Đại Kim', N'Ngõ 22', N'Nhà số 654, đường Đại Kim, Quận Hoàng Mai', N'Trần Văn B', N'admin', N'admin', '2024-01-01', '2024-01-01', 0),
+	(3, N'TP Hà Nội', N'Quận Long Biên', N'Ngọc Thụy', N'Ngõ 23', N'Nhà số 987, đường Ngọc Thụy, Quận Long Biên', N'Trần Văn B', N'admin', N'admin' ,'2024-01-01', '2024-01-01', 0);
 
 -- Địa chỉ cho khách hàng 
 INSERT INTO [dbo].[dia_chi] ([idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai])
 VALUES
 	-- Địa chỉ cho khách hàng
-	(6, N'TP Hồ Chí Minh', N'Quận 1', N'Bến Nghé', N'123', N'Nhà số 123, đường Bến Nghé, Quận 1', N'Nguyễn Văn An', N'admin', N'admin', '2024-01-01', '2024-01-01', 1),
-	(6, N'TP Hồ Chí Minh', N'Quận 2', N'Thảo Điền', N'456', N'Nhà số 456, đường Thảo Điền, Quận 2', N'Nguyễn Văn An', N'admin', N'admin', '2024-01-01', '2024-01-01', 0),
-	(7, N'TP Hồ Chí Minh', N'Quận 3', N'Phú Nhuận', N'789', N'Nhà số 789, đường Phú Nhuận, Quận 3', N'Nguyễn Văn An', N'admin', N'admin', '2024-01-01', '2024-01-01', 0),
+	(4, N'TP Hà Nội', N'Quận Thanh Xuân', N'Nhân Chính', N'Ngõ 31', N'Nhà số 246, đường Nhân Chính, Quận Thanh Xuân', N'Nguyễn Văn C', N'admin', N'admin', '2024-01-01', '2024-01-01', 1),
+	(4, N'TP Hà Nội', N'Quận Tây Hồ', N'Nhật Tân', N'Ngõ 32', N'Nhà số 579, đường Nhật Tân, Quận Tây Hồ', N'Nguyễn Văn C', N'admin', N'admin', '2024-01-01', '2024-01-01', 0),
+	(4, N'TP Hà Nội', N'Quận Hoài Đức', N'Đại Mỗ', N'Ngõ 33', N'Nhà số 891, đường Đại Mỗ, Quận Hoài Đức', N'Nguyễn Văn C', N'admin', N'admin', '2024-01-01', '2024-01-01', 0);
+
+-- Địa chỉ cho khách hàng 
+INSERT INTO [dbo].[dia_chi] ([idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai])
+VALUES
+	-- Địa chỉ cho khách hàng
+	(5, N'TP Hà Nội', N'Quận Hoàn Kiếm', N'Phan Chu Trinh', N'Ngõ 41', N'Nhà số 357, đường Phan Chu Trinh, Quận Hoàn Kiếm', N'Trần Thị D', N'admin', N'admin', '2024-01-01', '2024-01-01', 1),
+	(5, N'TP Hà Nội', N'Quận Ba Đình', N'Kim Mã', N'Ngõ 42', N'Nhà số 684, đường Kim Mã, Quận Ba Đình', N'Trần Thị D', N'admin', N'admin', '2024-01-01', '2024-01-01', 0),
+	(5, N'TP Hà Nội', N'Quận Hoàng Mai', N'Đại Kim', N'Ngõ 43', N'Nhà số 987, đường Đại Kim, Quận Hoàng Mai', N'Trần Thị D', N'admin', N'admin', '2024-01-01', '2024-01-01', 0);
+
+-- Địa chỉ cho khách hàng 
+INSERT INTO [dbo].[dia_chi] ([idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai])
+VALUES
+	-- Địa chỉ cho khách hàng
+	(6, N'TP Hà Nội', N'Quận Hoàn Kiếm', N'Phan Chu Trinh', N'Ngõ 51', N'Nhà số 123, đường Phan Chu Trinh, Quận Hoàn Kiếm', N'Nguyễn Văn An', N'admin', N'admin', '2024-01-01', '2024-01-01', 1),
+	(6, N'TP Hà Nội', N'Quận Cầu Giấy', N'Dịch Vọng', N'Ngõ 52', N'Nhà số 456, đường Dịch Vọng, Quận Cầu Giấy', N'Nguyễn Văn An', N'admin', N'admin', '2024-01-01', '2024-01-01', 0),
+	(7, N'TP Hà Nội', N'Quận Đống Đa', N'Khâm Thiên', N'Ngõ 53', N'Nhà số 789, đường Khâm Thiên, Quận Đống Đa', N'Nguyễn Văn An', N'admin', N'admin', '2024-01-01', '2024-01-01', 0),
 
 	-- Địa chỉ cho khách hàng
-	(8, N'TP Hồ Chí Minh', N'Quận 4', N'Tân Kiểng', N'321', N'Nhà số 321, đường Tân Kiểng, Quận 4', N'Trần Văn B', N'admin', N'admin', '2024-01-01', '2024-01-01', 1),
-	(9, N'TP Hồ Chí Minh', N'Quận 5', N'An Hội', N'654', N'Nhà số 654, đường An Hội, Quận 5', N'Trần Văn B', N'admin', N'admin', '2024-01-01', '2024-01-01', 0),
-	(10, N'TP Hồ Chí Minh', N'Quận 6', N'Phạm Văn Hai', N'987', N'Nhà số 987, đường Phạm Văn Hai, Quận 6', N'Trần Văn B', N'admin', N'admin','2024-01-01', '2024-01-01', 0)
+	(8, N'TP Hà Nội', N'Quận Ba Đình', N'Kim Mã', N'Ngõ 61', N'Nhà số 321, đường Kim Mã, Quận Ba Đình', N'Trần Văn B', N'admin', N'admin', '2024-01-01', '2024-01-01', 1),
+	(9, N'TP Hà Nội', N'Quận Hoàng Mai', N'Đại Kim', N'Ngõ 62', N'Nhà số 654, đường Đại Kim, Quận Hoàng Mai', N'Trần Văn B', N'admin', N'admin', '2024-01-01', '2024-01-01', 0),
+	(10, N'TP Hà Nội', N'Quận Long Biên', N'Ngọc Thụy', N'Ngõ 63', N'Nhà số 987, đường Ngọc Thụy, Quận Long Biên', N'Trần Văn B', N'admin', N'admin','2024-01-01', '2024-01-01', 0);
 
 ----------------------------------------------------------------------------------------------------------------------------------------
-
 
 
 -- Nhân Viên 31 dữ liệu ----------------------------------------------------------------------------------------------------------------------------------------
@@ -299,12 +300,12 @@ INSERT INTO [dbo].[kich_co] (
 
 
 
--- Màu sắc 30 dữ liệu ----------------------------------------------------------------------------------------------------------------------------------------
+-- Màu sắc 15 dữ liệu ----------------------------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO [dbo].[mau_sac] (
     [ten], [ngayTao], [ngayCapNhat], [nguoiTao], [nguoiCapNhat], [trangThai]
 ) VALUES
-    ('#000000', '2024-01-01 08:00:00', '2024-01-01 08:00:00', 'admin', 'admin', 1), -- Đen
+	('#000000', '2024-01-01 08:00:00', '2024-01-01 08:00:00', 'admin', 'admin', 1), -- Đen
     ('#FFFFFF', '2024-01-02 08:00:00', '2024-01-02 08:00:00', 'admin', 'admin', 1), -- Trắng
     ('#FF0000', '2024-01-03 08:00:00', '2024-01-03 08:00:00', 'admin', 'admin', 1), -- Đỏ
     ('#00FF00', '2024-01-04 08:00:00', '2024-01-04 08:00:00', 'admin', 'admin', 1), -- Xanh lá
@@ -334,6 +335,7 @@ INSERT INTO [dbo].[mau_sac] (
     ('#B0C4DE', '2024-01-28 08:00:00', '2024-01-28 08:00:00', 'admin', 'admin', 1), -- Xanh dương nhạt
     ('#FF00FF', '2024-01-29 08:00:00', '2024-01-29 08:00:00', 'admin', 'admin', 1), -- Hồng cánh sen
     ('#00FA9A', '2024-01-30 08:00:00', '2024-01-30 08:00:00', 'admin', 'admin', 1); -- Xanh biển
+
     
 ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -344,36 +346,37 @@ INSERT INTO [dbo].[mau_sac] (
 INSERT INTO [dbo].[co_giay] (
     [ten], [ngayTao], [ngayCapNhat], [nguoiTao], [nguoiCapNhat], [trangThai]
 ) VALUES
-    (N'Giày sneaker', '2024-01-01 08:00:00', '2024-01-01 08:00:00', 'admin', 'admin', 1),
-    (N'Giày cao gót', '2024-01-02 08:00:00', '2024-01-02 08:00:00', 'admin', 'admin', 1),
-    (N'Giày thể thao', '2024-01-03 08:00:00', '2024-01-03 08:00:00', 'admin', 'admin', 1),
-    (N'Giày lười', '2024-01-04 08:00:00', '2024-01-04 08:00:00', 'admin', 'admin', 1),
-    (N'Giày búp bê', '2024-01-05 08:00:00', '2024-01-05 08:00:00', 'admin', 'admin', 1),
-    (N'Giày sandal', '2024-01-06 08:00:00', '2024-01-06 08:00:00', 'admin', 'admin', 1),
-    (N'Giày dép', '2024-01-07 08:00:00', '2024-01-07 08:00:00', 'admin', 'admin', 1),
-    (N'Giày chạy bộ', '2024-01-08 08:00:00', '2024-01-08 08:00:00', 'admin', 'admin', 1),
-    (N'Giày bóng đá', '2024-01-09 08:00:00', '2024-01-09 08:00:00', 'admin', 'admin', 1),
-    (N'Giày đế vuông', '2024-01-10 08:00:00', '2024-01-10 08:00:00', 'admin', 'admin', 1),
-    (N'Giày đế bệt', '2024-01-11 08:00:00', '2024-01-11 08:00:00', 'admin', 'admin', 1),
-    (N'Giày cổ cao', '2024-01-12 08:00:00', '2024-01-12 08:00:00', 'admin', 'admin', 1),
-    (N'Giày cổ thấp', '2024-01-13 08:00:00', '2024-01-13 08:00:00', 'admin', 'admin', 1),
-    (N'Giày slip-on', '2024-01-14 08:00:00', '2024-01-14 08:00:00', 'admin', 'admin', 1),
-    (N'Giày leo núi', '2024-01-15 08:00:00', '2024-01-15 08:00:00', 'admin', 'admin', 1),
-    (N'Giày ông địa', '2024-01-16 08:00:00', '2024-01-16 08:00:00', 'admin', 'admin', 1),
-    (N'Giày bảo hộ', '2024-01-17 08:00:00', '2024-01-17 08:00:00', 'admin', 'admin', 1),
-    (N'Giày vải', '2024-01-18 08:00:00', '2024-01-18 08:00:00', 'admin', 'admin', 1),
-    (N'Giày da', '2024-01-19 08:00:00', '2024-01-19 08:00:00', 'admin', 'admin', 1),
-    (N'Giày lụa', '2024-01-20 08:00:00', '2024-01-20 08:00:00', 'admin', 'admin', 1),
-    (N'Giày nhựa', '2024-01-21 08:00:00', '2024-01-21 08:00:00', 'admin', 'admin', 1),
-    (N'Giày gấu', '2024-01-22 08:00:00', '2024-01-22 08:00:00', 'admin', 'admin', 1),
-    (N'Giày thảm', '2024-01-23 08:00:00', '2024-01-23 08:00:00', 'admin', 'admin', 1),
-    (N'Giày sợi tre', '2024-01-24 08:00:00', '2024-01-24 08:00:00', 'admin', 'admin', 1),
-    (N'Giày kim loại', '2024-01-25 08:00:00', '2024-01-25 08:00:00', 'admin', 'admin', 1),
-    (N'Giày bạc', '2024-01-26 08:00:00', '2024-01-26 08:00:00', 'admin', 'admin', 1),
-    (N'Giày đồng', '2024-01-27 08:00:00', '2024-01-27 08:00:00', 'admin', 'admin', 1),
-    (N'Giày đen', '2024-01-28 08:00:00', '2024-01-28 08:00:00', 'admin', 'admin', 1),
-    (N'Giày nâu', '2024-01-29 08:00:00', '2024-01-29 08:00:00', 'admin', 'admin', 1),
-    (N'Giày xanh', '2024-01-30 08:00:00', '2024-01-30 08:00:00', 'admin', 'admin', 1);
+    (N'Giày cổ thấp', '2024-01-01 08:00:00', '2024-01-01 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ cao', '2024-01-02 08:00:00', '2024-01-02 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ vừa', '2024-01-03 08:00:00', '2024-01-03 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ lửng', '2024-01-04 08:00:00', '2024-01-04 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ xẻ', '2024-01-05 08:00:00', '2024-01-05 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ trễ', '2024-01-06 08:00:00', '2024-01-06 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ cao gót', '2024-01-07 08:00:00', '2024-01-07 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ ngắn', '2024-01-08 08:00:00', '2024-01-08 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ thấp lưng', '2024-01-09 08:00:00', '2024-01-09 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ cao lưng', '2024-01-10 08:00:00', '2024-01-10 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ thả', '2024-01-11 08:00:00', '2024-01-11 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ vừa lưng', '2024-01-12 08:00:00', '2024-01-12 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ sụp', '2024-01-13 08:00:00', '2024-01-13 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ thô', '2024-01-14 08:00:00', '2024-01-14 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ mảnh', '2024-01-15 08:00:00', '2024-01-15 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ nhung', '2024-01-16 08:00:00', '2024-01-16 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ da', '2024-01-17 08:00:00', '2024-01-17 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ lưới', '2024-01-18 08:00:00', '2024-01-18 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ bông', '2024-01-19 08:00:00', '2024-01-19 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ vải', '2024-01-20 08:00:00', '2024-01-20 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ cao bản lớn', '2024-01-21 08:00:00', '2024-01-21 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ thấp bản lớn', '2024-01-22 08:00:00', '2024-01-22 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ chéo', '2024-01-23 08:00:00', '2024-01-23 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ chữ V', '2024-01-24 08:00:00', '2024-01-24 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ hình chữ U', '2024-01-25 08:00:00', '2024-01-25 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ cao dạng boot', '2024-01-26 08:00:00', '2024-01-26 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ thấp dạng boot', '2024-01-27 08:00:00', '2024-01-27 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ mở', '2024-01-28 08:00:00', '2024-01-28 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ kín', '2024-01-29 08:00:00', '2024-01-29 08:00:00', 'admin', 'admin', 1),
+    (N'Giày cổ bít', '2024-01-30 08:00:00', '2024-01-30 08:00:00', 'admin', 'admin', 1);
+
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -385,35 +388,37 @@ INSERT INTO [dbo].[chat_lieu] (
     [ten], [ngayTao], [ngayCapNhat], [nguoiTao], [nguoiCapNhat], [trangThai]
 ) VALUES
     (N'Vải', '2024-01-01 08:00:00', '2024-01-01 08:00:00', 'admin', 'admin', 1),
-    (N'Đế cao su', '2024-01-02 08:00:00', '2024-01-02 08:00:00', 'admin', 'admin', 1),
-    (N'Đế da', '2024-01-03 08:00:00', '2024-01-03 08:00:00', 'admin', 'admin', 1),
-    (N'Nhựa', '2024-01-04 08:00:00', '2024-01-04 08:00:00', 'admin', 'admin', 1),
-    (N'Gỗ', '2024-01-05 08:00:00', '2024-01-05 08:00:00', 'admin', 'admin', 1),
-    (N'Lụa', '2024-01-06 08:00:00', '2024-01-06 08:00:00', 'admin', 'admin', 1),
-    (N'Kim loại', '2024-01-07 08:00:00', '2024-01-07 08:00:00', 'admin', 'admin', 1),
-    (N'Sợi tre', '2024-01-08 08:00:00', '2024-01-08 08:00:00', 'admin', 'admin', 1),
-    (N'Da', '2024-01-09 08:00:00', '2024-01-09 08:00:00', 'admin', 'admin', 1),
-    (N'Lông vũ', '2024-01-10 08:00:00', '2024-01-10 08:00:00', 'admin', 'admin', 1),
-    (N'Nhung', '2024-01-11 08:00:00', '2024-01-11 08:00:00', 'admin', 'admin', 1),
-    (N'Cao su', '2024-01-12 08:00:00', '2024-01-12 08:00:00', 'admin', 'admin', 1),
-    (N'Vải dù', '2024-01-13 08:00:00', '2024-01-13 08:00:00', 'admin', 'admin', 1),
-    (N'Bố', '2024-01-14 08:00:00', '2024-01-14 08:00:00', 'admin', 'admin', 1),
-    (N'Thun', '2024-01-15 08:00:00', '2024-01-15 08:00:00', 'admin', 'admin', 1),
-    (N'Linh kiện điện tử', '2024-01-16 08:00:00', '2024-01-16 08:00:00', 'admin', 'admin', 1),
-    (N'Đá', '2024-01-17 08:00:00', '2024-01-17 08:00:00', 'admin', 'admin', 1),
-    (N'Gốm sứ', '2024-01-18 08:00:00', '2024-01-18 08:00:00', 'admin', 'admin', 1),
-    (N'Đá quý', '2024-01-19 08:00:00', '2024-01-19 08:00:00', 'admin', 'admin', 1),
-    (N'Ngọc trai', '2024-01-20 08:00:00', '2024-01-20 08:00:00', 'admin', 'admin', 1),
-    (N'Vàng', '2024-01-21 08:00:00', '2024-01-21 08:00:00', 'admin', 'admin', 1),
-    (N'Bạc', '2024-01-22 08:00:00', '2024-01-22 08:00:00', 'admin', 'admin', 1),
-    (N'Kim cương', '2024-01-23 08:00:00', '2024-01-23 08:00:00', 'admin', 'admin', 1),
-    (N'Chất liệu tổng hợp', '2024-01-24 08:00:00', '2024-01-24 08:00:00', 'admin', 'admin', 1),
-    (N'Si', '2024-01-25 08:00:00', '2024-01-25 08:00:00', 'admin', 'admin', 1),
-    (N'Tăm', '2024-01-26 08:00:00', '2024-01-26 08:00:00', 'admin', 'admin', 1),
-    (N'Cao cấp', '2024-01-27 08:00:00', '2024-01-27 08:00:00', 'admin', 'admin', 1),
-    (N'Bình dân', '2024-01-28 08:00:00', '2024-01-28 08:00:00', 'admin', 'admin', 1),
-    (N'Sang trọng', '2024-01-29 08:00:00', '2024-01-29 08:00:00', 'admin', 'admin', 1),
-    (N'Thông dụng', '2024-01-30 08:00:00', '2024-01-30 08:00:00', 'admin', 'admin', 1);
+    (N'Da bò', '2024-01-02 08:00:00', '2024-01-02 08:00:00', 'admin', 'admin', 1),
+    (N'Da lộn', '2024-01-03 08:00:00', '2024-01-03 08:00:00', 'admin', 'admin', 1),
+    (N'Nhựa PVC', '2024-01-04 08:00:00', '2024-01-04 08:00:00', 'admin', 'admin', 1),
+    (N'Gore-Tex', '2024-01-05 08:00:00', '2024-01-05 08:00:00', 'admin', 'admin', 1),
+    (N'Synthetic leather', '2024-01-06 08:00:00', '2024-01-06 08:00:00', 'admin', 'admin', 1),
+    (N'Chất liệu mesh', '2024-01-07 08:00:00', '2024-01-07 08:00:00', 'admin', 'admin', 1),
+    (N'Chất liệu Nubuck', '2024-01-08 08:00:00', '2024-01-08 08:00:00', 'admin', 'admin', 1),
+    (N'Đế cao su', '2024-01-09 08:00:00', '2024-01-09 08:00:00', 'admin', 'admin', 1),
+    (N'Đế EVA', '2024-01-10 08:00:00', '2024-01-10 08:00:00', 'admin', 'admin', 1),
+    (N'Chất liệu Canvas', '2024-01-11 08:00:00', '2024-01-11 08:00:00', 'admin', 'admin', 1),
+    (N'Vải dù', '2024-01-12 08:00:00', '2024-01-12 08:00:00', 'admin', 'admin', 1),
+    (N'Vải lưới', '2024-01-13 08:00:00', '2024-01-13 08:00:00', 'admin', 'admin', 1),
+    (N'Gai', '2024-01-14 08:00:00', '2024-01-14 08:00:00', 'admin', 'admin', 1),
+    (N'Lụa', '2024-01-15 08:00:00', '2024-01-15 08:00:00', 'admin', 'admin', 1),
+    (N'Sợi tre', '2024-01-16 08:00:00', '2024-01-16 08:00:00', 'admin', 'admin', 1),
+    (N'Chất liệu vi sợi', '2024-01-17 08:00:00', '2024-01-17 08:00:00', 'admin', 'admin', 1),
+    (N'Bông', '2024-01-18 08:00:00', '2024-01-18 08:00:00', 'admin', 'admin', 1),
+    (N'Lông cừu', '2024-01-19 08:00:00', '2024-01-19 08:00:00', 'admin', 'admin', 1),
+    (N'Da PU', '2024-01-20 08:00:00', '2024-01-20 08:00:00', 'admin', 'admin', 1),
+    (N'Vải thun', '2024-01-21 08:00:00', '2024-01-21 08:00:00', 'admin', 'admin', 1),
+    (N'Gai', '2024-01-22 08:00:00', '2024-01-22 08:00:00', 'admin', 'admin', 1),
+    (N'Da cừu', '2024-01-23 08:00:00', '2024-01-23 08:00:00', 'admin', 'admin', 1),
+    (N'Vải polyamide', '2024-01-24 08:00:00', '2024-01-24 08:00:00', 'admin', 'admin', 1),
+    (N'Vải polyester', '2024-01-25 08:00:00', '2024-01-25 08:00:00', 'admin', 'admin', 1),
+    (N'Chất liệu chống nước', '2024-01-26 08:00:00', '2024-01-26 08:00:00', 'admin', 'admin', 1),
+    (N'Vải chống thấm', '2024-01-27 08:00:00', '2024-01-27 08:00:00', 'admin', 'admin', 1),
+    (N'Vải oxford', '2024-01-28 08:00:00', '2024-01-28 08:00:00', 'admin', 'admin', 1),
+    (N'Da lộn nubuck', '2024-01-29 08:00:00', '2024-01-29 08:00:00', 'admin', 'admin', 1),
+    (N'Chất liệu lưới', '2024-01-30 08:00:00', '2024-01-30 08:00:00', 'admin', 'admin', 1),
+    (N'Vải trơn', '2024-01-31 08:00:00', '2024-01-31 08:00:00', 'admin', 'admin', 1);
+
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -545,36 +550,37 @@ INSERT INTO [dbo].[thuong_hieu] (
 INSERT INTO [dbo].[san_pham] (
     [ten], [idThuongHieu], [moTa], [ngayTao], [ngayCapNhat], [nguoiTao], [nguoiCapNhat], [trangThai]
 ) VALUES
-    (N'Sản phẩm 1', 1, N'Mô tả sản phẩm 1', '2024-01-01 08:00:00', '2024-01-01 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 2', 2, N'Mô tả sản phẩm 2', '2024-01-02 08:00:00', '2024-01-02 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 3', 3, N'Mô tả sản phẩm 3', '2024-01-03 08:00:00', '2024-01-03 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 4', 4, N'Mô tả sản phẩm 4', '2024-01-04 08:00:00', '2024-01-04 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 5', 5, N'Mô tả sản phẩm 5', '2024-01-05 08:00:00', '2024-01-05 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 6', 6, N'Mô tả sản phẩm 6', '2024-01-06 08:00:00', '2024-01-06 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 7', 7, N'Mô tả sản phẩm 7', '2024-01-07 08:00:00', '2024-01-07 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 8', 8, N'Mô tả sản phẩm 8', '2024-01-08 08:00:00', '2024-01-08 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 9', 9, N'Mô tả sản phẩm 9', '2024-01-09 08:00:00', '2024-01-09 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 10', 10, N'Mô tả sản phẩm 10', '2024-01-10 08:00:00', '2024-01-10 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 11', 11, N'Mô tả sản phẩm 11', '2024-01-11 08:00:00', '2024-01-11 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 12', 12, N'Mô tả sản phẩm 12', '2024-01-12 08:00:00', '2024-01-12 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 13', 13, N'Mô tả sản phẩm 13', '2024-01-13 08:00:00', '2024-01-13 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 14', 14, N'Mô tả sản phẩm 14', '2024-01-14 08:00:00', '2024-01-14 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 15', 15, N'Mô tả sản phẩm 15', '2024-01-15 08:00:00', '2024-01-15 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 16', 16, N'Mô tả sản phẩm 16', '2024-01-16 08:00:00', '2024-01-16 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 17', 17, N'Mô tả sản phẩm 17', '2024-01-17 08:00:00', '2024-01-17 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 18', 18, N'Mô tả sản phẩm 18', '2024-01-18 08:00:00', '2024-01-18 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 19', 19, N'Mô tả sản phẩm 19', '2024-01-19 08:00:00', '2024-01-19 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 20', 20, N'Mô tả sản phẩm 20', '2024-01-20 08:00:00', '2024-01-20 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 21', 21, N'Mô tả sản phẩm 21', '2024-01-21 08:00:00', '2024-01-21 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 22', 22, N'Mô tả sản phẩm 22', '2024-01-22 08:00:00', '2024-01-22 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 23', 23, N'Mô tả sản phẩm 23', '2024-01-23 08:00:00', '2024-01-23 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 24', 24, N'Mô tả sản phẩm 24', '2024-01-24 08:00:00', '2024-01-24 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 25', 25, N'Mô tả sản phẩm 25', '2024-01-25 08:00:00', '2024-01-25 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 26', 26, N'Mô tả sản phẩm 26', '2024-01-26 08:00:00', '2024-01-26 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 27', 27, N'Mô tả sản phẩm 27', '2024-01-27 08:00:00', '2024-01-27 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 28', 28, N'Mô tả sản phẩm 28', '2024-01-28 08:00:00', '2024-01-28 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 29', 29, N'Mô tả sản phẩm 29', '2024-01-29 08:00:00', '2024-01-29 08:00:00', 'admin', 'admin', 1),
-    (N'Sản phẩm 30', 30, N'Mô tả sản phẩm 30', '2024-01-30 08:00:00', '2024-01-30 08:00:00', 'admin', 'admin', 1);
+    (N'Nike Air Force 1', 1, N'Giày thể thao phổ biến của Nike', '2024-01-01 08:00:00', '2024-01-01 08:00:00', 'admin', 'admin', 1),
+    (N'Adidas Ultraboost 22', 2, N'Giày chạy bộ hiệu suất cao của Adidas', '2024-01-02 08:00:00', '2024-01-02 08:00:00', 'admin', 'admin', 1),
+    (N'Converse Chuck Taylor All Star', 3, N'Giày vải cổ điển của Converse', '2024-01-03 08:00:00', '2024-01-03 08:00:00', 'admin', 'admin', 1),
+    (N'Puma Suede Classic', 4, N'Mẫu giày cổ điển của Puma', '2024-01-04 08:00:00', '2024-01-04 08:00:00', 'admin', 'admin', 1),
+    (N'Vans Old Skool', 5, N'Mẫu giày trượt ván biểu tượng của Vans', '2024-01-05 08:00:00', '2024-01-05 08:00:00', 'admin', 'admin', 1),
+    (N'New Balance 574', 6, N'Giày thể thao phong cách của New Balance', '2024-01-06 08:00:00', '2024-01-06 08:00:00', 'admin', 'admin', 1),
+    (N'Reebok Club C 85', 7, N'Mẫu giày thể thao cổ điển của Reebok', '2024-01-07 08:00:00', '2024-01-07 08:00:00', 'admin', 'admin', 1),
+    (N'Asics Gel-Kayano 29', 8, N'Giày chạy bộ hỗ trợ của Asics', '2024-01-08 08:00:00', '2024-01-08 08:00:00', 'admin', 'admin', 1),
+    (N'Jordan 1 Retro High', 9, N'Mẫu giày bóng rổ nổi tiếng của Jordan', '2024-01-09 08:00:00', '2024-01-09 08:00:00', 'admin', 'admin', 1),
+    (N'Fila Disruptor II', 10, N'Giày thể thao thời trang của Fila', '2024-01-10 08:00:00', '2024-01-10 08:00:00', 'admin', 'admin', 1),
+    (N'Skechers D’Lites', 11, N'Giày thể thao đế dày của Skechers', '2024-01-11 08:00:00', '2024-01-11 08:00:00', 'admin', 'admin', 1),
+    (N'Saucony Jazz Original', 12, N'Giày thể thao cổ điển của Saucony', '2024-01-12 08:00:00', '2024-01-12 08:00:00', 'admin', 'admin', 1),
+    (N'Under Armour HOVR Phantom 2', 13, N'Giày chạy bộ hiệu suất cao của Under Armour', '2024-01-13 08:00:00', '2024-01-13 08:00:00', 'admin', 'admin', 1),
+    (N'Balenciaga Triple S', 14, N'Giày thể thao đế dày cao cấp của Balenciaga', '2024-01-14 08:00:00', '2024-01-14 08:00:00', 'admin', 'admin', 1),
+    (N'Gucci Ace Sneaker', 15, N'Giày thể thao thời trang cao cấp của Gucci', '2024-01-15 08:00:00', '2024-01-15 08:00:00', 'admin', 'admin', 1),
+    (N'Common Projects Achilles Low', 16, N'Giày thể thao tối giản của Common Projects', '2024-01-16 08:00:00', '2024-01-16 08:00:00', 'admin', 'admin', 1),
+    (N'Golden Goose Superstar', 17, N'Giày thể thao thời trang đặc trưng của Golden Goose', '2024-01-17 08:00:00', '2024-01-17 08:00:00', 'admin', 'admin', 1),
+    (N'Onitsuka Tiger Mexico 66', 18, N'Mẫu giày cổ điển của Onitsuka Tiger', '2024-01-18 08:00:00', '2024-01-18 08:00:00', 'admin', 'admin', 1),
+    (N'Hoka One One Bondi 7', 19, N'Giày chạy bộ đệm dày của Hoka One One', '2024-01-19 08:00:00', '2024-01-19 08:00:00', 'admin', 'admin', 1),
+    (N'Lacoste Carnaby Evo', 20, N'Giày thể thao phong cách của Lacoste', '2024-01-20 08:00:00', '2024-01-20 08:00:00', 'admin', 'admin', 1),
+    (N'Timberland 6-Inch Premium Boot', 21, N'Giày boot cổ điển của Timberland', '2024-01-21 08:00:00', '2024-01-21 08:00:00', 'admin', 'admin', 1),
+    (N'Toms Alpargata', 22, N'Giày vải thoải mái của Toms', '2024-01-22 08:00:00', '2024-01-22 08:00:00', 'admin', 'admin', 1),
+    (N'Ugg Classic Mini II', 23, N'Giày boot da cừu của Ugg', '2024-01-23 08:00:00', '2024-01-23 08:00:00', 'admin', 'admin', 1),
+    (N'Superga 2750 Cotu Classic', 24, N'Giày thể thao vải của Superga', '2024-01-24 08:00:00', '2024-01-24 08:00:00', 'admin', 'admin', 1),
+    (N'Birkenstock Arizona', 25, N'Dép sandal nổi tiếng của Birkenstock', '2024-01-25 08:00:00', '2024-01-25 08:00:00', 'admin', 'admin', 1),
+    (N'Veja V-10', 26, N'Giày thể thao thân thiện môi trường của Veja', '2024-01-26 08:00:00', '2024-01-26 08:00:00', 'admin', 'admin', 1),
+    (N'New Balance 990v5', 27, N'Giày thể thao phong cách của New Balance', '2024-01-27 08:00:00', '2024-01-27 08:00:00', 'admin', 'admin', 1),
+    (N'Tehva Original Universal', 28, N'Dép sandal tiện dụng của Tehva', '2024-01-28 08:00:00', '2024-01-28 08:00:00', 'admin', 'admin', 1),
+    (N'Cole Haan Original Grand', 29, N'Giày tây thể thao lịch lãm của Cole Haan', '2024-01-29 08:00:00', '2024-01-29 08:00:00', 'admin', 'admin', 1),
+    (N'Clarks Wallabee', 30, N'Giày lười cổ điển của Clarks', '2024-01-30 08:00:00', '2024-01-30 08:00:00', 'admin', 'admin', 1);
+
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -585,35 +591,126 @@ INSERT INTO [dbo].[san_pham_chi_tiet]
     ([ma], [ten], [soLuong], [barcode], [giaBan], [moTa], [canNang], [ngaySanXuat], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [Anh], [idKichCo], [idMauSac], [idDeGiay], [idChatLieu], [idSanPham], [idCoGiay], [idNhaSanXuat], [trangThai])
 VALUES
     (N'MA001', N'Nike Air Max 1', 100, '1234567890101', 800000, N'Mô tả sản phẩm Nike Air Max 1', 400, '2024-01-01 08:00:00', 'admin', 'admin', '2024-01-01 08:00:00', '2024-01-01 08:00:00', 1, 1, 1, 1, 1, 1, 1, 1, 1),
-    (N'MA002', N'Adidas Ultraboost 21', 200, '1234567890102', 900000, N'Mô tả sản phẩm Adidas Ultraboost 21', 350, '2024-02-01 08:00:00', 'admin', 'admin', '2024-02-01 08:00:00', '2024-02-01 08:00:00', 2, 2, 2, 2, 2, 2, 2, 2, 1),
-    (N'MA003', N'Puma RS-X', 150, '1234567890103', 750000, N'Mô tả sản phẩm Puma RS-X', 300, '2024-03-01 08:00:00', 'admin', 'admin', '2024-03-01 08:00:00', '2024-03-01 08:00:00', 3, 3, 3, 3, 3, 3, 3, 3, 1),
-    (N'MA004', N'Reebok Classic', 120, '1234567890104', 700000, N'Mô tả sản phẩm Reebok Classic', 320, '2024-04-01 08:00:00', 'admin', 'admin', '2024-04-01 08:00:00', '2024-04-01 08:00:00', 4, 4, 4, 4, 4, 4, 4, 4, 1),
-    (N'MA005', N'New Balance 574', 130, '1234567890105', 680000, N'Mô tả sản phẩm New Balance 574', 310, '2024-05-01 08:00:00', 'admin', 'admin', '2024-05-01 08:00:00', '2024-05-01 08:00:00', 5, 5, 5, 5, 5, 5, 5, 5, 1),
-    (N'MA006', N'Asics Gel-Lyte III', 140, '1234567890106', 650000, N'Mô tả sản phẩm Asics Gel-Lyte III', 290, '2024-06-01 08:00:00', 'admin', 'admin', '2024-06-01 08:00:00', '2024-06-01 08:00:00', 6, 6, 6, 6, 6, 6, 6, 6, 1),
-    (N'MA007', N'Jordan 1 Retro', 110, '1234567890107', 1000000, N'Mô tả sản phẩm Jordan 1 Retro', 450, '2024-07-01 08:00:00', 'admin', 'admin', '2024-07-01 08:00:00', '2024-07-01 08:00:00', 7, 7, 7, 7, 7, 7, 7, 7, 1),
-    (N'MA008', N'Converse Chuck Taylor', 160, '1234567890108', 600000, N'Mô tả sản phẩm Converse Chuck Taylor', 280, '2024-08-01 08:00:00', 'admin', 'admin', '2024-08-01 08:00:00', '2024-08-01 08:00:00', 8, 8, 8, 8, 8, 8, 8, 8, 1),
-    (N'MA009', N'Vans Old Skool', 170, '1234567890109', 650000, N'Mô tả sản phẩm Vans Old Skool', 300, '2024-09-01 08:00:00', 'admin', 'admin', '2024-09-01 08:00:00', '2024-09-01 08:00:00', 9, 9, 9, 9, 9, 9, 9, 9, 1),
-    (N'MA010', N'Saucony Jazz', 180, '1234567890110', 670000, N'Mô tả sản phẩm Saucony Jazz', 310, '2024-10-01 08:00:00', 'admin', 'admin', '2024-10-01 08:00:00', '2024-10-01 08:00:00', 10, 10, 10, 10, 10, 10, 10, 10, 1),
-    (N'MA011', N'Skechers DLites', 190, '1234567890111', 680000, N'Mô tả sản phẩm Skechers DLites', 320, '2024-11-01 08:00:00', 'admin', 'admin', '2024-11-01 08:00:00', '2024-11-01 08:00:00', 11, 11, 11, 11, 11, 11, 11, 11, 1),
-    (N'MA012', N'Fila Disruptor', 200, '1234567890112', 690000, N'Mô tả sản phẩm Fila Disruptor', 330, '2024-12-01 08:00:00', 'admin', 'admin', '2024-12-01 08:00:00', '2024-12-01 08:00:00', 12, 12, 12, 12, 12, 12, 12, 12, 1),
-    (N'MA013', N'Under Armour HOVR', 210, '1234567890113', 710000, N'Mô tả sản phẩm Under Armour HOVR', 340, '2024-01-01 08:00:00', 'admin', 'admin', '2024-01-01 08:00:00', '2024-01-01 08:00:00', 13, 13, 13, 13, 13, 13, 13, 13, 1),
-    (N'MA014', N'Champion 93Eighteen', 220, '1234567890114', 720000, N'Mô tả sản phẩm Champion 93Eighteen', 350, '2024-02-01 08:00:00', 'admin', 'admin', '2024-02-01 08:00:00', '2024-02-01 08:00:00', 14, 14, 14, 14, 14, 14, 14, 14, 1),
-    (N'MA015', N'Lacoste Carnaby', 230, '1234567890115', 730000, N'Mô tả sản phẩm Lacoste Carnaby', 360, '2024-03-01 08:00:00', 'admin', 'admin', '2024-03-01 08:00:00', '2024-03-01 08:00:00', 15, 15, 15, 15, 15, 15, 15, 15, 1),
-    (N'MA016', N'Le Coq Sportif', 240, '1234567890116', 740000, N'Mô tả sản phẩm Le Coq Sportif', 370, '2024-04-01 08:00:00', 'admin', 'admin', '2024-04-01 08:00:00', '2024-04-01 08:00:00', 16, 16, 16, 16, 16, 16, 16, 16, 1),
-    (N'MA017', N'Onitsuka Tiger', 250, '1234567890117', 750000, N'Mô tả sản phẩm Onitsuka Tiger', 380, '2024-05-01 08:00:00', 'admin', 'admin', '2024-05-01 08:00:00', '2024-05-01 08:00:00', 17, 17, 17, 17, 17, 17, 17, 17, 1),
-    (N'MA018', N'Hoka One One', 260, '1234567890118', 760000, N'Mô tả sản phẩm Hoka One One', 390, '2024-06-01 08:00:00', 'admin', 'admin', '2024-06-01 08:00:00', '2024-06-01 08:00:00', 18, 18, 18, 18, 18, 18, 18, 18, 1),
-    (N'MA019', N'Altra Lone Peak', 270, '1234567890119', 770000, N'Mô tả sản phẩm Altra Lone Peak', 400, '2024-07-01 08:00:00', 'admin', 'admin', '2024-07-01 08:00:00', '2024-07-01 08:00:00', 19, 19, 19, 19, 19, 19, 19, 19, 1),
-    (N'MA020', N'Brooks Ghost', 280, '1234567890120', 780000, N'Mô tả sản phẩm Brooks Ghost', 410, '2024-08-01 08:00:00', 'admin', 'admin', '2024-08-01 08:00:00', '2024-08-01 08:00:00', 20, 2, 20, 20, 20, 20, 20, 20, 1),
-    (N'MA021', N'K-Swiss Classic', 290, '1234567890121', 790000, N'Mô tả sản phẩm K-Swiss Classic', 420, '2024-09-01 08:00:00', 'admin', 'admin', '2024-09-01 08:00:00', '2024-09-01 08:00:00', 21, 3, 21, 21, 21, 21, 21, 21, 1),
-    (N'MA022', N'Timberland 6-Inch', 300, '1234567890122', 800000, N'Mô tả sản phẩm Timberland 6-Inch', 430, '2024-10-01 08:00:00', 'admin', 'admin', '2024-10-01 08:00:00', '2024-10-01 08:00:00', 22, 4, 22, 22, 22, 22, 22, 22, 1),
-    (N'MA023', N'Clarks Desert Boot', 310, '1234567890123', 810000, N'Mô tả sản phẩm Clarks Desert Boot', 440, '2024-11-01 08:00:00', 'admin', 'admin', '2024-11-01 08:00:00', '2024-11-01 08:00:00', 23, 5, 23, 23, 23, 23, 23, 23, 1),
-    (N'MA024', N'Dr. Martens 1460', 320, '1234567890124', 820000, N'Mô tả sản phẩm Dr. Martens 1460', 450, '2024-12-01 08:00:00', 'admin', 'admin', '2024-12-01 08:00:00', '2024-12-01 08:00:00', 24, 6, 24, 24, 24, 24, 24, 24, 1),
-    (N'MA025', N'Birkenstock Arizona', 330, '1234567890125', 830000, N'Mô tả sản phẩm Birkenstock Arizona', 460, '2024-01-01 08:00:00', 'admin', 'admin', '2024-01-01 08:00:00', '2024-01-01 08:00:00', 25, 7, 25, 25, 25, 25, 25, 25, 1),
-    (N'MA026', N'Ecco Biom', 340, '1234567890126', 840000, N'Mô tả sản phẩm Ecco Biom', 470, '2024-02-01 08:00:00', 'admin', 'admin', '2024-02-01 08:00:00', '2024-02-01 08:00:00', 26, 8, 26, 26, 26, 26, 26, 26, 1),
-    (N'MA027', N'Crocs Classic Clog', 350, '1234567890127', 850000, N'Mô tả sản phẩm Crocs Classic Clog', 480, '2024-03-01 08:00:00', 'admin', 'admin', '2024-03-01 08:00:00', '2024-03-01 08:00:00', 27, 9, 27, 27, 27, 27, 27, 27, 1),
-    (N'MA028', N'Toms Alpargata', 360, '1234567890128', 860000, N'Mô tả sản phẩm Toms Alpargata', 490, '2024-04-01 08:00:00', 'admin', 'admin', '2024-04-01 08:00:00', '2024-04-01 08:00:00', 28, 10, 28, 28, 28, 28, 28, 28, 1),
-    (N'MA029', N'Ugg Classic Short', 370, '1234567890129', 870000, N'Mô tả sản phẩm Ugg Classic Short', 500, '2024-05-01 08:00:00', 'admin', 'admin', '2024-05-01 08:00:00', '2024-05-01 08:00:00', 29, 11, 29, 29, 29, 29, 29, 29, 1),
-    (N'MA030', N'Keen Newport', 380, '1234567890130', 880000, N'Mô tả sản phẩm Keen Newport', 510, '2024-06-01 08:00:00', 'admin', 'admin', '2024-06-01 08:00:00', '2024-06-01 08:00:00', 30, 12, 30, 30, 30, 30, 30, 30, 1);
+    (N'MA002', N'Nike Air Max 270', 120, '1234567890102', 850000, N'Mô tả sản phẩm Nike Air Max 270', 420, '2024-01-10 08:00:00', 'admin', 'admin', '2024-01-10 08:00:00', '2024-01-10 08:00:00', 2, 2, 2, 2, 2, 2, 2, 2, 1),
+    (N'MA003', N'Nike Air Force 1', 150, '1234567890103', 900000, N'Mô tả sản phẩm Nike Air Force 1', 430, '2024-01-20 08:00:00', 'admin', 'admin', '2024-01-20 08:00:00', '2024-01-20 08:00:00', 3, 3, 3, 3, 3, 3, 3, 3, 1),
+    (N'MA004', N'Puma RS-X', 130, '1234567890104', 750000, N'Mô tả sản phẩm Puma RS-X', 310, '2024-01-30 08:00:00', 'admin', 'admin', '2024-01-30 08:00:00', '2024-01-30 08:00:00', 4, 4, 4, 4, 4, 4, 4, 4, 1),
+    (N'MA005', N'Puma Suede Classic', 140, '1234567890105', 700000, N'Mô tả sản phẩm Puma Suede Classic', 320, '2024-02-05 08:00:00', 'admin', 'admin', '2024-02-05 08:00:00', '2024-02-05 08:00:00', 5, 5, 5, 5, 5, 5, 5, 5, 1),
+    (N'MA006', N'Nike SB Dunk Low', 160, '1234567890106', 950000, N'Mô tả sản phẩm Nike SB Dunk Low', 440, '2024-02-15 08:00:00', 'admin', 'admin', '2024-02-15 08:00:00', '2024-02-15 08:00:00', 6, 6, 6, 6, 6, 6, 6, 6, 1),
+    (N'MA007', N'Puma Future Rider', 170, '1234567890107', 780000, N'Mô tả sản phẩm Puma Future Rider', 350, '2024-02-25 08:00:00', 'admin', 'admin', '2024-02-25 08:00:00', '2024-02-25 08:00:00', 7, 7, 7, 7, 7, 7, 7, 7, 1),
+    (N'MA008', N'Nike React Element 55', 180, '1234567890108', 870000, N'Mô tả sản phẩm Nike React Element 55', 460, '2024-03-05 08:00:00', 'admin', 'admin', '2024-03-05 08:00:00', '2024-03-05 08:00:00', 8, 8, 8, 8, 8, 8, 8, 8, 1),
+    (N'MA009', N'Puma Clyde', 190, '1234567890109', 820000, N'Mô tả sản phẩm Puma Clyde', 470, '2024-03-15 08:00:00', 'admin', 'admin', '2024-03-15 08:00:00', '2024-03-15 08:00:00', 9, 9, 9, 9, 9, 9, 9, 9, 1),
+    (N'MA010', N'Nike Air Zoom Pegasus 37', 200, '1234567890110', 900000, N'Mô tả sản phẩm Nike Air Zoom Pegasus 37', 480, '2024-03-25 08:00:00', 'admin', 'admin', '2024-03-25 08:00:00', '2024-03-25 08:00:00', 10, 10, 10, 10, 10, 10, 10, 10, 1),
+    (N'MA011', N'Puma RS 2K', 210, '1234567890111', 740000, N'Mô tả sản phẩm Puma RS 2K', 490, '2024-04-05 08:00:00', 'admin', 'admin', '2024-04-05 08:00:00', '2024-04-05 08:00:00', 11, 11, 11, 11, 11, 11, 11, 11, 1),
+    (N'MA012', N'Nike Air Max 97', 220, '1234567890112', 950000, N'Mô tả sản phẩm Nike Air Max 97', 500, '2024-04-15 08:00:00', 'admin', 'admin', '2024-04-15 08:00:00', '2024-04-15 08:00:00', 12, 12, 12, 12, 12, 12, 12, 12, 1),
+    (N'MA013', N'Puma Thunder Spectra', 230, '1234567890113', 790000, N'Mô tả sản phẩm Puma Thunder Spectra', 510, '2024-04-25 08:00:00', 'admin', 'admin', '2024-04-25 08:00:00', '2024-04-25 08:00:00', 13, 13, 13, 13, 13, 13, 13, 13, 1),
+    (N'MA014', N'Nike Air Max Plus', 240, '1234567890114', 870000, N'Mô tả sản phẩm Nike Air Max Plus', 520, '2024-05-05 08:00:00', 'admin', 'admin', '2024-05-05 08:00:00', '2024-05-05 08:00:00', 14, 14, 14, 14, 14, 14, 14, 14, 1),
+    (N'MA015', N'Puma Cali', 250, '1234567890115', 800000, N'Mô tả sản phẩm Puma Cali', 530, '2024-05-15 08:00:00', 'admin', 'admin', '2024-05-15 08:00:00', '2024-05-15 08:00:00', 15, 15, 15, 15, 15, 15, 15, 15, 1),
+    (N'MA016', N'Nike Air Max 2090', 260, '1234567890116', 920000, N'Mô tả sản phẩm Nike Air Max 2090', 540, '2024-05-25 08:00:00', 'admin', 'admin', '2024-05-25 08:00:00', '2024-05-25 08:00:00', 16, 16, 16, 16, 16, 16, 16, 16, 1),
+    (N'MA017', N'Puma Roma', 270, '1234567890117', 710000, N'Mô tả sản phẩm Puma Roma', 550, '2024-06-05 08:00:00', 'admin', 'admin', '2024-06-05 08:00:00', '2024-06-05 08:00:00', 17, 17, 17, 17, 17, 17, 17, 17, 1),
+    (N'MA018', N'Nike Air Huarache', 280, '1234567890118', 890000, N'Mô tả sản phẩm Nike Air Huarache', 560, '2024-06-15 08:00:00', 'admin', 'admin', '2024-06-15 08:00:00', '2024-06-15 08:00:00', 18, 18, 18, 18, 18, 18, 18, 18, 1),
+    (N'MA019', N'Puma Ignite', 290, '1234567890119', 830000, N'Mô tả sản phẩm Puma Ignite', 570, '2024-06-25 08:00:00', 'admin', 'admin', '2024-06-25 08:00:00', '2024-06-25 08:00:00', 19, 19, 19, 19, 19, 19, 19, 19, 1),
+    (N'MA020', N'Nike Air Zoom Structure', 300, '1234567890120', 910000, N'Mô tả sản phẩm Nike Air Zoom Structure', 580, '2024-07-05 08:00:00', 'admin', 'admin', '2024-07-05 08:00:00', '2024-07-05 08:00:00', 20, 1, 20, 20, 20, 20, 20, 20, 1),
+    (N'MA021', N'Puma Slipstream', 310, '1234567890121', 770000, N'Mô tả sản phẩm Puma Slipstream', 590, '2024-07-15 08:00:00', 'admin', 'admin', '2024-07-15 08:00:00', '2024-07-15 08:00:00', 21, 2, 21, 21, 21, 21, 21, 21, 1),
+    (N'MA022', N'Nike Air Max 720', 320, '1234567890122', 930000, N'Mô tả sản phẩm Nike Air Max 720', 600, '2024-07-25 08:00:00', 'admin', 'admin', '2024-07-25 08:00:00', '2024-07-25 08:00:00', 22, 3, 22, 22, 22, 22, 22, 22, 1),
+    (N'MA023', N'Puma Basket Heart', 330, '1234567890123', 820000, N'Mô tả sản phẩm Puma Basket Heart', 610, '2024-08-05 08:00:00', 'admin', 'admin', '2024-08-05 08:00:00', '2024-08-05 08:00:00', 23, 4, 23, 23, 23, 23, 23, 23, 1),
+    (N'MA024', N'Nike Air Max 90', 340, '1234567890124', 880000, N'Mô tả sản phẩm Nike Air Max 90', 620, '2024-08-15 08:00:00', 'admin', 'admin', '2024-08-15 08:00:00', '2024-08-15 08:00:00', 24, 5, 24, 24, 24, 24, 24, 24, 1),
+    (N'MA025', N'Puma Cali Bold', 350, '1234567890125', 790000, N'Mô tả sản phẩm Puma Cali Bold', 630, '2024-08-25 08:00:00', 'admin', 'admin', '2024-08-25 08:00:00', '2024-08-25 08:00:00', 25, 6, 25, 25, 25, 25, 25, 25, 1),
+    (N'MA026', N'Nike Air Max 200', 360, '1234567890126', 910000, N'Mô tả sản phẩm Nike Air Max 200', 640, '2024-09-05 08:00:00', 'admin', 'admin', '2024-09-05 08:00:00', '2024-09-05 08:00:00', 26, 7, 26, 26, 26, 26, 26, 26, 1),
+    (N'MA027', N'Puma RS 9.8', 370, '1234567890127', 740000, N'Mô tả sản phẩm Puma RS 9.8', 650, '2024-09-15 08:00:00', 'admin', 'admin', '2024-09-15 08:00:00', '2024-09-15 08:00:00', 27, 8, 27, 27, 27, 27, 27, 27, 1),
+    (N'MA028', N'Nike Air Max 95', 380, '1234567890128', 940000, N'Mô tả sản phẩm Nike Air Max 95', 660, '2024-09-25 08:00:00', 'admin', 'admin', '2024-09-25 08:00:00', '2024-09-25 08:00:00', 28, 9, 28, 28, 28, 28, 28, 28, 1),
+    (N'MA029', N'Puma Ultra', 390, '1234567890129', 780000, N'Mô tả sản phẩm Puma Ultra', 670, '2024-10-05 08:00:00', 'admin', 'admin', '2024-10-05 08:00:00', '2024-10-05 08:00:00', 29, 10, 29, 29, 29, 29, 29, 29, 1),
+    (N'MA030', N'Nike Air Zoom Fly', 400, '1234567890130', 960000, N'Mô tả sản phẩm Nike Air Zoom Fly', 680, '2024-10-15 08:00:00', 'admin', 'admin', '2024-10-15 08:00:00', '2024-10-15 08:00:00', 30, 11, 30, 30, 30, 30, 30, 30, 1),
+	(N'MA031', N'Nike Air Max 1', 110, '1234567890131', 810000, N'Mô tả sản phẩm Nike Air Max 1', 405, '2024-10-20 08:00:00', 'admin', 'admin', '2024-10-20 08:00:00', '2024-10-20 08:00:00', 1, 1, 1, 1, 1, 1, 1, 1, 1),
+    (N'MA032', N'Nike Air Max 270', 130, '1234567890132', 860000, N'Mô tả sản phẩm Nike Air Max 270', 425, '2024-10-25 08:00:00', 'admin', 'admin', '2024-10-25 08:00:00', '2024-10-25 08:00:00', 2, 2, 2, 2, 2, 2, 2, 2, 1),
+    (N'MA033', N'Nike Air Force 1', 140, '1234567890133', 910000, N'Mô tả sản phẩm Nike Air Force 1', 435, '2024-11-05 08:00:00', 'admin', 'admin', '2024-11-05 08:00:00', '2024-11-05 08:00:00', 3, 3, 3, 3, 3, 3, 3, 3, 1),
+    (N'MA034', N'Puma RS-X', 150, '1234567890134', 760000, N'Mô tả sản phẩm Puma RS-X', 315, '2024-11-15 08:00:00', 'admin', 'admin', '2024-11-15 08:00:00', '2024-11-15 08:00:00', 4, 4, 4, 4, 4, 4, 4, 4, 1),
+    (N'MA035', N'Puma Suede Classic', 160, '1234567890135', 710000, N'Mô tả sản phẩm Puma Suede Classic', 325, '2024-11-25 08:00:00', 'admin', 'admin', '2024-11-25 08:00:00', '2024-11-25 08:00:00', 5, 5, 5, 5, 5, 5, 5, 5, 1),
+    (N'MA036', N'Nike SB Dunk Low', 170, '1234567890136', 960000, N'Mô tả sản phẩm Nike SB Dunk Low', 445, '2024-12-05 08:00:00', 'admin', 'admin', '2024-12-05 08:00:00', '2024-12-05 08:00:00', 6, 6, 6, 6, 6, 6, 6, 6, 1),
+    (N'MA037', N'Puma Future Rider', 180, '1234567890137', 790000, N'Mô tả sản phẩm Puma Future Rider', 355, '2024-12-15 08:00:00', 'admin', 'admin', '2024-12-15 08:00:00', '2024-12-15 08:00:00', 7, 7, 7, 7, 7, 7, 7, 7, 1),
+    (N'MA038', N'Nike React Element 55', 190, '1234567890138', 880000, N'Mô tả sản phẩm Nike React Element 55', 465, '2024-12-25 08:00:00', 'admin', 'admin', '2024-12-25 08:00:00', '2024-12-25 08:00:00', 8, 8, 8, 8, 8, 8, 8, 8, 1),
+    (N'MA039', N'Puma Clyde', 200, '1234567890139', 830000, N'Mô tả sản phẩm Puma Clyde', 470, '2025-01-05 08:00:00', 'admin', 'admin', '2025-01-05 08:00:00', '2025-01-05 08:00:00', 9, 9, 9, 9, 9, 9, 9, 9, 1),
+    (N'MA040', N'Nike Air Zoom Pegasus 37', 210, '1234567890140', 920000, N'Mô tả sản phẩm Nike Air Zoom Pegasus 37', 480, '2025-01-15 08:00:00', 'admin', 'admin', '2025-01-15 08:00:00', '2025-01-15 08:00:00', 10, 10, 10, 10, 10, 10, 10, 10, 1),
+    (N'MA041', N'Puma RS 2K', 220, '1234567890141', 740000, N'Mô tả sản phẩm Puma RS 2K', 490, '2025-01-25 08:00:00', 'admin', 'admin', '2025-01-25 08:00:00', '2025-01-25 08:00:00', 11, 11, 11, 11, 11, 11, 11, 11, 1),
+    (N'MA042', N'Nike Air Max 97', 230, '1234567890142', 960000, N'Mô tả sản phẩm Nike Air Max 97', 500, '2025-02-05 08:00:00', 'admin', 'admin', '2025-02-05 08:00:00', '2025-02-05 08:00:00', 12, 12, 12, 12, 12, 12, 12, 12, 1),
+    (N'MA043', N'Puma Thunder Spectra', 240, '1234567890143', 800000, N'Mô tả sản phẩm Puma Thunder Spectra', 510, '2025-02-15 08:00:00', 'admin', 'admin', '2025-02-15 08:00:00', '2025-02-15 08:00:00', 13, 13, 13, 13, 13, 13, 13, 13, 1),
+    (N'MA044', N'Nike Air Max Plus', 250, '1234567890144', 890000, N'Mô tả sản phẩm Nike Air Max Plus', 520, '2025-02-25 08:00:00', 'admin', 'admin', '2025-02-25 08:00:00', '2025-02-25 08:00:00', 14, 14, 14, 14, 14, 14, 14, 14, 1),
+    (N'MA045', N'Puma Cali', 260, '1234567890145', 810000, N'Mô tả sản phẩm Puma Cali', 530, '2025-03-05 08:00:00', 'admin', 'admin', '2025-03-05 08:00:00', '2025-03-05 08:00:00', 15, 15, 15, 15, 15, 15, 15, 15, 1),
+    (N'MA046', N'Nike Air Max 2090', 270, '1234567890146', 930000, N'Mô tả sản phẩm Nike Air Max 2090', 540, '2025-03-15 08:00:00', 'admin', 'admin', '2025-03-15 08:00:00', '2025-03-15 08:00:00', 16, 16, 16, 16, 16, 16, 16, 16, 1),
+    (N'MA047', N'Puma Slipstream Lo', 280, '1234567890147', 750000, N'Mô tả sản phẩm Puma Slipstream Lo', 550, '2025-03-25 08:00:00', 'admin', 'admin', '2025-03-25 08:00:00', '2025-03-25 08:00:00', 17, 17, 17, 17, 17, 17, 17, 17, 1),
+    (N'MA048', N'Nike Air Max 1 Premium', 290, '1234567890148', 920000, N'Mô tả sản phẩm Nike Air Max 1 Premium', 560, '2025-04-05 08:00:00', 'admin', 'admin', '2025-04-05 08:00:00', '2025-04-05 08:00:00', 18, 18, 18, 18, 18, 18, 18, 18, 1),
+    (N'MA049', N'Puma Thunder', 300, '1234567890149', 780000, N'Mô tả sản phẩm Puma Thunder', 570, '2025-04-15 08:00:00', 'admin', 'admin', '2025-04-15 08:00:00', '2025-04-15 08:00:00', 19, 19, 19, 19, 19, 19, 19, 19, 1),
+    (N'MA050', N'Nike Air Zoom', 310, '1234567890150', 960000, N'Mô tả sản phẩm Nike Air Zoom', 580, '2025-04-25 08:00:00', 'admin', 'admin', '2025-04-25 08:00:00', '2025-04-25 08:00:00', 20, 1, 20, 20, 20, 20, 20, 20, 1),
+    (N'MA051', N'Puma RS-9', 320, '1234567890151', 740000, N'Mô tả sản phẩm Puma RS-9', 590, '2025-05-05 08:00:00', 'admin', 'admin', '2025-05-05 08:00:00', '2025-05-05 08:00:00', 21, 2, 21, 2, 21, 21, 21, 21, 1),
+    (N'MA052', N'Nike Air Max 270 React', 330, '1234567890152', 900000, N'Mô tả sản phẩm Nike Air Max 270 React', 600, '2025-05-15 08:00:00', 'admin', 'admin', '2025-05-15 08:00:00', '2025-05-15 08:00:00', 22, 3, 22, 22, 22, 22, 22, 22, 1),
+    (N'MA053', N'Puma Trailfox', 340, '1234567890153', 780000, N'Mô tả sản phẩm Puma Trailfox', 610, '2025-05-25 08:00:00', 'admin', 'admin', '2025-05-25 08:00:00', '2025-05-25 08:00:00', 23, 4, 23, 23, 23, 23, 23, 23, 1),
+    (N'MA054', N'Nike Air Max 1', 350, '1234567890154', 950000, N'Mô tả sản phẩm Nike Air Max 1', 620, '2025-06-05 08:00:00', 'admin', 'admin', '2025-06-05 08:00:00', '2025-06-05 08:00:00', 24, 5, 24, 24, 24, 24, 24, 24, 1),
+    (N'MA055', N'Puma RS', 360, '1234567890155', 760000, N'Mô tả sản phẩm Puma RS', 630, '2025-06-15 08:00:00', 'admin', 'admin', '2025-06-15 08:00:00', '2025-06-15 08:00:00', 25, 5, 25, 25, 25, 25, 25, 25, 1),
+    (N'MA056', N'Nike Air VaporMax', 370, '1234567890156', 940000, N'Mô tả sản phẩm Nike Air VaporMax', 640, '2025-06-25 08:00:00', 'admin', 'admin', '2025-06-25 08:00:00', '2025-06-25 08:00:00', 26, 6, 26, 26, 26, 26, 26, 26, 1),
+    (N'MA057', N'Puma Clyde Court', 380, '1234567890157', 850000, N'Mô tả sản phẩm Puma Clyde Court', 650, '2025-07-05 08:00:00', 'admin', 'admin', '2025-07-05 08:00:00', '2025-07-05 08:00:00', 27, 7, 27, 27, 27, 27, 27, 27, 1),
+    (N'MA058', N'Nike Air Force 1 Low', 390, '1234567890158', 900000, N'Mô tả sản phẩm Nike Air Force 1 Low', 660, '2025-07-15 08:00:00', 'admin', 'admin', '2025-07-15 08:00:00', '2025-07-15 08:00:00', 28, 8, 28, 28, 28, 28, 28, 28, 1),
+    (N'MA059', N'Puma Smash', 400, '1234567890159', 720000, N'Mô tả sản phẩm Puma Smash', 670, '2025-07-25 08:00:00', 'admin', 'admin', '2025-07-25 08:00:00', '2025-07-25 08:00:00', 29, 9, 29, 29, 29, 29, 29, 29, 1),
+    (N'MA060', N'Nike Air Max 720', 410, '1234567890160', 950000, N'Mô tả sản phẩm Nike Air Max 720', 680, '2025-08-05 08:00:00', 'admin', 'admin', '2025-08-05 08:00:00', '2025-08-05 08:00:00', 30, 10, 30, 30, 30, 30, 30, 30, 1),
+	 (N'MA061', N'Nike Air Max 90', 300, '1234567890131', 850000, N'Mô tả sản phẩm Nike Air Max 90', 350, '2025-01-01 08:00:00', 'admin', 'admin', '2025-01-01 08:00:00', '2025-01-01 08:00:00', 1, 1, 1, 1, 1, 1, 1, 1, 1),
+    (N'MA062', N'Nike Air Force 1', 320, '1234567890132', 900000, N'Mô tả sản phẩm Nike Air Force 1', 370, '2025-02-01 08:00:00', 'admin', 'admin', '2025-02-01 08:00:00', '2025-02-01 08:00:00', 2, 2, 2, 2, 2, 2, 2, 2, 1),
+    (N'MA063', N'Nike React Element 55', 340, '1234567890133', 950000, N'Mô tả sản phẩm Nike React Element 55', 390, '2025-03-01 08:00:00', 'admin', 'admin', '2025-03-01 08:00:00', '2025-03-01 08:00:00', 3, 3, 3, 3, 3, 3, 3, 3, 1),
+    (N'MA064', N'Nike Air Vapormax', 360, '1234567890134', 1000000, N'Mô tả sản phẩm Nike Air Vapormax', 410, '2025-04-01 08:00:00', 'admin', 'admin', '2025-04-01 08:00:00', '2025-04-01 08:00:00', 4, 4, 4, 4, 4, 4, 4, 4, 1),
+    (N'MA065', N'Nike SB Dunk Low', 380, '1234567890135', 1100000, N'Mô tả sản phẩm Nike SB Dunk Low', 430, '2025-05-01 08:00:00', 'admin', 'admin', '2025-05-01 08:00:00', '2025-05-01 08:00:00', 5, 5, 5, 5, 5, 5, 5, 5, 1),
+    (N'MA066', N'Puma RS-X³', 400, '1234567890136', 800000, N'Mô tả sản phẩm Puma RS-X³', 350, '2025-06-01 08:00:00', 'admin', 'admin', '2025-06-01 08:00:00', '2025-06-01 08:00:00', 6, 6, 6, 6, 6, 6, 6, 6, 1),
+    (N'MA067', N'Puma Future Rider', 420, '1234567890137', 850000, N'Mô tả sản phẩm Puma Future Rider', 370, '2025-07-01 08:00:00', 'admin', 'admin', '2025-07-01 08:00:00', '2025-07-01 08:00:00', 7, 7, 7, 7, 7, 7, 7, 7, 1),
+    (N'MA068', N'Puma Cell Alien', 440, '1234567890138', 880000, N'Mô tả sản phẩm Puma Cell Alien', 390, '2025-08-01 08:00:00', 'admin', 'admin', '2025-08-01 08:00:00', '2025-08-01 08:00:00', 8, 8, 8, 8, 8, 8, 8, 8, 1),
+    (N'MA069', N'Puma Clyde', 460, '1234567890139', 920000, N'Mô tả sản phẩm Puma Clyde', 410, '2025-09-01 08:00:00', 'admin', 'admin', '2025-09-01 08:00:00', '2025-09-01 08:00:00', 9, 9, 9, 9, 9, 9, 9, 9, 1),
+    (N'MA070', N'Puma Thunder Spectra', 480, '1234567890140', 950000, N'Mô tả sản phẩm Puma Thunder Spectra', 430, '2025-10-01 08:00:00', 'admin', 'admin', '2025-10-01 08:00:00', '2025-10-01 08:00:00', 10, 10, 10, 10, 10, 10, 10, 10, 1),
+    (N'MA071', N'Puma Suede Classic', 500, '1234567890141', 850000, N'Mô tả sản phẩm Puma Suede Classic', 450, '2025-11-01 08:00:00', 'admin', 'admin', '2025-11-01 08:00:00', '2025-11-01 08:00:00', 11, 11, 11, 11, 11, 11, 11, 11, 1),
+    (N'MA072', N'Puma X-RAY', 520, '1234567890142', 870000, N'Mô tả sản phẩm Puma X-RAY', 470, '2025-12-01 08:00:00', 'admin', 'admin', '2025-12-01 08:00:00', '2025-12-01 08:00:00', 12, 12, 12, 12, 12, 12, 12, 12, 1),
+    (N'MA073', N'Puma Wild Rider', 540, '1234567890143', 890000, N'Mô tả sản phẩm Puma Wild Rider', 490, '2026-01-01 08:00:00', 'admin', 'admin', '2026-01-01 08:00:00', '2026-01-01 08:00:00', 13, 13, 13, 13, 13, 13, 13, 13, 1),
+    (N'MA074', N'Puma RS-Fast', 560, '1234567890144', 910000, N'Mô tả sản phẩm Puma RS-Fast', 510, '2026-02-01 08:00:00', 'admin', 'admin', '2026-02-01 08:00:00', '2026-02-01 08:00:00', 14, 14, 14, 14, 14, 14, 14, 14, 1),
+    (N'MA075', N'Puma Enzo', 580, '1234567890145', 930000, N'Mô tả sản phẩm Puma Enzo', 530, '2026-03-01 08:00:00', 'admin', 'admin', '2026-03-01 08:00:00', '2026-03-01 08:00:00', 15, 15, 15, 15, 15, 15, 15, 15, 1),
+    (N'MA076', N'Puma BMW MMS Drift Cat 5', 600, '1234567890146', 950000, N'Mô tả sản phẩm Puma BMW MMS Drift Cat 5', 550, '2026-04-01 08:00:00', 'admin', 'admin', '2026-04-01 08:00:00', '2026-04-01 08:00:00', 16, 16, 16, 16, 16, 16, 16, 16, 1),
+    (N'MA077', N'Puma Ferrari Drift Cat 7', 620, '1234567890147', 970000, N'Mô tả sản phẩm Puma Ferrari Drift Cat 7', 570, '2026-05-01 08:00:00', 'admin', 'admin', '2026-05-01 08:00:00', '2026-05-01 08:00:00', 17, 17, 17, 17, 17, 17, 17, 17, 1),
+    (N'MA078', N'Puma Basket Classic', 640, '1234567890148', 990000, N'Mô tả sản phẩm Puma Basket Classic', 590, '2026-06-01 08:00:00', 'admin', 'admin', '2026-06-01 08:00:00', '2026-06-01 08:00:00', 18, 18, 18, 18, 18, 18, 18, 18, 1),
+    (N'MA079', N'Puma LQDCELL', 660, '1234567890149', 1010000, N'Mô tả sản phẩm Puma LQDCELL', 610, '2026-07-01 08:00:00', 'admin', 'admin', '2026-07-01 08:00:00', '2026-07-01 08:00:00', 19, 19, 19, 19, 19, 19, 19, 19, 1),
+    (N'MA080', N'Puma RS-X Toys', 680, '1234567890150', 1030000, N'Mô tả sản phẩm Puma RS-X Toys', 630, '2026-08-01 08:00:00', 'admin', 'admin', '2026-08-01 08:00:00', '2026-08-01 08:00:00', 20, 1, 20, 20, 20, 20, 20, 20, 1),
+    (N'MA081', N'Puma RS-X Reinvent', 700, '1234567890151', 1050000, N'Mô tả sản phẩm Puma RS-X Reinvent', 650, '2026-09-01 08:00:00', 'admin', 'admin', '2026-09-01 08:00:00', '2026-09-01 08:00:00', 21, 2, 21, 21, 21, 21, 21, 21, 1),
+    (N'MA082', N'Puma RS-X Softcase', 720, '1234567890152', 1070000, N'Mô tả sản phẩm Puma RS-X Softcase', 670, '2026-10-01 08:00:00', 'admin', 'admin', '2026-10-01 08:00:00', '2026-10-01 08:00:00', 22, 3, 22, 22, 22, 22, 22, 22, 1),
+    (N'MA083', N'Puma RS-X Tracks', 740, '1234567890153', 1090000, N'Mô tả sản phẩm Puma RS-X Tracks', 690, '2026-11-01 08:00:00', 'admin', 'admin', '2026-11-01 08:00:00', '2026-11-01 08:00:00', 23, 4, 23, 23, 23, 23, 23, 23, 1),
+    (N'MA084', N'Puma RS-X Energy', 760, '1234567890154', 1110000, N'Mô tả sản phẩm Puma RS-X Energy', 710, '2026-12-01 08:00:00', 'admin', 'admin', '2026-12-01 08:00:00', '2026-12-01 08:00:00', 24, 5, 24, 24, 24, 24, 24, 24, 1),
+    (N'MA085', N'Puma RS-X Racer', 780, '1234567890155', 1130000, N'Mô tả sản phẩm Puma RS-X Racer', 730, '2027-01-01 08:00:00', 'admin', 'admin', '2027-01-01 08:00:00', '2027-01-01 08:00:00', 25, 6, 25, 25, 25, 25, 25, 25, 1),
+    (N'MA086', N'Puma RS-X Custom', 800, '1234567890156', 1150000, N'Mô tả sản phẩm Puma RS-X Custom', 750, '2027-02-01 08:00:00', 'admin', 'admin', '2027-02-01 08:00:00', '2027-02-01 08:00:00', 26, 7, 26, 26, 26, 26, 26, 26, 1),
+    (N'MA087', N'Puma RS-X Premium', 820, '1234567890157', 1170000, N'Mô tả sản phẩm Puma RS-X Premium', 770, '2027-03-01 08:00:00', 'admin', 'admin', '2027-03-01 08:00:00', '2027-03-01 08:00:00', 27, 8, 27, 27, 27, 27, 27, 27, 1),
+    (N'MA088', N'Puma RS-X Original', 840, '1234567890158', 1190000, N'Mô tả sản phẩm Puma RS-X Original', 790, '2027-04-01 08:00:00', 'admin', 'admin', '2027-04-01 08:00:00', '2027-04-01 08:00:00', 28, 9, 28, 28, 28, 28, 28, 28, 1),
+    (N'MA089', N'Puma RS-X Limitless', 860, '1234567890159', 1210000, N'Mô tả sản phẩm Puma RS-X Limitless', 810, '2027-05-01 08:00:00', 'admin', 'admin', '2027-05-01 08:00:00', '2027-05-01 08:00:00', 29, 10, 29, 29, 29, 29, 29, 29, 1),
+    (N'MA090', N'Puma RS-X Fade', 880, '1234567890160', 1230000, N'Mô tả sản phẩm Puma RS-X Fade', 830, '2027-06-01 08:00:00', 'admin', 'admin', '2027-06-01 08:00:00', '2027-06-01 08:00:00', 30, 11, 30, 30, 30, 30, 30, 30, 1),
+	(N'MA091', N'Nike Air Max 270', 100, '1234567890161', 860000, N'Mô tả sản phẩm Nike Air Max 270', 350, '2027-07-01 08:00:00', 'admin', 'admin', '2027-07-01 08:00:00', '2027-07-01 08:00:00', 1, 1, 1, 1, 1, 1, 1, 1, 1),
+    (N'MA092', N'Nike Air Max 95', 110, '1234567890162', 870000, N'Mô tả sản phẩm Nike Air Max 95', 360, '2027-08-01 08:00:00', 'admin', 'admin', '2027-08-01 08:00:00', '2027-08-01 08:00:00', 2, 2, 2, 2, 2, 2, 2, 2, 1),
+    (N'MA093', N'Nike Air Max 97', 120, '1234567890163', 880000, N'Mô tả sản phẩm Nike Air Max 97', 370, '2027-09-01 08:00:00', 'admin', 'admin', '2027-09-01 08:00:00', '2027-09-01 08:00:00', 3, 3, 3, 3, 3, 3, 3, 3, 1),
+    (N'MA094', N'Nike Air Max 2021', 130, '1234567890164', 890000, N'Mô tả sản phẩm Nike Air Max 2021', 380, '2027-10-01 08:00:00', 'admin', 'admin', '2027-10-01 08:00:00', '2027-10-01 08:00:00', 4, 4, 4, 4, 4, 4, 4, 4, 1),
+    (N'MA095', N'Nike Air Max 2022', 140, '1234567890165', 900000, N'Mô tả sản phẩm Nike Air Max 2022', 390, '2027-11-01 08:00:00', 'admin', 'admin', '2027-11-01 08:00:00', '2027-11-01 08:00:00', 5, 5, 5, 5, 5, 5, 5, 5, 1),
+    (N'MA096', N'Puma Future Rider Sport', 150, '1234567890166', 810000, N'Mô tả sản phẩm Puma Future Rider Sport', 350, '2027-12-01 08:00:00', 'admin', 'admin', '2027-12-01 08:00:00', '2027-12-01 08:00:00', 6, 6, 6, 6, 6, 6, 6, 6, 1),
+    (N'MA097', N'Puma RS-X Turbo', 160, '1234567890167', 830000, N'Mô tả sản phẩm Puma RS-X Turbo', 370, '2028-01-01 08:00:00', 'admin', 'admin', '2028-01-01 08:00:00', '2028-01-01 08:00:00', 7, 7, 7, 7, 7, 7, 7, 7, 1),
+    (N'MA098', N'Puma RS-X 3', 170, '1234567890168', 850000, N'Mô tả sản phẩm Puma RS-X 3', 390, '2028-02-01 08:00:00', 'admin', 'admin', '2028-02-01 08:00:00', '2028-02-01 08:00:00', 8, 8, 8, 8, 8, 8, 8, 8, 1),
+    (N'MA099', N'Puma RS-X Lights', 180, '1234567890169', 870000, N'Mô tả sản phẩm Puma RS-X Lights', 410, '2028-03-01 08:00:00', 'admin', 'admin', '2028-03-01 08:00:00', '2028-03-01 08:00:00', 9, 9, 9, 9, 9, 9, 9, 9, 1),
+    (N'MA100', N'Puma RS-X Edge', 190, '1234567890170', 890000, N'Mô tả sản phẩm Puma RS-X Edge', 430, '2028-04-01 08:00:00', 'admin', 'admin', '2028-04-01 08:00:00', '2028-04-01 08:00:00', 10, 10, 10, 10, 10, 10, 10, 10, 1),
+    (N'MA101', N'Puma RS-X Mesh', 200, '1234567890171', 910000, N'Mô tả sản phẩm Puma RS-X Mesh', 450, '2028-05-01 08:00:00', 'admin', 'admin', '2028-05-01 08:00:00', '2028-05-01 08:00:00', 11, 11, 11, 11, 11, 11, 11, 11, 1),
+    (N'MA102', N'Puma RS-X Stitch', 210, '1234567890172', 930000, N'Mô tả sản phẩm Puma RS-X Stitch', 470, '2028-06-01 08:00:00', 'admin', 'admin', '2028-06-01 08:00:00', '2028-06-01 08:00:00', 12, 12, 12, 12, 12, 12, 12, 12, 1),
+    (N'MA103', N'Puma RS-X Reflection', 220, '1234567890173', 950000, N'Mô tả sản phẩm Puma RS-X Reflection', 490, '2028-07-01 08:00:00', 'admin', 'admin', '2028-07-01 08:00:00', '2028-07-01 08:00:00', 13, 13, 13, 13, 13, 13, 13, 13, 1),
+    (N'MA104', N'Puma RS-X Pattern', 230, '1234567890174', 970000, N'Mô tả sản phẩm Puma RS-X Pattern', 510, '2028-08-01 08:00:00', 'admin', 'admin', '2028-08-01 08:00:00', '2028-08-01 08:00:00', 14, 14, 14, 14, 14, 14, 14, 14, 1),
+    (N'MA105', N'Puma RS-X Utility', 240, '1234567890175', 990000, N'Mô tả sản phẩm Puma RS-X Utility', 530, '2028-09-01 08:00:00', 'admin', 'admin', '2028-09-01 08:00:00', '2028-09-01 08:00:00', 15, 15, 15, 15, 15, 15, 15, 15, 1),
+    (N'MA106', N'Puma RS-X Advance', 250, '1234567890176', 1010000, N'Mô tả sản phẩm Puma RS-X Advance', 550, '2028-10-01 08:00:00', 'admin', 'admin', '2028-10-01 08:00:00', '2028-10-01 08:00:00', 16, 16, 16, 16, 16, 16, 16, 16, 1),
+    (N'MA107', N'Puma RS-X Flex', 260, '1234567890177', 1030000, N'Mô tả sản phẩm Puma RS-X Flex', 570, '2028-11-01 08:00:00', 'admin', 'admin', '2028-11-01 08:00:00', '2028-11-01 08:00:00', 17, 17, 17, 17, 17, 17, 17, 17, 1),
+    (N'MA108', N'Puma RS-X Graph', 270, '1234567890178', 1050000, N'Mô tả sản phẩm Puma RS-X Graph', 590, '2028-12-01 08:00:00', 'admin', 'admin', '2028-12-01 08:00:00', '2028-12-01 08:00:00', 18, 18, 18, 18, 18, 18, 18, 18, 1),
+    (N'MA109', N'Puma RS-X Drive', 280, '1234567890179', 1070000, N'Mô tả sản phẩm Puma RS-X Drive', 610, '2029-01-01 08:00:00', 'admin', 'admin', '2029-01-01 08:00:00', '2029-01-01 08:00:00', 19, 19, 19, 19, 19, 19, 19, 19, 1),
+    (N'MA110', N'Puma RS-X Revive', 290, '1234567890180', 1090000, N'Mô tả sản phẩm Puma RS-X Revive', 630, '2029-02-01 08:00:00', 'admin', 'admin', '2029-02-01 08:00:00', '2029-02-01 08:00:00', 20, 1, 20, 20, 20, 20, 20, 20, 1),
+    (N'MA111', N'Puma RS-X Boost', 300, '1234567890181', 1110000, N'Mô tả sản phẩm Puma RS-X Boost', 650, '2029-03-01 08:00:00', 'admin', 'admin', '2029-03-01 08:00:00', '2029-03-01 08:00:00', 21, 2, 21, 21, 21, 21, 21, 21, 1),
+    (N'MA112', N'Puma RS-X Precision', 310, '1234567890182', 1130000, N'Mô tả sản phẩm Puma RS-X Precision', 670, '2029-04-01 08:00:00', 'admin', 'admin', '2029-04-01 08:00:00', '2029-04-01 08:00:00', 22, 3, 22, 22, 22, 22, 22, 22, 1),
+    (N'MA113', N'Puma RS-X Impact', 320, '1234567890183', 1150000, N'Mô tả sản phẩm Puma RS-X Impact', 690, '2029-05-01 08:00:00', 'admin', 'admin', '2029-05-01 08:00:00', '2029-05-01 08:00:00', 23, 4, 23, 23, 23, 23, 23, 23, 1),
+    (N'MA114', N'Puma RS-X Legend', 330, '1234567890184', 1170000, N'Mô tả sản phẩm Puma RS-X Legend', 710, '2029-06-01 08:00:00', 'admin', 'admin', '2029-06-01 08:00:00', '2029-06-01 08:00:00', 24, 5, 24, 24, 24, 24, 24, 24, 1),
+    (N'MA115', N'Puma RS-X Master', 340, '1234567890185', 1190000, N'Mô tả sản phẩm Puma RS-X Master', 730, '2029-07-01 08:00:00', 'admin', 'admin', '2029-07-01 08:00:00', '2029-07-01 08:00:00', 25, 6, 25, 25, 25, 25, 25, 25, 1),
+    (N'MA116', N'Puma RS-X Pro', 350, '1234567890186', 1210000, N'Mô tả sản phẩm Puma RS-X Pro', 750, '2029-08-01 08:00:00', 'admin', 'admin', '2029-08-01 08:00:00', '2029-08-01 08:00:00', 26, 7, 26, 26, 26, 26, 26, 26, 1),
+    (N'MA117', N'Puma RS-X Vision', 360, '1234567890187', 1230000, N'Mô tả sản phẩm Puma RS-X Vision', 770, '2029-09-01 08:00:00', 'admin', 'admin', '2029-09-01 08:00:00', '2029-09-01 08:00:00', 27, 8, 27, 27, 27, 27, 27, 27, 1),
+    (N'MA118', N'Puma RS-X Wave', 370, '1234567890188', 1250000, N'Mô tả sản phẩm Puma RS-X Wave', 790, '2029-10-01 08:00:00', 'admin', 'admin', '2029-10-01 08:00:00', '2029-10-01 08:00:00', 28, 9, 28, 28, 28, 28, 28, 28, 1),
+    (N'MA119', N'Puma RS-X Echo', 380, '1234567890189', 1270000, N'Mô tả sản phẩm Puma RS-X Echo', 810, '2029-11-01 08:00:00', 'admin', 'admin', '2029-11-01 08:00:00', '2029-11-01 08:00:00', 29, 10, 29, 29, 29, 29, 29, 29, 1),
+    (N'MA120', N'Puma RS-X Surge', 390, '1234567890190', 1290000, N'Mô tả sản phẩm Puma RS-X Surge', 830, '2029-12-01 08:00:00', 'admin', 'admin', '2029-12-01 08:00:00', '2029-12-01 08:00:00', 30, 11, 30, 30, 30, 30, 30, 30, 1);
+   
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
