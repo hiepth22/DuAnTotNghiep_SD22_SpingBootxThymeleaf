@@ -22,6 +22,44 @@
         .clickable:hover {
             color: red;
         }
+        /* Căn chỉnh thẻ <li> để chứa các mục dropdown */
+        .position-relative {
+            position: relative;
+        }
+
+        /* Ẩn menu dropdown mặc định */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%; /* Xuống dưới thẻ <li> */
+            left: 0;
+            background-color: #fff; /* Màu nền cho menu dropdown */
+            border: 1px solid #ddd; /* Đường viền cho menu dropdown */
+            border-radius: 4px; /* Bo góc cho menu dropdown */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Đổ bóng cho menu dropdown */
+            padding: 10px;
+            z-index: 1000; /* Đảm bảo menu nằm trên các phần tử khác */
+        }
+
+
+        .position-relative:hover .dropdown-menu {
+            display: block;
+        }
+
+
+        .dropdown-item {
+            display: block;
+            padding: 8px 16px;
+            color: #333; /* Màu chữ của các mục dropdown */
+            text-decoration: none;
+        }
+
+
+        .dropdown-item:hover {
+            background-color: #eac29d;
+            color: #c33100;
+        }
+
     </style>
 
     <div id="header-content" style="background-color: #ffffff; text-align: left; display: flex; justify-content: flex-end;">
@@ -75,11 +113,10 @@
             </div>
             <div class="user-items ps-0 ps-md-5">
                 <ul class="d-flex justify-content-end list-unstyled align-items-center m-0">
-                    <li class="pe-3">
-                        <a href="login" class="border-0">
-                            <i class="bi bi-person" style="color: white; font-weight: bold;"></i>
-                        </a>
+                    <li class="pe-3 position-relative" id="nguoidung">
+
                     </li>
+
                     <li class="pe-3">
                         <a href="/gio-hang" class="search-item border-0" data-bs-toggle="collapse" data-bs-target="#search-box"
                            aria-label="Toggle navigation">
