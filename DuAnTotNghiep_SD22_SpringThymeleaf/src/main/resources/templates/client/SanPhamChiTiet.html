@@ -283,22 +283,24 @@
                                 gia.empty();
                                 anhsp.empty();
                                 const mainImage = $(`
-                    <img src="${imageName}" alt="Product Image" style="width: 700px; height: 700px; border-radius: 8px;">
-                `);
+                                  <img src="${imageName}" alt="Product Image" style="width: 700px; height: 700px; border-radius: 8px;">
+                                     `);
                                 anhsp.append(mainImage);
 
                                 $('.size-container').remove();
 
                                 $.ajax({
-                                    url: `/kichco/${data.sanPham.id}/${imageName}`,
+                                    url: `/kichco/${data.sanPham.id}`,
                                     method: 'GET',
+                                    data: { anh: encodeURIComponent(imageName) },
                                     dataType: 'json',
                                     success: function (sizes) {
                                         console.log('Sizes:', sizes);
                                         const sizegia = sizes[0];
                                         $.ajax({
-                                            url: `/gia-ban/${data.sanPham.id}/${sizegia}/${imageName}`,
+                                            url: `/gia-ban/${data.sanPham.id}/${sizegia}`,
                                             method: 'GET',
+                                            data: { anh: encodeURIComponent(imageName) },
                                             dataType: 'json',
                                             success: function (giaanh) {
                                                 const giakhichonanh = giaanh != null ? giaanh.toLocaleString('vi-VN', {
@@ -338,8 +340,9 @@
                                             gia.empty();
 
                                             $.ajax({
-                                                url: `/gia-ban/${data.sanPham.id}/${selectedSize}/${imageName}`,
+                                                url: `/gia-ban/${data.sanPham.id}/${selectedSize}`,
                                                 method: 'GET',
+                                                data: { anh: encodeURIComponent(imageName) },
                                                 dataType: 'json',
                                                 success: function (giaban) {
                                                     console.log('giasize:', giaban);
@@ -359,8 +362,9 @@
                                                 }
                                             });
                                             $.ajax({
-                                                url: `/SLton/${data.sanPham.id}/${imageName}/${selectedSize}`,
+                                                url: `/SLton/${data.sanPham.id}/${selectedSize}`,
                                                 method: 'GET',
+                                                data: { anh: encodeURIComponent(imageName) },
                                                 dataType: 'json',
                                                 success: function (sl) {
                                                     console.log('số lượng tồn:', sl);
@@ -376,22 +380,20 @@
                                                                   `);
                                                     sltonsp.append(slton);
                                                     document.getElementById('themgiohang').addEventListener('click', function() {
-                                                        $.ajax({
-                                                            url: '/api/session/user',
-                                                            method: 'GET',
-                                                            success: function (response) {
                                                                 $.ajax({
                                                                     url: '/api/session/user',
                                                                     method: 'GET',
                                                                     success: function (response) {
                                                                         let idKhachHang = response.id;
 
-                                                                        var inputElement = document.getElementById('quantity');
+                                                                        let inputElement = document.getElementById('quantity');
 
-                                                                        var soluongspkhithem = inputElement.value;
+                                                                        let soluongspkhithem = inputElement.value;
+                                                                        var anhlayve = imageName;
                                                                         $.ajax({
-                                                                            url: `/detailcheckgh/${idKhachHang}/${imageName}/${selectedSize}/${data.sanPham.id}/${soluongspkhithem}`,
+                                                                            url: `/detailcheckgh/${idKhachHang}/${selectedSize}/${data.sanPham.id}/${soluongspkhithem}`,
                                                                             type: 'GET',
+                                                                            data: { anhlayve: encodeURIComponent(anhlayve) },
                                                                             success: function(response) {
 
                                                                                 console.log('Response:', response);
@@ -407,12 +409,40 @@
                                                                         window.location.href = `/login`;
                                                                     }
                                                                 });
-                                                            },
-                                                            error: function (xhr, status, error) {
-                                                                window.location.href = `/login`;
-                                                            }
-                                                        });
 
+
+                                                    });
+                                                    document.getElementById('muangay').addEventListener('click', function() {
+                                                                $.ajax({
+                                                                    url: '/api/session/user',
+                                                                    method: 'GET',
+                                                                    success: function (response) {
+                                                                        let idKhachHang = response.id;
+
+                                                                        let inputElement = document.getElementById('quantity');
+
+                                                                        let soluongspkhithem = inputElement.value;
+                                                                        var anhlayve = imageName;
+                                                                        $.ajax({
+                                                                            url: `/detailcheckgh/${idKhachHang}/${selectedSize}/${data.sanPham.id}/${soluongspkhithem}`,
+                                                                            type: 'GET',
+                                                                            data: { anhlayve: encodeURIComponent(anhlayve) },
+                                                                            success: function(response) {
+
+                                                                                console.log('Response:', response);
+                                                                                window.location.href = `/gio-hang`;
+
+
+                                                                            },
+                                                                            error: function(xhr, status, error) {
+                                                                                console.error('Error:', error);
+                                                                            }
+                                                                        });
+                                                                    },
+                                                                    error: function (xhr, status, error) {
+                                                                        window.location.href = `/login`;
+                                                                    }
+                                                                });
                                                     });
                                                 },
                                                 error: function (xhr, status, error) {
@@ -431,10 +461,11 @@
                             console.error('Lỗi khi lấy dữ liệu bổ sung:', error);
                         }
                     });
+
                     $.ajax({
-                        url: `/kichco/${data.sanPham.id}/${data.anh}`,
+                        url: `http://localhost:3000/kichco/${data.sanPham.id}`,
                         method: 'GET',
-                        dataType: 'json',
+                        data: { anh: encodeURIComponent(data.anh) },
                         success: function (sizes) {
                             console.log('Sizes:', sizes);
 

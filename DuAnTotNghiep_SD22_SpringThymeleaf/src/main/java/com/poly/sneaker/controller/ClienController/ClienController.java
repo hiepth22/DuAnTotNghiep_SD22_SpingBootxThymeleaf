@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Controller
@@ -84,10 +86,10 @@ public class ClienController {
         List<String> kichCoList = repo.findanhBySanPhamId(sanPhamId);
         Set<String> uniqueKichCoSet = new HashSet<>(kichCoList);
 
-        // Chuyển Set trở lại thành List nếu cần
+
         List<String> uniqueKichCoList = new ArrayList<>(uniqueKichCoSet);
 
-        // In ra danh sách kết quả
+
         System.out.println(uniqueKichCoList);
         if (!kichCoList.isEmpty()) {
             return ResponseEntity.ok(uniqueKichCoList);
@@ -95,13 +97,15 @@ public class ClienController {
             return ResponseEntity.notFound().build();
         }
     }
-    @GetMapping("/kichco/{idSanPham}/{anh}")
+    @GetMapping("/kichco/{idSanPham}")
     public ResponseEntity<List<String>> getDetails(
             @PathVariable Long idSanPham,
-            @PathVariable String anh
+            @RequestParam String anh
 
     ) {
-        List<String> details = repo.findKichCoBySanPhamIdAndImageName(idSanPham, anh);
+        String decodedAnh = URLDecoder.decode(anh, StandardCharsets.UTF_8);
+        System.out.println(decodedAnh);
+        List<String> details = repo.findKichCoBySanPhamIdAndImageName(idSanPham, decodedAnh);
         return ResponseEntity.ok(details);
     }
 
@@ -117,21 +121,23 @@ public class ClienController {
             return ResponseEntity.notFound().build();
         }
     }
-    @GetMapping("/gia-ban/{idSanPham}/{ten}/{anh}")
+    @GetMapping("/gia-ban/{idSanPham}/{ten}")
     @ResponseBody
     public List<Double> getGiaBan(
             @PathVariable Long idSanPham,
             @PathVariable String ten,
-            @PathVariable String anh) {
-        return repo.findGiaBan(idSanPham, ten, anh);
+            @RequestParam String anh) {
+        String decodedAnh = URLDecoder.decode(anh, StandardCharsets.UTF_8);
+        return repo.findGiaBan(idSanPham, ten, decodedAnh);
     }
-    @GetMapping("/SLton/{idSanPham}/{anh}/{size}")
+    @GetMapping("/SLton/{idSanPham}/{size}")
     @ResponseBody
     public List<Integer> getSL(
             @PathVariable Long idSanPham,
             @PathVariable String size,
-            @PathVariable String anh) {
-        return repo.findSoLuong(idSanPham, anh,size );
+            @RequestParam String anh) {
+        String decodedAnh = URLDecoder.decode(anh, StandardCharsets.UTF_8);
+        return repo.findSoLuong(idSanPham, decodedAnh,size );
     }
 
 
@@ -148,14 +154,15 @@ public class ClienController {
         return ResponseEntity.ok(spmn);
     }
 //    themsp vào gh
-@GetMapping("/detailcheckgh/{idkh}/{anh}/{size}/{idsp}/{sl}")
+@GetMapping("/detailcheckgh/{idkh}/{size}/{idsp}/{sl}")
 public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idkh,
-                                                  @PathVariable("anh") String anh,
+                                                  @RequestParam String anhlayve,
                                                   @PathVariable("size") String size,
                                                   @PathVariable("idsp") Long idsp,
                                                   @PathVariable("sl") Integer sl) {
 
     GioHang gh = giohangService.detail(idkh);
+    String anh = URLDecoder.decode(anhlayve, StandardCharsets.UTF_8);
     if (gh == null) {
         GioHang ghnew = new GioHang();
         KhachHang kh = new KhachHang();
