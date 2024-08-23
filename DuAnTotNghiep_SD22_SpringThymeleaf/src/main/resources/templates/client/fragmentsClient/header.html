@@ -1,4 +1,4 @@
-<header id="header" class="site-header text-white" th:fragment="header" style="background-color: #FF5722; padding: 10px 0;" xmlns:th="http://www.w3.org/1999/xhtml">
+<header id="header" class="site-header text-white" th:fragment="header"  xmlns:th="http://www.w3.org/1999/xhtml">
     <style>
 
         .input-group input.form-control,
@@ -12,7 +12,25 @@
             padding: 0;
         }
     </style>
-    <nav id="header-nav" class="navbar navbar-expand-lg">
+    <style>
+        .clickable {
+            color: orange;
+            margin: 10px;
+            text-decoration: none;
+            cursor: default;
+        }
+        .clickable:hover {
+            color: red;
+        }
+    </style>
+
+    <div id="header-content" style="background-color: #ffffff; text-align: left; display: flex; justify-content: flex-end;">
+        <div id="checklogin" class="d-flex">
+            <!-- Nội dung của bạn ở đây -->
+        </div>
+    </div>
+
+    <nav id="header-nav" class="navbar navbar-expand-lg" style="background-color: #FF5722">
         <div class="container-lg">
             <div class="d-flex align-items-center">
                 <a href="/Client" style="display: inline-block;">
