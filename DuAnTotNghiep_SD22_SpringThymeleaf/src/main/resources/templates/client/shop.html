@@ -445,36 +445,57 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-
         document.querySelectorAll('[data-bs-toggle="modal"]').forEach(function (element) {
             element.addEventListener('click', function () {
                 var productId = this.getAttribute('data-id');
-             
-                window.location.href = `/san-pham/${productId}`;
-            $.ajax({
-                url: '/sanphamchitietclien/' + productId,
-                method: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    $('#productModalLabel').text(productName);
-                    // $('#modalImage').attr('src', '/assets/imageNV/' + data.anh);
-                    $('#modalImage').attr('src', 'https://res.cloudinary.com/deapopcoc/image/upload/' + data.anh);
-                    $('#modalPrice').text(' ₫' + data.giaBan);
-                    $('#modalQuantity').text(data.soLuong);
-                    $('#modalDescription').text(data.moTa);
-                    $('#modalColor').html(`
-    <div class="color-container rounded-lg" style="background-color: ${data.mauSac.ten}; width: 50px; height: 20px;"></div>
-`);
-                    $.ajax({
-                        url: '/sanphamchitietclienkc/' + data.sanPham.id,
-                        method: 'GET',
-                        dataType: 'json',
-                        success: function (additionalData) {
-                            var sizeHtml = '<h6>Kích cỡ:</h6><div id="sizeContainer" class="d-flex flex-wrap">';
 
+                // Chuyển hướng trang (nếu cần)
+                window.location.href = `/san-pham/${productId}`;
+
+                // Gửi yêu cầu AJAX để lấy dữ liệu sản phẩm
+                $.ajax({
+                    url: '/sanphamchitietclien/' + productId,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        // Cập nhật nội dung modal với dữ liệu sản phẩm
+                        $('#productModalLabel').text(data.ten); // Chỉnh sửa từ productName thành data.ten
+                        $('#modalImage').attr('src', 'https://res.cloudinary.com/deapopcoc/image/upload/' + data.anh);
+                        $('#modalPrice').text('₫' + data.giaBan);
+                        $('#modalQuantity').text(data.soLuong);
+                        $('#modalDescription').text(data.moTa);
+                        $('#modalColor').html(`
+                        <div class="color-container rounded-lg" style="background-color: ${data.mauSac.ten}; width: 50px; height: 20px;"></div>
+                    `);
+
+                        // Gửi yêu cầu AJAX thứ hai để lấy kích cỡ sản phẩm
+                        $.ajax({
+                            url: '/sanphamchitietclienkc/' + data.sanPham.id,
+                            method: 'GET',
+                            dataType: 'json',
+                            success: function (additionalData) {
+                                var sizeHtml = '<h6>Kích cỡ:</h6><div id="sizeContainer" class="d-flex flex-wrap">';
+                                additionalData.forEach(function (size) {
+                                    sizeHtml += `<div class="size-item">${size.ten}</div>`;
+                                });
+                                sizeHtml += '</div>';
+
+                                // Cập nhật nội dung kích cỡ trong modal
+                                $('#modalSize').html(sizeHtml);
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error fetching size details:', error);
+                            }
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching product details:', error);
+                    }
+                });
             });
         });
     });
+
 </script>
 
 <script>
