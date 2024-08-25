@@ -19,16 +19,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/css/chocolat.css">
-
+<!--swiper-->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <style>
         /* Ensure the size items are displayed in a row with wrapping */
         #sizeContainer {
             display: flex;
             flex-wrap: wrap;
         }
+
         body {
             background-color: #E8E8E8; /* Đổi màu nền thành màu xám nhạt */
         }
+
         .size-item {
             margin: 5px;
             padding: 10px;
@@ -49,6 +53,7 @@
             color: white;
             border-color: #007bff;
         }
+
         /* Định dạng hàng sản phẩm để có khoảng cách nhỏ hơn và 5 sản phẩm mỗi hàng */
         .row {
             margin-left: -5px; /* Giảm khoảng cách giữa các cột */
@@ -155,13 +160,65 @@
             text-decoration: none;
             color: black;
         }
+
         a {
             text-decoration: none;
         }
+
         .bold-red {
             color: red;
             font-weight: bold;
         }
+    </style>
+    <!--    slide-->
+    <style>
+        .swiper-container {
+            width: 100%;
+            height: 400px;
+        }
+        .swiper-slide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: transform 0.5s ease; /* Tạo hiệu ứng chuyển động */
+        }
+        .swiper-slide img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s ease; /* Tạo hiệu ứng thu nhỏ */
+        }
+        .swiper-slide-next, .swiper-slide-prev {
+            transform: scale(0.8) translateX(-20%);
+        }
+        .swiper-button-prev,
+         .swiper-button-next {
+             cursor: pointer;
+             position: absolute;
+             top: 50%;
+             width: auto;
+             margin-top: -22px;
+             padding: 16px;
+             color: white;
+             font-weight: bold;
+             font-size: 18px;
+             transition: 0.6s ease;
+             border-radius: 0 3px 3px 0;
+             user-select: none;
+         }
+
+        /* Position the "next button" to the right */
+        .swiper-button-next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        /* On hover, add a black background color with a little bit see-through */
+        .swiper-button-prev:hover,
+        .swiper-button-next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
     </style>
     <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,900;1,900&family=Source+Sans+Pro:wght@400;600;700;900&display=swap"
@@ -281,6 +338,38 @@
 
 <div th:replace="~{client/fragmentsClient/header :: header}"></div>
 
+<div class="swiper-container">
+    <div class="flex justify-center mt-3"
+         style="display: flex; justify-content: center; width: 100%; box-sizing: border-box;margin-top: 0px">
+        <div class="w-48 h-0.5 bg-orange-500"
+             style="width: calc(100%); height: 3px; background-color: #FF8C00;"></div>
+    </div>
+    <div class="swiper-wrapper">
+        <!-- Slide 1 -->
+        <div class="swiper-slide">
+            <img src="https://media.licdn.com/dms/image/v2/C5112AQEbrswDJBdyKg/article-inline_image-shrink_1000_1488/article-inline_image-shrink_1000_1488/0/1520192850086?e=1729728000&v=beta&t=Nrw8AGnumS_l750SJckGGbQXEvqn1CAHyQTibVcxAMA" alt="Image 1">
+        </div>
+        <!-- Slide 2 -->
+        <div class="swiper-slide">
+            <img src="https://media.licdn.com/dms/image/v2/C5112AQEaaI6z3NxGLQ/article-inline_image-shrink_1000_1488/article-inline_image-shrink_1000_1488/0/1520238935596?e=1729728000&v=beta&t=7u4Hd7RE2UHikEg-iwCI250SI-IXJci1g1u35djC2WM" alt="Image 2">
+        </div>
+        <!-- Slide 3 -->
+        <div class="swiper-slide">
+            <img src="https://media.licdn.com/dms/image/v2/C5112AQFIVQBt4514ow/article-inline_image-shrink_1000_1488/article-inline_image-shrink_1000_1488/0/1520156614976?e=1729728000&v=beta&t=x8nxCkYXRlfr7shPczmOWnYMKw-HXqmxJfY6_AdRFQQ" alt="Image 3">
+        </div>
+        <div class="swiper-slide">
+            <img src="https://intphcm.com/data/upload/poster-giay-just-do-it.jpg" alt="Image 3">
+        </div>
+        <!-- Add more slides as needed -->
+    </div>
+
+    <!-- Add Pagination -->
+<!--    <div class="swiper-pagination"></div>-->
+    <!-- Thêm nút điều hướng -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+</div>
+
 <section id="intro" class="position-relative mt-4">
     <div class="container-lg">
         <div class="swiper main-swiper">
@@ -293,9 +382,13 @@
     <div class="container">
         <div class="heading_container heading_center" style="margin-bottom: 30px; ">
             <div style="display: flex; flex-direction: column; align-items: center; width: 100%; background-color: #E8E8E8;">
-                <h5 class="section-title text-uppercase" style="text-align: center; margin-bottom: 5px; width: 100%; padding-left: 15px; box-sizing: border-box; margin-top: 10px;color: #FF5722; ">Tất Cả Sản Phẩm</h5>
-                <div class="flex justify-center mt-3" style="display: flex; justify-content: center; width: 100%; box-sizing: border-box;">
-                    <div class="w-48 h-0.5 bg-orange-500" style="width: calc(20% - 30px); height: 3px; background-color: #FF8C00;"></div>
+                <h5 class="section-title text-uppercase"
+                    style="text-align: center; margin-bottom: 5px; width: 100%; padding-left: 15px; box-sizing: border-box; margin-top: 10px;color: #FF5722; ">
+                    Tất Cả Sản Phẩm</h5>
+                <div class="flex justify-center mt-3"
+                     style="display: flex; justify-content: center; width: 100%; box-sizing: border-box;">
+                    <div class="w-48 h-0.5 bg-orange-500"
+                         style="width: calc(20% - 30px); height: 3px; background-color: #FF8C00;"></div>
                 </div>
             </div>
         </div>
@@ -303,7 +396,8 @@
             <div th:each="sanPham : ${sanPhams}" class="col-md-2 mb-3">
                 <div class="card-body" style="text-align: left;">
                     <div class="product-buttons">
-                        <a href="#" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${sanPham.id}">
+                        <a href="#" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#productModal"
+                           th:data-id="${sanPham.id}">
                             <i class="bi bi-eye"></i>
                         </a>
                     </div>
@@ -314,7 +408,19 @@
                     <a href="#" style="display: inline-block; margin: 5px 0; padding: 2px 5px; border: 1px solid #FF8C00; border-radius: 2px; color: #FF8C00; text-decoration: none; font-size: 10px; background-color: transparent; text-align: center; margin-left: 15px;">
                         Giá Siêu Hời
                     </a>
-                    <a href="#" class="product-price card-text" th:text="${sanPham.giaBan}" style="font-size: 17px; color: #d9534f; margin-left: 15px; margin-bottom: 10px; display: block;"></a>
+<!--                    <a href="#" class="product-price card-text" th:text="${sanPham.giaBan}" style="font-size: 17px; color: #d9534f; margin-left: 15px; margin-bottom: 10px; display: block;"></a>-->
+<!--                        <img th:src="'https://res.cloudinary.com/deapopcoc/image/upload/' + ${sanPham.anh}" alt="Ảnh"-->
+<!--                             style="width: calc(100% + 30px); height: 250px; border-radius: 8px; display: block; margin: 0 -15px 10px -15px; box-sizing: border-box;">-->
+<!--                        <h6 class="card-title" th:text="${sanPham.ten}"-->
+<!--                            style=" color: #333; margin-top: 10px; margin-left: 15px;"></h6>-->
+<!--                    </a>-->
+<!--                    &lt;!&ndash; New Button &ndash;&gt;-->
+<!--                    <a href="#"-->
+<!--                       style="display: inline-block; margin: 5px 0; padding: 2px 5px; border: 1px solid #FF8C00; border-radius: 2px; color: #FF8C00; text-decoration: none; font-size: 10px; background-color: transparent; text-align: center; margin-left: 15px;">-->
+<!--                        Giá Siêu Hời-->
+<!--                    </a>-->
+                    <a href="#" class="product-price card-text" th:text="${sanPham.giaBan}"
+                       style="font-size: 17px; color: #d9534f; margin-left: 15px; margin-bottom: 10px; display: block;"></a>
                 </div>
             </div>
         </div>
@@ -335,6 +441,8 @@
 <script th:src="@{/assets/js/script.js}"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
 
@@ -343,6 +451,26 @@
                 var productId = this.getAttribute('data-id');
              
                 window.location.href = `/san-pham/${productId}`;
+            $.ajax({
+                url: '/sanphamchitietclien/' + productId,
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#productModalLabel').text(productName);
+                    // $('#modalImage').attr('src', '/assets/imageNV/' + data.anh);
+                    $('#modalImage').attr('src', 'https://res.cloudinary.com/deapopcoc/image/upload/' + data.anh);
+                    $('#modalPrice').text(' ₫' + data.giaBan);
+                    $('#modalQuantity').text(data.soLuong);
+                    $('#modalDescription').text(data.moTa);
+                    $('#modalColor').html(`
+    <div class="color-container rounded-lg" style="background-color: ${data.mauSac.ten}; width: 50px; height: 20px;"></div>
+`);
+                    $.ajax({
+                        url: '/sanphamchitietclienkc/' + data.sanPham.id,
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (additionalData) {
+                            var sizeHtml = '<h6>Kích cỡ:</h6><div id="sizeContainer" class="d-flex flex-wrap">';
 
             });
         });
@@ -350,20 +478,50 @@
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const priceElements = document.querySelectorAll('.product-price');
+
         function formatNumber(number) {
             return number.toLocaleString('vi-VN');
         }
-        priceElements.forEach(function(priceElement) {
+
+        priceElements.forEach(function (priceElement) {
             const price = parseFloat(priceElement.textContent.replace(/\./g, '').replace(' ₫', ''));
-            priceElement.textContent = '₫ ' + formatNumber(price) ;
+            priceElement.textContent = '₫ ' + formatNumber(price);
         });
     });
 </script>
-
-
-
+<!--slide-->
+<script>
+    const swiper = new Swiper('.swiper-container', {
+        loop: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        on: {
+            slideChangeTransitionStart: function () {
+                const slides = document.querySelectorAll('.swiper-slide');
+                slides.forEach((slide, index) => {
+                    slide.classList.remove('swiper-slide-prev', 'swiper-slide-next');
+                });
+                slides[swiper.activeIndex].classList.add('swiper-slide-active');
+                if (swiper.previousIndex !== swiper.activeIndex) {
+                    slides[swiper.previousIndex].classList.add('swiper-slide-prev');
+                    slides[swiper.activeIndex].classList.add('swiper-slide-next');
+                }
+            }
+        }
+    });
+</script>
 </body>
 <script th:src="@{/assets/js/Header.js}"></script>
 

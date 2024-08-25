@@ -11,7 +11,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
+
 <body class="bg-white">
+
 <div th:replace="~{client/fragmentsClient/header :: header}"></div>
 <div>
     <div class="flex justify-center">
@@ -108,13 +110,13 @@ $(document).ready(function () {
                     let item = response[i];
                     tongTien += item.soLuong * item.sanPhamChiTiet.giaBan;
                     list += `
-                <div class="grid gap-4 grid-cols-2">
+                <div class="grid gap-4 grid-cols-2" style="max-width: 800px" xmlns="http://www.w3.org/1999/html">
                    <div class="flex">
                        <div class="ml-5 ">
                             <img src="${item.sanPhamChiTiet.anh}" alt="Ảnh" class="w-24 h-auto mt-2">
                        </div>
                        <div>
-                          <div> <span>${item.sanPhamChiTiet.ten}</span></div>
+                          <div> <strong>${item.sanPhamChiTiet.ten}</strong></div>
                           <div class="flex">
                                <div>
                                     <span>${item.sanPhamChiTiet.kichCo.ten} - </span>
@@ -125,12 +127,13 @@ $(document).ready(function () {
                        </div>
                    </div>
                     <div>
-                        <div> <span>${item.sanPhamChiTiet.giaBan * item.soLuong}</span></div>
+                        <div> <a herf="#" class="product-price card-text" style="font-size: 17px; color: #d9534f; margin-left: 15px; margin-bottom: 10px; display: block;">
+                            ${item.sanPhamChiTiet.giaBan * item.soLuong}</a> VND</div>
                     </div>
-                </div>
-                <div class="ml-5 w-[95%] h-0.5 bg-gray-200"></div>
-            `;
-        }
+                    </div>
+                    <div class="ml-5 w-[95%] h-0.5 bg-gray-200"></div>
+                    `;
+                }
 
                 $("#hoaDonCuaKhachHang").append(`
                 <div class="hoaDon">
