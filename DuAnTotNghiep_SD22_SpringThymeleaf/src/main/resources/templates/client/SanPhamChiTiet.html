@@ -98,6 +98,9 @@
         .validatesize {
             display: none;
         }
+        .validatemau {
+            display: none;
+        }
 
 
     </style>
@@ -128,7 +131,7 @@
                     <div class="mausize">
                         <p>Chọn Màu :</p>
                         <div id="mau" class="col-md-12"></div>
-
+                        <p class="validatemau">Vui Lòng chọn màu</p>
                         <p>Chọn Size :</p>
                         <div id="size" class="col-md-12"></div>
                         <p class="validatesize">Vui Lòng chọn Size</p>
@@ -206,8 +209,29 @@
                 const gia = $('#gia');
                 const sltonsp = $('#soluongton');
                 var sizecheck;
+                var anhcheck;
 
+                document.getElementById('themgiohang').addEventListener('click', function() {
+                    if(anhcheck==null && sizecheck==null){
+                        var validateSizeP = document.querySelector('.validatemau');
+                        validateSizeP.style.display = 'block';
+                        validateSizeP.style.color = 'red';
+                        var validateSizeP = document.querySelector('.validatesize');
+                        validateSizeP.style.display = 'block';
+                        validateSizeP.style.color = 'red';
+                    }
 
+                });
+                document.getElementById('muangay').addEventListener('click', function() {
+                    if(anhcheck==null && sizecheck==null){
+                        var validateSizeP = document.querySelector('.validatemau');
+                        validateSizeP.style.display = 'block';
+                        validateSizeP.style.color = 'red';
+                        var validateSizeP = document.querySelector('.validatesize');
+                        validateSizeP.style.display = 'block';
+                        validateSizeP.style.color = 'red';
+                    }
+                });
                 productsContainer.empty();
                 $('.tang').on('click', function () {
 
@@ -289,6 +313,7 @@
                                 $('.additional-images img').removeClass('selected-image');
 
                                 sizecheck=null;
+
                                 var validateSizeP = document.querySelector('.validatesize');
                                 validateSizeP.style.display = 'none';
                                 sltonsp.empty();
@@ -307,10 +332,30 @@
                                     }
 
                                 });
+                                document.getElementById('muangay').addEventListener('click', function() {
+                                    if(sizecheck==null){
+                                        var mausizeDiv = document.querySelector('.mausize');
+                                        mausizeDiv.style.display = 'block';
+
+                                        var validateSizeP = document.querySelector('.validatesize');
+                                        validateSizeP.style.display = 'block';
+                                        validateSizeP.style.color = 'red';
+                                    }
+                                    else {
+
+                                    }
+
+                                });
 
                                 const imageName = $(this).data('name');
                                 console.log('Tên hình ảnh:', imageName);
+                                if(imageName!=null){
+                                    var validateSizeP = document.querySelector('.validatemau');
+                                    validateSizeP.style.display = 'none';
+                                    validateSizeP.style.color = 'red';
+                                }
                                 const sizemau = "";
+                                anhcheck = imageName;
                                 gia.empty();
                                 anhsp.empty();
                                 const mainImage = $(`
@@ -533,19 +578,19 @@
                                 const selectedSize = $(this).text();
                                 console.log('Kích cỡ được chọn v:', selectedSize);
                                 document.getElementById('themgiohang').addEventListener('click', function() {
-                                    $.ajax({
-                                        url: '/api/session/user',
-                                        method: 'GET',
-                                        success: function (response) {
-                                            let idKhachHang = response.id;
-                                            let abc = null;
+                                   if(anhcheck==null){
+                                       var validateSizeP = document.querySelector('.validatemau');
+                                       validateSizeP.style.display = 'block';
+                                       validateSizeP.style.color = 'red';
+                                   }
 
-                                        },
-                                        error: function (xhr, status, error) {
-                                            window.location.href = `/login`;
-                                        }
-                                    });
-
+                                });
+                                document.getElementById('muangay').addEventListener('click', function() {
+                                    if(anhcheck==null){
+                                        var validateSizeP = document.querySelector('.validatemau');
+                                        validateSizeP.style.display = 'block';
+                                        validateSizeP.style.color = 'red';
+                                    }
                                 });
                             });
                         },
