@@ -574,9 +574,12 @@
                                 $('.size-container p').removeClass('selected-size');
 
                                 $(this).addClass('selected-size');
-
+                                var validateSizeP = document.querySelector('.validatesize');
+                                validateSizeP.style.display = 'none';
+                                validateSizeP.style.color = 'red';
                                 const selectedSize = $(this).text();
                                 console.log('Kích cỡ được chọn v:', selectedSize);
+                                sizecheck=selectedSize;
                                 document.getElementById('themgiohang').addEventListener('click', function() {
                                    if(anhcheck==null){
                                        var validateSizeP = document.querySelector('.validatemau');

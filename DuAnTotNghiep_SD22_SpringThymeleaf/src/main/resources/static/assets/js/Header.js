@@ -24,8 +24,8 @@ $(document).ready(function () {
             $('.dropdown-item').on('click', function () {
                 let action = $(this).data('action');
                 if (action === 'profile') {
+                    alert("làm j làm đi")
 
-                    window.location.href = '/profile';
                 }
                 else if (action === 'donmua') {
                     alert("làm mình làm mẩy")
@@ -49,7 +49,6 @@ $(document).ready(function () {
                             <i class="bi bi-person" style="color: white; font-weight: bold;"></i>
                         </a>
                         <div class="dropdown-menu">
-                           
                             <a href="/login" class="dropdown-item">login</a>
                         </div>
                    
