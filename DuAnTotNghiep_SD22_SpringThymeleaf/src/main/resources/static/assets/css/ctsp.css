@@ -1,0 +1,127 @@
+
+body{
+    background-color: #E8E8E8;
+}
+#products-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.selected-image {
+    border: 2px solid #00f; /* Viền xanh dương */
+    box-sizing: border-box; /* Đảm bảo kích thước hình ảnh không bị thay đổi */
+}
+
+.product-container {
+    flex: 1;
+    padding: 10px;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+.product-info img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.additional-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.additional-images img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.size-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+
+.size-container p {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.size-container p:hover {
+    background-color: #e0e0e0;
+}
+
+.size-container .selected-size {
+    border: 2px solid #00f;
+    background-color: #e0e0e0;
+}
+
+
+@media (max-width: 767px) {
+    #products-list {
+        flex-direction: column;
+    }
+}
+.validatesize {
+    display: none;
+}
+.validatemau {
+    display: none;
+}
+#themgiohang {
+    background-color: #fef6f6; /* Màu nền xám nhạt, hơi ngả đỏ */
+    color: #ff424e; /* Màu chữ đỏ nhạt */
+    border: 1px solid #ff424e; /* Màu viền đỏ nhạt */
+    font-weight: bold; /* Chữ đậm */
+    padding: 10px 20px; /* Tăng kích thước padding */
+    border-radius: 4px; /* Bo góc nhẹ */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Hiệu ứng khi hover */
+}
+
+#themgiohang i {
+    margin-right: 5px; /* Khoảng cách giữa icon và chữ */
+}
+
+#themgiohang:hover {
+    background-color: #ff424e; /* Đổi nền thành màu đỏ nhạt khi hover */
+    color: white; /* Đổi màu chữ thành trắng khi hover */
+}
+#muangay {
+    background-color: #ff424e; /* Màu nền đỏ */
+    color: white; /* Màu chữ trắng */
+    font-weight: bold; /* Chữ đậm */
+    padding: 10px 20px; /* Tăng kích thước padding */
+    border-radius: 4px; /* Bo góc nhẹ */
+    border: none; /* Xóa viền mặc định */
+    transition: background-color 0.3s ease; /* Hiệu ứng khi hover */
+}
+
+#muangay:hover {
+    background-color: #e11b22; /* Màu nền đậm hơn khi hover */
+}
+p {
+    display: inline; /* Hiển thị nội tuyến */
+    margin-right: 5px; /* Khoảng cách giữa p và div */
+}
+
+#mau {
+    display: inline; /* Hiển thị nội tuyến */
+}
+
+
+
+
