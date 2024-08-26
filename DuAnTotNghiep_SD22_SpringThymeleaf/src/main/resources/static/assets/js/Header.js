@@ -16,16 +16,26 @@ $(document).ready(function () {
             let nguoi = `<a  class="border-0">
                             <i class="bi bi-person" style="color: white; font-weight: bold;"></i>
                         </a>
-                        <div class="dropdown-menu">
-                           <a  class="dropdown-item">Thông Tin Cá Nhân</a>
-                            <a  class="dropdown-item">Đăng Xuất</a>
-                        </div>
+                         <div class="dropdown-menu">
+                         <a class="dropdown-item" data-action="profile">Thông Tin Cá Nhân</a>
+                         <a class="dropdown-item" data-action="logout">Đăng Xuất</a>
+                      </div>
                        `;
             nguoidung.html(nguoi);
 
-            $('.clickable').on('click', function () {
-                let url = $(this).data('url');
-                window.location.href = url;
+            $('.dropdown-item').on('click', function () {
+                let action = $(this).data('action');
+                if (action === 'profile') {
+
+                    window.location.href = '/profile';
+                } else if (action === 'logout') {
+
+                    $.post('/api/session/logout', function(response) {
+                        window.location.href = '/login';
+                    }).fail(function() {
+                        alert('Đăng xuất không thành công. Vui lòng thử lại.');
+                    });
+                }
             });
         },
         error: function (xhr, status, error) {
@@ -42,7 +52,7 @@ $(document).ready(function () {
                         </a>
                         <div class="dropdown-menu">
                            
-                            <a href="" class="dropdown-item">login</a>
+                            <a href="/login" class="dropdown-item">login</a>
                         </div>
                    
                  `);
@@ -50,7 +60,7 @@ $(document).ready(function () {
             $('.clickable').on('click', function (event) {
                 event.preventDefault();
                 let url = $(this).data('url');
-                window.location.href = url;
+                window.location.href = '/login';
             });
         }
     });

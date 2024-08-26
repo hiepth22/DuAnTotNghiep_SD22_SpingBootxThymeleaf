@@ -95,6 +95,11 @@
                 flex-direction: column;
             }
         }
+        .validatesize {
+            display: none;
+        }
+
+
     </style>
 </head>
 
@@ -120,20 +125,21 @@
                             <div id="gia"></div>
                         </div>
                     </div>
-                    <div>
+                    <div class="mausize">
                         <p>Chọn Màu :</p>
                         <div id="mau" class="col-md-12"></div>
 
                         <p>Chọn Size :</p>
                         <div id="size" class="col-md-12"></div>
+                        <p class="validatesize">Vui Lòng chọn Size</p>
                     </div>
 
                     <div id="sl" class="col-md-12 d-flex">
                         <div class="d-flex md-8">
-                            <button class="btn btn-light" onclick="decrease()">-</button>
+                            <button class="lui btn btn-light" >-</button>
                             <input class="text-center btn btn-light" type="text" id="quantity" value="1" min="1"
                                    style="width: 50px">
-                            <button class="btn btn-light" onclick="increase()">+</button>
+                            <button class="tang btn btn-light" >+</button>
                         </div>
                         <div id="soluongton" class="md-4" style="margin-top:5px  "></div>
                     </div>
@@ -153,25 +159,29 @@
 <script src="https://cdn.jsdelivr.net/npm/jarallax@1.12.0/dist/jarallax-video.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function increase() {
-        let quantity = document.getElementById('quantity');
-        quantity.value = parseInt(quantity.value) + 1;
-    }
-
-    function decrease() {
-        let quantity = document.getElementById('quantity');
-        if (quantity.value > 1) {
-            quantity.value = parseInt(quantity.value) - 1;
-        }
-    }
-
-</script>
-<script>
     $(document).ready(function () {
         const path = window.location.pathname;
         const pathParts = path.split('/');
         const sanPhamId = pathParts[pathParts.length - 1];
         let slconlai ;
+        function validateQuantity() {
+            let $quantityInput = $('#quantity');
+            let currentQuantity = parseInt($quantityInput.val(), 10);
+            let minQuantity = parseInt($quantityInput.attr('min'), 10);
+
+
+            let maxQuantity = slconlai;
+
+            if (isNaN(currentQuantity) || currentQuantity < minQuantity) {
+                $quantityInput.val(minQuantity);
+            } else if (currentQuantity > maxQuantity) {
+                $quantityInput.val(maxQuantity);
+            }
+        }
+
+        // Attach the validation function to the input and blur events
+        $('#quantity').on('input blur', validateQuantity);
+
 
 
         if (!sanPhamId) {
@@ -195,8 +205,31 @@
                 const ten = $('#ten');
                 const gia = $('#gia');
                 const sltonsp = $('#soluongton');
-                productsContainer.empty();
+                var sizecheck;
 
+
+                productsContainer.empty();
+                $('.tang').on('click', function () {
+
+                    let quantityInput = $('#quantity');
+                    let currentQuantity = parseInt(quantityInput.val(), 10);
+                    let maxQuantity = slconlai;
+
+
+                    if (currentQuantity >= maxQuantity) {
+                        quantityInput.val(maxQuantity);
+                    } else {
+                        quantityInput.val(currentQuantity + 1);
+                    }
+                });
+
+                $('.lui').on('click', function () {
+                    let quantity = document.getElementById('quantity');
+
+                    if (quantity.value > 1) {
+                        quantity.value = parseInt(quantity.value) - 1;
+                    }
+                })
                 if (data && typeof data === 'object' && data.id) {
                     const productName = data.ten || 'Không có tên';
                     const productPrice = data.giaBan != null ? data.giaBan.toLocaleString('vi-VN', {
@@ -234,7 +267,7 @@
                         method: 'GET',
                         dataType: 'json',
                         success: function (additionalData) {
-                            console.log('Dữ liệu bổ sung nhận được:', additionalData); // Debug output
+                            console.log('Dữ liệu bổ sung nhận được:', additionalData);
                             const additionalImages = additionalData || [];
 
                             additionalImages.forEach(img => {
@@ -253,30 +286,28 @@
 
 
                             $('.additional-images img').on('click', function () {
-
                                 $('.additional-images img').removeClass('selected-image');
 
-
+                                sizecheck=null;
+                                var validateSizeP = document.querySelector('.validatesize');
+                                validateSizeP.style.display = 'none';
+                                sltonsp.empty();
                                 $(this).addClass('selected-image');
                                 document.getElementById('themgiohang').addEventListener('click', function() {
-                                    $.ajax({
-                                        url: '/api/session/user',
-                                        method: 'GET',
-                                        success: function (response) {
-                                            let idKhachHang = response.id;
-                                            let selectedSize = null
-                                            if (selectedSize === null || selectedSize === undefined ||
-                                                imageName === null || imageName === undefined ||
-                                                idKhachHang === null || idKhachHang === undefined) {
-                                            } else {
-                                                console.log("đã oke" + selectedSize + ", imge" + imageName + " id kh" + idKhachHang);
-                                            }
-                                        },
-                                        error: function (xhr, status, error) {
-                                            window.location.href = `/login`;
-                                        }
-                                    });
+                                    if(sizecheck==null){
+                                        var mausizeDiv = document.querySelector('.mausize');
+                                        mausizeDiv.style.display = 'block';
+
+                                        var validateSizeP = document.querySelector('.validatesize');
+                                        validateSizeP.style.display = 'block';
+                                        validateSizeP.style.color = 'red';
+                                    }
+                                    else {
+
+                                    }
+
                                 });
+
                                 const imageName = $(this).data('name');
                                 console.log('Tên hình ảnh:', imageName);
                                 const sizemau = "";
@@ -323,7 +354,7 @@
                                         sizes.forEach(size => {
                                             const sizeElement = $(`
 
-                                            <p>${size}</p>
+                                            <p class="sizekhichon">${size}</p>
                                         `);
                                             sizeDiv.append(sizeElement);
                                         });
@@ -335,39 +366,20 @@
                                             $(this).addClass('selected-size');
 
                                             const selectedSize = $(this).text();
-                                            console.log('Kích cỡ được chọn v:', selectedSize);
+                                            sizecheck = selectedSize;
+                                            console.log('Kích cỡ được chọn v:', sizecheck);
+                                            var validateSizeP = document.querySelector('.validatesize');
+                                            validateSizeP.style.display = 'none';
                                             sltonsp.empty();
                                             gia.empty();
 
-                                            $.ajax({
-                                                url: `/gia-ban/${data.sanPham.id}/${selectedSize}`,
-                                                method: 'GET',
-                                                data: { anh: encodeURIComponent(imageName) },
-                                                dataType: 'json',
-                                                success: function (giaban) {
-                                                    console.log('giasize:', giaban);
-                                                    const giakhichonsize = giaban != null ? giaban.toLocaleString('vi-VN', {
-                                                        style: 'currency',
-                                                        currency: 'VND'
-                                                    }) : 'Không có giá';
-                                                    const giaspsize = $(`
 
-                                                          <p class="product-price" style="font-size: 17px; color: #d9534f; margin-bottom: 10px;">${giakhichonsize}</p>
-
-                                                             `);
-                                                    gia.append(giaspsize);
-                                                },
-                                                error: function (xhr, status, error) {
-                                                    console.error('Lỗi khi lấy dữ liệu kích cỡ:', error);
-                                                }
-                                            });
                                             $.ajax({
                                                 url: `/SLton/${data.sanPham.id}/${selectedSize}`,
                                                 method: 'GET',
                                                 data: { anh: encodeURIComponent(imageName) },
                                                 dataType: 'json',
                                                 success: function (sl) {
-                                                    console.log('số lượng tồn:', sl);
                                                     slconlai = sl
                                                     console.log("hmmmm"+slconlai);
                                                     const slton = $(`
@@ -379,7 +391,12 @@
                                                                      </div>
                                                                   `);
                                                     sltonsp.append(slton);
+
                                                     document.getElementById('themgiohang').addEventListener('click', function() {
+                                                        if(sizecheck==null){
+
+                                                        }
+                                                        else {
                                                                 $.ajax({
                                                                     url: '/api/session/user',
                                                                     method: 'GET',
@@ -387,7 +404,6 @@
                                                                         let idKhachHang = response.id;
 
                                                                         let inputElement = document.getElementById('quantity');
-
                                                                         let soluongspkhithem = inputElement.value;
                                                                         var anhlayve = imageName;
                                                                         $.ajax({
@@ -408,11 +424,15 @@
                                                                     error: function (xhr, status, error) {
                                                                         window.location.href = `/login`;
                                                                     }
-                                                                });
+                                                                });}
 
 
                                                     });
                                                     document.getElementById('muangay').addEventListener('click', function() {
+                                                        if(sizecheck==null){
+
+                                                        }
+                                                        else {
                                                                 $.ajax({
                                                                     url: '/api/session/user',
                                                                     method: 'GET',
@@ -443,7 +463,30 @@
                                                                         window.location.href = `/login`;
                                                                     }
                                                                 });
+                                                        }
                                                     });
+                                                },
+                                                error: function (xhr, status, error) {
+                                                    console.error('Lỗi khi lấy dữ liệu kích cỡ:', error);
+                                                }
+                                            });
+                                            $.ajax({
+                                                url: `/gia-ban/${data.sanPham.id}/${selectedSize}`,
+                                                method: 'GET',
+                                                data: { anh: encodeURIComponent(imageName) },
+                                                dataType: 'json',
+                                                success: function (giaban) {
+                                                    console.log('giasize:', giaban);
+                                                    const giakhichonsize = giaban != null ? giaban.toLocaleString('vi-VN', {
+                                                        style: 'currency',
+                                                        currency: 'VND'
+                                                    }) : 'Không có giá';
+                                                    const giaspsize = $(`
+
+                                                          <p class="product-price" style="font-size: 17px; color: #d9534f; margin-bottom: 10px;">${giakhichonsize}</p>
+
+                                                             `);
+                                                    gia.append(giaspsize);
                                                 },
                                                 error: function (xhr, status, error) {
                                                     console.error('Lỗi khi lấy dữ liệu kích cỡ:', error);
