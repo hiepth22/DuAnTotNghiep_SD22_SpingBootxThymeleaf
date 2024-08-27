@@ -1227,7 +1227,8 @@ const getDanhSachSanPham = (page = 0, size = 5) => {
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <img src=${result.content[i].anh}" alt="Ảnh" class="w-16 h-auto">
+                            <img src="${result.content[i].anh}" alt="Image" class="w-16 h-auto">
+
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap font-bold">
                             <h1>${result.content[i].ten}</h1>
