@@ -121,9 +121,9 @@
             <div th:if="${error}">
                 <p style="color: red;">Email và mật khẩu không hợp lệ</p>
             </div>
-            <div class="col-md-6 d-flex justify-content-center" style="margin-bottom: 10px">
-                <a href="#" onclick="showlaylaimk()">Forgot password?</a>
-            </div>
+                <div class="col-md-6 d-flex justify-content-center" style="margin-bottom: 10px">
+                    <a href="#" data-toggle="modal" data-target="#forgotPasswordModal">Forgot password?</a>
+                </div>
             <button style="border-radius: 25px" type="submit">Đăng Nhập</button>
         </form>
     </div>
@@ -148,6 +148,32 @@
     <span id="notification-text">Đăng Ký thành Công!!</span>
     <div id="progress-bar" class="progress-bar"></div>
 </div>
+
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form>
+                    <div class="form-group">
+                        <label for="email">Enter your email address</label>
+                        <input type="email" class="form-control" id="email" placeholder="Email">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <script>
     function validateForm() {
@@ -163,7 +189,7 @@
             tenError.textContent = '';
         }
 
-        // Kiểm tra Email
+
         const email = document.getElementById('email').value;
         const emailError = document.getElementById('emailError');
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -174,7 +200,7 @@
             emailError.textContent = '';
         }
 
-        // Kiểm tra Mật Khẩu
+        
         const matKhau = document.getElementById('matKhau').value;
         const matKhauError = document.getElementById('matKhauError');
         const matKhaulai = document.getElementById('matKhaulai').value;
