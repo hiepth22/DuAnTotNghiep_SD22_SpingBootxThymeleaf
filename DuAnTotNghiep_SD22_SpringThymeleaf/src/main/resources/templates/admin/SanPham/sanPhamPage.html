@@ -36,7 +36,11 @@
     <div class="container mx-auto mt-3 d-flex justify-content-end">
         <a href="/admin/san-pham-chi-tiet/add" class="btn btn-success">Thêm mới sản phẩm</a>
     </div>
-    <div class="w-full m-auto mt-3 bg-white p-6 rounded-lg shadow-md mb-11">
+
+    <div th:if="${!hasResultSP}" class="alert alert-info mt-3">
+        Không có kết quả tìm kiếm phù hợp.
+    </div>
+    <div th:if="${hasResultSP}" class="w-full m-auto mt-3 bg-white p-6 rounded-lg shadow-md mb-11">
         <table class="table table-bordered" id="productTable">
             <thead>
             <tr>
@@ -64,20 +68,32 @@
             </tr>
             </tbody>
         </table>
-        <nav>
+        <nav th:if="${hasResultSP}">
             <ul class="pagination justify-content-center">
-                <li class="page-item">
-                    <a class="page-link">Previous</a>
+                <!-- Previous Button -->
+                <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
+                    <a class="page-link"
+                       th:href="${currentPage > 1 ? '?keyword=' + (keyword != null ? keyword : '') + '&pageNo=' + (currentPage - 1) : '#'}">
+                        Previous
+                    </a>
                 </li>
+
+                <!-- Page Numbers -->
                 <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPage)}"
                     th:classappend="${currentPage == i} ? 'active' : ''">
-                    <a class="page-link" th:href="@{${keyword != null && keyword!='' ? '?keyword='+keyword+'&':'?'}+'pageNo=' + ${i}}" th:text="${i}"></a>
+                    <a class="page-link" th:href="@{${keyword != null && keyword != '' ? '?keyword=' + keyword + '&' : '?'} + 'pageNo=' + ${i}}" th:text="${i}"></a>
                 </li>
-                <li class="page-item" }>
-                    <a class="page-link">Next</a>
+
+                <!-- Next Button -->
+                <li class="page-item" th:classappend="${currentPage == totalPage} ? 'disabled' : ''">
+                    <a class="page-link"
+                       th:href="${currentPage < totalPage ? '?keyword=' + (keyword != null ? keyword : '') + '&pageNo=' + (currentPage + 1) : '#'}">
+                        Next
+                    </a>
                 </li>
             </ul>
         </nav>
+
     </div>
 </div>
 <!-- JavaScript Libraries -->

@@ -34,7 +34,7 @@ public class SanPhamService {
     public Page<SanPham> searchSanPham(String keyword, Integer pageNo){
         List list = repository.searchSP(keyword);
 
-        Pageable pageable = PageRequest.of(pageNo-1, 2);
+        Pageable pageable = PageRequest.of(pageNo-1, 10);
 
         Integer start = (int) pageable.getOffset();
 

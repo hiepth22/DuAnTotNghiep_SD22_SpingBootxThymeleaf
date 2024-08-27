@@ -85,6 +85,8 @@ public class SanPhamController {
         model.addAttribute("sanPhams", sanPhams);
         model.addAttribute("soLuongMap", soLuongMap);
 
+        model.addAttribute("hasResultSP", sanPhams.getTotalElements() > 0);
+
         return "/admin/SanPham/sanPhamPage";
     }
 
@@ -146,6 +148,8 @@ public class SanPhamController {
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("sanPhamChiTiets", sanPhamChiTiets);
         model.addAttribute("sanPhamId", sanPhamId);
+
+        model.addAttribute("hasResults", sanPhamChiTiets.getTotalElements() > 0);
 
         return "/admin/SanPham/sanPhamChiTietPage";
     }

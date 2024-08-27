@@ -28,7 +28,7 @@
                     <button class="btn btn-primary w-100" type="submit">Tìm kiếm</button>
                 </div>
                 <div class="col-2">
-                    <button class="btn btn-secondary w-100">Làm mới</button>
+                    <a class="btn btn-secondary w-100" th:href="@{'/admin/san-pham/'+${sanPhamId}}">Reset</a>
                 </div>
             </div>
             <div class="mb-3 row">
@@ -94,7 +94,11 @@
         </div>
     </div>
 
-    <div class="w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md mb-11">
+    <div th:if="${!hasResults}" class="alert alert-info">
+        Không có kết quả tìm kiếm phù hợp.
+    </div>
+
+    <div th:if="${hasResults}" class="w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md mb-11">
         <table id="productTable" class="table table-bordered">
             <thead>
             <tr>
@@ -138,16 +142,14 @@
             </tr>
             </tbody>
         </table>
-        <nav>
+        <nav th:if="${hasResults}">
             <ul class="pagination justify-content-center">
                 <li class="page-item">
                     <a class="page-link">Previous</a>
                 </li>
                 <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPage)}"
                     th:classappend="${currentPage == i} ? 'active' : ''">
-                    <a class="page-link"
-                       th:href="@{${keyword != null && keyword!='' ? '?keyword='+keyword+'&':'?'}+'pageNo=' + ${i}}"
-                       th:text="${i}"></a>
+                    <a class="page-link" th:href="@{${keyword != null && keyword!='' ? '?keyword='+keyword+'&':'?'}+'pageNo=' + ${i}}" th:text="${i}"></a>
                 </li>
                 <li class="page-item" }>
                     <a class="page-link">Next</a>

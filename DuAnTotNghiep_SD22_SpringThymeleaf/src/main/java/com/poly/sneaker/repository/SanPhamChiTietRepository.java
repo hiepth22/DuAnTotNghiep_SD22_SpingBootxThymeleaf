@@ -97,12 +97,14 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
     List<SanPhamChiTiet> findTop12NamesByNgayTaoDesc(Pageable pageable);
 
     @Query("SELECT s FROM SanPhamChiTiet s " +
-            "JOIN s.deGiay d " +
-            "JOIN s.coGiay c " +
-            "JOIN s.chatLieu cl " +
-            "JOIN s.kichCo k " +
+            "LEFT JOIN s.sanPham sp " +
+            "LEFT JOIN s.deGiay d " +
+            "LEFT JOIN s.coGiay c " +
+            "LEFT JOIN s.chatLieu cl " +
+            "LEFT JOIN s.kichCo k " +
             "WHERE s.sanPham.id = :sanPhamId " +
-            "AND (:keyword IS NULL OR s.ten LIKE %:keyword% OR s.moTa LIKE %:keyword% OR d.ten LIKE %:keyword% OR c.ten LIKE %:keyword%) " +
+            "AND (:keyword IS NULL OR sp.ten LIKE %:keyword% OR s.moTa LIKE %:keyword% OR d.ten LIKE %:keyword% OR c.ten LIKE %:keyword% OR k.ten LIKE %:keyword% " +
+            "OR cl.ten LIKE %:keyword%) " +
             "AND (:coGiayId IS NULL OR c.id = :coGiayId) " +
             "AND (:deGiayId IS NULL OR d.id = :deGiayId) " +
             "AND (:chatLieuId IS NULL OR cl.id = :chatLieuId) " +
