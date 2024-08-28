@@ -49,7 +49,14 @@ public class ClienController {
     @GetMapping("/shop")
     public String hienThiSanPhamall(Model model) {
         List<SanPhamChiTiet> sanPhams = SPCTservice.getAll();
-        model.addAttribute("sanPhams", sanPhams);
+        Map<Long, SanPhamChiTiet> uniqueSanPhamsMap = new HashMap<>();
+        for (SanPhamChiTiet spct : sanPhams) {
+            Long idSanPham = spct.getSanPham().getId();
+            uniqueSanPhamsMap.put(idSanPham, spct);
+        }
+        List<SanPhamChiTiet> uniqueSanPhams = new ArrayList<>(uniqueSanPhamsMap.values());
+       
+        model.addAttribute("sanPhams", uniqueSanPhams);
         return "client/shop";
     }
     @GetMapping("/san-pham/{sanPhamId}")
@@ -85,11 +92,7 @@ public class ClienController {
     public ResponseEntity<List<String>> getanh(@PathVariable Long sanPhamId) {
         List<String> kichCoList = repo.findanhBySanPhamId(sanPhamId);
         Set<String> uniqueKichCoSet = new HashSet<>(kichCoList);
-
-
         List<String> uniqueKichCoList = new ArrayList<>(uniqueKichCoSet);
-
-
         System.out.println(uniqueKichCoList);
         if (!kichCoList.isEmpty()) {
             return ResponseEntity.ok(uniqueKichCoList);
