@@ -322,6 +322,7 @@
                 method: 'GET',
                 success: function (response) {
                     thongTinNguoiMua(response.diaChiKH[0]);
+                    console.log(selectedProducts[0].id);
 
                 },
             });
@@ -434,24 +435,32 @@
                     contentType: 'application/json',
                     data: JSON.stringify(productData),
                     success: function (response) {
+                        deleteByIDGHCT(product.id);
+                        updateSoLuongSP(product.sanPhamChiTiet.id, product.soLuong);
                     },
                     error: function (xhr, status, error) {
 
                     }
                 });
-                // $.ajax({
-                //     url: `/api/gio-hang/delete-sp/${pro}`,
-                //     method: 'POST',
-                //     contentType: 'application/json',
-                //     data: JSON.stringify(productData),
-                //     success: function (response) {
-                //     },
-                //     error: function (xhr, status, error) {
-                //
-                //     }
-                // });
+
+
             });
             localStorage.removeItem('selectedProducts');
+        }
+
+        function updateSoLuongSP(idSPCT, soLuong){
+            $.ajax({
+                url: `/api/gio-hang/update-so-luong-sp-sau-khi-thanh-toan/${idSPCT}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                   soLuong: soLuong
+                }),
+                success: function () {
+
+                },
+
+            });
         }
 
         function addPhuongThucThanhToan(idHoaDon) {
@@ -515,9 +524,18 @@
             });
         }
 
-        // <div class="mt-10">
-        //     <input type="radio" name="phieuGiamGia" value="${diaChi.id}" data-item='${JSON.stringify(diaChi)}'>
-        // </div>
+        function deleteByIDGHCT(idGHCT){
+            $.ajax({
+                url: `/api/gio-hang/delete-sp/${idGHCT}`,
+                method: 'POST',
+                success: function () {
+
+                },
+
+            });
+        }
+
+
 
         function hideModalDiaChi() {
             $('#modalDiaChi').addClass('hidden');
@@ -532,10 +550,6 @@
         $(document).on('click', '#thayDoiDiaChi', function () {
             showModalDiaChi();
         });
-
-        // $('#huyPhieuGiamGia').click(function () {
-        //     hideModalPhieuGiamGia();
-        // })
 
 
         hienThiSanPhamDaChon();
