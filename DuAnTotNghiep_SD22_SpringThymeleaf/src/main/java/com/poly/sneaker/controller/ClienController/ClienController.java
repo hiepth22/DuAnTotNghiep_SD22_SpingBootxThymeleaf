@@ -49,12 +49,12 @@ public class ClienController {
     @GetMapping("/shop")
     public String hienThiSanPhamall(Model model) {
         List<SanPhamChiTiet> sanPhams = SPCTservice.getAll();
-        Map<Long, SanPhamChiTiet> uniqueSanPhamsMap = new HashMap<>();
+        Map<Long, SanPhamChiTiet> lstsp = new HashMap<>();
         for (SanPhamChiTiet spct : sanPhams) {
             Long idSanPham = spct.getSanPham().getId();
-            uniqueSanPhamsMap.put(idSanPham, spct);
+            lstsp.put(idSanPham, spct);
         }
-        List<SanPhamChiTiet> uniqueSanPhams = new ArrayList<>(uniqueSanPhamsMap.values());
+        List<SanPhamChiTiet> uniqueSanPhams = new ArrayList<>(lstsp.values());
        
         model.addAttribute("sanPhams", uniqueSanPhams);
         return "client/shop";
@@ -145,10 +145,19 @@ public class ClienController {
 
 
     @GetMapping("/san-pham-moi-nhat")
-    public ResponseEntity<?> getTop12NewestProducts() {
-        Pageable pageable = PageRequest.of(0, 12);
+    public ResponseEntity<?> getTop12NewestProducts(Pageable pageable) {
+
         List<SanPhamChiTiet> spmn = repo.findTop12NamesByNgayTaoDesc(pageable);
-        return ResponseEntity.ok(spmn);
+        Map<Long, SanPhamChiTiet> sanphammoi = new HashMap<>();
+        for (SanPhamChiTiet spct : spmn) {
+            Long idSanPham = spct.getSanPham().getId();
+            sanphammoi.put(idSanPham, spct);
+        }
+        List<SanPhamChiTiet> uniqueSanPhams = new ArrayList<>(sanphammoi.values());
+        if (uniqueSanPhams.size() > 12) {
+            uniqueSanPhams = uniqueSanPhams.subList(0, 12);
+        }
+        return ResponseEntity.ok(uniqueSanPhams);
     }
     @GetMapping("/san-pham-ban-chay")
     public ResponseEntity<?> getTop12spbanchay() {
@@ -156,7 +165,7 @@ public class ClienController {
         List<SanPhamBanChayDTO> spmn = hoaDonRepository.getSanPhamBanChayNhat(pageable);
         return ResponseEntity.ok(spmn);
     }
-//    themsp vào gh
+
 @GetMapping("/detailcheckgh/{idkh}/{size}/{idsp}/{sl}")
 public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idkh,
                                                   @RequestParam String anhlayve,
@@ -200,8 +209,6 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
         }
 
     }
-
-    // Tạo phản hồi
     Map<String, Object> response = new HashMap<>();
     response.put("giỏ_hàng", gh);
     return ResponseEntity.ok(response);
