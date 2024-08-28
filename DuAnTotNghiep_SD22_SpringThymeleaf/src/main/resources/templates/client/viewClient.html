@@ -15,7 +15,8 @@
     <meta name="author" content="TemplatesJungle">
     <meta name="keywords" content="Online Store">
     <meta name="description" content="Stylish - Shoes Online Store HTML Template">
-
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <link rel="stylesheet" th:href="@{/assets/css/vendor.css}">
     <link rel="stylesheet" th:href="@{/assets/css/style.css}"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -158,6 +159,57 @@
 
 
 </style>
+<!--slide-->
+<style>
+    .swiper-container {
+        width: 100%;
+        height: 400px;
+    }
+    .swiper-slide {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        transition: transform 0.5s ease; /* Tạo hiệu ứng chuyển động */
+    }
+    .swiper-slide img {
+        width: 100%;
+        height: auto;
+        transition: transform 0.5s ease; /* Tạo hiệu ứng thu nhỏ */
+    }
+    .swiper-slide-next, .swiper-slide-prev {
+        transform: scale(0.8) translateX(-20%);
+    }
+    .swiper-button-prev,
+    .swiper-button-next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        margin-top: -22px;
+        padding: 16px;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+    }
+
+    /* Position the "next button" to the right */
+    .swiper-button-next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+    }
+
+    /* On hover, add a black background color with a little bit see-through */
+    .swiper-button-prev:hover,
+    .swiper-button-next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+</style>
+
 <style>
     .card-title {
         text-decoration: none;
@@ -297,6 +349,37 @@
 <!-- cart view -->
 <!-- Login -->
 <div th:replace="~{client/fragmentsClient/header :: header}"></div>
+<div class="swiper-container">
+    <div class="flex justify-center mt-3"
+         style="display: flex; justify-content: center; width: 100%; box-sizing: border-box;margin-top: 0px">
+        <div class="w-48 h-0.5 bg-orange-500"
+             style="width: calc(100%); height: 3px; background-color: #FF8C00;"></div>
+    </div>
+    <div class="swiper-wrapper">
+        <!-- Slide 1 -->
+        <div class="swiper-slide">
+            <img src="https://media.licdn.com/dms/image/v2/C5112AQEbrswDJBdyKg/article-inline_image-shrink_1000_1488/article-inline_image-shrink_1000_1488/0/1520192850086?e=1729728000&v=beta&t=Nrw8AGnumS_l750SJckGGbQXEvqn1CAHyQTibVcxAMA" alt="Image 1">
+        </div>
+        <!-- Slide 2 -->
+        <div class="swiper-slide">
+            <img src="https://media.licdn.com/dms/image/v2/C5112AQEaaI6z3NxGLQ/article-inline_image-shrink_1000_1488/article-inline_image-shrink_1000_1488/0/1520238935596?e=1729728000&v=beta&t=7u4Hd7RE2UHikEg-iwCI250SI-IXJci1g1u35djC2WM" alt="Image 2">
+        </div>
+        <!-- Slide 3 -->
+        <div class="swiper-slide">
+            <img src="https://media.licdn.com/dms/image/v2/C5112AQFIVQBt4514ow/article-inline_image-shrink_1000_1488/article-inline_image-shrink_1000_1488/0/1520156614976?e=1729728000&v=beta&t=x8nxCkYXRlfr7shPczmOWnYMKw-HXqmxJfY6_AdRFQQ" alt="Image 3">
+        </div>
+        <div class="swiper-slide">
+            <img src="https://intphcm.com/data/upload/poster-giay-just-do-it.jpg" alt="Image 3">
+        </div>
+        <!-- Add more slides as needed -->
+    </div>
+
+    <!-- Add Pagination -->
+    <!--    <div class="swiper-pagination"></div>-->
+    <!-- Thêm nút điều hướng -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+</div>
 
 <section id="top-selling-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">
     <div class="container-md">
@@ -476,9 +559,41 @@
 <script>
 
 </script>
+<!--slide-->
+<script>
+    const swiper = new Swiper('.swiper-container', {
+        loop: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        on: {
+            slideChangeTransitionStart: function () {
+                const slides = document.querySelectorAll('.swiper-slide');
+                slides.forEach((slide, index) => {
+                    slide.classList.remove('swiper-slide-prev', 'swiper-slide-next');
+                });
+                slides[swiper.activeIndex].classList.add('swiper-slide-active');
+                if (swiper.previousIndex !== swiper.activeIndex) {
+                    slides[swiper.previousIndex].classList.add('swiper-slide-prev');
+                    slides[swiper.activeIndex].classList.add('swiper-slide-next');
+                }
+            }
+        }
+    });
+</script>
 
 
 <!-- Nạp JavaScript của Chocolat -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/js/chocolat.min.js"></script>
 <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
 <script th:src="@{/assets/js/plugins.js}"></script>

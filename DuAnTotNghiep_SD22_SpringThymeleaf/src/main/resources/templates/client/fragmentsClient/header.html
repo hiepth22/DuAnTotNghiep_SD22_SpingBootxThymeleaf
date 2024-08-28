@@ -1,6 +1,12 @@
 <header id="header" class="site-header text-white" th:fragment="header"  xmlns:th="http://www.w3.org/1999/xhtml">
     <style>
-
+            /* Giữ header ở trên đầu khi cuộn trang */
+        #header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
         .input-group input.form-control,
         .input-group button.btn {
             border: none;
