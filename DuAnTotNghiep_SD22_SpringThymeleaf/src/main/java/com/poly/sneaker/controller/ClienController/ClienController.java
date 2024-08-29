@@ -46,6 +46,10 @@ public class ClienController {
         model.addAttribute("sanPhams", sanPhams);
         return "client/viewClient";
     }
+    @GetMapping("/TraCuuDonHang")
+    public String TraCuuDonHang(Model model) {
+        return "client/TraCuuDonHang";
+    }
     @GetMapping("/shop")
     public String hienThiSanPhamall(Model model) {
         List<SanPhamChiTiet> sanPhams = SPCTservice.getAll();

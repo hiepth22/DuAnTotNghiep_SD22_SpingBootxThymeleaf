@@ -150,6 +150,16 @@
         }
 
         /* Hiệu ứng hover làm nổi bật thẻ sản phẩm */
+        .status {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgb(255,140,0);
+            padding: 5px;
+            border-radius: 4px;
+            color: #fffdfd;
+            font-size: 12px;
+        }
 
 
     </style>
@@ -250,8 +260,6 @@
               d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396l1.414-1.414l-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8s3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6s-6-2.691-6-6s2.691-6 6-6z"/>
     </symbol>
 </svg>
-<!-- Loader 4 -->
-
 <div class="preloader"
      style="position: fixed;top:0;left:0;width: 100%;height: 100%;background-color: #fff;display: flex;align-items: center;justify-content: center;z-index: 9999;">
     <svg version="1.1" id="L4" width="100" height="100" xmlns="http://www.w3.org/2000/svg"
@@ -311,24 +319,24 @@
             </div>
         </div>
         <div class="row">
-            <div th:each="sanPham : ${sanPhams}" class="col-md-2 mb-3">
+            <div th:each="sp : ${sanPhams}" class="col-md-2 mb-3">
                 <div class="card-body" style="text-align: left;">
                     <div class="product-buttons">
                         <a href="#" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#productModal"
-                           th:data-id="${sanPham.id}">
+                           th:data-id="${sp.id}">
                             <i class="bi bi-eye"></i>
                         </a>
                     </div>
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${sanPham.id}">
-                        <img th:src="${sanPham.anh}" alt="Ảnh" style=" width: calc(100% + 30px); height: 250px; border-radius: 8px; display: block; margin: 0 -15px 10px -15px; box-sizing: border-box;">
-                        <p class="status" style="position: absolute; top: 10px; left: 10px; background: rgb(255,140,0); padding: 5px; border-radius: 4px; color: #fffdfd; font-size: 12px;"></p>
-                        <h6 class="card-title" th:text="${sanPham.ten}" style="color: #333; margin-top: 10px; margin-left: 15px;"></h6>
-                        <p class="ngayTao" th:data-ngaytao="${sanPham.ngayTao}"></p>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#productModal" th:data-id="${sp.id}">
+                        <img th:src="${sp.anh}" alt="Ảnh" style=" width: calc(100% + 30px); height: 250px; border-radius: 8px; display: block; margin: 0 -15px 10px -15px; box-sizing: border-box;">
+                        <p class="status" ></p>
+                        <h6 class="card-title" th:text="${sp.ten}" style="color: #333; margin-top: 10px; margin-left: 15px;"></h6>
+                        <p class="ngayTao" th:data-ngaytao="${sp.sanPham.ngayTao}"></p>
                     </a>
                     <a href="#" style="display: inline-block; margin: 5px 0; padding: 2px 5px; border: 1px solid #ff8c00; border-radius: 2px; color: #FF8C00; text-decoration: none; font-size: 10px; background-color: transparent; text-align: center; margin-left: 15px;">
                         Giá Siêu Hời
                     </a>
-                    <a href="#" class="product-price card-text" th:text="${sanPham.giaBan}"
+                    <a href="#" class="product-price card-text" th:text="${sp.giaBan}"
                        style="font-size: 17px; color: #d9534f; margin-left: 15px; margin-bottom: 10px; display: block;"></a>
                 </div>
             </div>
@@ -360,20 +368,25 @@
 
         ngayTaoElements.forEach((ngayTaoElement, index) => {
             let ngayTaoStr = ngayTaoElement.getAttribute('data-ngaytao');
-            console.log('Ngày tạo từ data-ngaytao:', ngayTaoStr);
-
             if (ngayTaoStr) {
                 ngayTaoStr = ngayTaoStr.replace(' ', 'T') + 'Z';
                 const ngayTaoDate = new Date(ngayTaoStr);
 
                 if (isNaN(ngayTaoDate.getTime())) {
-                    console.error('Ngày tạo không hợp lệ:', ngayTaoStr);
                     return;
                 }
                 const soNgayDaTruoc = Math.floor((ngayHienTai - ngayTaoDate) / (1000 * 60 * 60 * 24));
                 const laSanPhamMoi = soNgayDaTruoc <= 30;
                 if (statusElements[index]) {
-                    statusElements[index].textContent = laSanPhamMoi ? "Mới" : "";
+                    if (laSanPhamMoi) {
+                        statusElements[index].textContent = "Mới";
+                        statusElements[index].classList.add("status");
+                    } else {
+                        statusElements[index].textContent = "";
+                        statusElements[index].classList.remove("status");
+                    }
+
+
 
                 }
             }
