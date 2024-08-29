@@ -133,7 +133,6 @@ public class login {
             String mkmoi =  generateRandomPassword();
             sendPasswordEmail(email ,mkmoi);
             service.resetPassword(email,mkmoi);
-            System.out.println("mkoke");
             return "redirect:login";
         }
         else {

@@ -157,15 +157,15 @@
 <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+            <div class="modal-header"  style="background-color: orangered">
+                <h5 class="modal-title" id="forgotPasswordModalLabel" style="color: white">Forgot Password</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="forgotEmail" class="form-label">Enter your email address</label>
-                        <input type="email" class="form-control" id="forgotEmail" placeholder="Email">
+                <form action="/laylaimk" method="post">
+                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                    <div class="mb-5">
+                        <input type="email" class="form-control" id="forgotEmail" name="email" placeholder="Email" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
@@ -175,7 +175,9 @@
             </div>
         </div>
     </div>
-</div><script>
+</div>
+
+<script>
     function validateForm() {
         let valid = true;
 
@@ -228,7 +230,7 @@
     }
     function validateForm1() {
         let valid = true;
-        // Kiểm tra Email
+
         const email = document.getElementById('emaillong').value;
         const emailError = document.getElementById('emaillongError'); // Sửa ID sai
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
