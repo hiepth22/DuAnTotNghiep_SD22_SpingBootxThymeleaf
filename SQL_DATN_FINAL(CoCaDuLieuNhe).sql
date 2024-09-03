@@ -1875,3 +1875,6 @@ ALTER TABLE [dbo].[san_pham_chi_tiet]  WITH CHECK ADD  CONSTRAINT [FK_san_pham_c
 REFERENCES [dbo].[san_pham] ([id])
 GO
 ALTER TABLE [dbo].[san_pham_chi_tiet] CHECK CONSTRAINT [FK_san_pham_chi_tiet_san_pham]
+
+
+select * from phieu_giam_gia
