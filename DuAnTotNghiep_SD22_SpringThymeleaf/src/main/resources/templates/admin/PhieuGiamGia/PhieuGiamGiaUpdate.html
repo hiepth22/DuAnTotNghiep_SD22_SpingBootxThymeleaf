@@ -81,13 +81,19 @@
                                     <div class="form-group">
                                         <label class="font-semibold">Ngày Bắt Đầu:</label>
                                         <span class="input-wrapper">
-                                            <input type="date" th:field="*{ngayBatDau}" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" oninput="validateForm()" th:value="${#dates.format(ngayBatDau, 'dd-MM-yyyy')}">
+                                            <input type="date" id="ngayBatDau" th:field="*{ngayBatDau}" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" th:value="${#dates.format(ngayBatDau, 'dd-MM-yyyy')}" oninput="validateForm()">
+
+<!--                                            <input type="date" th:field="*{ngayBatDau}" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" oninput="validateForm()" th:value="${#dates.format(ngayBatDau, 'dd-MM-yyyy')}">-->
                                         </span>
                                     </div>
                                     <div class="form-group">
                                         <label class="font-semibold">Ngày Kết Thúc:</label>
                                         <span class="input-wrapper">
-                                            <input type="date" th:field="*{ngayKetThuc}" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" th:value="${#dates.format(ngayKetThuc, 'dd-MM-yyyy')}" oninput="validateForm()">
+
+
+                                           <input type="date" id="ngayKetThuc" th:field="*{ngayKetThuc}" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" th:value="${#dates.format(ngayKetThuc, 'dd-MM-yyyy')}" oninput="validateForm()">
+
+<!--                                            <input type="date" th:field="*{ngayKetThuc}" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" th:value="${#dates.format(ngayKetThuc, 'dd-MM-yyyy')}" oninput="validateForm()">-->
                                         </span>
                                     </div>
                                 </div>
@@ -113,7 +119,12 @@
 
 <script>
     document.getElementById('confirmButton').addEventListener('click', function (event) {
+        // Ngăn chặn việc gửi form ngay lập tức
+        event.preventDefault();
+
+        // Kiểm tra tính hợp lệ của form
         if (validateForm()) {
+            // Hiển thị hộp thoại xác nhận
             Swal.fire({
                 title: 'Bạn có chắc chắn muốn thay đổi thông tin phiếu giảm giá?',
                 text: "Bạn không thể hoàn tác hành động này!",
@@ -125,13 +136,8 @@
                 cancelButtonText: 'Hủy'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        'Đã xác nhận!',
-                        'Bạn đã thay đổi thông tin phiếu giảm giá.',
-                        'success'
-                    ).then(() => {
-                        update();
-                    });
+                    // Nếu người dùng xác nhận, gọi phương thức cập nhật
+                    update();
                 } else {
                     Swal.fire(
                         'Đã hủy!',
@@ -140,36 +146,65 @@
                     );
                 }
             });
-        }else {
-            event.preventDefault();
         }
     });
+
     function update() {
-        const form = document.getElementById('myForm');
+        const form = document.getElementById('myForm'); // Lấy form cần submit
         axios.post('/admin/updatePhieuGiamGia', new FormData(form))
             .then(function(response) {
+                // Hiển thị thông báo thành công
                 showSuccessMessageUpdate();
             })
             .catch(function(error) {
                 console.error('Error:', error);
             });
     }
+
+    // document.getElementById('confirmButton').addEventListener('click', function (event) {
+    //     // event.preventDefault(); // Ngăn chặn việc gửi form ngay lập tức
+    //     if (validateForm()) {
+    //         Swal.fire({
+    //             title: 'Bạn có chắc chắn muốn thay đổi thông tin phiếu giảm giá?',
+    //             text: "Bạn không thể hoàn tác hành động này!",
+    //             icon: 'warning',
+    //             showCancelButton: true,
+    //             confirmButtonColor: '#3085d6',
+    //             cancelButtonColor: '#d33',
+    //             confirmButtonText: 'Vâng, tiếp tục!',
+    //             cancelButtonText: 'Hủy'
+    //         }).then((result) => {
+    //             if (result.isConfirmed) {
+    //                 Swal.fire(
+    //                     'Đã xác nhận!',
+    //                     'Bạn đã thay đổi thông tin phiếu giảm giá.',
+    //                     'success'
+    //                 ).then(() => {
+    //                     update();
+    //                 });
+    //             } else {
+    //                 Swal.fire(
+    //                     'Đã hủy!',
+    //                     'Hành động của bạn đã bị hủy.',
+    //                     'error'
+    //                 );
+    //             }
+    //         });
+    //     }else {
+    //         event.preventDefault();
+    //     }
+    // });
     // function update() {
-    //     const form = document.querySelector('form'); // Hoặc sử dụng ID nếu có
-    //     const formData = new FormData(form);
-    //     axios.post('/admin/updatePhieuGiamGia/' + form.id.value, formData)
-    //         .then(function (response) {
+    //     const form = document.getElementById('myForm');
+    //     axios.post('/admin/updatePhieuGiamGia', new FormData(form))
+    //         .then(function(response) {
     //             showSuccessMessageUpdate();
     //         })
-    //         .catch(function (error) {
+    //         .catch(function(error) {
     //             console.error('Error:', error);
-    //             Swal.fire(
-    //                 'Lỗi!',
-    //                 'Đã xảy ra lỗi trong quá trình cập nhật.',
-    //                 'error'
-    //             );
     //         });
     // }
+
 
     function showSuccessMessageUpdate() {
         const notification = document.getElementById('notification');
@@ -186,22 +221,7 @@
         }, 3000);
     }
 
-    // const notification = document.getElementById('notification');
-        // if (notification) {
-        //     notification.classList.add('show1');
-        //     const progressBar = document.getElementById('progress-bar1');
-        //     if (progressBar) {
-        //         progressBar.style.width = '0';
-        //         setTimeout(function () {
-        //             progressBar.style.width = '100%';
-        //         }, 3000);
-        //
-        //         setTimeout(function () {
-        //             notification.classList.remove('show1');
-        //             window.location.href = '/admin/phieu-giam-gia';
-        //         }, 3000);
-        //     }
-        // }
+
     function validateForm() {
         let isValid = true;
         const ten = document.getElementById('ten');
