@@ -32,6 +32,8 @@ public class GioHangAPI {
     private HoaDonChiTietService hoaDonChiTietService;
     @Autowired
     private PhuongThucThanhToanService phuongThucThanhToanService;
+    @Autowired
+    private SanPhamChiTietService sanPhamChiTietService;
 
     @GetMapping("/detail/{id}")
     public ResponseEntity<Map<String, Object>> detail(@PathVariable("id") Long id) {
@@ -166,6 +168,15 @@ public class GioHangAPI {
     }
 
 
+    @PutMapping("/update-so-luong-sp-sau-khi-thanh-toan/{id}")
+    public ResponseEntity<?> updateSoLuongSauKhiThanhToan(@PathVariable("id") Long id,
+                                                                @RequestBody GioHangChiTiet gioHangChiTiet) {
+        SanPhamChiTiet sp = sanPhamChiTietService.findById(id);
+        int soLuongHienTai = sp.getSoLuong();
+        int soLuongMoi = soLuongHienTai - gioHangChiTiet.getSoLuong();
+
+        return ResponseEntity.ok(sanPhamChiTietService.updateSL(id, soLuongMoi));
+    }
 
 
 

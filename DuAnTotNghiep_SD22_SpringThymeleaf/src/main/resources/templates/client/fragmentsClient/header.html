@@ -1,6 +1,12 @@
 <header id="header" class="site-header text-white" th:fragment="header"  xmlns:th="http://www.w3.org/1999/xhtml">
     <style>
-
+            /* Giữ header ở trên đầu khi cuộn trang */
+        #header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
         .input-group input.form-control,
         .input-group button.btn {
             border: none;
@@ -100,13 +106,16 @@
                     <ul id="navbar" class="navbar-nav fw-bold justify-content-end align-items-center flex-grow-1">
                         <!-- Thanh tìm kiếm -->
                         <li class="nav-item">
-                            <a class="nav-link me-5" style="color: white;" href="#">Home</a>
+                            <a class="nav-link me-5" style="color: white;" href="/Client">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link me-5" style="color: white;" href="/shop">Shop</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link me-5" style="color: white;" href="#">Sale</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link me-5" style="color: white;" href="/TraCuuDonHang">Tra Cứu</a>
                         </li>
                     </ul>
                 </div>

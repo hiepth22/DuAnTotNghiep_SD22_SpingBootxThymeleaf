@@ -17,7 +17,7 @@
 <div th:replace="~{client/fragmentsClient/header :: header}"></div>
 <div>
     <div class="flex justify-center">
-        <div class="container bg-gray-100 w-[75%] p-2 rounded-lg shadow-md mt-32 flex gap-40">
+        <div class="container bg-gray-100 w-[85%] p-2 rounded-lg shadow-md mt-32 flex gap-40">
             <div class="grid gap-1 ml-2" style="grid-template-columns: 20% 80%;">
                 <div class="m-5">
                     <span id="tenKhachHang" class="font-bold"></span>
@@ -110,28 +110,33 @@ $(document).ready(function () {
                     let item = response[i];
                     tongTien += item.soLuong * item.sanPhamChiTiet.giaBan;
                     list += `
-                <div class="grid gap-4 grid-cols-2" style="max-width: 800px" xmlns="http://www.w3.org/1999/html">
-                   <div class="flex">
-                       <div class="ml-5 ">
-                            <img src="${item.sanPhamChiTiet.anh}" alt="Ảnh" class="w-24 h-auto mt-2">
-                       </div>
-                       <div>
-                          <div> <strong>${item.sanPhamChiTiet.ten}</strong></div>
-                          <div class="flex">
-                               <div>
-                                    <span>${item.sanPhamChiTiet.kichCo.ten} - </span>
-                               </div>
-                               <div class="color-container rounded-lg ml-2 mt-1 border-3" style="background-color: ${item.sanPhamChiTiet.mauSac.ten}; width: 50px; height: 20px;"></div>
-                          </div>
-                           <div><span>x${item.soLuong}</span></div>
-                       </div>
-                   </div>
-                    <div>
-                        <div> <a herf="#" class="product-price card-text" style="font-size: 17px; color: #d9534f; margin-left: 15px; margin-bottom: 10px; display: block;">
-                            ${item.sanPhamChiTiet.giaBan * item.soLuong}</a> VND</div>
+                <div class="grid gap-4 grid-cols-2" style="max-width: 800px;">
+                    <!-- Thông tin sản phẩm -->
+                    <div class="flex items-start space-x-4 p-4">
+                        <div class="flex-shrink-0">
+                            <img src="${item.sanPhamChiTiet.anh}" alt="Ảnh" class="w-24 h-auto rounded-lg shadow-md">
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-lg font-semibold text-gray-800">${item.sanPhamChiTiet.ten}</div>
+                            <div class="flex items-center mt-2">
+                                <span class="text-gray-600">${item.sanPhamChiTiet.kichCo.ten} - </span>
+                                <div class="color-container rounded-full ml-2 border border-gray-300" style="background-color: ${item.sanPhamChiTiet.mauSac.ten}; width: 20px; height: 20px;"></div>
+                            </div>
+                            <div class="mt-2 text-gray-600">Số lượng: <span class="font-medium">${item.soLuong}</span></div>
+                        </div>
                     </div>
+
+                    <!-- Giá sản phẩm -->
+                    <div class="" style="margin-top: 40px">
+                        <div class="" style="font-size: 16px; color: red">
+                            ${item.sanPhamChiTiet.giaBan * item.soLuong} <span class="">VND</span>
+                        </div>
                     </div>
-                    <div class="ml-5 w-[95%] h-0.5 bg-gray-200"></div>
+                </div>
+
+                <!-- Đường phân cách -->
+                <div class="ml-5 w-[95%] h-0.5 bg-gray-300 mt-4"></div>
+
                     `;
                 }
 
@@ -141,15 +146,16 @@ $(document).ready(function () {
                                     <div class="ml-5 w-[95%] h-0.5 bg-gray-200"></div>
 
                     ${list}
-                    <div>Tổng tiền: ${tongTien}</div>
-                    <div>
-                            <button type="button" class="tiepTuc mb-10 w-36 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:ring-blue-300 rounded-lg px-2.5 py-1">
-                                <a class="">Hủy đơn</a>
-                            </button>
-                            <button type="button" class="tiepTuc mb-10 w-36 text-gray-700 bg-white border border-gray-400 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 rounded-lg px-2.5 py-1">
-                                <a href="/thong-tin-don-hang/${idHoaDon}">Xem đơn hàng</a>
-                            </button>
-                        </div>
+                    <div class="flex justify-end mr-[170px]" style="margin-bottom: 10px">Thành tiền:&nbsp;<span style="font-size: 17px;color: red"> ${tongTien} VND</span></div>
+                    <div class="flex justify-end mr-[170px]">
+
+                                <button type="button" class="tiepTuc mb-10 w-36 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:ring-blue-300 rounded-lg px-2.5 py-1 mr-4">
+                                    <a class="">Hủy đơn</a>
+                                </button>
+                                <button type="button" class="tiepTuc mb-10 w-36 text-gray-700 bg-white border border-gray-400 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 rounded-lg px-2.5 py-1">
+                                    <a href="/thong-tin-don-hang/${idHoaDon}">Xem đơn hàng</a>
+                                </button>
+                    </div>
                 </div>
             `);
             },
