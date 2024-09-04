@@ -11,15 +11,16 @@
           href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
     <head th:replace="~{admin/fragments/head :: head}"></head>
     <style>
+
         @media print {
             .invoice-container {
                 display: block !important;
             }
-
             body > *:not(.invoice-container) {
                 display: none !important;
             }
         }
+
         .notification {
             position: fixed;
             top: 20px;
@@ -218,9 +219,7 @@
 
         </div>
 
-<!--        <div class="bg-white h-52 w-full m-auto mt-5 p-6 rounded-lg shadow-md mb-11">-->
 
-<!--        </div>-->
 
 
         <!--    modal-->
@@ -459,7 +458,7 @@
     </div>
 </div>
 
-<div class="invoice-container max-w-screen-md mx-auto p-4 border border-gray-300 bg-white hidden">
+<div class="invoice-container max-w-screen-md mx-auto p-4 border border-gray-300 bg-white">
     <div id="inHoaDon">
     </div>
 </div>

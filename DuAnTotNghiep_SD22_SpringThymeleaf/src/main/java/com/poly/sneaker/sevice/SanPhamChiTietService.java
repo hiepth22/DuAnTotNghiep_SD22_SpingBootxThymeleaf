@@ -153,4 +153,9 @@ public class SanPhamChiTietService {
         return new PageImpl<>(list, pageable, list.size());
     }
 
+
+    public SanPhamChiTiet getSPByBarcode(String Barcode) {
+        return repository.findSPByBarcode(Barcode);
+    }
+
 }

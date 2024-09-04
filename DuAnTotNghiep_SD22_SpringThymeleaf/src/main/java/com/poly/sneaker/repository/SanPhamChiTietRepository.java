@@ -119,4 +119,10 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
 
     @Query("SELECT s FROM SanPhamChiTiet s WHERE s.sanPham.id = ?1")
     List<SanPhamChiTiet> findBySanPhamId(Long sanPhamId);
+
+    @Query("SELECT s FROM SanPhamChiTiet s WHERE s.barcode = ?1")
+    SanPhamChiTiet findSPByBarcode(String barcode);
+
+
+
 }

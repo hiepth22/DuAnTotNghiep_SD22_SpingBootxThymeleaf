@@ -307,7 +307,7 @@ $(document).ready(function () {
 
                 getPhuongThucThanhToan(tongTien, hd);
 
-                inHoaDon(hd, hdctList, tongTien);
+                inHoaDon(hd, hdctList);
 
                 getDanhSachSanPham(0, 5);
 
@@ -494,7 +494,7 @@ $(document).ready(function () {
     };
 
 
-    function inHoaDon(hd, hdctList, tongTien) {
+    function inHoaDon(hd, hdctList) {
         let danhSachSP = '';
 
         hdctList.forEach((item, index) => {
@@ -558,7 +558,7 @@ $(document).ready(function () {
         <div class="invoice-footer mt-4 flex justify-between">
             <div>
                 <p class="font-semibold">Tiền thu người nhận:</p>
-                <p>${formatVND(tongTien)}</p>
+                <p>${formatVND(hd.tongTienSauGiam)}</p>
             </div>
             <div class="signature text-center">
                 <p class="font-semibold">Chữ ký người nhận</p>
@@ -568,6 +568,7 @@ $(document).ready(function () {
             </div>
         </div>
     `);
+        console.log($('#inHoaDon').html());
     }
 
 
@@ -582,7 +583,6 @@ $(document).ready(function () {
         const soLuongInputs = document.querySelectorAll(".soLuong-input");
 
         if (currentStep === 1) {
-            // Ẩn nút "Prev" khi ở bước 1
             buttonPre.style.display = 'none';
             button.style.display = "block";
             buttonsDeleteSP.forEach(button => button.style.display = "block");
@@ -1026,9 +1026,13 @@ $(document).ready(function () {
         }
 
         if (currentStep == 2 && confirm("Bạn có muốn in hóa đơn không?")) {
-            window.print();
+
+            setTimeout(() => {
+                console.log('Bắt đầu in');
+                window.print();
+            }, 100);
             stepsHistory.push({hanhDong: currentStep, ngayTao: new Date().toISOString()});
-            updateTrangThai(currentStep)
+            updateTrangThai(currentStep);
             showNotification("Xác nhận thành công", "thanhCong");
             updateButtonsState();
             hideNoteModal();
