@@ -47,13 +47,58 @@
             transition: width 3s linear;
         }
     </style>
+    <style>
+        .product-slider-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+        .product-slide .price {
+            color: red; /* Màu đỏ cho giá sản phẩm */
+            font-size: 1.2em; /* Kích thước chữ có thể tùy chỉnh */
+        }
+        .product-slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .product-slide {
+            min-width: calc(100% / 5); /* Hiển thị 6 sản phẩm một hàng */
+            box-sizing: border-box;
+        }
+
+        .product-slide img {
+            width: 100%;
+            display: block;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+    </style>
 </head>
 
 <body>
 <div th:replace="~{client/fragmentsClient/header :: header}"></div>
 
 <section id="latest-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0" style="background-color: #F5F5F5">
-    <div class="container-md" >
+    <div class="container-md">
         <div class="row d-flex" id="products-list">
             <div class=" d-flex">
                 <div id="anh" class="col-md-6"></div>
@@ -62,24 +107,29 @@
                         <div id="ten"></div>
                         <div class="d-flex" style="size: 80px; margin-top: 5px;margin-bottom: 5px;">
                             <p style=" font-weight: bold; font-size: 40px"></p>
-                            <div id="gia" style="size: 80px;"></div>
+                            <p class="col-md-2" style="margin-top: 15px"><strong> Giá : </strong></p>
+                            <div class="col-md-10" id="gia" style="size: 80px;"></div>
                         </div>
                     </div>
                     <div class="mausize">
-<!--                        <p>Chọn Màu :</p>-->
-                        <div id="mau" class="col-md-12"></div>
-                        <p class="validatemau">Vui Lòng chọn màu</p>
-<!--                        <p>Chọn Size :</p>-->
-                        <div id="size" class="col-md-12" style="margin-bottom: 5px"></div>
-                        <p class="validatesize">Vui Lòng chọn Size</p>
+                        <div class="d-flex">
+                            <p class="col-md-2" style="margin-top: 30px"><strong> Màu : </strong></p>
+                            <div id="mau" class="col-md-10"></div>
+                            <p class="validatemau">Vui Lòng chọn màu</p>
+                        </div>
+                        <div class="d-flex">
+                            <p class="col-md-3" style="margin-top: 30px"><strong>Kích Thước :</strong></p>
+                            <div id="size" class="col-md-9" style="margin-bottom: 5px"></div>
+                            <p class="validatesize">Vui Lòng chọn Size</p>
+                        </div>
                     </div>
 
                     <div id="sl" class="col-md-12 d-flex">
                         <div class="d-flex md-8">
-                            <button class="lui btn btn-light" >-</button>
+                            <button class="lui btn btn-light">-</button>
                             <input class="text-center btn btn-light" type="text" id="quantity" value="1" min="1"
                                    style="width: 50px">
-                            <button class="tang btn btn-light" >+</button>
+                            <button class="tang btn btn-light">+</button>
                         </div>
                         <div id="soluongton" class="md-4" style="margin-top:5px  "></div>
                     </div>
@@ -89,13 +139,31 @@
                         <button class="btn btn-outline-warning" id="themgiohang">
                             <i class="bi bi-cart"></i> Thêm Giỏ Hàng
                         </button>
-                </div>
-            </div><!-- Added div for additional images -->
+                    </div>
+                    <br>
+                    <br>
+                    <div>
+                        <p><strong>Mô Tả :</strong></p>
+                        <p id="mota"></p>
+                    </div>
+
+                </div><!-- Added div for additional images -->
+            </div>
         </div>
+</section>
+<section id="splienquan" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0 text-center" style="background-color: #F5F5F5">
+    <h1 >SẢN PHẨM LIÊN QUAN</h1>
+    <div class="product-slider-container">
+        <div class="product-slider">
+
+        </div>
+        <button class="prev"><</button>
+        <button class="next">></button>
     </div>
 </section>
+
 <div id="notification" class="notification">
-    Đã  thêm  vào giỏ hàng !
+    Đã thêm vào giỏ hàng !
     <div id="progress-bar" class="progress-bar"></div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/jarallax@1.12.0/dist/jarallax.min.js"></script>
@@ -106,7 +174,8 @@
         const path = window.location.pathname;
         const pathParts = path.split('/');
         const sanPhamId = pathParts[pathParts.length - 1];
-        let slconlai ;
+        let slconlai;
+
         function validateQuantity() {
             let $quantityInput = $('#quantity');
             let currentQuantity = parseInt($quantityInput.val(), 10);
@@ -126,7 +195,6 @@
         $('#quantity').on('input blur', validateQuantity);
 
 
-
         if (!sanPhamId) {
             console.error('Không tìm thấy ID sản phẩm trong URL.');
             $('#products-list').append('<p>Không có ID sản phẩm.</p>');
@@ -144,6 +212,7 @@
                 const productsContainer = $('#mau');
                 const anhsp = $('#anh');
                 const sizesp = $('#size');
+                const motasp = $('#mota');
 
                 const ten = $('#ten');
                 const gia = $('#gia');
@@ -151,8 +220,8 @@
                 var sizecheck;
                 var anhcheck;
 
-                document.getElementById('themgiohang').addEventListener('click', function() {
-                    if(anhcheck==null && sizecheck==null){
+                document.getElementById('themgiohang').addEventListener('click', function () {
+                    if (anhcheck == null && sizecheck == null) {
                         var validateSizeP = document.querySelector('.validatemau');
                         validateSizeP.style.display = 'block';
                         validateSizeP.style.color = 'red';
@@ -162,8 +231,8 @@
                     }
 
                 });
-                document.getElementById('muangay').addEventListener('click', function() {
-                    if(anhcheck==null && sizecheck==null){
+                document.getElementById('muangay').addEventListener('click', function () {
+                    if (anhcheck == null && sizecheck == null) {
                         var validateSizeP = document.querySelector('.validatemau');
                         validateSizeP.style.display = 'block';
                         validateSizeP.style.color = 'red';
@@ -196,6 +265,12 @@
                 })
                 if (data && typeof data === 'object' && data.id) {
                     const productName = data.ten || 'Không có tên';
+                    const thuonghieu = data.nhaSanXuat.ten
+                    const chatLieu = data.chatLieu.ten
+                    const deGiay = data.deGiay.ten
+                    const coGiay = data.coGiay.ten
+                    const mota = data.moTa
+
                     const productPrice = data.giaBan != null ? data.giaBan.toLocaleString('vi-VN', {
                         style: 'currency',
                         currency: 'VND'
@@ -207,8 +282,23 @@
                     <img src="${productImage}" alt="Product Image" style="width: 500px; height: 500px; ">
                 `);
                     const tensp = $(`
-
-                            <p class="card-title" style=" font-size:25px;color: #333; margin-top: 10px;">${productName}</p>
+                            <div>
+                            <p class="card-title" style=" font-size:45px;color: #333; margin-top: 10px;">${productName}</p>
+                            <div >
+                            <div>
+                            <p><strong>Thương Hiệu :</strong></p>
+                            <p id="th" class="card-title" style=" font-size:15px;color: #333; margin-top: 10px;">${thuonghieu}</p>
+                             <p> <strong>Chất liệu :</strong></p>
+                            <p class="card-title" style=" font-size:15px;color: #333; margin-top: 10px;">${chatLieu}</p>
+                            </div>
+                            <div>
+                            <p><strong>Đế Giày :</strong></p>
+                            <p class="card-title" style=" font-size:15px;color: #333; margin-top: 10px;">${deGiay}</p>
+                            <p><strong>Cổ Giày :</strong></p>
+                            <p class="card-title" style=" font-size:15px;color: #333; margin-top: 10px;">${coGiay}</p>
+                            </div>
+                            </div>
+                            </div>
 
                 `);
                     const giasp = $(`
@@ -216,8 +306,13 @@
                             <p class="product-price" style="font-size: 30px;color: #d9534f; margin-bottom: 10px;">${productPrice}</p>
 
                 `);
+                    const Mota = $(`
 
+                            <p>${mota}</p>
 
+                `);
+
+                    motasp.append(Mota);
                     anhsp.append(mainImage);
                     ten.append(tensp);
                     gia.append(giasp);
@@ -225,7 +320,84 @@
 
                     const additionalImagesDiv = $('<div class="additional-images"></div>');
 
+                    const slider = document.querySelector('.product-slider');
+                    const prevButton = document.querySelector('.prev');
+                    const nextButton = document.querySelector('.next');
+                    const slidesPerPage = 5;
+                    let currentIndex = 0;
 
+                    function updateSlider() {
+                        const offset = -currentIndex * (100 / slidesPerPage);
+                        slider.style.transform = `translateX(${offset}%)`;
+                    }
+
+                    function showNext() {
+                        if (currentIndex < slider.children.length - slidesPerPage) {
+                            currentIndex++;
+                            updateSlider();
+                        }
+                    }
+
+                    function showPrev() {
+                        if (currentIndex > 0) {
+                            currentIndex--;
+                            updateSlider();
+                        }
+                    }
+
+                    prevButton.addEventListener('click', showPrev);
+                    nextButton.addEventListener('click', showNext);
+
+                    function loadProducts() {
+                        const xhr = new XMLHttpRequest();
+                        const tenThuongHieu = 'Nike'; // Thay đổi theo yêu cầu
+                        xhr.open('GET', `/san-pham-lienquan/${thuonghieu}`, true);
+                        xhr.onload = function () {
+                            if (xhr.status >= 200 && xhr.status < 300) {
+                                try {
+                                    const response = JSON.parse(xhr.responseText);
+                                    console.log("Full response:", response);
+                                    const products = response.sanPham || [];
+                                    renderProducts(products);
+                                } catch (e) {
+                                    console.error('Error parsing JSON:', e);
+                                }
+                            } else {
+                                console.error('Failed to load products, status code:', xhr.status);
+                            }
+                        };
+                        xhr.onerror = function () {
+                            console.error('Request failed');
+                        };
+                        xhr.send();
+                    }
+
+                    function renderProducts(products) {
+                        slider.innerHTML = '';
+                        products.forEach(product => {
+                            const slide = document.createElement('div');
+                            slide.className = 'product-slide';
+                            const gia = new Intl.NumberFormat('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND'
+                            }).format(product.giaBan);
+                            slide.innerHTML = `
+               <img src="${product.anh}" style="width: calc(100% +30px); height: 300px; border-radius: 8px; display: block; margin: 0 -15px 10px -15px; box-sizing: border-box;" >
+
+               <h4>${product.ten}</h4>
+               <p style="color: red">${gia}</p>
+`;
+                            slide.addEventListener('click', () => {
+                                window.location.href = `/san-pham/${product.id}`;
+                            });
+                            slider.appendChild(slide);
+                        });
+
+                        updateSlider();
+                    }
+
+
+                    loadProducts();
                     $.ajax({
                         url: `/sanphamchitietclientanh/${data.sanPham.id}`,
                         method: 'GET',
@@ -252,36 +424,34 @@
                             $('.additional-images img').on('click', function () {
                                 $('.additional-images img').removeClass('selected-image');
 
-                                sizecheck=null;
+                                sizecheck = null;
 
                                 var validateSizeP = document.querySelector('.validatesize');
                                 validateSizeP.style.display = 'none';
                                 sltonsp.empty();
                                 $(this).addClass('selected-image');
-                                document.getElementById('themgiohang').addEventListener('click', function() {
-                                    if(sizecheck==null){
+                                document.getElementById('themgiohang').addEventListener('click', function () {
+                                    if (sizecheck == null) {
                                         var mausizeDiv = document.querySelector('.mausize');
                                         mausizeDiv.style.display = 'block';
 
                                         var validateSizeP = document.querySelector('.validatesize');
                                         validateSizeP.style.display = 'block';
                                         validateSizeP.style.color = 'red';
-                                    }
-                                    else {
+                                    } else {
 
                                     }
 
                                 });
-                                document.getElementById('muangay').addEventListener('click', function() {
-                                    if(sizecheck==null){
+                                document.getElementById('muangay').addEventListener('click', function () {
+                                    if (sizecheck == null) {
                                         var mausizeDiv = document.querySelector('.mausize');
                                         mausizeDiv.style.display = 'block';
 
                                         var validateSizeP = document.querySelector('.validatesize');
                                         validateSizeP.style.display = 'block';
                                         validateSizeP.style.color = 'red';
-                                    }
-                                    else {
+                                    } else {
 
                                     }
 
@@ -289,7 +459,7 @@
 
                                 const imageName = $(this).data('name');
                                 console.log('Tên hình ảnh:', imageName);
-                                if(imageName!=null){
+                                if (imageName != null) {
                                     var validateSizeP = document.querySelector('.validatemau');
                                     validateSizeP.style.display = 'none';
                                     validateSizeP.style.color = 'red';
@@ -308,7 +478,7 @@
                                 $.ajax({
                                     url: `/kichco/${data.sanPham.id}`,
                                     method: 'GET',
-                                    data: { anh: encodeURIComponent(imageName) },
+                                    data: {anh: encodeURIComponent(imageName)},
                                     dataType: 'json',
                                     success: function (sizes) {
                                         console.log('Sizes:', sizes);
@@ -316,7 +486,7 @@
                                         $.ajax({
                                             url: `/gia-ban/${data.sanPham.id}/${sizegia}`,
                                             method: 'GET',
-                                            data: { anh: encodeURIComponent(imageName) },
+                                            data: {anh: encodeURIComponent(imageName)},
                                             dataType: 'json',
                                             success: function (giaanh) {
                                                 const giakhichonanh = giaanh != null ? giaanh.toLocaleString('vi-VN', {
@@ -362,11 +532,11 @@
                                             $.ajax({
                                                 url: `/SLton/${data.sanPham.id}/${selectedSize}`,
                                                 method: 'GET',
-                                                data: { anh: encodeURIComponent(imageName) },
+                                                data: {anh: encodeURIComponent(imageName)},
                                                 dataType: 'json',
                                                 success: function (sl) {
                                                     slconlai = sl
-                                                    console.log("hmmmm"+slconlai);
+                                                    console.log("hmmmm" + slconlai);
                                                     const slton = $(`
                                                                     <div>
                                                                           <p class="product-price" style="font-size: 17px; color: #000000; margin-bottom: 10px; opacity: 0.5;margin-left: 10px">
@@ -377,90 +547,89 @@
                                                                   `);
                                                     sltonsp.append(slton);
 
-                                                    document.getElementById('themgiohang').addEventListener('click', function() {
-                                                        if(sizecheck==null){
+                                                    document.getElementById('themgiohang').addEventListener('click', function () {
+                                                        if (sizecheck == null) {
 
-                                                        }
-                                                        else {
-                                                                $.ajax({
-                                                                    url: '/api/session/user',
-                                                                    method: 'GET',
-                                                                    success: function (response) {
-                                                                        let idKhachHang = response.id;
+                                                        } else {
+                                                            $.ajax({
+                                                                url: '/api/session/user',
+                                                                method: 'GET',
+                                                                success: function (response) {
+                                                                    let idKhachHang = response.id;
 
-                                                                        let inputElement = document.getElementById('quantity');
-                                                                        let soluongspkhithem = inputElement.value;
-                                                                        var anhlayve = imageName;
-                                                                        $.ajax({
-                                                                            url: `/detailcheckgh/${idKhachHang}/${selectedSize}/${data.sanPham.id}/${soluongspkhithem}`,
-                                                                            type: 'GET',
-                                                                            data: { anhlayve: encodeURIComponent(anhlayve) },
-                                                                            success: function(response) {
-                                                                                var notification = document.getElementById('notification');
-                                                                                var progressBar = document.getElementById('progress-bar');
+                                                                    let inputElement = document.getElementById('quantity');
+                                                                    let soluongspkhithem = inputElement.value;
+                                                                    var anhlayve = imageName;
+                                                                    $.ajax({
+                                                                        url: `/detailcheckgh/${idKhachHang}/${selectedSize}/${data.sanPham.id}/${soluongspkhithem}`,
+                                                                        type: 'GET',
+                                                                        data: {anhlayve: encodeURIComponent(anhlayve)},
+                                                                        success: function (response) {
+                                                                            var notification = document.getElementById('notification');
+                                                                            var progressBar = document.getElementById('progress-bar');
 
-                                                                                notification.style.display = 'block';
+                                                                            notification.style.display = 'block';
+                                                                            progressBar.style.width = '100%';
+
+                                                                            setTimeout(function () {
+                                                                                progressBar.style.width = '0';
+                                                                            }, 10);
+
+                                                                            setTimeout(function () {
+                                                                                notification.style.display = 'none';
                                                                                 progressBar.style.width = '100%';
-
-                                                                                setTimeout(function() {
-                                                                                    progressBar.style.width = '0';
-                                                                                }, 10);
-
-                                                                                setTimeout(function() {
-                                                                                    notification.style.display = 'none';
-                                                                                    progressBar.style.width = '100%';
-                                                                                }, 3010);
-                                                                                console.log('Response:', response);
+                                                                            }, 3010);
+                                                                            console.log('Response:', response);
 
 
-                                                                            },
-                                                                            error: function(xhr, status, error) {
-                                                                                console.error('Error:', error);
-                                                                            }
-                                                                        });
-                                                                    },
-                                                                    error: function (xhr, status, error) {
-                                                                        window.location.href = `/login`;
-                                                                    }
-                                                                });}
+                                                                        },
+                                                                        error: function (xhr, status, error) {
+                                                                            console.error('Error:', error);
+                                                                        }
+                                                                    });
+                                                                },
+                                                                error: function (xhr, status, error) {
+                                                                    window.location.href = `/login`;
+                                                                }
+                                                            });
+                                                        }
 
 
                                                     });
-                                                    document.getElementById('muangay').addEventListener('click', function() {
-                                                        if(sizecheck==null){
+                                                    document.getElementById('muangay').addEventListener('click', function () {
+                                                        if (sizecheck == null) {
 
-                                                        }
-                                                        else {
-                                                                $.ajax({
-                                                                    url: '/api/session/user',
-                                                                    method: 'GET',
-                                                                    success: function (response) {
-                                                                        let idKhachHang = response.id;
+                                                        } else {
+                                                            $.ajax({
+                                                                url: '/api/session/user',
+                                                                method: 'GET',
+                                                                success: function (response) {
+                                                                    let idKhachHang = response.id;
 
-                                                                        let inputElement = document.getElementById('quantity');
+                                                                    let inputElement = document.getElementById('quantity');
 
-                                                                        let soluongspkhithem = inputElement.value;
-                                                                        var anhlayve = imageName;
-                                                                        $.ajax({
-                                                                            url: `/detailcheckgh/${idKhachHang}/${selectedSize}/${data.sanPham.id}/${soluongspkhithem}`,
-                                                                            type: 'GET',
-                                                                            data: { anhlayve: encodeURIComponent(anhlayve) },
-                                                                            success: function(response) {
+                                                                    let soluongspkhithem = inputElement.value;
+                                                                    var anhlayve = imageName;
+                                                                    $.ajax({
+                                                                        url: `/detailcheckgh/${idKhachHang}/${selectedSize}/${data.sanPham.id}/${soluongspkhithem}`,
+                                                                        type: 'GET',
+                                                                        data: {anhlayve: encodeURIComponent(anhlayve)},
+                                                                        success: function (response) {
 
-                                                                                console.log('Response:', response);
-                                                                                window.location.href = `/gio-hang`;
+                                                                            console.log('Response:', response);
+                                                                            window.location.href = `/gio-hang`;
 
 
-                                                                            },
-                                                                            error: function(xhr, status, error) {
-                                                                                console.error('Error:', error);
-                                                                            }
-                                                                        });
-                                                                    },
-                                                                    error: function (xhr, status, error) {
-                                                                        window.location.href = `/login`;
-                                                                    }
-                                                                });
+                                                                        },
+                                                                        error: function (xhr, status, error) {
+                                                                            console.error('Error:', error);
+                                                                        }
+                                                                    });
+                                                                },
+                                                                error: function (xhr, status, error) {
+                                                                    window.location.href = `/login`;
+                                                                }
+                                                            });
                                                         }
                                                     });
                                                 },
@@ -471,7 +640,7 @@
                                             $.ajax({
                                                 url: `/gia-ban/${data.sanPham.id}/${selectedSize}`,
                                                 method: 'GET',
-                                                data: { anh: encodeURIComponent(imageName) },
+                                                data: {anh: encodeURIComponent(imageName)},
                                                 dataType: 'json',
                                                 success: function (giaban) {
                                                     console.log('giasize:', giaban);
@@ -506,7 +675,7 @@
                     $.ajax({
                         url: `http://localhost:3000/kichco/${data.sanPham.id}`,
                         method: 'GET',
-                        data: { anh: encodeURIComponent(data.anh) },
+                        data: {anh: encodeURIComponent(data.anh)},
                         success: function (sizes) {
                             console.log('Sizes:', sizes);
 
@@ -532,17 +701,17 @@
                                 validateSizeP.style.color = 'red';
                                 const selectedSize = $(this).text();
                                 console.log('Kích cỡ được chọn v:', selectedSize);
-                                sizecheck=selectedSize;
-                                document.getElementById('themgiohang').addEventListener('click', function() {
-                                   if(anhcheck==null){
-                                       var validateSizeP = document.querySelector('.validatemau');
-                                       validateSizeP.style.display = 'block';
-                                       validateSizeP.style.color = 'red';
-                                   }
+                                sizecheck = selectedSize;
+                                document.getElementById('themgiohang').addEventListener('click', function () {
+                                    if (anhcheck == null) {
+                                        var validateSizeP = document.querySelector('.validatemau');
+                                        validateSizeP.style.display = 'block';
+                                        validateSizeP.style.color = 'red';
+                                    }
 
                                 });
-                                document.getElementById('muangay').addEventListener('click', function() {
-                                    if(anhcheck==null){
+                                document.getElementById('muangay').addEventListener('click', function () {
+                                    if (anhcheck == null) {
                                         var validateSizeP = document.querySelector('.validatemau');
                                         validateSizeP.style.display = 'block';
                                         validateSizeP.style.color = 'red';
@@ -565,6 +734,12 @@
         });
     });
 
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+    });
 
 </script>
 

@@ -7,6 +7,7 @@ import com.poly.sneaker.sevice.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -217,6 +218,14 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
     response.put("giỏ_hàng", gh);
     return ResponseEntity.ok(response);
 }
+    @GetMapping("/san-pham-lienquan/{ten}")
+    public ResponseEntity<Map<String, Object>> getSanPhamByThuongHieu(@PathVariable("ten") String ten) {
+        List<SanPhamChiTiet> sanPhamList = repo.findByThuongHieu_TenThuongHieu(ten);
 
+        Map<String, Object> response = new HashMap<>();
+        response.put("sanPham", sanPhamList);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
 }

@@ -95,6 +95,8 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
 
     @Query("SELECT s FROM SanPhamChiTiet s ORDER BY s.ngayTao DESC")
     List<SanPhamChiTiet> findTop12NamesByNgayTaoDesc(Pageable pageable);
+    @Query("SELECT s FROM SanPhamChiTiet s JOIN s.nhaSanXuat t WHERE t.ten = :ten")
+    List<SanPhamChiTiet> findByThuongHieu_TenThuongHieu(@Param("ten") String tenThuongHieu);
 
     @Query("SELECT s FROM SanPhamChiTiet s " +
             "LEFT JOIN s.sanPham sp " +
