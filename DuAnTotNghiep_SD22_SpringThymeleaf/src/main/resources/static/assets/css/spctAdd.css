@@ -4,7 +4,8 @@
     border-radius: 10px;
     padding: 20px;
     margin: 20px auto;
-    width: 100%;
+    max-width: 1200px; /* Tăng max-width cho rộng ra hơn */
+    width: 95%; /* Đặt width cụ thể để điều chỉnh kích thước */
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
 }
@@ -108,7 +109,7 @@
 
 .create-product-btn {
     display: block;
-    margin: 20px 0 0 auto; /* Đặt nút ở phía bên phải và cách đều phía trên */
+    margin: 20px 0 0 auto;
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -128,5 +129,31 @@
     margin-right: 10px;
     margin-bottom: 10px;
 }
+
+.color-modal-body {
+    max-height: 300px; /* Điều chỉnh chiều cao tối đa để phù hợp với 5 hàng */
+    overflow-y: auto; /* Thêm thanh cuộn dọc khi nội dung vượt quá chiều cao */
+    padding-right: 15px; /* Khoảng trống bên phải để tránh che thanh cuộn */
+}
+
+.color-container {
+    display: flex;
+    align-items: center;
+}
+
+.custom-btn {
+    width: 60px;  /* Điều chỉnh chiều rộng theo ý muốn */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.custom-icon {
+    font-size: 1.5rem
+}
+
+
+
 
 

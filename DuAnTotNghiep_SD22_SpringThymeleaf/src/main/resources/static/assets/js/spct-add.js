@@ -1,3 +1,9 @@
+
+document.querySelector('.custom-btn').addEventListener('click', function (event) {
+    event.preventDefault();
+});
+
+
 $(document).ready(function () {
     var selectedColors = [];
     var selectedSizes = [];
@@ -99,13 +105,13 @@ $(document).ready(function () {
             data: formData,
             processData: false,
             contentType: false
-        }).done(function(response) {
+        }).done(function (response) {
             if (response && response.secure_url) {
                 colorImages[colorId] = response.secure_url;
             } else {
                 console.error("Không có secure_url trong phản hồi:", response);
             }
-        }).fail(function(jqXHR, textStatus, errorThrown) {
+        }).fail(function (jqXHR, textStatus, errorThrown) {
             console.error("Lỗi khi tải ảnh:", textStatus, errorThrown);
         });
     }
@@ -125,7 +131,7 @@ $(document).ready(function () {
             !nhaSanXuatId || nhaSanXuatId === "Chọn nhà sản xuất" ||
             selectedColors.length === 0 || selectedSizes.length === 0) {
             $("#validationModal").modal("show");
-            return [];
+            return;
         }
 
         const usedMa = [];
@@ -140,14 +146,14 @@ $(document).ready(function () {
                     ma: ma,
                     ten: nameProduct,
                     barcode: "",
-                    sanPham: { id: sanPhamId, name: nameProduct },
-                    coGiay: { id: coGiayId },
-                    deGiay: { id: deGiayId },
-                    chatLieu: { id: chatLieuId },
-                    nhaSanXuat: { id: nhaSanXuatId },
+                    sanPham: {id: sanPhamId, name: nameProduct},
+                    coGiay: {id: coGiayId},
+                    deGiay: {id: deGiayId},
+                    chatLieu: {id: chatLieuId},
+                    nhaSanXuat: {id: nhaSanXuatId},
                     moTa: moTa,
-                    mauSac: { id: mauSac.id, name: mauSac.name },
-                    kichCo: { id: kichCo.id, name: kichCo.name },
+                    mauSac: {id: mauSac.id, name: mauSac.name},
+                    kichCo: {id: kichCo.id, name: kichCo.name},
                     ngayTao: new Date().toISOString(),
                     ngayCapNhat: "",
                     nguoiTao: "admin",
@@ -180,7 +186,7 @@ $(document).ready(function () {
         var chiTietSanPhams = getChiTietSanPhams();
         var allUploads = [];
 
-        selectedColors.forEach(function(color) {
+        selectedColors.forEach(function (color) {
             var input = $(`#file-upload-${color.id}`)[0];
             if (input && input.files && input.files.length > 0) {
                 var file = input.files[0];
@@ -199,7 +205,7 @@ $(document).ready(function () {
 
     function displayProductDetails(chiTietSanPhams) {
         const colorGroups = chiTietSanPhams.reduce((groups, product) => {
-            const { mauSac } = product;
+            const {mauSac} = product;
             if (!groups[mauSac.id]) {
                 groups[mauSac.id] = [];
             }
@@ -212,8 +218,8 @@ $(document).ready(function () {
 
         Object.entries(colorGroups).forEach(([mauSacId, products]) => {
             const tenMauBienThe = products[0].mauSac.name;
-            const colorTitle = $('<h5 class="mt-3"></h5>').text(`Danh sách sản phẩm có màu ${tenMauBienThe}`)
-                .attr('style', 'font-weight: bold; font-size: 1.25rem; margin-top: 1rem;');
+            const colorTitle = $('<h2 class="mt-2" style="font-weight: bold;"></h2>')
+                .html(`Danh sách sản phẩm có màu <span style="display: inline-block; width: 40px; height: 40px; background-color: ${tenMauBienThe}; border-radius: 5px; border: 1px solid #ccc;"></span>`);
             const tableWrapper = $('<div class="table-wrapper"></div>');
             const table = $('<table class="table table-bordered"></table>');
             const thead = $("<thead></thead>").html(`
@@ -229,16 +235,41 @@ $(document).ready(function () {
         `);
             const tbody = $('<tbody></tbody>');
 
-            products.forEach((product) => {
+            products.forEach((product, index) => {
                 const row = $('<tr></tr>').html(`
                 <td>${product.ten}</td>
-                <td>${product.mauSac.name}</td>
+                <td>
+                <span style="display: inline-block; width: 40px; height: 40px; background-color: ${product.mauSac.name}; border-radius: 5px; border: 1px solid #ccc;"></span>
+                </td>
                 <td>${product.kichCo.name}</td>
-                <td><input type="text" value="${product.canNang}" /></td>
-                <td><input type="text" value="${dinhDangGia(product.giaBan)}" /></td>
-                <td><input type="text" value="${product.soLuong}" /></td>
+                <td><input type="text" class="product-input" value="${product.canNang}" data-index="${index}" data-field="canNang" /></td>
+                <td><input type="text" class="product-input" value="${dinhDangGia(product.giaBan)}" data-index="${index}" data-field="giaBan" /></td>
+                <td><input type="text" class="product-input" value="${product.soLuong}" data-index="${index}" data-field="soLuong"/></td>
                 <td><a class="delete-product"><i class="fa fa-trash"></i></a></td>
             `);
+                row.find('.product-input').on('input', function () {
+                    const index = $(this).data('index');
+                    const field = $(this).data('field');
+                    let value = $(this).val();
+
+                    switch (field) {
+                        case 'canNang':
+                            chiTietSanPhams[index].canNang = value;
+                            break;
+                        case 'giaBan':
+                            value = value.replace(/[^\d]/g, '');
+                            chiTietSanPhams[index].giaBan = Number(value);
+                            $(this).val(dinhDangGia(value));
+                            break;
+                        case 'soLuong':
+                            chiTietSanPhams[index].soLuong = value;
+                            break;
+                        default:
+                            console.warn('Unknown field:', field);
+                            break;
+                    }
+                });
+
                 tbody.append(row);
             });
 
