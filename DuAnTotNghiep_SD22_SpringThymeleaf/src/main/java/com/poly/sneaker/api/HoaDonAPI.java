@@ -248,5 +248,10 @@ public class HoaDonAPI {
         return hoaDonService.getSanPhamSapHetHang();
     }
 
+    @GetMapping("/san-pham-ct/{barcode}")
+    public SanPhamChiTiet getSPCTByBarcode(@PathVariable("barcode") String barcode){
+        return sanPhamChiTietService.getSPByBarcode(barcode);
+    }
+
 
 }

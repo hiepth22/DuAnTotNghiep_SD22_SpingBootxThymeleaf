@@ -6,6 +6,9 @@
     <title>Bán hàng tại quầy</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     <link rel="icon" type="image/svg+xml"
           href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
     <head th:replace="~{admin/fragments/head :: head}"></head>
@@ -54,7 +57,40 @@
         #toggle-button.active .toggle-dot {
             transform: translateY(-50%) translateX(24px);
         }
-
+        #interactive {
+            width: 320px;
+            height: 240px;
+            overflow: hidden;
+            background-color: #000;
+        }
+        #modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        #modal-content {
+            position: absolute;
+            width: 320px;
+            height: 240px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        #modal-content h3 {
+            margin: 0;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            text-align: center;
+        }
 
     </style>
 </head>
@@ -87,13 +123,18 @@
 
             </div>
             <div class="flex justify-end">
-
+                <div id="barcode-scanner">
+                        <div id="result">
+<!--                            <strong></strong><span id="scanned-barcode"></span>-->
+                        </div>
+                    <div id="error-message"></div>
                 <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded mr-3"
-                        id="QRCode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="mdi-barcode-scan" width="24" height="24" viewBox="0 0 24 24">
+                        id="start-camera"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="mdi-barcode-scan" width="24" height="24" viewBox="0 0 24 24">
                     <path fill="#FFFFFF" d="M4,6H6V18H4V6M7,6H8V18H7V6M9,6H12V18H9V6M13,6H14V18H13V6M16,6H18V18H16V6M19,6H20V18H19V6M2,4V8H0V4A2,2 0 0,1 2,2H6V4H2M22,2A2,2 0 0,1 24,4V8H22V4H18V2H22M2,16V20H6V22H2A2,2 0 0,1 0,20V16H2M22,20V16H24V20A2,2 0 0,1 22,22H18V20H22Z"/>
                 </svg>
-
                 </button>
+                </div>
+
                 <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded"
                         id="hienThiDanhSachSanPham" >Thêm sản phẩm
                 </button>
@@ -222,6 +263,13 @@
         </div>
     </div>
 </div>
+
+<div id="modal">
+    <div id="modal-content">
+        <h3>Scanning...</h3>
+        <div id="interactive" class="viewport"></div>
+        </div>
+    </div>
 
 <div id="modalDachSachSanPham" class="fixed inset-0 overflow-y-auto hidden bg-gray-500 bg-opacity-75 ml-20">
     <div class="flex items-center justify-center min-h-screen">
@@ -473,7 +521,7 @@
                         });
                     }
 
-
+                    xoaSanPham(idHoaDon);
                     hienThiThongTinNguoiMua(hd);
                     thongTinShip(hd);
 
@@ -514,9 +562,13 @@
                                                 <input type="number" class="soLuong-input bg-gray-100 w-[30%] border border-gray-300 rounded-md px-2 py-1" value="${hdct.soLuong}" min="1" data-id="${hdct.id}" id="soLuong-${hdct.id}" name="soLuong-${hdct.id}" >
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">${formatVND(hdct.soLuong * hdct.sanPhamChiTiet.giaBan)}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <button class="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 hover:text-gray-100">Thùng rác</button>
-                                            </td>
+                                             <td class="px-6 py-4 whitespace-nowrap">
+                                                <button class="deleteSP" data-id="${hdct.id}" id="xoaSP-${hdct.id}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-7" style="color: #B94A00">
+                                                        <path fill-rule="evenodd" d="M7.22 3.22A.75.75 0 0 1 7.75 3h9A2.25 2.25 0 0 1 19 5.25v9.5A2.25 2.25 0 0 1 16.75 17h-9a.75.75 0 0 1-.53-.22L.97 10.53a.75.75 0 0 1 0-1.06l6.25-6.25Zm3.06 4a.75.75 0 1 0-1.06 1.06L10.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L12 8.94l-1.72-1.72Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </button>
+                                             </td>
                                         </tr>
                                     `).join('')}
                                 </tbody>
@@ -534,6 +586,140 @@
 
             });
         }
+
+        function barcode(code){
+            $.ajax({
+                url: `/api/hoa-don/san-pham-ct/${code}`,
+                method: 'Get',
+                contentType: 'application/json',
+                data: {},
+                success: function (response) {
+                    // console.log(response);
+                    console.log("ngu"+response.id);
+                    addSPBarcode(response.id);
+                    getDuLieu(idTabHD);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Lỗi khi gọi API', textStatus, errorThrown);
+                }
+            });
+        }
+
+        function addSPBarcode(idSanPham){
+            const soLuongMoi = 1;
+
+
+            let checkTrung = false;
+
+            let soLuongHienTai = 0;
+
+            if (Array.isArray(idSP)) {
+                for (let i = 0; i < idSP.length; i++) {
+                    if (idSP[i].id === idSanPham) {
+                        checkTrung = true;
+                        soLuongHienTai = idSP[i].soLuong;
+                        break;
+                    }
+                }
+            }
+
+            const soLuongCuoiCung = checkTrung ? soLuongHienTai + soLuongMoi : soLuongMoi;
+
+
+            const capNhatSoLuongNeuTrung = {
+                // gia: giaBan,
+                soLuong: soLuongCuoiCung,
+                trangThai: 1,
+                hoaDon: { id: idTabHD },
+                sanPhamChiTiet: { id: idSanPham }
+            };
+            // gia: giaBan,
+
+            if (!checkTrung) {
+                $.ajax({
+                    url: `/api/hoa-don/danh-sach-san-pham/add`,
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                         soLuong: soLuongMoi,trangThai: 1, hoaDon: { id: idTabHD }, sanPhamChiTiet: { id: idSanPham }
+                    }),
+                    success: function () {
+                        // showNotification("Thêm sản pẩm thành công", "thanhCong")
+                        hideModalSoLuong();
+                        hideModalDanhSachSanPham();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Lỗi khi gọi API', textStatus, errorThrown);
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: `/api/hoa-don/update-so-luong-sp`,
+                    method: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(capNhatSoLuongNeuTrung),
+                    success: function () {
+                        // showNotification("Thêm sản pẩm thành công", "thanhCong")
+                        hideModalSoLuong();
+                        hideModalDanhSachSanPham();
+                    },
+                });
+            }
+            getDuLieu(idTabHD);
+        }
+
+        function xoaSanPham(idHoaDon) {
+            $(document).on('click', '.deleteSP', function () {
+                const itemId = $(this).data('id');
+                console.log("Button clicked! ID:", itemId); // Kiểm tra xem sự kiện click đã hoạt động chưa
+                showConfirm(function() {
+                    $.ajax({
+                        url: `/api/hoa-don/delete-hd/${idHoaDon}`,
+                        method: 'POST',
+                        data: {idHoaDonCT: itemId},
+                        success: function () {
+                            console.log("Xóa sản phẩm thành công!"); // Kiểm tra khi xóa thành công
+                            // showNotification("Xóa sản phẩm thành công", "thanhCong")
+                            getDuLieu(idHoaDon);
+                        },
+                        error: function() {
+                            Swal.fire(
+                                'Lỗi!',
+                                'Đã xảy ra lỗi khi xóa sản phẩm.',
+                                'error'
+                            );
+                        }
+                    });
+                });
+            });
+
+        }
+
+
+        function showConfirm(callback) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn?',
+                text: "Bạn không thể hoàn tác hành động này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Vâng, tiếp tục!',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                console.log(result); // Thêm dòng này để kiểm tra giá trị trả về
+                if (result.isConfirmed) {
+                    callback();
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire(
+                        'Đã hủy!',
+                        'Hành động của bạn đã bị hủy.',
+                        'error'
+                    );
+                }
+            });
+        }
+
 
 
         $(document).on('change', '.soLuong-input', function () {
@@ -642,26 +828,6 @@
             `);
 
         }
-
-        // $("#danhSachSanPham").off('click', '.themSanPham').on('click', '.themSanPham', function () {
-        //     const itemId = $(this).data('id');
-        //     const giaBan = $(this).data('gia-ban');
-        //
-        //     $(this).off('click');
-        //     $.ajax({
-        //         url: `/api/hoa-don/danh-sach-san-pham/add`,
-        //         method: 'POST',
-        //         contentType: 'application/json',
-        //         data: JSON.stringify({
-        //             gia: giaBan, trangThai: 1, hoaDon: {id: idTabHD}, sanPhamChiTiet: {id: itemId}
-        //         }),
-        //         success: function () {
-        //             hideModalDanhSachSanPham();
-        //             getDuLieu(idTabHD);
-        //         },
-        //
-        //     });
-        // });
 
         $("#danhSachSanPham").on('click', '.themSanPham', function () {
             $(this).off('click');
@@ -957,6 +1123,97 @@
             $('#modalSoLuong').addClass('hidden');
         }
 
+        // Initialize QuaggaJS for scanning
+        function startScanner() {
+            Quagga.init({
+                inputStream: {
+                    name: "Live",
+                    type: "LiveStream",
+                    target: document.querySelector('#interactive'),
+                    constraints: {
+                        width: 320,
+                        height: 240,
+                        facingMode: "environment"
+                    }
+                },
+                decoder: {
+                    readers: [
+                        "code_128_reader",
+                        "ean_reader",
+                        "ean_8_reader",
+                        "code_39_reader",
+                        "code_39_vin_reader",
+                        "codabar_reader",
+                        "upc_reader",
+                        "upc_e_reader",
+                        "i2of5_reader",
+                        "2of5_reader",
+                        "code_93_reader"
+                    ]
+                },
+                locate: true,
+                locator: {
+                    patchSize: "medium",
+                    halfSample: true
+                }
+            }, function(err) {
+                if (err) {
+                    console.error(err);
+                    $('#error-message').text('Error initializing QuaggaJS: ' + err);
+                    return;
+                }
+                console.log("Initialization finished. Ready to start");
+                Quagga.start();
+            });
+
+            // Process the results from QuaggaJS
+            Quagga.onProcessed(function(result) {
+                var drawingCtx = Quagga.canvas.ctx.overlay,
+                    drawingCanvas = Quagga.canvas.dom.overlay;
+
+                if (result) {
+                    if (result.boxes) {
+                        drawingCtx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+                        result.boxes.filter(function(box) {
+                            return box !== result.box;
+                        }).forEach(function(box) {
+                            Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, {
+                                color: "green",
+                                lineWidth: 2
+                            });
+                        });
+                    }
+
+                    if (result.box) {
+                        Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, {
+                            color: "blue",
+                            lineWidth: 2
+                        });
+                    }
+
+                    if (result.codeResult && result.codeResult.code) {
+                        $('#scanned-barcode').text(result.codeResult.code);
+                    }
+                }
+            });
+
+            // Handle detected barcode
+            Quagga.onDetected(function(result) {
+                var code = result.codeResult.code;
+                console.log(code);
+                barcode(code);
+                $('#scanned-barcode').text(code);
+                Quagga.stop(); // Stop scanning after detection
+                $('#modal').hide(); // Hide modal
+            });
+        }
+
+        // Start camera on button click
+        $('#start-camera').on('click', function() {
+            $('#modal').show(); // Show modal when camera starts
+            startScanner(); // Start the scanner
+        });
+
 
 
         toggleThongTinShip();
@@ -1158,6 +1415,7 @@
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script th:src="@{/assets/js/main.js}"></script>
 
 </body>
