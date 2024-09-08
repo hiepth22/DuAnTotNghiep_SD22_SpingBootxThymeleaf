@@ -43,6 +43,8 @@ public class HoaDonAPI {
     private HoaDonChiTietRepository hoaDonChiTietRepository;
     @Autowired
     private HoaDonRepository hoaDonRepository;
+    @Autowired
+    private PhieuGiamGiaService phieuGiamGiaService;
 
     @GetMapping("")
     public Page<HoaDon> hienThiHoaDonApi(@RequestParam(name = "tab", required = false, defaultValue = "0") int tab,
@@ -251,6 +253,11 @@ public class HoaDonAPI {
     @GetMapping("/san-pham-ct/{barcode}")
     public SanPhamChiTiet getSPCTByBarcode(@PathVariable("barcode") String barcode){
         return sanPhamChiTietService.getSPByBarcode(barcode);
+    }
+
+    @GetMapping("/phieu-giam-gia-phu-hop/{max}")
+    public List<PhieuGiamGia> getPhieuGiamGiaPhuHop(@PathVariable("max") Long max){
+        return phieuGiamGiaService.PhieuGiamGiaPhuHop(max);
     }
 
 
