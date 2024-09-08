@@ -44,5 +44,6 @@ public interface HoaDonChiTietRepository extends JpaRepository<HoaDonChiTiet, Lo
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
 
-
+    @Query("SELECT hdc FROM HoaDonChiTiet hdc JOIN hdc.hoaDon hd WHERE hd.ma = :ma")
+    List<HoaDonChiTiet> findByMa(@Param("ma") String ma);
 }

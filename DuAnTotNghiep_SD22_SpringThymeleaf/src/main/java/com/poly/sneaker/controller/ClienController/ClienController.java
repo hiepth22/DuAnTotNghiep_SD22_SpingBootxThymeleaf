@@ -40,6 +40,8 @@ public class ClienController {
     @Autowired
     private HoaDonRepository hoaDonRepository;
     @Autowired
+    private HoaDonChiTietRepository hdctrepo;
+    @Autowired
     GioHangChiTietService  gioHangChiTietService;
     @Autowired
     private GioHangRepository ghrepo;
@@ -262,5 +264,20 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
+    @GetMapping("/tra-cuu-hoa-don-chi-tiet/{ma}")
+    public ResponseEntity<List<HoaDonChiTiet>> getHoaDonChiTietByMa(@PathVariable String ma) {
+        List<HoaDonChiTiet> hoaDonChiTietList = hdctrepo.findByMa(ma);
+        if (hoaDonChiTietList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(hoaDonChiTietList, HttpStatus.OK);
+    }
+    @GetMapping("/tra-cuu-hoa-don/{ma}")
+    public ResponseEntity<List<HoaDon>> getHoaDonByMa(@PathVariable String ma) {
+        List<HoaDon> hoaDonChiTietList = hoaDonRepository.findByMa(ma);
+        if (hoaDonChiTietList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(hoaDonChiTietList, HttpStatus.OK);
+    }
 }

@@ -78,6 +78,8 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Long> {
             "ORDER BY SUM(hdct.soLuong) DESC ")
     List<SanPhamBanChayDTO> getSanPhamBanChayNhat(Pageable pageable);
 
+    @Query("SELECT hd FROM HoaDon hd WHERE hd.ma = :ma")
+    List<HoaDon> findByMa(@Param("ma") String ma);
 
 
 
