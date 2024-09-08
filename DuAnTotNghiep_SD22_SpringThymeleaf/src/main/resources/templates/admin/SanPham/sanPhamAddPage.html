@@ -69,7 +69,8 @@
                                 <option th:each="deGiay : ${deGiays}" th:value="${deGiay.id}"
                                         th:text="${deGiay.ten}"></option>
                             </select>
-                            <button class="btn btn-secondary custom-btn">
+                            <button type="button" class="btn btn-secondary custom-btn" data-bs-toggle="modal"
+                                    data-bs-target="#themMoiDeGiay">
                                 <i class="bi bi-plus custom-icon"></i>
                             </button>
                         </div>
@@ -85,7 +86,8 @@
                                 <option th:each="chatLieu : ${chatLieus}" th:value="${chatLieu.id}"
                                         th:text="${chatLieu.ten}"></option>
                             </select>
-                            <button class="btn btn-secondary custom-btn">
+                            <button type="button" class="btn btn-secondary custom-btn" data-bs-toggle="modal"
+                                    data-bs-target="#themMoiChatLieu">
                                 <i class="bi bi-plus custom-icon"></i>
                             </button>
                         </div>
@@ -98,7 +100,8 @@
                                 <option th:each="nsx : ${nhaSanXuats}" th:value="${nsx.id}"
                                         th:text="${nsx.ten}"></option>
                             </select>
-                            <button class="btn btn-secondary custom-btn">
+                            <button type="button" class="btn btn-secondary custom-btn" data-bs-toggle="modal"
+                                    data-bs-target="#themMoiNSX">
                                 <i class="bi bi-plus custom-icon"></i>
                             </button>
                         </div>
@@ -148,14 +151,18 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="colorList" th:each="mauSac : ${mauSacs}">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox"
-                                   th:value="${mauSac.id}"
-                                   th:data-color="${mauSac.ten}">
-                            <label class="form-check-label color-container">
-                                <span class="color-box" th:style="'background-color: ' + ${mauSac.ten}"></span>
-                            </label>
+                    <div class="container">
+                        <div class="row row-cols-5">
+                            <div class="col mb-3" th:each="mauSac : ${mauSacs}">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:value="${mauSac.id}"
+                                           th:data-color="${mauSac.ten}">
+                                    <label class="form-check-label color-container mt-2">
+                                        <span class="color-box" th:style="'background-color: ' + ${mauSac.ten}"></span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -176,11 +183,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- List of sizes with checkboxes -->
-                    <div id="sizeList" th:each="kichCo : ${kichCos}">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" th:value="${kichCo.id}">
-                            <label class="form-check-label" th:text="${kichCo.ten}"></label>
+                    <div class="container">
+                        <div class="row row-cols-5">
+                            <div class="col mb-3" th:each="kichCo : ${kichCos}">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" th:value="${kichCo.id}">
+                                    <label class="form-check-label" th:text="${kichCo.ten}"></label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -191,6 +201,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- Modal Thông Báo -->
     <div class="modal fade" id="validationModal" tabindex="-1" role="dialog" aria-labelledby="validationModalLabel"
@@ -273,7 +284,78 @@
         </div>
     </div>
 </div>
-
+<!-- Modal Thêm mới đế giày -->
+<div class="modal fade" id="themMoiDeGiay" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="labelDeGiay">Thêm mới đế giày</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addDeGiayForm">
+                    <div class="mb-3">
+                        <label for="tenDeGiay" class="form-label">Tên đế giày</label>
+                        <input type="text" class="form-control" id="tenDeGiay" placeholder="Nhập loại đế giày">
+                        <div id="tenDeGiayError" class="text-danger" style="display: none;"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="btnLuuDeGiay">Lưu đế giày</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Thêm mới chất liệu -->
+<div class="modal fade" id="themMoiChatLieu" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="labelAddChatLieu">Thêm mới chất liệu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addChatLieuForm">
+                    <div class="mb-3">
+                        <label for="tenDeGiay" class="form-label">Tên chất liệu</label>
+                        <input type="text" class="form-control" id="tenChatLieu" placeholder="Nhập tên chất liệu">
+                        <div id="tenChatLieuError" class="text-danger" style="display: none;"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="btnLuuChatLieu">Lưu chất liệu</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Thêm mới nsx -->
+<div class="modal fade" id="themMoiNSX" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="labelAddNSX">Thêm mới nhà sản xuất</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addNSXForm">
+                    <div class="mb-3">
+                        <label for="tenNSX" class="form-label">Tên nhà sản xuất</label>
+                        <input type="text" class="form-control" id="tenNSX" placeholder="Nhập tên nhà sản xuất">
+                        <div id="tenNSXError" class="text-danger" style="display: none;"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="btnLuuNSX">Lưu NSX</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

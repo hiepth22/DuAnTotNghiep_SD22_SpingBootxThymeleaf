@@ -52,6 +52,7 @@ document.getElementById('btnLuuSanPham').addEventListener('click', function () {
             tenSanPhamError.style.display = 'block';
         });
 });
+
 function updateSanPhamSelect() {
     fetch('/admin/san-pham/all')
         .then(response => response.json())
@@ -70,7 +71,6 @@ function updateSanPhamSelect() {
             console.error('Lỗi khi cập nhật danh sách sản phẩm:', error);
         });
 }
-
 
 document.getElementById('btnLuuCoGiay').addEventListener('click', function () {
     var tenCoGiay = document.getElementById('tenCoGiay').value.trim();
@@ -114,6 +114,7 @@ document.getElementById('btnLuuCoGiay').addEventListener('click', function () {
             errorElement.style.display = 'block';
         });
 });
+
 function updateCoGiaySelect() {
     fetch('/api/co-giay/all')
         .then(response => response.json())
@@ -126,6 +127,184 @@ function updateCoGiaySelect() {
                 option.value = coGiay.id;
                 option.textContent = coGiay.ten;
                 coGiaySelect.appendChild(option);
+            });
+        });
+}
+
+
+document.getElementById('btnLuuDeGiay').addEventListener('click', function () {
+    var tenDeGiay = document.getElementById('tenDeGiay').value.trim();
+    var errorElement = document.getElementById('tenDeGiayError');
+
+    errorElement.textContent = '';
+    errorElement.style.display = 'none';
+
+    if (!tenDeGiay) {
+        errorElement.textContent = 'Vui lòng nhập tên đế giày.';
+        errorElement.style.display = 'block';
+        return;
+    }
+
+    fetch('/api/de-giay/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            'ten': tenDeGiay
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('themMoiDeGiay'));
+                modal.hide();
+
+                updateDeGiaySelect();
+
+                document.getElementById('tenDeGiay').value = '';
+            } else {
+                errorElement.textContent = data.message;
+                errorElement.style.display = 'block';
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+            errorElement.textContent = 'Có lỗi xảy ra.';
+            errorElement.style.display = 'block';
+        });
+});
+
+function updateDeGiaySelect() {
+    fetch('/api/de-giay/all')
+        .then(response => response.json())
+        .then(deGiays => {
+            const deGiaySelect = document.getElementById('deGiay');
+            deGiaySelect.innerHTML = '<option selected>Chọn đế giày</option>';
+
+            deGiays.forEach(deGiay => {
+                const option = document.createElement('option');
+                option.value = deGiay.id;
+                option.textContent = deGiay.ten;
+                deGiaySelect.appendChild(option);
+            });
+        });
+}
+
+document.getElementById('btnLuuChatLieu').addEventListener('click', function () {
+    var tenChatLieu = document.getElementById('tenChatLieu').value.trim();
+    var errorElement = document.getElementById('tenChatLieuError');
+
+    errorElement.textContent = '';
+    errorElement.style.display = 'none';
+
+    if (!tenChatLieu) {
+        errorElement.textContent = 'Vui lòng nhập tên chất liệu.';
+        errorElement.style.display = 'block';
+        return;
+    }
+
+    fetch('/api/chat-lieu/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            'ten': tenChatLieu
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('themMoiChatLieu'));
+                modal.hide();
+
+                updateChatLieuSelect();
+
+                document.getElementById('tenChatLieu').value = '';
+            } else {
+                errorElement.textContent = data.message;
+                errorElement.style.display = 'block';
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+            errorElement.textContent = 'Có lỗi xảy ra.';
+            errorElement.style.display = 'block';
+        });
+});
+
+function updateChatLieuSelect() {
+    fetch('/api/chat-lieu/all')
+        .then(response => response.json())
+        .then(chatLieus => {
+            const chatLieuSelect = document.getElementById('chatLieu');
+            chatLieuSelect.innerHTML = '<option selected>Chọn chất liệu</option>';
+
+            chatLieus.forEach(chatLieu => {
+                const option = document.createElement('option');
+                option.value = chatLieu.id;
+                option.textContent = chatLieu.ten;
+                chatLieuSelect.appendChild(option);
+            });
+        });
+}
+
+document.getElementById('btnLuuNSX').addEventListener('click', function () {
+    var tenNSX = document.getElementById('tenNSX').value.trim();
+    var errorElement = document.getElementById('tenNSXError');
+
+    errorElement.textContent = '';
+    errorElement.style.display = 'none';
+
+    if (!tenNSX) {
+        errorElement.textContent = 'Vui lòng nhập tên nhà sản xuất.';
+        errorElement.style.display = 'block';
+        return;
+    }
+
+    fetch('/api/nsx/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            'ten': tenNSX
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('themMoiNSX'));
+                modal.hide();
+
+                updateNSXSelect();
+
+                document.getElementById('tenNSX').value = '';
+            } else {
+                errorElement.textContent = data.message;
+                errorElement.style.display = 'block';
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+            errorElement.textContent = 'Có lỗi xảy ra.';
+            errorElement.style.display = 'block';
+        });
+});
+
+function updateNSXSelect() {
+    fetch('/api/nsx/all')
+        .then(response => response.json())
+        .then(nsx => {
+            const nsxSelect = document.getElementById('nhaSanXuat');
+            nsxSelect.innerHTML = '<option selected>Chọn nhà sản xuất</option>';
+
+            nsx.forEach(nsxs => {
+                const option = document.createElement('option');
+                option.value = nsxs.id;
+                option.textContent = nsxs.ten;
+                nsxSelect.appendChild(option);
             });
         });
 }

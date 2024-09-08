@@ -4,8 +4,8 @@
     border-radius: 10px;
     padding: 20px;
     margin: 20px auto;
-    max-width: 1200px; /* Tăng max-width cho rộng ra hơn */
-    width: 95%; /* Đặt width cụ thể để điều chỉnh kích thước */
+    max-width: 1200px;
+    width: 105%;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
 }
@@ -68,8 +68,8 @@
     margin-left: 10px;
     min-width: 120px;
     max-width: 200px;
-    white-space: nowrap; /* Ngăn các nút tự động xuống dòng */
-    overflow: hidden; /* Ẩn phần nội dung dư thừa */
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .form-actions button:hover {
@@ -131,9 +131,9 @@
 }
 
 .color-modal-body {
-    max-height: 300px; /* Điều chỉnh chiều cao tối đa để phù hợp với 5 hàng */
-    overflow-y: auto; /* Thêm thanh cuộn dọc khi nội dung vượt quá chiều cao */
-    padding-right: 15px; /* Khoảng trống bên phải để tránh che thanh cuộn */
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 15px;
 }
 
 .color-container {
@@ -142,7 +142,7 @@
 }
 
 .custom-btn {
-    width: 60px;  /* Điều chỉnh chiều rộng theo ý muốn */
+    width: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -151,6 +151,14 @@
 
 .custom-icon {
     font-size: 1.5rem
+}
+
+.color-box {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
 

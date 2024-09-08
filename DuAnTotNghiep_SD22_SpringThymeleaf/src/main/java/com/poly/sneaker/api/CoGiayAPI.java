@@ -43,6 +43,7 @@ public class CoGiayAPI {
         coGiay.setNgayTao(new Date());
         coGiay.setNguoiTao("admin");
         coGiay.setTen(ten);
+        coGiay.setTrangThai(1);
         coGiayService.add(coGiay);
 
         response.put("success", true);
