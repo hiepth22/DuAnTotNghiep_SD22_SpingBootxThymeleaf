@@ -402,6 +402,8 @@
         var $editPhuongXa = $('#edit-phuongxa');
         var citiesData = [];
         let idSP = [];
+        var maPGG = 0;
+        var GiamToiDa = 0;
 
 
 
@@ -584,6 +586,21 @@
                 },
 
 
+            });
+        }
+
+        function PhieuGiamGiaPhuHop(max){
+            $.ajax({
+                url: `/api/hoa-don/phieu-giam-gia-phu-hop/${max}`,
+                method: 'Get',
+                contentType: 'application/json',
+                data: {},
+                success: function (response) {
+                    console.log(response[0])
+                    maPGG = response[0].ma;
+                    GiamToiDa = response[0].giamToiDa;
+
+                },
             });
         }
 
@@ -803,12 +820,15 @@
             var tongTien = hd.tongTien || 0;
             var giaTriGiam = (hd.phieuGiamGia && hd.phieuGiamGia.giaTriGiam) || 0;
 
+
+            PhieuGiamGiaPhuHop(tongTien);
+
             $('#thongTinThanhToan').html(`
                 <div class="m-10 font-bold">
                     ${formatVND(tienKhachDua)}
                 </div>
                 <div class="flex items-center gap-2">
-                    <input type="text" class="border border-brown-500 focus:border-black focus:outline-none p-1 rounded-md text-sm flex-1">
+                    <input type="text" class="border border-brown-500 focus:border-black focus:outline-none p-1 rounded-md text-sm flex-1" value="">
                     <button class="bg-blue-500 hover:bg-blue-700 text-white px-2 rounded">
                         Chọn mã
                     </button>

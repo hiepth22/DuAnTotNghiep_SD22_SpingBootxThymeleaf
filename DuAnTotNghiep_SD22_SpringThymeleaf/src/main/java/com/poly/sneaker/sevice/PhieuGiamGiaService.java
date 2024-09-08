@@ -74,4 +74,9 @@ public class PhieuGiamGiaService {
     }
 
 
+    public List<PhieuGiamGia> PhieuGiamGiaPhuHop(Long max){
+        return phieuGiamGiaRepository.getPhieuGiamGiaPhuHop(max);
+    }
+
+
 }
