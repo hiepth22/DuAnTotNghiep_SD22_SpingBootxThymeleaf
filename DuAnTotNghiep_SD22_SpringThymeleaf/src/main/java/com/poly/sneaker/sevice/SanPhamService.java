@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -23,7 +24,7 @@ public class SanPhamService {
     }
 
     public Page<SanPham> pagination(int pageNo){
-        Pageable pageable = PageRequest.of(pageNo - 1, 10);
+        Pageable pageable = PageRequest.of(pageNo - 1, 10, Sort.by(Sort.Direction.DESC, "ngayTao"));
         return repository.findAll(pageable);
     }
 
@@ -50,6 +51,10 @@ public class SanPhamService {
         sanPham.setNgayCapNhat(null);
         sanPham.setNguoiTao("admin");
         return repository.save(sanPham);
+    }
+
+    public Boolean existingByTen(String ten) {
+        return repository.findByTen(ten).size() > 0;
     }
 
     public SanPham finById(Long id) {
@@ -93,7 +98,5 @@ public class SanPhamService {
         return repository.existsById(id);
     }
 
-    public Boolean existingByTen(String ten) {
-        return repository.findByTen(ten).size() > 0;
-    }
+
 }

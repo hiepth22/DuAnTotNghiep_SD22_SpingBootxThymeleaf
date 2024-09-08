@@ -38,7 +38,8 @@
                             <option th:each="sanPham : ${sanPhams}" th:value="${sanPham.id}"
                                     th:text="${sanPham.ten}"></option>
                         </select>
-                        <button type="button" class="btn btn-secondary custom-btn" data-bs-toggle="modal" data-bs-target="#themMoiSanPham">
+                        <button type="button" class="btn btn-secondary custom-btn" data-bs-toggle="modal"
+                                data-bs-target="#themMoiSanPham">
                             <i class="bi bi-plus custom-icon"></i>
                         </button>
                     </div>
@@ -50,9 +51,11 @@
                         <div class="input-group">
                             <select id="coGiay" class="form-control">
                                 <option selected>Chọn cổ giày</option>
-                                <option th:each="coGiay : ${coGiays}" th:value="${coGiay.id}" th:text="${coGiay.ten}"></option>
+                                <option th:each="coGiay : ${coGiays}" th:value="${coGiay.id}"
+                                        th:text="${coGiay.ten}"></option>
                             </select>
-                            <button class="btn btn-secondary custom-btn">
+                            <button type="button" class="btn btn-secondary custom-btn" data-bs-toggle="modal"
+                                    data-bs-target="#themMoiCoGiay">
                                 <i class="bi bi-plus custom-icon"></i>
                             </button>
                         </div>
@@ -63,7 +66,8 @@
                         <div class="input-group">
                             <select id="deGiay" class="form-control">
                                 <option selected>Chọn đế giày</option>
-                                <option th:each="deGiay : ${deGiays}" th:value="${deGiay.id}" th:text="${deGiay.ten}"></option>
+                                <option th:each="deGiay : ${deGiays}" th:value="${deGiay.id}"
+                                        th:text="${deGiay.ten}"></option>
                             </select>
                             <button class="btn btn-secondary custom-btn">
                                 <i class="bi bi-plus custom-icon"></i>
@@ -78,7 +82,8 @@
                         <div class="input-group">
                             <select id="chatLieu" class="form-control">
                                 <option selected>Chọn chất liệu</option>
-                                <option th:each="chatLieu : ${chatLieus}" th:value="${chatLieu.id}" th:text="${chatLieu.ten}"></option>
+                                <option th:each="chatLieu : ${chatLieus}" th:value="${chatLieu.id}"
+                                        th:text="${chatLieu.ten}"></option>
                             </select>
                             <button class="btn btn-secondary custom-btn">
                                 <i class="bi bi-plus custom-icon"></i>
@@ -90,7 +95,8 @@
                         <div class="input-group">
                             <select id="nhaSanXuat" class="form-control">
                                 <option selected>Chọn nhà sản xuất</option>
-                                <option th:each="nsx : ${nhaSanXuats}" th:value="${nsx.id}" th:text="${nsx.ten}"></option>
+                                <option th:each="nsx : ${nhaSanXuats}" th:value="${nsx.id}"
+                                        th:text="${nsx.ten}"></option>
                             </select>
                             <button class="btn btn-secondary custom-btn">
                                 <i class="bi bi-plus custom-icon"></i>
@@ -100,34 +106,34 @@
                 </div>
 
                 <div class="form-group">
-                                <label for="moTa">Mô tả sản phẩm</label>
-                                <textarea class="form-control" id="moTa" name="moTa" rows="4"
-                                          placeholder="Nhập mô tả"></textarea>
-                            </div>
+                    <label for="moTa">Mô tả sản phẩm</label>
+                    <textarea class="form-control" id="moTa" name="moTa" rows="4"
+                              placeholder="Nhập mô tả"></textarea>
+                </div>
 
-                            <h2 class="form-subtitle">Màu sắc và kích cỡ</h2>
-                            <div class="row form-group">
-                                <div class="col">
-                                    <label>Kích cỡ</label>
-                                    <div class="input-group">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#sizeModal">
-                                            <i class="fas fa-plus"></i> Chọn kích cỡ
-                                        </button>
-                                        <div id="selectedSizes" class="selected-items"></div>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <label>Màu sắc</label>
-                                    <div class="input-group">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#colorModal">
-                                            <i class="fas fa-palette"></i> Chọn màu sắc
-                                        </button>
-                                        <div id="selectedColors" class="selected-items"></div>
-                                    </div>
-                                </div>
-                            </div>
+                <h2 class="form-subtitle">Màu sắc và kích cỡ</h2>
+                <div class="row form-group">
+                    <div class="col">
+                        <label>Kích cỡ</label>
+                        <div class="input-group">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#sizeModal">
+                                <i class="fas fa-plus"></i> Chọn kích cỡ
+                            </button>
+                            <div id="selectedSizes" class="selected-items"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label>Màu sắc</label>
+                        <div class="input-group">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#colorModal">
+                                <i class="fas fa-palette"></i> Chọn màu sắc
+                            </button>
+                            <div id="selectedColors" class="selected-items"></div>
+                        </div>
+                    </div>
+                </div>
             </form>
             <button class="create-product-btn btn btn-primary">Tạo sản phẩm</button>
         </div>
@@ -214,26 +220,53 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addProductModalLabel">Thêm mới sản phẩm</h5>
+                <h5 class="modal-title" id="labelAdd">Thêm mới sản phẩm</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Nội dung form thêm sản phẩm mới -->
-                <form>
+                <form id="addProductForm">
                     <div class="mb-3">
-                        <label for="productName" class="form-label">Tên sản phẩm</label>
-                        <input type="text" class="form-control" id="productName" placeholder="Nhập tên sản phẩm">
+                        <label for="tenSanPham" class="form-label">Tên sản phẩm</label>
+                        <input type="text" class="form-control" id="tenSanPham" placeholder="Nhập tên sản phẩm"
+                               required>
                     </div>
                     <div class="mb-3">
-                        <label for="productPrice" class="form-label">Giá sản phẩm</label>
-                        <input type="number" class="form-control" id="productPrice" placeholder="Nhập giá sản phẩm">
+                        <label for="thuongHieu" class="form-label">Thương hiệu</label>
+                        <select class="form-control" id="thuongHieu" required>
+                            <option value="" disabled selected>Chọn thương hiệu</option>
+                            <th:block th:each="thuongHieu : ${thuongHieus}">
+                                <option th:value="${thuongHieu.id}" th:text="${thuongHieu.ten}"></option>
+                            </th:block>
+                        </select>
                     </div>
-                    <!-- Thêm các trường khác tùy theo nhu cầu -->
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary">Lưu sản phẩm</button>
+                <button type="button" class="btn btn-primary" id="btnLuuSanPham">Lưu sản phẩm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Thêm mới cổ giày -->
+<div class="modal fade" id="themMoiCoGiay" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="labelAddCoGiay">Thêm mới cổ giày</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addCoGiayForm">
+                    <div class="mb-3">
+                        <label for="tenCoGiay" class="form-label">Tên cổ giày</label>
+                        <input type="text" class="form-control" id="tenCoGiay" placeholder="Nhập tên cổ giày" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="btnLuuCoGiay">Lưu cổ giày</button>
             </div>
         </div>
     </div>
@@ -248,5 +281,7 @@
 <!-- Template Javascript -->
 <script th:src="@{/assets/js/main.js}"></script>
 <script th:src="@{/assets/js/spct-add.js}"></script>
+<script th:src="@{/assets/js/sanPham.js}"></script>
+
 </body>
 </html>

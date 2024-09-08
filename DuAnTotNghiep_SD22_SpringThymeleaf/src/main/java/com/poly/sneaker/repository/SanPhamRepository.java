@@ -19,5 +19,4 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Long>, JpaSpec
             "OR s.moTa LIKE %?1% " +
             "OR t.ten LIKE %?1% ")
     List<SanPham> searchSP(String keyword);
-
 }

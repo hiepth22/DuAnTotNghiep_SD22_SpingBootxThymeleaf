@@ -8,6 +8,7 @@ import com.poly.sneaker.entity.MauSac;
 import com.poly.sneaker.entity.NhaSanXuat;
 import com.poly.sneaker.entity.SanPham;
 import com.poly.sneaker.entity.SanPhamChiTiet;
+import com.poly.sneaker.entity.ThuongHieu;
 import com.poly.sneaker.sevice.ChatLieuService;
 import com.poly.sneaker.sevice.CoGiayService;
 import com.poly.sneaker.sevice.DeGiayService;
@@ -16,6 +17,7 @@ import com.poly.sneaker.sevice.MauSacService;
 import com.poly.sneaker.sevice.NhaSanXuatService;
 import com.poly.sneaker.sevice.SanPhamChiTietService;
 import com.poly.sneaker.sevice.SanPhamService;
+import com.poly.sneaker.sevice.ThuongHieuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -56,6 +58,9 @@ public class SanPhamChiTietController {
     @Autowired
     private KichCoService kichCoService;
 
+    @Autowired
+    private ThuongHieuService thuongHieuService;
+
 
     @GetMapping("/add")
     public String addSanPhamChiTiet(
@@ -68,6 +73,7 @@ public class SanPhamChiTietController {
         List<CoGiay> coGiays = coGiayService.getAll();
         List<MauSac> mauSacs = mauSacService.getAll();
         List<KichCo> kichCos = kichCoService.getAll();
+        List<ThuongHieu> thuongHieus = thuongHieuService.getAll();
 
         model.addAttribute("sanPhams", sanPhams);
         model.addAttribute("deGiays", deGiays);
@@ -76,6 +82,7 @@ public class SanPhamChiTietController {
         model.addAttribute("coGiays", coGiays);
         model.addAttribute("mauSacs", mauSacs);
         model.addAttribute("kichCos", kichCos);
+        model.addAttribute("thuongHieus", thuongHieus);
 
         return "admin/SanPham/sanPhamAddPage";
     }
