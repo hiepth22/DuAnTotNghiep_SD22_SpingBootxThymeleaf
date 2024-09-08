@@ -238,10 +238,7 @@ $(document).ready(function () {
             products.forEach((product, index) => {
                 const row = $('<tr></tr>').html(`
                 <td>${product.ten}</td>
-                <td>
-                <span style="display: inline-block; width: 40px; height: 40px; background-color: ${product.mauSac.name}; border-radius: 5px; border: 1px solid #ccc;"></span>
-                </td>
-                <td>${product.kichCo.name}</td>
+                <td><span style="display: inline-block; width: 40px; height: 40px; background-color: ${product.mauSac.name}; border-radius: 5px; border: 1px solid #ccc;"></span></td><td>${product.kichCo.name}</td>
                 <td><input type="text" class="product-input" value="${product.canNang}" data-index="${index}" data-field="canNang" /></td>
                 <td><input type="text" class="product-input" value="${dinhDangGia(product.giaBan)}" data-index="${index}" data-field="giaBan" /></td>
                 <td><input type="text" class="product-input" value="${product.soLuong}" data-index="${index}" data-field="soLuong"/></td>
@@ -270,6 +267,15 @@ $(document).ready(function () {
                     }
                 });
 
+                row.find('.delete-product').on('click', function () {
+                    chiTietSanPhams.splice(index, 1);
+
+                    row.remove();
+
+                    if (tbody.children().length === 0) {
+                        tableWrapper.remove();
+                    }
+                });
                 tbody.append(row);
             });
 

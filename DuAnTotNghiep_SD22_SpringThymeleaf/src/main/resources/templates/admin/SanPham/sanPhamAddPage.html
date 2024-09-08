@@ -151,17 +151,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="container">
-                        <div class="row row-cols-5">
-                            <div class="col mb-3" th:each="mauSac : ${mauSacs}">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox"
-                                           th:value="${mauSac.id}"
-                                           th:data-color="${mauSac.ten}">
-                                    <label class="form-check-label color-container mt-2">
-                                        <span class="color-box" th:style="'background-color: ' + ${mauSac.ten}"></span>
-                                    </label>
-                                </div>
+                    <div id="colorList" class="row">
+                        <div class="col-2 mb-3" th:each="mauSac : ${mauSacs}">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                       th:value="${mauSac.id}"
+                                       th:data-color="${mauSac.ten}"
+                                       th:id="'color_' + ${mauSac.id}">
+                                <label class="form-check-label color-container" th:for="'color_' + ${mauSac.id}">
+                                    <span class="color-box" th:style="'background-color: ' + ${mauSac.ten}"></span>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -174,6 +173,7 @@
         </div>
     </div>
 
+
     <!-- Modal Kích cỡ-->
     <div class="modal fade" id="sizeModal" tabindex="-1" aria-labelledby="sizeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -183,13 +183,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="container">
-                        <div class="row row-cols-5">
-                            <div class="col mb-3" th:each="kichCo : ${kichCos}">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" th:value="${kichCo.id}">
-                                    <label class="form-check-label" th:text="${kichCo.ten}"></label>
-                                </div>
+                    <div id="sizeList" class="row">
+                        <div class="col-2 mb-3" th:each="kichCo : ${kichCos}">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" th:value="${kichCo.id}" th:id="'kichCo_' + ${kichCo.id}">
+                                <label class="form-check-label" th:for="'kichCo_' + ${kichCo.id}" th:text="${kichCo.ten}"></label>
                             </div>
                         </div>
                     </div>
@@ -201,6 +199,7 @@
             </div>
         </div>
     </div>
+
 
 
     <!-- Modal Thông Báo -->
