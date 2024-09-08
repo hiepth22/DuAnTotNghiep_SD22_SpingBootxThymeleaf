@@ -227,8 +227,8 @@
                 <form id="addProductForm">
                     <div class="mb-3">
                         <label for="tenSanPham" class="form-label">Tên sản phẩm</label>
-                        <input type="text" class="form-control" id="tenSanPham" placeholder="Nhập tên sản phẩm"
-                               required>
+                        <input type="text" class="form-control" id="tenSanPham" placeholder="Nhập tên sản phẩm">
+                        <div id="tenSanPhamError" class="text-danger" style="display: none;"></div>
                     </div>
                     <div class="mb-3">
                         <label for="thuongHieu" class="form-label">Thương hiệu</label>
@@ -238,6 +238,7 @@
                                 <option th:value="${thuongHieu.id}" th:text="${thuongHieu.ten}"></option>
                             </th:block>
                         </select>
+                        <div id="thuongHieuError" class="text-danger" style="display: none;"></div>
                     </div>
                 </form>
             </div>
@@ -260,7 +261,8 @@
                 <form id="addCoGiayForm">
                     <div class="mb-3">
                         <label for="tenCoGiay" class="form-label">Tên cổ giày</label>
-                        <input type="text" class="form-control" id="tenCoGiay" placeholder="Nhập tên cổ giày" required>
+                        <input type="text" class="form-control" id="tenCoGiay" placeholder="Nhập tên cổ giày">
+                        <div id="tenCoGiayError" class="text-danger" style="display: none;"></div>
                     </div>
                 </form>
             </div>

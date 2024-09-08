@@ -5,12 +5,16 @@ import com.poly.sneaker.sevice.CoGiayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api/co-giay")
@@ -19,11 +23,20 @@ public class CoGiayAPI {
     @Autowired
     private CoGiayService coGiayService;
 
+    @GetMapping("/all")
+    public ResponseEntity<List<CoGiay>> getAllCoGiays() {
+        List<CoGiay> coGiays = coGiayService.getAll();
+        return ResponseEntity.ok(coGiays);
+    }
+
     @PostMapping("/add")
-    @ResponseBody
-    public ResponseEntity<String> addCoGiay(@RequestParam("ten") String ten) {
+    public ResponseEntity<Map<String, Object>> addCoGiay(@RequestParam("ten") String ten) {
+        Map<String, Object> response = new HashMap<>();
+
         if (coGiayService.existingByTen(ten)) {
-            return ResponseEntity.badRequest().body("Cổ giày đã tồn tại");
+            response.put("success", false);
+            response.put("message", "Cổ giày đã tồn tại");
+            return ResponseEntity.badRequest().body(response);
         }
 
         CoGiay coGiay = new CoGiay();
@@ -32,7 +45,10 @@ public class CoGiayAPI {
         coGiay.setTen(ten);
         coGiayService.add(coGiay);
 
-        return ResponseEntity.ok("Cổ giày đã được thêm mới");
+        response.put("success", true);
+        response.put("message", "Cổ giày đã được thêm mới");
+        return ResponseEntity.ok(response);
     }
+
 }
 
