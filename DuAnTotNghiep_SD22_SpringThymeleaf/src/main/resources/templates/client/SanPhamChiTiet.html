@@ -63,7 +63,7 @@
         }
 
         .product-slide {
-            min-width: calc(100% / 5); /* Hiển thị 6 sản phẩm một hàng */
+            min-width: calc(100% / 6); /* Hiển thị 6 sản phẩm một hàng */
             box-sizing: border-box;
         }
 
@@ -148,12 +148,12 @@
                         <p id="mota"></p>
                     </div>
 
-                </div><!-- Added div for additional images -->
+                </div>
             </div>
         </div>
 </section>
 <section id="splienquan" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0 text-center" style="background-color: #F5F5F5">
-    <h1 >SẢN PHẨM LIÊN QUAN</h1>
+    <h4 >SẢN PHẨM LIÊN QUAN</h4>
     <div class="product-slider-container">
         <div class="product-slider">
 
@@ -192,7 +192,7 @@
             }
         }
 
-        // Attach the validation function to the input and blur events
+
         $('#quantity').on('input blur', validateQuantity);
 
 
@@ -285,20 +285,7 @@
                     const tensp = $(`
                             <div>
                             <p class="card-title" style=" font-size:45px;color: #333; margin-top: 10px;">${productName}</p>
-                            <div >
-                            <div>
-                            <p><strong>Thương Hiệu :</strong></p>
-                            <p id="th" class="card-title" style=" font-size:15px;color: #333; margin-top: 10px;">${thuonghieu}</p>
-                             <p> <strong>Chất liệu :</strong></p>
-                            <p class="card-title" style=" font-size:15px;color: #333; margin-top: 10px;">${chatLieu}</p>
-                            </div>
-                            <div>
-                            <p><strong>Đế Giày :</strong></p>
-                            <p class="card-title" style=" font-size:15px;color: #333; margin-top: 10px;">${deGiay}</p>
-                            <p><strong>Cổ Giày :</strong></p>
-                            <p class="card-title" style=" font-size:15px;color: #333; margin-top: 10px;">${coGiay}</p>
-                            </div>
-                            </div>
+
                             </div>
 
                 `);
@@ -310,6 +297,20 @@
                     const Mota = $(`
 
                             <p>${mota}</p>
+
+                            <br>
+                            <p><strong>Thương Hiệu :</strong></p>
+                            <p id="th" class="card-title" style=" font-size:15px;color: #333; margin-top: 10px;">${thuonghieu}</p>
+                             <br> <p> <strong>Chất liệu :</strong></p>
+                            <p class="card-title" style=" font-size:15px;color: #333; margin-top: 10px;">${chatLieu}</p>
+
+
+                             <br><p><strong>Đế Giày :</strong></p>
+                            <p class="card-title" style=" font-size:15px;color: #333; margin-top: 10px;">${deGiay}</p>
+                            <br> <p><strong>Cổ Giày :</strong></p>
+                            <p class="card-title" style=" font-size:15px;color: #333; margin-top: 10px;">${coGiay}</p>
+
+
 
                 `);
 
@@ -324,7 +325,7 @@
                     const slider = document.querySelector('.product-slider');
                     const prevButton = document.querySelector('.prev');
                     const nextButton = document.querySelector('.next');
-                    const slidesPerPage = 5;
+                    const slidesPerPage = 6;
                     let currentIndex = 0;
 
                     function updateSlider() {
@@ -616,7 +617,7 @@
                                                                         type: 'GET',
                                                                         data: {anhlayve: encodeURIComponent(anhlayve)},
                                                                         success: function (response) {
-
+//mua đi đăng
                                                                             console.log('Response:', response);
                                                                             window.location.href = `/gio-hang`;
 

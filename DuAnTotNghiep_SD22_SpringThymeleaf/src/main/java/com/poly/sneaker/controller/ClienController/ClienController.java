@@ -18,7 +18,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @Controller
 public class ClienController {
@@ -150,28 +159,48 @@ public class ClienController {
 
 
     @GetMapping("/san-pham-moi-nhat")
-    public ResponseEntity<?> getTop12NewestProducts(Pageable pageable) {
+    public ResponseEntity<Map<String, Object>> getTop12NewestProducts(Pageable pageable) {
+        List<SanPhamChiTiet> sanPhams = SPCTservice.getAll();
 
-        List<SanPhamChiTiet> spmn = repo.findTop12NamesByNgayTaoDesc(pageable);
-        Map<Long, SanPhamChiTiet> sanphammoi = new HashMap<>();
-        for (SanPhamChiTiet spct : spmn) {
+        Map<Long, SanPhamChiTiet> lstsp = new HashMap<>();
+        for (SanPhamChiTiet spct : sanPhams) {
             Long idSanPham = spct.getSanPham().getId();
-            sanphammoi.put(idSanPham, spct);
+            lstsp.put(idSanPham, spct);
         }
-        List<SanPhamChiTiet> uniqueSanPhams = new ArrayList<>(sanphammoi.values());
-        if (uniqueSanPhams.size() > 12) {
-            uniqueSanPhams = uniqueSanPhams.subList(0, 12);
-        }
-        return ResponseEntity.ok(uniqueSanPhams);
-    }
-    @GetMapping("/san-pham-ban-chay")
-    public ResponseEntity<?> getTop12spbanchay() {
-        Pageable pageable = PageRequest.of(0, 12);
-        List<SanPhamBanChayDTO> spmn = hoaDonRepository.getSanPhamBanChayNhat(pageable);
-        return ResponseEntity.ok(spmn);
+
+        List<SanPhamChiTiet> uniqueSanPhams = new ArrayList<>(lstsp.values());
+        LocalDate today = LocalDate.now();
+        LocalDate oneMonthAgo = today.minusMonths(1);
+
+        List<SanPhamChiTiet> filteredSanPhams = uniqueSanPhams.stream()
+                .filter(sp -> {
+                    LocalDate ngayTao = convertToLocalDate(sp.getSanPham().getNgayTao());
+                    return !ngayTao.isBefore(oneMonthAgo) && !ngayTao.isAfter(today);
+                })
+                .collect(Collectors.toList());
+
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("sanPham", filteredSanPhams);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-@GetMapping("/detailcheckgh/{idkh}/{size}/{idsp}/{sl}")
+    private LocalDate convertToLocalDate(Date date) {
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    @GetMapping("/san-pham-ban-chay")
+    public ResponseEntity<Map<String, Object>> getTop12SanPhamBanChay(Pageable pageable) {
+        List<SanPhamBanChayDTO> spmn = hoaDonRepository.getSanPhamBanChayNhat(pageable);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("sanPham", spmn);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/detailcheckgh/{idkh}/{size}/{idsp}/{sl}")
 public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idkh,
                                                   @RequestParam String anhlayve,
                                                   @PathVariable("size") String size,
@@ -221,9 +250,15 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
     @GetMapping("/san-pham-lienquan/{ten}")
     public ResponseEntity<Map<String, Object>> getSanPhamByThuongHieu(@PathVariable("ten") String ten) {
         List<SanPhamChiTiet> sanPhamList = repo.findByThuongHieu_TenThuongHieu(ten);
+        Map<Long, SanPhamChiTiet> lstsp = new HashMap<>();
+        for (SanPhamChiTiet spct : sanPhamList) {
+            Long idSanPham = spct.getSanPham().getId();
+            lstsp.put(idSanPham, spct);
+        }
 
+        List<SanPhamChiTiet> uniqueSanPhams = new ArrayList<>(lstsp.values());
         Map<String, Object> response = new HashMap<>();
-        response.put("sanPham", sanPhamList);
+        response.put("sanPham", uniqueSanPhams);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
