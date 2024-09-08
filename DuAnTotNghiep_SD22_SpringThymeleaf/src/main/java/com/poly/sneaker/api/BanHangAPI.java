@@ -71,7 +71,13 @@ public class BanHangAPI {
         hoaDon.setTienShip(new BigDecimal(0));
         PhieuGiamGia pg = new PhieuGiamGia();
         pg.setGiaTriGiam(new BigDecimal(0));
-        return ResponseEntity.ok(hoaDonService.add(hoaDon));
+
+        HoaDon savedHoaDon = hoaDonService.add(hoaDon);
+
+        String maHoaDon = "HD0" + savedHoaDon.getId();
+        savedHoaDon.setMa(maHoaDon);
+        hoaDonService.taoMaHoaDon(savedHoaDon.getId(), savedHoaDon);
+        return ResponseEntity.ok(savedHoaDon);
     }
 
     @GetMapping("/khach-hang")
