@@ -278,6 +278,7 @@ $(document).ready(function () {
                     if (tbody.children('tr').not('.image-upload-row').length === 0) {
                         colorSection.remove();
                     }
+                    updateSaveButton();
                 });
 
                 tbody.append(row);
@@ -356,5 +357,14 @@ $(document).ready(function () {
                 });
         });
         productDetailsContainer.append(saveButton);
+
+        function updateSaveButton() {
+            if (chiTietSanPhams.length === 0) {
+                saveButton.hide();
+            } else {
+                saveButton.show();
+            }
+        }
+        updateSaveButton();
     }
 });
