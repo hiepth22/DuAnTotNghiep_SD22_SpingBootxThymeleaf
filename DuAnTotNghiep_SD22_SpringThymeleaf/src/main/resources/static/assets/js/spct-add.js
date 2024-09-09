@@ -218,32 +218,35 @@ $(document).ready(function () {
 
         Object.entries(colorGroups).forEach(([mauSacId, products]) => {
             const tenMauBienThe = products[0].mauSac.name;
+            const colorSection = $('<div class="color-section"></div>');
             const colorTitle = $('<h2 class="mt-2" style="font-weight: bold;"></h2>')
                 .html(`Danh sách sản phẩm có màu <span style="display: inline-block; width: 40px; height: 40px; background-color: ${tenMauBienThe}; border-radius: 5px; border: 1px solid #ccc;"></span>`);
             const tableWrapper = $('<div class="table-wrapper"></div>');
             const table = $('<table class="table table-bordered"></table>');
             const thead = $("<thead></thead>").html(`
-            <tr>
-                <th scope="col" style="width: 15%">Tên sản phẩm</th>
-                <th scope="col" style="width: 15%">Màu</th>
-                <th scope="col" style="width: 15%">Kích cỡ</th>
-                <th scope="col" style="width: 15%">Cân nặng</th>
-                <th scope="col" style="width: 15%">Giá bán</th>
-                <th scope="col" style="width: 10%">Số lượng</th>
-                <th scope="col" style="width: 10%">Hành động</th>
-            </tr>
-        `);
+        <tr>
+            <th scope="col" style="width: 15%">Tên sản phẩm</th>
+            <th scope="col" style="width: 15%">Màu</th>
+            <th scope="col" style="width: 15%">Kích cỡ</th>
+            <th scope="col" style="width: 15%">Cân nặng</th>
+            <th scope="col" style="width: 15%">Giá bán</th>
+            <th scope="col" style="width: 10%">Số lượng</th>
+            <th scope="col" style="width: 10%">Hành động</th>
+        </tr>
+    `);
             const tbody = $('<tbody></tbody>');
 
             products.forEach((product, index) => {
                 const row = $('<tr></tr>').html(`
-                <td>${product.ten}</td>
-                <td><span style="display: inline-block; width: 40px; height: 40px; background-color: ${product.mauSac.name}; border-radius: 5px; border: 1px solid #ccc;"></span></td><td>${product.kichCo.name}</td>
-                <td><input type="text" class="product-input" value="${product.canNang}" data-index="${index}" data-field="canNang" /></td>
-                <td><input type="text" class="product-input" value="${dinhDangGia(product.giaBan)}" data-index="${index}" data-field="giaBan" /></td>
-                <td><input type="text" class="product-input" value="${product.soLuong}" data-index="${index}" data-field="soLuong"/></td>
-                <td><a class="delete-product"><i class="fa fa-trash"></i></a></td>
-            `);
+            <td>${product.ten}</td>
+            <td><span style="display: inline-block; width: 40px; height: 40px; background-color: ${product.mauSac.name}; border-radius: 5px; border: 1px solid #ccc;"></span></td>
+            <td>${product.kichCo.name}</td>
+            <td><input type="text" class="product-input" value="${product.canNang}" data-index="${index}" data-field="canNang" /></td>
+            <td><input type="text" class="product-input" value="${dinhDangGia(product.giaBan)}" data-index="${index}" data-field="giaBan" /></td>
+            <td><input type="text" class="product-input" value="${product.soLuong}" data-index="${index}" data-field="soLuong"/></td>
+            <td><a class="delete-product"><i class="fa fa-trash"></i></a></td>
+        `);
+
                 row.find('.product-input').on('input', function () {
                     const index = $(this).data('index');
                     const field = $(this).data('field');
@@ -272,33 +275,32 @@ $(document).ready(function () {
 
                     row.remove();
 
-                    if (tbody.children().length === 0) {
-                        tableWrapper.remove();
+                    if (tbody.children('tr').not('.image-upload-row').length === 0) {
+                        colorSection.remove();
                     }
                 });
+
                 tbody.append(row);
             });
 
             const uploadRow = $('<tr class="image-upload-row"></tr>').html(`
-            <td colspan="7">
-                <div class="image-upload">
-                    <label for="file-upload-${mauSacId}" class="custom-file-upload">
-                        <i class="fa fa-cloud-upload"></i> Tải ảnh
-                    </label>
-                    <input id="file-upload-${mauSacId}" type="file" />
-                    <div class="preview" id="preview-${mauSacId}"></div>
-                </div>
-            </td>
-        `);
+        <td colspan="7">
+            <div class="image-upload">
+                <label for="file-upload-${mauSacId}" class="custom-file-upload">
+                    <i class="fa fa-cloud-upload"></i> Tải ảnh
+                </label>
+                <input id="file-upload-${mauSacId}" type="file" />
+                <div class="preview" id="preview-${mauSacId}"></div>
+            </div>
+        </td>
+    `);
             tbody.append(uploadRow);
-
             table.append(thead);
             table.append(tbody);
-
-            tableWrapper.append(colorTitle);
             tableWrapper.append(table);
-
-            productDetailsContainer.append(tableWrapper);
+            colorSection.append(colorTitle);
+            colorSection.append(tableWrapper);
+            productDetailsContainer.append(colorSection);
 
             tableWrapper.find(`#file-upload-${mauSacId}`).on("change", function () {
                 var files = $(this).get(0).files;
