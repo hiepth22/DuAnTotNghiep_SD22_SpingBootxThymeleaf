@@ -67,4 +67,9 @@ public class ChatLieuService {
     public Boolean existingByTen(String ten) {
         return repository.findByTen(ten).size() > 0;
     }
+
+
+    public List<ChatLieu> getChatLieu(){
+        return repository.getChatLieu();
+    }
 }

@@ -158,4 +158,12 @@ public class SanPhamChiTietService {
         return repository.findSPByBarcode(Barcode);
     }
 
+    public Page<SanPhamChiTiet> searchBlaBla(Long idChatLieu, Long idCoGiay, Long idDeGiay,
+                                               Long idKichCo, Long idMauSac, Long idThuongHieu,
+                                               String keyword, Double giaBanMin, Double giaBanMax,
+                                               Pageable pageable) {
+        return repository.findByBlaBla(idChatLieu, idCoGiay, idDeGiay, idKichCo,
+                idMauSac, idThuongHieu, keyword, giaBanMin, giaBanMax, pageable);
+    }
+
 }

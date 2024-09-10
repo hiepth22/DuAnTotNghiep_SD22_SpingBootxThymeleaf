@@ -155,7 +155,6 @@ $(document).ready(function () {
         const id = $(this).data('id');
         const SoLuongMoi = $(this).val();
 
-        // console.log("SoLuongMoi", SoLuongMoi);
 
 
         $.ajax({
@@ -460,31 +459,34 @@ $(document).ready(function () {
 
     const getPhuongThucThanhToan = (tongTien, hd) => {
         const tongTienSauKhiGiam = tongTien - (hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0);
-        // console.log(hd);
+
         $.ajax({
             url: `/api/hoa-don/phuong-thuc-thanh-toan/${idHoaDon}`,
             method: 'GET',
             success: function (result) {
-
-                if (result && typeof result === 'object') {
+                console.log(result);
+                if (Array.isArray(result)) { // Kiểm tra nếu result là một mảng
                     let list = "";
                     $("#lichSuThanhToan").empty();
 
-                    list += `
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">1</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${formatVND(tongTienSauKhiGiam)}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${trangThaiThanhToan(result.trangThai)}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${formatDate(result.ngayTao)}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                    ${loaiThanhToan(result.loaiThanhToan)}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="status bg-green-500 text-white rounded-lg px-4 py-2">${result.tenThanhToan}</span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">${result.ghiChu}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${result.nguoiTao}</td>
-                </tr>`;
+                    // Chạy vòng for qua các phương thức thanh toán
+                    result.forEach((item, index) => {
+                        list += `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${formatVND(tongTienSauKhiGiam)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${trangThaiThanhToan(item.trangThai)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${formatDate(item.ngayTao)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                        ${loaiThanhToan(item.loaiThanhToan)}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="status bg-green-500 text-white rounded-lg px-4 py-2">${item.tenThanhToan}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">${item.ghiChu}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${item.nguoiTao}</td>
+                    </tr>`;
+                    });
 
                     $("#lichSuThanhToan").html(list);
                 } else {

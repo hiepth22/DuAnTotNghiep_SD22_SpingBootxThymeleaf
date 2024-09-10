@@ -45,6 +45,8 @@ public class HoaDonAPI {
     private HoaDonRepository hoaDonRepository;
     @Autowired
     private PhieuGiamGiaService phieuGiamGiaService;
+    @Autowired
+    private ChatLieuService chatLieuService;
 
     @GetMapping("")
     public Page<HoaDon> hienThiHoaDonApi(@RequestParam(name = "tab", required = false, defaultValue = "0") int tab,
@@ -264,6 +266,28 @@ public class HoaDonAPI {
     public List<PhieuGiamGia> getPhieuGiamGiaPhuHop(@PathVariable("max") Long max){
         return phieuGiamGiaService.PhieuGiamGiaPhuHop(max);
     }
+
+    @GetMapping("/searchBlaBla")
+    public Page<SanPhamChiTiet> searchProducts(
+            @RequestParam(required = false) Long idChatLieu,
+            @RequestParam(required = false) Long idCoGiay,
+            @RequestParam(required = false) Long idDeGiay,
+            @RequestParam(required = false) Long idKichCo,
+            @RequestParam(required = false) Long idMauSac,
+            @RequestParam(required = false) Long idThuongHieu,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Double giaBanMin,
+            @RequestParam(required = false) Double giaBanMax,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        return sanPhamChiTietService.searchBlaBla(idChatLieu, idCoGiay, idDeGiay, idKichCo,
+                idMauSac, idThuongHieu, keyword, giaBanMin, giaBanMax, pageable);
+    }
+
+
+
 
 
 }

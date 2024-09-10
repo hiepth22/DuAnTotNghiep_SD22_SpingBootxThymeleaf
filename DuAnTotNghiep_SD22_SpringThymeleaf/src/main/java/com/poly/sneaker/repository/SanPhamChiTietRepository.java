@@ -126,6 +126,41 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
     @Query("SELECT s FROM SanPhamChiTiet s WHERE s.barcode = ?1")
     SanPhamChiTiet findSPByBarcode(String barcode);
 
+    @Query("SELECT sp FROM SanPhamChiTiet sp " +
+            "JOIN sp.chatLieu cl " +
+            "JOIN sp.coGiay cg " +
+            "JOIN sp.deGiay dg " +
+            "JOIN sp.kichCo kc " +
+            "JOIN sp.mauSac ms " +
+            "JOIN sp.sanPham spn " +
+            "JOIN spn.thuongHieu th " +
+            "WHERE (:idChatLieu IS NULL OR sp.chatLieu.id = :idChatLieu) " +
+            "AND (:idCoGiay IS NULL OR sp.coGiay.id = :idCoGiay) " +
+            "AND (:idDeGiay IS NULL OR sp.deGiay.id = :idDeGiay) " +
+            "AND (:idKichCo IS NULL OR sp.kichCo.id = :idKichCo) " +
+            "AND (:idMauSac IS NULL OR sp.mauSac.id = :idMauSac) " +
+            "AND (:idThuongHieu IS NULL OR spn.thuongHieu.id = :idThuongHieu) " +
+            "AND (sp.ten LIKE %:keyword% " +
+            "OR cl.ten LIKE %:keyword% " +
+            "OR cg.ten LIKE %:keyword% " +
+            "OR dg.ten LIKE %:keyword% " +
+            "OR kc.ten LIKE %:keyword% " +
+            "OR ms.ten LIKE %:keyword% " +
+            "OR spn.ten LIKE %:keyword% " +
+            "OR th.ten LIKE %:keyword%) " +
+            "AND (sp.giaBan >= :giaBanMin OR :giaBanMin IS NULL) " +
+            "AND (sp.giaBan <= :giaBanMax OR :giaBanMax IS NULL) " +
+            "ORDER BY sp.id DESC")
+    Page<SanPhamChiTiet> findByBlaBla(@Param("idChatLieu") Long idChatLieu,
+                                      @Param("idCoGiay") Long idCoGiay,
+                                      @Param("idDeGiay") Long idDeGiay,
+                                      @Param("idKichCo") Long idKichCo,
+                                      @Param("idMauSac") Long idMauSac,
+                                      @Param("idThuongHieu") Long idThuongHieu,
+                                      @Param("keyword") String keyword,
+                                      @Param("giaBanMin") Double giaBanMin,
+                                      @Param("giaBanMax") Double giaBanMax,
+                                      Pageable pageable);
 
 
 }

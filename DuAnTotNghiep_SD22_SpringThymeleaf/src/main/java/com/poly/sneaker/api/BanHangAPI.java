@@ -35,6 +35,10 @@ public class BanHangAPI {
     private PhieuGiamGiaService phieuGiamGiaService;
     @Autowired
     private KhachHangService khachHangService;
+    @Autowired
+    private ChatLieuService chatLieuService;
+    @Autowired
+    private DeGiayService deGiayService;
 
     @GetMapping("")
     public List<HoaDon> hienThiHoaDonApi() {
@@ -114,8 +118,6 @@ public class BanHangAPI {
         }
 
     }
-
-
 
 
 }
