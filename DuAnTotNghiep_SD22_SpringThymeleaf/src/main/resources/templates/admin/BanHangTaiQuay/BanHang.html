@@ -304,11 +304,57 @@
         </div>
     </div>
 
-<div id="modalDachSachSanPham" class="fixed inset-0 overflow-y-auto hidden bg-gray-500 bg-opacity-75 ml-20">
+<div id="modalDachSachSanPham" class="fixed inset-0 overflow-y-auto bg-gray-500 bg-opacity-75 ml-20">
     <div class="flex items-center justify-center min-h-screen">
-        <div class="bg-white rounded-lg overflow-hidden shadow-xl w-[70%] max-h-[80%]">
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl w-[70%] h-[80%]">
             <div class="bg-white px-4 pt-5 pb-4">
-                <table id="tableDanhSachSanPham" class="min-w-full divide-y divide-gray-200">
+                <div class="flex items-center space-x-4 mb-3">
+                    <input id="input-TimKiem" type="text" class="flex-1 bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline" placeholder="Tìm kiếm...">
+                    <button id="timKiemBlaBla" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Tìm kiếm</button>
+                    <button id="tuBoTatCa" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Làm mới</button>
+                </div>
+
+                <div class="flex mb-3">
+                    <div class="w-full max-w-xs flex items-center space-x-2">
+                        <label for="combo-box-mau-sac" class="text-gray-700 text-sm font-bold">Kích cỡ :</label>
+                        <select id="combo-box-kich-co" class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="w-full max-w-xs flex items-center space-x-2">
+                        <label for="combo-box-mau-sac" class="text-gray-700 text-sm font-bold">Màu sắc:</label>
+                        <select id="combo-box-mau-sac" class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="w-full max-w-xs flex items-center space-x-2">
+                        <label for="combo-box-chat-lieu" class="text-gray-700 text-sm font-bold">Chất liệu:</label>
+                        <select id="combo-box-chat-lieu" class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="w-full max-w-xs flex items-center space-x-2">
+                        <label for="combo-box-co-giay" class="text-gray-700 text-sm font-bold">Cổ giày:</label>
+                        <select id="combo-box-co-giay" class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Tất cả</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex ml-[6%] mb-3">
+                    <div class="w-full max-w-xs flex items-center space-x-2">
+                        <label for="combo-box-de-giay" class="text-gray-700 text-sm font-bold">Đế giày:</label>
+                        <select id="combo-box-de-giay" class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="w-full max-w-xs flex items-center space-x-2">
+                        <label for="combo-box-thuong-hieu" class="text-gray-700 text-sm font-bold">Thương hiệu:</label>
+                        <select id="combo-box-thuong-hieu" class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Tất cả</option>
+                        </select>
+                    </div>
+                </div>
+                <table id="tableDanhSachSanPham" class="min-w-full divide-y divide-gray-200 overflow-hidden">
                     <thead class="bg-blue-500">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
@@ -518,6 +564,47 @@
         let page = 0
         let size = 5;
 
+           $('#timKiemBlaBla').click(function() {
+
+               idChatLieu = $('#combo-box-chat-lieu').val()
+               idMauSac = $('#combo-box-mau-sac').val()
+               idKichCo = $('#combo-box-kich-co').val()
+               idCoGiay = $('#combo-box-co-giay').val()
+               idDeGiay = $('#combo-box-de-giay').val()
+               idThuongHieu = $('#combo-box-thuong-hieu').val()
+               keyword = $('#input-TimKiem').val()
+               page = 0;
+               getDanhSachSanPhamCoSearch(page, size);
+
+           });
+
+        $('#tuBoTatCa').click(function() {
+            $('#combo-box-chat-lieu').prop('selectedIndex', 0);
+            $('#combo-box-mau-sac').prop('selectedIndex', 0);
+            $('#combo-box-kich-co').prop('selectedIndex', 0);
+            $('#combo-box-co-giay').prop('selectedIndex', 0);
+            $('#combo-box-de-giay').prop('selectedIndex', 0);
+            $('#combo-box-thuong-hieu').prop('selectedIndex', 0);
+
+            $('#input-TimKiem').val('');
+
+            idChatLieu = '';
+            idMauSac = '';
+            idKichCo = '';
+            idCoGiay = '';
+            idDeGiay = '';
+            idThuongHieu = '';
+            keyword = '';
+            giaBanMin = '';
+            giaBanMax = '';
+
+
+            getDanhSachSanPhamCoSearch(page, size);
+        });
+
+
+
+
 
         let tabsData = [];
         let idTabHD = null;
@@ -525,8 +612,6 @@
         const formatVND = (tongtien) => {
             return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
         }
-
-
 
 
         const tabsContainer = document.getElementById('tabs-container');
@@ -641,6 +726,12 @@
                             soLuong: item.soLuong
                         });
                     }
+                    cbbChatLieu();
+                    cbbDeGiay();
+                    cbbThuongHieu();
+                    cbbCoGiay();
+                    cbbKichCo();
+                    cbbMauSac();
                     getPhuongThucThanhToan(idHoaDon);
                     xoaSanPham(idHoaDon);
                     hienThiThongTinNguoiMua(hd);
@@ -1248,6 +1339,110 @@
             });
         }
 
+        function cbbKichCo(){
+            $.ajax({
+                url: `/api/kich-co/all`,
+                method: 'GET',
+                success: function(data) {
+                    $('#combo-box-kich-co').empty();
+
+                    $('#combo-box-kich-co').append('<option value="">Tất cả</option>');
+
+                    $.each(data, function(index, item) {
+                        $('#combo-box-kich-co').append(`<option value="${item.id}">${item.ten}</option>`);
+                    });
+                },
+
+            });
+        }
+
+
+        function cbbMauSac(){
+            $.ajax({
+                url: `/api/mau-sac/all`,
+                method: 'GET',
+                success: function(data) {
+                    $('#combo-box-mau-sac').empty();
+
+                    $('#combo-box-mau-sac').append('<option value="">Tất cả</option>');
+
+                    $.each(data, function(index, item) {
+                        $('#combo-box-mau-sac').append(`<option value="${item.id}">${item.ten}</option>`);
+                    });
+                },
+
+            });
+        }
+
+
+        function cbbChatLieu(){
+            $.ajax({
+                url: `/api/chat-lieu/all`,
+                method: 'GET',
+                success: function(data) {
+                    $('#combo-box-chat-lieu').empty();
+
+                    $('#combo-box-chat-lieu').append('<option value="">Tất cả</option>');
+
+                    $.each(data, function(index, item) {
+                        $('#combo-box-chat-lieu').append(`<option value="${item.id}">${item.ten}</option>`);
+                    });
+                },
+
+            });
+        }
+
+        function cbbDeGiay(){
+            $.ajax({
+                url: `/api/de-giay/all`,
+                method: 'GET',
+                success: function(data) {
+                    $('#combo-box-de-giay').empty();
+
+                    $('#combo-box-de-giay').append('<option value="">Tất cả</option>');
+
+                    $.each(data, function(index, item) {
+                        $('#combo-box-de-giay').append(`<option value="${item.id}">${item.ten}</option>`);
+                    });
+                },
+
+            });
+        }
+
+        function cbbCoGiay(){
+            $.ajax({
+                url: `/api/co-giay/all`,
+                method: 'GET',
+                success: function(data) {
+                    $('#combo-box-co-giay').empty();
+
+                    $('#combo-box-co-giay').append('<option value="">Tất cả</option>');
+
+                    $.each(data, function(index, item) {
+                        $('#combo-box-co-giay').append(`<option value="${item.id}">${item.ten}</option>`);
+                    });
+                },
+
+            });
+        }
+
+        function cbbThuongHieu(){
+            $.ajax({
+                url: `/api/thuong-hieu/all`,
+                method: 'GET',
+                success: function(data) {
+                    $('#combo-box-thuong-hieu').empty();
+
+                    $('#combo-box-thuong-hieu').append('<option value="">Tất cả</option>');
+
+                    $.each(data, function(index, item) {
+                        $('#combo-box-thuong-hieu').append(`<option value="${item.id}">${item.ten}</option>`);
+                    });
+                },
+
+            });
+        }
+
         function showModalThanhToan() {
             $('#modalThanhToan').removeClass('hidden');
         }
@@ -1446,13 +1641,95 @@
             }
         }
 
+        const getDanhSachSanPhamCoSearch = (page , size ) => {
+
+            $.ajax({
+                url: `/api/hoa-don/searchBlaBla?idChatLieu=${idChatLieu}&idCoGiay=${idCoGiay}&idDeGiay=${idDeGiay}&idKichCo=${idKichCo}&idMauSac=${idMauSac}&idThuongHieu=${idThuongHieu}&keyword=${keyword}&giaBanMin=${giaBanMin}&giaBanMax=${giaBanMax}&page=${page}&size=${size}`,
+                method: 'GET',
+                success: function (result) {
+                    let list = "";
+                    $("#danhSachSanPham").empty();
+                    for (let i = 0; i < result.content.length; i++) {
+                        list += `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <img src="${result.content[i].anh}" alt="Ảnh" class="w-16 h-auto">
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap font-bold">
+                            <h1>${result.content[i].ten}</h1>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">${formatVND(result.content[i].giaBan)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].soLuong}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].kichCo.ten}</td>
+                        <td>
+                            <div class="color-container rounded-lg ml-5 border-3" style="background-color: ${result.content[i].mauSac.ten}; width: 50px; height: 20px;"></div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="bg-green-500 rounded-lg text-white px-2 py-1">${result.content[i].trangThai}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                           <button id="hienThiDanhSachSanPham" class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-1 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm
+                            </button>
+                        </td>
+                    </tr>`;
+                    }
+
+                    $("#danhSachSanPham").html(list);
+
+
+                    let pagination = '';
+                    pagination += `
+                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
+            `;
+
+                    const maxVisiblePages = 3;
+                    const halfVisiblePages = Math.floor(maxVisiblePages / 2);
+                    let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
+                    let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
+
+                    if (startPage > 1) {
+                        pagination += `
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(0, ${size})">1</button>
+                `;
+                        if (startPage > 2) {
+                            pagination += `<span class="px-4 py-2">...</span>`;
+                        }
+                    }
+
+                    for (let i = startPage; i <= endPage; i++) {
+                        pagination += `
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getDanhSachSanPham(${i - 1}, ${size})">${i}</button>
+                `;
+                    }
+
+                    if (endPage < result.totalPages) {
+                        if (endPage < result.totalPages - 1) {
+                            pagination += `<span class="px-4 py-2">...</span>`;
+                        }
+
+                        pagination += `
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
+                `;
+                    }
+
+                    pagination += `
+                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
+            `;
+
+                    $("#paginationSP").html(pagination);
+                }
+
+            });
+        };
+
+        getDanhSachSanPhamCoSearch(page, size);
+
         toggleThongTinShip();
         getThongTinKhachHang();
         idHoaDon();
-        getDanhSachSanPham();
         getKhachHang(0, 5);
-        getDanhSachSanPham(0, 5);
-
+        // getDanhSachSanPham(0, 5);
 
     });
 
@@ -1610,100 +1887,7 @@
         });
     };
 
-    const getDanhSachSanPhamCoSearch = (page, size , idChatLieu , idCoGiay , idDeGiay , idKichCo , idMauSac , idThuongHieu , keyword , giaBanMin , giaBanMax ) => {
-        const params = {
-            page,
-            size,
-            idChatLieu,
-            idCoGiay,
-            idDeGiay,
-            idKichCo,
-            idMauSac,
-            idThuongHieu,
-            keyword,
-            giaBanMin,
-            giaBanMax
-        };
 
-        const query = new URLSearchParams(params).toString();
-
-        $.ajax({
-            url: `/api/hoa-don/searchBlaBla?${query}`,
-            method: 'GET',
-            success: function (result) {
-                let list = "";
-                $("#danhSachSanPham").empty();
-                for (let i = 0; i < result.content.length; i++) {
-                    list += `
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <img src="${result.content[i].anh}" alt="Ảnh" class="w-16 h-auto">
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap font-bold">
-                            <h1>${result.content[i].ten}</h1>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">${formatVND(result.content[i].giaBan)}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].soLuong}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].kichCo.ten}</td>
-                        <td>
-                            <div class="color-container rounded-lg ml-5 border-3" style="background-color: ${result.content[i].mauSac.ten}; width: 50px; height: 20px;"></div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="bg-green-500 rounded-lg text-white px-2 py-1">${result.content[i].trangThai}</span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                           <button id="hienThiDanhSachSanPham" class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-1 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm
-                            </button>
-                        </td>
-                    </tr>`;
-                }
-
-                $("#danhSachSanPham").html(list);
-
-                let pagination = '';
-                pagination += `
-                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
-            `;
-
-                const maxVisiblePages = 3;
-                const halfVisiblePages = Math.floor(maxVisiblePages / 2);
-                let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
-                let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
-
-                if (startPage > 1) {
-                    pagination += `
-                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(0, ${size})">1</button>
-                `;
-                    if (startPage > 2) {
-                        pagination += `<span class="px-4 py-2">...</span>`;
-                    }
-                }
-
-                for (let i = startPage; i <= endPage; i++) {
-                    pagination += `
-                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getDanhSachSanPham(${i - 1}, ${size})">${i}</button>
-                `;
-                }
-
-                if (endPage < result.totalPages) {
-                    if (endPage < result.totalPages - 1) {
-                        pagination += `<span class="px-4 py-2">...</span>`;
-                    }
-                    pagination += `
-                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
-                `;
-                }
-
-                pagination += `
-                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
-            `;
-
-                $("#paginationSP").html(pagination);
-            }
-
-        });
-    };
 
     // function showNotification(message, status) {
     //     var notification = document.getElementById('notification');
