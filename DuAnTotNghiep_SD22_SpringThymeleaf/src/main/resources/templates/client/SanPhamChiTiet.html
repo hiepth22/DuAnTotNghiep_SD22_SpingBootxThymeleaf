@@ -92,6 +92,53 @@
         }
 
     </style>
+    <!--    splq-->
+    <style>
+        .product-container {
+            position: relative;
+            margin-bottom: 5px;
+            margin-right: 5px;
+        }
+
+        .product-card {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1; /* Đảm bảo nút không bị che bởi sản phẩm */
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .xem-ngay-btn {
+            background-color: transparent;
+            color: black;
+            opacity: 0.8;
+        }
+
+        .xem-ngay-btn:hover {
+            background-color: rgba(0, 0, 0, 0.1); /* Màu xám nhạt */
+            opacity: 1;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Tạo bóng đổ */
+            border-color: #f77f00;
+            transform: translateY(-10px);
+        }
+
+
+
+
+
+
+
+    </style>
 </head>
 
 <body>
@@ -156,7 +203,7 @@
         </div>
 </section>
 <section id="splienquan" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0 text-center" style="background-color: #F5F5F5">
-    <h4 >SẢN PHẨM LIÊN QUAN</h4>
+    <a class="section-title text-uppercase" style="display: block; margin-bottom: 10px; font-size: 20px; padding-bottom: 10px; margin-left: 10px; color: #808080;">Sản phẩm liên quan</a>
     <div class="product-slider-container">
         <div class="product-slider">
 
@@ -387,10 +434,26 @@
                                 currency: 'VND'
                             }).format(product.giaBan);
                             slide.innerHTML = `
-               <img src="${product.anh}" style="width: calc(100% +30px); height: 300px; border-radius: 8px; display: block; margin: 0 -15px 10px -15px; box-sizing: border-box;" >
-
-               <h4>${product.ten}</h4>
-               <p style="color: red">${gia}</p>
+                            <div class="product-container" style="position: relative; margin-bottom: 5px; margin-right:5px;border-color: #f77f00;">
+                                <div class="bg-white product-card" style=" padding: 10px; transition: transform 0.3s ease, box-shadow 0.3s ease; background-color: #E8E8E8;">
+                                    <img src="${product.anh}" class="product-image" style="width: 230px; height: 250px;">
+                                    <p class="status"></p>
+                                    <div class="d-block text-start" style="padding: 10px 0 0 0;">
+                                        <h5 class="card-title" style="color: #333; margin-top: 10px; margin-left: 15px; text-decoration: none;">${product.ten}</h5>
+                                        <a href="#" style="display: inline-block; margin: 5px 0; padding: 2px 5px; border: 1px solid #FF8C00; border-radius: 2px; color: #FF8C00; text-decoration: none; font-size: 10px; background-color: transparent; text-align: center; margin-left: 15px;">
+                                            Giá Siêu Hời
+                                        </a>
+                                        <a href="#" class="product-price card-text" style="font-size: 17px; color: #d9534f; margin-left: 15px; margin-bottom: 10px; display: block; text-decoration: none;">
+                                            ${gia}
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Nút Xem ngay với background trong suốt và màu xám nhạt khi hover -->
+                                <a href="#" class="btn xem-ngay-btn" data-bs-toggle="modal" data-bs-target="#productModal"
+                                   style="position: absolute; top: 10px; right: 10px; background-color: transparent; color: #333; border: none; transition: background-color 0.3s ease;">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            </div>
 `;
                             slide.addEventListener('click', () => {
                                 window.location.href = `/san-pham/${product.id}`;

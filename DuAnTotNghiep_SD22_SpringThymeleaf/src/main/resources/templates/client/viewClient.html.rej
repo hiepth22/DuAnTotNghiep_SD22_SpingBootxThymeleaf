@@ -1,0 +1,352 @@
+diff a/DuAnTotNghiep_SD22_SpringThymeleaf/src/main/resources/templates/client/viewClient.html b/DuAnTotNghiep_SD22_SpringThymeleaf/src/main/resources/templates/client/viewClient.html	(rejected hunks)
+@@ -209,7 +209,51 @@
+     }
+ 
+ </style>
++<style>
++    .product-slider-container {
++        position: relative;
++        overflow: hidden;
++        width: 100%;
++    }
++    .product-slide .price {
++        color: red; /* Màu đỏ cho giá sản phẩm */
++        font-size: 1.2em; /* Kích thước chữ có thể tùy chỉnh */
++    }
++    .product-slider {
++        display: flex;
++        transition: transform 0.5s ease-in-out;
++    }
++
++    .product-slide {
++        min-width: calc(100% / 6);
++        box-sizing: border-box;
++    }
++
++    .product-slide img {
++        width: 100%;
++        display: block;
++    }
++
++    .prev, .next {
++        position: absolute;
++        top: 50%;
++        transform: translateY(-50%);
++        background-color: rgba(0, 0, 0, 0.5);
++        color: white;
++        border: none;
++        padding: 10px;
++        cursor: pointer;
++    }
++
++    .prev {
++        left: 10px;
++    }
++
++    .next {
++        right: 10px;
++    }
+ 
++</style>
+ <style>
+     .card-title {
+         text-decoration: none;
+@@ -233,6 +277,31 @@
+         background-color: #d3d3d3; /* Màu xám khi di chuột vào */
+     }
+ </style>
++<style>
++    .product-slider-container1 {
++        position: relative;
++        overflow: hidden;
++        width: 100%;
++    }
++    .product-slide1 .price {
++        color: red; /* Màu đỏ cho giá sản phẩm */
++        font-size: 1.2em; /* Kích thước chữ có thể tùy chỉnh */
++    }
++    .product-slider1 {
++        display: flex;
++        transition: transform 0.5s ease-in-out;
++    }
++
++    .product-slide1 {
++        min-width: calc(100% / 6);
++        box-sizing: border-box;
++    }
++
++    .product-slide1 img {
++        width: 100%;
++        display: block;
++    }
++</style>
+ <body>
+ <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+     <symbol xmlns="http://www.w3.org/2000/svg" id="shopping-carriage" viewBox="0 0 24 24" fill="none">
+@@ -381,41 +450,62 @@
+     <div class="swiper-button-prev"></div>
+ </div>
+ 
+-<section id="top-selling-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">
+-    <div class="container-md">
+-        <div class="heading_container heading_center" style="margin-bottom: 30px;">
+-            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; background-color: #E8E8E8;">
+-                <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+-                    <h5 class="section-title text-uppercase" style="margin-bottom: 5px; text-align: center; box-sizing: border-box; margin-top: 10px; color: #FF5722;">Top sản Phẩm bán chạy</h5>
+-                    <div class="w-48 h-0.5 bg-orange-500" style="width: 20%; height: 3px; background-color: #FF8C00;"></div>
+-                </div>
+-            </div>
+-        </div>
+-        <div class="row" id="products-list1">
+-
+-        </div>
+-        <div class="btn-right" style="text-align: center;">
+-            <a href="shop" class="btn custom-btn" style=" padding: 10px 20px; border-radius: 4px; width: 150px; text-align: center;">Xem tất cả</a>
++<!--<section id="top-selling-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">-->
++<!--    <div class="container-md">-->
++<!--        <div class="heading_container heading_center" style="margin-bottom: 30px;">-->
++<!--            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; background-color: #E8E8E8;">-->
++<!--                <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">-->
++<!--                    <h5 class="section-title text-uppercase" style="margin-bottom: 5px; text-align: center; box-sizing: border-box; margin-top: 10px; color: #FF5722;">Top sản Phẩm bán chạy</h5>-->
++<!--                    <div class="w-48 h-0.5 bg-orange-500" style="width: 20%; height: 3px; background-color: #FF8C00;"></div>-->
++<!--                </div>-->
++<!--            </div>-->
++<!--        </div>-->
++<!--        <div class="row" id="products-list1">-->
++
++<!--        </div>-->
++<!--        <div class="btn-right" style="text-align: center;">-->
++<!--            <a href="shop" class="btn custom-btn" style=" padding: 10px 20px; border-radius: 4px; width: 150px; text-align: center;">Xem tất cả</a>-->
++<!--        </div>-->
++<!--    </div>-->
++<!--</section>-->
++
++<!--<section id="latest-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">-->
++<!--    <div class="container-md">-->
++<!--        <div class="heading_container heading_center" style="margin-bottom: 30px;">-->
++<!--            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; background-color: #E8E8E8;">-->
++<!--                <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">-->
++<!--                    <h5 class="section-title text-uppercase" style="margin-bottom: 5px; text-align: center; box-sizing: border-box; margin-top: 10px; color: #FF5722;">Sản Phẩm mới</h5>-->
++<!--                    <div class="w-48 h-0.5 bg-orange-500" style="width: 12%; height: 3px; background-color: #FF8C00;"></div>-->
++<!--                </div>-->
++<!--            </div>-->
++<!--        </div>-->
++<!--        <div class="row" id="products-list">-->
++
++<!--        </div>-->
++<!--        <div class="btn-right" style="text-align: center;">-->
++<!--            <a href="shop" class="btn custom-btn" style=" padding: 10px 20px; border-radius: 4px; width: 150px; text-align: center;">Xem tất cả</a>-->
++<!--        </div>-->
++<!--    </div>-->
++<!--</section>-->
++<section id="spmoi" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0 text-center" >
++    <h5 class="section-title text-uppercase" style="margin-bottom: 5px; text-align: center; box-sizing: border-box; margin-top: 10px; color: #FF5722;"> sản Phẩm Mới</h5>
++    <div class="product-slider-container1">
++        <div class="product-slider1 " >
++            <p class="status" ></p>
+         </div>
++        <button class="prev"><</button>
++        <button class="next">></button>
+     </div>
+ </section>
++<section id="splienquan" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0 text-center" >
++    <h5 class="section-title text-uppercase" style="margin-bottom: 5px; text-align: center; box-sizing: border-box; margin-top: 10px; color: #FF5722;">Top sản Phẩm bán chạy</h5>
+ 
+-<section id="latest-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">
+-    <div class="container-md">
+-        <div class="heading_container heading_center" style="margin-bottom: 30px;">
+-            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; background-color: #E8E8E8;">
+-                <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+-                    <h5 class="section-title text-uppercase" style="margin-bottom: 5px; text-align: center; box-sizing: border-box; margin-top: 10px; color: #FF5722;">Sản Phẩm mới</h5>
+-                    <div class="w-48 h-0.5 bg-orange-500" style="width: 12%; height: 3px; background-color: #FF8C00;"></div>
+-                </div>
+-            </div>
+-        </div>
+-        <div class="row" id="products-list">
++    <div class="product-slider-container">
++        <div class="product-slider  " >
+ 
+         </div>
+-        <div class="btn-right" style="text-align: center;">
+-            <a href="shop" class="btn custom-btn" style=" padding: 10px 20px; border-radius: 4px; width: 150px; text-align: center;">Xem tất cả</a>
+-        </div>
++        <button class="prev"><</button>
++        <button class="next">></button>
+     </div>
+ </section>
+ 
+@@ -489,7 +579,166 @@
+                         });
+                         });
+ </script>
++<script>
++    document.addEventListener('DOMContentLoaded', function () {
++        const slider = document.querySelector('.product-slider');
++        const prevButton = document.querySelector('.prev');
++        const nextButton = document.querySelector('.next');
++        const slidesPerPage = 6; // Số lượng sản phẩm hiển thị trên một hàng
++        let currentIndex = 0;
++
++        function updateSlider() {
++            const offset = -currentIndex * (100 / slidesPerPage);
++            slider.style.transform = `translateX(${offset}%)`;
++        }
++
++        function showNext() {
++            if (currentIndex < slider.children.length - slidesPerPage) {
++                currentIndex++;
++                updateSlider();
++            }
++        }
++
++        function showPrev() {
++            if (currentIndex > 0) {
++                currentIndex--;
++                updateSlider();
++            }
++        }
++
++        prevButton.addEventListener('click', showPrev);
++        nextButton.addEventListener('click', showNext);
++
++        function loadProducts() {
++            const xhr = new XMLHttpRequest();
++
++            xhr.open('GET', `/san-pham-ban-chay`, true);
++            xhr.onload = function () {
++                if (xhr.status >= 200 && xhr.status < 300) {
++                    try {
++                        const response = JSON.parse(xhr.responseText);
++                        console.log("Full response:", response);
++                        const products = response.sanPham || [];
++                        renderProducts(products);
++                    } catch (e) {
++                        console.error('Error parsing JSON:', e);
++                    }
++                } else {
++                    console.error('Failed to load products, status code:', xhr.status);
++                }
++            };
++            xhr.onerror = function () {
++                console.error('Request failed');
++            };
++            xhr.send();
++        }
++
++        function renderProducts(products) {
++            slider.innerHTML = ''; // Clear existing slides
++            products.forEach(product => {
++                const slide = document.createElement('div');
++                slide.className = 'product-slide';
++                slide.innerHTML = `
++                <div class="bg-white" >
++               <img src="${product.anh}" style="width: calc(100% +30px); height: 250px; border-radius: 8px; display: block; margin: 0 -15px 10px -15px; box-sizing: border-box;" >
++               <p class="status" ></p>
++               <div class="d-block">
++               <p>${product.ten}</p>
++
++               <p>${product.giaBan}</p>
++</div></div>`;
++                slider.appendChild(slide);
++                slide.addEventListener('click', () => {
++                    window.location.href = `/san-pham/${product.id}`;
++                });
++                slider.appendChild(slide);
++            });
++            updateSlider();
++        }
++
++        loadProducts();
++    });
++
++</script>
++<script>
++    document.addEventListener('DOMContentLoaded', function () {
++        const slider = document.querySelector('.product-slider1');
++        const prevButton = document.querySelector('.prev');
++        const nextButton = document.querySelector('.next');
++        const slidesPerPage = 6; // Số lượng sản phẩm hiển thị trên một hàng
++        let currentIndex = 0;
++        const ngayHienTai = new Date();
++        const statusElements = document.querySelectorAll('.status');
++
++        function updateSlider() {
++            const offset = -currentIndex * (100 / slidesPerPage);
++            slider.style.transform = `translateX(${offset}%)`;
++        }
++
++        function showNext() {
++            if (currentIndex < slider.children.length - slidesPerPage) {
++                currentIndex++;
++                updateSlider();
++            }
++        }
++
++        function showPrev() {
++            if (currentIndex > 0) {
++                currentIndex--;
++                updateSlider();
++            }
++        }
++
++        prevButton.addEventListener('click', showPrev);
++        nextButton.addEventListener('click', showNext);
++
++        function loadProducts() {
++            const xhr = new XMLHttpRequest();
++
++            xhr.open('GET', `/san-pham-moi-nhat`, true);
++            xhr.onload = function () {
++                if (xhr.status >= 200 && xhr.status < 300) {
++                    try {
++                        const response = JSON.parse(xhr.responseText);
++
++                        const products = response.sanPham || [];
+ 
++                        renderProducts(products);
++                    } catch (e) {
++                    }
++                } else {
++                }
++            };
++            xhr.onerror = function () {
++            };
++            xhr.send();
++        }
++
++        function renderProducts(products) {
++            slider.innerHTML = ''; // Clear existing slides
++            products.forEach(product => {
++                const slide = document.createElement('div');
++                slide.className = 'product-slide1';
++                slide.innerHTML = `
++
++               <img src="${product.anh}" style="width: calc(100% +30px); height: 250px; border-radius: 8px; display: block; margin: 0 -15px 10px -15px; box-sizing: border-box;" >
++               <div class="d-block">
++               <p>${product.ten}</p>
++               <p>${product.giaBan}</p>
++</div>`;
++
++                slider.appendChild(slide);
++                slide.addEventListener('click', () => {
++                    window.location.href = `/san-pham/${product.id}`;
++                });
++            });
++            updateSlider();
++        }
++
++        loadProducts();
++    });
++
++</script>
+ <script>
+     $(document).ready(function () {
+         $.ajax({
+@@ -537,7 +786,6 @@
+                         productsContainer.append(productElement);
+                     });
+ 
+-                    // Đăng ký sự kiện click sau khi phần tử đã được thêm vào DOM
+                     $('#products-list1').on('click', 'a[data-id]', function () {
+                         const productId = $(this).data('id');
+                         console.log('ID sản phẩm được chọn:', productId);
