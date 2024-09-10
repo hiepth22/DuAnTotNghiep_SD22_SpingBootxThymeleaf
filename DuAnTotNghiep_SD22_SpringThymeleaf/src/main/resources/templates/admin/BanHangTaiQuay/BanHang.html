@@ -91,6 +91,37 @@
             color: white;
             text-align: center;
         }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            width: 300px;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
+            color: white;
+        }
+
+        .notification.thanhCong {
+            background-color: #4CAF50;
+        }
+
+        .notification.thatBai {
+            background-color: #f44336;
+        }
+
+        .notification .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #fff;
+            transition: width 3s linear;
+        }
 
     </style>
 </head>
@@ -108,7 +139,7 @@
 <div class="mx-auto bg-white rounded-lg shadow">
     <div class="p-4 flex justify-between items-center">
         <h2 class="text-xl font-semibold"></h2>
-        <button id="add-tab" class="px-4 py-2 bg-blue-500 text-white rounded-full">Add Tab</button>
+        <button id="add-tab" class="px-4 py-2 bg-blue-500 text-white rounded-full">Tạo hóa đơn</button>
     </div>
     <div class="border-b">
         <div id="tabs-container" class="flex space-x-2 ml-3">
@@ -235,7 +266,7 @@
                         <div>
                             <p class="m-10 flex items-center gap-2">Khách thanh toán:
                                 <span class="ml-14">
-                                     <button >
+                                     <button id="thanhToan">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
                                         </svg>
@@ -260,6 +291,8 @@
                         </div>
                 </div>
             </div>
+            <button id="thanhToanTong" class="thanhToanTong bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-1 hover:bg-blue-600 hover:text-gray-100 ml-[80%]">Thanh Toán
+            </button>
         </div>
     </div>
 </div>
@@ -392,6 +425,72 @@
     </div>
 </div>
 
+<div id="modalThanhToan" class="fixed inset-0 overflow-y-auto hidden bg-gray-500 bg-opacity-75 ml-20">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl w-[45%] max-h-[80%]">
+            <div class="bg-white px-4 pt-5 pb-4">
+                <p class="mb-3">Thanh toán</p>
+                <div class="w-full flex flex-col space-y-4">
+                    <div class="flex items-center space-x-4">
+                        <label class="text-gray-700 font-semibold text-sm">Tiền khách đưa</label>
+                        <input id="inputSoTien" type="text" class="border border-gray-300 focus:border-black focus:outline-none p-2 rounded-md text-sm flex-1" placeholder="Nhập số tiền" value="">
+                    </div>
+                    <button id="btnTienMat" type="button" class="focus:outline-none text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 w-full">
+                        Tiền mặt
+                    </button>
+                </div>
+
+                <div class="flex items-center mt-2">
+                    <span class="text-gray-700 font-semibold">Tiền thiếu: </span>
+                    <span id="tienThieu" class="text-red-500">0</span>
+                </div>
+
+                <table id="tablePhuongThucThanhToan" class="min-w-full divide-y divide-gray-200 mt-2">
+                    <thead class="bg-blue-500">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            STT
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Số tiền
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Phương thức
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                            Hành động
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="listPhuongThucThanhToan" class="bg-white divide-y divide-gray-200">
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex items-center gap-2 m-10">
+                <div class="font-bold">
+                    <p>Tiền khách đưa: </p>
+                    <p>Tiền thiếu: </p>
+                </div>
+                <div class="font-bold">
+                    <p id="tienKhachDuoc" class="text-red-500">0</p>
+                    <p id="tienThieu2" class="text-red-500">9123131</p>
+                </div>
+            </div>
+
+            <div class="flex justify-end mb-3 mr-3">
+                <button id="xacNhanThanhToan" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:text-gray-100">
+                    Xác nhận
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="notification" class="notification">
+    <span id="notification-message"></span>
+    <div id="progress-bar" class="progress-bar"></div>
+</div>
+
 
 <script>
     $(document).ready(function () {
@@ -404,7 +503,8 @@
         let idSP = [];
         var maPGG = 0;
         var GiamToiDa = 0;
-
+        var tinhTienDaTra = 0;
+        var countHD = 0;
 
 
         let tabsData = [];
@@ -437,8 +537,10 @@
                     const tabContent = document.getElementById(`tab-content-${tab.id}`);
                     tabContent.classList.remove('hidden');
 
+
                     idTabHD = tab.id;
                     getDuLieu(idTabHD);
+                    getPhuongThucThanhToan(idTabHD);
                     if (!tabsData[index].contentLoaded) {
                         getDuLieu(tab.id);
                     }
@@ -459,7 +561,11 @@
         }
 
         document.getElementById('add-tab').addEventListener('click', () => {
-            taoHoaDon();
+            if(countHD >= 10){
+                showNotification("Thêm hóa đơn thật bại", 'thatBai')
+            }else{
+                taoHoaDon();
+            }
         });
 
         function taoHoaDon() {
@@ -488,9 +594,10 @@
                 url: `/api/ban-hang`,
                 method: 'GET',
                 success: function (response) {
+                    countHD = response.length;
                     tabsData = response.map(hd => ({
                         id: hd.id,
-                        title: `Tab ${hd.id}`,
+                        title: `Hóa đơn ${hd.id}`,
                         content: '',
                         contentLoaded: false
                     }));
@@ -522,7 +629,7 @@
                             soLuong: item.soLuong
                         });
                     }
-
+                    getPhuongThucThanhToan(idHoaDon);
                     xoaSanPham(idHoaDon);
                     hienThiThongTinNguoiMua(hd);
                     thongTinShip(hd);
@@ -685,17 +792,50 @@
             getDuLieu(idTabHD);
         }
 
+
+
+        function getPhuongThucThanhToan(idTabHD){
+            $.ajax({
+                url: `/api/hoa-don/phuong-thuc-thanh-toan/${idTabHD}`,
+                method: 'GET',
+                success: function (result) {
+                    console.log(result);
+                    let list = "";
+                    $("#listPhuongThucThanhToan").empty();
+                    for (let i = 0; i < result.length; i++) {
+                        // tinhTienDaTra += result[i].soTien;
+                        list += `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">1</td>
+                    <td class="px-6 py-4 whitespace-nowrap">123</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${result[i].tenThanhToan}</td>
+                </tr>`;
+                    }
+                    $("#listPhuongThucThanhToan").html(list);
+                },
+                error: function (error) {
+                    console.error('Lỗi Lịch sử thanh toán:', error);
+                }
+            });
+        };
+
+
+
+
+
+
+
         function xoaSanPham(idHoaDon) {
             $(document).on('click', '.deleteSP', function () {
                 const itemId = $(this).data('id');
-                console.log("Button clicked! ID:", itemId); // Kiểm tra xem sự kiện click đã hoạt động chưa
+                console.log("Button clicked! ID:", itemId);
                 showConfirm(function() {
                     $.ajax({
                         url: `/api/hoa-don/delete-hd/${idHoaDon}`,
                         method: 'POST',
                         data: {idHoaDonCT: itemId},
                         success: function () {
-                            console.log("Xóa sản phẩm thành công!"); // Kiểm tra khi xóa thành công
+                            console.log("Xóa sản phẩm thành công!");
                             // showNotification("Xóa sản phẩm thành công", "thanhCong")
                             getDuLieu(idHoaDon);
                         },
@@ -950,6 +1090,27 @@
 
         });
 
+
+        $('#btnTienMat').click(function () {
+            addPhuongThucThanhToanChuyenKhoan(idTabHD);
+        });
+
+        function addPhuongThucThanhToanChuyenKhoan(idHoaDon) {
+            $.ajax({
+                url: `/api/gio-hang/them-phuong-thuc-thanh-toan/${idHoaDon}`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    tenThanhToan: "Tiền mặt",
+                    loaiThanhToan: false,
+                    trangThai: 1
+                }),
+                success: function (response) {
+                    getDuLieu(idTabHD);
+                },
+            });
+        }
+
         function updateThongTinNguoiNhan(nguoiNhan, sdtNguoiNhan) {
             $.ajax({
                 url: `/api/ban-hang/update-thong-tin-nguoi-nhan/${idTabHD}`,
@@ -1079,6 +1240,14 @@
             });
         }
 
+        function showModalThanhToan() {
+            $('#modalThanhToan').removeClass('hidden');
+        }
+
+        function hiddenModalThanhToan() {
+            $('#modalThanhToan').addClass('hidden');
+            $('#modalThanhToan').val('');
+        }
 
         function showModalDanhSachSanPham() {
             $('#modalDachSachSanPham').removeClass('hidden');
@@ -1132,6 +1301,13 @@
         $('#dongKhachHang').click(function () {
             hideModalKhachHang();
         });
+
+
+        $('#thanhToan').click(function () {
+            showModalThanhToan();
+        });
+
+
 
         function showModalSoLuong() {
             $('#modalSoLuong').removeClass('hidden');
@@ -1234,7 +1410,33 @@
             startScanner(); // Start the scanner
         });
 
+        function showNotification(message, status) {
+            var notification = document.getElementById('notification');
+            var notificationMessage = document.getElementById('notification-message');
+            var progressBar = document.getElementById('progress-bar');
 
+            notification.className = 'notification'; // Reset class
+            if (status === 'thanhCong') {
+                notification.classList.add('thanhCong');
+            } else if (status === 'thatBai') {
+                notification.classList.add('thatBai');
+            }
+
+            if (message) {
+                notificationMessage.textContent = message;
+                notification.style.display = 'block';
+                progressBar.style.width = '100%';
+
+                setTimeout(function() {
+                    progressBar.style.width = '0';
+                }, 10); // Bắt đầu giảm thanh tiến trình ngay lập tức
+
+                setTimeout(function() {
+                    notification.style.display = 'none';
+                    progressBar.style.width = '100%'; // Đặt lại thanh tiến trình sau khi thông báo ẩn
+                }, 3010); // Thời gian hiển thị thông báo (3010 ms = 3 giây + 10 ms để bắt đầu giảm)
+            }
+        }
 
         toggleThongTinShip();
         getThongTinKhachHang();

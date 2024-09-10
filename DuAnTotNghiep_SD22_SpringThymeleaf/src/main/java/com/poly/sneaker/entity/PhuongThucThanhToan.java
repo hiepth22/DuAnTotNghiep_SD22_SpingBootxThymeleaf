@@ -3,6 +3,7 @@ package com.poly.sneaker.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -46,4 +47,5 @@ public class PhuongThucThanhToan {
 
     @Column(name = "trangThai")
     private Integer trangThai;
+
 }

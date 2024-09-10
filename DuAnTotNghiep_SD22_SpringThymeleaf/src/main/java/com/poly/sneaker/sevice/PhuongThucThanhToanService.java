@@ -19,9 +19,8 @@ public class PhuongThucThanhToanService {
         this.phuongThucThanhToanRepository = phuongThucThanhToanRepository;
     }
 
-    public PhuongThucThanhToan detail(Long id) {
-        Optional<PhuongThucThanhToan> optional = phuongThucThanhToanRepository.findByIdHoaDon(id);
-        return optional.map(o -> o).orElse(null);
+    public List<PhuongThucThanhToan> detail(Long id) {
+        return  phuongThucThanhToanRepository.findByIdHoaDon1(id);
     }
 
     public PhuongThucThanhToan updateTrangThaiThanhToan(Long id, PhuongThucThanhToan phuongThucThanhToan) {

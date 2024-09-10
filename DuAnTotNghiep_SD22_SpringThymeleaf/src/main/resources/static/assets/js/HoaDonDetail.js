@@ -155,7 +155,7 @@ $(document).ready(function () {
         const id = $(this).data('id');
         const SoLuongMoi = $(this).val();
 
-        console.log("SoLuongMoi", SoLuongMoi);
+        // console.log("SoLuongMoi", SoLuongMoi);
 
 
         $.ajax({
@@ -164,7 +164,7 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: JSON.stringify({id: id, soLuong: SoLuongMoi}),
             success: function (response) {
-                console.log(response)
+                // console.log(response)
                 fetchHoaDonDetail(idHoaDon);
             },
             error: function (xhr, status, error) {
@@ -178,22 +178,26 @@ $(document).ready(function () {
         $('.deleteSP').on('click', function () {
             const itemId = $(this).data('id');
             showConfirm(function() {
-                $.ajax({
-                    url: `/api/hoa-don/delete-hd/${idHoaDon}`,
-                    method: 'POST',
-                    data: {idHoaDonCT: itemId},
-                    success: function () {
-                        showNotification("Xóa sản pẩm thành công", "thanhCong")
-                      fetchHoaDonDetail(idHoaDon)
-                    },
-                    error: function() {
-                        Swal.fire(
-                            'Lỗi!',
-                            'Đã xảy ra lỗi khi xóa sản phẩm.',
-                            'error'
-                        );
-                    }
-                });
+                if(idSP.length <= 1) {
+                    showNotification("Xóa sản phẩm thật bại", 'thatBai');
+                }else{
+                    $.ajax({
+                        url: `/api/hoa-don/delete-hd/${idHoaDon}`,
+                        method: 'POST',
+                        data: {idHoaDonCT: itemId},
+                        success: function () {
+                            showNotification("Xóa sản pẩm thành công", "thanhCong")
+                            fetchHoaDonDetail(idHoaDon)
+                        },
+                        error: function() {
+                            Swal.fire(
+                                'Lỗi!',
+                                'Đã xảy ra lỗi khi xóa sản phẩm.',
+                                'error'
+                            );
+                        }
+                    });
+                }
             });
         });
     }
@@ -456,7 +460,7 @@ $(document).ready(function () {
 
     const getPhuongThucThanhToan = (tongTien, hd) => {
         const tongTienSauKhiGiam = tongTien - (hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0);
-        console.log(hd);
+        // console.log(hd);
         $.ajax({
             url: `/api/hoa-don/phuong-thuc-thanh-toan/${idHoaDon}`,
             method: 'GET',
@@ -568,7 +572,7 @@ $(document).ready(function () {
             </div>
         </div>
     `);
-        console.log($('#inHoaDon').html());
+        // console.log($('#inHoaDon').html());
     }
 
 
@@ -581,6 +585,10 @@ $(document).ready(function () {
         const buttonHuy = document.getElementById("huyHoaDon");
         const buttonThayDoiThongTin = document.getElementById("thayDoiThongTinHoaDon");
         const soLuongInputs = document.querySelectorAll(".soLuong-input");
+
+        console.log(idSP.length);
+
+
 
         if (currentStep === 1) {
             buttonPre.style.display = 'none';
@@ -681,6 +689,8 @@ $(document).ready(function () {
                 return 'Hoàn thành';
             case 7:
                 return 'Hủy';
+            case 10:
+                return 'Thay đổi thông tin';
             default:
                 return 'Không xác định';
         }
@@ -877,6 +887,8 @@ $(document).ready(function () {
         var diaChiDayDu = specificAddress + ', ' + selectedWard + ', ' + selectedDistrict + ', ' + selectedCity;
 
         updateThongTinNguoiNhan(nguoiNhan, sdtNguoiNhan, diaChiDayDu, phiVanChuyen, ghiChu);
+        var ghichuThayDoiThongTin = "Thay đổi thông tin"
+        addHistoryLog(ghichuThayDoiThongTin, 10);
         fetchHoaDonDetail(idHoaDon);
         hideModalThongTinHoaDon();
     });
@@ -1079,7 +1091,7 @@ $(document).ready(function () {
 
     function fetchStepsData(idHoaDon) {
         $.ajax({
-            url: `/api/hoa-don/lich-su-hoa-don/${idHoaDon}`, method: 'GET', success: function (data) {
+            url: `/api/hoa-don/lich-su-hoa-don-co-thong-tin/${idHoaDon}`, method: 'GET', success: function (data) {
                 stepsHistory = data.map(item => ({
                     hanhDong: item.hanhDong, ngayTao: item.ngayTao
                 }));

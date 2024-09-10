@@ -17,4 +17,7 @@ public interface PhuongThucThanhToanRepository extends JpaRepository<PhuongThucT
     @Query(value = "SELECT * FROM phuong_thuc_thanh_toan WHERE idHoaDon = :idHoaDon", nativeQuery = true)
     Optional<PhuongThucThanhToan> findByIdHoaDon(@Param("idHoaDon") Long idHoaDon);
 
+    @Query(value = "SELECT * FROM phuong_thuc_thanh_toan WHERE idHoaDon = :idHoaDon", nativeQuery = true)
+    List<PhuongThucThanhToan> findByIdHoaDon1(@Param("idHoaDon") Long idHoaDon);
+
 }

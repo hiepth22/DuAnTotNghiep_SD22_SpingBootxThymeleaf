@@ -127,9 +127,14 @@ public class HoaDonAPI {
         return ResponseEntity.ok(lichSuHoaDonService.add(id, lichSuHoaDon));
     }
 
-    @GetMapping("/lich-su-hoa-don/{id}")
+    @GetMapping("/lich-su-hoa-don-co-thong-tin/{id}")
     public ResponseEntity<?> lichSuHoaDon (@PathVariable(name = "id") Long id){
         return ResponseEntity.ok(lichSuHoaDonService.getAllByIdhoaDon(id));
+    }
+
+    @GetMapping("/lich-su-hoa-don/{id}")
+    public ResponseEntity<?> lichSuHoaDon2 (@PathVariable(name = "id") Long id){
+        return ResponseEntity.ok(lichSuHoaDonService.getAllByIdhoaDon2(id));
     }
 
     @PutMapping("/update-so-luong/{id}")
@@ -167,7 +172,7 @@ public class HoaDonAPI {
     }
 
     @GetMapping("/phuong-thuc-thanh-toan/{id}")
-    public ResponseEntity<?> phuongThucThanhToan (@PathVariable("id") Long id){
+    public ResponseEntity<List<PhuongThucThanhToan>> phuongThucThanhToan (@PathVariable("id") Long id){
         return ResponseEntity.ok(phuongThucThanhToanService.detail(id));
     }
 

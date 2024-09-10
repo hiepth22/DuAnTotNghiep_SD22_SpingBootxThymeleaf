@@ -32,6 +32,10 @@ public class LichSuHoaDonService {
         return lichSuHoaDonRepository.getByIdHoaDon(idhoaDon);
     }
 
+    public List<LichSuHoaDon> getAllByIdhoaDon2(Long idhoaDon) {
+        return lichSuHoaDonRepository.getByIdHoaDon2(idhoaDon);
+    }
+
 
 
 }
