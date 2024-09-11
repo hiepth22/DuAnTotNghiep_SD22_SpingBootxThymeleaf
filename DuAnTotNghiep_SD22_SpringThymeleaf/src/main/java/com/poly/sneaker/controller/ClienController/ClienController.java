@@ -280,4 +280,19 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
         }
         return new ResponseEntity<>(hoaDonChiTietList, HttpStatus.OK);
     }
+    @GetMapping("/checksp/{size}/{idsp}")
+    public ResponseEntity<SanPhamChiTiet> checksp(@PathVariable("size") String size,
+                                                  @PathVariable("idsp") Long idsp,
+                                                  @RequestParam String anhlayve) {
+
+        String anh = URLDecoder.decode(anhlayve, StandardCharsets.UTF_8);
+        SanPhamChiTiet sp = repo.findidspct(idsp, anh, size);
+        if (sp == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(sp, HttpStatus.OK);
+    }
+
+
 }

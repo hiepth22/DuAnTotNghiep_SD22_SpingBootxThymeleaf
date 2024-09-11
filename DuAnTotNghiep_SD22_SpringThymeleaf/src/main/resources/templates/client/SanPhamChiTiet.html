@@ -448,12 +448,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <!-- Nút Xem ngay với background trong suốt và màu xám nhạt khi hover -->
-                                <a href="#" class="btn xem-ngay-btn" data-bs-toggle="modal" data-bs-target="#productModal"
-                                   style="position: absolute; top: 10px; right: 10px; background-color: transparent; color: #333; border: none; transition: background-color 0.3s ease;">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            </div>
+
 `;
                             slide.addEventListener('click', () => {
                                 window.location.href = `/san-pham/${product.id}`;
@@ -619,6 +614,7 @@
                                                         if (sizecheck == null) {
 
                                                         } else {
+                                                            let sptam = [];
                                                             $.ajax({
                                                                 url: '/api/session/user',
                                                                 method: 'GET',
@@ -647,9 +643,10 @@
                                                                                 notification.style.display = 'none';
                                                                                 progressBar.style.width = '100%';
                                                                             }, 3010);
-                                                                            console.log('Response:', response);
 
+                                                                            sptam = response;
 
+                                                                            console.log('sptam:', sptam);
                                                                         },
                                                                         error: function (xhr, status, error) {
                                                                             console.error('Error:', error);
@@ -657,7 +654,38 @@
                                                                     });
                                                                 },
                                                                 error: function (xhr, status, error) {
-                                                                    window.location.href = `/login`;
+                                                                    var anhlayve = imageName;
+                                                                    $.ajax({
+                                                                        url: `/checksp/${selectedSize}/${data.sanPham.id}`,
+                                                                        type: 'GET',
+                                                                        data: {anhlayve: encodeURIComponent(anhlayve)},
+                                                                        success: function (spp) {
+                                                                                                                                                       console.log( "spduocchon"+spp.ten)
+                                                                            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                                                                            const existingProductIndex = cart.findIndex(item => item.id === spp.id);
+                                                                            if (existingProductIndex > -1) {
+                                                                                cart[existingProductIndex].quantity += quantity;
+                                                                            } else {
+                                                                                cart.push(spp);
+                                                                            }
+                                                                            sessionStorage.setItem('cart', JSON.stringify(cart));
+                                                                            console.log(cart)
+                                                                            displayCart();
+                                                                            function displayCart() {
+
+                                                                                const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+
+                                                                                cart.forEach(item => {
+                                                                                    console.log(`Sản phẩm ID: ${item.id} `);
+                                                                                });
+                                                                            }
+                                                                        },
+                                                                        error: function (xhr, status, error) {
+                                                                            console.error('Error:', error);
+                                                                        }
+                                                                    });
+
                                                                 }
                                                             });
                                                         }
@@ -695,7 +723,7 @@
                                                                     });
                                                                 },
                                                                 error: function (xhr, status, error) {
-                                                                    window.location.href = `/login`;
+                                                                    window.location.href = `/cho-thanh-toan`;
                                                                 }
                                                             });
                                                         }

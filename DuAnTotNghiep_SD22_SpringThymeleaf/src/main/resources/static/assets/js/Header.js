@@ -11,7 +11,7 @@ $(document).ready(function () {
 
 
             let nguoi = `<a class="border-0">
-                       <a class="dropdown-item" data-action="profile" style="padding: 8px 15px; font-size: 12px; color: white">Xin Chào :${response.ten}</a>
+                       <a class="dropdown-item" data-action="profile" style="padding: 8px 15px; font-size: 14px; color: white">${response.ten}</a>
 
                         </a>
                         <div class="dropdown-menu" style="min-width: 150px; padding: 5px; border-radius: 6px; font-size: 13px;">
@@ -31,7 +31,7 @@ $(document).ready(function () {
 
                 }
                 else if (action === 'donmua') {
-                    alert("làm mình làm mẩy")
+                    window.location.href = '/thong-tin-don-hang';
                 }
                 else if (action === 'logout') {
 
