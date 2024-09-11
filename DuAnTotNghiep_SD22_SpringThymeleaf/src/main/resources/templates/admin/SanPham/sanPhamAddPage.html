@@ -186,8 +186,10 @@
                     <div id="sizeList" class="row">
                         <div class="col-2 mb-3" th:each="kichCo : ${kichCos}">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" th:value="${kichCo.id}" th:id="'kichCo_' + ${kichCo.id}">
-                                <label class="form-check-label" th:for="'kichCo_' + ${kichCo.id}" th:text="${kichCo.ten}"></label>
+                                <input class="form-check-input" type="checkbox" th:value="${kichCo.id}"
+                                       th:id="'kichCo_' + ${kichCo.id}">
+                                <label class="form-check-label" th:for="'kichCo_' + ${kichCo.id}"
+                                       th:text="${kichCo.ten}"></label>
                             </div>
                         </div>
                     </div>
@@ -200,7 +202,7 @@
         </div>
     </div>
 
-    <!-- Modal Thông Báo -->
+    <!-- Modal Thông Báo lựa chọn thuộc tính -->
     <div class="modal fade" id="validationModal" tabindex="-1" role="dialog" aria-labelledby="validationModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -222,6 +224,28 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Xác Nhận lưu mới sản phẩm-->
+<div class="modal fade" id="confirmSaveModal" tabindex="-1" role="dialog" aria-labelledby="confirmSaveModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmSaveModalLabel">Xác nhận lưu sản phẩm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn lưu sản phẩm không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-success" id="confirmSaveButton">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Modal Thêm mới sản phẩm -->
 <div class="modal fade" id="themMoiSanPham" tabindex="-1" aria-hidden="true">
@@ -355,14 +379,12 @@
 </div>
 
 <!-- Modal sửa tất cả sản phẩm -->
-<div class="modal fade" id="editAllProductsModal" tabindex="-1" role="dialog" aria-labelledby="editAllProductsModalLabel" aria-hidden="true">
+<div class="modal fade" id="editAllProductsModal" tabindex="-1" role="dialog"
+     aria-labelledby="editAllProductsModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editAllProductsModalLabel">Chỉnh sửa thông tin</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title" id="editAllProductsModalLabel">Sửa thông số sản phẩm</h5>
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -382,7 +404,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModal">Hủy</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                 <button type="button" class="btn btn-primary" id="saveAllChanges">Lưu thay đổi</button>
             </div>
         </div>

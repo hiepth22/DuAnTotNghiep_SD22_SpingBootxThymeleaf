@@ -158,14 +158,14 @@ $(document).ready(function () {
                     ma: ma,
                     ten: nameProduct,
                     barcode: "",
-                    sanPham: { id: sanPhamId, name: nameProduct },
-                    coGiay: { id: coGiayId },
-                    deGiay: { id: deGiayId },
-                    chatLieu: { id: chatLieuId },
-                    nhaSanXuat: { id: nhaSanXuatId },
+                    sanPham: {id: sanPhamId, name: nameProduct},
+                    coGiay: {id: coGiayId},
+                    deGiay: {id: deGiayId},
+                    chatLieu: {id: chatLieuId},
+                    nhaSanXuat: {id: nhaSanXuatId},
                     moTa: moTa,
-                    mauSac: { id: mauSac.id, name: mauSac.name },
-                    kichCo: { id: kichCo.id, name: kichCo.name },
+                    mauSac: {id: mauSac.id, name: mauSac.name},
+                    kichCo: {id: kichCo.id, name: kichCo.name},
                     ngayTao: new Date().toISOString(),
                     ngayCapNhat: "",
                     nguoiTao: "admin",
@@ -219,7 +219,7 @@ $(document).ready(function () {
 
     function displayProductDetails(chiTietSanPhams) {
         const colorGroups = chiTietSanPhams.reduce((groups, product) => {
-            const { mauSac } = product;
+            const {mauSac} = product;
             if (!groups[mauSac.id]) {
                 groups[mauSac.id] = [];
             }
@@ -234,34 +234,35 @@ $(document).ready(function () {
             const tenMauBienThe = products[0].mauSac.name;
             const colorSection = $('<div class="color-section"></div>');
             const colorTitle = $(
-                '<h2 class="mt-2" style="font-weight: bold;"></h2>'
+                '<h1 class="mt-2" style="font-weight: bold; font-size: 30px; color: "></h1>'
             ).html(
                 `Danh sách sản phẩm có màu <span style="display: inline-block; width: 40px; height: 40px; background-color: ${tenMauBienThe}; border-radius: 5px; border: 1px solid #ccc;"></span>`
             );
             const tableWrapper = $('<div class="table-wrapper"></div>');
-            const table = $('<table class="table table-bordered"></table>');
+            const table = $('<table class="table table-bordered w-100"></table>');
             const thead = $("<thead></thead>").html(`
 <tr>
         <th colspan="7">
             <div class="d-flex justify-content-between">
                 <div class="d-flex justify-content-center" style="width: 50%;">
-                    <button type="button" class="btn btn-primary clearSanPham">Button 1</button>
+                    <button type="button" class="btn btn-primary clearSanPham">clear sp</button>
                 </div>
                 <div class="d-flex justify-content-center" style="width: 50%;">
-                    <button type="button" class="btn btn-secondary" id="editAllSanPham">Button 2</button>
+                    <button type="button" class="btn btn-secondary editAllSanPham" >edit all</button>
                 </div>
             </div>
         </th>
     </tr>
         <tr>
-            <th scope="col" style="width: 15%">Tên sản phẩm</th>
-            <th scope="col" style="width: 15%">Màu</th>
-            <th scope="col" style="width: 15%">Kích cỡ</th>
-            <th scope="col" style="width: 15%">Cân nặng</th>
-            <th scope="col" style="width: 15%">Giá bán</th>
-            <th scope="col" style="width: 10%">Số lượng</th>
-            <th scope="col" style="width: 10%">Hành động</th>
-        </tr>
+    <th scope="col" style="width: 35%; text-align: center;">Tên sản phẩm</th>
+    <th scope="col" style="width: 15%; text-align: center;">Màu</th>
+    <th scope="col" style="width: 10%; text-align: center;">Kích cỡ</th>
+    <th scope="col" style="width: 10%; text-align: center;">Cân nặng</th>
+    <th scope="col" style="width: 15%; text-align: center;">Giá bán</th>
+    <th scope="col" style="width: 7%; text-align: center;">Số lượng</th>
+    <th scope="col" style="width: 8%; text-align: center;">Hành động</th>
+</tr>
+
     `);
             const tbody = $("<tbody></tbody>");
 
@@ -342,8 +343,8 @@ $(document).ready(function () {
 
             colorSection.find(".clearSanPham").click(function () {
                 colorSection.remove();
-                updateSaveButton();
             });
+            updateSaveButton();
 
             tableWrapper.find(`#file-upload-${mauSacId}`).on("change", function () {
                 var files = $(this).get(0).files;
@@ -376,7 +377,16 @@ $(document).ready(function () {
         const saveButton = $(
             '<button class="btn btn-success mt-3 mb-4">Lưu</button>'
         );
+
         saveButton.click(function () {
+            $("#confirmSaveModal").modal("show");
+        });
+
+        function closeModal() {
+            $("#closeModal").hide();
+        }
+
+        $("#confirmSaveButton").click(function () {
             const jsonFormatted = JSON.stringify(chiTietSanPhams);
             console.log("Dữ liệu gửi đi:", jsonFormatted);
 
@@ -397,16 +407,16 @@ $(document).ready(function () {
                 })
                 .then((data) => {
                     console.log("Thông tin được lưu:", data);
-                    alert("Lưu thông tin sản phẩm chi tiết thành công!");
                     window.location.href = "/admin/san-pham";
                 })
                 .catch((error) => {
                     console.error("Lỗi khi lưu thông tin sản phẩm chi tiết:", error);
-                    alert(
-                        "Đã xảy ra lỗi khi lưu thông tin sản phẩm chi tiết. Vui lòng thử lại sau."
-                    );
+                    alert("Đã xảy ra lỗi khi lưu thông tin sản phẩm chi tiết. Vui lòng thử lại sau.");
                 });
+
+            $("#confirmSaveModal").modal("hide");
         });
+
         productDetailsContainer.append(saveButton);
 
         function updateSaveButton() {
@@ -416,15 +426,14 @@ $(document).ready(function () {
                 saveButton.show();
             }
         }
+
         updateSaveButton();
 
         $(document).ready(function () {
-            // Hiển thị modal khi nhấn nút chỉnh sửa tất cả
-            $("#editAllSanPham").click(function () {
+            $(".editAllSanPham").click(function () {
                 $("#editAllProductsModal").modal("show");
             });
 
-            // Validate và lưu các thay đổi khi nhấn nút lưu trong modal
             $("#saveAllChanges").click(function () {
                 const newGiaBan = $("#editAllGiaBan").val().trim();
                 const newCanNang = $("#editAllCanNang").val().trim();
@@ -432,37 +441,45 @@ $(document).ready(function () {
 
                 let isValid = true;
 
-                // Reset lỗi
                 $("#errorGiaBan, #errorCanNang, #errorSoLuong").text("").hide();
 
-                // Validate giá bán
                 if (!newGiaBan) {
                     $("#errorGiaBan").text("Vui lòng nhập giá bán mới.").show();
                     isValid = false;
                 } else if (!/^\d+$/.test(newGiaBan)) {
                     $("#errorGiaBan").text("Giá bán phải là số và không được có ký tự đặc biệt.").show();
                     isValid = false;
+                } else if (parseInt(newGiaBan) > 100000000) {
+                    $("#errorGiaBan").text("Giá giày không được vượt quá 100 triệu")
+                } else {
+                    $("#errorGiaBan").hide();
                 }
 
-                // Validate cân nặng
                 if (!newCanNang) {
                     $("#errorCanNang").text("Vui lòng nhập cân nặng mới.").show();
                     isValid = false;
                 } else if (!/^\d+$/.test(newCanNang)) {
                     $("#errorCanNang").text("Cân nặng phải là số và không được có ký tự đặc biệt.").show();
                     isValid = false;
+                } else if (parseInt(newCanNang) > 5000) {
+                    $("#errorCanNang").text("Cân nặng không được vượt quá 5,000")
+                } else {
+                    $("#errorCanNang").hide();
                 }
 
-                // Validate số lượng
                 if (!newSoLuong) {
                     $("#errorSoLuong").text("Vui lòng nhập số lượng mới.").show();
                     isValid = false;
                 } else if (!/^\d+$/.test(newSoLuong)) {
                     $("#errorSoLuong").text("Số lượng phải là số và không được có ký tự đặc biệt.").show();
                     isValid = false;
+                } else if (parseInt(newSoLuong) > 1000) {
+                    $("#errorSoLuong").text("Số lượng không được vượt quá 1,000.").show();
+                    isValid = false;
+                } else {
+                    $("#errorSoLuong").hide();
                 }
 
-                // Nếu không có lỗi, tiếp tục cập nhật sản phẩm
                 if (isValid) {
                     chiTietSanPhams.forEach((product, index) => {
                         if (newGiaBan) {
@@ -482,7 +499,6 @@ $(document).ready(function () {
                 }
             });
         });
-
-
     }
+
 });
