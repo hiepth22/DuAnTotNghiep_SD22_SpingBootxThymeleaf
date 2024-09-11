@@ -1,20 +1,37 @@
-<header id="header" class="site-header text-white" th:fragment="header"  xmlns:th="http://www.w3.org/1999/xhtml">
+<header id="header" class="site-header text-white" th:fragment="header" xmlns:th="http://www.w3.org/1999/xhtml">
     <style>
-            /* Giữ header ở trên đầu khi cuộn trang */
+        /* Giữ header ở trên đầu khi cuộn trang */
         #header {
             position: sticky;
             top: 0;
             z-index: 1000;
             width: 100%;
         }
+
         .input-group input.form-control,
         .input-group button.btn {
             border: none;
             outline: none;
             box-shadow: none;
         }
+
         .input-group {
             margin: 0;
+            padding: 0;
+        }
+
+        /* Giảm chiều rộng của ô tìm kiếm */
+        .input-group {
+            width: 500px; /* Bạn có thể điều chỉnh giá trị này theo ý muốn */
+        }
+
+        /* Đảm bảo rằng button tìm kiếm có kích thước phù hợp */
+        .input-group button.btn {
+            max-width: 100px; /* Bạn có thể điều chỉnh giá trị này nếu cần */
+        }
+
+        /* Đảm bảo rằng thanh điều hướng không bị ảnh hưởng */
+        #header-nav {
             padding: 0;
         }
     </style>
@@ -25,9 +42,11 @@
             text-decoration: none;
             cursor: default;
         }
+
         .clickable:hover {
             color: red;
         }
+
         /* Căn chỉnh thẻ <li> để chứa các mục dropdown */
         .position-relative {
             position: relative;
@@ -42,7 +61,7 @@
             background-color: #fff; /* Màu nền cho menu dropdown */
             border: 1px solid #ddd; /* Đường viền cho menu dropdown */
             border-radius: 4px; /* Bo góc cho menu dropdown */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Đổ bóng cho menu dropdown */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng cho menu dropdown */
             padding: 10px;
             z-index: 1000; /* Đảm bảo menu nằm trên các phần tử khác */
         }
@@ -69,7 +88,8 @@
 
     </style>
 
-    <div id="header-content" style="background-color: #ffffff; text-align: left; display: flex; justify-content: flex-end;">
+    <div id="header-content"
+         style="background-color: #ffffff; text-align: left; display: flex; justify-content: flex-end;">
         <div id="checklogin" class="d-flex">
             <!-- Nội dung của bạn ở đây -->
         </div>
@@ -89,7 +109,7 @@
                 <span class="mt-3 text-4xl font-bold text-orange-600">
                     <span class="text-4xl font-normal text-orange-300"></span>
                 </span>
-                <div class="nav-item me-3">
+                <div class="nav-item me-2">
                     <form class="d-flex" style="width: 600px;">
                         <div class="input-group">
                             <input class="form-control" type="search" placeholder="Search" aria-label="Search">
@@ -104,33 +124,34 @@
             <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar">
 
                 <div class="offcanvas-body">
-                    <ul id="navbar" class="navbar-nav fw-bold justify-content-end align-items-center flex-grow-1">
+                    <ul id="navbar" class="navbar-nav justify-content-end align-items-center flex-grow-1">
                         <!-- Thanh tìm kiếm -->
-                        <li class="nav-item">
-                            <a class="nav-link me-5" style="color: white;" href="/Client">Trang Chủ</a>
+                        <li class="">
+                            <a class="nav-link me-5" style="color: white;font-size: 15px" href="/Client">Trang Chủ</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link me-5" style="color: white;" href="/shop">Mua Sắm</a>
+                        <li class="">
+                            <a class="nav-link me-5" style="color: white;font-size: 15px" href="/shop">Mua Sắm</a>
                         </li>
-<!--                        <li class="nav-item">-->
-<!--                            <a class="nav-link me-5" style="color: white;" href="#">Sale</a>-->
-<!--                        </li>-->
-                        <li class="nav-item">
-                            <a class="nav-link me-5" style="color: white;" href="/TraCuuDonHang">Tra Cứu</a>
+                        <!--                        <li class="nav-item">-->
+                        <!--                            <a class="nav-link me-5" style="color: white;" href="#">Sale</a>-->
+                        <!--                        </li>-->
+                        <li class="">
+                            <a class="nav-link me-5" style="color: white;font-size: 15px" href="/TraCuuDonHang">Tra Cứu</a>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="user-items ps-0 ps-md-5">
+            <div class="user-items ps-0 ps-md-2">
                 <ul class="d-flex justify-content-end list-unstyled align-items-center m-0">
                     <li class="pe-3 position-relative" id="nguoidung">
 
                     </li>
 
                     <li class="pe-3">
-                        <a href="/gio-hang" class="search-item border-0" data-bs-toggle="collapse" data-bs-target="#search-box"
+                        <a href="/gio-hang" class="search-item border-0" data-bs-toggle="collapse"
+                           data-bs-target="#search-box"
                            aria-label="Toggle navigation">
-                            <i class="bi bi-cart" style="color: white; font-weight: bold;"></i>
+                            <i class="bi bi-cart" style="color: white;"></i>
                         </a>
                     </li>
                 </ul>
