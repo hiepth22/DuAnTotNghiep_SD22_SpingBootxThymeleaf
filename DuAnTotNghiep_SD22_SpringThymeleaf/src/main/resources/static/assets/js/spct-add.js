@@ -234,12 +234,12 @@ $(document).ready(function () {
             const tenMauBienThe = products[0].mauSac.name;
             const colorSection = $('<div class="color-section"></div>');
             const colorTitle = $(
-                '<h1 class="mt-2" style="font-weight: bold; font-size: 30px; color: "></h1>'
+                '<h1 class="mt-2" style="font-weight: bold; font-size: 20px;"></h1>'
             ).html(
                 `Danh sách sản phẩm có màu <span style="display: inline-block; width: 40px; height: 40px; background-color: ${tenMauBienThe}; border-radius: 5px; border: 1px solid #ccc;"></span>`
             );
             const tableWrapper = $('<div class="table-wrapper"></div>');
-            const table = $('<table class="table table-bordered w-100"></table>');
+            const table = $('<table class="table table-bordered" style="width: 1235px"></table>');
             const thead = $("<thead></thead>").html(`
 <tr>
         <th colspan="7">
@@ -268,22 +268,32 @@ $(document).ready(function () {
 
             products.forEach((product, index) => {
                 const row = $("<tr></tr>").html(`
-            <td>${product.ten}</td>
-            <td><span style="display: inline-block; width: 40px; height: 40px; background-color: ${
+        <td style="text-align: center; vertical-align: middle;">${product.ten}</td>
+        <td style="text-align: center; vertical-align: middle;">
+            <span style="display: inline-block; width: 40px; height: 40px; background-color: ${
                     product.mauSac.name
-                }; border-radius: 5px; border: 1px solid #ccc;"></span></td>
-            <td>${product.kichCo.name}</td>
-            <td><input type="text" class="product-input" value="${
+                }; border-radius: 5px; border: 1px solid #ccc;"></span>
+        </td>
+        <td style="text-align: center; vertical-align: middle;">${product.kichCo.name}</td>
+        <td style="text-align: center; vertical-align: middle;">
+            <input type="text" class="product-input" value="${
                     product.canNang
-                }" data-index="${index}" data-field="canNang" /></td>
-            <td><input type="text" class="product-input" value="${dinhDangGia(
+                }" data-index="${index}" data-field="canNang" style="text-align: center;" />
+        </td>
+        <td style="text-align: center; vertical-align: middle;">
+            <input type="text" class="product-input" value="${dinhDangGia(
                     product.giaBan
-                )}" data-index="${index}" data-field="giaBan" /></td>
-            <td><input type="text" class="product-input" value="${
+                )}" data-index="${index}" data-field="giaBan" style="text-align: center;" />
+        </td>
+        <td style="text-align: center; vertical-align: middle;">
+            <input type="text" class="product-input" value="${
                     product.soLuong
-                }" data-index="${index}" data-field="soLuong"/></td>
-            <td><a class="delete-product"><i class="fa fa-trash"></i></a></td>
-        `);
+                }" data-index="${index}" data-field="soLuong" style="text-align: center;" />
+        </td>
+        <td style="text-align: center; vertical-align: middle;">
+            <a class="delete-product"><i class="fa fa-trash"></i></a>
+        </td>
+    `);
 
                 row.find(".product-input").on("input", function () {
                     const index = $(this).data("index");
@@ -342,9 +352,19 @@ $(document).ready(function () {
             productDetailsContainer.append(colorSection);
 
             colorSection.find(".clearSanPham").click(function () {
+                // Lấy ID màu sắc từ nhóm sản phẩm hiện tại
+                const mauSacId = products[0].mauSac.id;
+
+                // Xóa tất cả sản phẩm có màu sắc tương ứng khỏi mảng chiTietSanPhams
+                chiTietSanPhams = chiTietSanPhams.filter(sp => sp.mauSac.id !== mauSacId);
+
+                // Xóa phần tử HTML của nhóm sản phẩm này
                 colorSection.remove();
+
+                // Cập nhật lại hiển thị của nút lưu
+                updateSaveButton();
             });
-            updateSaveButton();
+
 
             tableWrapper.find(`#file-upload-${mauSacId}`).on("change", function () {
                 var files = $(this).get(0).files;
@@ -381,10 +401,6 @@ $(document).ready(function () {
         saveButton.click(function () {
             $("#confirmSaveModal").modal("show");
         });
-
-        function closeModal() {
-            $("#closeModal").hide();
-        }
 
         $("#confirmSaveButton").click(function () {
             const jsonFormatted = JSON.stringify(chiTietSanPhams);
