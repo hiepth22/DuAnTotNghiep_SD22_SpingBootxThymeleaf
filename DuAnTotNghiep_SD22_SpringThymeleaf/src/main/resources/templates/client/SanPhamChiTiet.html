@@ -658,14 +658,16 @@
                                                                 error: function (xhr, status, error) {
                                                                     var anhlayve = imageName;
                                                                     $.ajax({
-                                                                        url: `/checksp/${selectedSize}/${data.sanPham.id}`,
+                                                                        url: `/checksp/${sizecheck}/${data.sanPham.id}`,
                                                                         type: 'GET',
                                                                         data: {anhlayve: encodeURIComponent(anhlayve)},
                                                                         success: function (spp) {
-                                                                            const product = {
+
+                                                                            const  product = {
                                                                                 id: spp.id,
                                                                                 anhspmoi:spp.anh,
                                                                                 quantity: soluongspkhithem,
+                                                                                quantitymax: spp.soLuong,
                                                                                 tenspmoi: spp.ten,
                                                                                 size: spp.kichCo.ten,
                                                                                 giabansp:spp.giaBan
