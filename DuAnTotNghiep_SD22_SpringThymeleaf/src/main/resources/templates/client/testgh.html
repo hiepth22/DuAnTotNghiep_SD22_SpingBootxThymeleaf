@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    .card-sm {
+        max-width: 50%; /* Hoặc sử dụng một giá trị khác tùy thuộc vào nhu cầu */
+    }
+
+    .card-img {
+        max-height: 100px; /* Điều chỉnh kích thước hình ảnh nếu cần */
+        object-fit: cover;
+    }
+</style>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center">Giỏ hàng của bạn</h2>
+    <div class="row">
+        <div class="col-md-8">
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Tóm tắt đơn hàng</h5>
+                    <p class="card-text">Tổng số lượng: 2</p>
+                    <p class="card-text">Tổng giá trước thuế: 1,650,000 VND</p>
+                    <p class="card-text">Thuế: 0 VND</p>
+                    <h5 class="card-title">Tổng cộng: 1,650,000 VND</h5>
+                    <a href="#" class="btn btn-primary">Tiến hành thanh toán</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        displayCart();
+
+        function displayCart() {
+            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            const container = document.querySelector('.col-md-8');
+
+            // Clear the container before adding new items
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p>Your cart is empty.</p>';
+                return;
+            }
+
+            cart.forEach(item => {
+                const cardHTML = `
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4 w-24">
+                                <img src="${item.anhspmoi}" class="img-fluid rounded-start" alt="${item.tenspmoi}">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">${item.tenspmoi}</h5>
+                                    <p class="card-text">Size: ${item.size}</p>
+                                    <p class="card-text">Số Lượng: ${item.quantity}</p>
+                                    <p class="card-text">Price: ${item.giabansp}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
+    });
+</script>
+</body>
+</html>

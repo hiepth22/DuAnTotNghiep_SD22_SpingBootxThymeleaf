@@ -58,6 +58,11 @@ public class ClienController {
         model.addAttribute("sanPhams", sanPhams);
         return "client/viewClient";
     }
+    @GetMapping("/giohangNoLogin")
+    public String giohangNoLogin(Model model) {
+
+        return "client/giohangNoLogin";
+    }
     @GetMapping("/TraCuuDonHang")
     public String TraCuuDonHang(Model model) {
         return "client/TraCuuDonHang";

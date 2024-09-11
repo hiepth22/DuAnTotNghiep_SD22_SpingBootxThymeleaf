@@ -16,7 +16,7 @@ public class GioHangController {
 
             return "client/GioHangClient";
         }
-        return "redirect:/login";
+        return "client/giohangNoLogin";
     }
 
     @GetMapping("/cho-thanh-toan")

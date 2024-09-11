@@ -614,6 +614,8 @@
                                                         if (sizecheck == null) {
 
                                                         } else {
+                                                            let inputElement = document.getElementById('quantity');
+                                                            let soluongspkhithem = inputElement.value;
                                                             let sptam = [];
                                                             $.ajax({
                                                                 url: '/api/session/user',
@@ -621,8 +623,8 @@
                                                                 success: function (response) {
                                                                     let idKhachHang = response.id;
 
-                                                                    let inputElement = document.getElementById('quantity');
-                                                                    let soluongspkhithem = inputElement.value;
+                                                                    // let inputElement = document.getElementById('quantity');
+                                                                    // let soluongspkhithem = inputElement.value;
                                                                     var anhlayve = imageName;
                                                                     $.ajax({
                                                                         url: `/detailcheckgh/${idKhachHang}/${selectedSize}/${data.sanPham.id}/${soluongspkhithem}`,
@@ -660,13 +662,20 @@
                                                                         type: 'GET',
                                                                         data: {anhlayve: encodeURIComponent(anhlayve)},
                                                                         success: function (spp) {
-                                                                                                                                                       console.log( "spduocchon"+spp.ten)
+                                                                            const product = {
+                                                                                id: spp.id,
+                                                                                anhspmoi:spp.anh,
+                                                                                quantity: soluongspkhithem,
+                                                                                tenspmoi: spp.ten,
+                                                                                size: spp.kichCo.ten,
+                                                                                giabansp:spp.giaBan
+                                                                            };
                                                                             let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-                                                                            const existingProductIndex = cart.findIndex(item => item.id === spp.id);
+                                                                            const existingProductIndex = cart.findIndex(item => item.id === product.id);
                                                                             if (existingProductIndex > -1) {
-                                                                                cart[existingProductIndex].quantity += quantity;
+                                                                                // cart[existingProductIndex].quantity += quantity;
                                                                             } else {
-                                                                                cart.push(spp);
+                                                                                cart.push(product);
                                                                             }
                                                                             sessionStorage.setItem('cart', JSON.stringify(cart));
                                                                             console.log(cart)
@@ -832,12 +841,7 @@
 
 
 </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
 
-    });
-
-</script>
 
 <script src="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/js/chocolat.min.js"></script>
 <script th:src="@{/assets/js/plugins.js}"></script>
