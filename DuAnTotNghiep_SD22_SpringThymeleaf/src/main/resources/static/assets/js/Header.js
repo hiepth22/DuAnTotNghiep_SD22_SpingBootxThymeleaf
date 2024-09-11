@@ -11,7 +11,8 @@ $(document).ready(function () {
 
 
             let nguoi = `<a class="border-0">
-                            <i class="bi bi-person" style="color: white; font-weight: bold;"></i>
+                       <a class="dropdown-item" data-action="profile" style="padding: 8px 15px; font-size: 12px; color: white">Xin Chào :${response.ten}</a>
+
                         </a>
                         <div class="dropdown-menu" style="min-width: 150px; padding: 5px; border-radius: 6px; font-size: 13px;">
                             <a class="dropdown-item" data-action="profile" style="padding: 8px 15px; font-size: 14px;">Thông Tin Cá Nhân</a>
