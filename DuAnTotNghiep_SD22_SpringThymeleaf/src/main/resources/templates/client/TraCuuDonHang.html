@@ -1,16 +1,26 @@
-<!DOCTYPE html>
-<html lang="vi">
+<!DOCTYPE html >
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{client/fragmentsClient/head :: head}"></div>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shosse</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml"
+          href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
+
+    <title>Tra cứu đơn hàng</title>
+    <!-- Bootstrap CSS --><!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap JS (để hỗ trợ modal và các tính năng JavaScript khác) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/css/chocolat.css">
     <style>
         body {
             background-color: #f4f4f4;
         }
+
         .table-container {
             margin: 20px auto;
             background-color: white;
@@ -18,10 +28,12 @@
             border-radius: 8px;
             overflow: hidden;
         }
+
         .table th, .table td {
             text-align: center;
             vertical-align: middle;
         }
+
         .search-bar {
             margin: 20px 0;
         }
@@ -32,10 +44,50 @@
 
 <div class="container">
     <div class="search-bar text-center">
-        <input type="text" id="orderSearchInput" class="form-control w-50 mx-auto" placeholder="Tra cứu đơn hàng của bạn">
+        <input type="text" id="orderSearchInput" class="form-control w-50 mx-auto"
+               placeholder="Tra cứu đơn hàng của bạn">
         <button id="searchButton" class="btn btn-danger mt-2">Tra cứu</button>
     </div>
     <div id="searchResults" class="table-container"></div> <!-- To display the search results -->
+</div>
+<!-- Modal -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="bi bi-eye" style="font-size: 24px; color: #007bff;"></i>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Bảng thông tin chi tiết -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Ảnh</th>
+                            <th>Giá Bán</th>
+                            <th>Chất liệu</th>
+                            <th>Cổ giày</th>
+                            <th>Đế giày</th>
+                            <th>Kích cỡ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="anh"></td>
+                            <td id="giaBan"></td>
+                            <td id="cl"></td>
+                            <td id="cg"></td>
+                            <td id="dg"></td>
+                            <td id="kc"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- jQuery -->
@@ -45,7 +97,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    document.getElementById('searchButton').addEventListener('click', function() {
+    document.getElementById('searchButton').addEventListener('click', function () {
         var ma = document.getElementById('orderSearchInput').value;
         if (ma.trim() === '') {
             alert('Vui lòng nhập mã đơn hàng.');
@@ -109,21 +161,52 @@
 
                         var tdActions = document.createElement('td');
                         var actionButton = document.createElement('button');
-                        actionButton.textContent = 'Xem Chi Tiết';
+                        actionButton.textContent = 'Xem Sản Phẩm';
                         actionButton.classList.add('btn', 'btn-info', 'btn-sm');
-                        actionButton.onclick = function() {
+                        actionButton.onclick = function () {
                             $.ajax({
-                                url: `/tra-cuu-hoa-don-chi-tiet/${encodeURIComponent(item.ma)}`, // Use the correct endpoint
+                                url: `/tra-cuu-hoa-don-chi-tiet/${encodeURIComponent(item.ma)}`, // Đảm bảo endpoint đúng
                                 type: 'GET',
                                 success: function (response) {
                                     console.log('Detail Response:', response);
 
+                                    // Xóa nội dung cũ trong bảng (nếu có)
+                                    const tableBody = document.querySelector('#detailModal tbody');
+                                    tableBody.innerHTML = ''; // Xóa các dòng cũ
 
+                                    // Lặp qua danh sách sanPhamChiTiet
+                                    response.forEach(item => {
+                                        const sanPhamChiTiet = item.sanPhamChiTiet;
+
+                                        // Tạo một dòng mới cho mỗi sản phẩm
+                                        const row = document.createElement('tr');
+                                        const productPrice = sanPhamChiTiet.giaBan != null ? sanPhamChiTiet.giaBan.toLocaleString('vi-VN', {
+                                            style: 'currency',
+                                            currency: 'VND'
+                                        }) : 'Không có giá';
+                                        row.innerHTML = `
+
+                                            <td><img src="${sanPhamChiTiet.anh || ''}" alt="Không có dữ liệu" style="max-width: 100px; max-height: 100px;" /></td>
+                                            <td style="font-size: 17px;color: red">${productPrice || 'N/A'}</td>
+                                            <td>${sanPhamChiTiet.chatLieu.ten || 'N/A'}</td>
+                                            <td>${sanPhamChiTiet.coGiay.ten || 'N/A'}</td>
+                                            <td>${sanPhamChiTiet.deGiay.ten || 'N/A'}</td>
+                                            <td>${sanPhamChiTiet.kichCo.ten || 'N/A'}</td>
+                                        `;
+
+                                        // Thêm dòng mới vào bảng
+                                        tableBody.appendChild(row);
+                                    });
+
+                                    // Mở modal
+                                    var detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
+                                    detailModal.show();
                                 },
                                 error: function (xhr, status, error) {
-                                    console.error('Error:', error);
+                                    console.error('Lỗi khi lấy chi tiết hóa đơn:', error);
                                 }
                             });
+
                         };
                         tdActions.appendChild(actionButton);
 
@@ -143,5 +226,6 @@
             });
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
