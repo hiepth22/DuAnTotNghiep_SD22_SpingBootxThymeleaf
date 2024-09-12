@@ -1,6 +1,7 @@
 package com.poly.sneaker.sevice;
 
 import com.poly.sneaker.entity.HoaDon;
+import com.poly.sneaker.entity.HoaDonChiTiet;
 import com.poly.sneaker.entity.LichSuHoaDon;
 import com.poly.sneaker.entity.PhuongThucThanhToan;
 import com.poly.sneaker.repository.PhuongThucThanhToanRepository;
@@ -33,6 +34,14 @@ public class PhuongThucThanhToanService {
 
     public PhuongThucThanhToan add(PhuongThucThanhToan phuongThucThanhToan) {
         return phuongThucThanhToanRepository.save(phuongThucThanhToan);
+    }
+
+    public PhuongThucThanhToan deleteById(Long id) {
+        Optional<PhuongThucThanhToan> optional = phuongThucThanhToanRepository.findById(id);
+        return optional.map(o -> {
+            phuongThucThanhToanRepository.delete(o);
+            return o;
+        }).orElse(null);
     }
 
 }

@@ -33,6 +33,11 @@ public interface HoaDonChiTietRepository extends JpaRepository<HoaDonChiTiet, Lo
     @Query(value = "SELECT * FROM hoa_don_chi_tiet WHERE idHoaDon = :idHoaDon", nativeQuery = true)
     List<HoaDonChiTiet> TimTongTien(@Param("idHoaDon") Long idHoaDon);
 
+
+    @Query("SELECT hdct FROM HoaDonChiTiet hdct JOIN hdct.hoaDon hd WHERE hdct.hoaDon.id = :idHoaDon AND hd.trangThai = :trangThai")
+    List<HoaDonChiTiet> findHoaDonChiTietByIdHoaDon(@Param("idHoaDon") Long idHoaDon, @Param("trangThai") int trangThai);
+
+
     @Query(value = "SELECT * FROM hoa_don_chi_tiet WHERE idHoaDon = :idHoaDon", nativeQuery = true)
     List<HoaDonChiTiet> findByIdHD(@Param("idHoaDon") Long idHoaDon);
 

@@ -5,6 +5,8 @@ import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.HoaDonChiTietRepository;
 import com.poly.sneaker.repository.HoaDonRepository;
 import com.poly.sneaker.sevice.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +28,7 @@ import java.util.Map;
 @RequestMapping("/api/hoa-don")
 public class HoaDonAPI {
 
+    private static final Logger log = LoggerFactory.getLogger(HoaDonAPI.class);
     @Autowired
     HoaDonService hoaDonService;
 
@@ -102,6 +105,8 @@ public class HoaDonAPI {
 
         HoaDon hd = hoaDonService.detail(id);
         hd.setTongTien(tongTien);
+        hd.setTongTienSauGiam(tongTien);
+
         hoaDonService.updateTongTien(id, hd);
 
         Map<String, Object> response = new HashMap<>();
@@ -168,6 +173,22 @@ public class HoaDonAPI {
 
     @PostMapping("/danh-sach-san-pham/add")
     public ResponseEntity<?> themSanPham(@RequestBody HoaDonChiTiet hoaDonChiTiet){
+
+//        Long idHD = hoaDonChiTiet.getHoaDon().getId();
+//
+//        List<HoaDonChiTiet> hdctList = hoaDonChiTietService.findByHDId(idHD);
+//
+//
+//        BigDecimal tongTien = hdctList.stream()
+//                .map(hdct -> hdct.getSanPhamChiTiet().getGiaBan()
+//                        .multiply(BigDecimal.valueOf(hdct.getSoLuong())))
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//
+//
+//        HoaDon hd = hoaDonService.detail(idHD);
+//        hd.setTongTien(tongTien);
+//        hoaDonService.updateTongTien(idHD, hd);
+
         hoaDonChiTiet.setHoaDon(hoaDonChiTiet.getHoaDon());
         hoaDonChiTiet.setSanPhamChiTiet(hoaDonChiTiet.getSanPhamChiTiet());
         return ResponseEntity.ok(banHangService.add(hoaDonChiTiet));

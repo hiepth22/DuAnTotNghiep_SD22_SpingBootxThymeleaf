@@ -21,7 +21,8 @@ public class PaymentAPI {
 
     @GetMapping("/create_payment")
     public ResponseEntity<?> createPayment(@RequestParam(name = "amount") long amount,
-                                           @RequestParam(name = "TxnRef") String TxnRef) throws UnsupportedEncodingException {
+                                           @RequestParam(name = "TxnRef") String TxnRef,
+                                           @RequestParam(name = "chuyenTrang") int chuyenTrang) throws UnsupportedEncodingException {
 
 //        String orderType = "other";
         long amountT = amount*100;
@@ -47,8 +48,12 @@ public class PaymentAPI {
         vnp_Params.put("vnp_Locale", "vn");
         vnp_Params.put("vnp_OrderType", orderType);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
-        vnp_Params.put("vnp_ReturnUrl", Config.vnp_ReturnUrl);
+        if(chuyenTrang == 0){
+            vnp_Params.put("vnp_ReturnUrl", Config.vnp_ReturnUrl2);
+        }else{
+            vnp_Params.put("vnp_ReturnUrl", Config.vnp_ReturnUrl);
 
+        }
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");

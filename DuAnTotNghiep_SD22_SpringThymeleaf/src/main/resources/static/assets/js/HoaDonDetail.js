@@ -35,25 +35,25 @@ $(document).ready(function () {
             </span>
             <div class="grid gap-4 grid-cols-2">
                 <div>
-                    <h1 class="ml-4 mt-3 font-bold">Trạng thái: <span class="bg-blue-400 hover:bg-blue-700 text-white py-2 px-4 rounded-full font-normal ml-10">${trangThai(hd.trangThai)}</span></h1>
+                    <h1 class="ml-4 mt-3 font-bold">Trạng thái: <span class="bg-blue-400 hover:bg-blue-700 text-white py-2 px-4 rounded-full font-normal ml-10">${trangThai(hd.trangThai || '')}</span></h1>
                 </div>
                 <div>
-                    <h1 class="mt-3 font-bold">Tên khách hàng: <span class="font-normal ml-10">${hd.nguoiNhan}</span></h1>
+                    <h1 class="mt-3 font-bold">Tên khách hàng: <span class="font-normal ml-10">${hd.nguoiNhan || ''}</span></h1>
                 </div>
                 <div>
-                    <h1 class="ml-4 mt-3 font-bold">Loại: <span class="font-normal ml-10">${trangThaiMua(hd.loai)}</span></h1>
+                    <h1 class="ml-4 mt-3 font-bold">Loại: <span class="font-normal ml-10">${trangThaiMua(hd.loai || '')}</span></h1>
                 </div>
                 <div>
-                    <h1 class="font-bold">Số điện thoại: <span class="font-normal ml-10">${hd.sdtNguoiNhan}</span></h1>
+                    <h1 class="font-bold">Số điện thoại: <span class="font-normal ml-10">${hd.sdtNguoiNhan || ''}</span></h1>
                 </div>
                 <div>
-                    <h1 class="ml-4 mt-3 font-bold">Địa chỉ: <span class="font-normal ml-10">${hd.diaChiNguoiNhan}</span></h1>
+                    <h1 class="ml-4 mt-3 font-bold">Địa chỉ: <span class="font-normal ml-10">${hd.diaChiNguoiNhan || ''}</span></h1>
                 </div>
                 <div>
                     <h1 class="font-bold">Thời gian dự kiến nhận: <span class="font-normal ml-10">${hd.ngayNhan ? formatDate(hd.ngayNhan) : ''}</span></h1>
                 </div>
                 <div>
-                    <h1 class="ml-4 font-bold">Ghi chú: <span class="font-normal ml-10">${hd.ghiChu}</span></h1>
+                    <h1 class="ml-4 font-bold">Ghi chú: <span class="font-normal ml-10">${hd.ghiChu || ''}</span></h1>
                 </div>
             </div>
         `);
@@ -215,7 +215,6 @@ $(document).ready(function () {
 
     function updateTongTien(tongTien, hd,idHoaDon) {
         const tongTienSauKhiGiam = tongTien - (hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0);
-        // const tongTienSauKhiGiam = tongTien - hd.phieuGiamGia.giamToiDa;
         $.ajax({
             url: `/api/hoa-don/update-tong-tien/${idHoaDon}`,
             method: 'PUT',
@@ -341,7 +340,6 @@ $(document).ready(function () {
 
     });
 
-
     $('#soLuongThayDoi').click(function () {
 
         const soLuongMoi = parseInt($("#soLuongInput").val(), 10);
@@ -404,7 +402,13 @@ $(document).ready(function () {
                 },
             });
         }
+        hideModalSoLuong();
+        hideModalDanhSachSanPham();
+
     });
+
+
+
 
 
 
@@ -474,17 +478,17 @@ $(document).ready(function () {
                         list += `
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${formatVND(tongTienSauKhiGiam)}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${trangThaiThanhToan(item.trangThai)}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${formatDate(item.ngayTao)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${formatVND(item.tienDaThanhToan || '')}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${trangThaiThanhToan(item.trangThai || '')}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${formatDate(item.ngayTao || '')}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
                         ${loaiThanhToan(item.loaiThanhToan)}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="status bg-green-500 text-white rounded-lg px-4 py-2">${item.tenThanhToan}</span>
+                            <span class="status bg-green-500 text-white rounded-lg px-4 py-2">${item.tenThanhToan || ''}</span>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">${item.ghiChu}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${item.nguoiTao}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${item.ghiChu || ''}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${item.nguoiTao || ''}</td>
                     </tr>`;
                     });
 

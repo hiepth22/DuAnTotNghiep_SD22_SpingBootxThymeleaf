@@ -330,7 +330,7 @@
 
         function chuyenKhoan(amount, TxnRef){
             $.ajax({
-                url: `/api/payment/create_payment?amount=${amount}&TxnRef=${TxnRef}`,
+                url: `/api/payment/create_payment?amount=${amount}&TxnRef=${TxnRef}&chuyenTrang=1`,
                 method: 'GET',
                 contentType: 'application/json',
                 data:{},

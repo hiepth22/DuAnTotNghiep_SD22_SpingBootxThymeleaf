@@ -26,6 +26,10 @@ public class HoaDonChiTietService {
         return hoaDonChiTietRepository.TimTongTien(idHoaDon);
     }
 
+    public List<HoaDonChiTiet> findByHDCTIdHD(Long idHoaDon, int trangThai) {
+        return hoaDonChiTietRepository.findHoaDonChiTietByIdHoaDon(idHoaDon, trangThai);
+    }
+
     public HoaDonChiTiet deleteById(Long id) {
         Optional<HoaDonChiTiet> optional = hoaDonChiTietRepository.findById(id);
         return optional.map(o -> {

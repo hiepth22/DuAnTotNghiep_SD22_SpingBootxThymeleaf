@@ -48,4 +48,7 @@ public class PhuongThucThanhToan {
     @Column(name = "trangThai")
     private Integer trangThai;
 
+    @Column(name = "tienDaThanhToan")
+    private BigDecimal tienDaThanhToan;
+
 }
