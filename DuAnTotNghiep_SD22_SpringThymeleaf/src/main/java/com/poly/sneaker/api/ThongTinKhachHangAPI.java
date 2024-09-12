@@ -26,7 +26,6 @@ public class ThongTinKhachHangAPI {
     public ResponseEntity<?> thongTinHoaDon(@PathVariable("id") Long id) {
         return ResponseEntity.ok(hoaDonService.findByIDKHAndTrangThai(id));
     }
-  // 22222ss
     @GetMapping("/thong-tin-hoa-don-chi-tiet/{idHoaDon}")
     public ResponseEntity<List<HoaDonChiTiet>> getHoaDonChiTiet(
             @PathVariable Long idHoaDon,

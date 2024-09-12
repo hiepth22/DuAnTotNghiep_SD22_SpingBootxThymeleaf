@@ -307,6 +307,11 @@ public class HoaDonAPI {
                 idMauSac, idThuongHieu, keyword, giaBanMin, giaBanMax, pageable);
     }
 
+    @PostMapping("/xoa-phuong-thuc-thanh-toan/{id}")
+    public ResponseEntity<PhuongThucThanhToan> xoaPTTT(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(phuongThucThanhToanService.deleteById(id));
+    }
+
 
 
 
