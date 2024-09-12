@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin/san-pham")
@@ -48,9 +48,9 @@ public class SanPhamAPI {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-        if (sanPhamService.existingByTen(ten)) {
+        if (sanPhamService.existsByTenAndThuongHieu(ten, thuongHieu)) {
             response.put("success", false);
-            response.put("message", "Sản phẩm đã tồn tại, bạn có muốn tiếp tục lưu?");
+            response.put("message", "Sản phẩm đã tồn tại với tên và thương hiệu này.");
             return ResponseEntity.ok(response);
         }
 

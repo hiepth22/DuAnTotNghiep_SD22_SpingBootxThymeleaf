@@ -40,7 +40,7 @@
                         <select id="sanPham" class="form-control">
                             <option selected>Chọn sản phẩm</option>
                             <option th:each="sanPham : ${sanPhams}" th:value="${sanPham.id}"
-                                    th:text="${sanPham.ten}"></option>
+                                    th:text="${sanPham.ten} + ' (' + ${sanPham.thuongHieu.ten} + ')'"></option>
                         </select>
                         <button type="button" class="btn btn-secondary custom-btn" data-bs-toggle="modal"
                                 data-bs-target="#themMoiSanPham">

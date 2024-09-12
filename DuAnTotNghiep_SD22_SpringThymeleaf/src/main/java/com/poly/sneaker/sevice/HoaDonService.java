@@ -1,10 +1,8 @@
 package com.poly.sneaker.sevice;
 
 import com.poly.sneaker.dto.SanPhamBanChayDTO;
-import com.poly.sneaker.dto.SanPhamDTO;
 import com.poly.sneaker.entity.HoaDon;
 import com.poly.sneaker.entity.HoaDonChiTiet;
-import com.poly.sneaker.entity.NhanVien;
 import com.poly.sneaker.entity.SanPhamChiTiet;
 import com.poly.sneaker.repository.HoaDonChiTietRepository;
 import com.poly.sneaker.repository.HoaDonRepository;
@@ -17,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service

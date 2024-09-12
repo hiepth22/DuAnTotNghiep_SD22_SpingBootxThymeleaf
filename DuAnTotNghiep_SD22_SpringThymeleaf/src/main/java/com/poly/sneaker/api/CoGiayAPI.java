@@ -36,7 +36,7 @@ public class CoGiayAPI {
         if (coGiayService.existingByTen(ten)) {
             response.put("success", false);
             response.put("message", "Cổ giày đã tồn tại");
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.ok(response);
         }
 
         CoGiay coGiay = new CoGiay();

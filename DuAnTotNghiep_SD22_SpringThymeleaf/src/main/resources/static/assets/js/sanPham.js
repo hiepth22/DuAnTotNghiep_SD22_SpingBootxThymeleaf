@@ -1,4 +1,4 @@
-function confirmAndSave(modalId, apiUrl, formData, successCallback, errorCallback) {
+function confirmAndSave(modalId, apiUrl, formData, successCallback, errorCallback, contentType = 'application/json') {
     Swal.fire({
         title: 'Bạn có chắc chắn?',
         text: "Bạn không thể hoàn tác hành động này!",
@@ -10,12 +10,25 @@ function confirmAndSave(modalId, apiUrl, formData, successCallback, errorCallbac
         cancelButtonText: 'Hủy'
     }).then((result) => {
         if (result.isConfirmed) {
+            let body;
+            let headers = {
+                'Content-Type': contentType
+            };
+
+            if (contentType === 'application/json') {
+                body = JSON.stringify(formData);
+            } else if (contentType === 'application/x-www-form-urlencoded') {
+                body = new URLSearchParams(formData).toString();
+            } else {
+                console.error('Unsupported content type:', contentType);
+                if (errorCallback) errorCallback('Định dạng dữ liệu không được hỗ trợ.');
+                return;
+            }
+
             fetch(apiUrl, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
+                headers: headers,
+                body: body
             })
                 .then(response => response.json())
                 .then(data => {
@@ -47,6 +60,7 @@ function confirmAndSave(modalId, apiUrl, formData, successCallback, errorCallbac
         }
     });
 }
+
 
 document.getElementById('btnLuuSanPham').addEventListener('click', function () {
     var tenSanPham = document.getElementById('tenSanPham').value.trim();
@@ -92,6 +106,7 @@ document.getElementById('btnLuuSanPham').addEventListener('click', function () {
     );
 });
 
+
 function updateSanPhamSelect() {
     fetch('/admin/san-pham/all')
         .then(response => response.json())
@@ -102,7 +117,7 @@ function updateSanPhamSelect() {
             sanPhams.forEach(sanPham => {
                 const option = document.createElement('option');
                 option.value = sanPham.id;
-                option.textContent = sanPham.ten;
+                option.textContent = `${sanPham.ten} (${sanPham.thuongHieu.ten})`;
                 sanPhamSelect.appendChild(option);
             });
         })
@@ -238,7 +253,6 @@ document.getElementById('btnLuuChatLieu').addEventListener('click', function () 
             document.getElementById('tenChatLieu').value = '';
         },
         function (message) {
-            // Error callback: hiển thị lỗi
             errorElement.textContent = message;
             errorElement.style.display = 'block';
         },

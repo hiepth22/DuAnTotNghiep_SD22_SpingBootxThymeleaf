@@ -1,6 +1,7 @@
 package com.poly.sneaker.sevice;
 
 import com.poly.sneaker.entity.SanPham;
+import com.poly.sneaker.entity.ThuongHieu;
 import com.poly.sneaker.repository.SanPhamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -96,6 +97,10 @@ public class SanPhamService {
 
     public Boolean existingById(Long id) {
         return repository.existsById(id);
+    }
+
+    public boolean existsByTenAndThuongHieu(String ten, ThuongHieu thuongHieu) {
+        return repository.existsByTenAndThuongHieu(ten, thuongHieu);
     }
 
 
