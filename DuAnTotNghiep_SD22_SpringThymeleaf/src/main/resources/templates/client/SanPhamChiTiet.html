@@ -226,6 +226,10 @@
         const pathParts = path.split('/');
         const sanPhamId = pathParts[pathParts.length - 1];
         let slconlai;
+        let inputElement = document.getElementById('quantity');
+        let soluongspkhithem = inputElement.value;
+        let lastClickedSize = null;
+        let currentAjaxRequest = null;
 
         function validateQuantity() {
             let $quantityInput = $('#quantity');
@@ -572,193 +576,196 @@
 
                                         sizesp.append(sizeDiv);
                                         $('.size-container p').on('click', function () {
-                                            $('.size-container p').removeClass('selected-size');
-                                            $(this).addClass('selected-size');
+                                            const $this = $(this);
+                                            const selectedSize = $this.text();
 
-                                            const selectedSize = $(this).text();
+                                            // Only proceed if the size is different from the last clicked one
+                                            if (lastClickedSize === selectedSize) {
+                                                return; // Prevent reprocessing the same size click
+                                            }
+
+                                            // Update selected size and UI
+                                            $('.size-container p').removeClass('selected-size');
+                                            $this.addClass('selected-size');
+
+                                            // Reset variables and UI elements
+                                            soluongspkhithem = 0;
                                             sizecheck = selectedSize;
                                             console.log('Kích cỡ được chọn v:', sizecheck);
+
                                             var validateSizeP = document.querySelector('.validatesize');
                                             validateSizeP.style.display = 'none';
                                             sltonsp.empty();
                                             gia.empty();
 
+                                            // Cancel previous AJAX request if it exists
+                                            if (currentAjaxRequest) {
+                                                currentAjaxRequest.abort();
+                                            }
 
-                                            $.ajax({
+                                            // Perform AJAX request to get stock information
+                                            currentAjaxRequest = $.ajax({
                                                 url: `/SLton/${data.sanPham.id}/${selectedSize}`,
                                                 method: 'GET',
                                                 data: {anh: encodeURIComponent(imageName)},
                                                 dataType: 'json',
                                                 success: function (sl) {
-                                                    slconlai = sl
-                                                    console.log("hmmmm" + slconlai);
                                                     const slton = $(`
-                                                                    <div>
-                                                                          <p class="product-price" style="font-size: 17px; color: #000000; margin-bottom: 10px; opacity: 0.5;margin-left: 10px">
-                                                                           ${sl + ' sản phẩm có sẵn'}
-                                                                          </p>
-
-                                                                     </div>
-                                                                  `);
+                    <div>
+                        <p class="product-price" style="font-size: 17px; color: #000000; margin-bottom: 10px; opacity: 0.5; margin-left: 10px">
+                            ${sl + ' sản phẩm có sẵn'}
+                        </p>
+                    </div>
+                `);
                                                     sltonsp.append(slton);
 
-                                                    document.getElementById('themgiohang').addEventListener('click', function () {
+                                                    // Add event listener for "Thêm vào giỏ hàng"
+                                                    $('#themgiohang').off('click').on('click', function () {
                                                         if (sizecheck == null) {
+                                                            return;
+                                                        }
 
-                                                        } else {
-                                                            let inputElement = document.getElementById('quantity');
-                                                            let soluongspkhithem = inputElement.value;
-                                                            let sptam = [];
-                                                            $.ajax({
-                                                                url: '/api/session/user',
-                                                                method: 'GET',
-                                                                success: function (response) {
+                                                        $.ajax({
+                                                            url: '/api/session/user',
+                                                            method: 'GET',
+                                                            success: function (response) {
+                                                                if (response.status === 404) {
+                                                                    console.log("Resource not found");
+                                                                    return;
+                                                                }
 
-                                                                    if (response.status === 404) {
-                                                                        console.log("Resource not found");
-                                                                        // Handle the 404 response accordingly
-                                                                        return null; // or handle as needed
-                                                                    }
-                                                                    let idKhachHang = response.id;
+                                                                let idKhachHang = response.id;
+                                                                let inputElement = document.getElementById('quantity');
+                                                                soluongspkhithem = inputElement.value;
+                                                                anhlayve = imageName;
+                                                                let size = selectedSize;
+                                                                let idsp = data.sanPham.id;
 
-                                                                    // let inputElement = document.getElementById('quantity');
-                                                                    // let soluongspkhithem = inputElement.value;
-                                                                    var anhlayve = imageName;
-                                                                    $.ajax({
-                                                                        url: `/detailcheckgh/${idKhachHang}/${selectedSize}/${data.sanPham.id}/${soluongspkhithem}`,
-                                                                        type: 'GET',
-                                                                        data: {anhlayve: encodeURIComponent(anhlayve)},
-                                                                        success: function (response) {
-                                                                            var notification = document.getElementById('notification');
-                                                                            var progressBar = document.getElementById('progress-bar');
+                                                                $.ajax({
+                                                                    url: `/detailcheckgh/${idKhachHang}/${size}/${idsp}/${soluongspkhithem}`,
+                                                                    type: 'GET',
+                                                                    data: {anhlayve: encodeURIComponent(anhlayve)},
+                                                                    success: function (response) {
+                                                                        var notification = document.getElementById('notification');
+                                                                        var progressBar = document.getElementById('progress-bar');
 
-                                                                            notification.style.display = 'block';
+                                                                        notification.style.display = 'block';
+                                                                        progressBar.style.width = '100%';
+
+                                                                        setTimeout(function () {
+                                                                            progressBar.style.width = '0';
+                                                                        }, 10);
+
+                                                                        setTimeout(function () {
+                                                                            notification.style.display = 'none';
                                                                             progressBar.style.width = '100%';
+                                                                        }, 3010);
 
-                                                                            setTimeout(function () {
-                                                                                progressBar.style.width = '0';
-                                                                            }, 10);
-
-                                                                            setTimeout(function () {
-                                                                                notification.style.display = 'none';
-                                                                                progressBar.style.width = '100%';
-                                                                            }, 3010);
-
-                                                                            sptam = response;
-
-                                                                            console.log('sptam:', sptam);
-                                                                        },
-                                                                        error: function (xhr, status, error) {
-                                                                            console.error('Error:', error);
-                                                                        }
-                                                                    });
-                                                                },
-                                                                error: function (xhr, status, error) {
-                                                                    var anhlayve = imageName;
-                                                                    $.ajax({
-                                                                        url: `/checksp/${sizecheck}/${data.sanPham.id}`,
-                                                                        type: 'GET',
-                                                                        data: {anhlayve: encodeURIComponent(anhlayve)},
-                                                                        success: function (spp) {
-
-                                                                            const  product = {
-                                                                                id: spp.id,
-                                                                                anhspmoi:spp.anh,
-                                                                                quantity: soluongspkhithem,
-                                                                                quantitymax: spp.soLuong,
-                                                                                tenspmoi: spp.ten,
-                                                                                size: spp.kichCo.ten,
-                                                                                giabansp:spp.giaBan
-                                                                            };
-                                                                            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-                                                                            const existingProductIndex = cart.findIndex(item => item.id === product.id);
-                                                                            if (existingProductIndex > -1) {
-                                                                                  let sluonsptrung = cart[existingProductIndex].quantity;
-
-                                                                                console.log(product.quantity);
-                                                                                // Ensure both values are converted to numbers before performing arithmetic
-                                                                                const quantityToAdd = parseFloat(sluonsptrung) + parseFloat(product.quantity);
-                                                                                if(quantityToAdd > product.quantitymax){
-                                                                                    cart[existingProductIndex].quantity = product.quantitymax;
-                                                                                }
-                                                                                else {
-                                                                                    cart[existingProductIndex].quantity = quantityToAdd;
-                                                                                }
-                                                                                console.log( cart[existingProductIndex].quantity );
-                                                                            } else {
-                                                                                cart.push(product);
-                                                                            }
-                                                                            sessionStorage.setItem('cart', JSON.stringify(cart));
-                                                                            console.log(cart)
-                                                                            displayCart();
-                                                                            function displayCart() {
-
-                                                                                const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-
-
-                                                                                cart.forEach(item => {
-                                                                                    console.log(`Sản phẩm ID: ${item.id} `);
-                                                                                });
-                                                                            }
-                                                                        },
-                                                                        error: function (xhr, status, error) {
-                                                                            console.error('Error:', error);
-                                                                        }
-                                                                    });
-
-                                                                }
-                                                            });
-                                                        }
-
-
-                                                    });
-                                                    document.getElementById('muangay').addEventListener('click', function () {
-                                                        if (sizecheck == null) {
-
-                                                        } else {
-                                                            $.ajax({
-                                                                url: '/api/session/user',
-                                                                method: 'GET',
-                                                                success: function (response) {
-                                                                    if (response.status === 404) {
-                                                                        console.log("Resource not found");
-
-                                                                        return null;
+                                                                        let sptam = response;
+                                                                        console.log('sptam:', sptam);
+                                                                    },
+                                                                    error: function (xhr, status, error) {
+                                                                        console.error('Error:', error);
                                                                     }
-                                                                    let idKhachHang = response.id;
+                                                                });
+                                                            },
+                                                            error: function (xhr, status, error) {
+                                                                soluongspkhithem = inputElement.value;
+                                                                anhlayve = imageName;
+                                                                let size = selectedSize;
+                                                                let idsp = data.sanPham.id;
+                                                                $.ajax({
+                                                                    url: `/checksp/${size}/${idsp}`,
+                                                                    type: 'GET',
+                                                                    data: {anhlayve: encodeURIComponent(anhlayve)},
+                                                                    success: function (spp) {
+                                                                        const product = {
+                                                                            id: spp.id,
+                                                                            anhspmoi: spp.anh,
+                                                                            quantity: soluongspkhithem,
+                                                                            quantitymax: spp.soLuong,
+                                                                            tenspmoi: spp.ten,
+                                                                            size: spp.kichCo.ten,
+                                                                            giabansp: spp.giaBan
+                                                                        };
 
-                                                                    let inputElement = document.getElementById('quantity');
-
-                                                                    let soluongspkhithem = inputElement.value;
-                                                                    var anhlayve = imageName;
-                                                                    $.ajax({
-                                                                        url: `/detailcheckgh/${idKhachHang}/${selectedSize}/${data.sanPham.id}/${soluongspkhithem}`,
-                                                                        type: 'GET',
-                                                                        data: {anhlayve: encodeURIComponent(anhlayve)},
-                                                                        success: function (response) {
-//mua đi đăng
-                                                                            console.log('Response:', response);
-                                                                            window.location.href = `/gio-hang`;
-
-
-                                                                        },
-                                                                        error: function (xhr, status, error) {
-                                                                            console.error('Error:', error);
+                                                                        let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                                                                        const existingProductIndex = cart.findIndex(item => item.id === product.id);
+                                                                        if (existingProductIndex > -1) {
+                                                                            let sluonsptrung = cart[existingProductIndex].quantity;
+                                                                            const quantityToAdd = parseFloat(sluonsptrung) + parseFloat(product.quantity);
+                                                                            if (quantityToAdd > product.quantitymax) {
+                                                                                cart[existingProductIndex].quantity = product.quantitymax;
+                                                                            } else {
+                                                                                cart[existingProductIndex].quantity = quantityToAdd;
+                                                                            }
+                                                                        } else {
+                                                                            cart.push(product);
                                                                         }
-                                                                    });
-                                                                },
-                                                                error: function (xhr, status, error) {
+                                                                        sessionStorage.setItem('cart', JSON.stringify(cart));
+                                                                        console.log(cart);
+                                                                        displayCart();
 
-                                                                    window.location.href = `/cho-thanh-toan`;
-                                                                }
-                                                            });
+                                                                        function displayCart() {
+                                                                            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                                                                            cart.forEach(item => {
+                                                                                console.log(`Sản phẩm ID: ${item.id}`);
+                                                                            });
+                                                                        }
+                                                                    },
+                                                                    error: function (xhr, status, error) {
+                                                                        console.error('Error:', error);
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+                                                    });
+
+                                                    // Add event listener for "Mua ngay"
+                                                    $('#muangay').off('click').on('click', function () {
+                                                        if (sizecheck == null) {
+                                                            return;
                                                         }
+
+                                                        $.ajax({
+                                                            url: '/api/session/user',
+                                                            method: 'GET',
+                                                            success: function (response) {
+                                                                if (response.status === 404) {
+                                                                    console.log("Resource not found");
+                                                                    return;
+                                                                }
+
+                                                                let idKhachHang = response.id;
+                                                                let inputElement = document.getElementById('quantity');
+                                                                let soluongspkhithem = inputElement.value;
+                                                                var anhlayve = imageName;
+
+                                                                $.ajax({
+                                                                    url: `/detailcheckgh/${idKhachHang}/${selectedSize}/${data.sanPham.id}/${soluongspkhithem}`,
+                                                                    type: 'GET',
+                                                                    data: {anhlayve: encodeURIComponent(anhlayve)},
+                                                                    success: function (response) {
+                                                                        console.log('Response:', response);
+                                                                        window.location.href = `/gio-hang`;
+                                                                    },
+                                                                    error: function (xhr, status, error) {
+                                                                        console.error('Error:', error);
+                                                                    }
+                                                                });
+                                                            },
+                                                            error: function (xhr, status, error) {
+                                                                window.location.href = `/cho-thanh-toan`;
+                                                            }
+                                                        });
                                                     });
                                                 },
                                                 error: function (xhr, status, error) {
                                                     console.error('Lỗi khi lấy dữ liệu kích cỡ:', error);
                                                 }
                                             });
+
+                                            // Fetch and update price
                                             $.ajax({
                                                 url: `/gia-ban/${data.sanPham.id}/${selectedSize}`,
                                                 method: 'GET',
@@ -771,16 +778,17 @@
                                                         currency: 'VND'
                                                     }) : 'Không có giá';
                                                     const giaspsize = $(`
-
-                                                          <p class="product-price" style="font-size: 30px; color: #d9534f; margin-bottom: 10px;">${giakhichonsize}</p>
-
-                                                             `);
+                    <p class="product-price" style="font-size: 30px; color: #d9534f; margin-bottom: 10px;">${giakhichonsize}</p>
+                `);
                                                     gia.append(giaspsize);
                                                 },
                                                 error: function (xhr, status, error) {
                                                     console.error('Lỗi khi lấy dữ liệu kích cỡ:', error);
                                                 }
                                             });
+
+                                            // Update last clicked size
+                                            lastClickedSize = selectedSize;
                                         });
                                     },
                                     error: function (xhr, status, error) {

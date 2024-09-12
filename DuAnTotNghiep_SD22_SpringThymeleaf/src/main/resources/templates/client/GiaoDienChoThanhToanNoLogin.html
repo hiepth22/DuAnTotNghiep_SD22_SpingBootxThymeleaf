@@ -369,6 +369,7 @@
         let idKhachHang = '';
         let soLuongSPTong = 0;
         var tongTienSauKhiGiam = 0;
+        //thongtinkh
         function getFormValues() {
 
             var ten = document.getElementById('ten').value;
@@ -476,17 +477,26 @@
         $("#datHang").off('click', '.tiepTuc').on('click', '.tiepTuc', function () {
 
             if ($('#btnCOD').hasClass('active')) {
+                var ten = document.getElementById('ten').value;
+                var sdt = document.getElementById('sdt').value;
+                // var city = document.getElementById('city').value;
+                // var district = document.getElementById('district').value;
+                // var ward = document.getElementById('ward').value;
+                // var diachi = document.getElementById('diachi').value;
+                var email = document.getElementById('email').value;
+                var ghichu = document.getElementById('ghichu').value;
+                var dc = document.getElementById('dc').value;
                 
-                // let ship2 = ship;
-                // var tongTien2 = tongTien;
-                // let nguoiNhan2 = nguoiNhan;
-                // let sdtNguoiNhan2 = sdtNguoiNhan;
-                // let diaChiNguoiNhan = $('#diaChiSpan').text().trim();
-                // var tongTienSauKhiGiam2 = tongTienSauKhiGiam;
-                //
-                // taoHoaDonDatHang(nguoiNhan2, idKhachHang, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, tongTienSauKhiGiam2);
-                //
-                // window.location.href = '/Client';
+                let ship2 = ship;
+                var tongTien2 = tongTien;
+                let nguoiNhan2 = ten;
+                let sdtNguoiNhan2 = sdt;
+                let diaChiNguoiNhan = dc;
+                var tongTienSauKhiGiam2 = tongTienSauKhiGiam;
+
+                taoHoaDonDatHang(nguoiNhan2, idKhachHang, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, tongTienSauKhiGiam2);
+
+                window.location.href = '/Client';
 
             } else if ($('#btnVNPAY').hasClass('active')) {
                 // let ship2 = ship;
@@ -590,24 +600,22 @@
         // }
         //
         //
-        function taoHoaDonDatHang(nguoiNhan, KhachHang, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan, tongTienSauKhiGiam) {
+        function taoHoaDonDatHang(nguoiNhan, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan) {
             let idPhieuGiamGia = sale[0].id
             $.ajax({
                 url: `/api/gio-hang/tao-hoa-don-dat-hang`,
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    phieuGiamGia: {
-                        id: idPhieuGiamGia
-                    },
+
                     ma: "1",
                     nguoiNhan: nguoiNhan,
                     tongTien: tongTien,
-                    tongTienSauGiam: tongTienSauKhiGiam,
+                    tongTienSauGiam: tongTien,
                     tienShip: tienShip,
                     sdtNguoiNhan: sdtNguoiNhan,
-                    diaChiNguoiNhan: diaChiNguoinhan,
-                    khachHang: { id: KhachHang }
+                    diaChiNguoiNhan: diaChiNguoinhan
+
                 }),
                 success: function (response) {
                     const idHoaDon = response.id;
