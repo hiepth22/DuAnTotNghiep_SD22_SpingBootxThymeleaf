@@ -71,6 +71,23 @@ $(document).ready(function () {
         $("#colorModal").modal("hide");
     });
 
+    function showSuccessMessage() {
+        var notification = document.getElementById('notification');
+        var progressBar = document.getElementById('progress-bar');
+
+        notification.style.display = 'block';
+        progressBar.style.width = '100%';
+
+        setTimeout(function() {
+            progressBar.style.width = '0';
+        }, 10);
+
+        setTimeout(function() {
+            notification.style.display = 'none';
+            progressBar.style.width = '100%';
+        }, 3010);
+    }
+
     function sinhMaNgauNhien() {
         const prefix = "SPCT";
         const soNgauNhien = Math.floor(100000 + Math.random() * 900000);
@@ -352,16 +369,12 @@ $(document).ready(function () {
             productDetailsContainer.append(colorSection);
 
             colorSection.find(".clearSanPham").click(function () {
-                // Lấy ID màu sắc từ nhóm sản phẩm hiện tại
                 const mauSacId = products[0].mauSac.id;
 
-                // Xóa tất cả sản phẩm có màu sắc tương ứng khỏi mảng chiTietSanPhams
                 chiTietSanPhams = chiTietSanPhams.filter(sp => sp.mauSac.id !== mauSacId);
 
-                // Xóa phần tử HTML của nhóm sản phẩm này
                 colorSection.remove();
 
-                // Cập nhật lại hiển thị của nút lưu
                 updateSaveButton();
             });
 
@@ -394,43 +407,66 @@ $(document).ready(function () {
             }
         });
 
-        const saveButton = $(
-            '<button class="btn btn-success mt-3 mb-4">Lưu</button>'
-        );
+        const saveButton = $('<button class="btn btn-success mt-3 mb-4">Lưu</button>');
 
         saveButton.click(function () {
-            $("#confirmSaveModal").modal("show");
-        });
+            Swal.fire({
+                title: 'Bạn có muốn lưu sản phẩm ?',
+                text: "Bạn không thể hoàn tác hành động này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Vâng, tiếp tục!',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const jsonFormatted = JSON.stringify(chiTietSanPhams);
+                    console.log("Dữ liệu gửi đi:", jsonFormatted);
 
-        $("#confirmSaveButton").click(function () {
-            const jsonFormatted = JSON.stringify(chiTietSanPhams);
-            console.log("Dữ liệu gửi đi:", jsonFormatted);
-
-            fetch("/api/san-pham-chi-tiet/save", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: jsonFormatted,
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        return response.json().then((error) => {
-                            throw new Error(error.message);
+                    fetch("/api/san-pham-chi-tiet/save", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: jsonFormatted,
+                    })
+                        .then((response) => {
+                            if (!response.ok) {
+                                return response.json().then((error) => {
+                                    throw new Error(error.message);
+                                });
+                            }
+                            return response.json();
+                        })
+                        .then((data) => {
+                            console.log("Thông tin được lưu:", data);
+                            Swal.fire(
+                                'Đã xác nhận!',
+                                'Hành động của bạn đã được thực hiện.',
+                                'success'
+                            );
+                            showSuccessMessage();
+                            setTimeout(function () {
+                                window.location.href = "/admin/san-pham";
+                            }, 3000);
+                        })
+                        .catch((error) => {
+                            console.error("Lỗi khi lưu thông tin sản phẩm chi tiết:", error);
+                            Swal.fire(
+                                'Lỗi!',
+                                'Đã xảy ra lỗi khi lưu thông tin sản phẩm chi tiết. Vui lòng thử lại sau.',
+                                'error'
+                            );
                         });
-                    }
-                    return response.json();
-                })
-                .then((data) => {
-                    console.log("Thông tin được lưu:", data);
-                    window.location.href = "/admin/san-pham";
-                })
-                .catch((error) => {
-                    console.error("Lỗi khi lưu thông tin sản phẩm chi tiết:", error);
-                    alert("Đã xảy ra lỗi khi lưu thông tin sản phẩm chi tiết. Vui lòng thử lại sau.");
-                });
-
-            $("#confirmSaveModal").modal("hide");
+                } else {
+                    Swal.fire(
+                        'Đã hủy!',
+                        'Hành động của bạn đã bị hủy.',
+                        'error'
+                    );
+                }
+            });
         });
 
         productDetailsContainer.append(saveButton);
@@ -515,6 +551,6 @@ $(document).ready(function () {
                 }
             });
         });
-    }
 
+    }
 });

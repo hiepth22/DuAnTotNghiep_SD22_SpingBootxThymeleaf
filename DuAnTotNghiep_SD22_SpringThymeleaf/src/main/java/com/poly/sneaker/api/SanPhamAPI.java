@@ -57,6 +57,7 @@ public class SanPhamAPI {
         SanPham sanPham = new SanPham();
         sanPham.setTen(ten);
         sanPham.setThuongHieu(thuongHieu);
+        sanPham.setTrangThai(1);
         sanPham.setNgayTao(new Date());
         sanPham.setNgayCapNhat(null);
         sanPham.setNguoiTao("admin");

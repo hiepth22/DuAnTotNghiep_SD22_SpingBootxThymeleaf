@@ -1,3 +1,53 @@
+function confirmAndSave(modalId, apiUrl, formData, successCallback, errorCallback) {
+    Swal.fire({
+        title: 'Bạn có chắc chắn?',
+        text: "Bạn không thể hoàn tác hành động này!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Vâng, tiếp tục!',
+        cancelButtonText: 'Hủy'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const modal = bootstrap.Modal.getInstance(document.getElementById(modalId));
+                        modal.hide();
+
+                        if (successCallback) successCallback();
+
+                        Swal.fire(
+                            'Thành công!',
+                            'Dữ liệu đã được lưu.',
+                            'success'
+                        );
+                    } else {
+                        if (errorCallback) errorCallback(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi:', error);
+                    if (errorCallback) errorCallback('Có lỗi xảy ra.');
+                });
+        } else {
+            Swal.fire(
+                'Đã hủy!',
+                'Hành động của bạn đã bị hủy.',
+                'error'
+            );
+        }
+    });
+}
+
 document.getElementById('btnLuuSanPham').addEventListener('click', function () {
     var tenSanPham = document.getElementById('tenSanPham').value.trim();
     var thuongHieuId = document.getElementById('thuongHieu').value;
@@ -21,36 +71,25 @@ document.getElementById('btnLuuSanPham').addEventListener('click', function () {
         return;
     }
 
-    fetch('/admin/san-pham/add', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
+    const formData = {
+        ten: tenSanPham,
+        thuongHieuId: thuongHieuId
+    };
+
+    confirmAndSave(
+        'themMoiSanPham',
+        '/admin/san-pham/add',
+        formData,
+        function () {
+            updateSanPhamSelect();
+            document.getElementById('tenSanPham').value = '';
+            document.getElementById('thuongHieu').value = '';
         },
-        body: JSON.stringify({
-            ten: tenSanPham,
-            thuongHieuId: thuongHieuId
-        })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const modal = bootstrap.Modal.getInstance(document.getElementById('themMoiSanPham'));
-                modal.hide();
-
-                updateSanPhamSelect();
-
-                document.getElementById('tenSanPham').value = '';
-                document.getElementById('thuongHieu').value = '';
-            } else {
-                tenSanPhamError.textContent = data.message;
-                tenSanPhamError.style.display = 'block';
-            }
-        })
-        .catch(error => {
-            console.error('Lỗi:', error);
-            tenSanPhamError.textContent = 'Có lỗi xảy ra.';
+        function (message) {
+            tenSanPhamError.textContent = message;
             tenSanPhamError.style.display = 'block';
-        });
+        }
+    );
 });
 
 function updateSanPhamSelect() {
@@ -85,35 +124,26 @@ document.getElementById('btnLuuCoGiay').addEventListener('click', function () {
         return;
     }
 
-    fetch('/api/co-giay/add', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+    const formData = {
+        ten: tenCoGiay
+    };
+
+    confirmAndSave(
+        'themMoiCoGiay',
+        '/api/co-giay/add',
+        formData,
+        function () {
+            updateCoGiaySelect();
+            document.getElementById('tenCoGiay').value = '';
         },
-        body: new URLSearchParams({
-            'ten': tenCoGiay
-        })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const modal = bootstrap.Modal.getInstance(document.getElementById('themMoiCoGiay'));
-                modal.hide();
-
-                updateCoGiaySelect();
-
-                document.getElementById('tenCoGiay').value = '';
-            } else {
-                errorElement.textContent = data.message;
-                errorElement.style.display = 'block';
-            }
-        })
-        .catch(error => {
-            console.error('Lỗi:', error);
-            errorElement.textContent = 'Có lỗi xảy ra.';
+        function (message) {
+            errorElement.textContent = message;
             errorElement.style.display = 'block';
-        });
+        },
+        'application/x-www-form-urlencoded'
+    );
 });
+
 
 function updateCoGiaySelect() {
     fetch('/api/co-giay/all')
@@ -145,35 +175,26 @@ document.getElementById('btnLuuDeGiay').addEventListener('click', function () {
         return;
     }
 
-    fetch('/api/de-giay/add', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+    const formData = {
+        ten: tenDeGiay
+    };
+
+    confirmAndSave(
+        'themMoiDeGiay',
+        '/api/de-giay/add',
+        formData,
+        function () {
+            updateDeGiaySelect();
+            document.getElementById('tenDeGiay').value = '';
         },
-        body: new URLSearchParams({
-            'ten': tenDeGiay
-        })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const modal = bootstrap.Modal.getInstance(document.getElementById('themMoiDeGiay'));
-                modal.hide();
-
-                updateDeGiaySelect();
-
-                document.getElementById('tenDeGiay').value = '';
-            } else {
-                errorElement.textContent = data.message;
-                errorElement.style.display = 'block';
-            }
-        })
-        .catch(error => {
-            console.error('Lỗi:', error);
-            errorElement.textContent = 'Có lỗi xảy ra.';
+        function (message) {
+            errorElement.textContent = message;
             errorElement.style.display = 'block';
-        });
+        },
+        'application/x-www-form-urlencoded'
+    );
 });
+
 
 function updateDeGiaySelect() {
     fetch('/api/de-giay/all')
@@ -204,35 +225,27 @@ document.getElementById('btnLuuChatLieu').addEventListener('click', function () 
         return;
     }
 
-    fetch('/api/chat-lieu/add', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+    const formData = {
+        ten: tenChatLieu
+    };
+
+    confirmAndSave(
+        'themMoiChatLieu',
+        '/api/chat-lieu/add',
+        formData,
+        function () {
+            updateChatLieuSelect();
+            document.getElementById('tenChatLieu').value = '';
         },
-        body: new URLSearchParams({
-            'ten': tenChatLieu
-        })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const modal = bootstrap.Modal.getInstance(document.getElementById('themMoiChatLieu'));
-                modal.hide();
-
-                updateChatLieuSelect();
-
-                document.getElementById('tenChatLieu').value = '';
-            } else {
-                errorElement.textContent = data.message;
-                errorElement.style.display = 'block';
-            }
-        })
-        .catch(error => {
-            console.error('Lỗi:', error);
-            errorElement.textContent = 'Có lỗi xảy ra.';
+        function (message) {
+            // Error callback: hiển thị lỗi
+            errorElement.textContent = message;
             errorElement.style.display = 'block';
-        });
+        },
+        'application/x-www-form-urlencoded'
+    );
 });
+
 
 function updateChatLieuSelect() {
     fetch('/api/chat-lieu/all')
@@ -263,35 +276,26 @@ document.getElementById('btnLuuNSX').addEventListener('click', function () {
         return;
     }
 
-    fetch('/api/nsx/add', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+    const formData = {
+        ten: tenNSX
+    };
+
+    confirmAndSave(
+        'themMoiNSX',
+        '/api/nsx/add',
+        formData,
+        function () {
+            updateNSXSelect();
+            document.getElementById('tenNSX').value = '';
         },
-        body: new URLSearchParams({
-            'ten': tenNSX
-        })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const modal = bootstrap.Modal.getInstance(document.getElementById('themMoiNSX'));
-                modal.hide();
-
-                updateNSXSelect();
-
-                document.getElementById('tenNSX').value = '';
-            } else {
-                errorElement.textContent = data.message;
-                errorElement.style.display = 'block';
-            }
-        })
-        .catch(error => {
-            console.error('Lỗi:', error);
-            errorElement.textContent = 'Có lỗi xảy ra.';
+        function (message) {
+            errorElement.textContent = message;
             errorElement.style.display = 'block';
-        });
+        },
+        'application/x-www-form-urlencoded'
+    );
 });
+
 
 function updateNSXSelect() {
     fetch('/api/nsx/all')
