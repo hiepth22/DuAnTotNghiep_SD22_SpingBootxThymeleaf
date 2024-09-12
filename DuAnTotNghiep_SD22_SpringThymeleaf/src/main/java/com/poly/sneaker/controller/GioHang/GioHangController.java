@@ -27,6 +27,6 @@ public class GioHangController {
 
             return "client/GiaoDienThanhToan";
         }
-        return "redirect:/login";
+        return "client/GiaoDienChoThanhToanNoLogin";
     }
 }

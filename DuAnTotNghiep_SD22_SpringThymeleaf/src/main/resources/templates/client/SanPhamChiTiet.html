@@ -247,7 +247,6 @@
 
 
         if (!sanPhamId) {
-            console.error('Không tìm thấy ID sản phẩm trong URL.');
             $('#products-list').append('<p>Không có ID sản phẩm.</p>');
             return;
         }
@@ -258,7 +257,6 @@
             method: 'GET',
             dataType: 'json',
             success: function (data) {
-                console.log('Dữ liệu sản phẩm chính:', data);
 
                 const productsContainer = $('#mau');
                 const anhsp = $('#anh');
@@ -408,18 +406,14 @@
                             if (xhr.status >= 200 && xhr.status < 300) {
                                 try {
                                     const response = JSON.parse(xhr.responseText);
-                                    console.log("Full response:", response);
                                     const products = response.sanPham || [];
                                     renderProducts(products);
                                 } catch (e) {
-                                    console.error('Error parsing JSON:', e);
                                 }
                             } else {
-                                console.error('Failed to load products, status code:', xhr.status);
                             }
                         };
                         xhr.onerror = function () {
-                            console.error('Request failed');
                         };
                         xhr.send();
                     }
@@ -466,7 +460,6 @@
                         method: 'GET',
                         dataType: 'json',
                         success: function (additionalData) {
-                            console.log('Dữ liệu bổ sung nhận được:', additionalData);
                             const additionalImages = additionalData || [];
 
                             additionalImages.forEach(img => {
@@ -521,7 +514,6 @@
                                 });
 
                                 const imageName = $(this).data('name');
-                                console.log('Tên hình ảnh:', imageName);
                                 if (imageName != null) {
                                     var validateSizeP = document.querySelector('.validatemau');
                                     validateSizeP.style.display = 'none';
@@ -621,6 +613,12 @@
                                                                 url: '/api/session/user',
                                                                 method: 'GET',
                                                                 success: function (response) {
+
+                                                                    if (response.status === 404) {
+                                                                        console.log("Resource not found");
+                                                                        // Handle the 404 response accordingly
+                                                                        return null; // or handle as needed
+                                                                    }
                                                                     let idKhachHang = response.id;
 
                                                                     // let inputElement = document.getElementById('quantity');
@@ -675,7 +673,18 @@
                                                                             let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
                                                                             const existingProductIndex = cart.findIndex(item => item.id === product.id);
                                                                             if (existingProductIndex > -1) {
-                                                                                // cart[existingProductIndex].quantity += quantity;
+                                                                                  let sluonsptrung = cart[existingProductIndex].quantity;
+
+                                                                                console.log(product.quantity);
+                                                                                // Ensure both values are converted to numbers before performing arithmetic
+                                                                                const quantityToAdd = parseFloat(sluonsptrung) + parseFloat(product.quantity);
+                                                                                if(quantityToAdd > product.quantitymax){
+                                                                                    cart[existingProductIndex].quantity = product.quantitymax;
+                                                                                }
+                                                                                else {
+                                                                                    cart[existingProductIndex].quantity = quantityToAdd;
+                                                                                }
+                                                                                console.log( cart[existingProductIndex].quantity );
                                                                             } else {
                                                                                 cart.push(product);
                                                                             }
@@ -711,6 +720,11 @@
                                                                 url: '/api/session/user',
                                                                 method: 'GET',
                                                                 success: function (response) {
+                                                                    if (response.status === 404) {
+                                                                        console.log("Resource not found");
+
+                                                                        return null;
+                                                                    }
                                                                     let idKhachHang = response.id;
 
                                                                     let inputElement = document.getElementById('quantity');
@@ -734,6 +748,7 @@
                                                                     });
                                                                 },
                                                                 error: function (xhr, status, error) {
+
                                                                     window.location.href = `/cho-thanh-toan`;
                                                                 }
                                                             });

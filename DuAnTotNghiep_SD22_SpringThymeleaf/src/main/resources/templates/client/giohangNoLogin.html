@@ -104,9 +104,9 @@
                 <button id="huyPhieuGiamGia"
                         class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">Hủy
                 </button>
-                <button id="chonPhieuGiamGia"
-                        class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">Chọn
-                </button>
+<!--                <button id="chonPhieuGiamGia"-->
+<!--                        class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">Chọn-->
+<!--                </button>-->
             </div>
         </div>
     </div>
@@ -117,7 +117,7 @@
         let discount = 0;
         let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
         let sale = JSON.parse(localStorage.getItem('sale')) || [];
-        let idGioHang = null;
+        let slsp = 1;
 
         function getDuLieuGioHangVaGioHangChiTiet() {
             const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
@@ -132,27 +132,37 @@
             }
 
             cart.forEach(item => {
+                slsp = item.quantitymax;
                 const cardHTML = `
 <div id="thongTin" class="container ml-[15%] bg-white w-[80%] p-2 rounded-lg shadow-md mt-3 flex gap-32 h-38">
                                 <div>
-                                    <input type="checkbox" class="product-checkbox ml-5 mt-10 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded" data-price="${item.giabansp}" data-so-luong="${item.quantity}" data-item='${JSON.stringify(item)}'>
+                                    <input type="checkbox" class="product-checkbox ml-5 mt-10 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded" data-price="${item.giabansp}"
+                                    data-so-luong="${item.quantity}" data-item='${JSON.stringify(item)}'>
                                 </div>
                                 <div class="w-24">
                                     <img src="${item.anhspmoi}" alt="Ảnh" class="w-24 h-auto mt-2">
                                 </div>
                                 <div class="w-32">
                                     <div class="font-bold">${item.tenspmoi}</div>
-                                    <div class="text-red-500">Giá Bán : ${item.giabansp}</div>
+                                    <div class="text-red-500"> ${formatVND1(item.giabansp)}</div>
+
 
                                     <div>
-                                        <input type="number"  max="${item.quantitymax}" class="soLuong-input bg-gray-100 w-[50%] border border-gray-300 rounded-md px-2 py-1" value="${item.quantity}" min="1" data-id="${item.id}" id="soLuong-${item.id}" name="soLuong-${item.id}">
+
+                                    <input type="number" max="${item.quantitymax}"
+                                     class="soLuong-input bg-gray-100 w-[50%] border border-gray-300 rounded-md px-2 py-1"
+                                      value="${item.quantity}"
+                                         min="1"
+                                      data-id="${item.id}"
+                                       id="soLuong-${item.id}"
+                                       name="soLuong-${item.id}">
                                         <div class="">Kích Cở : ${item.size}</div>
                                     </div>
                                 </div>
                                 <div class=>
-
+                                   <div class="text-red-500 mb-3">${formatVND1(item.quantity * item.giabansp)}</div>
                                    <div id="xoaSP">
-                                        <button class="deleteSP ml-7" data-id="${item.id}" style="margin-top: 50px">
+                                        <button class="deleteSP ml-7" data-id="${item.id}" >
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                                                 <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
                                             </svg>
@@ -170,7 +180,7 @@
                 console.log("Current cart:", cart);
                 console.log("Product ID to remove:", productId);
 
-                // Chuyển đổi productId thành số nếu nó là chuỗi số
+
                 const productIdNumber = Number(productId);
 
                 // Loại bỏ sản phẩm khỏi giỏ hàng
@@ -197,20 +207,62 @@
                 });
             });
 
-            // document.querySelectorAll('.soLuong-input').forEach(input => {
-            //     input.addEventListener('change', function () {
-            //         const id = this.getAttribute('data-id');
-            //         const newQuantity = parseInt(this.value, 10);
-            //         // Handle updating the quantity of the item
-            //         updateItemQuantity(id, newQuantity);
-            //     });
-            // });
+            if (!sessionStorage.getItem('cart')) {
+                sessionStorage.setItem('cart', JSON.stringify([]));
+            }
+
+            document.querySelectorAll('.soLuong-input').forEach(input => {
+                input.addEventListener('change', function () {
+                    const id = this.getAttribute('data-id');
+                    console.log('ID:', id);  // Log the ID for debugging
+                    const newQuantity = parseInt(this.value, 10);
+
+                    if (Number.isInteger(newQuantity) && newQuantity >= 1) {
+                        if(newQuantity > slsp){
+                            updateItemQuantity(id, slsp);
+                        }
+                        else {
+                            updateItemQuantity(id, newQuantity);
+                            tinhTongTien();
+                        }
+
+                    } else {
+                        console.error('Invalid quantity:', newQuantity);
+                    }
+                });
+            });
+
+            function updateItemQuantity(id, newQuantity) {
+                let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                console.log('Cart:', cart);  // Log the cart to verify its contents
+
+
+                const item = cart.find(item => item.id.toString() === id);
+
+                if (item) {
+                    item.quantity = newQuantity;
+                    sessionStorage.setItem('cart', JSON.stringify(cart));
+                    getDuLieuGioHangVaGioHangChiTiet();
+                } else {
+                    console.error('Item not found in cart:', id);
+                }
+            }
+
+
+
         }
 
-        // function formatVND(price) {
-        //     // Format price as Vietnamese Dong (VND)
-        //     return price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-        // }
+
+        function formatVND1(amount) {
+            // Ensure the amount is a number
+            if (isNaN(amount)) {
+                return '';
+            }
+
+            // Format the number with commas and append 'VND'
+            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+        }
+
 
         // function removeItemFromCart(id) {
         //     // Implementation for removing item from cart
@@ -218,17 +270,6 @@
         //     cart = cart.filter(item => item.id !== id);
         //     sessionStorage.setItem('cart', JSON.stringify(cart));
         //     getDuLieuGioHangVaGioHangChiTiet(); // Refresh the cart display
-        // }
-
-        // function updateItemQuantity(id, newQuantity) {
-        //     // Implementation for updating item quantity in the cart
-        //     let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-        //     const item = cart.find(item => item.id === id);
-        //     if (item) {
-        //         item.quantity = newQuantity;
-        //         sessionStorage.setItem('cart', JSON.stringify(cart));
-        //         getDuLieuGioHangVaGioHangChiTiet();
-        //     }
         // }
         //
         getDuLieuGioHangVaGioHangChiTiet();
@@ -303,61 +344,69 @@
         //     });
         // };
         //
-        // function getPhieuGiamGia() {
-        //     $.ajax({
-        //         url: `/api/gio-hang/phieu-giam-gia`,
-        //         method: 'GET',
-        //         success: function (response) {
-        //             let list = "";
-        //             $("#listPhieuGiamGia").empty();
-        //
-        //             const tongTien = parseInt($("#donHang").text().replace(/\./g, '').replace(' VNĐ', ''));
-        //
-        //             response.forEach((phieuGiamGia, i) => {
-        //                 const isDisabled = tongTien < phieuGiamGia.donToiThieu;
-        //                 const disabledClass = isDisabled ? 'voucher-disabled' : '';
-        //
-        //                 list += `
-        //             <div class="grid gap-1 grid-cols-2 border-1 border-gray-300 p-4 rounded-lg ${disabledClass}">
-        //                 <div class="flex">
-        //                     <img class="w-[50%] h-auto" src="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309">
-        //                     <div class="mt-4 ml-4">
-        //                         <span class="font-bold text-orange-500 text-4xl">Se</span><span class="text-4xl text-orange-500">e</span>
-        //                     </div>
-        //                 </div>
-        //                 <div class="flex">
-        //                    <div>
-        //                         <div>${phieuGiamGia.ten}</div>
-        //                         <div>Giảm: ${formatVND(phieuGiamGia.giamToiDa)}</div>
-        //                         <div class="text-orange-500">Đơn tối thiểu: ${formatVND(phieuGiamGia.donToiThieu)}</div>
-        //                         <div>HSD: ${phieuGiamGia.ngayKetThuc}</div>
-        //                     </div>
-        //                     <div class="mt-10">
-        //                         <input type="radio" name="phieuGiamGia" value="${phieuGiamGia.id}" data-item='${JSON.stringify(phieuGiamGia)}' ${isDisabled ? 'disabled' : ''}>
-        //                     </div>
-        //                 </div>
-        //             </div>
-        //             <br>
-        //         `;
-        //             });
-        //             $("#listPhieuGiamGia").html(list);
-        //         },
-        //     });
-        // }
-        //
-        //
-        // $("#delete-all").click(function () {
-        //     $.ajax({
-        //         url: `/api/gio-hang/delete-all-sp/${idGioHang}`,
-        //         method: 'POST',
-        //         success: function () {
-        //             getKhachHang();
-        //             xuLyThayDoiCheckbox();
-        //             getPhieuGiamGia();
-        //         },
-        //
-        //     });
-        // });
+
+        function getPhieuGiamGia() {
+
+                    let list = "";
+                    $("#listPhieuGiamGia").empty();
+            list += `
+                    <div class="grid gap-1 grid-cols-2 border-1 border-gray-300 p-4 rounded-lg text-center">
+                                <span class="text-center" style="color: red"> Bạn không có mã giảm giá nào khả dụng </span>
+                        </div>
+
+                `;
+
+    $("#listPhieuGiamGia").html(list);
+            // $.ajax({
+            //     url: `/api/gio-hang/phieu-giam-gia`,
+            //     method: 'GET',
+            //     success: function (response) {
+            //         let list = "";
+            //         $("#listPhieuGiamGia").empty();
+            //
+            //         const tongTien = parseInt($("#donHang").text().replace(/\./g, '').replace(' VNĐ', ''));
+            //
+            //         response.forEach((phieuGiamGia, i) => {
+            //             const isDisabled = tongTien < phieuGiamGia.donToiThieu;
+            //             const disabledClass = isDisabled ? 'voucher-disabled' : '';
+            //
+            //             list += `
+            //         <div class="grid gap-1 grid-cols-2 border-1 border-gray-300 p-4 rounded-lg ${disabledClass}">
+            //             <div class="flex">
+            //                 <img class="w-[50%] h-auto" src="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309">
+            //                 <div class="mt-4 ml-4">
+            //                     <span class="font-bold text-orange-500 text-4xl">Se</span><span class="text-4xl text-orange-500">e</span>
+            //                 </div>
+            //             </div>
+            //             <div class="flex">
+            //                <div>
+            //                     <div>${phieuGiamGia.ten}</div>
+            //                     <div>Giảm: ${formatVND(phieuGiamGia.giamToiDa)}</div>
+            //                     <div class="text-orange-500">Đơn tối thiểu: ${formatVND(phieuGiamGia.donToiThieu)}</div>
+            //                     <div>HSD: ${phieuGiamGia.ngayKetThuc}</div>
+            //                 </div>
+            //                 <div class="mt-10">
+            //                     <input type="radio" name="phieuGiamGia" value="${phieuGiamGia.id}" data-item='${JSON.stringify(phieuGiamGia)}' ${isDisabled ? 'disabled' : ''}>
+            //                 </div>
+            //             </div>
+            //         </div>
+            //         <br>
+            //     `;
+            //         });
+            //         $("#listPhieuGiamGia").html(list);
+            //     },
+            // });
+        }
+
+
+        function clearCart() {
+            tinhTongTien();
+            sessionStorage.removeItem('cart');
+        }
+        $("#delete-all").click(function () {
+            clearCart();
+            getDuLieuGioHangVaGioHangChiTiet();
+        });
         //
         // $('#thongTinSP').on('click', '.deleteSP', function () {
         //     const itemId = $(this).data('id');
@@ -374,51 +423,38 @@
         // });
         //
         //
-        // $('#thongTinSP').on('change', '.soLuong-input', function () {
-        //     const id = $(this).data('id');
-        //     let SoLuongMoi = $(this).val();
-        //     const max = parseInt($(this).attr('max'));
-        //
-        //     if (SoLuongMoi > max) {
-        //         SoLuongMoi = max;
-        //         $(this).val(max);
-        //     }
-        //
-        //     $.ajax({
-        //         url: `/api/gio-hang/update-so-luong-sp/${id}`,
-        //         method: 'PUT',
-        //         contentType: 'application/json',
-        //         data: JSON.stringify({id: id, soLuong: SoLuongMoi}),
-        //         success: function (response) {
-        //             getKhachHang();
-        //             getPhieuGiamGia();
-        //             tinhTongTien();
-        //         },
-        //
-        //     });
-        // });
+        $('#thongTinSP').on('change', '.soLuong-input', function () {
+            const id = $(this).data('id');
+            let SoLuongMoi = $(this).val();
+            const max = parseInt($(this).attr('max'));
+
+            if (SoLuongMoi > max) {
+                SoLuongMoi = max;
+                $(this).val(max);
+            }
+        });
         //
         //
-        // const formatVND = (tongtien) => {
-        //     return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
-        // }
+        const formatVND = (tongtien) => {
+            return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+        }
         //
-        // function updateContinueButton() {
-        //     const totalAmount = parseInt($("#total").text().replace(/\./g, '').replace(' VNĐ', ''));
-        //     const $continueButton = $("#btnTiepTuc");
-        //
-        //     if (totalAmount > 0) {
-        //         $continueButton.prop("disabled", false);
-        //         $continueButton.removeClass("opacity-50 cursor-not-allowed");
-        //         $continueButton.off('click').on('click', function () {
-        //             window.location.href = "/cho-thanh-toan";
-        //         });
-        //     } else {
-        //         $continueButton.prop("disabled", true);
-        //         $continueButton.addClass("opacity-50 cursor-not-allowed");
-        //         $continueButton.off('click');
-        //     }
-        // }
+        function updateContinueButton() {
+            const totalAmount = parseInt($("#total").text().replace(/\./g, '').replace(' VNĐ', ''));
+            const $continueButton = $("#btnTiepTuc");
+
+            if (totalAmount > 0) {
+                $continueButton.prop("disabled", false);
+                $continueButton.removeClass("opacity-50 cursor-not-allowed");
+                $continueButton.off('click').on('click', function () {
+                    window.location.href = "/cho-thanh-toan";
+                });
+            } else {
+                $continueButton.prop("disabled", true);
+                $continueButton.addClass("opacity-50 cursor-not-allowed");
+                $continueButton.off('click');
+            }
+        }
         //
         //
         // const trangThaiSP = (tt) => {
@@ -432,19 +468,19 @@
         //     }
         // }
         //
-        // function tinhTongTien() {
-        //     let tongTien = 0;
-        //     let tatCaDaChon = true;
-        //     let tongCheckbox = 0;
-        //     let discount = 0;
-        //
-        //     const selectedPhieu = $("input[name='phieuGiamGia']:checked");
-        //
-        //     if (selectedPhieu.length > 0) {
-        //         const item = selectedPhieu.data('item');
-        //         discount = item.giamToiDa;
-        //     }
-        //
+        function tinhTongTien() {
+            let tongTien = 0;
+            let tatCaDaChon = true;
+            let tongCheckbox = 0;
+            let discount = 0;
+
+            const selectedPhieu = $("input[name='phieuGiamGia']:checked");
+
+            if (selectedPhieu.length > 0) {
+                const item = selectedPhieu.data('item');
+                discount = item.giamToiDa;
+            }
+
             $(".product-checkbox").each(function () {
                 tongCheckbox++;
                 if ($(this).is(":checked")) {
@@ -455,101 +491,102 @@
                     tatCaDaChon = false;
                 }
             });
+
+            $("#donHang").text(formatVND(tongTien));
+
+            if (tongTien === 0) {
+                $("#discount").text("0 VNĐ");
+                $("#total").text(formatVND(0));
+                $("input[name='phieuGiamGia']").prop("checked", false);
+                localStorage.removeItem('sale');
+            } else {
+                const tongTienCuoi = tongTien - discount;
+                $("#total").text(formatVND(tongTienCuoi) < 0 ? 0 : formatVND(tongTienCuoi));
+                $("#select-all-checkbox").prop("checked", tatCaDaChon && tongCheckbox > 0);
+            }
+
+            updateContinueButton();
+        }
         //
-        //     $("#donHang").text(formatVND(tongTien));
+        function xuLyThayDoiCheckbox() {
+            let selectedProducts = [];
+
+            $(".product-checkbox:checked").each(function () {
+                const item = $(this).data('item');
+                selectedProducts.push(item);
+            });
+
+            localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+            console.log(selectedProducts);
+            tinhTongTien();
+        }
         //
-        //     if (tongTien === 0) {
-        //         $("#discount").text("0 VNĐ");
-        //         $("#total").text(formatVND(0));
-        //         $("input[name='phieuGiamGia']").prop("checked", false);
-        //         localStorage.removeItem('sale');
-        //     } else {
-        //         const tongTienCuoi = tongTien - discount;
-        //         $("#total").text(formatVND(tongTienCuoi) < 0 ? 0 : formatVND(tongTienCuoi));
-        //         $("#select-all-checkbox").prop("checked", tatCaDaChon && tongCheckbox > 0);
-        //     }
+        $("#select-all-checkbox").change(function () {
+            const isChecked = $(this).is(":checked");
+            $(".product-checkbox").prop("checked", isChecked);
+            xuLyThayDoiCheckbox();
+            console.log(selectedProducts);
+            // getPhieuGiamGia();
+        });
         //
-        //     updateContinueButton();
-        // }
-        //
-        // function xuLyThayDoiCheckbox() {
-        //     let selectedProducts = [];
-        //
-        //     $(".product-checkbox:checked").each(function () {
-        //         const item = $(this).data('item');
-        //         selectedProducts.push(item);
-        //         getPhieuGiamGia();
-        //     });
-        //
-        //     localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
-        //     tinhTongTien();
-        // }
-        //
-        // $("#select-all-checkbox").change(function () {
-        //     const isChecked = $(this).is(":checked");
-        //     $(".product-checkbox").prop("checked", isChecked);
-        //     xuLyThayDoiCheckbox();
-        //     getPhieuGiamGia();
-        // });
-        //
-        // $(document).on('change', '.product-checkbox', function () {
-        //     xuLyThayDoiCheckbox();
-        //     getPhieuGiamGia();
-        // });
+        $(document).on('change', '.product-checkbox', function () {
+            xuLyThayDoiCheckbox();
+            // getPhieuGiamGia();
+        });
         //
         //
-        // $("#select-all-checkbox").change(function () {
-        //     const isChecked = $(this).is(":checked");
-        //     $(".product-checkbox").prop("checked", isChecked);
-        //     xuLyThayDoiCheckbox();
-        // });
+        $("#select-all-checkbox").change(function () {
+            const isChecked = $(this).is(":checked");
+            $(".product-checkbox").prop("checked", isChecked);
+            xuLyThayDoiCheckbox();
+        });
+
+        $(document).on('change', '.product-checkbox', function () {
+            xuLyThayDoiCheckbox();
+        });
         //
-        // $(document).on('change', '.product-checkbox', function () {
-        //     xuLyThayDoiCheckbox();
-        // });
+        $("#delete-all").click(function () {
+            $(".product-checkbox").prop("checked", false);
+            $("#select-all-checkbox").prop("checked", false);
+            xuLyThayDoiCheckbox();
+            getPhieuGiamGia();
+        });
         //
-        // $("#delete-all").click(function () {
-        //     $(".product-checkbox").prop("checked", false);
-        //     $("#select-all-checkbox").prop("checked", false);
-        //     xuLyThayDoiCheckbox();
-        //     getPhieuGiamGia();
-        // });
-        //
-        // function hideModalPhieuGiamGia() {
-        //     $('#modalPhieuGiamGia').addClass('hidden');
-        //     $('#modalPhieuGiamGia').val('');
-        //     $('#modalPhieuGiamGia').addClass('hidden');
-        // }
-        //
-        // function showModalPhieuGiamGia() {
-        //     $('#modalPhieuGiamGia').removeClass('hidden');
-        // }
-        //
-        // $('#phieuGiamGia').click(function () {
-        //     showModalPhieuGiamGia();
-        // })
-        //
-        // $('#huyPhieuGiamGia').click(function () {
-        //     hideModalPhieuGiamGia();
-        // })
-        //
-        // $("#chonPhieuGiamGia").click(function () {
-        //     const selectedPhieu = $("input[name='phieuGiamGia']:checked");
-        //
-        //     if (selectedPhieu.length > 0) {
-        //         const item = selectedPhieu.data('item');
-        //         sale = [item];
-        //         $("#discount").text(formatVND(item.giamToiDa));
-        //         localStorage.setItem('sale', JSON.stringify(sale));
-        //     } else {
-        //         $("#discount").text("0 VNĐ");
-        //     }
-        //     tinhTongTien();
-        //     hideModalPhieuGiamGia();
-        // });
+        function hideModalPhieuGiamGia() {
+            $('#modalPhieuGiamGia').addClass('hidden');
+            $('#modalPhieuGiamGia').val('');
+            $('#modalPhieuGiamGia').addClass('hidden');
+        }
+
+        function showModalPhieuGiamGia() {
+            $('#modalPhieuGiamGia').removeClass('hidden');
+        }
+
+        $('#phieuGiamGia').click(function () {
+            showModalPhieuGiamGia();
+        })
+
+        $('#huyPhieuGiamGia').click(function () {
+            hideModalPhieuGiamGia();
+        })
+
+        $("#chonPhieuGiamGia").click(function () {
+            const selectedPhieu = $("input[name='phieuGiamGia']:checked");
+
+            if (selectedPhieu.length > 0) {
+                const item = selectedPhieu.data('item');
+                sale = [item];
+                $("#discount").text(formatVND(item.giamToiDa));
+                localStorage.setItem('sale', JSON.stringify(sale));
+            } else {
+                $("#discount").text("0 VNĐ");
+            }
+            tinhTongTien();
+            hideModalPhieuGiamGia();
+        });
 
         // getKhachHang();
-        // getPhieuGiamGia();
+        getPhieuGiamGia();
     });
 </script>
 </body>
