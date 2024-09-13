@@ -56,7 +56,7 @@ public class NhanVienService {
             o.setGioiTinh(newnv.getGioiTinh());
 //            o.setDiachi(newnv.getDiachi());
             o.setNgaySinh(newnv.getNgaySinh());
-            o.setSdt(newnv.getSdt());
+//            o.setSdt(newnv.getSdt());
             o.setVaiTro(newnv.getVaiTro());
             o.setNgayCapNhat(java.time.LocalDateTime.now());
             return nhanVienRepository.save(o);

@@ -134,6 +134,12 @@
             transform: translateY(-10px);
         }
 
+        .disabled {
+            pointer-events: none; /* Prevents clicking */
+            opacity: 0.5; /* Makes the button look disabled */
+            cursor: not-allowed; /* Changes the cursor to indicate disabled state */
+        }
+
 
     </style>
 </head>
@@ -173,7 +179,7 @@
 
                     <div id="sl" class="col-md-12 d-flex">
                         <p class="col-md-2"><strong>Số Lượng :</strong></p>
-                        <div class="d-flex col-md-4">
+                        <div class="d-flex col-md-4" id="nutsl">
                             <button class="lui btn btn-light">-</button>
                             <input class="text-center btn btn-light" type="text" id="quantity" value="1" min="1"
                                    style="width: 100px">
@@ -404,7 +410,6 @@
 
                     function loadProducts() {
                         const xhr = new XMLHttpRequest();
-                        const tenThuongHieu = 'Nike'; // Thay đổi theo yêu cầu
                         xhr.open('GET', `/san-pham-lienquan/${thuonghieu}`, true);
                         xhr.onload = function () {
                             if (xhr.status >= 200 && xhr.status < 300) {
@@ -579,9 +584,9 @@
                                             const $this = $(this);
                                             const selectedSize = $this.text();
 
-                                            // Only proceed if the size is different from the last clicked one
+
                                             if (lastClickedSize === selectedSize) {
-                                                return; // Prevent reprocessing the same size click
+                                                return;
                                             }
 
                                             // Update selected size and UI
@@ -610,15 +615,34 @@
                                                 data: {anh: encodeURIComponent(imageName)},
                                                 dataType: 'json',
                                                 success: function (sl) {
+                                                    var slch = sl[0];
+                                                    const color = slch === 0 ? '#ff0000' : '#000000';
+                                                    const opacity = slch === 0 ? '1' : '0.5';
+                                                    const text = slch === 0 ? 'Hết hàng' : `${sl} sản phẩm có sẵn`;
+
                                                     const slton = $(`
-                    <div>
-                        <p class="product-price" style="font-size: 17px; color: #000000; margin-bottom: 10px; opacity: 0.5; margin-left: 10px">
-                            ${sl + ' sản phẩm có sẵn'}
-                        </p>
-                    </div>
-                `);
-                                                    slconlai=sl;
+                                                                    <div>
+                                                                        <p class="product-price" style="font-size: 17px; color: ${color}; margin-bottom: 10px; opacity: ${opacity}; margin-left: 10px">
+                                                                            ${text}
+                                                                        </p>
+                                                                    </div>
+`)
+                                                    slconlai = sl;
                                                     sltonsp.append(slton);
+                                                    var slch = sl[0];
+                                                    console.log('Value of sl:', slch);
+                                                    if (slch === 0) {
+                                                        $('#themgiohang').addClass('disabled');
+                                                        $('#muangay').addClass('disabled');
+                                                        $('#nutsl').addClass('disabled');
+
+
+                                                    } else {
+                                                        $('#themgiohang').removeClass('disabled');
+                                                        $('#muangay').removeClass('disabled');
+                                                        $('#nutsl').removeClass('disabled');
+
+                                                    }
 
                                                     // Add event listener for "Thêm vào giỏ hàng"
                                                     $('#themgiohang').off('click').on('click', function () {
@@ -721,7 +745,9 @@
                                                                             }
 
                                                                         } else {
+                                                                            thongbao();
                                                                             cart.push(product);
+
                                                                         }
                                                                         sessionStorage.setItem('cart', JSON.stringify(cart));
                                                                         console.log(cart);
@@ -752,30 +778,69 @@
                                                             url: '/api/session/user',
                                                             method: 'GET',
                                                             success: function (response) {
-                                                                if (response.status === 404) {
-                                                                    console.log("Resource not found");
-                                                                    return;
-                                                                }
+                                                                soluongspkhithem = inputElement.value;
+                                                                anhlayve = imageName;
+                                                                let size = selectedSize;
+                                                                let idsp = data.sanPham.id;
+                                                                let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+                                                                selectedProducts = [];
 
-                                                                let idKhachHang = response.id;
-                                                                let inputElement = document.getElementById('quantity');
-                                                                let soluongspkhithem = inputElement.value;
-                                                                var anhlayve = imageName;
-
+                                                                localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
                                                                 $.ajax({
-                                                                    url: `/detailcheckgh/${idKhachHang}/${selectedSize}/${data.sanPham.id}/${soluongspkhithem}`,
+                                                                    url: `/checksp/${size}/${idsp}`,
                                                                     type: 'GET',
                                                                     data: {anhlayve: encodeURIComponent(anhlayve)},
-                                                                    success: function (response) {
-                                                                        console.log('Response:', response);
-                                                                        window.location.href = `/gio-hang`;
+                                                                    success: function (spp) {
+                                                                        const product = {
+                                                                            sanPhamChiTiet : spp,
+                                                                            id: spp.id,
+                                                                            anhspmoi: spp.anh,
+                                                                            soLuong: soluongspkhithem,
+                                                                            tenspmoi: spp.ten,
+                                                                            size: spp.kichCo.ten,
+                                                                            giabansp: spp.giaBan
+                                                                        };
+                                                                        selectedProducts.push(product);
+                                                                        localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+
                                                                     },
                                                                     error: function (xhr, status, error) {
                                                                         console.error('Error:', error);
                                                                     }
                                                                 });
+                                                                window.location.href = `/cho-thanh-toan`;
                                                             },
                                                             error: function (xhr, status, error) {
+                                                                soluongspkhithem = inputElement.value;
+                                                                anhlayve = imageName;
+                                                                let size = selectedSize;
+                                                                let idsp = data.sanPham.id;
+                                                                let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+                                                                selectedProducts = [];
+
+                                                                localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+                                                                $.ajax({
+                                                                    url: `/checksp/${size}/${idsp}`,
+                                                                    type: 'GET',
+                                                                    data: {anhlayve: encodeURIComponent(anhlayve)},
+                                                                    success: function (spp) {
+                                                                        const product = {
+                                                                            id: spp.id,
+                                                                            anhspmoi: spp.anh,
+                                                                            quantity: soluongspkhithem,
+                                                                            quantitymax: spp.soLuong,
+                                                                            tenspmoi: spp.ten,
+                                                                            size: spp.kichCo.ten,
+                                                                            giabansp: spp.giaBan
+                                                                        };
+                                                                        selectedProducts.push(product);
+                                                                        localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+
+                                                                    },
+                                                                    error: function (xhr, status, error) {
+                                                                        console.error('Error:', error);
+                                                                    }
+                                                                });
                                                                 window.location.href = `/cho-thanh-toan`;
                                                             }
                                                         });
@@ -799,8 +864,8 @@
                                                         currency: 'VND'
                                                     }) : 'Không có giá';
                                                     const giaspsize = $(`
-                    <p class="product-price" style="font-size: 30px; color: #d9534f; margin-bottom: 10px;">${giakhichonsize}</p>
-                `);
+                                                       <p class="product-price" style="font-size: 30px; color: #d9534f; margin-bottom: 10px;">${giakhichonsize}</p>
+                                                      `);
                                                     gia.append(giaspsize);
                                                 },
                                                 error: function (xhr, status, error) {

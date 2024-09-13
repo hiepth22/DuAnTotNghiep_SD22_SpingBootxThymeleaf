@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.*;
 
@@ -135,14 +136,14 @@ public class NhanVienControler {
         if (dc != null) {
             nv.setDiachi(nv.getDiachi() + "," + dc);
         }
-//        String extension = FilenameUtils.getExtension(img.getOriginalFilename());
-//        String name = UUID.randomUUID().toString() + "." + extension;
+        String extension = FilenameUtils.getExtension(img.getOriginalFilename());
+        String name = UUID.randomUUID().toString() + "." + extension;
 
-        String fileName = StringUtils.cleanPath(img.getOriginalFilename());
+//        String fileName = StringUtils.cleanPath(img.getOriginalFilename());
         String uploadDir = "./src/main/resources/static/assets/imageNV";
-        nv.setAnh("assets/imageNV/" + fileName);
+        nv.setAnh("assets/imageNV/" + name);
 
-        FileUploadUtil.saveFile(uploadDir, fileName, img);
+        FileUploadUtil.saveFile(uploadDir, name, img);
         model.addAttribute("successMessage", "Thêm nhân viên thành công!");
         sevice.Add(nv);
         return "redirect:/admin/nhan-vien";
@@ -159,8 +160,12 @@ public class NhanVienControler {
         return ResponseEntity.ok(exists);
     }
     public void saveImage(MultipartFile file, String name) {
-        String uploadDir = "./src/main/resources/static/assets/imageNV"; // Đường dẫn đầy đủ đến thư mục lưu trữ ảnh
+        // Đường dẫn tuyệt đối đến thư mục lưu trữ ảnh
+        // Sử dụng đường dẫn tương đối từ thư mục gốc của dự án
+        String uploadDir = Paths.get("src", "main", "resources", "static", "assets", "imageNV").toAbsolutePath().toString();
+
         try {
+            // Gọi phương thức lưu tệp tin
             FileUploadUtil.saveFile(uploadDir, name, file);
         } catch (IOException e) {
             e.printStackTrace();

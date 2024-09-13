@@ -235,7 +235,7 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
@@ -361,7 +361,7 @@
 <script>
     $(document).ready(function () {
         let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
-        let sale = JSON.parse(localStorage.getItem('sale')) || [];
+        emailjs.init("ul2tyO43RSWxM2Man");
 
         let ship = 0;
         var tongTien = 0;
@@ -473,14 +473,14 @@
 
         }
         $("#datHang").off('click', '.tiepTuc').on('click', '.tiepTuc', function () {
+            var ten = document.getElementById('ten').value;
+            var sdt = document.getElementById('sdt').value;
+            var dc = document.getElementById('dc').value;
 
+            var ghichu = document.getElementById('ghichu').value;
+            var diachi = document.getElementById('diachi').value;
             if ($('#btnCOD').hasClass('active')) {
-                var ten = document.getElementById('ten').value;
-                var sdt = document.getElementById('sdt').value;
-                var dc = document.getElementById('dc').value;
-                var email = document.getElementById('email').value;
-                var ghichu = document.getElementById('ghichu').value;
-                var diachi = document.getElementById('diachi').value;
+
                 
                 let ship2 = ship;
                 var tongTien2 = tongTien;
@@ -489,20 +489,20 @@
                 let diaChiNguoiNhan = dc+','+diachi;
                 var tongTienSauKhiGiam2 = tongTien;
 
-                taoHoaDonDatHang(nguoiNhan2, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, email);
+                taoHoaDonDatHang(nguoiNhan2, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan);
                 getFormValues();
 
                 window.location.href = '/Client';
 
             } else if ($('#btnVNPAY').hasClass('active')) {
-                // let ship2 = ship;
-                // var tongTien2 = tongTien;
-                // let nguoiNhan2 = nguoiNhan;
-                // let sdtNguoiNhan2 = sdtNguoiNhan;
-                // let diaChiNguoiNhan = $('#diaChiSpan').text().trim();
-                // var tongTienSauKhiGiam2 = tongTienSauKhiGiam;
-                //
-                // taoHoaDonDatHangTraTruoc(nguoiNhan2, idKhachHang, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, tongTienSauKhiGiam2);
+                let ship2 = ship;
+                var tongTien2 = tongTien;
+                let nguoiNhan2 = ten;
+                let sdtNguoiNhan2 = sdt;
+                let diaChiNguoiNhan = dc+','+diachi;
+                var tongTienSauKhiGiam2 = tongTien;
+
+                taoHoaDonDatHangTraTruoc(nguoiNhan2, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, tongTienSauKhiGiam2);
 
             } else {
                 alert("Vui lòng chọn phương thức thanh toán.");
@@ -553,7 +553,7 @@
 
         function chuyenKhoan(amount, TxnRef){
             $.ajax({
-                url: `/api/payment/create_payment?amount=${amount}&TxnRef=${TxnRef}`,
+                url: `/api/payment/create_payment?amount=${amount}&TxnRef=${TxnRef}&chuyenTrang=1`,
                 method: 'GET',
                 contentType: 'application/json',
                 data:{},
@@ -563,40 +563,60 @@
             });
         }
 
-        // function taoHoaDonDatHangTraTruoc(nguoiNhan, KhachHang, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan, tongTienSauKhiGiam) {
-        //     let idPhieuGiamGia = sale[0].id
-        //     $.ajax({
-        //         url: `/api/gio-hang/tao-hoa-don-dat-hang`,
-        //         method: 'POST',
-        //         contentType: 'application/json',
-        //         data: JSON.stringify({
-        //             phieuGiamGia: {
-        //                 id: idPhieuGiamGia
-        //             },
-        //             ma: "1",
-        //             nguoiNhan: nguoiNhan,
-        //             tongTien: tongTien,
-        //             tongTienSauGiam: tongTienSauKhiGiam,
-        //             tienShip: tienShip,
-        //             sdtNguoiNhan: sdtNguoiNhan,
-        //             diaChiNguoiNhan: diaChiNguoinhan,
-        //             khachHang: { id: KhachHang }
-        //         }),
-        //         success: function (response) {
-        //             const idHoaDon = response.id;
-        //             addHistoryLog(idHoaDon);
-        //             addSanPhamVaoHDCT(idHoaDon);
-        //             addPhuongThucThanhToanChuyenKhoan(idHoaDon);
-        //             chuyenKhoan(response.tongTienSauGiam, response.ma);
-        //         },
-        //         error: function (xhr, status, error) {
-        //             console.error('Lỗi khi tạo hóa đơn:', error);
-        //         }
-        //     });
-        // }
-        //
-        //
-        function taoHoaDonDatHang(nguoiNhan, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan,mail) {
+
+
+        function sendEmail(mail,tien,ngay,mahd,tennguoinhan) {
+            const emailParams = {
+                from_name: 'shosee',
+                from_email: 'sneakershoesee123@gmail.com', // Địa chỉ email người gửi
+                tong_tien: tien, // Địa chỉ email để trả lời
+                to_name: mail, // Địa chỉ email nhận
+                ngay_gui: ngay,
+                ma_hd: mahd,
+                ten_nguoi_nhan:tennguoinhan,
+            };
+
+            emailjs.send('service_hrrzfls', 'template_x7uwxdv', emailParams)
+                .then(function(response) {
+                    console.log('Thành công:', response);
+                    alert('Email đã được gửi thành công!');
+                }, function(error) {
+                    console.error('Lỗi:', error);
+                    alert('Gửi email không thành công.');
+                });
+        }
+        function taoHoaDonDatHangTraTruoc(nguoiNhan, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan, tongTienSauKhiGiam) {
+
+            $.ajax({
+                url: `/api/gio-hang/tao-hoa-don-dat-hang`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+
+                    ma: "1",
+                    nguoiNhan: nguoiNhan,
+                    tongTien: tongTien,
+                    tongTienSauGiam: tongTienSauKhiGiam,
+                    tienShip: tienShip,
+                    sdtNguoiNhan: sdtNguoiNhan,
+                    diaChiNguoiNhan: diaChiNguoinhan,
+
+                }),
+                success: function (response) {
+                    const idHoaDon = response.id;
+                    addHistoryLog(idHoaDon);
+                    addSanPhamVaoHDCT(idHoaDon);
+                    addPhuongThucThanhToanChuyenKhoan(idHoaDon);
+                    chuyenKhoan(response.tongTienSauGiam, response.ma);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi khi tạo hóa đơn:', error);
+                }
+            });
+        }
+
+
+        function taoHoaDonDatHang(nguoiNhan, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan) {
             // let idPhieuGiamGia = sale[0].id
             $.ajax({
                 url: `/api/gio-hang/tao-hoa-don-dat-hang`,
@@ -614,10 +634,14 @@
 
                 }),
                 success: function (response) {
+                    var email = document.getElementById('email').value;
                     const idHoaDon = response.id;
                     addHistoryLog(idHoaDon);
                     addSanPhamVaoHDCT(idHoaDon);
-                    addPhuongThucThanhToan(idHoaDon);
+                    addPhuongThucThanhToan(idHoaDon)
+                    const now = new Date();
+                    var tienguimail = `${formatVND(tongTien)}`;
+                    sendEmail(email,tienguimail,now,response.ma,nguoiNhan);
                     
                 },
                 error: function (xhr, status, error) {
@@ -662,6 +686,7 @@
                         console.log( product.quantity)
                         deleteByIDGHCT(product.id);
                         updateSoLuongSP(product.id, product.quantity);
+                        removeProductById(product.id);
 
                     },
                     error: function (xhr, status, error) {
@@ -671,8 +696,15 @@
 
 
             });
-            // localStorage.removeItem('selectedProducts');
+            localStorage.removeItem('selectedProducts');
         }
+        function removeProductById(productId) {
+            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            const updatedCart = cart.filter(product => product.id !== productId);
+            sessionStorage.setItem('cart', JSON.stringify(updatedCart));
+        }
+
+
 
         function updateSoLuongSP(idSPCT, soLuong){
             $.ajax({
@@ -763,23 +795,23 @@
 
 
 
-        function hideModalDiaChi() {
-            $('#modalDiaChi').addClass('hidden');
-            $('#modalDiaChi').val('');
-            $('#modalDiaChi').addClass('hidden');
-        }
-
-        function showModalDiaChi() {
-            $('#modalDiaChi').removeClass('hidden');
-        }
-
-        $(document).on('click', '#thayDoiDiaChi', function () {
-            showModalDiaChi();
-        });
+        // function hideModalDiaChi() {
+        //     $('#modalDiaChi').addClass('hidden');
+        //     $('#modalDiaChi').val('');
+        //     $('#modalDiaChi').addClass('hidden');
+        // }
+        //
+        // function showModalDiaChi() {
+        //     $('#modalDiaChi').removeClass('hidden');
+        // }
+        //
+        // $(document).on('click', '#thayDoiDiaChi', function () {
+        //     showModalDiaChi();
+        // });
 
 
         hienThiSanPhamDaChon();
-        getKhachHang();
+        // getKhachHang();
 
     });
 </script>
