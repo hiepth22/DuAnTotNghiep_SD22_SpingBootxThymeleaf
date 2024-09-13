@@ -8,9 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api/mau-sac")
@@ -23,6 +28,28 @@ public class MauSacAPI {
     public ResponseEntity<List<MauSac>> getAllChatLieu() {
         List<MauSac> mauSacs = mauSacService.getAll();
         return ResponseEntity.ok(mauSacs);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Map<String, Object>> addMauSac(@RequestParam("ten") String ten) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (mauSacService.existingByTen(ten)) {
+            response.put("success", false);
+            response.put("message", "Màu sắc đã tồn tại!");
+            return ResponseEntity.ok(response);
+        }
+
+        MauSac mauSac = new MauSac();
+        mauSac.setNgayTao(new Date());
+        mauSac.setNguoiTao("admin");
+        mauSac.setTen(ten);
+        mauSac.setTrangThai(1);
+        mauSacService.add(mauSac);
+
+        response.put("success", true);
+        response.put("message", "Màu sắc đã được lưu mới");
+        return ResponseEntity.ok(response);
     }
 
 }

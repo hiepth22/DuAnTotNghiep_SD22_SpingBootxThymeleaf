@@ -35,8 +35,8 @@ public class DeGiayAPI {
 
         if (deGiayService.existingByTen(ten)){
             response.put("success", false);
-            response.put("message", "Đế giày đã tồn tại");
-            return ResponseEntity.badRequest().body(response);
+            response.put("message", "Đế giày đã tồn tại !");
+            return ResponseEntity.ok(response);
         }
 
         DeGiay deGiay = new DeGiay();

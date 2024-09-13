@@ -1,3 +1,10 @@
+const colorPicker = document.getElementById('colorPicker');
+const tenMauSac = document.getElementById('tenMauSac');
+
+colorPicker.addEventListener('input', function() {
+    tenMauSac.value = colorPicker.value;
+});
+
 function confirmAndSave(modalId, apiUrl, formData, successCallback, errorCallback, contentType = 'application/json') {
     Swal.fire({
         title: 'Bạn có chắc chắn?',
@@ -35,7 +42,6 @@ function confirmAndSave(modalId, apiUrl, formData, successCallback, errorCallbac
                     if (data.success) {
                         const modal = bootstrap.Modal.getInstance(document.getElementById(modalId));
                         modal.hide();
-
                         if (successCallback) successCallback();
 
                         Swal.fire(
@@ -117,7 +123,7 @@ function updateSanPhamSelect() {
             sanPhams.forEach(sanPham => {
                 const option = document.createElement('option');
                 option.value = sanPham.id;
-                option.textContent = `${sanPham.ten} (${sanPham.thuongHieu.ten})`;
+                option.textContent = sanPham.ten;
                 sanPhamSelect.appendChild(option);
             });
         })
@@ -327,6 +333,151 @@ function updateNSXSelect() {
         });
 }
 
+document.getElementById('saveColor').addEventListener('click', function () {
+    var tenMauSac = document.getElementById('tenMauSac').value.trim();
+    var errorElement = document.getElementById('tenMauSacError');
 
+    errorElement.textContent = '';
+    errorElement.style.display = 'none';
 
+    if (!tenMauSac) {
+        errorElement.textContent = 'Vui lòng nhập tên màu sắc.';
+        errorElement.style.display = 'block';
+        return;
+    }
+
+    const formData = new URLSearchParams();
+    formData.append('ten', tenMauSac);
+
+    confirmAndSave(
+        'addMauSac',
+        '/api/mau-sac/add',
+        formData,
+        function () {
+            updateMauSacModal();
+            document.getElementById('tenMauSac').value = '';
+        },
+        function (message) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        },
+        'application/x-www-form-urlencoded'
+    );
+});
+
+function updateMauSacModal() {
+    fetch('/api/mau-sac/all')
+        .then(response => response.json())
+        .then(mauSacs => {
+            const mauSacList = document.getElementById('colorList');
+            mauSacList.innerHTML = '';
+
+            mauSacs.forEach(mauSac => {
+                const item = document.createElement('div');
+                item.className = 'col-3 mb-3';
+                item.innerHTML = `
+                    <div class="form-check d-flex align-items-center">
+                        <input class="form-check-input" type="checkbox"
+                               value="${mauSac.id}"
+                               data-color="${mauSac.ten}"
+                               id="color_${mauSac.id}">
+                        <label class="form-check-label color-container" for="color_${mauSac.id}">
+                            <span class="color-box" style="background-color: ${mauSac.ten};"></span>
+                        </label>
+                    </div>
+                `;
+                mauSacList.appendChild(item);
+            });
+        })
+        .catch(error => {
+            console.error('Lỗi khi cập nhật danh sách màu sắc:', error);
+        });
+}
+
+document.getElementById('saveKichCo').addEventListener('click', function () {
+    var tenKichCo = document.getElementById('tenKichCo').value.trim();
+    var errorElement = document.getElementById('tenKichCoError');
+
+    errorElement.textContent = '';
+    errorElement.style.display = 'none';
+
+    if (!tenKichCo) {
+        errorElement.textContent = 'Vui lòng nhập tên kích cỡ.';
+        errorElement.style.display = 'block';
+        return;
+    }
+
+    var invalidChars = /[^0-9.,]/;
+    if (invalidChars.test(tenKichCo)) {
+        errorElement.textContent = 'Không được chứa ký tự đặc biệt và chữ cái.';
+        errorElement.style.display = 'block';
+        return;
+    }
+
+    var tenKichCoValue = parseFloat(tenKichCo);
+    if (isNaN(tenKichCoValue)) {
+        errorElement.textContent = 'Tên kích cỡ phải là số.';
+        errorElement.style.display = 'block';
+        return;
+    }
+
+    if (tenKichCoValue < 30) {
+        errorElement.textContent = 'Kích cỡ phải lớn hơn hoặc bằng 30.';
+        errorElement.style.display = 'block';
+        return;
+    }
+
+    if (tenKichCoValue > 50) {
+        errorElement.textContent = 'Kích cỡ phải nhỏ hơn hoặc bằng 50.';
+        errorElement.style.display = 'block';
+        return;
+    }
+
+    const formData = new URLSearchParams();
+    formData.append('ten', tenKichCo);
+
+    confirmAndSave(
+        'addKichCo',
+        '/api/kich-co/add',
+        formData,
+        function () {
+            updateKichCoModal();
+            document.getElementById('tenKichCo').value = '';
+        },
+        function (message) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        },
+        'application/x-www-form-urlencoded'
+    );
+});
+function updateKichCoModal() {
+    fetch('/api/kich-co/all')
+        .then(response => response.json())
+        .then(kichCos => {
+            const kichCoList = document.getElementById('sizeList');
+            kichCoList.innerHTML = '';
+
+            kichCos.forEach(kichCo => {
+                const col = document.createElement('div');
+                col.className = 'col-2 mb-3';
+                col.innerHTML = `
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox"
+                               value="${kichCo.id}"
+                               data-size="${kichCo.ten}"
+                               id="size_${kichCo.id}">
+                        <label class="form-check-label" for="size_${kichCo.id}">
+                            ${kichCo.ten}
+                        </label>
+                    </div>
+                `;
+
+                kichCoList.appendChild(col);
+            });
+        })
+        .catch(error => {
+            console.error('Lỗi khi cập nhật danh sách kích cỡ:', error);
+        });
+}
 

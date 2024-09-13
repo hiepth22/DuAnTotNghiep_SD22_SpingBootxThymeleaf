@@ -82,16 +82,17 @@
 }
 
 .selected-items {
-    margin-top: 10px;
+    margin-top: 15px;
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
+    gap: 10px;
+    max-width: 100%;
 }
 
 .selected-items label {
     display: inline-block;
-    margin-right: 5px;
-    margin-bottom: 5px;
+    margin: 0;
     padding: 5px 10px;
     background-color: #007bff;
     color: white;
@@ -99,13 +100,16 @@
     white-space: nowrap;
 }
 
-#selectedSizes {
-    margin-left: 10px;
+#selectedSizes,
+#selectedColors {
+    margin-left: 15px;
+    max-width: calc(100% - 30px);
 }
 
-#selectedColors {
-    margin-left: 10px;
+.selected-items label:nth-child(7n+1) {
+    flex-basis: 100%;
 }
+
 
 .create-product-btn {
     display: block;

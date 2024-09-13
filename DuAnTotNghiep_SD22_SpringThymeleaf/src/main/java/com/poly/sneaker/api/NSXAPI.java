@@ -36,7 +36,7 @@ public class NSXAPI {
         if (nsxService.existingByTen(ten)) {
             response.put("success", false);
             response.put("message", "Nhà sản xuất đã tồn tại");
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.ok(response);
         }
 
         NhaSanXuat nhaSanXuat = new NhaSanXuat();

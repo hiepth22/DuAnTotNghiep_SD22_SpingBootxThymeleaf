@@ -32,7 +32,6 @@
         <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
         <!-- Navbar End -->
         <div class="form-container">
-            <h2 class="form-title">Thêm mới sản phẩm</h2>
             <form th:action="@{/admin/san-pham-chi-tiet/add}" method="post">
                 <div class="form-group">
                     <label>Tên sản phẩm</label>
@@ -40,7 +39,7 @@
                         <select id="sanPham" class="form-control">
                             <option selected>Chọn sản phẩm</option>
                             <option th:each="sanPham : ${sanPhams}" th:value="${sanPham.id}"
-                                    th:text="${sanPham.ten} + ' (' + ${sanPham.thuongHieu.ten} + ')'"></option>
+                                    th:text="${sanPham.ten}"></option>
                         </select>
                         <button type="button" class="btn btn-secondary custom-btn" data-bs-toggle="modal"
                                 data-bs-target="#themMoiSanPham">
@@ -123,24 +122,29 @@
                     <div class="col">
                         <label>Kích cỡ</label>
                         <div class="input-group">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#sizeModal">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sizeModal">
                                 <i class="fas fa-plus"></i> Chọn kích cỡ
                             </button>
-                            <div id="selectedSizes" class="selected-items"></div>
+                            <button type="button" class="btn btn-secondary" id="addSize" data-bs-toggle="modal" data-bs-target="#addKichCo">
+                                <i class="fas fa-plus"></i>
+                            </button>
                         </div>
+                        <div id="selectedSizes" class="selected-items"></div>
                     </div>
                     <div class="col">
                         <label>Màu sắc</label>
                         <div class="input-group">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#colorModal">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#colorModal">
                                 <i class="fas fa-palette"></i> Chọn màu sắc
                             </button>
-                            <div id="selectedColors" class="selected-items"></div>
+                            <button type="button" class="btn btn-secondary" id="addColor" data-bs-toggle="modal" data-bs-target="#addMauSac">
+                                <i class="fas fa-plus"></i>
+                            </button>
                         </div>
+                        <div id="selectedColors" class="selected-items"></div>
                     </div>
                 </div>
+
             </form>
             <button class="create-product-btn btn btn-primary">Tạo sản phẩm</button>
         </div>
@@ -206,6 +210,53 @@
         </div>
     </div>
 
+
+    <!-- Modal thêm mới màu sắc -->
+    <div class="modal fade" id="addMauSac" tabindex="-1" aria-labelledby="colorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="title">Thêm Màu Sắc Mới</h5>
+                </div>
+                <div class="modal-body">
+                    <label for="colorPicker">Chọn màu sắc:</label>
+                    <input type="color" id="colorPicker" value="#ff0000" style="width: 100%; height: 50px; border: none; cursor: pointer;">
+
+                    <label for="tenMauSac" class="mt-2">Tên màu sắc (Mã Hex):</label>
+                    <input type="text" id="tenMauSac" class="form-control mt-2">
+                    <div id="tenMauSacError" class="text-danger" style="display: none;"></div>
+
+<!--                    <label for="moTaMauSac" class="mt-2">Mô tả:</label>-->
+<!--                    <input type="text" id="moTa" class="form-control mt-2">-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" id="saveColor">Thêm màu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal thêm mới kích cỡ -->
+    <div class="modal fade" id="addKichCo" tabindex="-1" aria-labelledby="kichCoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titleKichCo">Thêm mới kích cỡ</h5>
+                </div>
+                <div class="modal-body">
+                    <label for="tenMauSac" class="mt-2">Nhập kích cỡ (size châu Á) :</label>
+                    <input type="text" id="tenKichCo" class="form-control mt-2">
+                    <div id="tenKichCoError" class="text-danger" style="display: none;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" id="saveKichCo">Lưu mới</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Thông Báo lựa chọn thuộc tính -->
     <div class="modal fade" id="validationModal" tabindex="-1" role="dialog" aria-labelledby="validationModalLabel"
          aria-hidden="true">
@@ -229,31 +280,11 @@
     </div>
 </div>
 
-<!-- Modal Xác Nhận lưu mới sản phẩm-->
-<div class="modal fade" id="confirmSaveModal" tabindex="-1" role="dialog" aria-labelledby="confirmSaveModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmSaveModalLabel">Xác nhận lưu sản phẩm</h5>
-            </div>
-            <div class="modal-body">
-                Bạn có chắc chắn muốn lưu sản phẩm không?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-success" id="confirmSaveButton">Xác nhận</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <!-- Modal Thêm mới sản phẩm -->
 <div class="modal fade" id="themMoiSanPham" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="labelAdd">Thêm mới sản phẩm</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
