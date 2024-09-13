@@ -235,6 +235,7 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
@@ -361,15 +362,13 @@
     $(document).ready(function () {
         let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
         let sale = JSON.parse(localStorage.getItem('sale')) || [];
-        let discount = 0;
+
         let ship = 0;
         var tongTien = 0;
-        let nguoiNhan = '';
-        let sdtNguoiNhan = '';
-        let idKhachHang = '';
+
         let soLuongSPTong = 0;
         var tongTienSauKhiGiam = 0;
-        //thongtinkh
+
         function getFormValues() {
 
             var ten = document.getElementById('ten').value;
@@ -451,8 +450,8 @@
                     </tr>
             `;
                 }
-                discount = sale[0]?.giamToiDa || 0;
-                tongTienSauKhiGiam = tongTien - discount;
+
+                tongTienSauKhiGiam = tongTien ;
 
                 $('#soLuongVaTongTien').html(`
             <div>Tổng số tiền(${soLuongSPTong} sản phẩm): <span class="text-orange-500 text-xl ml-5">${formatVND(tongTien)}</span></div>
@@ -461,7 +460,6 @@
 
                 $('#tongTien').text(formatVND(tongTien));
                 $('#phiVanChuyen').text(ship);
-                // $('#maGiamGia').text(formatVND(discount));
                 $('#tongThanhToan').text(formatVND(tongTien));
 
 
@@ -479,22 +477,20 @@
             if ($('#btnCOD').hasClass('active')) {
                 var ten = document.getElementById('ten').value;
                 var sdt = document.getElementById('sdt').value;
-                // var city = document.getElementById('city').value;
-                // var district = document.getElementById('district').value;
-                // var ward = document.getElementById('ward').value;
-                // var diachi = document.getElementById('diachi').value;
+                var dc = document.getElementById('dc').value;
                 var email = document.getElementById('email').value;
                 var ghichu = document.getElementById('ghichu').value;
-                var dc = document.getElementById('dc').value;
+                var diachi = document.getElementById('diachi').value;
                 
                 let ship2 = ship;
                 var tongTien2 = tongTien;
                 let nguoiNhan2 = ten;
                 let sdtNguoiNhan2 = sdt;
-                let diaChiNguoiNhan = dc;
-                var tongTienSauKhiGiam2 = tongTienSauKhiGiam;
+                let diaChiNguoiNhan = dc+','+diachi;
+                var tongTienSauKhiGiam2 = tongTien;
 
-                taoHoaDonDatHang(nguoiNhan2, idKhachHang, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, tongTienSauKhiGiam2);
+                taoHoaDonDatHang(nguoiNhan2, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, email);
+                getFormValues();
 
                 window.location.href = '/Client';
 
@@ -600,8 +596,8 @@
         // }
         //
         //
-        function taoHoaDonDatHang(nguoiNhan, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan) {
-            let idPhieuGiamGia = sale[0].id
+        function taoHoaDonDatHang(nguoiNhan, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan,mail) {
+            // let idPhieuGiamGia = sale[0].id
             $.ajax({
                 url: `/api/gio-hang/tao-hoa-don-dat-hang`,
                 method: 'POST',
@@ -622,6 +618,7 @@
                     addHistoryLog(idHoaDon);
                     addSanPhamVaoHDCT(idHoaDon);
                     addPhuongThucThanhToan(idHoaDon);
+                    
                 },
                 error: function (xhr, status, error) {
                     console.error('Lỗi khi tạo hóa đơn:', error);
@@ -648,10 +645,11 @@
         function addSanPhamVaoHDCT(idHoaDon) {
             let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
             selectedProducts.forEach(product => {
+
                 const productData = {
-                    sanPhamChiTiet: product.sanPhamChiTiet,
-                    soLuong: product.soLuong,
-                    gia: product.sanPhamChiTiet.giaBan,
+                    sanPhamChiTiet: product,
+                    soLuong: product.quantity,
+                    gia: product.giabansp,
                     trangThai: 1
                 };
                 $.ajax({
@@ -660,8 +658,11 @@
                     contentType: 'application/json',
                     data: JSON.stringify(productData),
                     success: function (response) {
+                        console.log("id"+product.id)
+                        console.log( product.quantity)
                         deleteByIDGHCT(product.id);
-                        updateSoLuongSP(product.sanPhamChiTiet.id, product.soLuong);
+                        updateSoLuongSP(product.id, product.quantity);
+
                     },
                     error: function (xhr, status, error) {
 
@@ -670,7 +671,7 @@
 
 
             });
-            localStorage.removeItem('selectedProducts');
+            // localStorage.removeItem('selectedProducts');
         }
 
         function updateSoLuongSP(idSPCT, soLuong){

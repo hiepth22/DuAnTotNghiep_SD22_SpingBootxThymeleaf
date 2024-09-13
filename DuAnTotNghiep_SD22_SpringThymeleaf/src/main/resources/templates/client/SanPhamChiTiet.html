@@ -53,10 +53,12 @@
             overflow: hidden;
             width: 100%;
         }
+
         .product-slide .price {
             color: red; /* Màu đỏ cho giá sản phẩm */
             font-size: 1.2em; /* Kích thước chữ có thể tùy chỉnh */
         }
+
         .product-slider {
             display: flex;
             transition: transform 0.5s ease-in-out;
@@ -133,11 +135,6 @@
         }
 
 
-
-
-
-
-
     </style>
 </head>
 
@@ -202,8 +199,11 @@
             </div>
         </div>
 </section>
-<section id="splienquan" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0 text-center" style="background-color: #F5F5F5">
-    <a class="section-title text-uppercase" style="display: block; margin-bottom: 10px; font-size: 20px; padding-bottom: 10px; margin-left: 10px; color: #808080;">Sản phẩm liên quan</a>
+<section id="splienquan" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0 text-center"
+         style="background-color: #F5F5F5">
+    <a class="section-title text-uppercase"
+       style="display: block; margin-bottom: 10px; font-size: 20px; padding-bottom: 10px; margin-left: 10px; color: #808080;">Sản
+        phẩm liên quan</a>
     <div class="product-slider-container">
         <div class="product-slider">
 
@@ -617,6 +617,7 @@
                         </p>
                     </div>
                 `);
+                                                    slconlai=sl;
                                                     sltonsp.append(slton);
 
                                                     // Add event listener for "Thêm vào giỏ hàng"
@@ -689,6 +690,23 @@
                                                                             giabansp: spp.giaBan
                                                                         };
 
+                                                                        function thongbao() {
+                                                                            var notification = document.getElementById('notification');
+                                                                            var progressBar = document.getElementById('progress-bar');
+
+                                                                            notification.style.display = 'block';
+                                                                            progressBar.style.width = '100%';
+
+                                                                            setTimeout(function () {
+                                                                                progressBar.style.width = '0';
+                                                                            }, 10);
+
+                                                                            setTimeout(function () {
+                                                                                notification.style.display = 'none';
+                                                                                progressBar.style.width = '100%';
+                                                                            }, 3010);
+                                                                        }
+
                                                                         let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
                                                                         const existingProductIndex = cart.findIndex(item => item.id === product.id);
                                                                         if (existingProductIndex > -1) {
@@ -696,9 +714,12 @@
                                                                             const quantityToAdd = parseFloat(sluonsptrung) + parseFloat(product.quantity);
                                                                             if (quantityToAdd > product.quantitymax) {
                                                                                 cart[existingProductIndex].quantity = product.quantitymax;
+                                                                                thongbao();
                                                                             } else {
                                                                                 cart[existingProductIndex].quantity = quantityToAdd;
+                                                                                thongbao();
                                                                             }
+
                                                                         } else {
                                                                             cart.push(product);
                                                                         }
