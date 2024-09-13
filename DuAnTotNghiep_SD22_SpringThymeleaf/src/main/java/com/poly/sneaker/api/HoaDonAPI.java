@@ -105,7 +105,7 @@ public class HoaDonAPI {
 
         HoaDon hd = hoaDonService.detail(id);
         hd.setTongTien(tongTien);
-        hd.setTongTienSauGiam(tongTien);
+//        hd.setTongTienSauGiam(tongTien);
 
         hoaDonService.updateTongTien(id, hd);
 
@@ -144,13 +144,38 @@ public class HoaDonAPI {
         return ResponseEntity.ok(lichSuHoaDonService.getAllByIdhoaDon2(id));
     }
 
+//    @PutMapping("/update-so-luong/{id}")
+//    public ResponseEntity<?> updateSoLuong(@PathVariable("id") Long id, @RequestBody HoaDonChiTiet hoaDonChiTiet) {
+//        HoaDonChiTiet updateSoLuong = hoaDonService.updateSoLuong(id, hoaDonChiTiet);
+//        if (updateSoLuong != null) {
+//            return ResponseEntity.ok(updateSoLuong);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDon not found");
+//        }
+//    }
+
+
     @PutMapping("/update-so-luong/{id}")
     public ResponseEntity<?> updateSoLuong(@PathVariable("id") Long id, @RequestBody HoaDonChiTiet hoaDonChiTiet) {
-        HoaDonChiTiet updateSoLuong = hoaDonService.updateSoLuong(id, hoaDonChiTiet);
-        if (updateSoLuong != null) {
-            return ResponseEntity.ok(updateSoLuong);
+        HoaDonChiTiet updatedHoaDonChiTiet = hoaDonService.updateSoLuong(id, hoaDonChiTiet);
+
+        if (updatedHoaDonChiTiet != null) {
+
+            Long hoaDonId = updatedHoaDonChiTiet.getHoaDon().getId();
+            List<HoaDonChiTiet> hdctList = hoaDonChiTietService.findByHDId(hoaDonId);
+
+            BigDecimal tongTienMoi = hdctList.stream()
+                    .map(hdct -> hdct.getSanPhamChiTiet().getGiaBan()
+                            .multiply(BigDecimal.valueOf(hdct.getSoLuong())))
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            HoaDon hoaDon = hoaDonService.detail(hoaDonId);
+            hoaDon.setTongTien(tongTienMoi);
+            hoaDonService.updateTongTien(hoaDonId, hoaDon);
+
+            return ResponseEntity.ok(updatedHoaDonChiTiet);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDon not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDonChiTiet not found");
         }
     }
 
@@ -172,27 +197,33 @@ public class HoaDonAPI {
     }
 
     @PostMapping("/danh-sach-san-pham/add")
-    public ResponseEntity<?> themSanPham(@RequestBody HoaDonChiTiet hoaDonChiTiet){
+    public ResponseEntity<?> themSanPham(@RequestBody HoaDonChiTiet hoaDonChiTiet) {
 
-//        Long idHD = hoaDonChiTiet.getHoaDon().getId();
-//
-//        List<HoaDonChiTiet> hdctList = hoaDonChiTietService.findByHDId(idHD);
-//
-//
-//        BigDecimal tongTien = hdctList.stream()
-//                .map(hdct -> hdct.getSanPhamChiTiet().getGiaBan()
-//                        .multiply(BigDecimal.valueOf(hdct.getSoLuong())))
-//                .reduce(BigDecimal.ZERO, BigDecimal::add);
-//
-//
-//        HoaDon hd = hoaDonService.detail(idHD);
-//        hd.setTongTien(tongTien);
-//        hoaDonService.updateTongTien(idHD, hd);
+        Long idHD = hoaDonChiTiet.getHoaDon().getId();
+
+        // Lấy danh sách chi tiết hóa đơn hiện tại
+        List<HoaDonChiTiet> hdctList = hoaDonChiTietService.findByHDId(idHD);
+
+        BigDecimal tongTienHienTai = hdctList.stream()
+                .map(hdct -> hdct.getSanPhamChiTiet().getGiaBan()
+                        .multiply(BigDecimal.valueOf(hdct.getSoLuong())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal giaBanSanPhamMoi = hoaDonChiTiet.getSanPhamChiTiet().getGiaBan();
+        BigDecimal soLuongSanPhamMoi = BigDecimal.valueOf(hoaDonChiTiet.getSoLuong());
+
+        BigDecimal tongTienMoi = tongTienHienTai.add(giaBanSanPhamMoi.multiply(soLuongSanPhamMoi));
+
+        HoaDon hd = hoaDonService.detail(idHD);
+        hd.setTongTien(tongTienMoi);
+        hoaDonService.updateTongTien(idHD, hd);
 
         hoaDonChiTiet.setHoaDon(hoaDonChiTiet.getHoaDon());
         hoaDonChiTiet.setSanPhamChiTiet(hoaDonChiTiet.getSanPhamChiTiet());
+
         return ResponseEntity.ok(banHangService.add(hoaDonChiTiet));
     }
+
 
     @GetMapping("/phuong-thuc-thanh-toan/{id}")
     public ResponseEntity<List<PhuongThucThanhToan>> phuongThucThanhToan (@PathVariable("id") Long id){

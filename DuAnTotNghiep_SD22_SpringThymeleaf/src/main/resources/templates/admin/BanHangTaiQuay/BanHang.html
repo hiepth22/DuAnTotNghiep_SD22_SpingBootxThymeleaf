@@ -565,17 +565,6 @@
         var maHD = null;
 
 
-        let idChatLieu = '';
-        let idCoGiay = '';
-        let idDeGiay = ''
-        let idKichCo = '';
-        let idMauSac = '';
-        let idThuongHieu = '';
-        let keyword = '';
-        let giaBanMin = '';
-        let giaBanMax = '';
-        let page = 0
-        let size = 5;
 
         var tienConThieu = 0;
 
@@ -583,43 +572,7 @@
 
         var tongTienTrongHD = 0;
 
-           $('#timKiemBlaBla').click(function() {
 
-               idChatLieu = $('#combo-box-chat-lieu').val()
-               idMauSac = $('#combo-box-mau-sac').val()
-               idKichCo = $('#combo-box-kich-co').val()
-               idCoGiay = $('#combo-box-co-giay').val()
-               idDeGiay = $('#combo-box-de-giay').val()
-               idThuongHieu = $('#combo-box-thuong-hieu').val()
-               keyword = $('#input-TimKiem').val()
-               page = 0;
-               getDanhSachSanPhamCoSearch(page, size);
-
-           });
-
-        $('#tuBoTatCa').click(function() {
-            $('#combo-box-chat-lieu').prop('selectedIndex', 0);
-            $('#combo-box-mau-sac').prop('selectedIndex', 0);
-            $('#combo-box-kich-co').prop('selectedIndex', 0);
-            $('#combo-box-co-giay').prop('selectedIndex', 0);
-            $('#combo-box-de-giay').prop('selectedIndex', 0);
-            $('#combo-box-thuong-hieu').prop('selectedIndex', 0);
-
-            $('#input-TimKiem').val('');
-
-            idChatLieu = '';
-            idMauSac = '';
-            idKichCo = '';
-            idCoGiay = '';
-            idDeGiay = '';
-            idThuongHieu = '';
-            keyword = '';
-            giaBanMin = '';
-            giaBanMax = '';
-
-
-            getDanhSachSanPhamCoSearch(page, size);
-        });
 
         let tabsData = [];
         var idTabHD = null;
@@ -729,11 +682,7 @@
             tongTienTrongHD = 0;
             $('#tienThieu2').text(`${formatVND((0))}`);
             $('#tienConThieu').text(`${formatVND((0))}`);
-            // PhieuGiamGiaPhuHop(0);
 
-            // idPGG = null;
-            // maPGG = '';
-            // GiamToiDa = 0;
             $.ajax({
                 url: `/api/ban-hang/${idHoaDon}`,
                 method: 'GET',
@@ -745,6 +694,8 @@
                     maHD = hd.ma
 
 
+                    let tongTienHDCT = 0;
+
                     for (let i = 0; i < hdctList.length; i++) {
                         let item = hdctList[i];
                         idSP.push({
@@ -754,12 +705,15 @@
                         });
 
                         tongTienTrongHD += item.soLuong * item.gia;
-                        $('#tienThieu2').text(`${formatVND((tongTienTrongHD))}`);
+                        tongTienHDCT += item.soLuong * item.gia;
+                        $('#tienThieu2').text(`${formatVND((tongTienHDCT))}`);
                         $('#tienConThieu').text(`${formatVND((tongTienTrongHD - tienDaThanhToan))}`);
+
                     }
 
-                    PhieuGiamGiaPhuHop(tongTienTrongHD);
 
+                    PhieuGiamGiaPhuHop(tongTienHDCT);
+                    console.log(tongTienTrongHD);
 
                     xoaPhuongThucThanhToan(idHoaDon);
                     cbbChatLieu();
@@ -827,12 +781,15 @@
                     if (tabIndex !== -1) {
                         tabsData[tabIndex].content = tabContent.innerHTML;
                         tabsData[tabIndex].contentLoaded = true;
+
                     }
                 },
 
 
             });
         }
+
+
 
         function chuyenKhoan(amount, TxnRef){
             $.ajax({
@@ -855,15 +812,18 @@
                 contentType: 'application/json',
                 data: {},
                 success: function (response) {
-                    if (response && response.length > 0) {
-                        console.log(response);
-                        maPGG = response[0].ma;
-                        GiamToiDa = response[0].giamToiDa;
-                        idPGG = response[0].id;
-                    } else {
+                    if (response && response.length <= 0) {
                         idPGG = null;
                         maPGG = '';
                         GiamToiDa = 0;
+                    } else if(max < response[0].donToiThieu) {
+                        idPGG = null;
+                        maPGG = '';
+                        GiamToiDa = 0;
+                    }else {
+                        maPGG = response[0].ma;
+                        GiamToiDa = response[0].giamToiDa;
+                        idPGG = response[0].id;
                     }
                 },
             });
@@ -1009,6 +969,8 @@
         //
         // }
 
+
+
         function xoaSanPham(idHoaDon) {
             $(document).on('click', '.deleteSP', function () {
                 const itemId = $(this).data('id');
@@ -1020,6 +982,7 @@
                         success: function () {
                             showNotification("Xóa sản phẩm thành công", "thanhCong")
                             getDuLieu(idHoaDon);
+                            PhieuGiamGiaPhuHop(tongTienTrongHD);
                         },
                         error: function() {
                             Swal.fire(
@@ -1169,11 +1132,12 @@
 
         $("#danhSachSanPham").on('click', '.themSanPham', function () {
             $(this).off('click');
+            var tong = 0;
             $("#soLuongInput").val(1)
             showModalSoLuong();
-
             itemId = $(this).data('id');
             giaBan = $(this).data('gia-ban');
+            tong = giaBan
         });
 
         $('#soLuongThayDoi').click(function () {
@@ -1197,7 +1161,6 @@
 
             const soLuongCuoiCung = checkTrung ? soLuongHienTai + soLuongMoi : soLuongMoi;
 
-
             const capNhatSoLuongNeuTrung = {
                 gia: giaBan,
                 soLuong: soLuongCuoiCung,
@@ -1205,7 +1168,7 @@
                 hoaDon: { id: idTabHD },
                 sanPhamChiTiet: { id: itemId , giaBan: giaBan}
             };
-
+                tongTienTrongHD;
             if (!checkTrung) {
                 $.ajax({
                     url: `/api/hoa-don/danh-sach-san-pham/add`,
@@ -1219,6 +1182,8 @@
                         hideModalSoLuong();
                         hideModalDanhSachSanPham();
                         getDuLieu(idTabHD);
+
+
 
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
@@ -1240,6 +1205,10 @@
                     },
                 });
             }
+            updateTongTien(tong, idTabHD);
+            PhieuGiamGiaPhuHop(tong);
+            getDuLieu(idTabHD);
+
         });
 
 
@@ -1442,8 +1411,7 @@
             });
         }
 
-        function updateTongTien(tongTien, hd, idHoaDon) {
-            // const tongTienSauKhiGiam = tongTien - (hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0);
+        function updateTongTien(tongTien, idHoaDon) {
             $.ajax({
                 url: `/api/hoa-don/update-tong-tien/${idHoaDon}`,
                 method: 'PUT',
@@ -1624,6 +1592,7 @@
         function hideModalDanhSachSanPham() {
             $('#modalDachSachSanPham').addClass('hidden');
             $('#modalDachSachSanPham').val('');
+
         }
 
         function showThongTinShip2() {
@@ -1831,16 +1800,74 @@
             }
         }
 
-        const getDanhSachSanPhamCoSearch = (page , size ) => {
 
-            $.ajax({
-                url: `/api/hoa-don/searchBlaBla?idChatLieu=${idChatLieu}&idCoGiay=${idCoGiay}&idDeGiay=${idDeGiay}&idKichCo=${idKichCo}&idMauSac=${idMauSac}&idThuongHieu=${idThuongHieu}&keyword=${keyword}&giaBanMin=${giaBanMin}&giaBanMax=${giaBanMax}&page=${page}&size=${size}`,
-                method: 'GET',
-                success: function (result) {
-                    let list = "";
-                    $("#danhSachSanPham").empty();
-                    for (let i = 0; i < result.content.length; i++) {
-                        list += `
+        getDanhSachSanPhamCoSearch(page, size);
+
+        toggleThongTinShip();
+        getThongTinKhachHang();
+        idHoaDon();
+        getKhachHang(0, 5);
+        // getDanhSachSanPham(0, 5);
+
+    });
+
+    let idChatLieu = '';
+    let idCoGiay = '';
+    let idDeGiay = ''
+    let idKichCo = '';
+    let idMauSac = '';
+    let idThuongHieu = '';
+    let keyword = '';
+    let giaBanMin = '';
+    let giaBanMax = '';
+    let page = 0
+    let size = 5;
+
+    $('#timKiemBlaBla').click(function() {
+        // Cập nhật các giá trị tìm kiếm từ các input
+        idChatLieu = $('#combo-box-chat-lieu').val();
+        idMauSac = $('#combo-box-mau-sac').val();
+        idKichCo = $('#combo-box-kich-co').val();
+        idCoGiay = $('#combo-box-co-giay').val();
+        idDeGiay = $('#combo-box-de-giay').val();
+        idThuongHieu = $('#combo-box-thuong-hieu').val();
+        keyword = $('#input-TimKiem').val();
+        page = 0;  // Reset về trang đầu tiên khi tìm kiếm mới
+        getDanhSachSanPhamCoSearch(page, size);  // Gọi tìm kiếm với điều kiện mới
+    });
+
+    $('#tuBoTatCa').click(function() {
+        // Reset các giá trị tìm kiếm
+        $('#combo-box-chat-lieu').prop('selectedIndex', 0);
+        $('#combo-box-mau-sac').prop('selectedIndex', 0);
+        $('#combo-box-kich-co').prop('selectedIndex', 0);
+        $('#combo-box-co-giay').prop('selectedIndex', 0);
+        $('#combo-box-de-giay').prop('selectedIndex', 0);
+        $('#combo-box-thuong-hieu').prop('selectedIndex', 0);
+        $('#input-TimKiem').val('');
+
+        // Reset các biến điều kiện tìm kiếm
+        idChatLieu = '';
+        idMauSac = '';
+        idKichCo = '';
+        idCoGiay = '';
+        idDeGiay = '';
+        idThuongHieu = '';
+        keyword = '';
+        page = 0;
+
+        getDanhSachSanPhamCoSearch(page, size);  // Tìm kiếm với tất cả điều kiện bỏ trống
+    });
+
+    const getDanhSachSanPhamCoSearch = (page, size) => {
+        $.ajax({
+            url: `/api/hoa-don/searchBlaBla?idChatLieu=${idChatLieu}&idCoGiay=${idCoGiay}&idDeGiay=${idDeGiay}&idKichCo=${idKichCo}&idMauSac=${idMauSac}&idThuongHieu=${idThuongHieu}&keyword=${keyword}&giaBanMin=${giaBanMin}&giaBanMax=${giaBanMax}&page=${page}&size=${size}`,
+            method: 'GET',
+            success: function (result) {
+                let list = "";
+                $("#danhSachSanPham").empty();
+                for (let i = 0; i < result.content.length; i++) {
+                    list += `
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -1859,69 +1886,59 @@
                             <span class="bg-green-500 rounded-lg text-white px-2 py-1">${result.content[i].trangThai}</span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                           <button id="hienThiDanhSachSanPham" class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-1 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm
-                            </button>
+                            <button id="hienThiDanhSachSanPham" class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-1 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm</button>
                         </td>
                     </tr>`;
-                    }
-
-                    $("#danhSachSanPham").html(list);
-
-
-                    let pagination = '';
-                    pagination += `
-                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
-            `;
-
-                    const maxVisiblePages = 3;
-                    const halfVisiblePages = Math.floor(maxVisiblePages / 2);
-                    let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
-                    let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
-
-                    if (startPage > 1) {
-                        pagination += `
-                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(0, ${size})">1</button>
-                `;
-                        if (startPage > 2) {
-                            pagination += `<span class="px-4 py-2">...</span>`;
-                        }
-                    }
-
-                    for (let i = startPage; i <= endPage; i++) {
-                        pagination += `
-                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getDanhSachSanPham(${i - 1}, ${size})">${i}</button>
-                `;
-                    }
-
-                    if (endPage < result.totalPages) {
-                        if (endPage < result.totalPages - 1) {
-                            pagination += `<span class="px-4 py-2">...</span>`;
-                        }
-
-                        pagination += `
-                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
-                `;
-                    }
-
-                    pagination += `
-                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
-            `;
-
-                    $("#paginationSP").html(pagination);
                 }
 
-            });
-        };
+                $("#danhSachSanPham").html(list);
 
-        getDanhSachSanPhamCoSearch(page, size);
+                // Phân trang
+                let pagination = '';
+                pagination += `
+                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
+            `;
 
-        toggleThongTinShip();
-        getThongTinKhachHang();
-        idHoaDon();
-        getKhachHang(0, 5);
-        // getDanhSachSanPham(0, 5);
+                const maxVisiblePages = 3;
+                const halfVisiblePages = Math.floor(maxVisiblePages / 2);
+                let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
+                let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
 
-    });
+                if (startPage > 1) {
+                    pagination += `
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(0, ${size})">1</button>
+                `;
+                    if (startPage > 2) {
+                        pagination += `<span class="px-4 py-2">...</span>`;
+                    }
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    pagination += `
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getDanhSachSanPhamCoSearch(${i - 1}, ${size})">${i}</button>
+                `;
+                }
+
+                if (endPage < result.totalPages) {
+                    if (endPage < result.totalPages - 1) {
+                        pagination += `<span class="px-4 py-2">...</span>`;
+                    }
+
+                    pagination += `
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
+                `;
+                }
+
+                pagination += `
+                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
+            `;
+
+                $("#paginationSP").html(pagination);
+            }
+        });
+    };
+
+
 
     const getKhachHang = (page = 0, size = 5) => {
         $.ajax({
@@ -1997,7 +2014,7 @@
         return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
     }
 
-    const getDanhSachSanPham = (page = 0, size = 5) => {
+    const getDanhSachSanPham = (page , size ) => {
         $.ajax({
             url: `/api/hoa-don/danh-sach-san-pham?page=${page}&size=${size}`,
             method: 'GET',
