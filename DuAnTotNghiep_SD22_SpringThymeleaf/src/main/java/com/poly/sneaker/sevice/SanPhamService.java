@@ -87,14 +87,6 @@ public class SanPhamService {
         }).orElse(null);
     }
 
-    public SanPham updateTrangThai(Long id) {
-        Optional<SanPham> optional = repository.findById(id);
-        return optional.map(o -> {
-            o.setTrangThai(0);
-            return repository.save(o);
-        }).orElse(null);
-    }
-
     public Boolean existingById(Long id) {
         return repository.existsById(id);
     }
@@ -103,5 +95,13 @@ public class SanPhamService {
         return repository.existsByTenAndThuongHieu(ten, thuongHieu);
     }
 
+    public void updateTrangThai(Long id, Integer trangThai) {
+        Optional<SanPham> sanPhamOptional = repository.findById(id);
+        if (sanPhamOptional.isPresent()) {
+            SanPham sanPham = sanPhamOptional.get();
+            sanPham.setTrangThai(trangThai);
+            repository.save(sanPham);
+        }
+    }
 
 }

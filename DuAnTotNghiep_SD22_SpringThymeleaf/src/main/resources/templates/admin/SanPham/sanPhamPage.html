@@ -50,6 +50,7 @@
                 <th scope="col">Số lượng</th>
                 <th scope="col">Trạng thái</th>
                 <th scope="col">Action</th>
+                <th scope="col">Đổi trạng thái</th>
             </tr>
             </thead>
             <tbody>
@@ -57,13 +58,21 @@
                 <th scope="row" th:text="${state.count}"></th>
                 <td th:text="${sanPham.ten}"></td>
                 <td th:text="${sanPham.thuongHieu.ten}"></td>
-                <td th:text="${soLuongMap[sanPham.id]}"></td>
+                <td>
+                    <span th:if="${soLuongMap[sanPham.id] > 0}" th:text="${soLuongMap[sanPham.id]}"></span>
+                    <span th:if="${soLuongMap[sanPham.id] == 0}">Hết hàng</span>
+                </td>
                 <td>
                     <span th:if="${sanPham.trangThai == 1}">Đang bán</span>
                     <span th:if="${sanPham.trangThai == 0}">Tạm ngưng</span>
                 </td>
                 <td>
                     <a th:href="@{/admin/san-pham/{id}(id=${sanPham.id})}"><i class="fa-solid fa-eye"></i></a>
+                </td>
+                <td>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input toggle-status" type="checkbox" th:checked="${sanPham.trangThai == 1}" data-id="${sanPham.id}">
+                    </div>
                 </td>
             </tr>
             </tbody>
@@ -100,8 +109,9 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/postcss7-compat@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Template Javascript -->
 <script th:src="@{/assets/js/main.js}"></script>
+<script th:src="@{/assets/js/sanPhamPage.js}"></script>
 </body>
 </html>

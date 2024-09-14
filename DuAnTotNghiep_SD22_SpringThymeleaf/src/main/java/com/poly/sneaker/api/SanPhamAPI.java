@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
@@ -68,4 +70,31 @@ public class SanPhamAPI {
         response.put("message", "Sản phẩm đã được lưu thành công.");
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/update-status")
+    @ResponseBody
+    public ResponseEntity<?> updateStatus(@RequestBody Map<String, Object> request) {
+        try {
+            // Lấy giá trị ID và trạng thái từ request
+            String idStr = request.get("id").toString();
+            String trangThaiStr = request.get("trangThai").toString();
+
+            // Chuyển đổi giá trị ID và trạng thái sang kiểu số
+            Long id = Long.valueOf(idStr);
+            Integer trangThai = Integer.valueOf(trangThaiStr);
+
+            // Gọi phương thức service để cập nhật trạng thái
+            sanPhamService.updateTrangThai(id, trangThai);
+
+            // Trả về phản hồi thành công
+            return ResponseEntity.ok().build();
+        } catch (NumberFormatException e) {
+            // Xử lý lỗi nếu ID hoặc trạng thái không phải là số hợp lệ
+            return ResponseEntity.badRequest().body("Invalid input: ID or status is not a number.");
+        } catch (Exception e) {
+            // Xử lý lỗi chung nếu có vấn đề khác xảy ra
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while updating status.");
+        }
+    }
+
 }
