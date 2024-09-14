@@ -11,7 +11,34 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
+<style>
+    .default-customer-img {
+        width: 30px; /* Kích thước của ảnh */
+        height: 30px; /* Kích thước của ảnh */
+        border-radius: 50%; /* Làm tròn ảnh */
+    }
+    /* Đặt container với Flexbox */
+    .account-container {
+        display: flex;
+        align-items: center; /* Căn giữa hình ảnh và văn bản theo chiều dọc */
+    }
 
+    /* Chỉnh kích thước và tạo hình tròn cho ảnh */
+    .default-customer-img {
+        width: 40px; /* Kích thước của ảnh */
+        height: 40px; /* Kích thước của ảnh */
+        border-radius: 50%; /* Làm tròn ảnh */
+        margin-right: 10px; /* Khoảng cách giữa ảnh và văn bản */
+    }
+
+    /* Định dạng cho văn bản */
+    .account-text {
+        font-size: 16px; /* Kích thước chữ */
+        color: #333; /* Màu chữ */
+    }
+
+
+</style>
 <body class="bg-white">
 
 <div th:replace="~{client/fragmentsClient/header :: header}"></div>
@@ -20,10 +47,20 @@
         <div class="container bg-gray-100 w-[85%] p-2 rounded-lg shadow-md mt-32 flex gap-40">
             <div class="grid gap-1 ml-2" style="grid-template-columns: 20% 80%;">
                 <div class="m-5">
-                    <span id="tenKhachHang" class="font-bold text-xl"></span>
+                    <img src="https://png.pngtree.com/png-vector/20190704/ourlarge/pngtree-vector-user-young-boy-avatar-icon-png-image_1538408.jpg" alt="Ảnh khách hàng mặc định" class="default-customer-img">
+                    <span id="tenKhachHang" class="font-bold text-l"></span>
                    <div class="mt-5">
-                       <div>Tài khoản của tôi</div>
-                       <div class="text-orange-500">Đơn mua</div>
+                       <div class="account-container">
+                           <img src="https://png.pngtree.com/png-vector/20190805/ourlarge/pngtree-account-avatar-user-abstract-circle-background-flat-color-icon-png-image_1650938.jpg" alt="Ảnh khách hàng mặc định" class="default-customer-img">
+                           <!-- Thêm ảnh mặc định dạng hình tròn -->
+                           <span class="account-text">Tài khoản</span>
+                       </div>
+                       <div class="account-container">
+                           <img src="https://imaxmobile.vn/media/data/icon-giao-hang-toan-quoc.jpeg" alt="Ảnh khách hàng mặc định" class="default-customer-img">
+                           <!-- Thêm ảnh mặc định dạng hình tròn -->
+                           <div class="text-orange-500">Đơn mua</div>
+                       </div>
+
                    </div>
                 </div>
                 <div>

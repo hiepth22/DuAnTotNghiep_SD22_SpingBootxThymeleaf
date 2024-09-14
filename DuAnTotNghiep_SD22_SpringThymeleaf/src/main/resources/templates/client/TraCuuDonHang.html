@@ -11,11 +11,18 @@
     <title>Tra cứu đơn hàng</title>
     <!-- Bootstrap CSS --><!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
 
     <!-- Bootstrap JS (để hỗ trợ modal và các tính năng JavaScript khác) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/css/chocolat.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/css/chocolat.css">
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,900;1,900&family=Source+Sans+Pro:wght@400;600;700;900&display=swap"
+            rel="stylesheet">
     <style>
         body {
             background-color: #f4f4f4;
@@ -95,6 +102,12 @@
 <!-- Bootstrap JS and dependencies -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jarallax@1.12.0/dist/jarallax.min.js"></script>
+<!-- Thêm thư viện jarallax-video (nếu cần) -->
+<script src="https://cdn.jsdelivr.net/npm/jarallax@1.12.0/dist/jarallax-video.min.js"></script>
+<!-- Thêm JavaScript của Chocolat -->
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script th:src="@{/assets/js/Header.js}"></script>
 
 <script>
     document.getElementById('searchButton').addEventListener('click', function () {
@@ -226,6 +239,6 @@
             });
     });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>-->
 </body>
 </html>

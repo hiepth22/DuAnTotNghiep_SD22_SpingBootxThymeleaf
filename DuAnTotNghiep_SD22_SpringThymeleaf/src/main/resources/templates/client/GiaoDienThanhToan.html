@@ -36,6 +36,35 @@
             border:2px solid transparent;
         }
     </style>
+    <style>
+        .default-customer-img {
+            width: 50px; /* Kích thước của ảnh */
+            height: 50px; /* Kích thước của ảnh */
+            border-radius: 50%; /* Làm tròn ảnh */
+        }
+        /* Đặt container với Flexbox */
+        .account-container {
+            display: flex;
+            align-items: center; /* Căn giữa hình ảnh và văn bản theo chiều dọc */
+        }
+
+        /* Chỉnh kích thước và tạo hình tròn cho ảnh */
+        .default-customer-img {
+            width: 40px; /* Kích thước của ảnh */
+            height: 40px; /* Kích thước của ảnh */
+            border-radius: 50%; /* Làm tròn ảnh */
+            margin-right: 10px; /* Khoảng cách giữa ảnh và văn bản */
+        }
+
+        /* Định dạng cho văn bản */
+        .account-text {
+            font-size: 16px; /* Kích thước chữ */
+            color: #333; /* Màu chữ */
+        }
+
+
+    </style>
+
 </head>
 <body class="bg-gray-100">
 <div>
@@ -43,11 +72,12 @@
     <div class="flex justify-center">
         <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-32 flex gap-40">
             <div class="grid gap-1 grid-cols-1">
-                <div>
-                    <h1 class="text-orange-700 text-xl m-5">Địa chỉ đơn hàng</h1>
+                <div class="account-container">
+                    <img src="https://png.pngtree.com/png-clipart/20230414/original/pngtree-location-icon-png-image_9056501.png" alt="Ảnh khách hàng mặc định" class="default-customer-img">
+                    <!-- Thêm ảnh mặc định dạng hình tròn -->
+                    <div class="text-500 text-xl">Địa Chỉ đơn hàng</div>
                 </div>
                 <div class="diaChiKhachHang ml-10 mb-5" id="diaChiKhachHang">
-
                 </div>
             </div>
         </div>
@@ -90,9 +120,14 @@
 
     <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-5">
         <div class="grid gap-1 grid-cols-2 m-3">
-            <div class="text-orange-500 text-xl">Voucher</div>
+            <div class="account-container">
+                <img src="https://png.pngtree.com/png-vector/20220514/ourmid/pngtree-voucher-discount-vector-png-image_4609862.png" alt="Ảnh khách hàng mặc định" class="default-customer-img">
+                <!-- Thêm ảnh mặc định dạng hình tròn -->
+                <div class="text-orange-500 text-xl">Voucher</div>
+            </div>
             <div id="voucher" class="ml-[50%] text-orange-500 py-2 px-4 border-2 border-orange-500 rounded-lg text-center cursor-pointer bg-white font-semibold w-[200px]">
             </div>
+         </div>
         </div>
 
     </div>
