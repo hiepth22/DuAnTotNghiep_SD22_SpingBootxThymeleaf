@@ -114,9 +114,7 @@
                     <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                         Số tiền
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                        Trạng thái
-                    </th>
+
                     <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                         Thời gian
                     </th>
@@ -156,7 +154,7 @@
             <div id="thongTinHoaDon"></div>
         </div>
 
-        <div id="hoaDonChiTietWrapper" class="bg-white h-[40%] w-full m-auto mt-5 p-6 rounded-lg shadow-md">
+        <div id="hoaDonChiTietWrapper" class="bg-white h-[50%] w-full m-auto mt-5 p-6 rounded-lg shadow-md">
             <div id="hoaDonChiTiet" class="h-full">
                 <div class="grid gap-4 grid-cols-2">
                     <div>
@@ -293,11 +291,57 @@
             </div>
         </div>
 
-        <div id="modalDachSachSanPham" class="fixed inset-0 overflow-y-auto hidden bg-gray-500 bg-opacity-75">
+        <div id="modalDachSachSanPham" class="fixed inset-0 overflow-y-auto hidden bg-gray-500 bg-opacity-75 ml-20">
             <div class="flex items-center justify-center min-h-screen">
-                <div class="bg-white rounded-lg overflow-hidden shadow-xl w-[70%] ml-[20%] max-h-[80%]">
+                <div class="bg-white rounded-lg overflow-hidden shadow-xl w-[70%] h-[80%]">
                     <div class="bg-white px-4 pt-5 pb-4">
-                        <table id="tableDanhSachSanPham" class="min-w-full divide-y divide-gray-200">
+                        <div class="flex items-center space-x-4 mb-3">
+                            <input id="input-TimKiem" type="text" class="flex-1 bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline" placeholder="Tìm kiếm...">
+                            <button id="timKiemBlaBla" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Tìm kiếm</button>
+                            <button id="tuBoTatCa" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Làm mới</button>
+                        </div>
+
+                        <div class="flex mb-3">
+                            <div class="w-full max-w-xs flex items-center space-x-2">
+                                <label for="combo-box-mau-sac" class="text-gray-700 text-sm font-bold">Kích cỡ :</label>
+                                <select id="combo-box-kich-co" class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                    <option value="">Tất cả</option>
+                                </select>
+                            </div>
+                            <div class="w-full max-w-xs flex items-center space-x-2">
+                                <label for="combo-box-mau-sac" class="text-gray-700 text-sm font-bold">Màu sắc:</label>
+                                <select id="combo-box-mau-sac" class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                    <option value="">Tất cả</option>
+                                </select>
+                            </div>
+                            <div class="w-full max-w-xs flex items-center space-x-2">
+                                <label for="combo-box-chat-lieu" class="text-gray-700 text-sm font-bold">Chất liệu:</label>
+                                <select id="combo-box-chat-lieu" class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                    <option value="">Tất cả</option>
+                                </select>
+                            </div>
+                            <div class="w-full max-w-xs flex items-center space-x-2">
+                                <label for="combo-box-co-giay" class="text-gray-700 text-sm font-bold">Cổ giày:</label>
+                                <select id="combo-box-co-giay" class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                    <option value="">Tất cả</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex ml-[6%] mb-3">
+                            <div class="w-full max-w-xs flex items-center space-x-2">
+                                <label for="combo-box-de-giay" class="text-gray-700 text-sm font-bold">Đế giày:</label>
+                                <select id="combo-box-de-giay" class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                    <option value="">Tất cả</option>
+                                </select>
+                            </div>
+                            <div class="w-full max-w-xs flex items-center space-x-2">
+                                <label for="combo-box-thuong-hieu" class="text-gray-700 text-sm font-bold">Thương hiệu:</label>
+                                <select id="combo-box-thuong-hieu" class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                    <option value="">Tất cả</option>
+                                </select>
+                            </div>
+                        </div>
+                        <table id="tableDanhSachSanPham" class="min-w-full divide-y divide-gray-200 overflow-hidden">
                             <thead class="bg-blue-500">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
@@ -341,8 +385,12 @@
                         </button>
                     </div>
                 </div>
+
             </div>
         </div>
+
+    </div>
+</div>
 
         <div id="modalThongTinHoaDon" class="fixed z-10 inset-0 overflow-y-auto hidden">
             <div class="flex items-center justify-center min-h-screen">

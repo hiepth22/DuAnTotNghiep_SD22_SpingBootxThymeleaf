@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     let idSP = [];
     let itemId = null;
-    let giaBan = null;
+    let giaBan = 0;
 
     const pathArray = window.location.pathname.split('/');
     const idHoaDon = pathArray[pathArray.length - 1];
@@ -311,13 +311,20 @@ $(document).ready(function () {
 
                 inHoaDon(hd, hdctList);
 
-                getDanhSachSanPham(0, 5);
+                getDanhSachSanPhamCoSearch(page, size);
 
                 checkCurrentStep();
 
                 xoaSanPham(idHoaDon);
 
                 getThongTinKhachHang();
+
+                cbbChatLieu();
+                cbbDeGiay();
+                cbbThuongHieu();
+                cbbCoGiay();
+                cbbKichCo();
+                cbbMauSac();
 
                 currentStep = hd.trangThai;
 
@@ -336,7 +343,6 @@ $(document).ready(function () {
 
         itemId = $(this).data('id');
         giaBan = $(this).data('gia-ban');
-
 
     });
 
@@ -360,14 +366,14 @@ $(document).ready(function () {
         }
 
         const soLuongCuoiCung = checkTrung ? soLuongHienTai + soLuongMoi : soLuongMoi;
-
+        console.log(giaBan)
 
         const capNhatSoLuongNeuTrung = {
             gia: giaBan,
             soLuong: soLuongCuoiCung,
             trangThai: 1,
             hoaDon: { id: idHoaDon },
-            sanPhamChiTiet: { id: itemId }
+            sanPhamChiTiet: { id: itemId, giaBan: giaBan }
         };
 
         if (!checkTrung) {
@@ -376,7 +382,7 @@ $(document).ready(function () {
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    gia: giaBan, soLuong: soLuongMoi,trangThai: 1, hoaDon: { id: idHoaDon }, sanPhamChiTiet: { id: itemId }
+                    gia: giaBan, soLuong: soLuongMoi,trangThai: 1, hoaDon: { id: idHoaDon }, sanPhamChiTiet: { id: itemId, giaBan: giaBan }
                 }),
                 success: function () {
                     showNotification("Thêm sản pẩm thành công", "thanhCong")
@@ -406,10 +412,6 @@ $(document).ready(function () {
         hideModalDanhSachSanPham();
 
     });
-
-
-
-
 
 
     function getThongTinKhachHang() {
@@ -479,7 +481,6 @@ $(document).ready(function () {
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
                         <td class="px-6 py-4 whitespace-nowrap">${formatVND(item.tienDaThanhToan || '')}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${trangThaiThanhToan(item.trangThai || '')}</td>
                         <td class="px-6 py-4 whitespace-nowrap">${formatDate(item.ngayTao || '')}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
                         ${loaiThanhToan(item.loaiThanhToan)}
@@ -487,8 +488,8 @@ $(document).ready(function () {
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="status bg-green-500 text-white rounded-lg px-4 py-2">${item.tenThanhToan || ''}</span>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">${item.ghiChu || ''}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${item.nguoiTao || ''}</td>
+                           <td className="px-6 py-4 whitespace-nowrap">${item.ghiChu || ''}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">${item.nguoiTao || ''}</td>
                     </tr>`;
                     });
 
@@ -656,6 +657,110 @@ $(document).ready(function () {
         });
     }
 
+    function cbbKichCo(){
+        $.ajax({
+            url: `/api/kich-co/all`,
+            method: 'GET',
+            success: function(data) {
+                $('#combo-box-kich-co').empty();
+
+                $('#combo-box-kich-co').append('<option value="">Tất cả</option>');
+
+                $.each(data, function(index, item) {
+                    $('#combo-box-kich-co').append(`<option value="${item.id}">${item.ten}</option>`);
+                });
+            },
+
+        });
+    }
+
+
+    function cbbMauSac(){
+        $.ajax({
+            url: `/api/mau-sac/all`,
+            method: 'GET',
+            success: function(data) {
+                $('#combo-box-mau-sac').empty();
+
+                $('#combo-box-mau-sac').append('<option value="">Tất cả</option>');
+
+                $.each(data, function(index, item) {
+                    $('#combo-box-mau-sac').append(`<option value="${item.id}">${item.ten}</option>`);
+                });
+            },
+
+        });
+    }
+
+
+    function cbbChatLieu(){
+        $.ajax({
+            url: `/api/chat-lieu/all`,
+            method: 'GET',
+            success: function(data) {
+                $('#combo-box-chat-lieu').empty();
+
+                $('#combo-box-chat-lieu').append('<option value="">Tất cả</option>');
+
+                $.each(data, function(index, item) {
+                    $('#combo-box-chat-lieu').append(`<option value="${item.id}">${item.ten}</option>`);
+                });
+            },
+
+        });
+    }
+
+    function cbbDeGiay(){
+        $.ajax({
+            url: `/api/de-giay/all`,
+            method: 'GET',
+            success: function(data) {
+                $('#combo-box-de-giay').empty();
+
+                $('#combo-box-de-giay').append('<option value="">Tất cả</option>');
+
+                $.each(data, function(index, item) {
+                    $('#combo-box-de-giay').append(`<option value="${item.id}">${item.ten}</option>`);
+                });
+            },
+
+        });
+    }
+
+    function cbbCoGiay(){
+        $.ajax({
+            url: `/api/co-giay/all`,
+            method: 'GET',
+            success: function(data) {
+                $('#combo-box-co-giay').empty();
+
+                $('#combo-box-co-giay').append('<option value="">Tất cả</option>');
+
+                $.each(data, function(index, item) {
+                    $('#combo-box-co-giay').append(`<option value="${item.id}">${item.ten}</option>`);
+                });
+            },
+
+        });
+    }
+
+    function cbbThuongHieu(){
+        $.ajax({
+            url: `/api/thuong-hieu/all`,
+            method: 'GET',
+            success: function(data) {
+                $('#combo-box-thuong-hieu').empty();
+
+                $('#combo-box-thuong-hieu').append('<option value="">Tất cả</option>');
+
+                $.each(data, function(index, item) {
+                    $('#combo-box-thuong-hieu').append(`<option value="${item.id}">${item.ten}</option>`);
+                });
+            },
+
+        });
+    }
+
     const trangThaiMua = (tt) => {
         switch (tt) {
             case 1:
@@ -667,12 +772,23 @@ $(document).ready(function () {
         }
     }
 
+    const trangThaiNguoiTao = (tt) => {
+        switch (tt) {
+            case 1:
+                return 'Nguyễn Bá Đăng';
+            case 2:
+                return 'Admin';
+            default:
+                return 'Không xác định'
+        }
+    }
+
     const loaiThanhToan = (tt) => {
         switch (tt) {
             case false:
                 return '<span class="status bg-red-500 text-white rounded-lg px-4 py-2">Trả sau</span>';
             case true:
-                return '<span class="status bg-blue-500 text-white rounded-lg px-4 py-2">Thanh toán</span>';
+                return '<span class="status bg-blue-500 text-white rounded-lg px-4 py-2">Đã thanh toán</span>';
             default:
                 return 'Không xác định'
         }
@@ -1237,9 +1353,55 @@ const formatVND2 = (tongtien) => {
 }
 
 
-const getDanhSachSanPham = (page = 0, size = 5) => {
+let idChatLieu = '';
+let idCoGiay = '';
+let idDeGiay = ''
+let idKichCo = '';
+let idMauSac = '';
+let idThuongHieu = '';
+let keyword = '';
+let giaBanMin = '';
+let giaBanMax = '';
+let page = 0
+let size = 5;
+
+$('#timKiemBlaBla').click(function() {
+    // Cập nhật các giá trị tìm kiếm từ các input
+    idChatLieu = $('#combo-box-chat-lieu').val();
+    idMauSac = $('#combo-box-mau-sac').val();
+    idKichCo = $('#combo-box-kich-co').val();
+    idCoGiay = $('#combo-box-co-giay').val();
+    idDeGiay = $('#combo-box-de-giay').val();
+    idThuongHieu = $('#combo-box-thuong-hieu').val();
+    keyword = $('#input-TimKiem').val();
+    page = 0;
+    getDanhSachSanPhamCoSearch(page, size);
+});
+
+$('#tuBoTatCa').click(function() {
+    $('#combo-box-chat-lieu').prop('selectedIndex', 0);
+    $('#combo-box-mau-sac').prop('selectedIndex', 0);
+    $('#combo-box-kich-co').prop('selectedIndex', 0);
+    $('#combo-box-co-giay').prop('selectedIndex', 0);
+    $('#combo-box-de-giay').prop('selectedIndex', 0);
+    $('#combo-box-thuong-hieu').prop('selectedIndex', 0);
+    $('#input-TimKiem').val('');
+
+    idChatLieu = '';
+    idMauSac = '';
+    idKichCo = '';
+    idCoGiay = '';
+    idDeGiay = '';
+    idThuongHieu = '';
+    keyword = '';
+    page = 0;
+
+    getDanhSachSanPhamCoSearch(page, size);
+});
+
+const getDanhSachSanPhamCoSearch = (page, size) => {
     $.ajax({
-        url: `/api/hoa-don/danh-sach-san-pham?page=${page}&size=${size}`,
+        url: `/api/hoa-don/searchBlaBla?idChatLieu=${idChatLieu}&idCoGiay=${idCoGiay}&idDeGiay=${idDeGiay}&idKichCo=${idKichCo}&idMauSac=${idMauSac}&idThuongHieu=${idThuongHieu}&keyword=${keyword}&giaBanMin=${giaBanMin}&giaBanMax=${giaBanMax}&page=${page}&size=${size}`,
         method: 'GET',
         success: function (result) {
             let list = "";
@@ -1249,8 +1411,7 @@ const getDanhSachSanPham = (page = 0, size = 5) => {
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <img src="${result.content[i].anh}" alt="Image" class="w-16 h-auto">
-
+                            <img src="${result.content[i].anh}" alt="Ảnh" class="w-16 h-auto">
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap font-bold">
                             <h1>${result.content[i].ten}</h1>
@@ -1265,17 +1426,17 @@ const getDanhSachSanPham = (page = 0, size = 5) => {
                             <span class="bg-green-500 rounded-lg text-white px-2 py-1">${result.content[i].trangThai}</span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                           <button id="hienThiDanhSachSanPham" class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-1 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm
-                            </button>
+                            <button id="hienThiDanhSachSanPham" class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-1 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm</button>
                         </td>
                     </tr>`;
             }
 
             $("#danhSachSanPham").html(list);
 
+            // Phân trang
             let pagination = '';
             pagination += `
-                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
+                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
             `;
 
             const maxVisiblePages = 3;
@@ -1285,7 +1446,7 @@ const getDanhSachSanPham = (page = 0, size = 5) => {
 
             if (startPage > 1) {
                 pagination += `
-                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(0, ${size})">1</button>
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(0, ${size})">1</button>
                 `;
                 if (startPage > 2) {
                     pagination += `<span class="px-4 py-2">...</span>`;
@@ -1294,7 +1455,7 @@ const getDanhSachSanPham = (page = 0, size = 5) => {
 
             for (let i = startPage; i <= endPage; i++) {
                 pagination += `
-                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getDanhSachSanPham(${i - 1}, ${size})">${i}</button>
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getDanhSachSanPhamCoSearch(${i - 1}, ${size})">${i}</button>
                 `;
             }
 
@@ -1302,20 +1463,101 @@ const getDanhSachSanPham = (page = 0, size = 5) => {
                 if (endPage < result.totalPages - 1) {
                     pagination += `<span class="px-4 py-2">...</span>`;
                 }
+
                 pagination += `
-                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
+                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
                 `;
             }
 
             pagination += `
-                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
+                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
             `;
 
             $("#paginationSP").html(pagination);
         }
-
     });
 };
+
+
+// const getDanhSachSanPham = (page = 0, size = 5) => {
+//     $.ajax({
+//         url: `/api/hoa-don/danh-sach-san-pham?page=${page}&size=${size}`,
+//         method: 'GET',
+//         success: function (result) {
+//             let list = "";
+//             $("#danhSachSanPham").empty();
+//             for (let i = 0; i < result.content.length; i++) {
+//                 list += `
+//                     <tr>
+//                         <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
+//                         <td class="px-6 py-4 whitespace-nowrap">
+//                             <img src="${result.content[i].anh}" alt="Image" class="w-16 h-auto">
+//
+//                         </td>
+//                         <td class="px-6 py-4 whitespace-nowrap font-bold">
+//                             <h1>${result.content[i].ten}</h1>
+//                         </td>
+//                         <td class="px-6 py-4 whitespace-nowrap">${formatVND2(result.content[i].giaBan)}</td>
+//                         <td class="px-6 py-4 whitespace-nowrap">${result.content[i].soLuong}</td>
+//                         <td class="px-6 py-4 whitespace-nowrap">${result.content[i].kichCo.ten}</td>
+//                         <td>
+//                             <div class="color-container rounded-lg ml-5 border-3" style="background-color: ${result.content[i].mauSac.ten}; width: 50px; height: 20px;"></div>
+//                         </td>
+//                         <td class="px-6 py-4 whitespace-nowrap">
+//                             <span class="bg-green-500 rounded-lg text-white px-2 py-1">${result.content[i].trangThai}</span>
+//                         </td>
+//                         <td class="px-6 py-4 whitespace-nowrap">
+//                            <button id="hienThiDanhSachSanPham" class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-1 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm
+//                             </button>
+//                         </td>
+//                     </tr>`;
+//             }
+//
+//             $("#danhSachSanPham").html(list);
+//
+//             let pagination = '';
+//             pagination += `
+//                 <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
+//             `;
+//
+//             const maxVisiblePages = 3;
+//             const halfVisiblePages = Math.floor(maxVisiblePages / 2);
+//             let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
+//             let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
+//
+//             if (startPage > 1) {
+//                 pagination += `
+//                     <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(0, ${size})">1</button>
+//                 `;
+//                 if (startPage > 2) {
+//                     pagination += `<span class="px-4 py-2">...</span>`;
+//                 }
+//             }
+//
+//             for (let i = startPage; i <= endPage; i++) {
+//                 pagination += `
+//                     <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getDanhSachSanPham(${i - 1}, ${size})">${i}</button>
+//                 `;
+//             }
+//
+//             if (endPage < result.totalPages) {
+//                 if (endPage < result.totalPages - 1) {
+//                     pagination += `<span class="px-4 py-2">...</span>`;
+//                 }
+//                 pagination += `
+//                     <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPham(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
+//                 `;
+//             }
+//
+//             pagination += `
+//                 <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPham(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
+//             `;
+//
+//             $("#paginationSP").html(pagination);
+//         }
+//
+//     });
+// };
 
 
 

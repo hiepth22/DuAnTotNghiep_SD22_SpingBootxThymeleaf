@@ -4,6 +4,7 @@ import com.poly.sneaker.dto.SanPhamBanChayDTO;
 import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.HoaDonChiTietRepository;
 import com.poly.sneaker.repository.HoaDonRepository;
+import com.poly.sneaker.repository.PhieuGiamGiaRepository;
 import com.poly.sneaker.sevice.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,8 @@ public class HoaDonAPI {
     private PhieuGiamGiaService phieuGiamGiaService;
     @Autowired
     private ChatLieuService chatLieuService;
+    @Autowired
+    private PhieuGiamGiaRepository phieuGiamGiaRepository;
 
     @GetMapping("")
     public Page<HoaDon> hienThiHoaDonApi(@RequestParam(name = "tab", required = false, defaultValue = "0") int tab,
@@ -103,9 +106,22 @@ public class HoaDonAPI {
                         .multiply(BigDecimal.valueOf(hdct.getSoLuong())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+        BigDecimal tongTienSauKhiGiam = BigDecimal.ZERO;
+
         HoaDon hd = hoaDonService.detail(id);
-        hd.setTongTien(tongTien);
-//        hd.setTongTienSauGiam(tongTien);
+
+        if (hd.getPhieuGiamGia() != null && hd.getPhieuGiamGia().getId() != null) {
+            BigDecimal giamToiDa = hd.getPhieuGiamGia().getGiamToiDa();
+
+            tongTienSauKhiGiam = tongTien.subtract(giamToiDa.min(tongTien));
+
+            hd.setTongTienSauGiam(tongTienSauKhiGiam);
+            hd.setTongTien(tongTien);
+        } else {
+            hd.setTongTien(tongTien);
+            hd.setTongTienSauGiam(tongTien);
+        }
+
 
         hoaDonService.updateTongTien(id, hd);
 
@@ -160,7 +176,6 @@ public class HoaDonAPI {
         HoaDonChiTiet updatedHoaDonChiTiet = hoaDonService.updateSoLuong(id, hoaDonChiTiet);
 
         if (updatedHoaDonChiTiet != null) {
-
             Long hoaDonId = updatedHoaDonChiTiet.getHoaDon().getId();
             List<HoaDonChiTiet> hdctList = hoaDonChiTietService.findByHDId(hoaDonId);
 
@@ -169,9 +184,26 @@ public class HoaDonAPI {
                             .multiply(BigDecimal.valueOf(hdct.getSoLuong())))
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-            HoaDon hoaDon = hoaDonService.detail(hoaDonId);
-            hoaDon.setTongTien(tongTienMoi);
-            hoaDonService.updateTongTien(hoaDonId, hoaDon);
+            BigDecimal tongTienSauKhiGiam = BigDecimal.ZERO;
+
+            HoaDon hd = hoaDonService.detail(hoaDonId);
+
+            if (hd != null) {
+                if (hd.getPhieuGiamGia() != null && hd.getPhieuGiamGia().getId() != null) {
+                    BigDecimal giamToiDa = hd.getPhieuGiamGia().getGiamToiDa();
+
+                    tongTienSauKhiGiam = tongTienMoi.subtract(giamToiDa.min(tongTienMoi));
+
+                    hd.setTongTienSauGiam(tongTienSauKhiGiam);
+                    hd.setTongTien(tongTienMoi);
+                } else {
+                    hd.setTongTien(tongTienMoi);
+                    hd.setTongTienSauGiam(tongTienMoi);
+                }
+                hoaDonService.updateTongTien(hoaDonId, hd);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDon not found");
+            }
 
             return ResponseEntity.ok(updatedHoaDonChiTiet);
         } else {
@@ -201,7 +233,6 @@ public class HoaDonAPI {
 
         Long idHD = hoaDonChiTiet.getHoaDon().getId();
 
-        // Lấy danh sách chi tiết hóa đơn hiện tại
         List<HoaDonChiTiet> hdctList = hoaDonChiTietService.findByHDId(idHD);
 
         BigDecimal tongTienHienTai = hdctList.stream()
@@ -214,12 +245,31 @@ public class HoaDonAPI {
 
         BigDecimal tongTienMoi = tongTienHienTai.add(giaBanSanPhamMoi.multiply(soLuongSanPhamMoi));
 
-        HoaDon hd = hoaDonService.detail(idHD);
-        hd.setTongTien(tongTienMoi);
-        hoaDonService.updateTongTien(idHD, hd);
+        BigDecimal tongTienSauKhiGiam = BigDecimal.ZERO;
 
+        HoaDon hd = hoaDonService.detail(idHD);
+
+        if (hd.getPhieuGiamGia() != null && hd.getPhieuGiamGia().getId() != null) {
+            BigDecimal giamToiDa = hd.getPhieuGiamGia().getGiamToiDa();
+            System.out.println("Giảm giá tối đa: " + giamToiDa);
+
+            tongTienSauKhiGiam = tongTienMoi.subtract(giamToiDa.min(tongTienMoi));
+
+            hd.setTongTienSauGiam(tongTienSauKhiGiam);
+            hd.setTongTien(tongTienMoi);
+        } else {
+            hd.setTongTien(tongTienMoi);
+            hd.setTongTienSauGiam(tongTienMoi);
+        }
+        hoaDonService.updateTongTien(idHD, hd);
         hoaDonChiTiet.setHoaDon(hoaDonChiTiet.getHoaDon());
         hoaDonChiTiet.setSanPhamChiTiet(hoaDonChiTiet.getSanPhamChiTiet());
+
+        System.out.println("Tổng tiền hiện tại: " + tongTienHienTai);
+        System.out.println("Giá bán sản phẩm mới: " + giaBanSanPhamMoi);
+        System.out.println("Số lượng sản phẩm mới: " + soLuongSanPhamMoi);
+        System.out.println("Tổng tiền mới: " + tongTienMoi);
+        System.out.println("Tổng tiền sau khi giảm: " + tongTienSauKhiGiam);
 
         return ResponseEntity.ok(banHangService.add(hoaDonChiTiet));
     }
@@ -342,6 +392,23 @@ public class HoaDonAPI {
     public ResponseEntity<PhuongThucThanhToan> xoaPTTT(@PathVariable("id") Long id) {
         return ResponseEntity.ok(phuongThucThanhToanService.deleteById(id));
     }
+
+
+    @PutMapping("/update-phieu-giam-gia/{id}")
+    public ResponseEntity<?> updatePhieuGiamGia(@PathVariable("id") Long id, @RequestBody HoaDon hoaDon) {
+        HoaDon hd = hoaDonService.detail(id);
+
+        if (hoaDon.getPhieuGiamGia() != null) {
+            PhieuGiamGia pgg = phieuGiamGiaRepository.findById(hoaDon.getPhieuGiamGia().getId())
+                    .orElseThrow(() -> new RuntimeException("PhieuGiamGia not found"));
+            hd.setPhieuGiamGia(pgg);
+        } else {
+            hd.setPhieuGiamGia(null);
+        }
+
+        return ResponseEntity.ok(hoaDonService.updatePGG(id, hd));
+    }
+
 
 
 

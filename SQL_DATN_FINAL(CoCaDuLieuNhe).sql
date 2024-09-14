@@ -250,6 +250,7 @@ GO
 CREATE TABLE [dbo].[mau_sac](
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
 	[ten] [nvarchar](30) NULL,
+	[moTa] [nvarchar](50) NULL,
 	[ngayTao] [datetime] NULL,
 	[ngayCapNhat] [datetime] NULL,
 	[nguoiTao] [nvarchar](50) NULL,
@@ -346,6 +347,7 @@ CREATE TABLE [dbo].[phuong_thuc_thanh_toan](
 	[idHoaDon] [bigint] NULL,
 	[tenThanhToan] [nvarchar](30) NULL,
 	[loaiThanhToan] [bit] NULL,
+	[tienDaThanhToan] [decimal](18, 0) NULL,
 	[ghiChu] [nvarchar](50) NULL,
 	[ngayTao] [datetime] NULL,
 	[ngayCapNhat] [datetime] NULL,

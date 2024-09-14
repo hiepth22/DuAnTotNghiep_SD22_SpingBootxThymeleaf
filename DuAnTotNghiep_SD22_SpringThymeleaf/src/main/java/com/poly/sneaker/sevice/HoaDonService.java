@@ -81,6 +81,14 @@ public class HoaDonService {
         }).orElse(null);
     }
 
+    public HoaDon updatePGG(Long id, HoaDon hd) {
+        Optional<HoaDon> optional = hoaDonRepository.findById(id);
+        return optional.map(o -> {
+            o.setPhieuGiamGia(hd.getPhieuGiamGia());
+            return hoaDonRepository.save(o);
+        }).orElse(null);
+    }
+
     public HoaDon updateTongTien(Long id, HoaDon hd) {
         Optional<HoaDon> optional = hoaDonRepository.findById(id);
         return optional.map(o -> {
