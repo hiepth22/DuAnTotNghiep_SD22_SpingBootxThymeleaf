@@ -99,11 +99,10 @@ public class KhachHangService {
         }
         return khachHangRepository.findByKH(keyword, tt,startDate,endDate, page_index, page_size);
     }
-//    List<KhachHang> findByTrangThai(int tt);
 
 
-    public Page<KhachHang> getKhachHangNoID1(Pageable pageable) {
-        return khachHangRepository.getKhachHangNoID1(pageable);
+    public Page<KhachHang> getKhachHangNoID1(String sdt, Pageable pageable) {
+        return khachHangRepository.getKhachHangNoID1(sdt, pageable);
     }
 
 

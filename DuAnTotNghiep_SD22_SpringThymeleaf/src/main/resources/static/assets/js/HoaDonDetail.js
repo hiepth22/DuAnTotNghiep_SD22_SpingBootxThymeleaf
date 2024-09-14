@@ -144,7 +144,7 @@ $(document).ready(function () {
                     <span class="flex items-center w-full my-2">
                         <span class="h-px flex-1 bg-gray-500"></span>
                     </span>
-                    <div><span class="text-lg ml-8 text-blue-700 text-no">${formatVND(tongTienSauKhiGiam)}</span></div>   
+                    <div><span class="text-xl ml-8 text-orange-700 text-no">${formatVND(tongTienSauKhiGiam+hd.tienShip)}</span></div>   
                 </div>
             </div>
            

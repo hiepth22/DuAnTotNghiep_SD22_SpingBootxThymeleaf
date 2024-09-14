@@ -167,6 +167,11 @@ public class GioHangAPI {
         return diaChiService.getByID(id);
     }
 
+    @GetMapping("/dia-chi-mac-dinh-khach-hang/{id}")
+    public DiaChi getDiaCHiMacDinh(@PathVariable("id") Long id) {
+        return diaChiService.getDiaChiMacDinh(id);
+    }
+
 
     @PutMapping("/update-so-luong-sp-sau-khi-thanh-toan/{id}")
     public ResponseEntity<?> updateSoLuongSauKhiThanhToan(@PathVariable("id") Long id,

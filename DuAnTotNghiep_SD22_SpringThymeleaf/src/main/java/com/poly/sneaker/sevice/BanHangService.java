@@ -42,6 +42,8 @@ public class BanHangService {
         Optional<HoaDon> optional = hoaDonRepository.findById(id);
         return optional.map(o -> {
             o.setKhachHang(hoaDon.getKhachHang());
+            o.setNguoiNhan(hoaDon.getNguoiNhan());
+            o.setSdtNguoiNhan(hoaDon.getSdtNguoiNhan());
             return hoaDonRepository.save(o);
         }).orElse(null);
     }

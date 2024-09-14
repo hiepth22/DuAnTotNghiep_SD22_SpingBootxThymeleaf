@@ -38,8 +38,10 @@ public interface KhachHangRepository extends JpaRepository<KhachHang,Long> {
     Optional<KhachHang> findByEmail(String email);
 
     Optional<KhachHang> findBySdt(String sdt);
-    @Query(value = "select * from khach_hang where id != 1", nativeQuery = true)
-    Page<KhachHang> getKhachHangNoID1(Pageable pageable);
+
+    @Query(value = "SELECT * FROM khach_hang WHERE (:sdt IS NULL OR sdt LIKE %:sdt%)", nativeQuery = true)
+    Page<KhachHang> getKhachHangNoID1(@Param("sdt") String sdt, Pageable pageable);
+
 
 //    Optional<KhachHang> findByEmail(String email);
 
