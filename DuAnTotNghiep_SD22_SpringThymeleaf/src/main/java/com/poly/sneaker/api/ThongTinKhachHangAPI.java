@@ -1,17 +1,15 @@
 package com.poly.sneaker.api;
 
-import com.poly.sneaker.entity.GioHang;
-import com.poly.sneaker.entity.GioHangChiTiet;
-import com.poly.sneaker.entity.HoaDonChiTiet;
+import com.poly.sneaker.entity.*;
 import com.poly.sneaker.sevice.HoaDonChiTietService;
 import com.poly.sneaker.sevice.HoaDonService;
+import com.poly.sneaker.sevice.KhachHangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/khach-hang")
@@ -21,6 +19,8 @@ public class ThongTinKhachHangAPI {
     HoaDonService hoaDonService;
     @Autowired
     private HoaDonChiTietService hoaDonChiTietService;
+    @Autowired
+    private KhachHangService khachHangService;
 
     @GetMapping("/thong-tin-hoa-don/{id}")
     public ResponseEntity<?> thongTinHoaDon(@PathVariable("id") Long id) {
@@ -47,6 +47,12 @@ public class ThongTinKhachHangAPI {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+    }
+
+
+    @PostMapping("/add-khach-hang-nhanh")
+    public ResponseEntity<?> themKH(@RequestBody KhachHang khachHang) {
+        return ResponseEntity.ok(khachHangService.Add(khachHang));
     }
 
 

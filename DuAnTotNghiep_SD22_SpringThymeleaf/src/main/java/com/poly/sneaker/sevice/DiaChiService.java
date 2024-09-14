@@ -25,6 +25,10 @@ public class DiaChiService {
         return diaChirepository.findByIdKH(idKh);
     }
 
+    public DiaChi getDiaChiMacDinh(Long idKh) {
+        return diaChirepository.getDiaChiMacDinh(idKh);
+    }
+
     public DiaChi setDiaChi(Long idKh){
         return diaChirepository.setDiaChi(idKh);
     }

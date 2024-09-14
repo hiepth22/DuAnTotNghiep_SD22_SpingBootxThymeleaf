@@ -85,16 +85,24 @@ public class BanHangAPI {
     }
 
     @GetMapping("/khach-hang")
-    public ResponseEntity<?> getKhachHangNoID1(@RequestParam(name = "page", required = false, defaultValue = "0") int page,
-                                               @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+    public ResponseEntity<?> getKhachHangNoID1(
+            @RequestParam(name = "sdt", required = false) String sdt,
+            @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(name = "size", required = false, defaultValue = "10") int size)
+             {
+
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(khachHangService.getKhachHangNoID1(pageable));
+        return ResponseEntity.ok(khachHangService.getKhachHangNoID1(sdt, pageable));
     }
 
     @PutMapping("/update-khach-hang/{id}")
     public ResponseEntity<?> updateTrangThaiThanhToan(@PathVariable("id") Long id, @RequestBody HoaDon hoaDon) {
+        KhachHang khachHang = khachHangService.findById(hoaDon.getKhachHang().getId());
         KhachHang kh = new KhachHang();
         kh.setId(hoaDon.getKhachHang().getId());
+        hoaDon.setNguoiNhan(khachHang.getTen());
+        hoaDon.setSdtNguoiNhan(khachHang.getSdt());
+        hoaDon.setNguoiNhan(hoaDon.getNguoiNhan());
         hoaDon.setKhachHang(kh);
         HoaDon updateKhachHangtrongHoaDon = banHangService.updateKhachHang(id, hoaDon);
         if (updateKhachHangtrongHoaDon != null) {

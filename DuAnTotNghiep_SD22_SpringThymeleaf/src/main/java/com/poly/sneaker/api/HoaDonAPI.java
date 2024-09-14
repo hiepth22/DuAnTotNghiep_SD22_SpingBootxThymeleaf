@@ -308,6 +308,26 @@ public class HoaDonAPI {
         }
     }
 
+    @PutMapping("/update-thong-tin-nguoi-nhan-hoa-don/{id}")
+    public ResponseEntity<?> update2(@PathVariable("id") Long id, @RequestBody HoaDon hoaDon) {
+        HoaDon updatedHoaDon = hoaDonService.updateHoaDon(id, hoaDon);
+        if (updatedHoaDon != null) {
+            return ResponseEntity.ok(updatedHoaDon);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDon not found");
+        }
+    }
+
+    @PutMapping("/update-hoa-don/{id}")
+    public ResponseEntity<?> updateHoaDon(@PathVariable("id") Long id, @RequestBody HoaDon hoaDon) {
+        HoaDon updatedHoaDon = hoaDonService.updateThongTinNguoiNhan(id, hoaDon);
+        if (updatedHoaDon != null) {
+            return ResponseEntity.ok(updatedHoaDon);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDon not found");
+        }
+    }
+
     @PutMapping("/update-trang-thai-thanh-toan/{id}")
     public ResponseEntity<?> updateTrangThaiThanhToan(
             @PathVariable("id") Long id,

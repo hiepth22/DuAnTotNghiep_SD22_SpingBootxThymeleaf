@@ -16,6 +16,9 @@ public interface DiaChirepository extends JpaRepository<DiaChi, Long> {
     @Query(value = "SELECT * FROM dia_chi WHERE idKhachHang = :idKhachHang ", nativeQuery = true)
     List<DiaChi> findByIdKH(@Param("idKhachHang") Long idKhachHang);
 
+    @Query(value = "SELECT * FROM dia_chi WHERE idKhachHang = :idKhachHang and trangThai = 1", nativeQuery = true)
+    DiaChi getDiaChiMacDinh(@Param("idKhachHang") Long idKhachHang);
+
     @Query(value = "UPDATE dia_chi SET trangThai = 0 WHERE idKhachHang = :idKhachHang; " , nativeQuery = true)
     DiaChi setDiaChi(@Param("idKhachHang") Long idKhachHang);
 

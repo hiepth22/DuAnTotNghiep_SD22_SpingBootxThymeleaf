@@ -26,6 +26,49 @@
             border-bottom: none;
         }
 
+        #toggle-button, #traSau-button {
+            background-color: #e0e0e0;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            height: 24px;
+            width: 48px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .toggle-dot {
+            background-color: #ffffff;
+            border-radius: 9999px;
+            height: 16px;
+            width: 16px;
+            position: absolute;
+            top: 50%;
+            left: 4px;
+            transform: translateY(-50%);
+            transition: transform 0.2s;
+        }
+
+        #toggle-button.active, #traSau-button.active {
+            background-color: #2986cc;
+        }
+
+        #toggle-button.active .toggle-dot, #traSau-button.active .toggle-dot {
+            transform: translateY(-50%) translateX(24px);
+        }
+
+        #traSau-button[disabled] {
+            background-color: #e0e0e0;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .d-none {
+            display: none;
+        }
+
+
         #toggle-button {
             background-color: #e0e0e0;
             border-radius: 9999px;
@@ -213,11 +256,6 @@
                                 <input type="text" id="edit-sdtNguoiNhan" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="">
                             </div>
 
-                            <div class="form-group">
-                                <label for="edit-email" class="block text-sm font-medium text-gray-700">Email</label>
-                                <input type="text" id="edit-email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" value="">
-                            </div>
-
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div class="form-group">
                                     <label for="edit-tinhthanh" class="block text-sm font-medium text-gray-700">Tỉnh/Thành phố</label>
@@ -282,6 +320,12 @@
                                 </button>
 
                             </p>
+                            <div class="flex items-center gap-2 m-10">
+                                <span class="label">Trả sau:</span>
+                                <button id="traSau-button" class="flex items-center ml-5" disabled>
+                                    <span class="toggle-dot"></span>
+                                </button>
+                            </div>
                             <p class="m-10">Tiền hàng:</p>
                             <p class="m-10">Giảm giá:</p>
                             <p class="m-10">Tổng tiền:</p>
@@ -409,15 +453,18 @@
     <div class="flex items-center justify-center min-h-screen">
         <div class="bg-white rounded-lg overflow-hidden shadow-xl w-[70%] max-h-[80%]">
             <div class="bg-white px-4 pt-5 pb-4">
+                <div class="flex items-center space-x-4 mb-3">
+                    <input id="input-TimKiemSDT" type="text" class="flex-1 bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline" placeholder="Tìm kiếm...">
+                    <button id="timKiemSDT" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Tìm kiếm</button>
+                    <button id="tuBoTatCaSDT" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Làm mới</button>
+                </div>
                 <table id="tableKhachHang" class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-blue-500">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                             STT
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                            Ảnh
-                        </th>
+
                         <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                             Tên khách hàng
                         </th>
@@ -438,10 +485,51 @@
             </div>
             <div id="pagination" class="flex justify-center mt-4"></div>
             <div class="flex justify-end mb-3 mr-3">
+                <button id="themKH"
+                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:text-gray-100 mr-3">
+                    Thêm khách hàng
+                </button>
                 <button id="dongKhachHang"
                         class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:text-gray-100">
                     Xác nhận
                 </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="modalThemKhachHang" class="fixed inset-0 overflow-y-auto hidden bg-gray-500 bg-opacity-75 ml-20">
+
+    <div class="flex items-center justify-center min-h-screen mb-5">
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl w-[40%] max-h-[80%]">
+            <div class="bg-white px-4 pt-5 pb-4">
+                <span class="ml-5 mb-10 text-2xl font-bold">Thêm khách hàng</span>
+
+               <div class="mb-5 mt-3">
+                   <label class="ml-3 ">Tên Khách hàng</label>
+                   <div class="flex items-center space-x-4 mb-3">
+
+                       <input id="tenKH" type="text" class="ml-3 flex-1 bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline" placeholder="Tìm kiếm...">
+                   </div>
+                   <label class="ml-3 ">Số điện thoại</label>
+                   <div class="flex items-center space-x-4 mb-3">
+
+                       <input id="SDT" type="number" class="ml-3 flex-1 bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline" placeholder="Tìm kiếm...">
+                   </div>
+               </div>
+                <div class="flex justify-end mb-3 mr-3 mt-3">
+                    <button id="dongThemKhachHang"
+                            class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 hover:text-gray-100">
+                        Hủy
+                    </button>
+
+                    <button id="dongYThemKhachHang"
+                            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:text-gray-100 ml-3">
+                        Thêm khách hàng
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -554,6 +642,8 @@
         var $editTinhThanh = $('#edit-tinhthanh');
         var $editQuanHuyen = $('#edit-quanhuyen');
         var $editPhuongXa = $('#edit-phuongxa');
+
+
         var citiesData = [];
         let idSP = [];
         var idPGG = null;
@@ -568,7 +658,7 @@
 
         var tienConThieu = 0;
 
-
+        let checkThanhToan = 0;
 
         var tongTienTrongHD = 0;
 
@@ -578,6 +668,26 @@
 
         let tabsData = [];
         var idTabHD = null;
+
+        var ten, sdtNguoiNhan, tinhthanh, quanhuyen, phuongxa, diachi, phiVanChuyen, noteThongTin, fullAddress;
+
+        function getFormData() {
+            ten = $('#edit-ten').val();
+            sdtNguoiNhan = $('#edit-sdtNguoiNhan').val();
+            tinhthanh = $('#edit-tinhthanh').val();
+            quanhuyen = $('#edit-quanhuyen').val();
+            phuongxa = $('#edit-phuongxa').val();
+            diachi = $('#edit-diachi').val();
+            phiVanChuyen = $('#phiVanChuyen').val();
+            noteThongTin = $('#noteThongTin').val();
+
+            console.log("phiVanChuyen"+phiVanChuyen);
+
+            fullAddress = diachi;
+            if (phuongxa) fullAddress += ', ' + phuongxa;
+            if (quanhuyen) fullAddress += ', ' + quanhuyen;
+            if (tinhthanh) fullAddress += ', ' + tinhthanh;
+        }
 
         const formatVND = (tongtien) => {
             if (tongtien < 0) {
@@ -718,6 +828,8 @@
 
                     }
 
+                    console.log(hd.diaChiNguoiNhan);
+                    splitAndPopulateAddress(hd.diaChiNguoiNhan);
 
                     tongTienSauKhiCoVoucher = tongTienHDCT - GiamToiDa;
                     $('#tienThieu2').text(`${formatVND(tongTienSauKhiCoVoucher)}`);
@@ -1111,10 +1223,10 @@
 
                         <div>
                             <p class="m-10">
-                                    ${hd.nguoiNhan}
+                                 ${hd.khachHang.ten}
                             </p>
                             <p class="m-10">
-                                ${hd.sdtNguoiNhan}
+                                ${hd.khachHang.sdt}
                             </p>
                             <p class="m-10">
                                 ${hd.khachHang.email}
@@ -1143,7 +1255,10 @@
                     </button>
                 </div>
                 <div class="m-10">
-                    <span >${formatVND(tienShip)}</span>
+                    <span >VNĐ</span>
+                </div>
+                <div class="m-10">
+                    <span >VNĐ</span>
                 </div>
                 <div class="m-10 font-bold">
                     ${formatVND(tongTien)}
@@ -1243,53 +1358,82 @@
 
         });
 
-        function updateThongTinNguoiNhan(hd){
-            $("#listKhachHang").off('click', '.chonKhachHang').on('click', '.chonKhachHang', function () {
-                const idKhachHang = $(this).data('id');
-                const nguoiNhan = $(this).data('nguoi-nhan');
-                const sdtNguoiNhan = $(this).data('sdt-nguoi-nhan');
-                var phiVanChuyen = $('#phiVanChuyen').val();
-                var ghiChu = $('#noteThongTin').val();
-
-                var selectedCity = $('#edit-tinhthanh').find('option:selected').text();
-                var selectedDistrict = $('#edit-quanhuyen').find('option:selected').text();
-                var selectedWard = $('#edit-phuongxa').find('option:selected').text();
-                var specificAddress = $('#edit-diachi').val();
-                var diaChiDayDu = specificAddress + ', ' + selectedWard + ', ' + selectedDistrict + ', ' + selectedCity;
-
-                console.log(diaChiDayDu);
-
-
+        function getDiaChiKhachHang(idKhachHang) {
+            if(idKhachHang != 1){
                 $.ajax({
-                    url: `/api/ban-hang/update-khach-hang/${idTabHD}`,
-                    method: 'PUT',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        khachHang: {
-                            id: idKhachHang
+                    url: `/api/gio-hang/dia-chi-mac-dinh-khach-hang/${idKhachHang}`,
+                    method: 'GET',
+                    success: function (response) {
+                        if (response && Object.keys(response).length > 0) {
+                            updateThongTinNguoiNhan(response.idKH.ten, response.idKH.sdt, response.moTaChiTiet, 0, null, idTabHD);
+                            getDuLieu(idTabHD);
+                        } else {
+                            console.log('Response trống');
                         }
-                    }),
-                    success: function () {
-                        hideModalKhachHang();
-                        updateThongTinNguoiNhan(nguoiNhan, sdtNguoiNhan, diaChiDayDu, phiVanChuyen, ghiChu);
-                        getDuLieu(idTabHD);
                     },
+                    error: function (error) {
+                        console.error('Lỗi khi gọi API:', error);
+                    }
                 });
+            }else {
+                console.log('ID Khách Hàng là 1: Thực hiện các thao tác thiết lập giá trị giao diện');
+                $('#edit-ten').val("Khách Vãng Lai");
+                $('#edit-sdtNguoiNhan').val("");
+                $('#noteThongTin').val("");
+                $('#phiVanChuyen').val(0);
+                splitAndPopulateAddress("1");
+                getDuLieu(idTabHD);
+                hideModalKhachHang();
+            }
 
-            });
         }
 
 
-        function updateThongTinNguoiNhan(nguoiNhan, sdtNguoiNhan, diaChiNguoiNhan, tienShip, ghichu) {
+        $(document).off('click', '.chonKhachHang').on('click', '.chonKhachHang', function () {
+            const idKhachHang = $(this).data('id');
+            getDiaChiKhachHang(idKhachHang);
             $.ajax({
-                url: `/api/hoa-don/update-thong-tin-nguoi-nhan/${idHoaDon}`,
+                url: `/api/ban-hang/update-khach-hang/${idTabHD}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    khachHang: {
+                        id: idKhachHang
+                    }
+                }),
+                success: function () {
+                    hideModalKhachHang();
+                    getDuLieu(idTabHD);
+                },
+            });
+
+        });
+
+
+        function updateThongTinNguoiNhan(nguoiNhan, sdtNguoiNhan, diaChiNguoiNhan, tienShip, ghichu, idhd) {
+            $.ajax({
+                url: `/api/hoa-don/update-thong-tin-nguoi-nhan/${idhd}`,
                 method: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     nguoiNhan: nguoiNhan, sdtNguoiNhan: sdtNguoiNhan, diaChiNguoiNhan: diaChiNguoiNhan, ghichu: ghichu, tienShip: tienShip
                 }),
                 success: function (response) {
-                    fetchHoaDonDetail(idHoaDon);
+                },
+            });
+        }
+
+        function updateThongTinNguoiNhanCoTrangThai(nguoiNhan, sdtNguoiNhan, diaChiNguoiNhan, tienShip, ghichu, idhd, trangThai) {
+            var ghiChu = "Hoàn thành";
+            $.ajax({
+                url: `/api/hoa-don/update-thong-tin-nguoi-nhan-hoa-don/${idhd}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    nguoiNhan: nguoiNhan, sdtNguoiNhan: sdtNguoiNhan, diaChiNguoiNhan: diaChiNguoiNhan, ghichu: ghichu, tienShip: tienShip, trangThai: trangThai
+                }),
+                success: function (response) {
+                    addHistoryLog(ghiChu, trangThai, idhd);
                 },
             });
         }
@@ -1327,19 +1471,26 @@
         $('#thanhToanTong').click(function () {
 
             showConfirm(function () {
-                if(tongTienTrongHD - GiamToiDa == 0){
-                    showNotification("Thanh toán thất bại", "thatBai");
-                }else if(tienDaThanhToan < tongTienTrongHD - GiamToiDa){
-                    showNotification("Thanh toán thất bại", "thatBai");
-                }else{
+                if (checkThanhToan === 0) {
+                    if(tongTienTrongHD - GiamToiDa == 0){
+                        showNotification("Thanh toán thất bại", "thatBai");
+                    } else if(tienDaThanhToan < tongTienTrongHD - GiamToiDa){
+                        showNotification("Thanh toán thất bại", "thatBai");
+                    } else {
                         updateTrangThaiHoaDon(6, idTabHD);
                         renderTabs();
                         showNotification("Thanh toán thành công", "thanhCong");
                         window.location.href = 'http://localhost:3000/admin/ban-hang-tai-quay';
-
+                    }
+                } else if (checkThanhToan === 1) {
+                    getFormData();
+                    updateThongTinNguoiNhanCoTrangThai(ten, sdtNguoiNhan, fullAddress, phiVanChuyen, noteThongTin, idTabHD, 1);
+                    addPhuongThucThanhToanTienMatGiaoHang(idTabHD, tongTienSauKhiCoVoucher);
+                    renderTabs();
+                    showNotification("Đặt hàng thành công", "thanhCong");
+                    window.location.href = 'http://localhost:3000/admin/ban-hang-tai-quay'
                 }
             });
-
         });
 
         $('#btnTienMat').click(function () {
@@ -1364,6 +1515,23 @@
                     tienDaThanhToan: tienDaThanhToan,
                     tenThanhToan: "Tiền mặt",
                     loaiThanhToan: true,
+                    trangThai: 1
+                }),
+                success: function (response) {
+                    getDuLieu(idTabHD);
+                },
+            });
+        }
+
+        function addPhuongThucThanhToanTienMatGiaoHang(idHoaDon, tienDaThanhToan) {
+            $.ajax({
+                url: `/api/gio-hang/them-phuong-thuc-thanh-toan/${idHoaDon}`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    tienDaThanhToan: tienDaThanhToan,
+                    tenThanhToan: "Tiền mặt",
+                    loaiThanhToan: false,
                     trangThai: 1
                 }),
                 success: function (response) {
@@ -1455,16 +1623,33 @@
 
 
 
-        function toggleThongTinShip(){
+        function toggleThongTinShip() {
             $('#toggle-button').on('click', function() {
                 $(this).toggleClass('active');
 
                 if ($(this).hasClass('active')) {
-                   hideThongTinShip2();
-                   showThongTinShip();
+                    $('#traSau-button').prop('disabled', false);
+                    $('#traSau-wrapper').removeClass('d-none');
+                    hideThongTinShip2();
+                    showThongTinShip();
+                    checkThanhToan = $('#traSau-button').hasClass('active') ? 1 : 0;
+                    getFormData();
                 } else {
+                    $('#traSau-button').prop('disabled', true);
+                    $('#traSau-wrapper').addClass('d-none');
+                    $('#traSau-button').removeClass('active');
                     hideThongTinShip();
                     showThongTinShip2();
+                    checkThanhToan = 0;
+                }
+            });
+
+            $('#traSau-button').on('click', function() {
+                if (!$(this).prop('disabled')) {
+                    $(this).toggleClass('active');
+
+                    checkThanhToan = $(this).hasClass('active') ? 1 : 0;
+
                 }
             });
         }
@@ -1666,6 +1851,44 @@
 
             });
         }
+        addKhachHangNhanh();
+
+        function addKhachHangNhanh() {
+            $('#dongYThemKhachHang').click(function () {
+                var ten = $('#tenKH').val();
+                var sdt = $('#SDT').val();
+
+                showConfirm(function() {
+                    $.ajax({
+                        url: `/api/khach-hang/add-khach-hang-nhanh`,
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ten: ten, sdt: sdt}),
+                        success: function () {
+                            showNotification("Thêm khách hàng thành công", "thanhCong");
+                            getDuLieu(idHoaDon);
+                            hiddenModalThemKhachHang();
+                            showModalKhachHang();
+                            PhieuGiamGiaPhuHop(tongTienTrongHD);
+                            addPhieuGiamGia(idTabHD, idPGG);
+                        },
+
+                    });
+                });
+            });
+        }
+
+
+
+
+        function showModalThemKhachHang() {
+            $('#modalThemKhachHang').removeClass('hidden');
+        }
+
+        function hiddenModalThemKhachHang() {
+            $('#modalThemKhachHang').addClass('hidden');
+            $('#modalThemKhachHang').val('');
+        }
 
         function showModalThanhToan() {
             $('#modalThanhToan').removeClass('hidden');
@@ -1704,6 +1927,14 @@
             $('#thongTinShip').val('');
         }
 
+        $('#themKH').click(function () {
+            hideModalKhachHang();
+            showModalThemKhachHang();
+        });
+
+        $('#dongThemKhachHang').click(function () {
+            hiddenModalThemKhachHang()
+        });
 
         $('#hienThiDanhSachSanPham').click(function () {
             showModalDanhSachSanPham();
@@ -1724,6 +1955,7 @@
 
         $('#chonTaiKhoan').click(function () {
             showModalKhachHang();
+            getDuLieu(idTabHD);
         });
 
         $('#dongKhachHang').click(function () {
@@ -1895,10 +2127,12 @@
         toggleThongTinShip();
         getThongTinKhachHang();
         idHoaDon();
-        getKhachHang(0, 5);
+        getKhachHang(pageKH, sizeKH);
         // getDanhSachSanPham(0, 5);
 
     });
+
+    let sdt = '';
 
     let idChatLieu = '';
     let idCoGiay = '';
@@ -1911,6 +2145,8 @@
     let giaBanMax = '';
     let page = 0
     let size = 5;
+    let pageKH = 0;
+    let sizeKH = 5;
 
     $('#timKiemBlaBla').click(function() {
         idChatLieu = $('#combo-box-chat-lieu').val();
@@ -1970,7 +2206,7 @@
                             <div class="color-container rounded-lg ml-5 border-3" style="background-color: ${result.content[i].mauSac.ten}; width: 50px; height: 20px;"></div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="bg-green-500 rounded-lg text-white px-2 py-1">${result.content[i].trangThai}</span>
+                            <span class="bg-green-500 rounded-lg text-white px-2 py-1">${trangThaiSP(result.content[i].trangThai)}</span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <button id="hienThiDanhSachSanPham" class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-1 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm</button>
@@ -2024,11 +2260,26 @@
         });
     };
 
+    $('#timKiemSDT').click(function() {
+        sdt = $('#input-TimKiemSDT').val();
+        pageKH = 0;
+        getKhachHang(pageKH, sizeKH);
+    });
+
+    $('#tuBoTatCaSDT').click(function() {
+
+        $('#input-TimKiemSDT').val('');
+
+        sdt = '';
+        pageKH = 0;
+
+        getKhachHang(pageKH, sizeKH);
+    });
 
 
-    const getKhachHang = (page = 0, size = 5) => {
+    const getKhachHang = (page , size) => {
         $.ajax({
-            url: `/api/ban-hang/khach-hang?page=${page}&size=${size}`,
+            url: `/api/ban-hang/khach-hang?sdt=${sdt}&page=${page}&size=${size}`,
             method: 'GET',
             data: {},
             success: function (result) {
@@ -2038,7 +2289,6 @@
                     list += `
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${result.content[i].anh}</td>
                         <td class="px-6 py-4 whitespace-nowrap">${result.content[i].ten}</td>
                         <td class="px-6 py-4 whitespace-nowrap">${result.content[i].email}</td>
                         <td class="px-6 py-4 whitespace-nowrap">${result.content[i].sdt}</td>
@@ -2124,7 +2374,7 @@
                             <div class="color-container rounded-lg ml-5 border-3" style="background-color: ${result.content[i].mauSac.ten}; width: 50px; height: 20px;"></div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="bg-green-500 rounded-lg text-white px-2 py-1">${result.content[i].trangThai}</span>
+                            <span class="bg-green-500 rounded-lg text-white px-2 py-1">${trangThaiSP(result.content[i].trangThai)}</span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                            <button id="hienThiDanhSachSanPham" class="themSanPham bg-blue-500 text-white px-4 py-2 rounded h-[50%] mt-1 hover:bg-blue-600 hover:text-gray-100" data-id="${result.content[i].id}" data-gia-ban="${result.content[i].giaBan}">Thêm
@@ -2178,6 +2428,17 @@
 
         });
     };
+
+    const trangThaiSP = (tt) => {
+        switch (tt) {
+            case 1:
+                return 'Còn hàng';
+            case 2:
+                return 'Hết hàng';
+            default:
+                return 'Không xác định'
+        }
+    }
 
 
 

@@ -5,6 +5,7 @@ let startDate = '';
 let endDate = '';
 let page = 0
 let size = 10;
+var tienShip = 0;
 const switchTab = (tab) => {
     $('.tab-link').removeClass('border-b-2 border-blue-500 rounded-lg shadow-md bg-white');
     $(`a[data-tab="${tab}"]`).addClass('border-b-2 rounded-lg shadow-md bg-white');
@@ -23,6 +24,7 @@ const getData = (page, size) => {
             result.content.forEach((hoaDon, i) => {
                 const khachHang = hoaDon.khachHang || {};
 
+                const tienShip = hoaDon.tienShip || 0;
                 list += `<tr>
                             <td class="px-6 py-4 whitespace-nowrap">${i + 1 + page * size}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${hoaDon.ma}</td>
@@ -31,7 +33,7 @@ const getData = (page, size) => {
                             <td class="px-6 py-4 whitespace-nowrap">${trangThaiMua(hoaDon.loai)}</td>
                           
                             <td class="px-6 py-4 whitespace-nowrap">${hoaDon.ngayTao != null ? new Date(hoaDon.ngayTao).toLocaleDateString('vi-VN') : ''}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">${formatVND(hoaDon.tongTienSauGiam)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${formatVND(hoaDon.tongTienSauGiam + tienShip)}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${trangThai(hoaDon.trangThai)}</td>
                             <td class="px-6 py-4 whitespace-nowrap"><a href="/admin/hoa-don/detail/${hoaDon.id}">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">

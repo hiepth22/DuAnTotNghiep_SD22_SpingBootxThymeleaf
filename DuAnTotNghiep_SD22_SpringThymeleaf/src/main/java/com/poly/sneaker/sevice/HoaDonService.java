@@ -123,6 +123,21 @@ public class HoaDonService {
         }).orElse(null);
     }
 
+    public HoaDon updateHoaDon(Long id, HoaDon hd) {
+        Optional<HoaDon> optional = hoaDonRepository.findById(id);
+        return optional.map(o -> {
+            o.setNguoiNhan(hd.getNguoiNhan());
+            o.setSdtNguoiNhan(hd.getSdtNguoiNhan());
+            o.setDiaChiNguoiNhan(hd.getDiaChiNguoiNhan());
+            o.setTienShip(hd.getTienShip());
+            o.setGhiChu(hd.getGhiChu());
+            o.setTrangThai(hd.getTrangThai());
+
+            return hoaDonRepository.save(o);
+        }).orElse(null);
+    }
+
+
     public Optional<HoaDon> getHoaDonByID(Long id) {
         return hoaDonRepository.findById(id);
     }
