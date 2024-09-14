@@ -486,7 +486,7 @@
                 var tongTien2 = tongTien;
                 let nguoiNhan2 = ten;
                 let sdtNguoiNhan2 = sdt;
-                let diaChiNguoiNhan = dc+','+diachi;
+                let diaChiNguoiNhan = diachi+','+dc;
                 var tongTienSauKhiGiam2 = tongTien;
 
                 taoHoaDonDatHang(nguoiNhan2, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan);
@@ -499,7 +499,7 @@
                 var tongTien2 = tongTien;
                 let nguoiNhan2 = ten;
                 let sdtNguoiNhan2 = sdt;
-                let diaChiNguoiNhan = dc+','+diachi;
+                let diaChiNguoiNhan = diachi+','+dc;
                 var tongTienSauKhiGiam2 = tongTien;
 
                 taoHoaDonDatHangTraTruoc(nguoiNhan2, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, tongTienSauKhiGiam2);
@@ -551,7 +551,8 @@
         //     });
         // }
 
-        function chuyenKhoan(amount, TxnRef){
+        function chuyenKhoan(amount, TxnRef,nguoiNhan,tongTienSauKhiGiam,now,email){
+
             $.ajax({
                 url: `/api/payment/create_payment?amount=${amount}&TxnRef=${TxnRef}&chuyenTrang=1`,
                 method: 'GET',
@@ -559,6 +560,8 @@
                 data:{},
                 success: function (response) {
                     window.location.href = response.url;
+                    // sendEmail(email,tongTienSauKhiGiam,now,TxnRef,nguoiNhan);
+
                 },
             });
         }
@@ -568,9 +571,9 @@
         function sendEmail(mail,tien,ngay,mahd,tennguoinhan) {
             const emailParams = {
                 from_name: 'shosee',
-                from_email: 'sneakershoesee123@gmail.com', // Địa chỉ email người gửi
-                tong_tien: tien, // Địa chỉ email để trả lời
-                to_name: mail, // Địa chỉ email nhận
+                from_email: 'sneakershoesee123@gmail.com',
+                tong_tien: tien,
+                to_name: mail,
                 ngay_gui: ngay,
                 ma_hd: mahd,
                 ten_nguoi_nhan:tennguoinhan,
@@ -607,11 +610,13 @@
                     const idHoaDon = response.id;
                     addHistoryLog(idHoaDon);
                     addSanPhamVaoHDCT(idHoaDon);
-                    addPhuongThucThanhToanChuyenKhoan(idHoaDon);
-                    chuyenKhoan(response.tongTienSauGiam, response.ma);
+                    addPhuongThucThanhToanChuyenKhoan(idHoaDon,tongTienSauKhiGiam)
+                    const now = new Date();
+                    var email = document.getElementById('email').value;
+                    chuyenKhoan(response.tongTienSauGiam, response.ma,nguoiNhan,tongTienSauKhiGiam,now,email);
                 },
                 error: function (xhr, status, error) {
-                    console.error('Lỗi khi tạo hóa đơn:', error);
+                    console.error('Lỗi khi tạo hóa đơn:', error,);
                 }
             });
         }
@@ -639,7 +644,7 @@
                     const idHoaDon = response.id;
                     addHistoryLog(idHoaDon);
                     addSanPhamVaoHDCT(idHoaDon);
-                    addPhuongThucThanhToan(idHoaDon)
+                    addPhuongThucThanhToan(idHoaDon,tongTien)
                     const now = new Date();
                     var tienguimail = `${formatVND(tongTien)}`;
                     sendEmail(email,tienguimail,now,response.ma,nguoiNhan);
@@ -722,7 +727,7 @@
             });
         }
 
-        function addPhuongThucThanhToan(idHoaDon) {
+        function addPhuongThucThanhToan(idHoaDon,tongTien) {
             $.ajax({
                 url: `/api/gio-hang/them-phuong-thuc-thanh-toan/${idHoaDon}`,
                 method: 'POST',
@@ -730,6 +735,7 @@
                 data: JSON.stringify({
                     tenThanhToan: "Tiền mặt",
                     loaiThanhToan: false,
+                    tienDaThanhToan: tongTien,
                     trangThai: 1
                 }),
                 success: function (response) {
@@ -737,7 +743,7 @@
             });
         }
 
-        function addPhuongThucThanhToanChuyenKhoan(idHoaDon) {
+        function addPhuongThucThanhToanChuyenKhoan(idHoaDon,tongTien) {
             $.ajax({
                 url: `/api/gio-hang/them-phuong-thuc-thanh-toan/${idHoaDon}`,
                 method: 'POST',
@@ -745,6 +751,7 @@
                 data: JSON.stringify({
                     tenThanhToan: "Chuyển Khoản",
                     loaiThanhToan: true,
+                    tienDaThanhToan: tongTien,
                     trangThai: 1
                 }),
                 success: function (response) {
