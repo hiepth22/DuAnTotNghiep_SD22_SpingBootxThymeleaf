@@ -19,6 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/css/chocolat.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!--swiper-->
     <style>
         /* Ensure the size items are displayed in a row with wrapping */
@@ -333,79 +334,91 @@
 
 
 <section id="intro" class="position-relative mt-4">
-    <div class="container-lg">
+    <div class="container-lg text-center">
         <div class="flex items-center justify-center min-h-screen">
-            <div class="bg-white rounded-lg overflow-hidden shadow-xl w-[70%] h-[80%]">
-                <div class="bg-white px-4 pt-5 col w-full">
-                    <div class="flex items-center space-x-4 mb-12 w-full">
+            <div class="bg-white rounded-lg overflow-hidden shadow-xl w-[70%] h-[80%] text-center">
+                <div class="bg-white px-4 pt-5 w-full">
+                    <div class="d-flex items-center space-x-4 mb-8 w-full">
                         <input id="input-TimKiem" type="text"
-                               class="flex-1 bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline w-full"
-                               placeholder="Tìm kiếm...">
-                        <button id="timKiemBlaBla"
-                                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full sm:w-auto">
+                               class="form-control"
+                               placeholder="Tìm kiếm..." style="width: 60%;height: 10% ;margin-left: 12%">
+                        <button id="timKiemBlaBla" style="margin-left: 5px;margin-right: 5px"
+                                class="btn btn-primary text-white px-3 py-1 rounded hover:bg-blue-600">
                             Tìm kiếm
                         </button>
                         <button id="tuBoTatCa"
-                                class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 w-full sm:w-auto">Làm
-                            mới
+                                class="btn btn-secondary text-white px-3 py-1 rounded hover:bg-gray-600">
+                            Làm mới
                         </button>
                     </div>
                 </div>
 
-                <div class="d-flex">
-                    <div class="flex mb-3 d-flex">
+                <div class="px-4 pb-4 text-center " style="margin-top: 20px;margin-left: 12%">
+                    <div class="d-flex flex flex-wrap gap-4 mb-4">
                         <div class="w-full max-w-xs flex items-center space-x-2">
-                            <label for="combo-box-mau-sac" class="text-gray-700 text-sm font-bold">Kích cỡ :</label>
+                            <label for="combo-box-kich-co" class="text-gray-700 text-sm font-bold">Kích cỡ :</label>
                             <select id="combo-box-kich-co"
-                                    class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                    class="block appearance-none bg-white border border-gray-300 hover:border-gray-500 px-2 py-1 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="">Tất cả</option>
                             </select>
                         </div>
                         <div class="w-full max-w-xs flex items-center space-x-2">
                             <label for="combo-box-mau-sac" class="text-gray-700 text-sm font-bold">Màu sắc:</label>
                             <select id="combo-box-mau-sac"
-                                    class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                    class="block appearance-none bg-white border border-gray-300 hover:border-gray-500 px-2 py-1 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="">Tất cả</option>
                             </select>
                         </div>
                         <div class="w-full max-w-xs flex items-center space-x-2">
                             <label for="combo-box-chat-lieu" class="text-gray-700 text-sm font-bold">Chất liệu:</label>
                             <select id="combo-box-chat-lieu"
-                                    class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                    class="block appearance-none bg-white border border-gray-300 hover:border-gray-500 px-2 py-1 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="">Tất cả</option>
                             </select>
                         </div>
                         <div class="w-full max-w-xs flex items-center space-x-2">
                             <label for="combo-box-co-giay" class="text-gray-700 text-sm font-bold">Cổ giày:</label>
                             <select id="combo-box-co-giay"
-                                    class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                    class="block appearance-none bg-white border border-gray-300 hover:border-gray-500 px-2 py-1 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="">Tất cả</option>
                             </select>
                         </div>
                     </div>
-                    <div class="flex ml-[6%] mb-3 d-flex">
+                    <div class="d-flex flex flex-wrap gap-4" style="margin-left: 20px">
                         <div class="w-full max-w-xs flex items-center space-x-2">
                             <label for="combo-box-de-giay" class="text-gray-700 text-sm font-bold">Đế giày:</label>
                             <select id="combo-box-de-giay"
-                                    class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                    class="block appearance-none bg-white border border-gray-300 hover:border-gray-500 px-2 py-1 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="">Tất cả</option>
                             </select>
                         </div>
                         <div class="w-full max-w-xs flex items-center space-x-2">
-                            <label for="combo-box-thuong-hieu" class="text-gray-700 text-sm font-bold">Thương
-                                hiệu:</label>
+                            <label for="combo-box-thuong-hieu" class="text-gray-700 text-sm font-bold">Thương hiệu:</label>
                             <select id="combo-box-thuong-hieu"
-                                    class="block appearance-none w-[50%] bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                    class="block appearance-none bg-white border border-gray-300 hover:border-gray-500 px-2 py-1 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="">Tất cả</option>
+                            </select>
+                        </div>
+                        <div class="w-full max-w-xs flex items-center space-x-2">
+                            <label for="combo-box-gia" class="text-gray-700 text-sm font-bold">Khoảng Giá:</label>
+                            <select id="combo-box-gia"
+                                    class="block appearance-none bg-white border border-gray-300 hover:border-gray-500 px-2 py-1 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="">Tất cả</option>
+                                <option value="1">Dưới 2 Triệu</option>
+                                <option value="2">Từ 2 Triệu - 4 Triệu</option>
+                                <option value="3">Từ 4 Triệu - 8 Triệu</option>
+                                <option value="4">Trên 8 Triệu</option>
                             </select>
                         </div>
                     </div>
                 </div>
-
-                </tbody>
             </div>
-            <div class="row">
+
+            <div id="product-container" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px">
                 <div class="dssanpham" id="danhSachSanPham">
+
+                </div>
+            <div class="row">
                 </div>
             </div>
             <div id="paginationSP" class="flex justify-center mt-4"></div>
@@ -418,7 +431,9 @@
 <script src="https://cdn.jsdelivr.net/npm/jarallax@1.12.0/dist/jarallax.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jarallax@1.12.0/dist/jarallax-video.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
 
 
@@ -448,6 +463,28 @@
         idDeGiay = $('#combo-box-de-giay').val();
         idThuongHieu = $('#combo-box-thuong-hieu').val();
         keyword = $('#input-TimKiem').val();
+        let gia = $('#combo-box-gia').val();
+        console.log(gia)
+        if(gia == 1){
+            giaBanMin = 0;
+            giaBanMax = 2000000;
+        }
+        else if(gia == 2){
+            giaBanMin = 2000000;
+            giaBanMax = 4000000;
+        }
+        else if(gia == 3){
+            giaBanMin = 4000000;
+            giaBanMax = 8000000;
+        }
+        else if(gia == 4){
+            giaBanMin = 8000000;
+            giaBanMax = 80000000;
+        }
+        else{
+            giaBanMin = '';
+            giaBanMax = '';
+        }
         page = 0;
         size = 20;
         getDanhSachSanPhamCoSearch(page, size);
@@ -460,6 +497,8 @@
         idCoGiay = $('#combo-box-co-giay').val();
         idDeGiay = $('#combo-box-de-giay').val();
         idThuongHieu = $('#combo-box-thuong-hieu').val();
+       let gia = $('#combo-box-gia').val();
+       console .log(gia)
         keyword = $('#input-TimKiem').val();
         page = 0;
         size = 20;
@@ -487,6 +526,7 @@
 
         getDanhSachSanPhamCoSearch(page, size);
     });
+
     const getDanhSachSanPhamCoSearch = (page, size) => {
 
         $.ajax({
@@ -503,37 +543,35 @@
                         uniqueProducts.push(product);
                     }
                 });
-                console.log(uniqueProducts)
+                function formatPriceInVND(price) {
+                    return price.toLocaleString('vi-VN') + ' VND';
+                }
                 let list = ''; // Initialize the list variable
 
                 for (let i = 0; i < result.content.length; i++) {
                     const product = result.content[i];
                     list += `
-    <div class="mb-2">
-        <div class="product-card" data-idsp="${product.id}"
-             style="position: relative; margin-bottom: 5px; margin-right: 5px; border-color: #fcfcfc; margin-top: 5px; padding-top: 5px;">
-            <div class="bg-white"
-                 style="padding: 10px; transition: transform 0.3s ease, box-shadow 0.3s ease; background-color: #E8E8E8;">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#productModal">
-                    <img src="${product.anh}" alt="Ảnh sản phẩm"
-                         style="width: 230px; height: 250px; object-fit: cover;">
-                    <p class="status" style="display: none;"></p> <!-- Khởi tạo với display: none -->
-                    <h6 class="card-title">${product.ten}</h6>
-                    <p class="ngayTao" data-ngaytao="${product.sanPham.ngayTao}"></p>
-                </a>
-                <a href="#"
-                   style="display: inline-block; margin: 5px 0; padding: 2px 5px; border: 1px solid #ff8c00; border-radius: 2px; color: #FF8C00; text-decoration: none; font-size: 10px; background-color: transparent; text-align: center;">
-                    Giá Siêu Hời
-                </a>
-                <a href="#" class="product-price">${product.giaBan}</a>
-            </div>
+    <div class="mb-4 product-card" data-idsp="${product.id}"
+         style="position: relative; margin-bottom: 5px; margin-right: 5px; border-color: #ff8c00; margin-top: 5px; padding-top: 5px;">
+        <div class="bg-white"
+             style="padding: 10px; transition: transform 0.3s ease, box-shadow 0.3s ease; background-color: #E8E8E8;">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#productModal">
+                <img src="${product.anh}" alt="Ảnh sản phẩm"
+                     style="width: 100%; height: 250px; object-fit: cover;">
+                <p class="status" style="display: none;"></p> <!-- Khởi tạo với display: none -->
+                <h6 class="card-title">${product.ten}</h6>
+                <p class="ngayTao" data-ngaytao="${product.sanPham.ngayTao}"></p>
+            </a>
+            <a href="#"
+               style="display: inline-block; margin: 5px 0; padding: 2px 5px; border: 1px solid #ff8c00; border-radius: 2px; color: #FF8C00; text-decoration: none; font-size: 10px; background-color: transparent; text-align: center;">
+                Giá Siêu Hời
+            </a>
+            <a href="#" class="product-price">${formatPriceInVND(product.giaBan)}</a>
         </div>
-    </div>`;
+    </div>
+  `;
                 }
-                function convertToISO(dateString) {
-                    // Convert date string to ISO format
-                    return dateString.replace(' ', 'T') + 'Z';
-                }
+
                 document.getElementById('danhSachSanPham').innerHTML = list;
 
                 const ngayTaoElements = document.querySelectorAll('.ngayTao');
@@ -543,25 +581,25 @@
                 ngayTaoElements.forEach((ngayTaoElement, index) => {
                     let ngayTaoStr1 = ngayTaoElement.getAttribute('data-ngaytao');
                     if (ngayTaoStr1) {
-                        // Giả lập ngày hiện tại
-                        const ngayHienTai = new Date(); // Ngày hiện tại cho ví dụ
 
-                        const ngayTaoStr = ngayTaoStr1; // Ngày tạo cho ví dụ
-                        console.log(ngayTaoStr);
+                        const ngayHienTai = new Date();
+
+                        const ngayTaoStr = ngayTaoStr1;
+
                         const ngayTaoDate = new Date(ngayTaoStr.replace(' ', 'T') + 'Z');
 
-                        if (isNaN(ngayTaoDate.getTime())) {
-                            console.error('Ngày tạo không hợp lệ');
+                        if (isNaN(ngayTaoDate.getTime())) {console.error('Ngày tạo không hợp lệ');
+
                             return;
                         }
 
                         const soNgayDaTruoc = Math.floor((ngayHienTai - ngayTaoDate) / (1000 * 60 * 60 * 24));
                         const laSanPhamMoi = soNgayDaTruoc <= 30;
-                        console.log(laSanPhamMoi)
+
                         if (statusElements[index]) {
                             if (laSanPhamMoi) {
                                 statusElements[index].textContent = "Mới";
-                                statusElements[index].style.color = "green";
+                                // statusElements[index].style.color = "withr";
                                 statusElements[index].style.fontWeight = "bold";
                                 statusElements[index].style.display = "block"; // Hiển thị phần tử khi là sản phẩm mới
                             } else {
@@ -589,7 +627,7 @@
 
                 let pagination = '';
                 pagination += `
-                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
+                <button class="px-4 py-2  btn btn-primary text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
             `;
 
                 const maxVisiblePages = 3;
@@ -599,7 +637,7 @@
 
                 if (startPage > 1) {
                     pagination += `
-                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(0, ${size})">1</button>
+                    <button class="px-4 py-2 btn btn-primary text-black rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(0, ${size})">1</button>
                 `;
                     if (startPage > 2) {
                         pagination += `<span class="px-4 py-2">...</span>`;
@@ -608,7 +646,7 @@
 
                 for (let i = startPage; i <= endPage; i++) {
                     pagination += `
-                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getDanhSachSanPhamCoSearch(${i - 1}, ${size})">${i}</button>
+                    <button class="px-4 py-2 btn btn-outline-dark text-black rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getDanhSachSanPhamCoSearch(${i - 1}, ${size})">${i}</button>
                 `;
                 }
 
@@ -618,12 +656,12 @@
                     }
 
                     pagination += `
-                    <button class="px-4 py-2 bg-blue-300 text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
+                    <button class="px-4 py-2 btn btn-outline-dark text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
                 `;
                 }
 
                 pagination += `
-                <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
+                <button class="px-4 py-2 btn btn-primary text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
             `;
 
                 $("#paginationSP").html(pagination);
@@ -668,6 +706,7 @@
 
             });
         }
+
 
         cbbMauSac();
 
@@ -746,36 +785,9 @@
         }
 
         cbbThuongHieu();
-        const ngayTaoElements = document.querySelectorAll('.ngayTao');
-        const statusElements = document.querySelectorAll('.status');
-
-        const ngayHienTai = new Date();
-
-        ngayTaoElements.forEach((ngayTaoElement, index) => {
-            let ngayTaoStr = ngayTaoElement.getAttribute('data-ngaytao');
-
-            if (ngayTaoStr) {
-                ngayTaoStr = ngayTaoStr.replace(' ', 'T') + 'Z';
-                const ngayTaoDate = new Date(ngayTaoStr);
-
-                if (isNaN(ngayTaoDate.getTime())) {
-                    return;
-                }
-                const soNgayDaTruoc = Math.floor((ngayHienTai - ngayTaoDate) / (1000 * 60 * 60 * 24));
-                const laSanPhamMoi = soNgayDaTruoc <= 30;
-                if (statusElements[index]) {
-                    if (laSanPhamMoi) {
-                        statusElements[index].textContent = "Mới";
-                        statusElements[index].classList.add("status");
-                    } else {
-                        statusElements[index].textContent = "Mới";
-                        statusElements[index].classList.remove("status");
-                    }
 
 
-                }
-            }
-        });
+
         auto();
     });
 
