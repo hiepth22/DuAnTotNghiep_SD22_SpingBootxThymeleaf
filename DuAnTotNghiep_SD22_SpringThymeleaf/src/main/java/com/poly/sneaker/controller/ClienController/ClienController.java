@@ -1,6 +1,7 @@
 package com.poly.sneaker.controller.ClienController;
 
 import com.poly.sneaker.dto.SanPhamBanChayDTO;
+import com.poly.sneaker.dto.SanPhamChiTietDTO;
 import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.*;
 import com.poly.sneaker.sevice.*;
@@ -90,7 +91,7 @@ public class ClienController {
     @GetMapping("/sanphamchitietclien/{sanPhamId}")
     @ResponseBody
     public ResponseEntity<?> getProductDetails(@PathVariable Long sanPhamId) {
-        SanPhamChiTiet sanPhamChiTiet = SPCTservice.findById1(sanPhamId);
+        SanPhamChiTietDTO sanPhamChiTiet = SPCTservice.getSanPhamChiTietById(sanPhamId);
         if (sanPhamChiTiet != null) {
             return ResponseEntity.ok(sanPhamChiTiet);
         } else {

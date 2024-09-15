@@ -1,5 +1,6 @@
 package com.poly.sneaker.sevice;
 
+import com.poly.sneaker.dto.SanPhamChiTietDTO;
 import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.SanPhamChiTietRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,10 @@ public class SanPhamChiTietService {
         Optional<SanPhamChiTiet> optional = repository.findById(id);
         return optional.map(o -> o).orElse(null);
     }
+    public SanPhamChiTietDTO getSanPhamChiTietById(Long id) {
 
+        return repository.findSanPhamChiTietById(id);
+    }
     public List<SanPhamChiTiet> getAllSanPham(Long idSP) {
         return repository.findBySanPham(idSP);
     }
