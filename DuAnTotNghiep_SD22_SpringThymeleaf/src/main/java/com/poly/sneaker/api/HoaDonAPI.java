@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,10 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/hoa-don")
@@ -405,6 +403,24 @@ public class HoaDonAPI {
 
         Pageable pageable = PageRequest.of(page, size);
         return sanPhamChiTietService.searchBlaBla(idChatLieu, idCoGiay, idDeGiay, idKichCo,
+                idMauSac, idThuongHieu, keyword, giaBanMin, giaBanMax, pageable);
+    }
+    @GetMapping("/searchBlaBla1")
+    public Page<SanPhamChiTiet> searchProducts1(
+            @RequestParam(required = false) Long idChatLieu,
+            @RequestParam(required = false) Long idCoGiay,
+            @RequestParam(required = false) Long idDeGiay,
+            @RequestParam(required = false) Long idKichCo,
+            @RequestParam(required = false) Long idMauSac,
+            @RequestParam(required = false) Long idThuongHieu,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Double giaBanMin,
+            @RequestParam(required = false) Double giaBanMax,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        return sanPhamChiTietService.findByBlaBlaWithDeduplication(idChatLieu, idCoGiay, idDeGiay, idKichCo,
                 idMauSac, idThuongHieu, keyword, giaBanMin, giaBanMax, pageable);
     }
 

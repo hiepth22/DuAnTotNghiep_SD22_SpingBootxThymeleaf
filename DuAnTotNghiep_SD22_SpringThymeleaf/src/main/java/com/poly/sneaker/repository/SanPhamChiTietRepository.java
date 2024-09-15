@@ -162,5 +162,50 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
                                       @Param("giaBanMax") Double giaBanMax,
                                       Pageable pageable);
 
+    @Query("SELECT sp FROM SanPhamChiTiet sp " +
+            "JOIN sp.chatLieu cl " +
+            "JOIN sp.coGiay cg " +
+            "JOIN sp.deGiay dg " +
+            "JOIN sp.kichCo kc " +
+            "JOIN sp.mauSac ms " +
+            "JOIN sp.sanPham spn " +
+            "JOIN spn.thuongHieu th " +
+            "WHERE sp.id IN (" +
+            "   SELECT DISTINCT sp1.id FROM SanPhamChiTiet sp1 " +
+            "   JOIN sp1.chatLieu cl1 " +
+            "   JOIN sp1.coGiay cg1 " +
+            "   JOIN sp1.deGiay dg1 " +
+            "   JOIN sp1.kichCo kc1 " +
+            "   JOIN sp1.mauSac ms1 " +
+            "   JOIN sp1.sanPham spn1 " +
+            "   JOIN spn1.thuongHieu th1 " +
+            "   WHERE (:idChatLieu IS NULL OR sp1.chatLieu.id = :idChatLieu) " +
+            "   AND (:idCoGiay IS NULL OR sp1.coGiay.id = :idCoGiay) " +
+            "   AND (:idDeGiay IS NULL OR sp1.deGiay.id = :idDeGiay) " +
+            "   AND (:idKichCo IS NULL OR sp1.kichCo.id = :idKichCo) " +
+            "   AND (:idMauSac IS NULL OR sp1.mauSac.id = :idMauSac) " +
+            "   AND (:idThuongHieu IS NULL OR spn1.thuongHieu.id = :idThuongHieu) " +
+            "   AND (sp1.ten LIKE %:keyword% " +
+            "   OR cl1.ten LIKE %:keyword% " +
+            "   OR cg1.ten LIKE %:keyword% " +
+            "   OR dg1.ten LIKE %:keyword% " +
+            "   OR kc1.ten LIKE %:keyword% " +
+            "   OR ms1.ten LIKE %:keyword% " +
+            "   OR spn1.ten LIKE %:keyword% " +
+            "   OR th1.ten LIKE %:keyword%) " +
+            "   AND (sp1.giaBan >= :giaBanMin OR :giaBanMin IS NULL) " +
+            "   AND (sp1.giaBan <= :giaBanMax OR :giaBanMax IS NULL)" +
+            ") " +
+            "ORDER BY sp.id DESC")
+    Page<SanPhamChiTiet> findByBlaBla1(@Param("idChatLieu") Long idChatLieu,
+                                      @Param("idCoGiay") Long idCoGiay,
+                                      @Param("idDeGiay") Long idDeGiay,
+                                      @Param("idKichCo") Long idKichCo,
+                                      @Param("idMauSac") Long idMauSac,
+                                      @Param("idThuongHieu") Long idThuongHieu,
+                                      @Param("keyword") String keyword,
+                                      @Param("giaBanMin") Double giaBanMin,
+                                      @Param("giaBanMax") Double giaBanMax,
+                                      Pageable pageable);
 
 }

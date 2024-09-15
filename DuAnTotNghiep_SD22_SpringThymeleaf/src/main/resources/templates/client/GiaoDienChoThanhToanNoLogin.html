@@ -477,7 +477,7 @@
             var sdt = document.getElementById('sdt').value;
             var dc = document.getElementById('dc').value;
 
-            var ghichu = document.getElementById('ghichu').value;
+
             var diachi = document.getElementById('diachi').value;
             if ($('#btnCOD').hasClass('active')) {
 
@@ -582,15 +582,11 @@
 
             emailjs.send('service_hrrzfls', 'template_x7uwxdv', emailParams)
                 .then(function(response) {
-                    console.log('Thành công:', response);
-                    alert('Email đã được gửi thành công!');
                 }, function(error) {
-                    console.error('Lỗi:', error);
-                    alert('Gửi email không thành công.');
                 });
         }
         function taoHoaDonDatHangTraTruoc(nguoiNhan, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan, tongTienSauKhiGiam) {
-
+            var ghichu = document.getElementById('ghichu').value;
             $.ajax({
                 url: `/api/gio-hang/tao-hoa-don-dat-hang`,
                 method: 'POST',
@@ -604,6 +600,7 @@
                     tienShip: tienShip,
                     sdtNguoiNhan: sdtNguoiNhan,
                     diaChiNguoiNhan: diaChiNguoinhan,
+                    ghiChu :ghichu,
 
                 }),
                 success: function (response) {
@@ -624,6 +621,7 @@
 
         function taoHoaDonDatHang(nguoiNhan, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan) {
             // let idPhieuGiamGia = sale[0].id
+            var ghichu = document.getElementById('ghichu').value;
             $.ajax({
                 url: `/api/gio-hang/tao-hoa-don-dat-hang`,
                 method: 'POST',
@@ -636,7 +634,8 @@
                     tongTienSauGiam: tongTien,
                     tienShip: tienShip,
                     sdtNguoiNhan: sdtNguoiNhan,
-                    diaChiNguoiNhan: diaChiNguoinhan
+                    diaChiNguoiNhan: diaChiNguoinhan,
+                    ghiChu :ghichu,
 
                 }),
                 success: function (response) {

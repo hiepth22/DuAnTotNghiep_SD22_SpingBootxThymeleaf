@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class SanPhamChiTietService {
@@ -165,5 +168,44 @@ public class SanPhamChiTietService {
         return repository.findByBlaBla(idChatLieu, idCoGiay, idDeGiay, idKichCo,
                 idMauSac, idThuongHieu, keyword, giaBanMin, giaBanMax, pageable);
     }
+    public Page<SanPhamChiTiet> findByBlaBlaWithDeduplication(
+            Long idChatLieu,
+            Long idCoGiay,
+            Long idDeGiay,
+            Long idKichCo,
+            Long idMauSac,
+            Long idThuongHieu,
+            String keyword,
+            Double giaBanMin,
+            Double giaBanMax,
+            Pageable pageable) {
+
+        // Lấy dữ liệu mà không phân trang
+        List<SanPhamChiTiet> allResults = repository.findByBlaBla1(
+                idChatLieu, idCoGiay, idDeGiay, idKichCo, idMauSac, idThuongHieu,
+                keyword, giaBanMin, giaBanMax, Pageable.unpaged()
+        ).getContent();
+
+        // Loại bỏ các sản phẩm trùng lặp dựa trên id của SanPham
+        Map<Long, SanPhamChiTiet> uniqueProducts = allResults.stream()
+                .collect(Collectors.toMap(
+                        sp -> sp.getSanPham().getId(), // Lấy id của SanPham
+                        Function.identity(), // Giá trị của map là chính đối tượng SanPhamChiTiet
+                        (existing, replacement) -> existing // Chọn đối tượng hiện tại nếu trùng lặp
+                ));
+
+        // Chuyển đổi danh sách kết quả sang danh sách duy nhất
+        List<SanPhamChiTiet> uniqueResults = new ArrayList<>(uniqueProducts.values());
+
+        // Phân trang kết quả duy nhất
+        int start = (int) pageable.getOffset();
+        int end = Math.min(start + pageable.getPageSize(), uniqueResults.size());
+        List<SanPhamChiTiet> pagedResults = uniqueResults.subList(start, end);
+
+        // Tạo Page để trả về kết quả phân trang
+        return new PageImpl<>(pagedResults, pageable, uniqueResults.size());
+    }
+
+
 
 }
