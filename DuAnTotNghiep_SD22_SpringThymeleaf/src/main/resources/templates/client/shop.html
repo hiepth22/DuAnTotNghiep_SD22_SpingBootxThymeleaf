@@ -449,6 +449,7 @@
         idThuongHieu = $('#combo-box-thuong-hieu').val();
         keyword = $('#input-TimKiem').val();
         page = 0;
+        size = 20;
         getDanhSachSanPhamCoSearch(page, size);
     });
 
@@ -461,6 +462,7 @@
         idThuongHieu = $('#combo-box-thuong-hieu').val();
         keyword = $('#input-TimKiem').val();
         page = 0;
+        size = 20;
         getDanhSachSanPhamCoSearch(page, size);
     }
 
@@ -504,38 +506,87 @@
                 console.log(uniqueProducts)
                 let list = ''; // Initialize the list variable
 
-// Generate product cards
                 for (let i = 0; i < result.content.length; i++) {
+                    const product = result.content[i];
                     list += `
     <div class="mb-2">
-        <div class="product-card" data-idsp="${result.content[i].id}"  style="position: relative; margin-bottom: 5px; margin-right: 5px;border-color: #fcfcfc; margin-top: 5px; padding-top: 5px;">
-<div class="bg-white product-card" style=" padding: 10px; transition: transform 0.3s ease, box-shadow 0.3s ease; background-color: #E8E8E8;">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#productModal">
-                <img src="${result.content[i].anh}" alt="Ảnh"
-                style="width: 230px; height: 250px;">
-                <p class="status"></p>
-                <h6 class="card-title">${result.content[i].ten}</h6>
-                <p class="ngayTao" data-ngaytao="${result.content[i].ngayTao}"></p>
-            </a>
-            <a href="#" style="display: inline-block; margin: 5px 0; padding: 2px 5px; border: 1px solid #ff8c00; border-radius: 2px; color: #FF8C00; text-decoration: none; font-size: 10px; background-color: transparent; text-align: center;">
-                Giá Siêu Hời
-            </a>
-            <a href="#" class="product-price">${result.content[i].giaBan}</a>
-        </div>
+        <div class="product-card" data-idsp="${product.id}"
+             style="position: relative; margin-bottom: 5px; margin-right: 5px; border-color: #fcfcfc; margin-top: 5px; padding-top: 5px;">
+            <div class="bg-white"
+                 style="padding: 10px; transition: transform 0.3s ease, box-shadow 0.3s ease; background-color: #E8E8E8;">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#productModal">
+                    <img src="${product.anh}" alt="Ảnh sản phẩm"
+                         style="width: 230px; height: 250px; object-fit: cover;">
+                    <p class="status" style="display: none;"></p> <!-- Khởi tạo với display: none -->
+                    <h6 class="card-title">${product.ten}</h6>
+                    <p class="ngayTao" data-ngaytao="${product.sanPham.ngayTao}"></p>
+                </a>
+                <a href="#"
+                   style="display: inline-block; margin: 5px 0; padding: 2px 5px; border: 1px solid #ff8c00; border-radius: 2px; color: #FF8C00; text-decoration: none; font-size: 10px; background-color: transparent; text-align: center;">
+                    Giá Siêu Hời
+                </a>
+                <a href="#" class="product-price">${product.giaBan}</a>
+            </div>
         </div>
     </div>`;
                 }
-
+                function convertToISO(dateString) {
+                    // Convert date string to ISO format
+                    return dateString.replace(' ', 'T') + 'Z';
+                }
                 document.getElementById('danhSachSanPham').innerHTML = list;
+
+                const ngayTaoElements = document.querySelectorAll('.ngayTao');
+                const statusElements = document.querySelectorAll('.status');
+
+
+                ngayTaoElements.forEach((ngayTaoElement, index) => {
+                    let ngayTaoStr1 = ngayTaoElement.getAttribute('data-ngaytao');
+                    if (ngayTaoStr1) {
+                        // Giả lập ngày hiện tại
+                        const ngayHienTai = new Date(); // Ngày hiện tại cho ví dụ
+
+                        const ngayTaoStr = ngayTaoStr1; // Ngày tạo cho ví dụ
+                        console.log(ngayTaoStr);
+                        const ngayTaoDate = new Date(ngayTaoStr.replace(' ', 'T') + 'Z');
+
+                        if (isNaN(ngayTaoDate.getTime())) {
+                            console.error('Ngày tạo không hợp lệ');
+                            return;
+                        }
+
+                        const soNgayDaTruoc = Math.floor((ngayHienTai - ngayTaoDate) / (1000 * 60 * 60 * 24));
+                        const laSanPhamMoi = soNgayDaTruoc <= 30;
+                        console.log(laSanPhamMoi)
+                        if (statusElements[index]) {
+                            if (laSanPhamMoi) {
+                                statusElements[index].textContent = "Mới";
+                                statusElements[index].style.color = "green";
+                                statusElements[index].style.fontWeight = "bold";
+                                statusElements[index].style.display = "block"; // Hiển thị phần tử khi là sản phẩm mới
+                            } else {
+                                statusElements[index].textContent = "";
+                                statusElements[index].style.color = "";
+                                statusElements[index].style.fontWeight = "";
+                                statusElements[index].style.display = "none"; // Ẩn phần tử khi không phải sản phẩm mới
+                            }
+                        } else {
+                            console.warn('Không tìm thấy phần tử status với chỉ số:', index);
+                        }
+                    } else {
+                        console.error('Ngày tạo không được cung cấp cho sản phẩm với chỉ số:', index);
+                    }
+                });
+
                 const productContainer = document.getElementById('danhSachSanPham');
                 productContainer.addEventListener('click', function (event) {
                     const productCard = event.target.closest('.product-card');
                     if (productCard) {
                         const idsp = productCard.getAttribute('data-idsp');
-
                         window.location.href = `/san-pham/${idsp}`;
                     }
                 });
+
                 let pagination = '';
                 pagination += `
                 <button class="px-4 py-2 bg-gray-300 text-black rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
@@ -598,7 +649,7 @@
             });
         }
 
-        getDanhSachSanPhamCoSearch();
+
         cbbKichCo();
 
         function cbbMauSac() {
@@ -702,6 +753,7 @@
 
         ngayTaoElements.forEach((ngayTaoElement, index) => {
             let ngayTaoStr = ngayTaoElement.getAttribute('data-ngaytao');
+
             if (ngayTaoStr) {
                 ngayTaoStr = ngayTaoStr.replace(' ', 'T') + 'Z';
                 const ngayTaoDate = new Date(ngayTaoStr);
@@ -716,7 +768,7 @@
                         statusElements[index].textContent = "Mới";
                         statusElements[index].classList.add("status");
                     } else {
-                        statusElements[index].textContent = "";
+                        statusElements[index].textContent = "Mới";
                         statusElements[index].classList.remove("status");
                     }
 
@@ -729,57 +781,57 @@
 
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('[data-bs-toggle="modal"]').forEach(function (element) {
-            element.addEventListener('click', function () {
-                var productId = this.getAttribute('data-id');
-
-                // Chuyển hướng trang (nếu cần)
-                window.location.href = `/san-pham/${productId}`;
-
-                // Gửi yêu cầu AJAX để lấy dữ liệu sản phẩm
-                $.ajax({
-                    url: '/sanphamchitietclien/' + productId,
-                    method: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-
-                        $('#productModalLabel').text(data.ten);
-                        $('#modalImage').attr('src', 'https://res.cloudinary.com/deapopcoc/image/upload/' + data.anh);
-                        $('#modalPrice').text('₫' + data.giaBan);
-                        $('#modalQuantity').text(data.soLuong);
-                        $('#modalDescription').text(data.moTa);
-                        $('#modalColor').html(`
-                        <div class="color-container rounded-lg" style="background-color: ${data.mauSac.ten}; width: 50px; height: 20px;"></div>
-                    `);
-
-                        // Gửi yêu cầu AJAX thứ hai để lấy kích cỡ sản phẩm
-                        $.ajax({
-                            url: '/sanphamchitietclienkc/' + data.sanPham.id,
-                            method: 'GET',
-                            dataType: 'json',
-                            success: function (additionalData) {
-                                var sizeHtml = '<h6>Kích cỡ:</h6><div id="sizeContainer" class="d-flex flex-wrap">';
-                                additionalData.forEach(function (size) {
-                                    sizeHtml += `<div class="size-item">${size.ten}</div>`;
-                                });
-                                sizeHtml += '</div>';
-
-                                // Cập nhật nội dung kích cỡ trong modal
-                                $('#modalSize').html(sizeHtml);
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Error fetching size details:', error);
-                            }
-                        });
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error fetching product details:', error);
-                    }
-                });
-            });
-        });
-    });
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     document.querySelectorAll('[data-bs-toggle="modal"]').forEach(function (element) {
+    //         element.addEventListener('click', function () {
+    //             var productId = this.getAttribute('data-id');
+    //
+    //             // Chuyển hướng trang (nếu cần)
+    //             window.location.href = `/san-pham/${productId}`;
+    //
+    //             // Gửi yêu cầu AJAX để lấy dữ liệu sản phẩm
+    //             $.ajax({
+    //                 url: '/sanphamchitietclien/' + productId,
+    //                 method: 'GET',
+    //                 dataType: 'json',
+    //                 success: function (data) {
+    //
+    //                     $('#productModalLabel').text(data.ten);
+    //                     $('#modalImage').attr('src', 'https://res.cloudinary.com/deapopcoc/image/upload/' + data.anh);
+    //                     $('#modalPrice').text('₫' + data.giaBan);
+    //                     $('#modalQuantity').text(data.soLuong);
+    //                     $('#modalDescription').text(data.moTa);
+    //                     $('#modalColor').html(`
+    //                     <div class="color-container rounded-lg" style="background-color: ${data.mauSac.ten}; width: 50px; height: 20px;"></div>
+    //                 `);
+    //
+    //                     // Gửi yêu cầu AJAX thứ hai để lấy kích cỡ sản phẩm
+    //                     $.ajax({
+    //                         url: '/sanphamchitietclienkc/' + data.sanPham.id,
+    //                         method: 'GET',
+    //                         dataType: 'json',
+    //                         success: function (additionalData) {
+    //                             var sizeHtml = '<h6>Kích cỡ:</h6><div id="sizeContainer" class="d-flex flex-wrap">';
+    //                             additionalData.forEach(function (size) {
+    //                                 sizeHtml += `<div class="size-item">${size.ten}</div>`;
+    //                             });
+    //                             sizeHtml += '</div>';
+    //
+    //                             // Cập nhật nội dung kích cỡ trong modal
+    //                             $('#modalSize').html(sizeHtml);
+    //                         },
+    //                         error: function (xhr, status, error) {
+    //                             console.error('Error fetching size details:', error);
+    //                         }
+    //                     });
+    //                 },
+    //                 error: function (xhr, status, error) {
+    //                     console.error('Error fetching product details:', error);
+    //                 }
+    //             });
+    //         });
+    //     });
+    // });
 
 </script>
 <script>
