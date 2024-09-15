@@ -191,8 +191,9 @@ public class SanPhamChiTietService {
                 .collect(Collectors.toMap(
                         sp -> sp.getSanPham().getId(), // Lấy id của SanPham
                         Function.identity(), // Giá trị của map là chính đối tượng SanPhamChiTiet
-                        (existing, replacement) -> existing // Chọn đối tượng hiện tại nếu trùng lặp
+                        (existing, replacement) -> replacement // Chọn đối tượng mới nếu trùng lặp
                 ));
+
 
         // Chuyển đổi danh sách kết quả sang danh sách duy nhất
         List<SanPhamChiTiet> uniqueResults = new ArrayList<>(uniqueProducts.values());
