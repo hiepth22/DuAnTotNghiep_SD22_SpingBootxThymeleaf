@@ -93,6 +93,37 @@ public class GioHangAPI {
         return ResponseEntity.ok(savedHoaDon);
     }
 
+    @PostMapping("/tao-hoa-don-dat-hang-khong-dang-nhap")
+    public ResponseEntity<?> taoHoaDonDatHang2 (@RequestBody HoaDon hoaDon){
+
+        hoaDon.setDiaChiNguoiNhan(hoaDon.getDiaChiNguoiNhan());
+        hoaDon.setNgayTao(LocalDateTime.now());
+        hoaDon.setNguoiTao(hoaDon.getNguoiNhan());
+        hoaDon.setLoai(1);
+        hoaDon.setTrangThai(1);
+        hoaDon.setMa(hoaDon.getMa());
+        hoaDon.setNguoiNhan(hoaDon.getNguoiNhan());
+        hoaDon.setKhachHang(hoaDon.getKhachHang());
+        hoaDon.setTongTien(hoaDon.getTongTien());
+        hoaDon.setTienShip(hoaDon.getTienShip());
+        hoaDon.setSdtNguoiNhan(hoaDon.getSdtNguoiNhan());
+//        if(hoaDon.getPhieuGiamGia().getId() == null){
+//            hoaDon.setPhieuGiamGia(null);
+//        }
+        PhieuGiamGia pg = new PhieuGiamGia();
+        pg.setGiaTriGiam(new BigDecimal(0));
+
+        HoaDon savedHoaDon = hoaDonService.add(hoaDon);
+
+        String maHoaDon = "HD0" + savedHoaDon.getId();
+        savedHoaDon.setMa(maHoaDon);
+        hoaDonService.taoMaHoaDon(savedHoaDon.getId(), savedHoaDon);
+
+
+
+        return ResponseEntity.ok(savedHoaDon);
+    }
+
     @PostMapping("/them-san-pham-vao-hoa-don/{id}")
     public ResponseEntity<?> themSanPhamVaoHoaDon (@PathVariable("id") Long id ,@RequestBody HoaDonChiTiet hoaDonChiTiet){
         hoaDonChiTiet.setSanPhamChiTiet(hoaDonChiTiet.getSanPhamChiTiet());

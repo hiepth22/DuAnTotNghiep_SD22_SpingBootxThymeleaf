@@ -28,7 +28,7 @@ const getData = (page, size) => {
                 list += `<tr>
                             <td class="px-6 py-4 whitespace-nowrap">${i + 1 + page * size}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${hoaDon.ma}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">${khachHang.ten || ''}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">${hoaDon.nguoiNhan || ''}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${khachHang.sdt || ''}</td>
                             <td class="px-6 py-4 whitespace-nowrap">${trangThaiMua(hoaDon.loai)}</td>
                           

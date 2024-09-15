@@ -38,4 +38,16 @@ public class DiaChiAPI {
         }
     }
 
+    @PostMapping("/add-dia-chi-nhanh")
+    public ResponseEntity<?> themDiaChiNhanh(@RequestBody DiaChi diaChi) {
+        return ResponseEntity.ok(diaChiService.themNhanh(diaChi));
+    }
+
+
+    @GetMapping("/tim-dia-chi/{id}")
+    public ResponseEntity<?> timDiaCHi(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(diaChiService.findById(id));
+    }
+
+
 }

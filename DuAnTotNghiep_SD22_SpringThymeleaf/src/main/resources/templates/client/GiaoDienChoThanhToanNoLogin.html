@@ -560,7 +560,7 @@
                 data:{},
                 success: function (response) {
                     window.location.href = response.url;
-                    // sendEmail(email,tongTienSauKhiGiam,now,TxnRef,nguoiNhan);
+                    sendEmail(email,tongTienSauKhiGiam,now,TxnRef,nguoiNhan);
 
                 },
             });
@@ -588,7 +588,7 @@
         function taoHoaDonDatHangTraTruoc(nguoiNhan, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan, tongTienSauKhiGiam) {
             var ghichu = document.getElementById('ghichu').value;
             $.ajax({
-                url: `/api/gio-hang/tao-hoa-don-dat-hang`,
+                url: `/api/gio-hang/tao-hoa-don-dat-hang-khong-dang-nhap`,
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
@@ -623,7 +623,7 @@
             // let idPhieuGiamGia = sale[0].id
             var ghichu = document.getElementById('ghichu').value;
             $.ajax({
-                url: `/api/gio-hang/tao-hoa-don-dat-hang`,
+                url: `/api/gio-hang/tao-hoa-don-dat-hang-khong-dang-nhap`,
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({

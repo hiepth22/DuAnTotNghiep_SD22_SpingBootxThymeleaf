@@ -5,8 +5,10 @@ import com.poly.sneaker.entity.DiaChi;
 import com.poly.sneaker.entity.KhachHang;
 import com.poly.sneaker.repository.DiaChirepository;
 import com.poly.sneaker.repository.KhachHangRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,12 +36,18 @@ public class DiaChiService {
         return diaChirepository.getDiaChiMacDinh(idKh);
     }
 
-    public DiaChi setDiaChi(Long idKh){
+    @Modifying
+    @Transactional
+    public int setDiaChi(Long idKh) {
         return diaChirepository.setDiaChi(idKh);
     }
+
+    @Modifying
+    @Transactional
     public DiaChi setDiaChi2(Long id){
-       return diaChirepository.setDiaChi2(id);
+        return diaChirepository.setDiaChi2(id);
     }
+
     public DiaChi update(Long id, DiaChi newnv) {
         Optional<DiaChi> optional = diaChirepository.findById(id);
         return optional.map(o -> {
@@ -88,5 +96,10 @@ public class DiaChiService {
     public DiaChi findById(Long id) {
         Optional<DiaChi> optional = diaChirepository.findById(id);
         return optional.map(o -> o).orElse(null);
+    }
+
+
+    public DiaChi themNhanh(DiaChi diaChi){
+        return diaChirepository.save(diaChi);
     }
 }
