@@ -76,6 +76,9 @@ public class GioHangAPI {
         hoaDon.setTongTien(hoaDon.getTongTien());
         hoaDon.setTienShip(hoaDon.getTienShip());
         hoaDon.setSdtNguoiNhan(hoaDon.getSdtNguoiNhan());
+        if(hoaDon.getPhieuGiamGia().getId() == null){
+            hoaDon.setPhieuGiamGia(null);
+        }
         PhieuGiamGia pg = new PhieuGiamGia();
         pg.setGiaTriGiam(new BigDecimal(0));
 
@@ -164,7 +167,7 @@ public class GioHangAPI {
 
     @GetMapping("/dia-chi-khach-hang/{id}")
     public List<DiaChi> phieuGiamGia(@PathVariable("id") Long id) {
-        return diaChiService.getByID(id);
+        return diaChiService.getKHDESCByID(id);
     }
 
     @GetMapping("/dia-chi-mac-dinh-khach-hang/{id}")

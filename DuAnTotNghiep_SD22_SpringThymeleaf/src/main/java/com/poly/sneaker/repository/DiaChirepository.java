@@ -27,4 +27,7 @@ public interface DiaChirepository extends JpaRepository<DiaChi, Long> {
 
     @Query(value = "select count (*) from dia_chi where idKhachHang= :idKH", nativeQuery = true)
     Integer checkTrangThai(@Param("idKH") Long idKhachHang);
+
+    @Query(value = "SELECT * FROM dia_chi WHERE idKhachHang = :idKhachHang ORDER BY trangThai desc ", nativeQuery = true)
+    List<DiaChi> findKHDESCByIdKH(@Param("idKhachHang") Long idKhachHang);
 }
