@@ -292,7 +292,7 @@
                                     // Lặp qua danh sách sanPhamChiTiet
                                     response.forEach(item => {
                                         const sanPhamChiTiet = item.sanPhamChiTiet;
-                                        const productPrice = sanPhamChiTiet.giaBan != null ? sanPhamChiTiet.giaBan.toLocaleString('vi-VN', {
+                                        const productPrice = sanPhamChiTiet.giaBan * sanPhamChiTiet.soLuong != null ? sanPhamChiTiet.giaBan.toLocaleString('vi-VN', {
                                             style: 'currency',
                                             currency: 'VND'
                                         }) : 'Không có giá';
@@ -320,7 +320,7 @@
 
                                         <div class="col mt-4" style="margin-top: 35px">
                                             <div class="fs-6 text-danger" style="margin-top: 35px">
-                                                ${(sanPhamChiTiet.giaBan * sanPhamChiTiet.soLuong)} VND<span></span>
+                                                ${(productPrice)}<span></span>
                                             </div>
                                         </div>
                                     </div>
