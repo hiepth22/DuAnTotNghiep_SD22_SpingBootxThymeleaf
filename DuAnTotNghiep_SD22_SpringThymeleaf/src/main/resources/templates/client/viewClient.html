@@ -162,51 +162,124 @@
 </style>
 <!--slide-->
 <style>
+    /* CSS cho Swiper Container */
     .swiper-container {
         width: 100%;
-        height: 400px;
+        height: 600px; /* Thay đổi chiều cao theo nhu cầu */
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px; /* Bo tròn góc container */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Đổ bóng cho container */
     }
+
+    /* CSS cho từng Slide */
     .swiper-slide {
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
         overflow: hidden;
-        transition: transform 0.5s ease; /* Tạo hiệu ứng chuyển động */
+        transition: transform 0.5s ease;
     }
+
     .swiper-slide img {
         width: 100%;
-        height: auto;
-        transition: transform 0.5s ease; /* Tạo hiệu ứng thu nhỏ */
+        height: 100%;
+        object-fit: cover; /* Đảm bảo ảnh không bị bóp méo */
+        transition: transform 0.5s ease;
     }
-    .swiper-slide-next, .swiper-slide-prev {
-        transform: scale(0.8) translateX(-20%);
+
+    /* Hiệu ứng hover cho ảnh */
+    .swiper-slide:hover img {
+        transform: scale(1.1);
+        filter: brightness(80%);
     }
-    .swiper-button-prev,
-    .swiper-button-next {
-        cursor: pointer;
+
+    /* Hiệu ứng gradient cho overlay */
+    .swiper-slide::before {
+        content: "";
         position: absolute;
-        top: 50%;
-        width: auto;
-        margin-top: -22px;
-        padding: 16px;
-        color: white;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2));
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    .swiper-slide:hover::before {
+        opacity: 1;
+    }
+
+    /* Style cho các nút điều hướng */
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: #fff;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        font-size: 24px;
         font-weight: bold;
-        font-size: 18px;
-        transition: 0.6s ease;
-        border-radius: 0 3px 3px 0;
-        user-select: none;
+        transition: background 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
 
-    /* Position the "next button" to the right */
     .swiper-button-next {
-        right: 0;
-        border-radius: 3px 0 0 3px;
+        right: 10px;
     }
 
-    /* On hover, add a black background color with a little bit see-through */
-    .swiper-button-prev:hover,
-    .swiper-button-next:hover {
-        background-color: rgba(0, 0, 0, 0.8);
+    .swiper-button-prev {
+        left: 10px;
+    }
+
+    /* Hiệu ứng hover cho nút điều hướng */
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+        background: rgba(0, 0, 0, 0.8);
+        transform: scale(1.1);
+    }
+
+    /* Style cho các điểm phân trang */
+    .swiper-pagination {
+        bottom: 10px;
+    }
+
+    .swiper-pagination-bullet {
+        background: rgba(255, 255, 255, 0.7);
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        transition: background 0.3s ease;
+    }
+
+    .swiper-pagination-bullet-active {
+        background: #fff;
+        width: 16px;
+        height: 16px;
+    }
+
+    /* Hiệu ứng overlay */
+    .swiper-pagination-bullet::after {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+        transform: translate(-50%, -50%) scale(0.8);
+        transition: transform 0.3s ease;
+    }
+
+    .swiper-pagination-bullet-active::after {
+        transform: translate(-50%, -50%) scale(1);
     }
 
 </style>
@@ -467,36 +540,37 @@
 <!-- Login -->
 <div th:replace="~{client/fragmentsClient/header :: header}"></div>
 <div class="swiper-container">
-    <div class="flex justify-center mt-3"
-         style="display: flex; justify-content: center; width: 100%; box-sizing: border-box;margin-top: 0px">
-        <div class="w-48 h-0.5 bg-orange-500"
-             style="width: calc(100%); height: 3px; background-color: #FF8C00;"></div>
-    </div>
     <div class="swiper-wrapper">
         <!-- Slide 1 -->
         <div class="swiper-slide">
-            <img src="https://media.licdn.com/dms/image/v2/C5112AQEbrswDJBdyKg/article-inline_image-shrink_1000_1488/article-inline_image-shrink_1000_1488/0/1520192850086?e=1729728000&v=beta&t=Nrw8AGnumS_l750SJckGGbQXEvqn1CAHyQTibVcxAMA" alt="Image 1">
+            <img src="https://thvl.vn/wp-content/uploads/2023/04/H%E1%BB%99i-ngh%E1%BB%8B-gi%C3%A0y-sneaker-%C4%91%E1%BA%A7u-ti%C3%AAn-%E1%BB%9F-%C4%90%C3%B4ng-Nam-%C3%81.jpg" alt="Image 1">
         </div>
         <!-- Slide 2 -->
         <div class="swiper-slide">
-            <img src="https://media.licdn.com/dms/image/v2/C5112AQEaaI6z3NxGLQ/article-inline_image-shrink_1000_1488/article-inline_image-shrink_1000_1488/0/1520238935596?e=1729728000&v=beta&t=7u4Hd7RE2UHikEg-iwCI250SI-IXJci1g1u35djC2WM" alt="Image 2">
+            <img src="https://cdn.authentic-shoes.com/wp-content/uploads/2023/05/photo-1559479083-f3b234ad0d53_e67598f116de4cacabe04e206ab0b1f0_2048x2048.jpg" alt="Image 2">
         </div>
         <!-- Slide 3 -->
         <div class="swiper-slide">
-            <img src="https://media.licdn.com/dms/image/v2/C5112AQFIVQBt4514ow/article-inline_image-shrink_1000_1488/article-inline_image-shrink_1000_1488/0/1520156614976?e=1729728000&v=beta&t=x8nxCkYXRlfr7shPczmOWnYMKw-HXqmxJfY6_AdRFQQ" alt="Image 3">
+            <img src="https://www.elleman.vn/wp-content/uploads/2022/03/05/212227/Supreme-Nike-SB-Dunk-High-By-Any-Means-sneaker-2022.jpeg" alt="Image 3">
         </div>
         <div class="swiper-slide">
-            <img src="https://intphcm.com/data/upload/poster-giay-just-do-it.jpg" alt="Image 3">
+            <img src="https://cdn.authentic-shoes.com/wp-content/uploads/2023/04/puma-wmns-suede-platform-mono-satin-beige-365828-02-mood-3.jpg" alt="Image 4">
         </div>
-        <!-- Add more slides as needed -->
+
+        <!-- Slide 4 -->
+        <div class="swiper-slide">
+            <img src="https://intphcm.com/data/upload/poster-giay-just-do-it.jpg" alt="Image 5">
+        </div>
     </div>
 
-    <!-- Add Pagination -->
-    <!--    <div class="swiper-pagination"></div>-->
-    <!-- Thêm nút điều hướng -->
-    <div class="swiper-button-next"></div>
+    <!-- Pagination -->
+    <div class="swiper-pagination"></div>
+
+    <!-- Navigation Buttons -->
     <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
 </div>
+
 <section id="spmoi" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0 text-center" >
     <a class="section-title text-uppercase" style="display: block; margin-bottom: 10px; font-size: 20px; padding-bottom: 10px; margin-left: 10px; color: #808080; border-bottom: 2px solid #808080;">Sản phẩm mới</a>
     <div class="product-slider-container1">
@@ -844,15 +918,12 @@
     });
 
 </script>
-<script>
-
-</script>
 <!--slide-->
 <script>
     const swiper = new Swiper('.swiper-container', {
         loop: true,
         autoplay: {
-            delay: 3000,
+            delay: 5000, /* Thay đổi thời gian tự động chuyển slide */
             disableOnInteraction: false,
         },
         pagination: {
@@ -863,23 +934,10 @@
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
         },
-        on: {
-            slideChangeTransitionStart: function () {
-                const slides = document.querySelectorAll('.swiper-slide');
-                slides.forEach((slide, index) => {
-                    slide.classList.remove('swiper-slide-prev', 'swiper-slide-next');
-                });
-                slides[swiper.activeIndex].classList.add('swiper-slide-active');
-                if (swiper.previousIndex !== swiper.activeIndex) {
-                    slides[swiper.previousIndex].classList.add('swiper-slide-prev');
-                    slides[swiper.activeIndex].classList.add('swiper-slide-next');
-                }
-            }
-        }
+        effect: 'fade', /* Hiệu ứng chuyển cảnh */
+        speed: 800, /* Thay đổi tốc độ chuyển cảnh */
     });
 </script>
-
-
 <!-- Nạp JavaScript của Chocolat -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/js/chocolat.min.js"></script>
