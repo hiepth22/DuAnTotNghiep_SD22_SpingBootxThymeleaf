@@ -502,7 +502,6 @@
 
 
         function hienThiSanPhamDaChon() {
-            console.log(sale);
             let list = "";
             if (Array.isArray(selectedProducts) && selectedProducts.length > 0) {
                 for (let i = 0; i < selectedProducts.length; i++) {
@@ -525,7 +524,18 @@
                     </tr>
             `;
                 }
-                discount = sale[0]?.giamToiDa || 0;
+
+                if(sale[0].hinhThucGiam === true ){
+                    let phanTram = tongTien / sale[0].giaTriGiam ;
+                    if(sale[0].giamToiDa < phanTram){
+                        discount = sale[0]?.giamToiDa || 0;
+                    }else{
+                        discount = phanTram;
+                    }
+                }else{
+                    discount = sale[0]?.giamToiDa || 0;
+                }
+
                 tongTienSauKhiGiam = tongTien - discount;
 
                 $('#soLuongVaTongTien').html(`
@@ -584,7 +594,7 @@
                             let nguoiNhan2 = nguoiNhan;
                             let sdtNguoiNhan2 = sdtNguoiNhan;
                             let diaChiNguoiNhan = $('#diaChiSpan').text().trim();
-                            var tongTienSauKhiGiam2 = tongTienSauKhiGiam;
+                            var tongTienSauKhiGiam2 = tongTienSauKhiGiam ;
 
                             taoHoaDonDatHang(nguoiNhan2, idKhachHang, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, tongTienSauKhiGiam2);
 
@@ -593,7 +603,7 @@
 
                         } else if ($('#btnVNPAY').hasClass('active')) {
                             let ship2 = ship;
-                            var tongTien2 = tongTien;
+                            var tongTien2 = tongTien ;
                             let nguoiNhan2 = nguoiNhan;
                             let sdtNguoiNhan2 = sdtNguoiNhan;
                             let diaChiNguoiNhan = $('#diaChiSpan').text().trim();
