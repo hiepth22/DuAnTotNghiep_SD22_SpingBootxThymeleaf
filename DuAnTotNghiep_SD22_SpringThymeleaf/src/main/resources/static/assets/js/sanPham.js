@@ -335,7 +335,9 @@ function updateNSXSelect() {
 
 document.getElementById('saveColor').addEventListener('click', function () {
     var tenMauSac = document.getElementById('tenMauSac').value.trim();
+    var moTaMauSac = document.getElementById('moTaMauSac').value.trim();
     var errorElement = document.getElementById('tenMauSacError');
+    var moTaErrorElement = document.getElementById('moTaMauSacError');
 
     errorElement.textContent = '';
     errorElement.style.display = 'none';
@@ -346,8 +348,21 @@ document.getElementById('saveColor').addEventListener('click', function () {
         return;
     }
 
+    if (!moTaMauSac) {
+        moTaErrorElement.textContent = 'Vui lòng nhập mô tả màu sắc.';
+        moTaErrorElement.style.display = 'block';
+        return;
+    }
+
+    if (moTaMauSac.length > 30) {
+        moTaErrorElement.textContent = 'Mô tả không được vượt quá 30 ký tự.';
+        moTaErrorElement.style.display = 'block';
+        return;
+    }
+
     const formData = new URLSearchParams();
     formData.append('ten', tenMauSac);
+    formData.append('moTa', moTaMauSac);
 
     confirmAndSave(
         'addMauSac',
@@ -356,6 +371,7 @@ document.getElementById('saveColor').addEventListener('click', function () {
         function () {
             updateMauSacModal();
             document.getElementById('tenMauSac').value = '';
+            document.getElementById('moTaMauSac').value = '';
         },
         function (message) {
             errorElement.textContent = message;

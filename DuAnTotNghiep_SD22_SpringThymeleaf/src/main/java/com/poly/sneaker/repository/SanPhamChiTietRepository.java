@@ -111,13 +111,18 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
             "AND (:coGiayId IS NULL OR c.id = :coGiayId) " +
             "AND (:deGiayId IS NULL OR d.id = :deGiayId) " +
             "AND (:chatLieuId IS NULL OR cl.id = :chatLieuId) " +
-            "AND (:kichCoId IS NULL OR k.id = :kichCoId)")
+            "AND (:kichCoId IS NULL OR k.id = :kichCoId) " +
+            "AND (:minPrice IS NULL OR s.giaBan >= :minPrice) " +
+            "AND (:maxPrice IS NULL OR s.giaBan <= :maxPrice)")
     List<SanPhamChiTiet> filterAndSearchSPCT(@Param("sanPhamId") Long sanPhamId,
                                              @Param("keyword") String keyword,
                                              @Param("coGiayId") Long coGiayId,
                                              @Param("deGiayId") Long deGiayId,
                                              @Param("chatLieuId") Long chatLieuId,
-                                             @Param("kichCoId") Long kichCoId);
+                                             @Param("kichCoId") Long kichCoId,
+                                             @Param("minPrice") Double minPrice,
+                                             @Param("maxPrice") Double maxPrice);
+
 
 
     @Query("SELECT s FROM SanPhamChiTiet s WHERE s.sanPham.id = ?1")

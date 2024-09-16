@@ -143,8 +143,8 @@ public class SanPhamChiTietService {
         return repository.findBySanPhamId(sanPhamId, pageable);
     }
 
-    public Page<SanPhamChiTiet> filterAndSearchSanPhamChiTiet(Long sanPhamId, String keyword, Long coGiayId, Long deGiayId, Long chatLieuId, Long kichCoId, Integer pageNo) {
-        List<SanPhamChiTiet> list = repository.filterAndSearchSPCT(sanPhamId, keyword, coGiayId, deGiayId, chatLieuId, kichCoId);
+    public Page<SanPhamChiTiet> filterAndSearchSanPhamChiTiet(Long sanPhamId, String keyword, Long coGiayId, Long deGiayId, Long chatLieuId, Long kichCoId, Double minPrice, Double maxPrice, Integer pageNo) {
+        List<SanPhamChiTiet> list = repository.filterAndSearchSPCT(sanPhamId, keyword, coGiayId, deGiayId, chatLieuId, kichCoId, minPrice, maxPrice);
 
         Pageable pageable = PageRequest.of(pageNo - 1, 10);
 
@@ -155,6 +155,7 @@ public class SanPhamChiTietService {
 
         return new PageImpl<>(list, pageable, list.size());
     }
+
 
 
     public SanPhamChiTiet getSPByBarcode(String Barcode) {

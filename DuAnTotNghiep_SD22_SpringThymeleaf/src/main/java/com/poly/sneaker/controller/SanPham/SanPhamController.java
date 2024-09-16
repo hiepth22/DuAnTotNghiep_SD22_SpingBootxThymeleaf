@@ -121,19 +121,11 @@ public class SanPhamController {
                                         @RequestParam(name = "deGiay", required = false) Long deGiayId,
                                         @RequestParam(name = "chatLieu", required = false) Long chatLieuId,
                                         @RequestParam(name = "kichCo", required = false) Long kichCoId,
+                                        @RequestParam(name = "minPrice", required = false) Double minPrice,
+                                        @RequestParam(name = "maxPrice", required = false) Double maxPrice,
                                         Model model) {
 
-        Page<SanPhamChiTiet> sanPhamChiTiets = this.SPCTservice.paginationBySanPhamId(sanPhamId, pageNo);
-
-        // Áp dụng tìm kiếm và lọc
-        if (keyword != null || coGiayId != null || deGiayId != null || chatLieuId != null || kichCoId != null) {
-            sanPhamChiTiets = SPCTservice.filterAndSearchSanPhamChiTiet(sanPhamId, keyword, coGiayId, deGiayId, chatLieuId, kichCoId, pageNo);
-            model.addAttribute("keyword", keyword);
-            model.addAttribute("coGiayId", coGiayId);
-            model.addAttribute("deGiayId", deGiayId);
-            model.addAttribute("chatLieuId", chatLieuId);
-            model.addAttribute("kichCoId", kichCoId);
-        }
+        Page<SanPhamChiTiet> sanPhamChiTiets = this.SPCTservice.filterAndSearchSanPhamChiTiet(sanPhamId, keyword, coGiayId, deGiayId, chatLieuId, kichCoId, minPrice, maxPrice, pageNo);
 
         List<DeGiay> deGiays = deGiayService.getAll();
         List<ChatLieu> chatLieus = chatLieuService.getAll();
@@ -149,10 +141,19 @@ public class SanPhamController {
         model.addAttribute("sanPhamChiTiets", sanPhamChiTiets);
         model.addAttribute("sanPhamId", sanPhamId);
 
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("coGiayId", coGiayId);
+        model.addAttribute("deGiayId", deGiayId);
+        model.addAttribute("chatLieuId", chatLieuId);
+        model.addAttribute("kichCoId", kichCoId);
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("maxPrice", maxPrice);
+
         model.addAttribute("hasResults", sanPhamChiTiets.getTotalElements() > 0);
 
         return "/admin/SanPham/sanPhamChiTietPage";
     }
+
 
 
 
