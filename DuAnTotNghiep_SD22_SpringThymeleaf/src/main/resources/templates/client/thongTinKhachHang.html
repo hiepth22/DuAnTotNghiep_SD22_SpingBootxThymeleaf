@@ -91,8 +91,8 @@
 
             <div id="formContainer">
                 <div style="margin-top: 20px">
-                    <form method="post" class="row g-3"
-                          enctype="multipart/form-data" id="myForm" >
+                    <form method="put" class="row g-3"
+                          id="myForm" >
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -105,13 +105,13 @@
                                     <label for="sdt" class="form-label" >Số Điện Thoại:</label>
                                     <input type="text" id="sdt" name="sdt" class="form-control"
                                            placeholder="Nhập SĐT"  disabled="true">
-                                    <div id="sdtError" class="error"></div>
+<!--                                    <div id="sdtError" class="error"></div>-->
                                 </div>
                                 <div class="mb-3">
                                     <label for="cccd" class="form-label">CCCD:</label>
                                     <input type="text" id="cccd" name="cccd" class="form-control"
                                            placeholder="Nhập CCCD" >
-                                    <div id="cccdError" class="error"></div>
+<!--                                    <div id="cccdError" class="error"></div>-->
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -130,7 +130,7 @@
                                     <div id="emailError" class="error"></div>
 
                                 </div>
-                                <h1> Thay Đổi </h1>
+
                                 <div class="form-group mb-3">
                                     <label class="form-label">Giới Tính:</label>
                                     <div class="custom-radio-group">
@@ -149,7 +149,7 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary me-2" id="confirmButton">Lưu</button>
+                            <button type="submit" class="btn btn-primary me-2" >Lưu</button>
                             <a th:href="@{/Client}" class="btn btn-secondary">Đóng</a>
                         </div>
                     </form>
@@ -271,11 +271,11 @@
     }
 
     // Attach the validateForm function to the form submit event
-    document.getElementById('myForm').addEventListener('submit', function(event) {
-        if (!validateForm()) {
-            event.preventDefault(); // Prevent form submission if validation fails
-        }
-    });
+    // document.getElementById('myForm').addEventListener('submit', function(event) {
+    //     if (!validateForm()) {
+    //         event.preventDefault();
+    //     }
+    // });
 
     function getDiaChi(khId) {
         if (khId) {
@@ -418,6 +418,9 @@
         });
 
         $('#myForm').submit(function(event) {
+
+
+
             event.preventDefault();
 
             const formData = {
@@ -446,6 +449,7 @@
                     alert('Có lỗi xảy ra: ' + error);
                 }
             });
+
         });
     });
 

@@ -308,10 +308,10 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
 
         // Update the existingKhachHang with updatedKhachHang properties
         existingKhachHang.setTen(updatedKhachHang.getTen());
-        existingKhachHang.setSdt(updatedKhachHang.getSdt());
+//        existingKhachHang.setSdt(updatedKhachHang.getSdt());
         existingKhachHang.setCccd(updatedKhachHang.getCccd());
         existingKhachHang.setNgaySinh(updatedKhachHang.getNgaySinh());
-        existingKhachHang.setEmail(updatedKhachHang.getEmail());
+//        existingKhachHang.setEmail(updatedKhachHang.getEmail());
         existingKhachHang.setGioiTinh(updatedKhachHang.getGioiTinh());
 
         KhachHang updated = khachHangService.save(existingKhachHang);
