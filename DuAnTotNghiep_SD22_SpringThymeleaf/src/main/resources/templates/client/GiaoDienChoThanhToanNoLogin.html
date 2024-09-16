@@ -691,8 +691,8 @@
                     success: function (response) {
                         console.log("id"+product.id)
                         console.log( product.quantity)
-                        deleteByIDGHCT(product.id);
-                        updateSoLuongSP(product.id, product.quantity);
+                        // deleteByIDGHCT(product.id);
+                        // updateSoLuongSP(product.id, product.quantity);
                         removeProductById(product.id);
 
                     },
@@ -713,20 +713,20 @@
 
 
 
-        function updateSoLuongSP(idSPCT, soLuong){
-            $.ajax({
-                url: `/api/gio-hang/update-so-luong-sp-sau-khi-thanh-toan/${idSPCT}`,
-                method: 'PUT',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    soLuong: soLuong
-                }),
-                success: function () {
-
-                },
-
-            });
-        }
+        // function updateSoLuongSP(idSPCT, soLuong){
+        //     $.ajax({
+        //         url: `/api/gio-hang/update-so-luong-sp-sau-khi-thanh-toan/${idSPCT}`,
+        //         method: 'PUT',
+        //         contentType: 'application/json',
+        //         data: JSON.stringify({
+        //             soLuong: soLuong
+        //         }),
+        //         success: function () {
+        //
+        //         },
+        //
+        //     });
+        // }
 
         function addPhuongThucThanhToan(idHoaDon,tongTien) {
             $.ajax({
@@ -791,16 +791,16 @@
         //     });
         // }
 
-        function deleteByIDGHCT(idGHCT){
-            $.ajax({
-                url: `/api/gio-hang/delete-sp/${idGHCT}`,
-                method: 'POST',
-                success: function () {
-
-                },
-
-            });
-        }
+        // function deleteByIDGHCT(idGHCT){
+        //     $.ajax({
+        //         url: `/api/gio-hang/delete-sp/${idGHCT}`,
+        //         method: 'POST',
+        //         success: function () {
+        //
+        //         },
+        //
+        //     });
+        // }
 
 
 
