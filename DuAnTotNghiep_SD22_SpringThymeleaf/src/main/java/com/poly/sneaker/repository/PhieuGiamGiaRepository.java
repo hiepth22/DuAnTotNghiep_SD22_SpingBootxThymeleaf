@@ -43,9 +43,11 @@ public interface PhieuGiamGiaRepository extends JpaRepository<PhieuGiamGia, Long
 
 
 
-    @Query(value = "SELECT * FROM phieu_giam_gia WHERE donToiThieu BETWEEN 0 AND :maxValue AND trangthai = 1 ORDER BY giamToiDa DESC", nativeQuery = true)
-    List<PhieuGiamGia> getPhieuGiamGiaPhuHop(@Param("maxValue") Long maxValue);
+//    @Query(value = "SELECT * FROM phieu_giam_gia WHERE ( GETDATE() BETWEEN ngayBatdau AND ngayKetThuc) AND (donToiThieu BETWEEN 0 AND :maxValue) AND trangthai = 1 ORDER BY giamToiDa DESC", nativeQuery = true)
+//    List<PhieuGiamGia> getPhieuGiamGiaPhuHop(@Param("maxValue") Long maxValue);
 
+    @Query(value = "SELECT * FROM phieu_giam_gia WHERE GETDATE() BETWEEN ngayBatdau AND ngayKetThuc AND donToiThieu <= :maxValue ORDER BY giamToiDa DESC", nativeQuery = true)
+    List<PhieuGiamGia> getPhieuGiamGiaPhuHop(@Param("maxValue") Long maxValue);
 
 
 

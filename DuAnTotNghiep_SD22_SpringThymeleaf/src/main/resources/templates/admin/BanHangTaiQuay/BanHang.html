@@ -15,15 +15,29 @@
 
 
     <style>
-        .tab {
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-        }
+        /*.tab {*/
+        /*    border-top-left-radius: 8px;*/
+        /*    border-top-right-radius: 8px;*/
+        /*}*/
+
+        /*.tab-active {*/
+        /*    background-color: white;*/
+        /*    border: 1px solid #e5e7eb;*/
+        /*    border-bottom: none;*/
+        /*}*/
 
         .tab-active {
-            background-color: white;
-            border: 1px solid #e5e7eb;
-            border-bottom: none;
+            background-color: #ffffff;
+            color: #333;
+            font-weight: bold;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .tab {
+            background-color: #FFFFFF;
+            color: #333;
+            border-radius: 4px;
         }
 
         #toggle-button, #traSau-button {
@@ -699,15 +713,72 @@
         const tabsContainer = document.getElementById('tabs-container');
         const contentContainer = document.getElementById('content-container');
 
+        // function renderTabs() {
+        //     tabsContainer.innerHTML = '';
+        //     contentContainer.innerHTML = '';
+        //
+        //     tabsData.forEach((tab, index) => {
+        //         const tabButton = document.createElement('button');
+        //         tabButton.classList.add('tab', 'px-4', 'py-2', 'bg-gray-200', 'hover:bg-gray-300');
+        //         if (index === 0) tabButton.classList.add('tab-active');
+        //         tabButton.textContent = tab.title;
+        //         tabButton.addEventListener('click', () => {
+        //             document.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
+        //             document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+        //
+        //             tabButton.classList.add('tab-active');
+        //             const tabContent = document.getElementById(`tab-content-${tab.id}`);
+        //             tabContent.classList.remove('hidden');
+        //
+        //
+        //             idTabHD = tab.id;
+        //             PhieuGiamGiaPhuHop(tongTienTrongHD);
+        //
+        //             getDuLieu(idTabHD);
+        //             getPhuongThucThanhToan(idTabHD);
+        //             if (!tabsData[index].contentLoaded) {
+        //                 // getDuLieu(tab.id);
+        //             }
+        //         });
+        //         tabsContainer.appendChild(tabButton);
+        //
+        //         const tabContent = document.createElement('div');
+        //         tabContent.id = `tab-content-${tab.id}`;
+        //         tabContent.classList.add('tab-content', 'p-4');
+        //         if (index !== 0) tabContent.classList.add('hidden');
+        //         tabContent.innerHTML = tab.content;
+        //         contentContainer.appendChild(tabContent);
+        //     });
+        //
+        //     if (tabsData.length > 0) {
+        //         document.querySelector('.tab').click();
+        //     }
+        // }
+
         function renderTabs() {
             tabsContainer.innerHTML = '';
             contentContainer.innerHTML = '';
 
             tabsData.forEach((tab, index) => {
-                const tabButton = document.createElement('button');
-                tabButton.classList.add('tab', 'px-4', 'py-2', 'bg-gray-200', 'hover:bg-gray-300');
+                const tabButton = document.createElement('div');
+                tabButton.classList.add('tab', 'flex', 'items-center', 'px-4', 'py-2', 'bg-gray-200', 'hover:bg-gray-300', 'relative');
                 if (index === 0) tabButton.classList.add('tab-active');
-                tabButton.textContent = tab.title;
+
+                const tabTitle = document.createElement('span');
+                tabTitle.textContent = `Hóa đơn ${index + 1}`;
+
+                const closeButton = document.createElement('button');
+                closeButton.innerHTML = 'X';
+                closeButton.classList.add('text-black', 'hover:text-red-600', 'text-xs', 'absolute', 'right-0', 'top-1/2', '-translate-y-1/2', 'cursor-pointer', 'mr-2');
+
+                closeButton.addEventListener('click', async (event) => {
+                    event.stopPropagation();
+                    await updateTrangThaiHoaDon(20, tab.id);
+                    tabsData = tabsData.filter(t => t.id !== tab.id);
+                    showNotification("Xóa hóa đơn thành công", 'thanhCong');
+                    renderTabs();
+                });
+
                 tabButton.addEventListener('click', () => {
                     document.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
                     document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
@@ -716,16 +787,15 @@
                     const tabContent = document.getElementById(`tab-content-${tab.id}`);
                     tabContent.classList.remove('hidden');
 
-
                     idTabHD = tab.id;
                     PhieuGiamGiaPhuHop(tongTienTrongHD);
 
                     getDuLieu(idTabHD);
                     getPhuongThucThanhToan(idTabHD);
-                    if (!tabsData[index].contentLoaded) {
-                        // getDuLieu(tab.id);
-                    }
                 });
+
+                tabButton.appendChild(tabTitle);
+                tabButton.appendChild(closeButton);
                 tabsContainer.appendChild(tabButton);
 
                 const tabContent = document.createElement('div');
@@ -743,8 +813,8 @@
 
         document.getElementById('add-tab').addEventListener('click', () => {
             if(countHD >= 10){
-                showNotification("Thêm hóa đơn thật bại", 'thatBai')
-            }else{
+                showNotification("Thêm hóa đơn thất bại", 'thatBai');
+            } else {
                 taoHoaDon();
             }
         });
@@ -778,9 +848,9 @@
                 method: 'GET',
                 success: function (response) {
                     countHD = response.length;
-                    tabsData = response.map(hd => ({
+                    tabsData = response.map((hd, index) => ({
                         id: hd.id,
-                        title: `Hóa đơn ${hd.id}`,
+                        title: `Hóa đơn ${index + 1}`,
                         content: '',
                         contentLoaded: false
                     }));
@@ -790,10 +860,11 @@
                     if (callback) callback();
                 },
                 error: function (xhr, status, error) {
-                    console.error('Lỗi :', error);
+                    console.error('Lỗi:', error);
                 }
             });
         }
+
 
         function getDuLieu(idHoaDon) {
             tongTienTrongHD = 0;
@@ -831,10 +902,13 @@
                     console.log(hd.diaChiNguoiNhan);
                     splitAndPopulateAddress(hd.diaChiNguoiNhan);
 
+
                     tongTienSauKhiCoVoucher = tongTienHDCT - GiamToiDa;
                     $('#tienThieu2').text(`${formatVND(tongTienSauKhiCoVoucher)}`);
                     $('#tienConThieu').text(`${formatVND(tongTienSauKhiCoVoucher - tienDaThanhToan)}`);
-
+                    console.log(GiamToiDa)
+                    console.log(tongTienHDCT)
+                    console.log(tongTienHDCT)
 
                     PhieuGiamGiaPhuHop(tongTienHDCT);
                     PhieuGiamGiaPhuHop(tongTienHDCT)
@@ -970,8 +1044,18 @@
                         GiamToiDa = 0;
                     } else {
                         maPGG = response[0].ma;
-                        GiamToiDa = response[0].giamToiDa;
+                        // GiamToiDa = response[0].giamToiDa;
                         idPGG = response[0].id;
+                        if(response[0].hinhThucGiam === true ){
+                            let phanTram = max / response[0].giaTriGiam ;
+                            if(response[0].giamToiDa < phanTram){
+                                GiamToiDa = response[0]?.giamToiDa || 0;
+                            }else{
+                                GiamToiDa = phanTram;
+                            }
+                        }else{
+                            GiamToiDa = response[0]?.giamToiDa || 0;
+                        }
                     }
                     addPhieuGiamGia(idTabHD, idPGG);
                 },
@@ -1478,14 +1562,15 @@
                         showNotification("Thanh toán thất bại", "thatBai");
                     } else {
                         updateTrangThaiHoaDon(6, idTabHD);
+                        updateTongTien(tongTienSauKhiCoVoucher, idTabHD);
                         renderTabs();
                         showNotification("Thanh toán thành công", "thanhCong");
                         window.location.href = 'http://localhost:3000/admin/ban-hang-tai-quay';
                     }
                 } else if (checkThanhToan === 1) {
+                    updateTongTien(tongTienSauKhiCoVoucher, idTabHD);
                     getFormData();
                     updateThongTinNguoiNhanCoTrangThai(ten, sdtNguoiNhan, fullAddress, phiVanChuyen, noteThongTin, idTabHD, 1);
-                    addPhuongThucThanhToanTienMatGiaoHang(idTabHD, tongTienSauKhiCoVoucher);
                     renderTabs();
                     showNotification("Đặt hàng thành công", "thanhCong");
                     window.location.href = 'http://localhost:3000/admin/ban-hang-tai-quay'

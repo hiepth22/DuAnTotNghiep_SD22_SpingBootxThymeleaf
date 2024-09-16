@@ -21,29 +21,29 @@ import java.util.List;
 @Repository
 public interface HoaDonRepository extends JpaRepository<HoaDon, Long> {
 
-    @Query(value = "SELECT * FROM hoa_don WHERE trangThai = :trangThai AND trangThai != 8 ORDER BY id DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM hoa_don WHERE trangThai = :trangThai AND trangThai != 8 And h.trangThao != 20 ORDER BY id DESC", nativeQuery = true)
     Page<HoaDon> findAllByTrangThai(@Param("trangThai") int trangThai, Pageable pageable);
 
     @Query(value = "SELECT h.* FROM hoa_don h " +
             "LEFT JOIN nhan_vien nv ON h.idNhanVien = nv.id " +
             "WHERE ((h.ma LIKE %:keyword% OR h.sdtNguoiNhan LIKE %:keyword% OR nv.ma LIKE %:keyword%) " +
-            "and loai = :loai and h.ngayTao BETWEEN :startDate AND :endDate) AND h.trangThai = :trangThai AND h.trangThai != 8 ORDER BY h.id DESC", nativeQuery = true)
+            "and loai = :loai and h.ngayTao BETWEEN :startDate AND :endDate) AND h.trangThai = :trangThai AND h.trangThai != 8 And h.trangTha != 20 ORDER BY h.id DESC", nativeQuery = true)
     Page<HoaDon> findByKeywordAndNgayTaoBetweenAndTrangThai(@Param("keyword") String keyword, @Param("loai") int loai, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("trangThai") int trangThai, Pageable pageable);
 
     @Query(value = "SELECT h.* FROM hoa_don h " +
             "LEFT JOIN nhan_vien nv ON h.idNhanVien = nv.id " +
             "WHERE ((h.ma LIKE %:keyword% OR h.sdtNguoiNhan LIKE %:keyword% OR nv.ma LIKE %:keyword%) " +
-            "and loai = :loai and h.ngayTao BETWEEN :startDate AND :endDate) AND h.trangThai != 8 ORDER BY h.id DESC", nativeQuery = true)
+            "and loai = :loai and h.ngayTao BETWEEN :startDate AND :endDate) AND h.trangThai != 8 And h.trangThai != 20 ORDER BY h.id DESC", nativeQuery = true)
     Page<HoaDon> findByMaAndNgayTaoBetweenAndKeyword(@Param("keyword") String keyword, @Param("loai") int loai, @Param("startDate") Date startDate, @Param("endDate") Date endDate, Pageable pageable);
 
     @Query(value = "SELECT * FROM hoa_don WHERE trangThai = 8 ORDER BY id DESC", nativeQuery = true)
     List<HoaDon> findHoaDonCho();
 
-    @Query(value = "SELECT * FROM hoa_don WHERE trangThai != 8 ORDER BY id DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM hoa_don WHERE trangThai != 8 And trangThai != 20 ORDER BY id DESC", nativeQuery = true)
     Page<HoaDon> getAllHoaDon(Pageable pageable);
 
 
-    @Query(value = "SELECT * FROM hoa_don_chi_tiet WHERE idHoaDon = :idHoaDon and trangThai != 8 ", nativeQuery = true)
+    @Query(value = "SELECT * FROM hoa_don_chi_tiet WHERE idHoaDon = :idHoaDon and trangThai != 8 And trangThai != 20 ", nativeQuery = true)
     List<HoaDonChiTiet> findByIdHD(@Param("id") Long id);
 
     List<HoaDon> findAllByNgayTaoBetweenAndTrangThaiAndMaContainingIgnoreCaseOrSdtNguoiNhanContainingIgnoreCase(

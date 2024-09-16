@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -110,16 +111,27 @@ public class HoaDonAPI {
 
         if (hd.getPhieuGiamGia() != null && hd.getPhieuGiamGia().getId() != null) {
             BigDecimal giamToiDa = hd.getPhieuGiamGia().getGiamToiDa();
+            BigDecimal giaTriGiam = hd.getPhieuGiamGia().getGiaTriGiam();
+            Boolean hinhThucGiam = hd.getPhieuGiamGia().getHinhThucGiam();
 
-            tongTienSauKhiGiam = tongTien.subtract(giamToiDa.min(tongTien));
+            if (hinhThucGiam != null && hinhThucGiam) {
+                BigDecimal phanTramGiam = tongTien.divide(giaTriGiam, RoundingMode.HALF_UP);
 
-            hd.setTongTienSauGiam(tongTienSauKhiGiam);
+                if (phanTramGiam.compareTo(giamToiDa) > 0) {
+                    tongTienSauKhiGiam = tongTien.subtract(giamToiDa);
+                } else {
+                    tongTienSauKhiGiam = tongTien.subtract(phanTramGiam);
+                }
+            } else {
+                tongTienSauKhiGiam = tongTien.subtract(giamToiDa.min(tongTien));
+            }
+
             hd.setTongTien(tongTien);
+            hd.setTongTienSauGiam(tongTienSauKhiGiam);
         } else {
             hd.setTongTien(tongTien);
             hd.setTongTienSauGiam(tongTien);
         }
-
 
         hoaDonService.updateTongTien(id, hd);
 
@@ -129,6 +141,7 @@ public class HoaDonAPI {
 
         return ResponseEntity.ok(response);
     }
+
 
     @PutMapping("/update-trang-thai/{id}")
     public ResponseEntity<?> updateTrangThai(@PathVariable("id") Long id, @RequestBody HoaDon hoaDon) {
@@ -169,6 +182,46 @@ public class HoaDonAPI {
 //    }
 
 
+//    @PutMapping("/update-so-luong/{id}")
+//    public ResponseEntity<?> updateSoLuong(@PathVariable("id") Long id, @RequestBody HoaDonChiTiet hoaDonChiTiet) {
+//        HoaDonChiTiet updatedHoaDonChiTiet = hoaDonService.updateSoLuong(id, hoaDonChiTiet);
+//
+//        if (updatedHoaDonChiTiet != null) {
+//            Long hoaDonId = updatedHoaDonChiTiet.getHoaDon().getId();
+//            List<HoaDonChiTiet> hdctList = hoaDonChiTietService.findByHDId(hoaDonId);
+//
+//            BigDecimal tongTienMoi = hdctList.stream()
+//                    .map(hdct -> hdct.getSanPhamChiTiet().getGiaBan()
+//                            .multiply(BigDecimal.valueOf(hdct.getSoLuong())))
+//                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+//
+//            BigDecimal tongTienSauKhiGiam = BigDecimal.ZERO;
+//
+//            HoaDon hd = hoaDonService.detail(hoaDonId);
+//
+//            if (hd != null) {
+//                if (hd.getPhieuGiamGia() != null && hd.getPhieuGiamGia().getId() != null) {
+//                    BigDecimal giamToiDa = hd.getPhieuGiamGia().getGiamToiDa();
+//
+//                    tongTienSauKhiGiam = tongTienMoi.subtract(giamToiDa.min(tongTienMoi));
+//
+//                    hd.setTongTienSauGiam(tongTienSauKhiGiam);
+//                    hd.setTongTien(tongTienMoi);
+//                } else {
+//                    hd.setTongTien(tongTienMoi);
+//                    hd.setTongTienSauGiam(tongTienMoi);
+//                }
+//                hoaDonService.updateTongTien(hoaDonId, hd);
+//            } else {
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDon not found");
+//            }
+//
+//            return ResponseEntity.ok(updatedHoaDonChiTiet);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDonChiTiet not found");
+//        }
+//    }
+
     @PutMapping("/update-so-luong/{id}")
     public ResponseEntity<?> updateSoLuong(@PathVariable("id") Long id, @RequestBody HoaDonChiTiet hoaDonChiTiet) {
         HoaDonChiTiet updatedHoaDonChiTiet = hoaDonService.updateSoLuong(id, hoaDonChiTiet);
@@ -189,25 +242,39 @@ public class HoaDonAPI {
             if (hd != null) {
                 if (hd.getPhieuGiamGia() != null && hd.getPhieuGiamGia().getId() != null) {
                     BigDecimal giamToiDa = hd.getPhieuGiamGia().getGiamToiDa();
+                    BigDecimal giaTriGiam = hd.getPhieuGiamGia().getGiaTriGiam();
+                    Boolean hinhThucGiam = hd.getPhieuGiamGia().getHinhThucGiam();
 
-                    tongTienSauKhiGiam = tongTienMoi.subtract(giamToiDa.min(tongTienMoi));
+                    if (hinhThucGiam != null && hinhThucGiam) {
+                        BigDecimal phanTramGiam = tongTienMoi.divide(giaTriGiam, RoundingMode.HALF_UP);
 
-                    hd.setTongTienSauGiam(tongTienSauKhiGiam);
+                        if (phanTramGiam.compareTo(giamToiDa) > 0) {
+                            tongTienSauKhiGiam = tongTienMoi.subtract(giamToiDa);
+                        } else {
+                            tongTienSauKhiGiam = tongTienMoi.subtract(phanTramGiam);
+                        }
+                    } else {
+                        tongTienSauKhiGiam = tongTienMoi.subtract(giamToiDa.min(tongTienMoi));
+                    }
+
                     hd.setTongTien(tongTienMoi);
+                    hd.setTongTienSauGiam(tongTienSauKhiGiam);
                 } else {
                     hd.setTongTien(tongTienMoi);
                     hd.setTongTienSauGiam(tongTienMoi);
                 }
+
                 hoaDonService.updateTongTien(hoaDonId, hd);
+
+                return ResponseEntity.ok(updatedHoaDonChiTiet);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDon not found");
             }
-
-            return ResponseEntity.ok(updatedHoaDonChiTiet);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDonChiTiet not found");
         }
     }
+
 
     @PutMapping("/update-tong-tien/{id}")
     public ResponseEntity<?> updateTongTien(@PathVariable("id") Long id, @RequestBody HoaDon hoaDon) {
@@ -249,28 +316,36 @@ public class HoaDonAPI {
 
         if (hd.getPhieuGiamGia() != null && hd.getPhieuGiamGia().getId() != null) {
             BigDecimal giamToiDa = hd.getPhieuGiamGia().getGiamToiDa();
-            System.out.println("Giảm giá tối đa: " + giamToiDa);
+            BigDecimal giaTriGiam = hd.getPhieuGiamGia().getGiaTriGiam();
+            Boolean hinhThucGiam = hd.getPhieuGiamGia().getHinhThucGiam();
 
-            tongTienSauKhiGiam = tongTienMoi.subtract(giamToiDa.min(tongTienMoi));
+            if (hinhThucGiam != null && hinhThucGiam) {
+                BigDecimal phanTramGiam = tongTienMoi.divide(giaTriGiam, RoundingMode.HALF_UP);
 
-            hd.setTongTienSauGiam(tongTienSauKhiGiam);
+                if (phanTramGiam.compareTo(giamToiDa) > 0) {
+                    tongTienSauKhiGiam = tongTienMoi.subtract(giamToiDa);
+                } else {
+                    tongTienSauKhiGiam = tongTienMoi.subtract(phanTramGiam);
+                }
+            } else {
+                tongTienSauKhiGiam = tongTienMoi.subtract(giamToiDa.min(tongTienMoi));
+            }
+
             hd.setTongTien(tongTienMoi);
+            hd.setTongTienSauGiam(tongTienSauKhiGiam);
         } else {
             hd.setTongTien(tongTienMoi);
             hd.setTongTienSauGiam(tongTienMoi);
         }
+
         hoaDonService.updateTongTien(idHD, hd);
+
         hoaDonChiTiet.setHoaDon(hoaDonChiTiet.getHoaDon());
         hoaDonChiTiet.setSanPhamChiTiet(hoaDonChiTiet.getSanPhamChiTiet());
 
-        System.out.println("Tổng tiền hiện tại: " + tongTienHienTai);
-        System.out.println("Giá bán sản phẩm mới: " + giaBanSanPhamMoi);
-        System.out.println("Số lượng sản phẩm mới: " + soLuongSanPhamMoi);
-        System.out.println("Tổng tiền mới: " + tongTienMoi);
-        System.out.println("Tổng tiền sau khi giảm: " + tongTienSauKhiGiam);
-
         return ResponseEntity.ok(banHangService.add(hoaDonChiTiet));
     }
+
 
 
     @GetMapping("/phuong-thuc-thanh-toan/{id}")
