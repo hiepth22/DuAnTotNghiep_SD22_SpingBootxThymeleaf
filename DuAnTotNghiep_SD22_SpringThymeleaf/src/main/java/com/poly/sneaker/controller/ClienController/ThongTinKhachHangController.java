@@ -27,5 +27,14 @@ public class ThongTinKhachHangController {
         return "redirect:/login";
     }
 
+    @GetMapping("/thong-tin-tai-khoan")
+    public String taiKhoan(HttpSession session) {
+        KhachHang khachHang = (KhachHang) session.getAttribute("khachHang");
+        if (khachHang != null) {
+            return "client/thongTinKhachHang";
+        }
+        return "redirect:/login";
+    }
+
 
 }
