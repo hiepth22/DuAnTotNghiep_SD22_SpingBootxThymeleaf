@@ -650,7 +650,11 @@ $(document).ready(function () {
                     buttonNext.style.display = "none";
                     buttonPre.style.display = "none";
                     buttonHuy.style.display = "none";
-                } else {
+                } else if(currentStep === 2) {
+                    buttonNext.style.display = "block";
+                    buttonPre.style.display = "none";
+                    buttonHuy.style.display = "block";
+                } else{
                     buttonNext.style.display = "block";
                     buttonPre.style.display = "none";
                     buttonHuy.style.display = "none";
@@ -803,7 +807,7 @@ $(document).ready(function () {
                 $('#combo-box-mau-sac').append('<option value="">Tất cả</option>');
 
                 $.each(data, function(index, item) {
-                    $('#combo-box-mau-sac').append(`<option value="${item.id}">${item.ten}</option>`);
+                    $('#combo-box-mau-sac').append(`<option value="${item.id}">${item.moTa}</option>`);
                 });
             },
 
