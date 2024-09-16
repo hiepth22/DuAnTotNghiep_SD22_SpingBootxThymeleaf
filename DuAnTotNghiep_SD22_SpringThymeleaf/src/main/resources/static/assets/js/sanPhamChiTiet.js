@@ -35,7 +35,7 @@ function validatePriceRange() {
 
     if (minPrice > MIN_PRICE) {
         minPriceError.textContent = `Giá tối thiểu không được vượt quá ${formatCurrency(MIN_PRICE)}.`;
-        minPriceInput.value = formatCurrency(MIN_PRICE); // Đặt lại giá trị về giới hạn tối đa
+        minPriceInput.value = formatCurrency(MIN_PRICE);
     }
 
     if (maxPrice > MAX_PRICE) {
