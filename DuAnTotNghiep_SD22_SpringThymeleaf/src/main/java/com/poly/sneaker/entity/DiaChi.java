@@ -56,4 +56,8 @@ public class DiaChi {
     @Column(name = "ngayCapNhat")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime ngayCapNhat;
+    public void updateTrangThai(int newTrangThai) {
+        this.trangThai = newTrangThai;
+        this.ngayCapNhat = LocalDateTime.now();
+    }
 }
