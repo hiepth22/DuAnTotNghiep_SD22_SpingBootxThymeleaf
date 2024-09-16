@@ -102,9 +102,9 @@
                                     <div id="tenError" class="error"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="sdt" class="form-label">Số Điện Thoại:</label>
+                                    <label for="sdt" class="form-label" >Số Điện Thoại:</label>
                                     <input type="text" id="sdt" name="sdt" class="form-control"
-                                           placeholder="Nhập SĐT"  >
+                                           placeholder="Nhập SĐT"  disabled="true">
                                     <div id="sdtError" class="error"></div>
                                 </div>
                                 <div class="mb-3">
@@ -122,9 +122,9 @@
                                     <div id="ngaySinhError" class="error"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Email:</label>
+                                    <label for="email" class="form-label" >Email:</label>
                                     <input type="email" id="email" name="email" class="form-control"
-                                           placeholder="Nhập Email" >
+                                           placeholder="Nhập Email" disabled="true">
                                     <div id="emailError" class="error"></div>
                                 </div>
                                 <div class="form-group mb-3">
@@ -195,6 +195,84 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+    function validateForm() {
+        let isValid = true;
+
+        // Get form elements
+        const ten = document.getElementById('ten');
+        const sdt = document.getElementById('sdt');
+        const cccd = document.getElementById('cccd');
+        const ngaySinh = document.getElementById('ngaySinh');
+        const email = document.getElementById('email');
+
+        // Clear previous error messages and styles
+        ten.classList.remove('is-invalid');
+        sdt.classList.remove('is-invalid');
+        cccd.classList.remove('is-invalid');
+        ngaySinh.classList.remove('is-invalid');
+        email.classList.remove('is-invalid');
+
+        document.getElementById('tenError').innerText = '';
+        document.getElementById('sdtError').innerText = '';
+        document.getElementById('cccdError').innerText = '';
+        document.getElementById('ngaySinhError').innerText = '';
+        document.getElementById('emailError').innerText = '';
+
+        // Validate 'Tên Khách Hàng'
+        if (ten.value.trim() === '') {
+            document.getElementById('tenError').innerText = 'Vui lòng nhập tên khách hàng';
+            ten.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Số Điện Thoại'
+        const phoneRegex = /^[0-9]{10}$/;
+        if (sdt.value.trim() === '') {
+            document.getElementById('sdtError').innerText = 'Vui lòng nhập số điện thoại';
+            sdt.classList.add('is-invalid');
+            isValid = false;
+        } else if (!phoneRegex.test(sdt.value.trim())) {
+            document.getElementById('sdtError').innerText = 'Số điện thoại phải là số và gồm 10 chữ số';
+            sdt.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'CCCD'
+        if (cccd.value.trim() === '') {
+            document.getElementById('cccdError').innerText = 'Vui lòng nhập CCCD';
+            cccd.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Ngày Sinh'
+        if (ngaySinh.value === '') {
+            document.getElementById('ngaySinhError').innerText = 'Vui lòng chọn ngày sinh';
+            ngaySinh.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Email'
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email regex
+        if (email.value.trim() === '') {
+            document.getElementById('emailError').innerText = 'Vui lòng nhập email';
+            email.classList.add('is-invalid');
+            isValid = false;
+        } else if (!emailRegex.test(email.value.trim())) {
+            document.getElementById('emailError').innerText = 'Email không hợp lệ';
+            email.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    // Attach the validateForm function to the form submit event
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+        if (!validateForm()) {
+            event.preventDefault(); // Prevent form submission if validation fails
+        }
+    });
+
     function getDiaChi(khId) {
         if (khId) {
             var addressDetailsContainer = $('#address-details');
