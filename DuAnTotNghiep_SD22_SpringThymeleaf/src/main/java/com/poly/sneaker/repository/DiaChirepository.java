@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,4 +31,8 @@ public interface DiaChirepository extends JpaRepository<DiaChi, Long> {
 
     @Query(value = "SELECT * FROM dia_chi WHERE idKhachHang = :idKhachHang ORDER BY trangThai desc ", nativeQuery = true)
     List<DiaChi> findKHDESCByIdKH(@Param("idKhachHang") Long idKhachHang);
+    @Modifying
+    @Transactional
+    @Query("UPDATE DiaChi d SET d.trangThai = 0 WHERE d.idKH.id = :idKhachHang AND d.id <> :excludedDiaChiId")
+    void updateAllOtherDiaChiToZero(@Param("idKhachHang") Long idKhachHang, @Param("excludedDiaChiId") Long excludedDiaChiId);
 }

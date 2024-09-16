@@ -118,10 +118,21 @@ $(document).ready(function () {
 
 
     function hienThiTongTienChiTiet(tongTien, hd) {
+        let voucher = 0;
+        if(hd.phieuGiamGia.hinhThucGiam === true ){
+            let phanTram = tongTien / hd.phieuGiamGia.giaTriGiam ;
+            if(hd.phieuGiamGia.giamToiDa < phanTram){
+                voucher = hd.phieuGiamGia.giamToiDa || 0;
+            }else{
+                voucher = phanTram;
+            }
+        }else{
+            voucher = hd.phieuGiamGia.giamToiDa || 0;
+        }
         PhieuGiamGiaPhuHop(hd);
-        const tongTienSauKhiGiam = tongTien - (hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0);
+        const tongTienSauKhiGiam = tongTien - voucher;
 
-        const voucher = hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0
+        // const voucher = hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0
         // const tongTienSauGiam = tongTien - hd.phieuGiamGia.giamToiDa;
 
         const tongTienThanhToan = hd.tongTienSauGiam + hd.tienShip;

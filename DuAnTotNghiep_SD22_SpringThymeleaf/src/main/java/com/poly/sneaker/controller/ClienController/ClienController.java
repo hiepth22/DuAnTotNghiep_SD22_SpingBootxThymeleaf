@@ -29,7 +29,8 @@ import java.util.stream.Collectors;
 
 @Controller
 public class ClienController {
-
+    @Autowired
+    private DiaChiService diaChiService;
     @Autowired
     private SanPhamChiTietRepository repo;
     @Autowired
@@ -45,7 +46,8 @@ public class ClienController {
     private GioHangRepository ghrepo;
     @Autowired
     GiohangService giohangService;
-
+    @Autowired
+    private DiaChirepository diaChiRepository;
     @Autowired
     GioHangChiTietRepository gioHangChiTietRepository;
     @Autowired
@@ -298,7 +300,7 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
         return new ResponseEntity<>(sp, HttpStatus.OK);
     }
 
-    @PutMapping("/update-khach-hang-client/{id}")
+    @PostMapping ("/update-khach-hang-client/{id}")
     public ResponseEntity<?> updateKhachHang(@PathVariable Long id, @RequestBody KhachHang updatedKhachHang) {
         KhachHang existingKhachHang = khachHangService.findById(id);
 
@@ -308,10 +310,10 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
 
         // Update the existingKhachHang with updatedKhachHang properties
         existingKhachHang.setTen(updatedKhachHang.getTen());
-        existingKhachHang.setSdt(updatedKhachHang.getSdt());
+//        existingKhachHang.setSdt(updatedKhachHang.getSdt());
         existingKhachHang.setCccd(updatedKhachHang.getCccd());
         existingKhachHang.setNgaySinh(updatedKhachHang.getNgaySinh());
-        existingKhachHang.setEmail(updatedKhachHang.getEmail());
+//        existingKhachHang.setEmail(updatedKhachHang.getEmail());
         existingKhachHang.setGioiTinh(updatedKhachHang.getGioiTinh());
 
         KhachHang updated = khachHangService.save(existingKhachHang);
@@ -327,6 +329,26 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
             return ResponseEntity.ok(existingKhachHang);
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+    @PostMapping("/updatemacdinh/{id}")
+    public ResponseEntity<Void> updateTrangThai(@PathVariable Long id, @RequestParam int trangThai) {
+        try {
+            diaChiService.updateTrangThai(id, trangThai);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @DeleteMapping("/deletediachikh/{id}")
+    public ResponseEntity<Void> deleteDiaChi(@PathVariable Long id) {
+        try {
+            diaChiRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace(); 
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

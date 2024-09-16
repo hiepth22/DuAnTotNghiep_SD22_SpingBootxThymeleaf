@@ -102,4 +102,20 @@ public class DiaChiService {
     public DiaChi themNhanh(DiaChi diaChi){
         return diaChirepository.save(diaChi);
     }
+    @org.springframework.transaction.annotation.Transactional
+    public void updateTrangThai(Long diaChiId, int newTrangThai) {
+        if (newTrangThai != 1) {
+            throw new IllegalArgumentException("Trạng thái mới phải là 1.");
+        }
+
+        DiaChi diaChi = diaChirepository.findById(diaChiId)
+                .orElseThrow(() -> new RuntimeException("DiaChi not found with id " + diaChiId));
+
+        diaChi.setTrangThai(newTrangThai);
+        diaChirepository.save(diaChi);
+
+        KhachHang khachHang = diaChi.getIdKH();
+
+        diaChirepository.updateAllOtherDiaChiToZero(khachHang.getId(), diaChiId);
+    }
 }

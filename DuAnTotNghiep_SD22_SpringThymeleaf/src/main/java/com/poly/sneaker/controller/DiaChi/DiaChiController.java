@@ -30,7 +30,15 @@ public class DiaChiController {
         try {
             List<DiaChi> diaChiList = diaChiService.getByID(id);
             idkh = id;
-
+            diaChiList.sort((d1, d2) -> {
+                if (d1.getTrangThai() == 1 && d2.getTrangThai() != 1) {
+                    return -1; // d1 nên đứng trước d2
+                } else if (d1.getTrangThai() != 1 && d2.getTrangThai() == 1) {
+                    return 1; // d1 nên đứng sau d2
+                } else {
+                    return 0;
+                }
+            });
             return ResponseEntity.ok(diaChiList);
         } catch (Exception e) {
             String errorMessage = "Error retrieving addresses for customer with ID: " + id;
