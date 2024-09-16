@@ -66,6 +66,7 @@ public class SanPhamChiTietService {
     public SanPhamChiTiet update(Long id, SanPhamChiTiet newSPCT) {
         Optional<SanPhamChiTiet> optional = repository.findById(id);
         return optional.map(o -> {
+            o.setTen(newSPCT.getTen());
             o.setSoLuong(newSPCT.getSoLuong());
             o.setGiaBan(newSPCT.getGiaBan());
             o.setMoTa(newSPCT.getMoTa());
@@ -77,7 +78,6 @@ public class SanPhamChiTietService {
             o.setNguoiTao(newSPCT.getNguoiTao());
             o.setNguoiCapNhat(newSPCT.getNguoiCapNhat());
 
-            o.setSanPham(SanPham.builder().id(newSPCT.getSanPham().getId()).build());
             o.setKichCo(KichCo.builder().id(newSPCT.getKichCo().getId()).build());
             o.setMauSac(MauSac.builder().id(newSPCT.getMauSac().getId()).build());
             o.setDeGiay(DeGiay.builder().id(newSPCT.getDeGiay().getId()).build());
@@ -147,8 +147,12 @@ public class SanPhamChiTietService {
         return repository.findBySanPhamId(sanPhamId, pageable);
     }
 
+    public List<SanPhamChiTiet> filterAndSearchSanPhamChiTiet(Long sanPhamId, String keyword, Long coGiayId, Long deGiayId, Long chatLieuId, Long kichCoId, Double minPrice, Double maxPrice){
+        return repository.filterAndSearchSPCT(sanPhamId, keyword, coGiayId, deGiayId, chatLieuId, kichCoId, minPrice, maxPrice);
+    }
+
     public Page<SanPhamChiTiet> filterAndSearchSanPhamChiTiet(Long sanPhamId, String keyword, Long coGiayId, Long deGiayId, Long chatLieuId, Long kichCoId, Double minPrice, Double maxPrice, Integer pageNo) {
-        List<SanPhamChiTiet> list = repository.filterAndSearchSPCT(sanPhamId, keyword, coGiayId, deGiayId, chatLieuId, kichCoId, minPrice, maxPrice);
+        List list = repository.filterAndSearchSPCT(sanPhamId, keyword, coGiayId, deGiayId, chatLieuId, kichCoId, minPrice, maxPrice);
 
         Pageable pageable = PageRequest.of(pageNo - 1, 10);
 
@@ -157,7 +161,7 @@ public class SanPhamChiTietService {
 
         list = list.subList(start, end);
 
-        return new PageImpl<>(list, pageable, list.size());
+        return new PageImpl<>(list, pageable, filterAndSearchSanPhamChiTiet(sanPhamId, keyword, coGiayId,deGiayId,chatLieuId,kichCoId,minPrice,maxPrice).size());
     }
 
 

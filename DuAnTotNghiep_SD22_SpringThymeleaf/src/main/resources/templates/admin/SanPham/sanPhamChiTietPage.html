@@ -77,14 +77,13 @@
                     <label class="form-label">Lọc theo khoảng giá</label>
                     <div class="d-flex align-items-center">
                         <div class="me-2">
-                            <label for="minPriceInput" class="form-label">Min</label>
-                            <input type="text" class="form-control w-100" id="minPriceInput" name="minPrice" th:value="${minPrice}">
-                            <div id="minPriceError" class="text-danger"></div> <!-- Hiển thị lỗi dưới trường nhập -->
+                            <input type="text" class="form-control w-100" id="minPriceInput" name="minPrice" th:value="${minPrice}" placeholder="Min">
+                            <div id="minPriceError" class="text-danger"></div>
                         </div>
+                        to
                         <div class="ms-2">
-                            <label for="maxPriceInput" class="form-label">Max</label>
-                            <input type="text" class="form-control w-100" id="maxPriceInput" name="maxPrice" th:value="${maxPrice}">
-                            <div id="maxPriceError" class="text-danger"></div> <!-- Hiển thị lỗi dưới trường nhập -->
+                            <input type="text" class="form-control w-100" id="maxPriceInput" name="maxPrice" th:value="${maxPrice}" placeholder="Max">
+                            <div id="maxPriceError" class="text-danger"></div>
                         </div>
                     </div>
                 </div>
