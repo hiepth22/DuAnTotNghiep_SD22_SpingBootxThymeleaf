@@ -94,14 +94,4 @@ public class SanPhamService {
     public boolean existsByTenAndThuongHieu(String ten, ThuongHieu thuongHieu) {
         return repository.existsByTenAndThuongHieu(ten, thuongHieu);
     }
-
-    public void updateTrangThai(Long id, Integer trangThai) {
-        Optional<SanPham> sanPhamOptional = repository.findById(id);
-        if (sanPhamOptional.isPresent()) {
-            SanPham sanPham = sanPhamOptional.get();
-            sanPham.setTrangThai(trangThai);
-            repository.save(sanPham);
-        }
-    }
-
 }

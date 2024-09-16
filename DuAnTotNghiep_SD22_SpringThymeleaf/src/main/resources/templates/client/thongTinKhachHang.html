@@ -119,14 +119,18 @@
                                     <label for="ngaySinh" class="form-label">Ngày Sinh:</label>
                                     <input type="date" id="ngaySinh" name="ngaySinh" class="form-control"
                                            required >
+
                                     <div id="ngaySinhError" class="error"></div>
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="email" class="form-label" >Email:</label>
                                     <input type="email" id="email" name="email" class="form-control"
                                            placeholder="Nhập Email" disabled="true">
                                     <div id="emailError" class="error"></div>
+
                                 </div>
+                                <h1> Thay Đổi </h1>
                                 <div class="form-group mb-3">
                                     <label class="form-label">Giới Tính:</label>
                                     <div class="custom-radio-group">
@@ -276,12 +280,12 @@
     function getDiaChi(khId) {
         if (khId) {
             var addressDetailsContainer = $('#address-details');
-            addressDetailsContainer.empty(); // Clear previous data
+            addressDetailsContainer.empty();
 
             $.ajax({
                 url: '/api/khach-hang/dia-chi/' + khId,
                 method: 'GET',
-                cache: false, // Disable caching
+                cache: false,
                 dataType: 'json',
                 success: function (data) {
                     console.log('Received data:', data);

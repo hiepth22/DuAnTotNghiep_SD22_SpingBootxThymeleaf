@@ -1,11 +1,22 @@
 $(document).ready(function () {
 
     let idSP = [];
+    let loaiThanhToan2 = null;
+
     let itemId = null;
     let giaBan = 0;
 
+    let idPGG = null;
+
+    let idKH = null
+
+    let hd = {};
+    let hdctList = [];
+
     const pathArray = window.location.pathname.split('/');
     const idHoaDon = pathArray[pathArray.length - 1];
+
+    const hdctCheck = [];
 
     // var $phiVanChuyen = $('#phiVanChuyen');
     // var  $nguoiNhan = $('#edit-ten');
@@ -107,7 +118,7 @@ $(document).ready(function () {
 
 
     function hienThiTongTienChiTiet(tongTien, hd) {
-
+        PhieuGiamGiaPhuHop(hd);
         const tongTienSauKhiGiam = tongTien - (hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0);
 
         const voucher = hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0
@@ -164,7 +175,10 @@ $(document).ready(function () {
             data: JSON.stringify({id: id, soLuong: SoLuongMoi}),
             success: function (response) {
                 // console.log(response)
+                PhieuGiamGiaPhuHop(hd.tongTien);
+
                 fetchHoaDonDetail(idHoaDon);
+
             },
             error: function (xhr, status, error) {
                 console.error('Lỗi khi cập nhật số lượng sản phẩm:', error);
@@ -186,6 +200,7 @@ $(document).ready(function () {
                         data: {idHoaDonCT: itemId},
                         success: function () {
                             showNotification("Xóa sản pẩm thành công", "thanhCong")
+
                             fetchHoaDonDetail(idHoaDon)
                         },
                         error: function() {
@@ -198,6 +213,8 @@ $(document).ready(function () {
                     });
                 }
             });
+            PhieuGiamGiaPhuHop(hd.tongTien);
+
         });
     }
 
@@ -221,6 +238,7 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: JSON.stringify({tongTien: tongTien, tongTienSauGiam: tongTienSauKhiGiam}),
             success: function (response) {
+                // PhieuGiamGiaPhuHop(tongTien);
             },
         });
     }
@@ -275,12 +293,17 @@ $(document).ready(function () {
 
 
     function fetchHoaDonDetail(idHoaDon) {
+
         $.ajax({
             url: `/api/hoa-don/detail/${idHoaDon}`,
             method: 'GET',
             success: function (response) {
-                const hd = response.hd;
-                const hdctList = response.hdctList;
+                hd = response.hd;
+                hdctList = response.hdctList;
+
+                loaiThanhToan2 = hd.loai;
+
+                idKH = hd.khachHang.id;
 
                 idSP = [];
 
@@ -319,6 +342,7 @@ $(document).ready(function () {
 
                 getThongTinKhachHang();
 
+
                 cbbChatLieu();
                 cbbDeGiay();
                 cbbThuongHieu();
@@ -334,6 +358,7 @@ $(document).ready(function () {
             }
         });
     }
+
 
 
     $("#danhSachSanPham").on('click', '.themSanPham', function () {
@@ -388,7 +413,10 @@ $(document).ready(function () {
                     showNotification("Thêm sản pẩm thành công", "thanhCong")
                     hideModalSoLuong();
                     hideModalDanhSachSanPham();
+                    PhieuGiamGiaPhuHop(hd.tongTien);
+
                     fetchHoaDonDetail(idHoaDon);
+
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error('Lỗi khi gọi API', textStatus, errorThrown);
@@ -404,7 +432,10 @@ $(document).ready(function () {
                     showNotification("Thêm sản pẩm thành công", "thanhCong")
                     hideModalSoLuong();
                     hideModalDanhSachSanPham();
+                    PhieuGiamGiaPhuHop(hd.tongTien);
+
                     fetchHoaDonDetail(idHoaDon);
+
                 },
             });
         }
@@ -595,36 +626,123 @@ $(document).ready(function () {
 
         console.log(idSP.length);
 
+        console.log("Loai thanh toan"+loaiThanhToan2);
 
+        if(loaiThanhToan2 === 1){
+            if (currentStep === 1) {
+                buttonPre.style.display = 'none';
+                button.style.display = "none";
+                buttonsDeleteSP.forEach(button => button.style.display = "none");
+                buttonThayDoiThongTin.style.display = "block";
+                soLuongInputs.forEach(input => {
+                    input.disabled = true;
+                });
+            } else if (currentStep > 1) {
+                button.style.display = "none";
+                buttonsDeleteSP.forEach(button => button.style.display = "none");
+                buttonThayDoiThongTin.style.display = "none";
 
-        if (currentStep === 1) {
-            buttonPre.style.display = 'none';
-            button.style.display = "block";
-            buttonsDeleteSP.forEach(button => button.style.display = "block");
-            buttonThayDoiThongTin.style.display = "block";
-            soLuongInputs.forEach(input => {
-                input.disabled = false;
-            });
-        } else if (currentStep > 1) {
-            button.style.display = "none";
-            buttonsDeleteSP.forEach(button => button.style.display = "none");
-            buttonThayDoiThongTin.style.display = "none";
+                soLuongInputs.forEach(input => {
+                    input.disabled = true;
+                });
 
-            soLuongInputs.forEach(input => {
-                input.disabled = true;
-            });
+                if (currentStep >= 6) {
+                    buttonNext.style.display = "none";
+                    buttonPre.style.display = "none";
+                    buttonHuy.style.display = "none";
+                } else {
+                    buttonNext.style.display = "block";
+                    buttonPre.style.display = "none";
+                    buttonHuy.style.display = "none";
+                }
+            }
+        }else{
+            if (currentStep === 1) {
+                buttonPre.style.display = 'none';
+                button.style.display = "block";
+                buttonsDeleteSP.forEach(button => button.style.display = "block");
+                buttonThayDoiThongTin.style.display = "block";
+                soLuongInputs.forEach(input => {
+                    input.disabled = false;
+                });
+            } else if (currentStep > 1) {
+                button.style.display = "none";
+                buttonsDeleteSP.forEach(button => button.style.display = "none");
+                buttonThayDoiThongTin.style.display = "none";
 
-            if (currentStep >= 6) {
-                buttonNext.style.display = "none";
-                buttonPre.style.display = "none";
-                buttonHuy.style.display = "none";
-            } else {
-                buttonNext.style.display = "block";
-                buttonPre.style.display = "block";
-                buttonHuy.style.display = "block";
+                soLuongInputs.forEach(input => {
+                    input.disabled = true;
+                });
+
+                if (currentStep >= 6) {
+                    buttonNext.style.display = "none";
+                    buttonPre.style.display = "none";
+                    buttonHuy.style.display = "none";
+                } else {
+                    buttonNext.style.display = "block";
+                    buttonPre.style.display = "none";
+                    buttonHuy.style.display = "none";
+                }
             }
         }
 
+    }
+
+    function addPhieuGiamGia(idHD, idPGG) {
+
+        $.ajax({
+            url: `/api/hoa-don/update-phieu-giam-gia/${idHD}`,
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                "phieuGiamGia": {
+                    id: idPGG
+                }
+            }),
+            success: function(response) {
+                idPGG = null;
+                fetchHoaDonDetail(idHoaDon);
+            },
+            error: function(error) {
+                console.error("Error updating PhieuGiamGia", error);
+            }
+        });
+    }
+
+
+    function PhieuGiamGiaPhuHop(max) {
+
+        $.ajax({
+            url: `/api/hoa-don/phieu-giam-gia-phu-hop/${max}`,
+            method: 'GET',
+            contentType: 'application/json',
+            success: function(response) {
+                idPGG = response.id;
+                if(idKH === null){
+                    console.log("dở kh null")
+                    idPGG = null;
+                }else{
+                    if (response && response.length <= 0) {
+                        console.log("Không có pgg")
+
+                        idPGG = null;
+
+                    } else if (max < response[0].donToiThieu ) {
+                        console.log("Cgiuj")
+
+                        idPGG = null;
+
+                    } else {
+                        console.log("done")
+
+                        idPGG = response[0].id;
+                    }
+                }
+                addPhieuGiamGia(idHoaDon, idPGG);
+
+
+            },
+        });
     }
 
 
@@ -1165,6 +1283,11 @@ $(document).ready(function () {
                 console.log('Bắt đầu in');
                 window.print();
             }, 100);
+            for (let i = 0; i < idSP.length; i++) {
+                let sanPham = idSP[i];
+                console.log(sanPham);
+                updateSoLuongSP(sanPham.id, sanPham.soLuong);
+            }
             stepsHistory.push({hanhDong: currentStep, ngayTao: new Date().toISOString()});
             updateTrangThai(currentStep);
             showNotification("Xác nhận thành công", "thanhCong");
@@ -1190,6 +1313,22 @@ $(document).ready(function () {
 
 
     });
+
+
+    function updateSoLuongSP(idSPCT, soLuong){
+        $.ajax({
+            url: `/api/gio-hang/update-so-luong-sp-sau-khi-thanh-toan/${idSPCT}`,
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                soLuong: soLuong
+            }),
+            success: function () {
+
+            },
+
+        });
+    }
 
     $('#xacNhanHuy').click(function () {
         currentStep = 7;

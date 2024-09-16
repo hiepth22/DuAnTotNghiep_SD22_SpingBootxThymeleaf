@@ -31,7 +31,8 @@ public class MauSacAPI {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Map<String, Object>> addMauSac(@RequestParam("ten") String ten) {
+    public ResponseEntity<Map<String, Object>> addMauSac(@RequestParam("ten") String ten,
+                                                         @RequestParam("moTa") String moTa) {
         Map<String, Object> response = new HashMap<>();
 
         if (mauSacService.existingByTen(ten)) {
@@ -44,6 +45,7 @@ public class MauSacAPI {
         mauSac.setNgayTao(new Date());
         mauSac.setNguoiTao("admin");
         mauSac.setTen(ten);
+        mauSac.setMoTa(moTa);
         mauSac.setTrangThai(1);
         mauSacService.add(mauSac);
 
