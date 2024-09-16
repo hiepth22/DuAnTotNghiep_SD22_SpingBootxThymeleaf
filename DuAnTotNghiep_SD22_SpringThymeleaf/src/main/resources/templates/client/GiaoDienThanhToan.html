@@ -248,6 +248,7 @@
                 <div class="text-orange-500 text-xl">Voucher</div>
             </div>
             <div id="voucher" class="ml-[50%] text-orange-500 py-2 px-4 border-2 border-orange-500 rounded-lg text-center cursor-pointer bg-white font-semibold w-[200px]">
+<!--                <button></button>-->
             </div>
          </div>
         </div>
@@ -501,6 +502,7 @@
 
 
         function hienThiSanPhamDaChon() {
+            console.log(sale);
             let list = "";
             if (Array.isArray(selectedProducts) && selectedProducts.length > 0) {
                 for (let i = 0; i < selectedProducts.length; i++) {
@@ -658,8 +660,10 @@
                     const idHoaDon = response.id;
                     addHistoryLog(idHoaDon);
                     addSanPhamVaoHDCT(idHoaDon);
-                    addPhuongThucThanhToanChuyenKhoan(idHoaDon);
+                    addPhuongThucThanhToanChuyenKhoan(idHoaDon, tongTienSauKhiGiam);
                     chuyenKhoan(response.tongTienSauGiam, response.ma);
+                    localStorage.removeItem('sale');
+
                 },
                 error: function (xhr, status, error) {
                     console.error('Lỗi khi tạo hóa đơn:', error);
@@ -691,7 +695,8 @@
                     const idHoaDon = response.id;
                     addHistoryLog(idHoaDon);
                     addSanPhamVaoHDCT(idHoaDon);
-                    addPhuongThucThanhToan(idHoaDon);
+                    addPhuongThucThanhToan(idHoaDon, tongTienSauKhiGiam);
+                    localStorage.removeItem('sale');
                 },
                 error: function (xhr, status, error) {
                     console.error('Lỗi khi tạo hóa đơn:', error);
@@ -759,12 +764,13 @@
             });
         }
 
-        function addPhuongThucThanhToan(idHoaDon) {
+        function addPhuongThucThanhToan(idHoaDon, tongTien) {
             $.ajax({
                 url: `/api/gio-hang/them-phuong-thuc-thanh-toan/${idHoaDon}`,
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
+                    tienDaThanhToan: tongTien,
                     tenThanhToan: "Tiền mặt",
                     loaiThanhToan: false,
                     trangThai: 1
@@ -774,12 +780,13 @@
             });
         }
 
-        function addPhuongThucThanhToanChuyenKhoan(idHoaDon) {
+        function addPhuongThucThanhToanChuyenKhoan(idHoaDon, tongTien) {
             $.ajax({
                 url: `/api/gio-hang/them-phuong-thuc-thanh-toan/${idHoaDon}`,
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
+                    tienDaThanhToan: tongTien,
                     tenThanhToan: "Chuyển Khoản",
                     loaiThanhToan: true,
                     trangThai: 1
