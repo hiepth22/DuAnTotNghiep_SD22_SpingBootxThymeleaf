@@ -323,12 +323,15 @@
                     }
                 })
                 if (data && typeof data === 'object' && data.id) {
+                    console.log(data);
                     const productName = data.ten || 'Không có tên';
-                    const thuonghieu = data.nhaSanXuat.ten
-                    const chatLieu = data.chatLieu.ten
-                    const deGiay = data.deGiay.ten
-                    const coGiay = data.coGiay.ten
+                    const nsx = data.nhaSanXuat
+                    const thuonghieu = data.tenThuongHieu
+                    const chatLieu = data.chatLieu
+                    const deGiay = data.deGiay
+                    const coGiay = data.coGiay
                     const mota = data.moTa
+                    const idsp = data.sanPham
 
                     const productPrice = data.giaBan != null ? data.giaBan.toLocaleString('vi-VN', {
                         style: 'currency',
@@ -355,10 +358,12 @@
                     const Mota = $(`
 
                             <p>${mota}</p>
-
-                            <br>
-                            <p><strong>Thương Hiệu :</strong></p>
+                              <br>
+                             <p><strong>Thương Hiệu :</strong></p>
                             <p id="th" class="card-title" style=" font-size:15px;color: #333; margin-top: 10px;">${thuonghieu}</p>
+                            <br>
+                            <p><strong>Nhà Sản Xuất :</strong></p>
+                            <p id="th" class="card-title" style=" font-size:15px;color: #333; margin-top: 10px;">${nsx}</p>
                              <br> <p> <strong>Chất liệu :</strong></p>
                             <p class="card-title" style=" font-size:15px;color: #333; margin-top: 10px;">${chatLieu}</p>
 
@@ -465,7 +470,7 @@
 
                     loadProducts();
                     $.ajax({
-                        url: `/sanphamchitietclientanh/${data.sanPham.id}`,
+                        url: `/sanphamchitietclientanh/${idsp}`,
                         method: 'GET',
                         dataType: 'json',
                         success: function (additionalData) {
@@ -540,7 +545,7 @@
                                 $('.size-container').remove();
 
                                 $.ajax({
-                                    url: `/kichco/${data.sanPham.id}`,
+                                    url: `/kichco/${idsp}`,
                                     method: 'GET',
                                     data: {anh: encodeURIComponent(imageName)},
                                     dataType: 'json',
@@ -548,7 +553,7 @@
                                         console.log('Sizes:', sizes);
                                         const sizegia = sizes[0];
                                         $.ajax({
-                                            url: `/gia-ban/${data.sanPham.id}/${sizegia}`,
+                                            url: `/gia-ban/${idsp}/${sizegia}`,
                                             method: 'GET',
                                             data: {anh: encodeURIComponent(imageName)},
                                             dataType: 'json',
@@ -610,7 +615,7 @@
 
                                             // Perform AJAX request to get stock information
                                             currentAjaxRequest = $.ajax({
-                                                url: `/SLton/${data.sanPham.id}/${selectedSize}`,
+                                                url: `/SLton/${idsp}/${selectedSize}`,
                                                 method: 'GET',
                                                 data: {anh: encodeURIComponent(imageName)},
                                                 dataType: 'json',
@@ -664,7 +669,7 @@
                                                                 soluongspkhithem = inputElement.value;
                                                                 anhlayve = imageName;
                                                                 let size = selectedSize;
-                                                                let idsp = data.sanPham.id;
+
 
                                                                 $.ajax({
                                                                     url: `/detailcheckgh/${idKhachHang}/${size}/${idsp}/${soluongspkhithem}`,
@@ -698,7 +703,7 @@
                                                                 soluongspkhithem = inputElement.value;
                                                                 anhlayve = imageName;
                                                                 let size = selectedSize;
-                                                                let idsp = data.sanPham.id;
+
                                                                 $.ajax({
                                                                     url: `/checksp/${size}/${idsp}`,
                                                                     type: 'GET',
@@ -781,7 +786,7 @@
                                                                 soluongspkhithem = inputElement.value;
                                                                 anhlayve = imageName;
                                                                 let size = selectedSize;
-                                                                let idsp = data.sanPham.id;
+
                                                                 let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
                                                                 selectedProducts = [];
 
@@ -814,7 +819,7 @@
                                                                 soluongspkhithem = inputElement.value;
                                                                 anhlayve = imageName;
                                                                 let size = selectedSize;
-                                                                let idsp = data.sanPham.id;
+
                                                                 let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
                                                                 selectedProducts = [];
 
@@ -853,7 +858,7 @@
 
                                             // Fetch and update price
                                             $.ajax({
-                                                url: `/gia-ban/${data.sanPham.id}/${selectedSize}`,
+                                                url: `/gia-ban/${idsp}/${selectedSize}`,
                                                 method: 'GET',
                                                 data: {anh: encodeURIComponent(imageName)},
                                                 dataType: 'json',
@@ -889,7 +894,7 @@
                     });
 
                     $.ajax({
-                        url: `http://localhost:3000/kichco/${data.sanPham.id}`,
+                        url: `http://localhost:3000/kichco/${idsp}`,
                         method: 'GET',
                         data: {anh: encodeURIComponent(data.anh)},
                         success: function (sizes) {

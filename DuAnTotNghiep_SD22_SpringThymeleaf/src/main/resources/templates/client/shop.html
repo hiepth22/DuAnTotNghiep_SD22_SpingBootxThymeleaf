@@ -418,7 +418,7 @@
                 <div class="dssanpham" id="danhSachSanPham">
 
                 </div>
-            <div class="row">
+                <div class="row">
                 </div>
             </div>
             <div id="paginationSP" class="flex justify-center mt-4"></div>
@@ -464,7 +464,7 @@
         idThuongHieu = $('#combo-box-thuong-hieu').val();
         keyword = $('#input-TimKiem').val();
         let gia = $('#combo-box-gia').val();
-        console.log(gia)
+        console.log(idThuongHieu)
         if(gia == 1){
             giaBanMin = 0;
             giaBanMax = 2000000;
@@ -497,8 +497,8 @@
         idCoGiay = $('#combo-box-co-giay').val();
         idDeGiay = $('#combo-box-de-giay').val();
         idThuongHieu = $('#combo-box-thuong-hieu').val();
-       let gia = $('#combo-box-gia').val();
-       console .log(gia)
+        let gia = $('#combo-box-gia').val();
+
         keyword = $('#input-TimKiem').val();
         page = 0;
         size = 20;
@@ -513,6 +513,7 @@
         $('#combo-box-co-giay').prop('selectedIndex', 0);
         $('#combo-box-de-giay').prop('selectedIndex', 0);
         $('#combo-box-thuong-hieu').prop('selectedIndex', 0);
+        $('#combo-box-gia').prop('selectedIndex', 0);
         $('#input-TimKiem').val('');
 
         idChatLieu = '';
@@ -522,6 +523,8 @@
         idDeGiay = '';
         idThuongHieu = '';
         keyword = '';
+        giaBanMin = '';
+        giaBanMax = '';
         page = 0;
 
         getDanhSachSanPhamCoSearch(page, size);
@@ -558,238 +561,238 @@
             <a href="#" data-bs-toggle="modal" data-bs-target="#productModal">
                 <img src="${product.anh}" alt="Ảnh sản phẩm"
                      style="width: 100%; height: 250px; object-fit: cover;">
-                <p class="status" style="display: none;"></p> <!-- Khởi tạo với display: none -->
-                <h6 class="card-title">${product.ten}</h6>
-                <p class="ngayTao" data-ngaytao="${product.sanPham.ngayTao}"></p>
-            </a>
-            <a href="#"
-               style="display: inline-block; margin: 5px 0; padding: 2px 5px; border: 1px solid #ff8c00; border-radius: 2px; color: #FF8C00; text-decoration: none; font-size: 10px; background-color: transparent; text-align: center;">
-                Giá Siêu Hời
-            </a>
-            <a href="#" class="product-price">${formatPriceInVND(product.giaBan)}</a>
-        </div>
-    </div>
-  `;
-                }
+                <p class="status" style="display: none;"></p>
+                    <h6 class="card-title">${product.ten}</h6>
+                    <p class="ngayTao" data-ngaytao="${product.sanPham.ngayTao}"></p>
+                    </a>
+                    <a href="#"
+                    style="display: inline-block; margin: 5px 0; padding: 2px 5px; border: 1px solid #ff8c00; border-radius: 2px; color: #FF8C00; text-decoration: none; font-size: 10px; background-color: transparent; text-align: center;">
+                    Giá Siêu Hời
+                    </a>
+                    <a href="#" class="product-price">${formatPriceInVND(product.giaBan)}</a>
+                    </div>
+                    </div>
+                    `;
+                    }
 
-                document.getElementById('danhSachSanPham').innerHTML = list;
+                    document.getElementById('danhSachSanPham').innerHTML = list;
 
-                const ngayTaoElements = document.querySelectorAll('.ngayTao');
-                const statusElements = document.querySelectorAll('.status');
+                    const ngayTaoElements = document.querySelectorAll('.ngayTao');
+                    const statusElements = document.querySelectorAll('.status');
 
 
-                ngayTaoElements.forEach((ngayTaoElement, index) => {
+                    ngayTaoElements.forEach((ngayTaoElement, index) => {
                     let ngayTaoStr1 = ngayTaoElement.getAttribute('data-ngaytao');
                     if (ngayTaoStr1) {
 
-                        const ngayHienTai = new Date();
+                    const ngayHienTai = new Date();
 
-                        const ngayTaoStr = ngayTaoStr1;
+                    const ngayTaoStr = ngayTaoStr1;
 
-                        const ngayTaoDate = new Date(ngayTaoStr.replace(' ', 'T') + 'Z');
+                    const ngayTaoDate = new Date(ngayTaoStr.replace(' ', 'T') + 'Z');
 
-                        if (isNaN(ngayTaoDate.getTime())) {console.error('Ngày tạo không hợp lệ');
+                    if (isNaN(ngayTaoDate.getTime())) {console.error('Ngày tạo không hợp lệ');
 
-                            return;
-                        }
-
-                        const soNgayDaTruoc = Math.floor((ngayHienTai - ngayTaoDate) / (1000 * 60 * 60 * 24));
-                        const laSanPhamMoi = soNgayDaTruoc <= 30;
-
-                        if (statusElements[index]) {
-                            if (laSanPhamMoi) {
-                                statusElements[index].textContent = "Mới";
-                                // statusElements[index].style.color = "withr";
-                                statusElements[index].style.fontWeight = "bold";
-                                statusElements[index].style.display = "block"; // Hiển thị phần tử khi là sản phẩm mới
-                            } else {
-                                statusElements[index].textContent = "";
-                                statusElements[index].style.color = "";
-                                statusElements[index].style.fontWeight = "";
-                                statusElements[index].style.display = "none"; // Ẩn phần tử khi không phải sản phẩm mới
-                            }
-                        } else {
-                            console.warn('Không tìm thấy phần tử status với chỉ số:', index);
-                        }
-                    } else {
-                        console.error('Ngày tạo không được cung cấp cho sản phẩm với chỉ số:', index);
+                    return;
                     }
-                });
 
-                const productContainer = document.getElementById('danhSachSanPham');
-                productContainer.addEventListener('click', function (event) {
+                    const soNgayDaTruoc = Math.floor((ngayHienTai - ngayTaoDate) / (1000 * 60 * 60 * 24));
+                    const laSanPhamMoi = soNgayDaTruoc <= 30;
+
+                    if (statusElements[index]) {
+                    if (laSanPhamMoi) {
+                    statusElements[index].textContent = "Mới";
+                    // statusElements[index].style.color = "withr";
+                    statusElements[index].style.fontWeight = "bold";
+                    statusElements[index].style.display = "block"; // Hiển thị phần tử khi là sản phẩm mới
+                    } else {
+                    statusElements[index].textContent = "";
+                    statusElements[index].style.color = "";
+                    statusElements[index].style.fontWeight = "";
+                    statusElements[index].style.display = "none"; // Ẩn phần tử khi không phải sản phẩm mới
+                    }
+                    } else {
+                    console.warn('Không tìm thấy phần tử status với chỉ số:', index);
+                    }
+                    } else {
+                    console.error('Ngày tạo không được cung cấp cho sản phẩm với chỉ số:', index);
+                    }
+                    });
+
+                    const productContainer = document.getElementById('danhSachSanPham');
+                    productContainer.addEventListener('click', function (event) {
                     const productCard = event.target.closest('.product-card');
                     if (productCard) {
-                        const idsp = productCard.getAttribute('data-idsp');
-                        window.location.href = `/san-pham/${idsp}`;
+                    const idsp = productCard.getAttribute('data-idsp');
+                    window.location.href = `/san-pham/${idsp}`;
                     }
-                });
+                    });
 
-                let pagination = '';
-                pagination += `
-                <button class="px-4 py-2  btn btn-primary text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
-            `;
+                    let pagination = '';
+                    pagination += `
+                    <button class="px-4 py-2  btn btn-primary text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
+                    `;
 
-                const maxVisiblePages = 3;
-                const halfVisiblePages = Math.floor(maxVisiblePages / 2);
-                let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
-                let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
+                    const maxVisiblePages = 3;
+                    const halfVisiblePages = Math.floor(maxVisiblePages / 2);
+                    let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
+                    let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
 
-                if (startPage > 1) {
+                    if (startPage > 1) {
                     pagination += `
                     <button class="px-4 py-2 btn btn-primary text-black rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(0, ${size})">1</button>
-                `;
+                    `;
                     if (startPage > 2) {
-                        pagination += `<span class="px-4 py-2">...</span>`;
+                    pagination += `<span class="px-4 py-2">...</span>`;
                     }
-                }
+                    }
 
-                for (let i = startPage; i <= endPage; i++) {
+                    for (let i = startPage; i <= endPage; i++) {
                     pagination += `
                     <button class="px-4 py-2 btn btn-outline-dark text-black rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getDanhSachSanPhamCoSearch(${i - 1}, ${size})">${i}</button>
-                `;
-                }
+                    `;
+                    }
 
-                if (endPage < result.totalPages) {
+                    if (endPage < result.totalPages) {
                     if (endPage < result.totalPages - 1) {
-                        pagination += `<span class="px-4 py-2">...</span>`;
+                    pagination += `<span class="px-4 py-2">...</span>`;
                     }
 
                     pagination += `
                     <button class="px-4 py-2 btn btn-outline-dark text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
-                `;
-                }
+                    `;
+                    }
 
-                pagination += `
-                <button class="px-4 py-2 btn btn-primary text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
-            `;
+                    pagination += `
+                    <button class="px-4 py-2 btn btn-primary text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
+                    `;
 
-                $("#paginationSP").html(pagination);
-            }
-        });
-    };
-    document.addEventListener('DOMContentLoaded', () => {
+                    $("#paginationSP").html(pagination);
+                    }
+                    });
+                    };
+                    document.addEventListener('DOMContentLoaded', () => {
 
-        function cbbKichCo() {
-            $.ajax({
-                url: `/api/kich-co/all`,
-                method: 'GET',
-                success: function (data) {
+                    function cbbKichCo() {
+                    $.ajax({
+                    url: `/api/kich-co/all`,
+                    method: 'GET',
+                    success: function (data) {
                     $('#combo-box-kich-co').empty();
 
                     $('#combo-box-kich-co').append('<option value="">Tất cả</option>');
 
                     $.each(data, function (index, item) {
-                        $('#combo-box-kich-co').append(`<option value="${item.id}">${item.ten}</option>`);
+                    $('#combo-box-kich-co').append(`<option value="${item.id}">${item.ten}</option>`);
                     });
-                },
+                    },
 
-            });
-        }
+                    });
+                    }
 
 
-        cbbKichCo();
+                    cbbKichCo();
 
-        function cbbMauSac() {
-            $.ajax({
-                url: `/api/mau-sac/all`,
-                method: 'GET',
-                success: function (data) {
+                    function cbbMauSac() {
+                    $.ajax({
+                    url: `/api/mau-sac/all`,
+                    method: 'GET',
+                    success: function (data) {
                     $('#combo-box-mau-sac').empty();
 
                     $('#combo-box-mau-sac').append('<option value="">Tất cả</option>');
 
                     $.each(data, function (index, item) {
-                        $('#combo-box-mau-sac').append(`<option value="${item.id}">${item.ten}</option>`);
+                    $('#combo-box-mau-sac').append(`<option value="${item.id}">${item.ten}</option>`);
                     });
-                },
+                    },
 
-            });
-        }
+                    });
+                    }
 
 
-        cbbMauSac();
+                    cbbMauSac();
 
-        function cbbChatLieu() {
-            $.ajax({
-                url: `/api/chat-lieu/all`,
-                method: 'GET',
-                success: function (data) {
+                    function cbbChatLieu() {
+                    $.ajax({
+                    url: `/api/chat-lieu/all`,
+                    method: 'GET',
+                    success: function (data) {
                     $('#combo-box-chat-lieu').empty();
 
                     $('#combo-box-chat-lieu').append('<option value="">Tất cả</option>');
 
                     $.each(data, function (index, item) {
-                        $('#combo-box-chat-lieu').append(`<option value="${item.id}">${item.ten}</option>`);
+                    $('#combo-box-chat-lieu').append(`<option value="${item.id}">${item.ten}</option>`);
                     });
-                },
+                    },
 
-            });
-        }
+                    });
+                    }
 
-        cbbChatLieu();
+                    cbbChatLieu();
 
-        function cbbDeGiay() {
-            $.ajax({
-                url: `/api/de-giay/all`,
-                method: 'GET',
-                success: function (data) {
+                    function cbbDeGiay() {
+                    $.ajax({
+                    url: `/api/de-giay/all`,
+                    method: 'GET',
+                    success: function (data) {
                     $('#combo-box-de-giay').empty();
 
                     $('#combo-box-de-giay').append('<option value="">Tất cả</option>');
 
                     $.each(data, function (index, item) {
-                        $('#combo-box-de-giay').append(`<option value="${item.id}">${item.ten}</option>`);
+                    $('#combo-box-de-giay').append(`<option value="${item.id}">${item.ten}</option>`);
                     });
-                },
+                    },
 
-            });
-        }
+                    });
+                    }
 
-        cbbDeGiay();
+                    cbbDeGiay();
 
-        function cbbCoGiay() {
-            $.ajax({
-                url: `/api/co-giay/all`,
-                method: 'GET',
-                success: function (data) {
+                    function cbbCoGiay() {
+                    $.ajax({
+                    url: `/api/co-giay/all`,
+                    method: 'GET',
+                    success: function (data) {
                     $('#combo-box-co-giay').empty();
 
                     $('#combo-box-co-giay').append('<option value="">Tất cả</option>');
 
                     $.each(data, function (index, item) {
-                        $('#combo-box-co-giay').append(`<option value="${item.id}">${item.ten}</option>`);
+                    $('#combo-box-co-giay').append(`<option value="${item.id}">${item.ten}</option>`);
                     });
-                },
+                    },
 
-            });
-        }
+                    });
+                    }
 
-        cbbCoGiay();
+                    cbbCoGiay();
 
-        function cbbThuongHieu() {
-            $.ajax({
-                url: `/api/thuong-hieu/all`,
-                method: 'GET',
-                success: function (data) {
+                    function cbbThuongHieu() {
+                    $.ajax({
+                    url: `/api/thuong-hieu/all`,
+                    method: 'GET',
+                    success: function (data) {
                     $('#combo-box-thuong-hieu').empty();
 
                     $('#combo-box-thuong-hieu').append('<option value="">Tất cả</option>');
 
                     $.each(data, function (index, item) {
-                        $('#combo-box-thuong-hieu').append(`<option value="${item.id}">${item.ten}</option>`);
+                    $('#combo-box-thuong-hieu').append(`<option value="${item.id}">${item.ten}</option>`);
                     });
-                },
+                    },
 
-            });
-        }
+                    });
+                    }
 
-        cbbThuongHieu();
+                    cbbThuongHieu();
 
 
 
-        auto();
-    });
+                    auto();
+                    });
 
 </script>
 <script>

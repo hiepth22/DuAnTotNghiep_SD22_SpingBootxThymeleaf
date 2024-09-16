@@ -1,6 +1,7 @@
 package com.poly.sneaker.controller.ClienController;
 
 import com.poly.sneaker.dto.SanPhamBanChayDTO;
+import com.poly.sneaker.dto.SanPhamChiTietDTO;
 import com.poly.sneaker.entity.*;
 import com.poly.sneaker.repository.*;
 import com.poly.sneaker.sevice.*;
@@ -11,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -50,7 +48,8 @@ public class ClienController {
 
     @Autowired
     GioHangChiTietRepository gioHangChiTietRepository;
-
+    @Autowired
+    private KhachHangService khachHangService;
 
     @GetMapping("/Client")
     public String hienThiSanPham(Model model) {
@@ -90,7 +89,7 @@ public class ClienController {
     @GetMapping("/sanphamchitietclien/{sanPhamId}")
     @ResponseBody
     public ResponseEntity<?> getProductDetails(@PathVariable Long sanPhamId) {
-        SanPhamChiTiet sanPhamChiTiet = SPCTservice.findById1(sanPhamId);
+        SanPhamChiTietDTO sanPhamChiTiet = SPCTservice.getSanPhamChiTietById(sanPhamId);
         if (sanPhamChiTiet != null) {
             return ResponseEntity.ok(sanPhamChiTiet);
         } else {
@@ -297,6 +296,38 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
         }
 
         return new ResponseEntity<>(sp, HttpStatus.OK);
+    }
+
+    @PutMapping("/update-khach-hang-client/{id}")
+    public ResponseEntity<?> updateKhachHang(@PathVariable Long id, @RequestBody KhachHang updatedKhachHang) {
+        KhachHang existingKhachHang = khachHangService.findById(id);
+
+        if (existingKhachHang == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Update the existingKhachHang with updatedKhachHang properties
+        existingKhachHang.setTen(updatedKhachHang.getTen());
+        existingKhachHang.setSdt(updatedKhachHang.getSdt());
+        existingKhachHang.setCccd(updatedKhachHang.getCccd());
+        existingKhachHang.setNgaySinh(updatedKhachHang.getNgaySinh());
+        existingKhachHang.setEmail(updatedKhachHang.getEmail());
+        existingKhachHang.setGioiTinh(updatedKhachHang.getGioiTinh());
+
+        KhachHang updated = khachHangService.save(existingKhachHang);
+
+        return ResponseEntity.ok(updated);
+    }
+    @GetMapping("/khach-hang-client/{id}")
+    @ResponseBody
+    public ResponseEntity<KhachHang> getKhachHang(@PathVariable Long id) {
+        KhachHang existingKhachHang = khachHangService.findById(id);
+
+        if (existingKhachHang != null) {
+            return ResponseEntity.ok(existingKhachHang);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 

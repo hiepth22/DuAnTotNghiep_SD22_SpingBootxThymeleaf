@@ -27,7 +27,7 @@ $(document).ready(function () {
             $('.dropdown-item').on('click', function () {
                 let action = $(this).data('action');
                 if (action === 'profile') {
-                    alert("làm j làm đi")
+                    window.location.href = '/thong-tin-tai-khoan';
 
                 }
                 else if (action === 'donmua') {

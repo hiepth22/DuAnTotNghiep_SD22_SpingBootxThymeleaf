@@ -1,5 +1,6 @@
 package com.poly.sneaker.repository;
 
+import com.poly.sneaker.dto.SanPhamChiTietDTO;
 import com.poly.sneaker.entity.ChatLieu;
 import com.poly.sneaker.entity.CoGiay;
 import com.poly.sneaker.entity.DeGiay;
@@ -198,8 +199,8 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
             "   OR ms1.ten LIKE %:keyword% " +
             "   OR spn1.ten LIKE %:keyword% " +
             "   OR th1.ten LIKE %:keyword%) " +
-            "   AND (sp1.giaBan >= :giaBanMin OR :giaBanMin IS NULL) " +
-            "   AND (sp1.giaBan <= :giaBanMax OR :giaBanMax IS NULL)" +
+            "   AND (:giaBanMin IS NULL OR sp1.giaBan >= :giaBanMin) " +
+            "   AND (:giaBanMax IS NULL OR sp1.giaBan <= :giaBanMax)" +
             ") " +
             "ORDER BY sp.id DESC")
     Page<SanPhamChiTiet> findByBlaBla1(@Param("idChatLieu") Long idChatLieu,
@@ -212,5 +213,12 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
                                       @Param("giaBanMin") Double giaBanMin,
                                       @Param("giaBanMax") Double giaBanMax,
                                       Pageable pageable);
-
+    @Query("SELECT new com.poly.sneaker.dto.SanPhamChiTietDTO(s.id, s.ma, s.ten, s.anh, s.soLuong, s.giaBan, " +
+            "s.moTa, s.trangThai, s.canNang, s.kichCo.ten, s.mauSac.ten, s.deGiay.ten, s.chatLieu.ten, sp.id, s.coGiay.ten, " +
+            "s.nhaSanXuat.ten, s.ngayCapNhat, th.ten) " +
+            "FROM SanPhamChiTiet s " +
+            "JOIN s.sanPham sp " +
+            "JOIN sp.thuongHieu th " +
+            "WHERE s.id = :id")
+    SanPhamChiTietDTO findSanPhamChiTietById(@Param("id") Long id);
 }

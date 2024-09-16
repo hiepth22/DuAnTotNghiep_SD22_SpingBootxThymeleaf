@@ -17,6 +17,7 @@
             position: relative;
             padding-right: 2.5rem;
         }
+
         .btn-payment.active {
             border: 1px solid #FFA500 !important;
             color: #FFA500;
@@ -31,189 +32,216 @@
             width: 20px;
             height: 20px;
         }
-        .labl > input + div{ /* DIV STYLES */
-            cursor:pointer;
-            border:2px solid transparent;
+
+        .labl > input + div { /* DIV STYLES */
+            cursor: pointer;
+            border: 2px solid transparent;
         }
+
+        /* Style for invalid input fields */
+        .is-invalid {
+            border: 1px solid red;
+        }
+
+        /* Style for error messages */
+        .error {
+            color: red;
+            font-size: 0.875em; /* Adjust font size if needed */
+        }
+
     </style>
+
 </head>
 <body class="bg-gray-100">
 <div>
     <div th:replace="~{client/fragmentsClient/header :: header}"></div>
-    <div class="flex justify-center">
-        <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-32 flex gap-40">
-            <div class="grid gap-1 grid-cols-1">
-                <div>
-                    <h1 class="text-black-700 text-xl m-5"><span>Thông Tin Nhận Hàng</span></h1>
-                </div>
-                <form  method="post" class="row g-3"
-                      enctype="multipart/form-data" id="myForm" >
-                    <div class="row mb-12">
-                        <div class="row">
-                            <div class="col-6">
-                                <label for="ten" class="form-label">Tên Khách Hàng:</label>
-                                <input type="text" id="ten" name="ten" class="form-control"
-                                       placeholder="Nhập tên Khách Hàng" >
-                                <div id="tenError" class="error"></div>
-                            </div>
-                            <div class="col-6">
-                                <label for="sdt" class="form-label">Số Điện Thoại:</label>
-                                <input type="text" id="sdt" name="sdt" class="form-control"
-                                       placeholder="Nhập SĐT" >
-                                <div id="sdtError" class="error"></div>
+    <form method="post" class="row g-3"
+          enctype="multipart/form-data" id="myForm">
+        <div class="flex justify-center">
+            <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-32 flex gap-40">
+                <div class="grid gap-1 grid-cols-1">
+                    <div>
+                        <h1 class="text-black-700 text-xl m-5"><span>Thông Tin Nhận Hàng</span></h1>
+                    </div>
+                    <!--                //validate cho tôi -->
+
+                        <div class="row mb-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="ten" class="form-label">Tên Khách Hàng:</label>
+                                    <input type="text" id="ten" name="ten" class="form-control"
+                                           placeholder="Nhập tên Khách Hàng">
+                                    <div id="tenError" class="error"></div>
+                                </div>
+                                <div class="col-6">
+                                    <label for="sdt" class="form-label">Số Điện Thoại:</label>
+                                    <input type="text" id="sdt" name="sdt" class="form-control"
+                                           placeholder="Nhập SĐT">
+                                    <div id="sdtError" class="error"></div>
+                                </div>
+
                             </div>
 
-                        </div>
-
-                        <div class="abc">
-                            <div class="row">
-                                <div class="col-12">
-                                    <label for="diachi" class="form-label">Địa chỉ:</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-4">
-                                    <select class="form-select form-select-sm mb-3" id="city" aria-label="Chọn tỉnh thành" oninput="validateForm()" >
-                                        <option value="" selected>Chọn tỉnh thành</option>
-                                    </select>
-                                </div>
-                                <div class="col-4">
-                                    <select class="form-select form-select-sm mb-3" id="district" aria-label="Chọn quận huyện" oninput="validateForm()">
-                                        <option value="" selected>Chọn quận huyện</option>
-                                    </select>
-                                </div>
-                                <div class="col-4">
-                                    <select class="form-select form-select-sm mb-3" id="ward" aria-label="Chọn phường xã" oninput="validateForm()" >
-                                        <option value="" selected>Chọn phường xã</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <label >Địa chỉ Chi tiết:</label>
-                                    <div class="form-group col-12">
-                                        <textarea class="form-control" id="diachi" name="diachi" rows="3" oninput="validateForm()"></textarea>
-                                        <input class="col-12" id="dc" name="dc" rows="3" style="display: none"></input>
+                            <div class="abc">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="diachi" class="form-label">Địa chỉ:</label>
                                     </div>
                                 </div>
                                 <div class="row">
-
-                                    <div class="col-6">
-                                        <label for="email" class="form-label">Email:</label>
-                                        <input type="email" id="email" name="email" class="form-control"
-                                               placeholder="Nhập Email" >
-                                        <div id="emailError" class="error"></div>
+                                    <div class="col-4">
+                                        <select class="form-select form-select-sm mb-3" id="city"
+                                                aria-label="Chọn tỉnh thành" oninput="validateForm()">
+                                            <option value="" selected>Chọn tỉnh thành</option>
+                                        </select>
                                     </div>
-                                    <div class="col-6">
-                                        <label for="ghichu" class="form-label">Ghi Chú:</label>
-                                        <input type="text" id="ghichu" name="ghichu" class="form-control"
-                                               placeholder="Nhập Ghi Chú" >
-
+                                    <div class="col-4">
+                                        <select class="form-select form-select-sm mb-3" id="district"
+                                                aria-label="Chọn quận huyện" oninput="validateForm()">
+                                            <option value="" selected>Chọn quận huyện</option>
+                                        </select>
                                     </div>
-
+                                    <div class="col-4">
+                                        <select class="form-select form-select-sm mb-3" id="ward"
+                                                aria-label="Chọn phường xã" oninput="validateForm()">
+                                            <option value="" selected>Chọn phường xã</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <span id="dcError" class="error"></span>
-                        </div>
-                    </div>
-                </form>
-                <div class="diaChiKhachHang ml-10 mb-5" id="diaChiKhachHang">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>Địa chỉ Chi tiết:</label>
+                                        <div class="form-group col-12">
+                                            <textarea class="form-control" id="diachi" name="diachi" rows="3"
+                                                      oninput="validateForm()"></textarea>
+                                            <input class="col-12" id="dc" name="dc" rows="3"
+                                                   style="display: none"></input>
+                                        </div>
+                                    </div>
+                                    <div class="row">
 
+                                        <div class="col-6">
+                                            <label for="email" class="form-label">Email:</label>
+                                            <input type="email" id="email" name="email" class="form-control"
+                                                   placeholder="Nhập Email">
+                                            <div id="emailError" class="error"></div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="ghichu" class="form-label">Ghi Chú:</label>
+                                            <input type="text" id="ghichu" name="ghichu" class="form-control"
+                                                   placeholder="Nhập Ghi Chú">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <span id="dcError" class="error"></span>
+                            </div>
+                        </div>
+                    <!--                đến đây-->
+                    <div class="diaChiKhachHang ml-10 mb-5" id="diaChiKhachHang">
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="flex justify-center">
-        <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-7 gap-40">
-            <table id="tableHoaDonChiTiet" class="min-w-full divide-y divide-gray-200  ">
-                <thead class="">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
-                        STT
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider w-[30%]">
+        <div class="flex justify-center">
+            <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-7 gap-40">
+                <table id="tableHoaDonChiTiet" class="min-w-full divide-y divide-gray-200  ">
+                    <thead class="">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
+                            STT
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider w-[30%]">
                            <span class="ml-14"> Sản
                             phẩm</span>
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
-                        size
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
-                        Đơn giá
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Số
-                        lượng
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Thành
-                        tiền
-                    </th>
-                </tr>
-                </thead>
-                <tbody id="danhSachSanPham" class="bg-white divide-y divide-gray-200 h-full">
-                </tbody>
-            </table>
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
+                            size
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
+                            Đơn giá
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Số
+                            lượng
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">Thành
+                            tiền
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="danhSachSanPham" class="bg-white divide-y divide-gray-200 h-full">
+                    </tbody>
+                </table>
 
 
-            <div class="soLuongVaTongTien ml-[60%]" id="soLuongVaTongTien"></div>
+                <div class="soLuongVaTongTien ml-[60%]" id="soLuongVaTongTien"></div>
 
-        </div>
-    </div>
-
-<!--    <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-5">-->
-<!--        <div class="grid gap-1 grid-cols-2 m-3">-->
-<!--            <div class="text-orange-500 text-xl">Voucher</div>-->
-<!--            <div id="voucher" class="ml-[50%] text-orange-500 py-2 px-4 border-2 border-orange-500 rounded-lg text-center cursor-pointer bg-white font-semibold w-[200px]">-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--    </div>-->
-    <div class="flex justify-center">
-        <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-5 gap-40 mb-20">
-            <div class="m-10">
-                <span class=" text-xl font-bold mr-10">Phương thức thanh toán</span>
-                <button id="btnCOD" class="btn-payment w-64 h-14 py-2 px-4 rounded-md mr-5 active">
-                    Thanh toán khi nhận hàng
-                </button>
-
-                <button id="btnVNPAY" class="btn-payment w-64 h-14 border py-2 px-4 rounded-md relative">
-                    <span class="flex"> Thanh toán VNPAY</span>
-                    <img src="https://asset.brandfetch.io/idV02t6WJs/idyWhNall8.svg" class="icon-payment absolute w-[40%] h-[40%]">
-                </button>
-            </div>
-            <div class="grid gap-4 grid-cols-2">
-                <div>
-                    <div class="flex">
-                        <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/05/Logo-GHN-Slogan-En.png" class="w-[20%] h-[20%]">
-                        <p class="ml-10">Thời gian nhận hàng dự kiện: <span id="thoiGianDuKien"></span></p>
-                    </div>
-                </div>
-                <div class="ml-28">
-                    <div class="grid gap-4 grid-cols-2">
-                        <div class="text-gray-600">
-                            <div class="mb-5">Tổng tiền</div>
-                            <div class="mb-5">Phí vận chuyển</div>
-<!--                            <div class="mb-5">Mã giảm giá</div>-->
-                            <div class="mb-5">Tổng thanh toán</div>
-                        </div>
-                        <div class="text-gray-600">
-                            <div class="mb-5"><span class="ml-1" id="tongTien"></span></div>
-                            <div class="mb-5"><span class="ml-1" id="phiVanChuyen"></span></div>
-<!--                            <div class="mb-5"><span class="ml-1" id="maGiamGia"></span></div>-->
-                            <div class="mb-5"><span class="ml-1 text-orange-500 text-2xl" id="tongThanhToan"></span></div>
-                        </div>
-                    </div>
-                    <div id="datHang">
-                        <button type="button" class="tiepTuc ml-14 w-[70%] h-16 mb-10 font-bold text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">
-                            Đặt hàng
-                        </button>
-                    </div>
-
-
-                </div>
             </div>
         </div>
-    </div>
+
+        <!--    <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-5">-->
+        <!--        <div class="grid gap-1 grid-cols-2 m-3">-->
+        <!--            <div class="text-orange-500 text-xl">Voucher</div>-->
+        <!--            <div id="voucher" class="ml-[50%] text-orange-500 py-2 px-4 border-2 border-orange-500 rounded-lg text-center cursor-pointer bg-white font-semibold w-[200px]">-->
+        <!--            </div>-->
+        <!--        </div>-->
+
+        <!--    </div>-->
+        <div class="flex justify-center">
+            <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-5 gap-40 mb-20">
+                <div class="m-10">
+                    <span class=" text-xl font-bold mr-10">Phương thức thanh toán</span>
+                    <button id="btnCOD" class="btn-payment w-64 h-14 py-2 px-4 rounded-md mr-5 active">
+                        Thanh toán khi nhận hàng
+                    </button>
+
+                    <button id="btnVNPAY" class="btn-payment w-64 h-14 border py-2 px-4 rounded-md relative">
+                        <span class="flex"> Thanh toán VNPAY</span>
+                        <img src="https://asset.brandfetch.io/idV02t6WJs/idyWhNall8.svg"
+                             class="icon-payment absolute w-[40%] h-[40%]">
+                    </button>
+                </div>
+                <div class="grid gap-4 grid-cols-2">
+                    <div>
+                        <div class="flex">
+                            <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/05/Logo-GHN-Slogan-En.png"
+                                 class="w-[20%] h-[20%]">
+                            <p class="ml-10">Thời gian nhận hàng dự kiện: <span id="thoiGianDuKien"></span></p>
+                        </div>
+                    </div>
+                    <div class="ml-28">
+                        <div class="grid gap-4 grid-cols-2">
+                            <div class="text-gray-600">
+                                <div class="mb-5">Tổng tiền</div>
+                                <div class="mb-5">Phí vận chuyển</div>
+                                <!--                            <div class="mb-5">Mã giảm giá</div>-->
+                                <div class="mb-5">Tổng thanh toán</div>
+                            </div>
+                            <div class="text-gray-600">
+                                <div class="mb-5"><span class="ml-1" id="tongTien"></span></div>
+                                <div class="mb-5"><span class="ml-1" id="phiVanChuyen"></span></div>
+                                <!--                            <div class="mb-5"><span class="ml-1" id="maGiamGia"></span></div>-->
+                                <div class="mb-5"><span class="ml-1 text-orange-500 text-2xl" id="tongThanhToan"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="datHang">
+                            <button type="button"
+                                    class="tiepTuc ml-14 w-[70%] h-16 mb-10 font-bold text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                                Đặt hàng
+                            </button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
+
 
 <div id="modalDiaChi" class="fixed z-10 inset-0 overflow-y-auto hidden">
     <div class="flex items-center justify-center min-h-screen">
@@ -242,6 +270,10 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+
+    // Attach validation to form submission
+
+
     var citis = document.getElementById("city");
     var districts = document.getElementById("district");
     var wards = document.getElementById("ward");
@@ -331,8 +363,8 @@
 
                     if (selectedWard) {
                         // Tạo chuỗi để log các thông tin
-                        var logString = selectedWard.Name ;
-                        logString += "," + selectedDistrict.Name ;
+                        var logString = selectedWard.Name;
+                        logString += "," + selectedDistrict.Name;
                         logString += "," + selectedCity.Name;
 
                         // Log chuỗi kết quả ra console
@@ -359,6 +391,91 @@
 
 </script>
 <script>
+    function validateForm() {
+        let isValid = true;
+
+        // Get form elements
+        const ten = document.getElementById('ten');
+        const sdt = document.getElementById('sdt');
+        const email = document.getElementById('email');
+        const city = document.getElementById('city');
+        const district = document.getElementById('district');
+        const ward = document.getElementById('ward');
+        const diachi = document.getElementById('diachi');
+
+        // Clear previous error messages and styles
+        ten.classList.remove('is-invalid');
+        sdt.classList.remove('is-invalid');
+        email.classList.remove('is-invalid');
+        city.classList.remove('is-invalid');
+        district.classList.remove('is-invalid');
+        ward.classList.remove('is-invalid');
+        diachi.classList.remove('is-invalid');
+
+        document.getElementById('tenError').innerText = '';
+        document.getElementById('sdtError').innerText = '';
+        document.getElementById('emailError').innerText = '';
+        document.getElementById('dcError').innerText = '';
+
+        // Validate 'Tên Khách Hàng'
+        if (ten.value.trim() === '') {
+            document.getElementById('tenError').innerText = 'Vui lòng nhập tên khách hàng';
+            ten.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Số Điện Thoại'
+        const phoneRegex = /^[0-9]{10}$/;
+        if (sdt.value.trim() === '') {
+            document.getElementById('sdtError').innerText = 'Vui lòng nhập số điện thoại';
+            sdt.classList.add('is-invalid');
+            isValid = false;
+        } else if (!phoneRegex.test(sdt.value.trim())) {
+            document.getElementById('sdtError').innerText = 'Số điện thoại phải là số và gồm 10 chữ số';
+            sdt.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Email'
+        if (email.value.trim() === '') {
+            document.getElementById('emailError').innerText = 'Vui lòng nhập email';
+            email.classList.add('is-invalid');
+            isValid = false;
+        } else if (!email.value.includes('@')) {
+            document.getElementById('emailError').innerText = 'Email không hợp lệ';
+            email.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Chọn tỉnh thành'
+        if (city.value === '') {
+            document.getElementById('dcError').innerText = 'Vui lòng chọn tỉnh thành';
+            city.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Chọn quận huyện'
+        if (district.value === '') {
+            document.getElementById('dcError').innerText = 'Vui lòng chọn quận huyện';
+            district.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Chọn phường xã'
+        if (ward.value === '') {
+            ward.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Địa chỉ Chi tiết'
+        if (diachi.value.trim() === '') {
+            diachi.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
     $(document).ready(function () {
         let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
         emailjs.init("ul2tyO43RSWxM2Man");
@@ -451,7 +568,7 @@
             `;
                 }
 
-                tongTienSauKhiGiam = tongTien ;
+                tongTienSauKhiGiam = tongTien;
 
                 $('#soLuongVaTongTien').html(`
             <div>Tổng số tiền(${soLuongSPTong} sản phẩm): <span class="text-orange-500 text-xl ml-5">${formatVND(tongTien)}</span></div>
@@ -463,7 +580,6 @@
                 $('#tongThanhToan').text(formatVND(tongTien));
 
 
-
             } else {
                 list = "<p>Không có sản phẩm nào được chọn.</p>";
             }
@@ -472,6 +588,7 @@
 
 
         }
+
         $("#datHang").off('click', '.tiepTuc').on('click', '.tiepTuc', function () {
             var ten = document.getElementById('ten').value;
             var sdt = document.getElementById('sdt').value;
@@ -479,33 +596,35 @@
 
 
             var diachi = document.getElementById('diachi').value;
-            if ($('#btnCOD').hasClass('active')) {
+            if(validateForm()== true){
+                if ($('#btnCOD').hasClass('active')) {
 
-                
-                let ship2 = ship;
-                var tongTien2 = tongTien;
-                let nguoiNhan2 = ten;
-                let sdtNguoiNhan2 = sdt;
-                let diaChiNguoiNhan = diachi+','+dc;
-                var tongTienSauKhiGiam2 = tongTien;
 
-                taoHoaDonDatHang(nguoiNhan2, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan);
-                getFormValues();
+                    let ship2 = ship;
+                    var tongTien2 = tongTien;
+                    let nguoiNhan2 = ten;
+                    let sdtNguoiNhan2 = sdt;
+                    let diaChiNguoiNhan = diachi + ',' + dc;
+                    var tongTienSauKhiGiam2 = tongTien;
 
-                window.location.href = '/Client';
+                    taoHoaDonDatHang(nguoiNhan2, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan);
+                    getFormValues();
 
-            } else if ($('#btnVNPAY').hasClass('active')) {
-                let ship2 = ship;
-                var tongTien2 = tongTien;
-                let nguoiNhan2 = ten;
-                let sdtNguoiNhan2 = sdt;
-                let diaChiNguoiNhan = diachi+','+dc;
-                var tongTienSauKhiGiam2 = tongTien;
+                    window.location.href = '/Client';
 
-                taoHoaDonDatHangTraTruoc(nguoiNhan2, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, tongTienSauKhiGiam2);
+                } else if ($('#btnVNPAY').hasClass('active')) {
+                    let ship2 = ship;
+                    var tongTien2 = tongTien;
+                    let nguoiNhan2 = ten;
+                    let sdtNguoiNhan2 = sdt;
+                    let diaChiNguoiNhan = diachi + ',' + dc;
+                    var tongTienSauKhiGiam2 = tongTien;
 
-            } else {
-                alert("Vui lòng chọn phương thức thanh toán.");
+                    taoHoaDonDatHangTraTruoc(nguoiNhan2, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, tongTienSauKhiGiam2);
+
+                } else {
+                    alert("Vui lòng chọn phương thức thanh toán.");
+                }
             }
         });
         // function thongTinNguoiMua(dckh) {
@@ -551,24 +670,23 @@
         //     });
         // }
 
-        function chuyenKhoan(amount, TxnRef,nguoiNhan,tongTienSauKhiGiam,now,email){
+        function chuyenKhoan(amount, TxnRef, nguoiNhan, tongTienSauKhiGiam, now, email) {
 
             $.ajax({
                 url: `/api/payment/create_payment?amount=${amount}&TxnRef=${TxnRef}&chuyenTrang=1`,
                 method: 'GET',
                 contentType: 'application/json',
-                data:{},
+                data: {},
                 success: function (response) {
                     window.location.href = response.url;
-                    sendEmail(email,tongTienSauKhiGiam,now,TxnRef,nguoiNhan);
+                    sendEmail(email, tongTienSauKhiGiam, now, TxnRef, nguoiNhan);
 
                 },
             });
         }
 
 
-
-        function sendEmail(mail,tien,ngay,mahd,tennguoinhan) {
+        function sendEmail(mail, tien, ngay, mahd, tennguoinhan) {
             const emailParams = {
                 from_name: 'shosee',
                 from_email: 'sneakershoesee123@gmail.com',
@@ -576,15 +694,16 @@
                 to_name: mail,
                 ngay_gui: ngay,
                 ma_hd: mahd,
-                ten_nguoi_nhan:tennguoinhan,
+                ten_nguoi_nhan: tennguoinhan,
                 tong_sanpham: soLuongSPTong,
             };
 
             emailjs.send('service_hrrzfls', 'template_x7uwxdv', emailParams)
-                .then(function(response) {
-                }, function(error) {
+                .then(function (response) {
+                }, function (error) {
                 });
         }
+
         function taoHoaDonDatHangTraTruoc(nguoiNhan, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan, tongTienSauKhiGiam) {
             var ghichu = document.getElementById('ghichu').value;
             $.ajax({
@@ -600,17 +719,17 @@
                     tienShip: tienShip,
                     sdtNguoiNhan: sdtNguoiNhan,
                     diaChiNguoiNhan: diaChiNguoinhan,
-                    ghiChu :ghichu,
+                    ghiChu: ghichu,
 
                 }),
                 success: function (response) {
                     const idHoaDon = response.id;
                     addHistoryLog(idHoaDon);
                     addSanPhamVaoHDCT(idHoaDon);
-                    addPhuongThucThanhToanChuyenKhoan(idHoaDon,tongTienSauKhiGiam)
+                    addPhuongThucThanhToanChuyenKhoan(idHoaDon, tongTienSauKhiGiam)
                     const now = new Date();
                     var email = document.getElementById('email').value;
-                    chuyenKhoan(response.tongTienSauGiam, response.ma,nguoiNhan,tongTienSauKhiGiam,now,email);
+                    chuyenKhoan(response.tongTienSauGiam, response.ma, nguoiNhan, tongTienSauKhiGiam, now, email);
                 },
                 error: function (xhr, status, error) {
                     console.error('Lỗi khi tạo hóa đơn:', error,);
@@ -635,7 +754,7 @@
                     tienShip: tienShip,
                     sdtNguoiNhan: sdtNguoiNhan,
                     diaChiNguoiNhan: diaChiNguoinhan,
-                    ghiChu :ghichu,
+                    ghiChu: ghichu,
 
                 }),
                 success: function (response) {
@@ -643,11 +762,11 @@
                     const idHoaDon = response.id;
                     addHistoryLog(idHoaDon);
                     addSanPhamVaoHDCT(idHoaDon);
-                    addPhuongThucThanhToan(idHoaDon,tongTien)
+                    addPhuongThucThanhToan(idHoaDon, tongTien)
                     const now = new Date();
                     var tienguimail = `${formatVND(tongTien)}`;
-                    sendEmail(email,tienguimail,now,response.ma,nguoiNhan);
-                    
+                    sendEmail(email, tienguimail, now, response.ma, nguoiNhan);
+
                 },
                 error: function (xhr, status, error) {
                     console.error('Lỗi khi tạo hóa đơn:', error);
@@ -687,10 +806,17 @@
                     contentType: 'application/json',
                     data: JSON.stringify(productData),
                     success: function (response) {
+<<<<<<< Updated upstream
                         console.log("id"+product.id)
                         console.log( product.quantity)
+                        // deleteByIDGHCT(product.id);
+                        // updateSoLuongSP(product.id, product.quantity);
+=======
+                        console.log("id" + product.id)
+                        console.log(product.quantity)
                         deleteByIDGHCT(product.id);
                         updateSoLuongSP(product.id, product.quantity);
+>>>>>>> Stashed changes
                         removeProductById(product.id);
 
                     },
@@ -703,6 +829,7 @@
             });
             localStorage.removeItem('selectedProducts');
         }
+
         function removeProductById(productId) {
             const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
             const updatedCart = cart.filter(product => product.id !== productId);
@@ -710,8 +837,24 @@
         }
 
 
+<<<<<<< Updated upstream
 
-        function updateSoLuongSP(idSPCT, soLuong){
+        // function updateSoLuongSP(idSPCT, soLuong){
+        //     $.ajax({
+        //         url: `/api/gio-hang/update-so-luong-sp-sau-khi-thanh-toan/${idSPCT}`,
+        //         method: 'PUT',
+        //         contentType: 'application/json',
+        //         data: JSON.stringify({
+        //             soLuong: soLuong
+        //         }),
+        //         success: function () {
+        //
+        //         },
+        //
+        //     });
+        // }
+=======
+        function updateSoLuongSP(idSPCT, soLuong) {
             $.ajax({
                 url: `/api/gio-hang/update-so-luong-sp-sau-khi-thanh-toan/${idSPCT}`,
                 method: 'PUT',
@@ -725,8 +868,9 @@
 
             });
         }
+>>>>>>> Stashed changes
 
-        function addPhuongThucThanhToan(idHoaDon,tongTien) {
+        function addPhuongThucThanhToan(idHoaDon, tongTien) {
             $.ajax({
                 url: `/api/gio-hang/them-phuong-thuc-thanh-toan/${idHoaDon}`,
                 method: 'POST',
@@ -742,7 +886,7 @@
             });
         }
 
-        function addPhuongThucThanhToanChuyenKhoan(idHoaDon,tongTien) {
+        function addPhuongThucThanhToanChuyenKhoan(idHoaDon, tongTien) {
             $.ajax({
                 url: `/api/gio-hang/them-phuong-thuc-thanh-toan/${idHoaDon}`,
                 method: 'POST',
@@ -789,7 +933,19 @@
         //     });
         // }
 
-        function deleteByIDGHCT(idGHCT){
+<<<<<<< Updated upstream
+        // function deleteByIDGHCT(idGHCT){
+        //     $.ajax({
+        //         url: `/api/gio-hang/delete-sp/${idGHCT}`,
+        //         method: 'POST',
+        //         success: function () {
+        //
+        //         },
+        //
+        //     });
+        // }
+=======
+        function deleteByIDGHCT(idGHCT) {
             $.ajax({
                 url: `/api/gio-hang/delete-sp/${idGHCT}`,
                 method: 'POST',
@@ -799,7 +955,7 @@
 
             });
         }
-
+>>>>>>> Stashed changes
 
 
         // function hideModalDiaChi() {

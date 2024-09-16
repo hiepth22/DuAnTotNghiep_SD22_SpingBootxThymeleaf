@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="icon" type="image/svg+xml"
+      href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
+<div th:replace="~{client/fragmentsClient/head :: head}"></div>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<style>
+    .default-customer-img {
+        width: 30px; /* Kích thước của ảnh */
+        height: 30px; /* Kích thước của ảnh */
+        border-radius: 50%; /* Làm tròn ảnh */
+    }
+
+    /* Đặt container với Flexbox */
+    .account-container {
+        display: flex;
+        align-items: center; /* Căn giữa hình ảnh và văn bản theo chiều dọc */
+    }
+
+    /* Chỉnh kích thước và tạo hình tròn cho ảnh */
+    .default-customer-img {
+        width: 40px; /* Kích thước của ảnh */
+        height: 40px; /* Kích thước của ảnh */
+        border-radius: 50%; /* Làm tròn ảnh */
+        margin-right: 10px; /* Khoảng cách giữa ảnh và văn bản */
+    }
+
+    /* Định dạng cho văn bản */
+    .account-text {
+        font-size: 16px; /* Kích thước chữ */
+        color: #333; /* Màu chữ */
+    }
+
+    .error {
+        color: red;
+        font-size: 14px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    /* Active state for the links */
+    .active-link {
+        color: orange;
+    }
+</style>
+<body class="bg-white">
+
+<div th:replace="~{client/fragmentsClient/header :: header}"></div>
+<div>
+    <div class="flex justify-center">
+        <div class="container bg-gray-100 w-[85%] p-2 rounded-lg shadow-md mt-32 flex gap-40">
+            <div class="m-5">
+                <div>
+                    <img src="https://png.pngtree.com/png-vector/20190704/ourlarge/pngtree-vector-user-young-boy-avatar-icon-png-image_1538408.jpg"
+                         alt="Ảnh khách hàng mặc định" class="default-customer-img">
+                    <span id="tenKhachHang" class="font-bold text-l"></span>
+                </div>
+                <div class="mt-5">
+                    <div class="account-container d-block">
+                        <div class="d-flex">
+                            <img src="https://png.pngtree.com/png-vector/20190805/ourlarge/pngtree-account-avatar-user-abstract-circle-background-flat-color-icon-png-image_1650938.jpg"
+                                 alt="Ảnh khách hàng mặc định" class="default-customer-img">
+                            <strong style="margin-top: 5px">
+                                <a href="#" id="taiKhoanLink">Tài khoản</a>
+                            </strong>
+                        </div>
+                        <span class="account-text">
+                            <ul style="list-style-type: none; padding: 0; margin-left: 50px">
+                                <li><a href="#" id="hoSoLink">Hồ sơ</a></li>
+                                <li><a href="#" id="diaChiLink">Địa chỉ</a></li>
+                                <li><a href="#" id="doiMatKhauLink">Đổi mật khẩu</a></li>
+                            </ul>
+                        </span>
+                    </div>
+                    <div class="account-container">
+                        <img src="https://imaxmobile.vn/media/data/icon-giao-hang-toan-quoc.jpeg"
+                             alt="Ảnh khách hàng mặc định" class="default-customer-img">
+                        <div class="text-orange-500"><strong>Đơn mua</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="formContainer">
+                <div style="margin-top: 20px">
+                    <form method="post" class="row g-3"
+                          enctype="multipart/form-data" id="myForm" >
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="ten" class="form-label">Tên Khách Hàng:</label>
+                                    <input type="text" id="ten" name="ten" class="form-control"
+                                           placeholder="Nhập tên Khách Hàng">
+                                    <div id="tenError" class="error"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="sdt" class="form-label" >Số Điện Thoại:</label>
+                                    <input type="text" id="sdt" name="sdt" class="form-control"
+                                           placeholder="Nhập SĐT"  disabled="true">
+                                    <div id="sdtError" class="error"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cccd" class="form-label">CCCD:</label>
+                                    <input type="text" id="cccd" name="cccd" class="form-control"
+                                           placeholder="Nhập CCCD" >
+                                    <div id="cccdError" class="error"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="ngaySinh" class="form-label">Ngày Sinh:</label>
+                                    <input type="date" id="ngaySinh" name="ngaySinh" class="form-control"
+                                           required >
+                                    <div id="ngaySinhError" class="error"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label" >Email:</label>
+                                    <input type="email" id="email" name="email" class="form-control"
+                                           placeholder="Nhập Email" disabled="true">
+                                    <div id="emailError" class="error"></div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Giới Tính:</label>
+                                    <div class="custom-radio-group">
+                                        <div class="custom-radio-label">
+                                            <input class="custom-radio-input" type="radio" id="nam"
+                                                   name="gioiTinh" value="true" checked>
+                                            <label class="form-check-label" for="nam">Nam</label>
+                                        </div>
+                                        <div class="custom-radio-label">
+                                            <input class="custom-radio-input" type="radio" id="nu"
+                                                   name="gioiTinh" value="false">
+                                            <label class="form-check-label" for="nu">Nữ</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary me-2" id="confirmButton">Lưu</button>
+                            <a th:href="@{/Client}" class="btn btn-secondary">Đóng</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="diachi" class="hidden text-center text-2xl font-bold mt-5">
+                <div class="d-flex align-items-center mb-3">
+                    <p class=""><i class="bi bi-geo-alt-fill"></i> Địa chỉ Của Tôi</p>
+                    <div class="ms-auto">
+                        <a class="btn btn-outline-primary btn-sm" href="dia-chi-view-add">Thêm mới</a>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div id="address-details">
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="helloDiv" class="hidden text-center text-2xl font-bold mt-5">
+                <div class="mb-4">
+                    <label for="currentPassword" class="block text-left text-sm font-medium text-gray-700 mb-2">Nhập Mật Khẩu Cũ</label>
+                    <input type="password" id="currentPassword" name="currentPassword" required class="w-full p-2 border border-gray-300 rounded" >
+                </div>
+                <div class="mb-4">
+                    <label for="newPassword" class="block text-left text-sm font-medium text-gray-700 mb-2">Nhập Mật Khẩu Mới</label>
+                    <input type="password" id="newPassword" name="newPassword" required class="w-full p-2 border border-gray-300 rounded" >
+                </div>
+                <div class="mb-4">
+                    <label for="confirmNewPassword" class="block text-left text-sm font-medium text-gray-700 mb-2">Nhập Lại Mật Khẩu Mới</label>
+                    <input type="password" id="confirmNewPassword" name="confirmNewPassword" required class="w-full p-2 border border-gray-300 rounded" >
+                </div>
+                <button type="button" class="btn btn-primary">Lưu</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<!--<script th:src="@{/assets/js/KhachHangAdd.js}"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function validateForm() {
+        let isValid = true;
+
+        // Get form elements
+        const ten = document.getElementById('ten');
+        const sdt = document.getElementById('sdt');
+        const cccd = document.getElementById('cccd');
+        const ngaySinh = document.getElementById('ngaySinh');
+        const email = document.getElementById('email');
+
+        // Clear previous error messages and styles
+        ten.classList.remove('is-invalid');
+        sdt.classList.remove('is-invalid');
+        cccd.classList.remove('is-invalid');
+        ngaySinh.classList.remove('is-invalid');
+        email.classList.remove('is-invalid');
+
+        document.getElementById('tenError').innerText = '';
+        document.getElementById('sdtError').innerText = '';
+        document.getElementById('cccdError').innerText = '';
+        document.getElementById('ngaySinhError').innerText = '';
+        document.getElementById('emailError').innerText = '';
+
+        // Validate 'Tên Khách Hàng'
+        if (ten.value.trim() === '') {
+            document.getElementById('tenError').innerText = 'Vui lòng nhập tên khách hàng';
+            ten.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Số Điện Thoại'
+        const phoneRegex = /^[0-9]{10}$/;
+        if (sdt.value.trim() === '') {
+            document.getElementById('sdtError').innerText = 'Vui lòng nhập số điện thoại';
+            sdt.classList.add('is-invalid');
+            isValid = false;
+        } else if (!phoneRegex.test(sdt.value.trim())) {
+            document.getElementById('sdtError').innerText = 'Số điện thoại phải là số và gồm 10 chữ số';
+            sdt.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'CCCD'
+        if (cccd.value.trim() === '') {
+            document.getElementById('cccdError').innerText = 'Vui lòng nhập CCCD';
+            cccd.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Ngày Sinh'
+        if (ngaySinh.value === '') {
+            document.getElementById('ngaySinhError').innerText = 'Vui lòng chọn ngày sinh';
+            ngaySinh.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Email'
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email regex
+        if (email.value.trim() === '') {
+            document.getElementById('emailError').innerText = 'Vui lòng nhập email';
+            email.classList.add('is-invalid');
+            isValid = false;
+        } else if (!emailRegex.test(email.value.trim())) {
+            document.getElementById('emailError').innerText = 'Email không hợp lệ';
+            email.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    // Attach the validateForm function to the form submit event
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+        if (!validateForm()) {
+            event.preventDefault(); // Prevent form submission if validation fails
+        }
+    });
+
+    function getDiaChi(khId) {
+        if (khId) {
+            var addressDetailsContainer = $('#address-details');
+            addressDetailsContainer.empty(); // Clear previous data
+
+            $.ajax({
+                url: '/api/khach-hang/dia-chi/' + khId,
+                method: 'GET',
+                cache: false, // Disable caching
+                dataType: 'json',
+                success: function (data) {
+                    console.log('Received data:', data);
+                    if (data && data.length > 0) {
+                        data.forEach(function (diaChi) {
+                            var trangThaiClass = diaChi.trangThai === 1 ? 'text-danger' : ''; // Determine class based on trangThai
+                            var additionalInfo = diaChi.trangThai === 1 ? `
+                        <div class="additional-info">
+                            <button type="button" class="btn btn-outline-warning btn-sm" style="font-size: 12px;" disabled>
+                                Mặc định
+                            </button>
+                        </div>
+                        ` : '';
+                            addressDetailsContainer.append(`
+                            <div class="address-block mb-3 " >
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div style="flex: 1; display: flex; align-items: center;">
+                                        <span class="heart-icon ${trangThaiClass}" style="font-size: 20px;">
+                                            <i class="bi bi-heart" data-dia-chi-id="${diaChi.id}" style="cursor: pointer;"></i>
+                                        </span>
+                                        <div style="margin-left: 10px;">
+                                            <strong style="display: block; margin-bottom: 3px; font-size: 14px;">${diaChi.ten}</strong>
+                                            <p style="margin: 0; font-size: 12px;">${diaChi.moTaChiTiet}, số ${diaChi.soNha}, ${diaChi.phuongXa}, ${diaChi.quanHuyen}, ${diaChi.thanhPho}</p>
+                                        </div>
+                                    </div>
+                                    <a href="/dia-chi-view-update/${diaChi.id}" class="btn btn-outline-orange btn-sm btn-update-address" data-dia-chi-id="${diaChi.id}" style="border: 1px solid orange; background-color: white; color: black;">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                </div>
+                                ${additionalInfo}
+                            </div>
+                        `);
+                        });
+
+                        // Handle heart icon click
+                        $(document).on('click', '.heart-icon .bi-heart', function () {
+                            $(this).toggleClass('text-danger');
+                        });
+                    } else {
+                        console.log('No address data available');
+                        addressDetailsContainer.append('<li>Khách Hàng chưa cập nhật địa chỉ</li>');
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Failed to load address data', textStatus, errorThrown);
+                    addressDetailsContainer.empty();
+                    addressDetailsContainer.append('<li>Không thể tải địa chỉ</li>');
+                }
+            });
+        } else {
+            console.error("Customer ID is undefined or null");
+        }
+    }
+
+    $(document).ready(function () {
+        let idKhachHang = null;
+
+        function getKhachHang() {
+            $.ajax({
+                url: '/api/session/user',
+                method: 'GET',
+                success: function (response) {
+                    let ten = response.ten;
+
+                    idKhachHang = response.id;
+
+                    getdlkh(response.id)
+
+
+                    if (response.gioiTinh === 'true') {
+                        document.getElementById('nam').checked = true;
+                    } else {
+                        document.getElementById('nu').checked = true;
+                    }
+                    $('#tenKhachHang').text(response.ten);
+                },
+            });
+        }
+
+        getKhachHang();
+         function getdlkh(id){
+             $.ajax({
+                 url: `/khach-hang-client/${id}`,
+                 method: 'GET',
+                 success: function(kh) {
+
+                     document.getElementById('ten').value = kh.ten || '';
+                     document.getElementById('sdt').value = kh.sdt || '';
+                     document.getElementById('cccd').value = kh.cccd || '';
+                     document.getElementById('ngaySinh').value = kh.ngaySinh || '';
+                     document.getElementById('email').value = kh.email || '';
+                     getDiaChi(kh.id);
+                 },
+                 error: function(xhr, status, error) {
+                     alert('Có lỗi xảy ra: ' + error);
+                 }
+             });
+         }
+        function resetLinkStates() {
+            $('#hoSoLink').removeClass('active-link');
+            $('#diaChiLink').removeClass('active-link');
+            $('#doiMatKhauLink').removeClass('active-link');
+        }
+
+        $('#hoSoLink').click(function(event) {
+            event.preventDefault();
+            $('#formContainer').removeClass('hidden');
+            $('#diachi').addClass('hidden');
+            $('#helloDiv').addClass('hidden');
+            resetLinkStates();
+            $(this).addClass('active-link');
+        });
+
+        $('#diaChiLink').click(function(event) {
+            event.preventDefault();
+            $('#formContainer').addClass('hidden');
+            $('#helloDiv').addClass('hidden');
+            $('#diachi').removeClass('hidden');
+            resetLinkStates();
+            $(this).addClass('active-link');
+        });
+
+        $('#doiMatKhauLink').click(function(event) {
+            event.preventDefault();
+            $('#formContainer').addClass('hidden');
+            $('#diachi').addClass('hidden');
+            $('#helloDiv').removeClass('hidden');
+            resetLinkStates();
+            $(this).addClass('active-link');
+        });
+
+        $('#myForm').submit(function(event) {
+            event.preventDefault();
+
+            const formData = {
+                ten: $('#ten').val(),
+                sdt: $('#sdt').val(),
+                cccd: $('#cccd').val(),
+                ngaySinh: $('#ngaySinh').val(),
+                email: $('#email').val(),
+                gioiTinh: $('input[name="gioiTinh"]:checked').val()
+            };
+
+            $.ajax({
+                url: `/update-khach-hang-client/${idKhachHang}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    alert('Cập nhật thành công!');
+                    document.getElementById('ten').value = response.ten || '';
+                    document.getElementById('sdt').value = response.sdt || '';
+                    document.getElementById('cccd').value = response.cccd || '';
+                    document.getElementById('ngaySinh').value = response.ngaySinh || '';
+                    document.getElementById('email').value = response.email || '';
+                },
+                error: function(xhr, status, error) {
+                    alert('Có lỗi xảy ra: ' + error);
+                }
+            });
+        });
+    });
+
+
+</script>
+
+</body>
+<div th:replace="~{client/fragmentsClient/footer :: footer}"></div>
+
+</html>

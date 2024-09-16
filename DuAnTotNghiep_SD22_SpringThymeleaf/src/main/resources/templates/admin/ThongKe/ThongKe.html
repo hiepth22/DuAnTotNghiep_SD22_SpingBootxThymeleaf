@@ -9,6 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="icon" type="image/svg+xml"
           href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
     <head th:replace="~{admin/fragments/head :: head}"></head>
     <style>
         .legend-container {
@@ -31,6 +33,8 @@
         .h-60 {
             height: 15rem;
         }
+
+
     </style>
 </head>
 <body>
@@ -57,10 +61,27 @@
         <div class="w-full max-w-4xl px-4 mt-10 ">
             <div class="flex justify-center items-center text-3xl font-bold mb-10">Biểu đồ thống kê hóa đơn và sản phẩm</div>
             <div class="mb-4 ml-[67%]">
-                <button id="last-7-days" class="px-4 py-2 bg-blue-500 text-white rounded">7 ngày</button>
-                <button id="last-month" class="px-4 py-2 bg-blue-500 text-white rounded">Tháng</button>
-                <button id="last-year" class="px-4 py-2 bg-blue-500 text-white rounded">Năm</button>
+
             </div>
+            <div class="mb-6 p-4 rounded flex">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <label for="startDate" class="mr-2 font-semibold text-gray-700">Ngày bắt đầu:</label>
+                        <input type="datetime-local" id="startDate" name="startDate" class="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <label for="endDate" class="mr-2 font-semibold text-gray-700">Ngày kết thúc:</label>
+                        <input type="datetime-local" id="endDate" name="endDate" class="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                </div>
+                <div class="ml-5 mt-1">
+                    <button id="apply-dates" class="px-6 py-3 bg-green-500 text-white rounded-lg shadow hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">Áp dụng</button>
+                    <button id="last-7-days" class="px-6 py-3 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">7 ngày</button>
+                    <button id="last-month" class="px-6 py-3 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">1 tháng</button>
+                    <button id="export-excel" class="px-6 py-3 bg-gray-500 text-white rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300 ml-24 mt-2">Xuất Excel</button>
+                </div>
+            </div>
+            <div id="date-range-display" class="mb-4 text-lg font-semibold text-gray-800 flex justify-center items-center"></div>
             <div class="relative w-full ">
                 <canvas id="invoiceChartBar" class="w-full h-80"></canvas>
             </div>
@@ -244,7 +265,65 @@
                     }
                 }
             });
+            updateDateRangeDisplay(startDate, endDate);
         });
+    }
+
+    function exportToExcel(dates, invoiceCounts, productCounts) {
+        // Tạo dữ liệu cho sheet
+        const ws_data = [
+            ['Ngày', 'Số hóa đơn', 'Số sản phẩm'],
+            ...dates.map((date, index) => [date, invoiceCounts[index], productCounts[index]])
+        ];
+
+        // Tạo workbook và sheet
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.aoa_to_sheet(ws_data);
+        XLSX.utils.book_append_sheet(wb, ws, 'Dữ liệu');
+
+        // Xuất file Excel
+        XLSX.writeFile(wb, 'thong_ke.xlsx');
+    }
+
+    $('#export-excel').click(function() {
+        const startDate = $('#startDate').val();
+        const endDate = $('#endDate').val();
+        if (startDate && endDate) {
+            const dates = getDates(new Date(startDate), new Date(endDate));
+            fetchBarChartData(startDate, endDate).done(function(data) {
+                const invoicesByDate = {};
+                data.forEach(invoice => {
+                    if (invoice.hoaDon.trangThai === 6) {
+                        let dateString = formatDateToUTC(invoice.hoaDon.ngayThanhToan);
+                        if (!invoicesByDate[dateString]) {
+                            invoicesByDate[dateString] = { uniqueIds: new Set(), productCount: 0 };
+                        }
+                        invoicesByDate[dateString].uniqueIds.add(invoice.hoaDon.id);
+                        invoicesByDate[dateString].productCount += invoice.soLuong;
+                    }
+                });
+                let invoiceCounts = dates.map(date => invoicesByDate[date] ? invoicesByDate[date].uniqueIds.size : 0);
+                let productCounts = dates.map(date => invoicesByDate[date] ? invoicesByDate[date].productCount : 0);
+                exportToExcel(dates, invoiceCounts, productCounts);
+            });
+        } else {
+            alert('Vui lòng chọn ngày bắt đầu và ngày kết thúc.');
+        }
+    });
+
+    function updateChartAndDisplay(period) {
+        const { startDate, endDate } = getDateRange(period);
+        $('#startDate').val(startDate);
+        $('#endDate').val(endDate);
+        updateBarChart(startDate, endDate);
+        updateDateRangeDisplay(startDate, endDate);
+    }
+
+    function updateDateRangeDisplay(startDate, endDate) {
+        const displayElement = document.getElementById('date-range-display');
+        const formattedStartDate = new Date(startDate).toLocaleDateString();
+        const formattedEndDate = new Date(endDate).toLocaleDateString();
+        displayElement.textContent = `Biểu đồ hiển thị ${formattedStartDate} đến ngày ${formattedEndDate}`;
     }
 
     function updateDoughnutChart() {
@@ -391,7 +470,10 @@
                     break;
                 case 'last-year':
                     startDate = new Date();
-                    startDate.setFullYear(endDate.getFullYear() - 1);
+                    startDate.setMonth(0);
+                    startDate.setDate(1);
+                    endDate.setMonth(11);
+                    endDate.setDate(31);
                     break;
                 default:
                     startDate = new Date();
@@ -422,6 +504,16 @@
         $('#last-year').click(function() {
             const range = getDateRange('last-year');
             updateBarChart(range.startDate, range.endDate);
+        });
+
+        $('#apply-dates').click(function() {
+            const startDate = $('#startDate').val();
+            const endDate = $('#endDate').val();
+            if (startDate && endDate) {
+                updateBarChart(startDate, endDate);
+            } else {
+                alert('Vui lòng chọn ngày bắt đầu và ngày kết thúc.');
+            }
         });
         getDanhSachSanPham();
         getSanPhamSapHetHang();

@@ -9,20 +9,45 @@
           href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
 
     <title>Tra cứu đơn hàng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!--    <script src="https://cdn.tailwindcss.com"></script>-->
+
     <!-- Bootstrap CSS --><!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
 
     <!-- Bootstrap JS (để hỗ trợ modal và các tính năng JavaScript khác) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .default-customer-img {
+            width: 30px; /* Kích thước của ảnh */
+            height: 30px; /* Kích thước của ảnh */
+            border-radius: 50%; /* Làm tròn ảnh */
+        }
+        /* Đặt container với Flexbox */
+        .account-container {
+            display: flex;
+            align-items: center; /* Căn giữa hình ảnh và văn bản theo chiều dọc */
+        }
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/css/chocolat.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/css/chocolat.css">
-    <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,900;1,900&family=Source+Sans+Pro:wght@400;600;700;900&display=swap"
-            rel="stylesheet">
+        /* Chỉnh kích thước và tạo hình tròn cho ảnh */
+        .default-customer-img {
+            width: 40px; /* Kích thước của ảnh */
+            height: 40px; /* Kích thước của ảnh */
+            border-radius: 50%; /* Làm tròn ảnh */
+            margin-right: 10px; /* Khoảng cách giữa ảnh và văn bản */
+        }
+
+        /* Định dạng cho văn bản */
+        .account-text {
+            font-size: 16px; /* Kích thước chữ */
+            color: #333; /* Màu chữ */
+        }
+
+
+    </style>
+
     <style>
         body {
             background-color: #f4f4f4;
@@ -65,33 +90,56 @@
                 <i class="bi bi-eye" style="font-size: 24px; color: #007bff;"></i>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div class="modal-body">
-                <!-- Bảng thông tin chi tiết -->
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Ảnh</th>
-                            <th>Giá Bán</th>
-                            <th>Chất liệu</th>
-                            <th>Cổ giày</th>
-                            <th>Đế giày</th>
-                            <th>Kích cỡ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id="anh"></td>
-                            <td id="giaBan"></td>
-                            <td id="cl"></td>
-                            <td id="cg"></td>
-                            <td id="dg"></td>
-                            <td id="kc"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <div>
+                    <div class="ml-5 flex">
+                        <div class="">
+                            <h5 >Trạng thái đơn hàng: </h5>
+
+                        </div>
+                    </div>
+                    <hr style="border: none; border-top: 3px solid #FFA500; margin: 20px 0;">
+
+                    <div>
+
+                        <div class="container mx-auto px-4 py-8">
+
+                            <div class="overflow-hidden">
+
+                                <div class="flex items-center  " id="steppers">
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="ml-5 flex">
+                        <div class="">
+                            <h5 >Thông tin khách hàng: </h5>
+                            <span id="maHD"></span>
+                            <span id="trangThai" class="text-orange-500 ml-14"></span>
+                        </div>
+                    </div>
+                    <hr style="border: none; border-top: 3px solid #FFA500; margin: 20px 0;">
+                    <div>
+
+                        <div class="grid gap-1 grid-cols-2">
+                            <div id="diaChiNhanHang" class="mb-3"></div>
+                        </div>
+                        <h5>Thông tin sản phẩm: </h5>
+                        <hr style="border: none; border-top: 3px solid #FFA500; margin: 20px 0;">
+                        <div id="sanPhamChiTietContainer">
+                            <!-- Các sản phẩm sẽ được chèn vào đây bằng JavaScript -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -101,7 +149,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <!-- Bootstrap JS and dependencies -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jarallax@1.12.0/dist/jarallax.min.js"></script>
 <!-- Thêm thư viện jarallax-video (nếu cần) -->
 <script src="https://cdn.jsdelivr.net/npm/jarallax@1.12.0/dist/jarallax-video.min.js"></script>
@@ -110,6 +157,190 @@
 <script th:src="@{/assets/js/Header.js}"></script>
 
 <script>
+    $(document).ready(function () {
+
+        const pathArray = window.location.pathname.split('/');
+        const idHoaDon = pathArray[pathArray.length - 1];
+
+    const formatVND = (tongtien) => {
+        return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+    }
+
+        const icons = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">\n' +
+        '  <path fill-rule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625ZM7.5 15a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 7.5 15Zm.75 2.25a.75.75 0 0 0 0 1.5H12a.75.75 0 0 0 0-1.5H8.25Z" clip-rule="evenodd" />\n' +
+        '  <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />\n' +
+        '</svg>\n',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">\n' +
+            '  <path fill-rule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625ZM7.5 15a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 7.5 15Zm.75 2.25a.75.75 0 0 0 0 1.5H12a.75.75 0 0 0 0-1.5H8.25Z" clip-rule="evenodd" />\n' +
+            '  <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />\n' +
+            '</svg>\n',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">\n' +
+            '  <path fill-rule="evenodd" d="M9 1.5H5.625c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5Zm6.61 10.936a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 14.47a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />\n' +
+            '  <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />\n' +
+            '</svg>\n',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">\n' +
+            '  <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z" />\n' +
+            '  <path fill-rule="evenodd" d="m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.163 3.75A.75.75 0 0 1 10 12h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />\n' +
+            '</svg>\n',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">\n' +
+            '  <path fill-rule="evenodd" d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 0 1 .75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 0 1 9.75 22.5a.75.75 0 0 1-.75-.75v-4.131A15.838 15.838 0 0 1 6.382 15H2.25a.75.75 0 0 1-.75-.75 6.75 6.75 0 0 1 7.815-6.666ZM15 6.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" clip-rule="evenodd" />\n' +
+            '  <path d="M5.26 17.242a.75.75 0 1 0-.897-1.203 5.243 5.243 0 0 0-2.05 5.022.75.75 0 0 0 .625.627 5.243 5.243 0 0 0 5.022-2.051.75.75 0 1 0-1.202-.897 3.744 3.744 0 0 1-3.008 1.51c0-1.23.592-2.323 1.51-3.008Z" />\n' +
+            '</svg>\n',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">\n' +
+            '  <path d="M10.464 8.746c.227-.18.497-.311.786-.394v2.795a2.252 2.252 0 0 1-.786-.393c-.394-.313-.546-.681-.546-1.004 0-.323.152-.691.546-1.004ZM12.75 15.662v-2.824c.347.085.664.228.921.421.427.32.579.686.579.991 0 .305-.152.671-.579.991a2.534 2.534 0 0 1-.921.42Z" />\n' +
+            '  <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v.816a3.836 3.836 0 0 0-1.72.756c-.712.566-1.112 1.35-1.112 2.178 0 .829.4 1.612 1.113 2.178.502.4 1.102.647 1.719.756v2.978a2.536 2.536 0 0 1-.921-.421l-.879-.66a.75.75 0 0 0-.9 1.2l.879.66c.533.4 1.169.645 1.821.75V18a.75.75 0 0 0 1.5 0v-.81a4.124 4.124 0 0 0 1.821-.749c.745-.559 1.179-1.344 1.179-2.191 0-.847-.434-1.632-1.179-2.191a4.122 4.122 0 0 0-1.821-.75V8.354c.29.082.559.213.786.393l.415.33a.75.75 0 0 0 .933-1.175l-.415-.33a3.836 3.836 0 0 0-1.719-.755V6Z" clip-rule="evenodd" />\n' +
+            '</svg>\n',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">\n' +
+            '  <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0 1 18 9.375v9.375a3 3 0 0 0 3-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 0 0-.673-.05A3 3 0 0 0 15 1.5h-1.5a3 3 0 0 0-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6ZM13.5 3A1.5 1.5 0 0 0 12 4.5h4.5A1.5 1.5 0 0 0 15 3h-1.5Z" clip-rule="evenodd" />\n' +
+            '  <path fill-rule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625V9.375Zm9.586 4.594a.75.75 0 0 0-1.172-.938l-2.476 3.096-.908-.907a.75.75 0 0 0-1.06 1.06l1.5 1.5a.75.75 0 0 0 1.116-.062l3-3.75Z" clip-rule="evenodd" />\n' +
+            '</svg>\n',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">\n' +
+            '  <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />\n' +
+            '</svg>\n'
+        ];
+
+        let stepsHistory = [];
+
+
+
+        function fetchStepsData(idHoaDon) {
+            $.ajax({
+                url: `/api/hoa-don/lich-su-hoa-don-co-thong-tin/${idHoaDon}`, method: 'GET', success: function (data) {
+                    stepsHistory = data.map(item => ({
+                        hanhDong: item.hanhDong, ngayTao: item.ngayTao
+                    }));
+                    currentStep = stepsHistory.length > 0 ? stepsHistory.length : 1;
+                    updateButtonsState();
+                    console.log(stepsHistory);
+                }, error: function (error) {
+                    console.error("Error fetching steps data:", error);
+                }
+            });
+        }
+
+        function updateButtonsState() {
+            $('#steppers').empty();
+            stepsHistory.forEach((step, index) => {
+                $('#steppers').append(createStep(step.hanhDong, step.ngayTao, step.hanhDong));
+            });
+            console.log(document.querySelector('#steppers'));
+
+        }
+
+        function createStep(hanhDong, ngayTao, stepNum) {
+            const iconBgColor = stepNum === 7 ? 'bg-red-600' : 'bg-green-600';
+
+            const stepDiv = $(`
+        <div class="flex items-center ml-8 step" data-step="${stepNum}">
+            <div class="h-8 w-8 ${iconBgColor} text-white rounded-full flex items-center justify-center">
+                ${icons[stepNum]}
+            </div>
+            <div class="ml-4">
+                <h2 class="text-lg font-semibold">${trangThaiSteps(hanhDong)}</h2>
+                <p class="text-gray-600">
+                    ${ngayTao != null ? new Date(ngayTao).toLocaleString('vi-VN', {
+                day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'
+            }) : ''}
+                </p>
+            </div>
+        </div>
+    `);
+
+            return stepDiv;
+        }
+
+
+        const trangThaiSteps = (tt) => {
+            switch (tt) {
+                case 1:
+                    return 'Chờ xác nhận';
+                case 2:
+                    return 'Đã xác nhận';
+                case 3:
+                    return 'Chờ vận chuyển';
+                case 4:
+                    return 'Vận chuyển';
+                case 5:
+                    return 'Thanh toán';
+                case 6:
+                    return 'Hoàn thành';
+                case 7:
+                    return 'Hủy';
+                default:
+                    return 'Không xác định';
+            }
+        }
+
+    function getKhachHang() {
+        $.ajax({
+            url: '/api/session/user',
+            method: 'GET',
+            success: function (response) {
+                let idKhachHang = response.id;
+                $('#tenKhachHang').text(response.ten);
+            },
+        });
+    }
+
+    function fetchHoaDonDetail(idHoaDon) {
+        $.ajax({
+
+            url: `/api/hoa-don/detail/${idHoaDon}`,
+            method: 'GET',
+            success: function (response) {
+                console.log(response);
+                const hd = response.hd;
+                const hdctList = response.hdctList;
+                thongTinDiaChiDonHang(hd);
+                fetchStepsData(idHoaDon);
+                currentStep = hd.id;
+            },
+        });
+    }
+
+    function thongTinDiaChiDonHang(hd){
+        $('#diaChiNhanHang').html(`
+           <div id="diaChiNhanHang" class="mb-3">
+                           <div style="font-size: 17px; font-weight: bold; margin-bottom: 10px;">Tên người nhận: ${hd.nguoiNhan}</div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div style="font-size: 15px; margin-bottom: 5px;">Số điện thoại: ${hd.sdtNguoiNhan}</div>
+                        <div style="font-size: 15px; margin-bottom: 5px;">Địa chỉ: ${hd.diaChiNguoiNhan}</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div style="font-size: 15px; margin-bottom: 5px;">Ngày Giao dự kiến: ${hd.ngayGiaoHang}</div>
+                        <div style="font-size: 15px; margin-bottom: 5px;">Thanh toán: ${hd.tongTienSauGiam}</div>
+                    </div>
+                </div>
+            </div>
+
+
+        `);
+
+        $('#thanhToan').html(`
+            <div class="flex">
+                <div class="ml-[45%]">
+                    <div class="text-gray-600 ml-9 ">Tổng tiền: </div>
+                    <div class="text-gray-600">Phí vận chuyển: </div>
+                    <div class="text-gray-600 ml-12">Voucher: </div>
+                    <div class="font-bold ml-6">Thành tiền: </div>
+                </div>
+                <div class="ml-[10%]">
+                    <div class="text-gray-600">${formatVND(hd.tongTien)}</div>
+                    <div class="text-gray-600">${formatVND(hd.tienShip)}</div>
+                    <div class="text-gray-600">${hd.phieuGiamGia.giamToiDa ? formatVND(hd.phieuGiamGia.giamToiDa) : 'Không có voucher'}</div>
+                    <div class="text-orange-600 text-xl">${formatVND(hd.tongTienSauGiam)}</div>
+                </div>
+            </div>
+        `);
+
+        $('#maHD').text(`${encodeURIComponent(ma)}`);
+        $('#trangThai').text(`${trangThaiSteps(hd.trangThai)}`);
+    }
+
+
+
     document.getElementById('searchButton').addEventListener('click', function () {
         var ma = document.getElementById('orderSearchInput').value;
         if (ma.trim() === '') {
@@ -174,7 +405,7 @@
 
                         var tdActions = document.createElement('td');
                         var actionButton = document.createElement('button');
-                        actionButton.textContent = 'Xem Sản Phẩm';
+                        actionButton.textContent = 'Xem Chi tiết';
                         actionButton.classList.add('btn', 'btn-info', 'btn-sm');
                         actionButton.onclick = function () {
                             $.ajax({
@@ -183,32 +414,50 @@
                                 success: function (response) {
                                     console.log('Detail Response:', response);
 
-                                    // Xóa nội dung cũ trong bảng (nếu có)
-                                    const tableBody = document.querySelector('#detailModal tbody');
-                                    tableBody.innerHTML = ''; // Xóa các dòng cũ
+                                    // Xóa nội dung cũ trong container (nếu có)
+                                    const sanPhamChiTietContainer = document.getElementById('sanPhamChiTietContainer');
+                                    sanPhamChiTietContainer.innerHTML = ''; // Xóa các nội dung cũ
 
                                     // Lặp qua danh sách sanPhamChiTiet
                                     response.forEach(item => {
                                         const sanPhamChiTiet = item.sanPhamChiTiet;
-
-                                        // Tạo một dòng mới cho mỗi sản phẩm
-                                        const row = document.createElement('tr');
-                                        const productPrice = sanPhamChiTiet.giaBan != null ? sanPhamChiTiet.giaBan.toLocaleString('vi-VN', {
+                                        const productPrice = sanPhamChiTiet.giaBan * sanPhamChiTiet.soLuong != null ? sanPhamChiTiet.giaBan.toLocaleString('vi-VN', {
                                             style: 'currency',
                                             currency: 'VND'
                                         }) : 'Không có giá';
-                                        row.innerHTML = `
 
-                                            <td><img src="${sanPhamChiTiet.anh || ''}" alt="Không có dữ liệu" style="max-width: 100px; max-height: 100px;" /></td>
-                                            <td style="font-size: 17px;color: red">${productPrice || 'N/A'}</td>
-                                            <td>${sanPhamChiTiet.chatLieu.ten || 'N/A'}</td>
-                                            <td>${sanPhamChiTiet.coGiay.ten || 'N/A'}</td>
-                                            <td>${sanPhamChiTiet.deGiay.ten || 'N/A'}</td>
-                                            <td>${sanPhamChiTiet.kichCo.ten || 'N/A'}</td>
-                                        `;
+                                        // Tạo một div chứa thông tin sản phẩm
+                                        const productDiv = document.createElement('div');
+                                        productDiv.classList.add('grid', 'gap-4', 'grid-cols-2', 'mb-4'); // Chia thành 2 cột
 
-                                        // Thêm dòng mới vào bảng
-                                        tableBody.appendChild(row);
+                                        // Hình ảnh sản phẩm (cột bên trái)
+                                        productDiv.innerHTML = `
+                                    <div class="row g-4" style="max-width: 800px;">
+                                        <div class="col d-flex p-4">
+                                            <div class="flex-shrink-0">
+                                                <img src="${sanPhamChiTiet.anh}" alt="Ảnh" class="img-fluid rounded-lg shadow" style="width: 100px;height: 100px">
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <div class="fs-5 fw-semibold text-dark">${sanPhamChiTiet.ten}</div>
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <span class="text-muted">${sanPhamChiTiet.kichCo.ten} - </span>
+                                                    <div class="rounded-circle ms-2 border border-secondary" style="background-color: ${sanPhamChiTiet.mauSac.ten}; width: 20px; height: 20px;"></div>
+                                                </div>
+                                                <div class="mt-2 text-muted">Số lượng: <span class="fw-medium">${sanPhamChiTiet.soLuong}</span></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col mt-4" style="margin-top: 35px">
+                                            <div class="fs-6 text-danger" style="margin-top: 35px">
+                                                ${(productPrice)}<span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                `;
+
+                                        // Thêm div sản phẩm vào container
+                                        sanPhamChiTietContainer.appendChild(productDiv);
                                     });
 
                                     // Mở modal
@@ -219,8 +468,10 @@
                                     console.error('Lỗi khi lấy chi tiết hóa đơn:', error);
                                 }
                             });
-
+                            fetchHoaDonDetail(item.id);
+                            fetchStepsData(item.id);
                         };
+
                         tdActions.appendChild(actionButton);
 
                         row.appendChild(tdActions);
@@ -237,6 +488,7 @@
                 console.error('Error fetching data:', error);
                 alert('An error occurred while fetching the data.');
             });
+    });
     });
 </script>
 <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>-->

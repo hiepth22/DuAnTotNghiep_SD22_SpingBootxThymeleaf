@@ -39,7 +39,9 @@ public class KhachHangService {
             return o;
         }).orElse(null);
     }
-
+    public KhachHang save(KhachHang khachHang) {
+        return khachHangRepository.save(khachHang);
+    }
     public KhachHang update(Long id, KhachHang newnv) {
         Optional<KhachHang> optional = khachHangRepository.findById(id);
         return optional.map(o -> {
