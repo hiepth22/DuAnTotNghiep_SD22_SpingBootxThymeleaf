@@ -8,28 +8,25 @@
     <thead class="bg-blue-400">
     <tr >
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">STT</th>
-<!--        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh</th>-->
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh</th>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Mã</th>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tên</th>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">SĐT</th>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ngày Sinh</th>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Giới Tính</th>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Email</th>
-<!--        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">CCCD</th>-->
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Vai Trò</th>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Trạng Thái</th>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Hành Động</th>
     </tr>
     </thead>
     <tbody class="bg-white divide-y divide-gray-200 ">
-    <!-- Check if lstNv is not empty -->
     <th:block th:if="${not #lists.isEmpty(lstNv)}">
-        <!-- Iterate through lstNv -->
         <tr th:each="nhanvien, status : ${lstNv}" class="text-center">
             <td th:text="${status.index + 1}" class="px-6 py-4 whitespace-nowrap"></td>
-<!--            <td>-->
-<!--                <img th:src="@{/} +${nhanvien.anh}" class="img-thumbnail" />-->
-<!--            </td>-->
+            <td>
+                <img th:src="${nhanvien.anh}" class="img-thumbnail" />
+            </td>
             <td th:text="${nhanvien.ma}" class="px-6 py-4 whitespace-nowrap"></td>
             <td th:text="${nhanvien.ten}" class="px-6 py-4 whitespace-nowrap"></td>
             <td th:text="${nhanvien.sdt}" class="px-6 py-4 whitespace-nowrap"></td>
@@ -39,7 +36,6 @@
                 <span th:if="${nhanvien.gioiTinh} == false">Nữ</span>
             </td>
             <td th:text="${nhanvien.email}"></td>
-<!--            <td th:text="${nhanvien.cccd}"></td>-->
             <td>
                 <span th:if="${nhanvien.vaiTro == 1}">Nhân Viên</span>
                 <span th:if="${nhanvien.vaiTro == 0}">Quản Lí</span>
