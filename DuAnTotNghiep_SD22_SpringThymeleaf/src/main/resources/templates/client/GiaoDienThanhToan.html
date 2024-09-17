@@ -525,16 +525,20 @@
             `;
                 }
 
-                if(sale[0].hinhThucGiam === true ){
-                    let phanTram = tongTien / sale[0].giaTriGiam ;
-                    if(sale[0].giamToiDa < phanTram){
-                        discount = sale[0]?.giamToiDa || 0;
-                    }else{
-                        discount = phanTram;
-                    }
-                }else{
-                    discount = sale[0]?.giamToiDa || 0;
-                }
+               if(sale[0] === null){
+                   if(sale[0].hinhThucGiam === true ){
+                       let phanTram = tongTien / sale[0].giaTriGiam ;
+                       if(sale[0].giamToiDa < phanTram){
+                           discount = sale[0]?.giamToiDa || 0;
+                       }else{
+                           discount = phanTram;
+                       }
+                   }else{
+                       discount = sale[0]?.giamToiDa || 0;
+                   }
+               }else{
+                   discount = 0;
+               }
 
                 tongTienSauKhiGiam = tongTien - discount;
 
