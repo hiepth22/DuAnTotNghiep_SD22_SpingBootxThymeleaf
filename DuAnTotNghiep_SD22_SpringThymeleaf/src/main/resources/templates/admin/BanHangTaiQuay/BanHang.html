@@ -713,72 +713,15 @@
         const tabsContainer = document.getElementById('tabs-container');
         const contentContainer = document.getElementById('content-container');
 
-        // function renderTabs() {
-        //     tabsContainer.innerHTML = '';
-        //     contentContainer.innerHTML = '';
-        //
-        //     tabsData.forEach((tab, index) => {
-        //         const tabButton = document.createElement('button');
-        //         tabButton.classList.add('tab', 'px-4', 'py-2', 'bg-gray-200', 'hover:bg-gray-300');
-        //         if (index === 0) tabButton.classList.add('tab-active');
-        //         tabButton.textContent = tab.title;
-        //         tabButton.addEventListener('click', () => {
-        //             document.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
-        //             document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
-        //
-        //             tabButton.classList.add('tab-active');
-        //             const tabContent = document.getElementById(`tab-content-${tab.id}`);
-        //             tabContent.classList.remove('hidden');
-        //
-        //
-        //             idTabHD = tab.id;
-        //             PhieuGiamGiaPhuHop(tongTienTrongHD);
-        //
-        //             getDuLieu(idTabHD);
-        //             getPhuongThucThanhToan(idTabHD);
-        //             if (!tabsData[index].contentLoaded) {
-        //                 // getDuLieu(tab.id);
-        //             }
-        //         });
-        //         tabsContainer.appendChild(tabButton);
-        //
-        //         const tabContent = document.createElement('div');
-        //         tabContent.id = `tab-content-${tab.id}`;
-        //         tabContent.classList.add('tab-content', 'p-4');
-        //         if (index !== 0) tabContent.classList.add('hidden');
-        //         tabContent.innerHTML = tab.content;
-        //         contentContainer.appendChild(tabContent);
-        //     });
-        //
-        //     if (tabsData.length > 0) {
-        //         document.querySelector('.tab').click();
-        //     }
-        // }
-
         function renderTabs() {
             tabsContainer.innerHTML = '';
             contentContainer.innerHTML = '';
 
             tabsData.forEach((tab, index) => {
-                const tabButton = document.createElement('div');
-                tabButton.classList.add('tab', 'flex', 'items-center', 'px-4', 'py-2', 'bg-gray-200', 'hover:bg-gray-300', 'relative');
+                const tabButton = document.createElement('button');
+                tabButton.classList.add('tab', 'px-4', 'py-2', 'bg-gray-200', 'hover:bg-gray-300');
                 if (index === 0) tabButton.classList.add('tab-active');
-
-                const tabTitle = document.createElement('span');
-                tabTitle.textContent = `Hóa đơn ${index + 1}`;
-
-                const closeButton = document.createElement('button');
-                closeButton.innerHTML = 'X';
-                closeButton.classList.add('text-black', 'hover:text-red-600', 'text-xs', 'absolute', 'right-0', 'top-1/2', '-translate-y-1/2', 'cursor-pointer', 'mr-2');
-
-                closeButton.addEventListener('click', async (event) => {
-                    event.stopPropagation();
-                    await updateTrangThaiHoaDon(20, tab.id);
-                    tabsData = tabsData.filter(t => t.id !== tab.id);
-                    showNotification("Xóa hóa đơn thành công", 'thanhCong');
-                    renderTabs();
-                });
-
+                tabButton.textContent = tab.title;
                 tabButton.addEventListener('click', () => {
                     document.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
                     document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
@@ -787,15 +730,16 @@
                     const tabContent = document.getElementById(`tab-content-${tab.id}`);
                     tabContent.classList.remove('hidden');
 
+
                     idTabHD = tab.id;
                     PhieuGiamGiaPhuHop(tongTienTrongHD);
 
                     getDuLieu(idTabHD);
                     getPhuongThucThanhToan(idTabHD);
+                    if (!tabsData[index].contentLoaded) {
+                        // getDuLieu(tab.id);
+                    }
                 });
-
-                tabButton.appendChild(tabTitle);
-                tabButton.appendChild(closeButton);
                 tabsContainer.appendChild(tabButton);
 
                 const tabContent = document.createElement('div');
@@ -810,6 +754,8 @@
                 document.querySelector('.tab').click();
             }
         }
+
+
 
         document.getElementById('add-tab').addEventListener('click', () => {
             if(countHD >= 10){
@@ -850,7 +796,7 @@
                     countHD = response.length;
                     tabsData = response.map((hd, index) => ({
                         id: hd.id,
-                        title: `Hóa đơn ${index + 1}`,
+                        title: `Hóa đơn ${hd.id}`,
                         content: '',
                         contentLoaded: false
                     }));
@@ -1507,14 +1453,14 @@
             });
         }
 
-        function updateThongTinNguoiNhanCoTrangThai(nguoiNhan, sdtNguoiNhan, diaChiNguoiNhan, tienShip, ghichu, idhd, trangThai) {
+        function updateThongTinNguoiNhanCoTrangThai(nguoiNhan, sdtNguoiNhan, diaChiNguoiNhan, tienShip, ghichu, idhd) {
             var ghiChu = "Hoàn thành";
             $.ajax({
                 url: `/api/hoa-don/update-thong-tin-nguoi-nhan-hoa-don/${idhd}`,
                 method: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    nguoiNhan: nguoiNhan, sdtNguoiNhan: sdtNguoiNhan, diaChiNguoiNhan: diaChiNguoiNhan, ghichu: ghichu, tienShip: tienShip, trangThai: trangThai
+                    nguoiNhan: nguoiNhan, sdtNguoiNhan: sdtNguoiNhan, diaChiNguoiNhan: diaChiNguoiNhan, ghichu: ghichu, tienShip: tienShip
                 }),
                 success: function (response) {
                     addHistoryLog(ghiChu, trangThai, idhd);
@@ -1568,9 +1514,11 @@
                         window.location.href = 'http://localhost:3000/admin/ban-hang-tai-quay';
                     }
                 } else if (checkThanhToan === 1) {
+                    updateTrangThaiHoaDon(1, idTabHD);
                     updateTongTien(tongTienSauKhiCoVoucher, idTabHD);
+                    addPhuongThucThanhToanTienMatGiaoHang(idTabHD, tongTienSauKhiCoVoucher);
                     getFormData();
-                    updateThongTinNguoiNhanCoTrangThai(ten, sdtNguoiNhan, fullAddress, phiVanChuyen, noteThongTin, idTabHD, 1);
+                    updateThongTinNguoiNhanCoTrangThai(ten, sdtNguoiNhan, fullAddress, phiVanChuyen, noteThongTin, idTabHD);
                     renderTabs();
                     showNotification("Đặt hàng thành công", "thanhCong");
                     window.location.href = 'http://localhost:3000/admin/ban-hang-tai-quay'
