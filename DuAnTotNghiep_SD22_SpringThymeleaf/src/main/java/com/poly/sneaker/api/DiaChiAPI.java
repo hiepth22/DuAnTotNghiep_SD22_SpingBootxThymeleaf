@@ -42,7 +42,15 @@ public class DiaChiAPI {
     public ResponseEntity<?> themDiaChiNhanh(@RequestBody DiaChi diaChi) {
         return ResponseEntity.ok(diaChiService.themNhanh(diaChi));
     }
-
+    @PutMapping("update-dia-chi/{id}")
+    public ResponseEntity<DiaChi> updateDiaChi(@PathVariable Long id, @RequestBody DiaChi diaChi) {
+        try {
+            DiaChi updatedDiaChi = diaChiService.updateDiaChi(id, diaChi);
+            return ResponseEntity.ok(updatedDiaChi);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @GetMapping("/tim-dia-chi/{id}")
     public ResponseEntity<?> timDiaCHi(@PathVariable("id") Long id) {

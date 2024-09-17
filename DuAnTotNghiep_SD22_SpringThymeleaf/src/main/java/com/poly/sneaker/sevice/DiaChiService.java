@@ -118,4 +118,23 @@ public class DiaChiService {
 
         diaChirepository.updateAllOtherDiaChiToZero(khachHang.getId(), diaChiId);
     }
+    @Transactional
+    public DiaChi updateDiaChi(Long id, DiaChi diaChiUpdate) {
+
+        DiaChi existingDiaChi = diaChirepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy địa chỉ với ID: " + id));
+
+
+        existingDiaChi.setThanhPho(diaChiUpdate.getThanhPho());
+        existingDiaChi.setQuanHuyen(diaChiUpdate.getQuanHuyen());
+        existingDiaChi.setPhuongXa(diaChiUpdate.getPhuongXa());
+        existingDiaChi.setSoNha(diaChiUpdate.getSoNha());
+        existingDiaChi.setMoTaChiTiet(diaChiUpdate.getMoTaChiTiet());
+        existingDiaChi.setTen(diaChiUpdate.getTen());
+
+
+
+        // Lưu lại thay đổi
+        return diaChirepository.save(existingDiaChi);
+    }
 }
