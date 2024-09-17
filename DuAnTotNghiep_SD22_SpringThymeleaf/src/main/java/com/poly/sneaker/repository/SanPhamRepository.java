@@ -22,4 +22,7 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Long>, JpaSpec
     List<SanPham> searchSP(String keyword);
 
     boolean existsByTenAndThuongHieu(String ten, ThuongHieu thuongHieu);
+
+    @Query(value = "SELECT * FROM san_pham WHERE trangThai = 1", nativeQuery = true)
+    List<SanPham> getSanPham();
 }

@@ -20,8 +20,14 @@ public class ThuongHieuAPI {
     private ThuongHieuService thuongHieuService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<ThuongHieu>> getAllChatLieu() {
+    public ResponseEntity<List<ThuongHieu>> getAllThuongHieu() {
         List<ThuongHieu> thuongHieus = thuongHieuService.getAll();
+        return ResponseEntity.ok(thuongHieus);
+    }
+
+    @GetMapping("/all-status")
+    public ResponseEntity<List<ThuongHieu>> getAllThuongHieuByStatus() {
+        List<ThuongHieu> thuongHieus = thuongHieuService.getThuongHieu();
         return ResponseEntity.ok(thuongHieus);
     }
 }

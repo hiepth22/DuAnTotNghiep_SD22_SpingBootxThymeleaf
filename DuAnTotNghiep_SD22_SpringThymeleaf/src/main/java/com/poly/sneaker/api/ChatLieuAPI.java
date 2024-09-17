@@ -27,6 +27,12 @@ public class ChatLieuAPI {
         return ResponseEntity.ok(chatLieus);
     }
 
+    @GetMapping("/all-status")
+    public ResponseEntity<List<ChatLieu>> getAllChatLieuByStatus() {
+        List<ChatLieu> chatLieus = chatLieuService.getChatLieu();
+        return ResponseEntity.ok(chatLieus);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<Map<String, Object>> addChatLieu(@RequestParam("ten") String ten) {
         Map<String, Object> response = new HashMap<>();

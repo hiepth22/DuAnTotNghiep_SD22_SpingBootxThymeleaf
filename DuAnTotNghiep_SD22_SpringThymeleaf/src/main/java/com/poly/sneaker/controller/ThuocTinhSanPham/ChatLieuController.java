@@ -37,6 +37,7 @@ public class ChatLieuController {
 
     @PostMapping("/chat-lieu/add")
     public String themChatLieu(ChatLieu chatLieu){
+        chatLieu.setTrangThai(1);
         chatLieuService.add(chatLieu);
         return "redirect:/admin/chat-lieu";
     }

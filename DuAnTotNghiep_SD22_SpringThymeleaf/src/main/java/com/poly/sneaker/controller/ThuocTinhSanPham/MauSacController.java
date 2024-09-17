@@ -36,6 +36,7 @@ public class MauSacController {
 
     @PostMapping("/mau-sac/add")
     public String themMoi(MauSac mauSac){
+        mauSac.setTrangThai(1);
         mauSacService.add(mauSac);
         return "redirect:/admin/mau-sac";
     }

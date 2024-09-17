@@ -67,4 +67,8 @@ public class ThuongHieuService {
     public Boolean existingByTen(String ten) {
         return repository.findByTen(ten).size() > 0;
     }
+
+    public List<ThuongHieu> getThuongHieu(){
+        return repository.getThuongHieu();
+    }
 }

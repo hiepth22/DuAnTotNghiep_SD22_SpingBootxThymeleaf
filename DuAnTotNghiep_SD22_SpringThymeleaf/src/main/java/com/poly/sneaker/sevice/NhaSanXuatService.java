@@ -67,4 +67,8 @@ public class NhaSanXuatService {
     public Boolean existingByTen(String ten) {
         return repository.findByTen(ten).size() > 0;
     }
+
+    public List<NhaSanXuat> getNSX(){
+        return repository.getNSX();
+    }
 }

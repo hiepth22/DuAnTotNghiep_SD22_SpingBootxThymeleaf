@@ -36,6 +36,7 @@ public class DeGiayController {
 
     @PostMapping("/de-giay/add")
     public String themMoi(DeGiay deGiay){
+        deGiay.setTrangThai(1);
         deGiayService.add(deGiay);
         return "redirect:/admin/de-giay";
     }

@@ -114,7 +114,7 @@ document.getElementById('btnLuuSanPham').addEventListener('click', function () {
 
 
 function updateSanPhamSelect() {
-    fetch('/admin/san-pham/all')
+    fetch('/admin/san-pham/all-status')
         .then(response => response.json())
         .then(sanPhams => {
             const sanPhamSelect = document.getElementById('sanPham');
@@ -167,7 +167,7 @@ document.getElementById('btnLuuCoGiay').addEventListener('click', function () {
 
 
 function updateCoGiaySelect() {
-    fetch('/api/co-giay/all')
+    fetch('/api/co-giay/all-status')
         .then(response => response.json())
         .then(coGiays => {
             const coGiaySelect = document.getElementById('coGiay');
@@ -218,7 +218,7 @@ document.getElementById('btnLuuDeGiay').addEventListener('click', function () {
 
 
 function updateDeGiaySelect() {
-    fetch('/api/de-giay/all')
+    fetch('/api/de-giay/all-status')
         .then(response => response.json())
         .then(deGiays => {
             const deGiaySelect = document.getElementById('deGiay');
@@ -268,7 +268,7 @@ document.getElementById('btnLuuChatLieu').addEventListener('click', function () 
 
 
 function updateChatLieuSelect() {
-    fetch('/api/chat-lieu/all')
+    fetch('/api/chat-lieu/all-status')
         .then(response => response.json())
         .then(chatLieus => {
             const chatLieuSelect = document.getElementById('chatLieu');
@@ -318,7 +318,7 @@ document.getElementById('btnLuuNSX').addEventListener('click', function () {
 
 
 function updateNSXSelect() {
-    fetch('/api/nsx/all')
+    fetch('/api/nsx/all-status')
         .then(response => response.json())
         .then(nsx => {
             const nsxSelect = document.getElementById('nhaSanXuat');
@@ -382,7 +382,7 @@ document.getElementById('saveColor').addEventListener('click', function () {
 });
 
 function updateMauSacModal() {
-    fetch('/api/mau-sac/all')
+    fetch('/api/mau-sac/all-status')
         .then(response => response.json())
         .then(mauSacs => {
             const mauSacList = document.getElementById('colorList');
@@ -468,7 +468,7 @@ document.getElementById('saveKichCo').addEventListener('click', function () {
     );
 });
 function updateKichCoModal() {
-    fetch('/api/kich-co/all')
+    fetch('/api/kich-co/all-status')
         .then(response => response.json())
         .then(kichCos => {
             const kichCoList = document.getElementById('sizeList');

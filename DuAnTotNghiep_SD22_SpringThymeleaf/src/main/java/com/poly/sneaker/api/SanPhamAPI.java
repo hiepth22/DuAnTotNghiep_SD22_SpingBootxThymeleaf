@@ -36,6 +36,12 @@ public class SanPhamAPI {
         return ResponseEntity.ok(sanPhams);
     }
 
+    @GetMapping("/all-status")
+    public ResponseEntity<List<SanPham>> getAllSanPhamsByStatus() {
+        List<SanPham> sanPhams = sanPhamService.getSanPham();
+        return ResponseEntity.ok(sanPhams);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<Map<String, Object>> addSanPham(@RequestBody Map<String, Object> request) {
         String ten = (String) request.get("ten");
@@ -69,6 +75,17 @@ public class SanPhamAPI {
         response.put("success", true);
         response.put("message", "Sản phẩm đã được lưu thành công.");
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/trang-thai/{id}")
+    public ResponseEntity<String> updateTrangThai(@PathVariable Long id, @RequestBody Map<String, Integer> payload) {
+        Integer newStatus = payload.get("trangThai");
+        SanPham updatedSanPham = sanPhamService.updateTrangThai(id, newStatus);
+        if (updatedSanPham != null) {
+            return ResponseEntity.ok("Cập nhật thành công");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sản phẩm không tồn tại");
+        }
     }
 
 }
