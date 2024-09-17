@@ -67,4 +67,8 @@ public class MauSacService {
     public Boolean existingByTen(String ten) {
         return repository.findByTen(ten).size() > 0;
     }
+
+    public List<MauSac> getMauSac(){
+        return repository.getMauSac();
+    }
 }

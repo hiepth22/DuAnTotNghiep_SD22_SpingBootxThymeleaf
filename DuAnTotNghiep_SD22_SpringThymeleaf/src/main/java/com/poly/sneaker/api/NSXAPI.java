@@ -24,8 +24,14 @@ public class NSXAPI {
     private NhaSanXuatService nsxService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<NhaSanXuat>> getAllChatLieu() {
+    public ResponseEntity<List<NhaSanXuat>> getAllNSX() {
         List<NhaSanXuat> nsx = nsxService.getAll();
+        return ResponseEntity.ok(nsx);
+    }
+
+    @GetMapping("/all-status")
+    public ResponseEntity<List<NhaSanXuat>> getAllNSXByStatus() {
+        List<NhaSanXuat> nsx = nsxService.getNSX();
         return ResponseEntity.ok(nsx);
     }
 

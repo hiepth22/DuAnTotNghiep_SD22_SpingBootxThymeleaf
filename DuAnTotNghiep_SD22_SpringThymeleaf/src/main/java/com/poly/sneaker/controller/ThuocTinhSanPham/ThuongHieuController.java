@@ -37,6 +37,7 @@ public class ThuongHieuController {
 
     @PostMapping("/thuong-hieu/add")
     public String themMoi(ThuongHieu thuongHieu){
+        thuongHieu.setTrangThai(1);
         thuongHieuService.add(thuongHieu);
         return "redirect:/admin/thuong-hieu";
     }

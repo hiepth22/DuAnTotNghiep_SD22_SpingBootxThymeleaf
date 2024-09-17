@@ -366,6 +366,20 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @GetMapping("/diachiid/{id}")
+    public ResponseEntity<DiaChi> getDiaChi(@PathVariable Long id) {
+
+        Optional<DiaChi> optionalDiaChi = diaChiRepository.findById(id);
+
+
+        if (optionalDiaChi.isPresent()) {
+            return ResponseEntity.ok(optionalDiaChi.get());
+        } else {
+
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 
 }

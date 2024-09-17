@@ -119,7 +119,7 @@ public class NhanVienControler {
     @PostMapping("/SaveNhanVien")
     public String addNhanVien(@ModelAttribute("nv") NhanVien nv,
                               @RequestParam(name = "dc", required = false) String dc,
-                              @RequestParam(name = "img", required = false) MultipartFile img,
+                              @RequestParam(name = "anh", required = false) String anh,
                               Model model) throws IOException {
 
         nv.setNgayTao(java.time.LocalDateTime.now());
@@ -136,14 +136,14 @@ public class NhanVienControler {
         if (dc != null) {
             nv.setDiachi(nv.getDiachi() + "," + dc);
         }
-        String extension = FilenameUtils.getExtension(img.getOriginalFilename());
-        String name = UUID.randomUUID().toString() + "." + extension;
+//        String extension = FilenameUtils.getExtension(img.getOriginalFilename());
+//        String name = UUID.randomUUID().toString() + "." + extension;
 
 //        String fileName = StringUtils.cleanPath(img.getOriginalFilename());
         String uploadDir = "./src/main/resources/static/assets/imageNV";
-        nv.setAnh("assets/imageNV/" + name);
+        nv.setAnh(anh);
 
-        FileUploadUtil.saveFile(uploadDir, name, img);
+//        FileUploadUtil.saveFile(uploadDir, name, img);
         model.addAttribute("successMessage", "Thêm nhân viên thành công!");
         sevice.Add(nv);
         return "redirect:/admin/nhan-vien";
@@ -221,22 +221,12 @@ public class NhanVienControler {
 
     @PostMapping("/updateNhanVien/{id}")
     public String updateNhanVien(@PathVariable("id") Long id, @Valid @ModelAttribute("nv") NhanVien nv, BindingResult result
-            , @RequestParam(name = "img", required = false) MultipartFile img, @RequestParam(name = "dc", required = false) String dc) {
+            ,  @RequestParam(name = "anh", required = false) String anh, @RequestParam(name = "dc", required = false) String dc) {
         if (result.hasErrors()) {
             return "admin/NhanVien/NhanVienUpdate";
         }
-        try {
-            if (!img.isEmpty()) {
-                String extension = FilenameUtils.getExtension(img.getOriginalFilename());
-                String name = UUID.randomUUID().toString() + "." + extension;
-                saveImage(img, name);
-                nv.setAnh("assets/imageNV/" + name);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
 
-        }
-
+        nv.setAnh(anh);
 
         NhanVien nvid = sevice.findById(id);
         if (nv.getDiachi().equals("")) {

@@ -24,6 +24,10 @@ public class SanPhamService {
         return repository.findAll();
     }
 
+    public List<SanPham> getSanPham(){
+        return repository.getSanPham();
+    };
+
     public Page<SanPham> pagination(int pageNo){
         Pageable pageable = PageRequest.of(pageNo - 1, 10, Sort.by(Sort.Direction.DESC, "ngayTao"));
         return repository.findAll(pageable);
@@ -93,5 +97,13 @@ public class SanPhamService {
 
     public boolean existsByTenAndThuongHieu(String ten, ThuongHieu thuongHieu) {
         return repository.existsByTenAndThuongHieu(ten, thuongHieu);
+    }
+
+    public SanPham updateTrangThai(Long id, Integer trangThai) {
+        Optional<SanPham> optional = repository.findById(id);
+        return optional.map(sanPham -> {
+            sanPham.setTrangThai(trangThai); // Cập nhật trạng thái sản phẩm
+            return repository.save(sanPham);
+        }).orElse(null);
     }
 }

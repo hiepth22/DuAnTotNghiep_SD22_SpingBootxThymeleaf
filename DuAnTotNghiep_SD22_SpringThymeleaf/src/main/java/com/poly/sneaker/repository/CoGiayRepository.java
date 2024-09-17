@@ -3,6 +3,7 @@ package com.poly.sneaker.repository;
 import com.poly.sneaker.entity.CoGiay;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,4 +12,7 @@ import java.util.List;
 public interface CoGiayRepository extends JpaRepository<CoGiay, Long>, JpaSpecificationExecutor<CoGiay> {
 
     List<CoGiay> findByTen(String ten);
+
+    @Query(value = "SELECT * FROM chat_lieu WHERE trangThai = 1", nativeQuery = true)
+    List<CoGiay> getCoGiay();
 }

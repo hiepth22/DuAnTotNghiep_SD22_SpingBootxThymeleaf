@@ -64,6 +64,10 @@ public class KichCoService {
         return repository.existsById(id);
     }
 
+    public List<KichCo> getKichCo(){
+        return repository.getKichCo();
+    }
+
     public Boolean existingByTen(String ten) {
         return repository.findByTen(ten).size() > 0;
     }

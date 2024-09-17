@@ -66,14 +66,14 @@ public class SanPhamChiTietController {
     public String addSanPhamChiTiet(
                                     Model model){
 
-        List<SanPham> sanPhams = sanPhamService.getAll();
-        List<DeGiay> deGiays = deGiayService.getAll();
-        List<NhaSanXuat> nhaSanXuats = nhaSanXuatService.getAll();
-        List<ChatLieu> chatLieus = chatLieuService.getAll();
-        List<CoGiay> coGiays = coGiayService.getAll();
-        List<MauSac> mauSacs = mauSacService.getAll();
-        List<KichCo> kichCos = kichCoService.getAll();
-        List<ThuongHieu> thuongHieus = thuongHieuService.getAll();
+        List<SanPham> sanPhams = sanPhamService.getSanPham();
+        List<DeGiay> deGiays = deGiayService.getDeGiay();
+        List<NhaSanXuat> nhaSanXuats = nhaSanXuatService.getNSX();
+        List<ChatLieu> chatLieus = chatLieuService.getChatLieu();
+        List<CoGiay> coGiays = coGiayService.getCoGiay();
+        List<MauSac> mauSacs = mauSacService.getMauSac();
+        List<KichCo> kichCos = kichCoService.getKichCo();
+        List<ThuongHieu> thuongHieus = thuongHieuService.getThuongHieu();
 
         model.addAttribute("sanPhams", sanPhams);
         model.addAttribute("deGiays", deGiays);

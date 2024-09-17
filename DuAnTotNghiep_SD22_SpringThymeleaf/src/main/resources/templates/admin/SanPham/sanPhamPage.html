@@ -1,9 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:replace="~{admin/fragments/head :: head}">
+<head th:replace="~{admin/fragments/head :: head}">
     <link th:href="@{/assets/css/sanPhamHienThi.css}" rel="stylesheet"/>
-</div>
+    <style>
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4caf50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
+        }
+
+        .notification .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #fff;
+            transition: width 3s linear;
+        }
+    </style>
+</head>
 <body>
+<div id="notification" class="notification">
+    Trạng thái sản phẩm đã thay đổi
+    <div id="progress-bar" class="progress-bar"></div>
+</div>
 <!-- Sidebar Start -->
 <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
 <!-- Sidebar End -->
@@ -26,7 +54,9 @@
                     <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
                 </div>
                 <div class="col-2">
-                    <button type="button" class="btn btn-secondary w-100" onclick="window.location.href='/admin/san-pham'">Làm mới</button>
+                    <button type="button" class="btn btn-secondary w-100"
+                            onclick="window.location.href='/admin/san-pham'">Làm mới
+                    </button>
                 </div>
 
             </div>
@@ -63,13 +93,17 @@
                     <span th:if="${soLuongMap[sanPham.id] == 0}">Hết hàng</span>
                 </td>
                 <td>
-                    <span th:if="${sanPham.trangThai == 1}">Đang bán</span>
-                    <span th:if="${sanPham.trangThai == 0}">Tạm ngưng</span>
+                    <span th:if="${sanPham.trangThai == 1}">Đang kinh doanh</span>
+                    <span th:if="${sanPham.trangThai == 0}">Ngừng kinh doanh</span>
                 </td>
                 <td>
                     <a th:href="@{/admin/san-pham/{id}(id=${sanPham.id})}"><i class="fa-solid fa-eye"></i></a>
                 </td>
                 <td>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input trang-thai-toggle" type="checkbox"
+                               th:data-id="${sanPham.id}" th:checked="${sanPham.trangThai == 1}">
+                    </div>
                 </td>
             </tr>
             </tbody>
@@ -87,7 +121,9 @@
                 <!-- Page Numbers -->
                 <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPage)}"
                     th:classappend="${currentPage == i} ? 'active' : ''">
-                    <a class="page-link" th:href="@{${keyword != null && keyword != '' ? '?keyword=' + keyword + '&' : '?'} + 'pageNo=' + ${i}}" th:text="${i}"></a>
+                    <a class="page-link"
+                       th:href="@{${keyword != null && keyword != '' ? '?keyword=' + keyword + '&' : '?'} + 'pageNo=' + ${i}}"
+                       th:text="${i}"></a>
                 </li>
 
                 <!-- Next Button -->

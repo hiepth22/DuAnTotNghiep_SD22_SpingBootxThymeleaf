@@ -14,19 +14,39 @@
     <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
     <!-- Navbar End -->
 
-    <h1 class="text-left text-4xl font-bold mb-6">Thêm mới thuộc tính - Đế giày</h1>
+    <h1 class="text-left text-4xl font-bold mb-6">Thêm mới thuộc tính - Màu Sắc</h1>
 
     <div class="w-full max-w-2xl m-auto mt-5 bg-white p-10 rounded-lg shadow-lg">
-        <form th:action="@{/admin/de-giay/add}" th:object="${deGiay}" method="post" class="space-y-8">
+        <form th:action="@{/admin/mau-sac/add}" th:object="${mauSac}" method="post" class="space-y-8">
 
             <div>
-                <label for="ten" class="block text-lg font-medium text-gray-700 mb-3">Tên đế giày:</label>
+                <label for="colorPicker" class="block text-lg font-medium text-gray-700 mb-3">Chọn Màu:</label>
+                <input
+                        type="color"
+                        id="colorPicker"
+                        class="w-full h-12 p-2 border-gray-300 rounded-lg shadow-lg cursor-pointer"
+                />
+            </div>
+
+            <div>
+                <label for="hexCode" class="block text-lg font-medium text-gray-700 mb-3">Mã Màu Hex:</label>
+                <input
+                        type="text"
+                        id="hexCode"
+                        th:field="*{ten}"
+                        class="w-full border-gray-300 rounded-lg shadow-lg focus:ring-blue-500 focus:border-blue-500 p-4 text-lg"
+                        placeholder="#Hex"
+                />
+            </div>
+
+            <div>
+                <label for="ten" class="block text-lg font-medium text-gray-700 mb-3">Tên Màu Sắc (mô tả màu):</label>
                 <input
                         type="text"
                         id="ten"
-                        th:field="*{ten}"
+                        th:field="*{moTa}"
                         class="w-full border-gray-300 rounded-lg shadow-lg focus:ring-blue-500 focus:border-blue-500 p-4 text-lg"
-                        placeholder="Nhập loại đế giày"
+                        placeholder="Nhập tên màu sắc"
                 />
             </div>
 
@@ -52,9 +72,16 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/postcss7-compat@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- Template Javascript -->
+<!-- Custom JavaScript -->
 <script th:src="@{/assets/js/main.js}"></script>
+
+<script>
+    // Xử lý khi chọn màu từ color picker
+    document.getElementById('colorPicker').addEventListener('input', function() {
+        var selectedColor = this.value;
+        document.getElementById('hexCode').value = selectedColor;
+    });
+</script>
 </body>
 </html>

@@ -29,6 +29,12 @@ public class CoGiayAPI {
         return ResponseEntity.ok(coGiays);
     }
 
+    @GetMapping("/all-status")
+    public ResponseEntity<List<CoGiay>> getAllCoGiaysByStatus() {
+        List<CoGiay> coGiays = coGiayService.getCoGiay();
+        return ResponseEntity.ok(coGiays);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<Map<String, Object>> addCoGiay(@RequestParam("ten") String ten) {
         Map<String, Object> response = new HashMap<>();

@@ -28,8 +28,14 @@ public class KichCoAPI {
 
 
     @GetMapping("/all")
-    public ResponseEntity<List<KichCo>> getAllChatLieu() {
+    public ResponseEntity<List<KichCo>> getAllKichCo() {
         List<KichCo> kichCos = kichCoService.getAll();
+        return ResponseEntity.ok(kichCos);
+    }
+
+    @GetMapping("/all-status")
+    public ResponseEntity<List<KichCo>> getAllKichCoByStatus() {
+        List<KichCo> kichCos = kichCoService.getKichCo();
         return ResponseEntity.ok(kichCos);
     }
 

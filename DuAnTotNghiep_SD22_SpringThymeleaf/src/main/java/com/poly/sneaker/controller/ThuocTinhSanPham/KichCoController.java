@@ -36,6 +36,7 @@ public class KichCoController {
 
     @PostMapping("/kich-co/add")
     public String themMoi(KichCo kichCo){
+        kichCo.setTrangThai(1);
         kichCoService.add(kichCo);
         return "redirect:/admin/kich-co";
     }

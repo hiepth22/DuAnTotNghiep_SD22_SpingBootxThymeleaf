@@ -36,6 +36,7 @@ public class CoGiayController {
 
     @PostMapping("/co-giay/add")
     public String themCoGiay(CoGiay coGiay){
+        coGiay.setTrangThai(1);
         coGiayService.add(coGiay);
         return "redirect:/admin/co-giay";
     }

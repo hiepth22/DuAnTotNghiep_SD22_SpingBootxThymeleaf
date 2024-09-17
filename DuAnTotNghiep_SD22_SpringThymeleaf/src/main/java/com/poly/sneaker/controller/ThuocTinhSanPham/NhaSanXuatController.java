@@ -36,6 +36,7 @@ public class NhaSanXuatController {
 
     @PostMapping("/nsx/add")
     public String themMoi(NhaSanXuat nsx){
+        nsx.setTrangThai(1);
         nsxService.add(nsx);
         return "redirect:/admin/nsx";
     }

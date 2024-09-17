@@ -29,6 +29,12 @@ public class DeGiayAPI {
         return ResponseEntity.ok(deGiays);
     }
 
+    @GetMapping("/all-status")
+    public ResponseEntity<List<DeGiay>> getAllDeGiayByStatus(){
+        List<DeGiay> deGiays = deGiayService.getDeGiay();
+        return ResponseEntity.ok(deGiays);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<Map<String, Object>> addDeGiay(@RequestParam("ten") String ten){
         Map<String, Object> response = new HashMap<>();

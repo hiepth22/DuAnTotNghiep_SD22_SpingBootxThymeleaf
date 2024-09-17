@@ -67,4 +67,8 @@ public class DeGiayService {
     public Boolean existingByTen(String ten) {
         return repository.findByTen(ten).size() > 0;
     }
+
+    public List<DeGiay> getDeGiay(){
+        return repository.getDeGiay();
+    }
 }

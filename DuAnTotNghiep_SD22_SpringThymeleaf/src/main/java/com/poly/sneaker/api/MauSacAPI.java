@@ -25,8 +25,14 @@ public class MauSacAPI {
     private MauSacService mauSacService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<MauSac>> getAllChatLieu() {
+    public ResponseEntity<List<MauSac>> getAllMauSac() {
         List<MauSac> mauSacs = mauSacService.getAll();
+        return ResponseEntity.ok(mauSacs);
+    }
+
+    @GetMapping("/all-status")
+    public ResponseEntity<List<MauSac>> getAllMauSacByStatus() {
+        List<MauSac> mauSacs = mauSacService.getMauSac();
         return ResponseEntity.ok(mauSacs);
     }
 

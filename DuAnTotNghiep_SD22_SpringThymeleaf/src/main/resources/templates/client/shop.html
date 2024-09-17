@@ -19,7 +19,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chocolat@0.7.0/dist/css/chocolat.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!--swiper-->
     <style>
         /* Ensure the size items are displayed in a row with wrapping */
@@ -216,6 +217,28 @@
         }
     </style>
     <!--    slide-->
+    <style>
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Căn giữa các sản phẩm */
+            gap: 3px; /* Khoảng cách giữa các sản phẩm */
+        }
+
+        .product-card {
+            flex: 1 1 50%; /* Điều chỉnh để có thể phóng to sản phẩm */
+            width: 232px; /* Đảm bảo sản phẩm không vượt quá 24% chiều ngang */
+            box-sizing: border-box;
+            margin: 5px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: scale(1.05); /* Phóng to sản phẩm lên 5% khi di chuột vào */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Thêm bóng đổ để tạo hiệu ứng nổi */
+        }
+
+
+    </style>
     <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,900;1,900&family=Source+Sans+Pro:wght@400;600;700;900&display=swap"
             rel="stylesheet">
@@ -393,7 +416,8 @@
                             </select>
                         </div>
                         <div class="w-full max-w-xs flex items-center space-x-2">
-                            <label for="combo-box-thuong-hieu" class="text-gray-700 text-sm font-bold">Thương hiệu:</label>
+                            <label for="combo-box-thuong-hieu" class="text-gray-700 text-sm font-bold">Thương
+                                hiệu:</label>
                             <select id="combo-box-thuong-hieu"
                                     class="block appearance-none bg-white border border-gray-300 hover:border-gray-500 px-2 py-1 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="">Tất cả</option>
@@ -431,9 +455,15 @@
 <script src="https://cdn.jsdelivr.net/npm/jarallax@1.12.0/dist/jarallax.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jarallax@1.12.0/dist/jarallax-video.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
 
 
@@ -465,23 +495,19 @@
         keyword = $('#input-TimKiem').val();
         let gia = $('#combo-box-gia').val();
         console.log(idThuongHieu)
-        if(gia == 1){
+        if (gia == 1) {
             giaBanMin = 0;
             giaBanMax = 2000000;
-        }
-        else if(gia == 2){
+        } else if (gia == 2) {
             giaBanMin = 2000000;
             giaBanMax = 4000000;
-        }
-        else if(gia == 3){
+        } else if (gia == 3) {
             giaBanMin = 4000000;
             giaBanMax = 8000000;
-        }
-        else if(gia == 4){
+        } else if (gia == 4) {
             giaBanMin = 8000000;
             giaBanMax = 80000000;
-        }
-        else{
+        } else {
             giaBanMin = '';
             giaBanMax = '';
         }
@@ -546,15 +572,18 @@
                         uniqueProducts.push(product);
                     }
                 });
+
                 function formatPriceInVND(price) {
                     return price.toLocaleString('vi-VN') + ' VND';
                 }
+
                 let list = ''; // Initialize the list variable
 
                 for (let i = 0; i < result.content.length; i++) {
                     const product = result.content[i];
                     //sp lấy ở đây
                     list += `
+<div class="product-container">
     <div class="mb-4 product-card" data-idsp="${product.id}"
          style="position: relative; margin-bottom: 5px; margin-right: 5px; border-color: #ff8c00; margin-top: 5px; padding-top: 5px;">
         <div class="bg-white"
@@ -573,227 +602,228 @@
                     <a href="#" class="product-price">${formatPriceInVND(product.giaBan)}</a>
                     </div>
                     </div>
+                    </div>
                     `;
-                    }
+                }
 
-                    document.getElementById('danhSachSanPham').innerHTML = list;
+                document.getElementById('danhSachSanPham').innerHTML = list;
 
-                    const ngayTaoElements = document.querySelectorAll('.ngayTao');
-                    const statusElements = document.querySelectorAll('.status');
+                const ngayTaoElements = document.querySelectorAll('.ngayTao');
+                const statusElements = document.querySelectorAll('.status');
 
 
-                    ngayTaoElements.forEach((ngayTaoElement, index) => {
+                ngayTaoElements.forEach((ngayTaoElement, index) => {
                     let ngayTaoStr1 = ngayTaoElement.getAttribute('data-ngaytao');
                     if (ngayTaoStr1) {
 
-                    const ngayHienTai = new Date();
+                        const ngayHienTai = new Date();
 
-                    const ngayTaoStr = ngayTaoStr1;
+                        const ngayTaoStr = ngayTaoStr1;
 
-                    const ngayTaoDate = new Date(ngayTaoStr.replace(' ', 'T') + 'Z');
+                        const ngayTaoDate = new Date(ngayTaoStr.replace(' ', 'T') + 'Z');
 
-                    if (isNaN(ngayTaoDate.getTime())) {console.error('Ngày tạo không hợp lệ');
+                        if (isNaN(ngayTaoDate.getTime())) {
+                            console.error('Ngày tạo không hợp lệ');
 
-                    return;
-                    }
+                            return;
+                        }
 
-                    const soNgayDaTruoc = Math.floor((ngayHienTai - ngayTaoDate) / (1000 * 60 * 60 * 24));
-                    const laSanPhamMoi = soNgayDaTruoc <= 30;
+                        const soNgayDaTruoc = Math.floor((ngayHienTai - ngayTaoDate) / (1000 * 60 * 60 * 24));
+                        const laSanPhamMoi = soNgayDaTruoc <= 30;
 
-                    if (statusElements[index]) {
-                    if (laSanPhamMoi) {
-                    statusElements[index].textContent = "Mới";
-                    // statusElements[index].style.color = "withr";
-                    statusElements[index].style.fontWeight = "bold";
-                    statusElements[index].style.display = "block"; // Hiển thị phần tử khi là sản phẩm mới
+                        if (statusElements[index]) {
+                            if (laSanPhamMoi) {
+                                statusElements[index].textContent = "Mới";
+                                // statusElements[index].style.color = "withr";
+                                statusElements[index].style.fontWeight = "bold";
+                                statusElements[index].style.display = "block"; // Hiển thị phần tử khi là sản phẩm mới
+                            } else {
+                                statusElements[index].textContent = "";
+                                statusElements[index].style.color = "";
+                                statusElements[index].style.fontWeight = "";
+                                statusElements[index].style.display = "none"; // Ẩn phần tử khi không phải sản phẩm mới
+                            }
+                        } else {
+                            console.warn('Không tìm thấy phần tử status với chỉ số:', index);
+                        }
                     } else {
-                    statusElements[index].textContent = "";
-                    statusElements[index].style.color = "";
-                    statusElements[index].style.fontWeight = "";
-                    statusElements[index].style.display = "none"; // Ẩn phần tử khi không phải sản phẩm mới
+                        console.error('Ngày tạo không được cung cấp cho sản phẩm với chỉ số:', index);
                     }
-                    } else {
-                    console.warn('Không tìm thấy phần tử status với chỉ số:', index);
-                    }
-                    } else {
-                    console.error('Ngày tạo không được cung cấp cho sản phẩm với chỉ số:', index);
-                    }
-                    });
+                });
 
-                    const productContainer = document.getElementById('danhSachSanPham');
-                    productContainer.addEventListener('click', function (event) {
+                const productContainer = document.getElementById('danhSachSanPham');
+                productContainer.addEventListener('click', function (event) {
                     const productCard = event.target.closest('.product-card');
                     if (productCard) {
-                    const idsp = productCard.getAttribute('data-idsp');
-                    window.location.href = `/san-pham/${idsp}`;
+                        const idsp = productCard.getAttribute('data-idsp');
+                        window.location.href = `/san-pham/${idsp}`;
                     }
-                    });
+                });
 
-                    let pagination = '';
-                    pagination += `
+                let pagination = '';
+                pagination += `
                     <button class="px-4 py-2  btn btn-primary text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.pageable.pageNumber - 1}, ${size})" ${result.pageable.pageNumber === 0 ? 'disabled' : ''}>Previous</button>
                     `;
 
-                    const maxVisiblePages = 3;
-                    const halfVisiblePages = Math.floor(maxVisiblePages / 2);
-                    let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
-                    let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
+                const maxVisiblePages = 3;
+                const halfVisiblePages = Math.floor(maxVisiblePages / 2);
+                let startPage = Math.max(1, result.pageable.pageNumber + 1 - halfVisiblePages);
+                let endPage = Math.min(startPage + maxVisiblePages - 1, result.totalPages);
 
-                    if (startPage > 1) {
+                if (startPage > 1) {
                     pagination += `
                     <button class="px-4 py-2 btn btn-primary text-black rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(0, ${size})">1</button>
                     `;
                     if (startPage > 2) {
-                    pagination += `<span class="px-4 py-2">...</span>`;
+                        pagination += `<span class="px-4 py-2">...</span>`;
                     }
-                    }
+                }
 
-                    for (let i = startPage; i <= endPage; i++) {
+                for (let i = startPage; i <= endPage; i++) {
                     pagination += `
                     <button class="px-4 py-2 btn btn-outline-dark text-black rounded-md mx-1 ${i === result.pageable.pageNumber + 1 ? 'bg-blue-600 text-white' : ''}" onclick="getDanhSachSanPhamCoSearch(${i - 1}, ${size})">${i}</button>
                     `;
-                    }
+                }
 
-                    if (endPage < result.totalPages) {
+                if (endPage < result.totalPages) {
                     if (endPage < result.totalPages - 1) {
-                    pagination += `<span class="px-4 py-2">...</span>`;
+                        pagination += `<span class="px-4 py-2">...</span>`;
                     }
 
                     pagination += `
                     <button class="px-4 py-2 btn btn-outline-dark text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.totalPages - 1}, ${size})">${result.totalPages}</button>
                     `;
-                    }
+                }
 
-                    pagination += `
+                pagination += `
                     <button class="px-4 py-2 btn btn-primary text-white rounded-md mx-1" onclick="getDanhSachSanPhamCoSearch(${result.pageable.pageNumber + 1}, ${size})" ${result.pageable.pageNumber + 1 === result.totalPages ? 'disabled' : ''}>Next</button>
                     `;
 
-                    $("#paginationSP").html(pagination);
-                    }
-                    });
-                    };
-                    document.addEventListener('DOMContentLoaded', () => {
+                $("#paginationSP").html(pagination);
+            }
+        });
+    };
+    document.addEventListener('DOMContentLoaded', () => {
 
-                    function cbbKichCo() {
-                    $.ajax({
-                    url: `/api/kich-co/all`,
-                    method: 'GET',
-                    success: function (data) {
+        function cbbKichCo() {
+            $.ajax({
+                url: `/api/kich-co/all`,
+                method: 'GET',
+                success: function (data) {
                     $('#combo-box-kich-co').empty();
 
                     $('#combo-box-kich-co').append('<option value="">Tất cả</option>');
 
                     $.each(data, function (index, item) {
-                    $('#combo-box-kich-co').append(`<option value="${item.id}">${item.ten}</option>`);
+                        $('#combo-box-kich-co').append(`<option value="${item.id}">${item.ten}</option>`);
                     });
-                    },
+                },
 
-                    });
-                    }
+            });
+        }
 
 
-                    cbbKichCo();
+        cbbKichCo();
 
-                    function cbbMauSac() {
-                    $.ajax({
-                    url: `/api/mau-sac/all`,
-                    method: 'GET',
-                    success: function (data) {
+        function cbbMauSac() {
+            $.ajax({
+                url: `/api/mau-sac/all`,
+                method: 'GET',
+                success: function (data) {
                     $('#combo-box-mau-sac').empty();
 
                     $('#combo-box-mau-sac').append('<option value="">Tất cả</option>');
 
                     $.each(data, function (index, item) {
-                    $('#combo-box-mau-sac').append(`<option value="${item.id}">${item.moTa}</option>`);
+                        $('#combo-box-mau-sac').append(`<option value="${item.id}">${item.moTa}</option>`);
                     });
-                    },
+                },
 
-                    });
-                    }
+            });
+        }
 
 
-                    cbbMauSac();
+        cbbMauSac();
 
-                    function cbbChatLieu() {
-                    $.ajax({
-                    url: `/api/chat-lieu/all`,
-                    method: 'GET',
-                    success: function (data) {
+        function cbbChatLieu() {
+            $.ajax({
+                url: `/api/chat-lieu/all`,
+                method: 'GET',
+                success: function (data) {
                     $('#combo-box-chat-lieu').empty();
 
                     $('#combo-box-chat-lieu').append('<option value="">Tất cả</option>');
 
                     $.each(data, function (index, item) {
-                    $('#combo-box-chat-lieu').append(`<option value="${item.id}">${item.ten}</option>`);
+                        $('#combo-box-chat-lieu').append(`<option value="${item.id}">${item.ten}</option>`);
                     });
-                    },
+                },
 
-                    });
-                    }
+            });
+        }
 
-                    cbbChatLieu();
+        cbbChatLieu();
 
-                    function cbbDeGiay() {
-                    $.ajax({
-                    url: `/api/de-giay/all`,
-                    method: 'GET',
-                    success: function (data) {
+        function cbbDeGiay() {
+            $.ajax({
+                url: `/api/de-giay/all`,
+                method: 'GET',
+                success: function (data) {
                     $('#combo-box-de-giay').empty();
 
                     $('#combo-box-de-giay').append('<option value="">Tất cả</option>');
 
                     $.each(data, function (index, item) {
-                    $('#combo-box-de-giay').append(`<option value="${item.id}">${item.ten}</option>`);
+                        $('#combo-box-de-giay').append(`<option value="${item.id}">${item.ten}</option>`);
                     });
-                    },
+                },
 
-                    });
-                    }
+            });
+        }
 
-                    cbbDeGiay();
+        cbbDeGiay();
 
-                    function cbbCoGiay() {
-                    $.ajax({
-                    url: `/api/co-giay/all`,
-                    method: 'GET',
-                    success: function (data) {
+        function cbbCoGiay() {
+            $.ajax({
+                url: `/api/co-giay/all`,
+                method: 'GET',
+                success: function (data) {
                     $('#combo-box-co-giay').empty();
 
                     $('#combo-box-co-giay').append('<option value="">Tất cả</option>');
 
                     $.each(data, function (index, item) {
-                    $('#combo-box-co-giay').append(`<option value="${item.id}">${item.ten}</option>`);
+                        $('#combo-box-co-giay').append(`<option value="${item.id}">${item.ten}</option>`);
                     });
-                    },
+                },
 
-                    });
-                    }
+            });
+        }
 
-                    cbbCoGiay();
+        cbbCoGiay();
 
-                    function cbbThuongHieu() {
-                    $.ajax({
-                    url: `/api/thuong-hieu/all`,
-                    method: 'GET',
-                    success: function (data) {
+        function cbbThuongHieu() {
+            $.ajax({
+                url: `/api/thuong-hieu/all`,
+                method: 'GET',
+                success: function (data) {
                     $('#combo-box-thuong-hieu').empty();
 
                     $('#combo-box-thuong-hieu').append('<option value="">Tất cả</option>');
 
                     $.each(data, function (index, item) {
-                    $('#combo-box-thuong-hieu').append(`<option value="${item.id}">${item.ten}</option>`);
+                        $('#combo-box-thuong-hieu').append(`<option value="${item.id}">${item.ten}</option>`);
                     });
-                    },
+                },
 
-                    });
-                    }
+            });
+        }
 
-                    cbbThuongHieu();
+        cbbThuongHieu();
 
 
-
-                    auto();
-                    });
+        auto();
+    });
 
 </script>
 <script>
