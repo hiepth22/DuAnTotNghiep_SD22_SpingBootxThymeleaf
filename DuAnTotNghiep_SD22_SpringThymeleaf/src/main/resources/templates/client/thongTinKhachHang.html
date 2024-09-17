@@ -302,27 +302,24 @@
 
             <div id="helloDiv" class="hidden text-center text-2xl font-bold mt-5">
                 <div class="mb-4">
-                    <label for="matkhauhientai" class="block text-left text-sm font-medium text-gray-700 mb-2">Nhập Mật
-                        Khẩu Cũ</label>
-                    <input type="password" id="matkhauhientai" name="matkhauhientai" required
-                           class="w-full p-2 border border-gray-300 rounded">
+                    <label for="matkhauhientai" class="block text-left text-sm font-medium text-gray-700 mb-2">Nhập Mật Khẩu Cũ</label>
+                    <input type="password" id="matkhauhientai" name="matkhauhientai" required class="w-full p-2 border border-gray-300 rounded">
+                    <span class="error-message" id="matkhauhientaiError" style="color: red; display: none;">Vui lòng nhập mật khẩu cũ.</span>
                 </div>
                 <div class="mb-4">
-                    <label for="matkhaumoi" class="block text-left text-sm font-medium text-gray-700 mb-2">Nhập Mật
-                        Khẩu Mới</label>
-                    <input type="password" id="matkhaumoi" name="matkhaumoi" required
-                           class="w-full p-2 border border-gray-300 rounded">
+                    <label for="matkhaumoi" class="block text-left text-sm font-medium text-gray-700 mb-2">Nhập Mật Khẩu Mới</label>
+                    <input type="password" id="matkhaumoi" name="matkhaumoi" required class="w-full p-2 border border-gray-300 rounded">
+                    <span class="error-message" id="matkhaumoiError" style="color: red; display: none;">Vui lòng nhập mật khẩu mới.</span>
                 </div>
                 <div class="mb-4">
-                    <label for="nhaplaimatkhaumoi" class="block text-left text-sm font-medium text-gray-700 mb-2">Nhập
-                        Lại Mật Khẩu Mới</label>
-                    <input type="password" id="nhaplaimatkhaumoi" name="nhaplaimatkhaumoi" required
-                           class="w-full p-2 border border-gray-300 rounded">
+                    <label for="nhaplaimatkhaumoi" class="block text-left text-sm font-medium text-gray-700 mb-2">Nhập Lại Mật Khẩu Mới</label>
+                    <input type="password" id="nhaplaimatkhaumoi" name="nhaplaimatkhaumoi" required class="w-full p-2 border border-gray-300 rounded">
+                    <span class="error-message" id="nhaplaimatkhaumoiError" style="color: red; display: none;">Mật khẩu nhập lại không khớp với mật khẩu mới.</span>
                 </div>
 
                 <button type="button" class="btn btn-primary" onclick="doimatkhau()">Lưu</button>
-
             </div>
+
             // 2 form ở đây
             <div class="modal" id="myModal">
                 <div class="modal-content">
@@ -334,34 +331,38 @@
                         <div class="form-group">
                             <label for="edit-tennguoinhan">Tên Người Nhận</label>
                             <input type="text" class="form-control" id="edit-tennguoinhan">
+                            <span class="error-message" id="edit-tennguoinhanError" style="color: red; display: none;">Vui lòng nhập tên người nhận.</span>
                         </div>
-                        <div class="grid gap-4 grid-cols-3">
 
-                            <div class="form-group">
-                                <label for="edit-tinhthanh">Tỉnh/Thành phố</label>
-                                <select class="form-control" id="edit-tinhthanh">
-                                    <option value="" selected>Chọn tỉnh thành</option>
-                                    <!-- Options will be populated here -->
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit-quanhuyen">Quận/Huyện</label>
-                                <select class="form-control" id="edit-quanhuyen">
-                                    <option value="" selected>Chọn quận huyện</option>
-
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit-phuongxa">Phường/Xã</label>
-                                <select class="form-control" id="edit-phuongxa">
-                                    <option value="" selected>Chọn phường xã</option>
-
-                                </select>
-                            </div>
+                        <div class="form-group">
+                            <label for="edit-tinhthanh">Tỉnh/Thành phố</label>
+                            <select class="form-control" id="edit-tinhthanh">
+                                <option value="" selected>Chọn tỉnh thành</option>
+                                <!-- Options will be populated here -->
+                            </select>
+                            <span class="error-message" id="edit-tinhthanhError" style="color: red; display: none;">Vui lòng chọn tỉnh/thành phố.</span>
                         </div>
+
+                        <div class="form-group">
+                            <label for="edit-quanhuyen">Quận/Huyện</label>
+                            <select class="form-control" id="edit-quanhuyen">
+                                <option value="" selected>Chọn quận huyện</option>
+                            </select>
+                            <span class="error-message" id="edit-quanhuyenError" style="color: red; display: none;">Vui lòng chọn quận/huyện.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-phuongxa">Phường/Xã</label>
+                            <select class="form-control" id="edit-phuongxa">
+                                <option value="" selected>Chọn phường xã</option>
+                            </select>
+                            <span class="error-message" id="edit-phuongxaError" style="color: red; display: none;">Vui lòng chọn phường/xã.</span>
+                        </div>
+
                         <div class="form-group">
                             <label for="edit-diachi">Địa chỉ cụ thể</label>
                             <input type="text" class="form-control" id="edit-diachi">
+                            <span class="error-message" id="edit-diachiError" style="color: red; display: none;">Vui lòng nhập địa chỉ cụ thể.</span>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -379,34 +380,36 @@
                         <div class="form-group">
                             <label for="tennguoinhan">Tên Người Nhận</label>
                             <input type="text" class="form-control" id="tennguoinhan">
+                            <span class="error-message" id="tennguoinhanError" style="color: red; display: none;">Vui lòng nhập tên người nhận.</span>
                         </div>
                         <div class="grid gap-4 grid-cols-3">
-
                             <div class="form-group">
                                 <label for="tinhthanh">Tỉnh/Thành phố</label>
                                 <select class="form-control" id="tinhthanh">
                                     <option value="" selected>Chọn tỉnh thành</option>
                                     <!-- Options will be populated here -->
                                 </select>
+                                <span class="error-message" id="tinhthanhError" style="color: red; display: none;">Vui lòng chọn tỉnh/thành phố.</span>
                             </div>
                             <div class="form-group">
                                 <label for="quanhuyen">Quận/Huyện</label>
                                 <select class="form-control" id="quanhuyen">
                                     <option value="" selected>Chọn quận huyện</option>
-
                                 </select>
+                                <span class="error-message" id="quanhuyenError" style="color: red; display: none;">Vui lòng chọn quận/huyện.</span>
                             </div>
                             <div class="form-group">
-                                <label for="edit-phuongxa">Phường/Xã</label>
+                                <label for="phuongxa">Phường/Xã</label>
                                 <select class="form-control" id="phuongxa">
                                     <option value="" selected>Chọn phường xã</option>
-
                                 </select>
+                                <span class="error-message" id="phuongxaError" style="color: red; display: none;">Vui lòng chọn phường/xã.</span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="edit-diachi">Địa chỉ cụ thể</label>
+                            <label for="diachi">Địa chỉ cụ thể</label>
                             <input type="text" class="form-control" id="diachi">
+                            <span class="error-message" id="diachiError" style="color: red; display: none;">Vui lòng nhập địa chỉ cụ thể.</span>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -414,6 +417,7 @@
                     </div>
                 </div>
             </div>
+        </div>
 
 
         </div>
@@ -425,13 +429,76 @@
 
 <!--<script th:src="@{/assets/js/KhachHangAdd.js}"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
+    function validateModalForm() {
+        let isValid = true;
+
+        // Get form elements
+        const tenNguoiNhan = document.getElementById('edit-tennguoinhan');
+        const tinhThanh = document.getElementById('edit-tinhthanh');
+        const quanHuyen = document.getElementById('edit-quanhuyen');
+        const phuongXa = document.getElementById('edit-phuongxa');
+        const diaChi = document.getElementById('edit-diachi');
+
+        // Clear previous error messages and styles
+        tenNguoiNhan.classList.remove('is-invalid');
+        tinhThanh.classList.remove('is-invalid');
+        quanHuyen.classList.remove('is-invalid');
+        phuongXa.classList.remove('is-invalid');
+        diaChi.classList.remove('is-invalid');
+
+        document.getElementById('edit-tennguoinhanError').style.display = 'none';
+        document.getElementById('edit-tinhthanhError').style.display = 'none';
+        document.getElementById('edit-quanhuyenError').style.display = 'none';
+        document.getElementById('edit-phuongxaError').style.display = 'none';
+        document.getElementById('edit-diachiError').style.display = 'none';
+
+        // Validate 'Tên Người Nhận'
+        if (tenNguoiNhan.value.trim() === '') {
+            document.getElementById('edit-tennguoinhanError').style.display = 'block';
+            tenNguoiNhan.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Tỉnh/Thành phố'
+        if (tinhThanh.value === '') {
+            document.getElementById('edit-tinhthanhError').style.display = 'block';
+            tinhThanh.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Quận/Huyện'
+        if (quanHuyen.value === '') {
+            document.getElementById('edit-quanhuyenError').style.display = 'block';
+            quanHuyen.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Phường/Xã'
+        if (phuongXa.value === '') {
+            document.getElementById('edit-phuongxaError').style.display = 'block';
+            phuongXa.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Địa chỉ cụ thể'
+        if (diaChi.value.trim() === '') {
+            document.getElementById('edit-diachiError').style.display = 'block';
+            diaChi.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
     let idvuvo = 0;
     let iddc1 = 0;
     var $editTinhThanh = $('#edit-tinhthanh');
     var $editQuanHuyen = $('#edit-quanhuyen');
     var $editPhuongXa = $('#edit-phuongxa');
+    var $editTinhThanh = $('#tinhthanh');
+    var $editQuanHuyen = $('#quanhuyen');
+    var $editPhuongXa = $('#phuongxa');
     var citiesData = [];
     function showform(){
         const modal = document.getElementById('mythemModal');
@@ -462,6 +529,11 @@
             ten: tennguoi,
             trangThai: trangthai
         };
+        if (validateModalForm()) {
+            
+        }else{
+            alert("Thất bại");
+        }
 
 
     }
@@ -482,22 +554,26 @@
             moTaChiTiet: diaChi,
             ten: tennguoi
         };
+        if (validateModalForm()) {
+            $.ajax({
+                url: `/api/khach-hang/update-dia-chi/${iddc1}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(diaChiData),
+                success: function(response) {
+                    alert('Cập nhật thành công:', response);
 
-        $.ajax({
-            url: `/api/khach-hang/update-dia-chi/${iddc1}`,
-            method: 'PUT',
-            contentType: 'application/json',
-            data: JSON.stringify(diaChiData),
-            success: function(response) {
-                alert('Cập nhật thành công:', response);
+                    document.getElementById('myModal').style.display = 'none';
+                },
+                error: function(xhr, status, error) {
+                    console.error('Lỗi khi cập nhật địa chỉ:', error);
 
-                document.getElementById('myModal').style.display = 'none';
-            },
-            error: function(xhr, status, error) {
-                console.error('Lỗi khi cập nhật địa chỉ:', error);
+                }
+            });
+        } else {
+            console.log("Lỗi");
+        }
 
-            }
-        });
     }
 
 
@@ -582,41 +658,158 @@
             }
         });
     }
+    function getThongTinKhachHang1() {
+        $.ajax({
+            url: 'https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json',
+            dataType: 'json',
+            success: function(data) {
+                citiesData = data;
+                $editTinhThanh.empty().append('<option value="" selected>Chọn tỉnh thành</option>');
+                $.each(data, function(index, city) {
+                    $editTinhThanh.append('<option value="' + city.Id + '">' + city.Name + '</option>');
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Lỗi khi tải dữ liệu:', error);
+            }
+        });
+
+        $editTinhThanh.on('change', function() {
+            var cityId = $(this).val();
+            if (cityId) {
+                $editQuanHuyen.empty().append('<option value="" selected>Chọn quận huyện</option>');
+                var selectedCity = citiesData.find(city => city.Id === cityId);
+                if (selectedCity) {
+                    $.each(selectedCity.Districts, function(index, district) {
+                        $editQuanHuyen.append('<option value="' + district.Id + '">' + district.Name + '</option>');
+                    });
+                }
+            } else {
+                $editQuanHuyen.empty().append('<option value="" selected>Chọn quận huyện</option>');
+                $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
+            }
+        });
+
+        $editQuanHuyen.on('change', function() {
+            var districtId = $(this).val();
+            if (districtId) {
+                // Clear and populate phường/xã dropdown
+                $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
+                var selectedDistrict = citiesData.flatMap(city => city.Districts).find(district => district.Id === districtId);
+                if (selectedDistrict) {
+                    $.each(selectedDistrict.Wards, function(index, ward) {
+                        $editPhuongXa.append('<option value="' + ward.Id + '">' + ward.Name + '</option>');
+                    });
+                }
+            } else {
+                $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
+            }
+        });
+    }
+
+    function validateChangePasswordForm() {
+        // Get form elements
+        const matKhauHienTai = document.getElementById('matkhauhientai');
+        const matKhauMoi = document.getElementById('matkhaumoi');
+        const nhapLaiMatKhauMoi = document.getElementById('nhaplaimatkhaumoi');
+
+        // Get error message elements
+        const matKhauHienTaiError = document.getElementById('matkhauhientaiError');
+        const matKhauMoiError = document.getElementById('matkhaumoiError');
+        const nhapLaiMatKhauMoiError = document.getElementById('nhaplaimatkhaumoiError');
+
+        // Clear previous error messages and styles
+        matKhauHienTai.classList.remove('is-invalid');
+        matKhauMoi.classList.remove('is-invalid');
+        nhapLaiMatKhauMoi.classList.remove('is-invalid');
+
+        matKhauHienTaiError.style.display = 'none';
+        matKhauMoiError.style.display = 'none';
+        nhapLaiMatKhauMoiError.style.display = 'none';
+
+        let isValid = true;
+
+        // Validate 'Mật Khẩu Cũ'
+        if (matKhauHienTai.value.trim() === '') {
+            matKhauHienTaiError.style.display = 'block';
+            matKhauHienTai.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Mật Khẩu Mới'
+        const matKhauMoiValue = matKhauMoi.value.trim();
+        const passwordPattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+
+        if (matKhauMoiValue === '') {
+            matKhauMoiError.textContent = 'Vui lòng nhập mật khẩu mới.';
+            matKhauMoiError.style.display = 'block';
+            matKhauMoi.classList.add('is-invalid');
+            isValid = false;
+        } else if (!passwordPattern.test(matKhauMoiValue)) {
+            matKhauMoiError.textContent = 'Mật khẩu mới phải có ít nhất 8 ký tự, bao gồm cả chữ và số.';
+            matKhauMoiError.style.display = 'block';
+            matKhauMoi.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        // Validate 'Nhập Lại Mật Khẩu Mới'
+        const nhapLaiMatKhauMoiValue = nhapLaiMatKhauMoi.value.trim();
+        if (nhapLaiMatKhauMoiValue === '') {
+            nhapLaiMatKhauMoiError.textContent = 'Vui lòng nhập lại mật khẩu mới.';
+            nhapLaiMatKhauMoiError.style.display = 'block';
+            nhapLaiMatKhauMoi.classList.add('is-invalid');
+            isValid = false;
+        } else if (matKhauMoiValue !== nhapLaiMatKhauMoiValue) {
+            nhapLaiMatKhauMoiError.textContent = 'Mật khẩu nhập lại không khớp với mật khẩu mới.';
+            nhapLaiMatKhauMoiError.style.display = 'block';
+            nhapLaiMatKhauMoi.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
     function doimatkhau() {
         const mkcu = document.getElementById('matkhauhientai').value.trim();
         const mkmoi = document.getElementById('matkhaumoi').value.trim();
         const nhaplaimkmoi = document.getElementById('nhaplaimatkhaumoi').value.trim();
-        if (mkmoi === nhaplaimkmoi) {
-            $.ajax({
-                url: '/api/session/user',
-                method: 'GET',
-                success: function (response) {
-                    var mkkh = response.matKhau;
-                    if (mkkh === mkcu) {
-                        if (mkmoi === mkcu) {
-                            alert('k dk trung mk cu')
+        if (validateChangePasswordForm()) {
+            if (mkmoi === nhaplaimkmoi) {
+                $.ajax({
+                    url: '/api/session/user',
+                    method: 'GET',
+                    success: function (response) {
+                        var mkkh = response.matKhau;
+                        if (mkkh === mkcu) {
+                            if (mkmoi === mkcu) {
+                                alert('Mật khẩu mới không được trùng với mật khẩu cũ')
+                            } else {
+
+                                $.ajax({
+                                    url: `/update-khach-hang-clientmk/${idvuvo}/${mkmoi}`,
+                                    method: 'POST',
+                                    contentType: 'application/json',
+                                    success: function (response) {
+
+                                    },
+                                    error: function (xhr, status, error) {
+                                        alert('Có lỗi xảy ra: ' + error);
+                                    }
+                                });
+                            }
                         } else {
-
-                            $.ajax({
-                                url: `/update-khach-hang-clientmk/${idvuvo}/${mkmoi}`,
-                                method: 'POST',
-                                contentType: 'application/json',
-                                success: function (response) {
-
-                                },
-                                error: function (xhr, status, error) {
-                                    alert('Có lỗi xảy ra: ' + error);
-                                }
-                            });
+                            alert('Mật khẩu đã nhập không đúng')
                         }
-                    } else {
-                        alert('mk k dung')
-                    }
 
-                },
-            });
+                    },
+                });
 
+            }
+            console.log("Form is valid, proceed to change password.");
+        } else {
+            console.log("Form is invalid, show errors.");
         }
+
 
     }
       function getdiachiId(iddc){
@@ -833,6 +1026,7 @@
     $(document).ready(function () {
         // Handle heart icon click
         getThongTinKhachHang();
+        getThongTinKhachHang1();
         let idKhachHang = null;
 
         function getKhachHang() {

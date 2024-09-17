@@ -230,6 +230,11 @@
             width: 232px; /* Đảm bảo sản phẩm không vượt quá 24% chiều ngang */
             box-sizing: border-box;
             margin: 5px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: scale(1.05); /* Phóng to sản phẩm lên 5% khi di chuột vào */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Thêm bóng đổ để tạo hiệu ứng nổi */
         }
 
 
