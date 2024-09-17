@@ -286,7 +286,7 @@
             type: 'POST',
             data: { trangThai: trangThai },
             success: function(response) {
-                // getDiaChi(id);
+                getDiaChi(idvuvo);
             },
             error: function(xhr, status, error) {
                 console.error('Error updating Trang Thai:', status, error);
@@ -366,6 +366,7 @@
                             var diaChiId = $(this).data('dia-chi-id');
 
                             if (text === 'Thiết Lập Mặc Định') {
+                                addressDetailsContainer.empty();
                                 updateTrangThaidc(diaChiId, 1);
                             } else {
                                 console.log('Button text does not match "Thiết Lập Mặc Định". No action taken.');

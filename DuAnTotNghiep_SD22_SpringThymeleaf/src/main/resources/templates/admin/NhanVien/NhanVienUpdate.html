@@ -83,29 +83,29 @@
                   class="row g-3" th:object="${nv}">
                 <input type="hidden" id="id" th:field="*{id}">
                 <div class="xyz col-md-12 d-flex">
-                    <div class="col-md-4">
-                        <h1 class="text-center fs-3">Ảnh Đại Diện</h1>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <div class="d-flex flex-column align-items-center">
-                            <div class="image-placeholder rounded-circle mb-2 bg-secondary"
-                                 style="width: 250px; height: 250px; background-color: #3c3c3c; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; border-radius: 50%;"
-                                 th:style="'background-image: url('+'/' + *{anh} + '); background-size: cover;'"
+<!--                    <div class="col-md-4">-->
+<!--                        <h1 class="text-center fs-3">Ảnh Đại Diện</h1>-->
+<!--                        <br/>-->
+<!--                        <br/>-->
+<!--                        <br/>-->
+<!--                        <div class="d-flex flex-column align-items-center">-->
+<!--                            <div class="image-placeholder rounded-circle mb-2 bg-secondary"-->
+<!--                                 style="width: 250px; height: 250px; background-color: #3c3c3c; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; border-radius: 50%;"-->
+<!--                                 th:style="'background-image: url('+'/' + *{anh} + '); background-size: cover;'"-->
 
-                                 onclick="document.getElementById('fileInput').click();">
-                                <img th:src="${preview}" alt="Preview"
-                                     style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%;"/>
-                                <span th:unless="${preview}"
-                                      style="font-size: 24px; color: #6c757d; cursor: pointer;"></span>
-                            </div>
-                            <p>
-                                <input type="file" id="fileInput" name="img" class="form-control"
-                                       accept="image/png, image/jpeg, image/jpg" onchange="handleImageChange(this)"
-                                       style="display: none;"/>
-                            </p>
-                        </div>
-                    </div>
+<!--                                 onclick="document.getElementById('fileInput').click();">-->
+<!--                                <img th:src="${preview}" alt="Preview"-->
+<!--                                     style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%;"/>-->
+<!--                                <span th:unless="${preview}"-->
+<!--                                      style="font-size: 24px; color: #6c757d; cursor: pointer;"></span>-->
+<!--                            </div>-->
+<!--                            <p>-->
+<!--                                <input type="file" id="fileInput" name="img" class="form-control"-->
+<!--                                       accept="image/png, image/jpeg, image/jpg" onchange="handleImageChange(this)"-->
+<!--                                       style="display: none;"/>-->
+<!--                            </p>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <div class="row">
                         <div class="col-md-6">
                             <div class="row">
