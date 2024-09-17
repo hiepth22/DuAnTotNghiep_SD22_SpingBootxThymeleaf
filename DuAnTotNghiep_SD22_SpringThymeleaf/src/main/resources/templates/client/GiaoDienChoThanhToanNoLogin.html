@@ -806,17 +806,16 @@
                     contentType: 'application/json',
                     data: JSON.stringify(productData),
                     success: function (response) {
-<<<<<<< Updated upstream
+
                         console.log("id"+product.id)
                         console.log( product.quantity)
                         // deleteByIDGHCT(product.id);
                         // updateSoLuongSP(product.id, product.quantity);
-=======
+
                         console.log("id" + product.id)
                         console.log(product.quantity)
                         deleteByIDGHCT(product.id);
                         updateSoLuongSP(product.id, product.quantity);
->>>>>>> Stashed changes
                         removeProductById(product.id);
 
                     },
@@ -837,7 +836,7 @@
         }
 
 
-<<<<<<< Updated upstream
+
 
         // function updateSoLuongSP(idSPCT, soLuong){
         //     $.ajax({
@@ -853,7 +852,7 @@
         //
         //     });
         // }
-=======
+
         function updateSoLuongSP(idSPCT, soLuong) {
             $.ajax({
                 url: `/api/gio-hang/update-so-luong-sp-sau-khi-thanh-toan/${idSPCT}`,
@@ -868,7 +867,7 @@
 
             });
         }
->>>>>>> Stashed changes
+
 
         function addPhuongThucThanhToan(idHoaDon, tongTien) {
             $.ajax({
@@ -933,7 +932,7 @@
         //     });
         // }
 
-<<<<<<< Updated upstream
+
         // function deleteByIDGHCT(idGHCT){
         //     $.ajax({
         //         url: `/api/gio-hang/delete-sp/${idGHCT}`,
@@ -944,7 +943,7 @@
         //
         //     });
         // }
-=======
+
         function deleteByIDGHCT(idGHCT) {
             $.ajax({
                 url: `/api/gio-hang/delete-sp/${idGHCT}`,
@@ -955,7 +954,7 @@
 
             });
         }
->>>>>>> Stashed changes
+
 
 
         // function hideModalDiaChi() {
