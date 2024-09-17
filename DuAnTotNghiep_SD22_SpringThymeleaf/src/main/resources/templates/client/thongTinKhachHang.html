@@ -51,6 +51,54 @@
     .active-link {
         color: orange;
     }
+    /* Modal Background */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+    /* Close Button */
+    .close-btn {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close-btn:hover,
+    .close-btn:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* Grid Layout */
+    .grid {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
 </style>
 <body class="bg-white">
 
@@ -84,7 +132,8 @@
                     <div class="account-container">
                         <img src="https://imaxmobile.vn/media/data/icon-giao-hang-toan-quoc.jpeg"
                              alt="Ảnh khách hàng mặc định" class="default-customer-img">
-                        <div class="text-orange-500"><strong><a href="/thong-tin-don-hang" style="color: #0c0e12">Đơn mua</a></strong></div>
+                        <div class="text-orange-500"><strong><a href="/thong-tin-don-hang" style="color: #0c0e12">Đơn
+                            mua</a></strong></div>
                     </div>
                 </div>
             </div>
@@ -175,25 +224,55 @@
 
             <div id="helloDiv" class="hidden text-center text-2xl font-bold mt-5">
                 <div class="mb-4">
-                    <label for="currentPassword" class="block text-left text-sm font-medium text-gray-700 mb-2">Nhập Mật
+                    <label for="matkhauhientai" class="block text-left text-sm font-medium text-gray-700 mb-2">Nhập Mật
                         Khẩu Cũ</label>
-                    <input type="password" id="currentPassword" name="currentPassword" required
+                    <input type="password" id="matkhauhientai" name="matkhauhientai" required
                            class="w-full p-2 border border-gray-300 rounded">
                 </div>
                 <div class="mb-4">
-                    <label for="newPassword" class="block text-left text-sm font-medium text-gray-700 mb-2">Nhập Mật
+                    <label for="matkhaumoi" class="block text-left text-sm font-medium text-gray-700 mb-2">Nhập Mật
                         Khẩu Mới</label>
-                    <input type="password" id="newPassword" name="newPassword" required
+                    <input type="password" id="matkhaumoi" name="matkhaumoi" required
                            class="w-full p-2 border border-gray-300 rounded">
                 </div>
                 <div class="mb-4">
-                    <label for="confirmNewPassword" class="block text-left text-sm font-medium text-gray-700 mb-2">Nhập
+                    <label for="nhaplaimatkhaumoi" class="block text-left text-sm font-medium text-gray-700 mb-2">Nhập
                         Lại Mật Khẩu Mới</label>
-                    <input type="password" id="confirmNewPassword" name="confirmNewPassword" required
+                    <input type="password" id="nhaplaimatkhaumoi" name="nhaplaimatkhaumoi" required
                            class="w-full p-2 border border-gray-300 rounded">
                 </div>
-                <button type="button" class="btn btn-primary">Lưu</button>
 
+                <button type="button" class="btn btn-primary" onclick="doimatkhau()">Lưu</button>
+
+            </div>
+            <div class="modal" id="myModal">
+                <div class="modal-content">
+                    <span class="close-btn">&times;</span>
+                    <div class="grid gap-4 grid-cols-3">
+                        <div class="form-group">
+                            <label for="edit-tinhthanh">Tỉnh/Thành phố</label>
+                            <select class="form-control" id="edit-tinhthanh">
+                                <option value="" selected>Chọn tỉnh thành</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-quanhuyen">Quận/Huyện</label>
+                            <select class="form-control" id="edit-quanhuyen">
+                                <option value="" selected>Chọn quận huyện</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-phuongxa">Phường/Xã</label>
+                            <select class="form-control" id="edit-phuongxa">
+                                <option value="" selected>Chọn phường xã</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-diachi">Địa chỉ cụ thể</label>
+                        <input type="text" class="form-control" id="edit-diachi">
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -208,6 +287,127 @@
 
 <script>
     let idvuvo = 0;
+    var $editTinhThanh = $('#edit-tinhthanh');
+    var $editQuanHuyen = $('#edit-quanhuyen');
+    var $editPhuongXa = $('#edit-phuongxa');
+    var citiesData = [];
+    function splitAndPopulateAddress(address) {
+        if (!address) {
+            console.error('Address is null or undefined');
+            return;
+        }
+
+        const addressParts = address.split(',').map(part => part.trim());
+        const len = addressParts.length;
+
+        if (len >= 4) {
+            const city = addressParts[len - 1];
+            const district = addressParts[len - 2];
+            const ward = addressParts[len - 3];
+            const specificAddress = addressParts.slice(0, len - 3).join(', ');
+
+            $('#edit-diachi').val(specificAddress);
+
+            setTimeout(function() {
+                $editTinhThanh.val($editTinhThanh.find("option:contains('" + city + "')").val()).change();
+            }, 100);
+
+            setTimeout(function() {
+                $editQuanHuyen.val($editQuanHuyen.find("option:contains('" + district + "')").val()).change();
+            }, 100);
+
+            setTimeout(function() {
+                $editPhuongXa.val($editPhuongXa.find("option:contains('" + ward + "')").val());
+            }, 100);
+        } else {
+            console.error('Invalid address format:', address);
+        }
+    }
+    function getThongTinKhachHang() {
+        $.ajax({
+            url: 'https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json',
+            dataType: 'json',
+            success: function(data) {
+                citiesData = data;
+                $editTinhThanh.empty().append('<option value="" selected>Chọn tỉnh thành</option>');
+                $.each(data, function(index, city) {
+                    $editTinhThanh.append('<option value="' + city.Id + '">' + city.Name + '</option>');
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Lỗi khi tải dữ liệu:', error);
+            }
+        });
+
+        $editTinhThanh.on('change', function() {
+            var cityId = $(this).val();
+            if (cityId) {
+                $editQuanHuyen.empty().append('<option value="" selected>Chọn quận huyện</option>');
+                var selectedCity = citiesData.find(city => city.Id === cityId);
+                if (selectedCity) {
+                    $.each(selectedCity.Districts, function(index, district) {
+                        $editQuanHuyen.append('<option value="' + district.Id + '">' + district.Name + '</option>');
+                    });
+                }
+            } else {
+                $editQuanHuyen.empty().append('<option value="" selected>Chọn quận huyện</option>');
+                $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
+            }
+        });
+
+        $editQuanHuyen.on('change', function() {
+            var districtId = $(this).val();
+            if (districtId) {
+                // Clear and populate phường/xã dropdown
+                $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
+                var selectedDistrict = citiesData.flatMap(city => city.Districts).find(district => district.Id === districtId);
+                if (selectedDistrict) {
+                    $.each(selectedDistrict.Wards, function(index, ward) {
+                        $editPhuongXa.append('<option value="' + ward.Id + '">' + ward.Name + '</option>');
+                    });
+                }
+            } else {
+                $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
+            }
+        });
+    }
+    function doimatkhau() {
+        const mkcu = document.getElementById('matkhauhientai').value.trim();
+        const mkmoi = document.getElementById('matkhaumoi').value.trim();
+        const nhaplaimkmoi = document.getElementById('nhaplaimatkhaumoi').value.trim();
+        if (mkmoi === nhaplaimkmoi) {
+            $.ajax({
+                url: '/api/session/user',
+                method: 'GET',
+                success: function (response) {
+                    var mkkh = response.matKhau;
+                    if (mkkh === mkcu) {
+                        if (mkmoi === mkcu) {
+                            alert('k dk trung mk cu')
+                        } else {
+
+                            $.ajax({
+                                url: `/update-khach-hang-clientmk/${idvuvo}/${mkmoi}`,
+                                method: 'POST',
+                                contentType: 'application/json',
+                                success: function (response) {
+
+                                },
+                                error: function (xhr, status, error) {
+                                    alert('Có lỗi xảy ra: ' + error);
+                                }
+                            });
+                        }
+                    } else {
+                        alert('mk k dung')
+                    }
+
+                },
+            });
+
+        }
+
+    }
 
     function validateForm() {
         let isValid = true;
@@ -232,7 +432,7 @@
         document.getElementById('ngaySinhError').innerText = '';
         document.getElementById('emailError').innerText = '';
 
-        // Validate 'Tên Khách Hàng'
+
         if (ten.value.trim() === '') {
             document.getElementById('tenError').innerText = 'Vui lòng nhập tên khách hàng';
             ten.classList.add('is-invalid');
@@ -284,23 +484,24 @@
         $.ajax({
             url: `/updatemacdinh/${id}`,
             type: 'POST',
-            data: { trangThai: trangThai },
-            success: function(response) {
-                getDiaChi(idvuvo);
+            data: {trangThai: trangThai},
+            success: function (response) {
+                // getDiaChi(idvuvo);
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error('Error updating Trang Thai:', status, error);
             }
         });
     }
+
     function xoadiachi(id) {
         $.ajax({
             url: `/deletediachikh/${id}`,
             type: 'DELETE',
-            success: function(response) {
+            success: function (response) {
 
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error('Error deleting DiaChi:', status, error);
             }
         });
@@ -308,6 +509,7 @@
 
 
     function getDiaChi(khId) {
+
         if (khId) {
             var addressDetailsContainer = $('#address-details');
             addressDetailsContainer.empty();
@@ -346,7 +548,7 @@
                         });
 
 
-                        $(document).on('click', '.update-address', function(event) {
+                        $(document).on('click', '.update-address', function (event) {
                             event.preventDefault();
 
                             var text = $(this).text().trim();
@@ -355,21 +557,32 @@
                             if (text === 'Xóa') {
                                 xoadiachi(diaChiId);
                             } else {
-                                console.log('Unhandled button text:', text);
+                                const modal = document.getElementById('myModal');
+                                const showModalBtn = document.getElementById('show-modal-btn');
+                                const closeBtn = document.querySelector('.close-btn');
+
+                                    modal.style.display = 'block';
+
+
+
+                                closeBtn.addEventListener('click', () => {
+                                    modal.style.display = 'none';
+                                });
+
                             }
                         });
 
-                        $(document).on('click', '.thiet-lap', function(event) {
+                        $(document).on('click', '.thiet-lap', function (event) {
                             event.preventDefault();
 
                             var text = $(this).text().trim();
                             var diaChiId = $(this).data('dia-chi-id');
 
                             if (text === 'Thiết Lập Mặc Định') {
-                                addressDetailsContainer.empty();
+
                                 updateTrangThaidc(diaChiId, 1);
                             } else {
-                                console.log('Button text does not match "Thiết Lập Mặc Định". No action taken.');
+
                             }
                         });
 
@@ -394,7 +607,7 @@
 
     $(document).ready(function () {
         // Handle heart icon click
-
+        getThongTinKhachHang();
         let idKhachHang = null;
 
         function getKhachHang() {

@@ -15,7 +15,7 @@
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ngày Sinh</th>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Giới Tính</th>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Email</th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">CCCD</th>
+<!--        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">CCCD</th>-->
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Vai Trò</th>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Trạng Thái</th>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Hành Động</th>
@@ -39,7 +39,7 @@
                 <span th:if="${nhanvien.gioiTinh} == false">Nữ</span>
             </td>
             <td th:text="${nhanvien.email}"></td>
-            <td th:text="${nhanvien.cccd}"></td>
+<!--            <td th:text="${nhanvien.cccd}"></td>-->
             <td>
                 <span th:if="${nhanvien.vaiTro == 1}">Nhân Viên</span>
                 <span th:if="${nhanvien.vaiTro == 0}">Quản Lí</span>

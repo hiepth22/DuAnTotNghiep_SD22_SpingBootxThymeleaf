@@ -320,6 +320,21 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
 
         return ResponseEntity.ok(updated);
     }
+    @PostMapping ("/update-khach-hang-clientmk/{id}/{mkmoi}")
+    public ResponseEntity<?> updateKhachHangmk(@PathVariable Long id,
+                                               @PathVariable("mkmoi") String matKhau) {
+        KhachHang existingKhachHang = khachHangService.findById(id);
+
+        if (existingKhachHang == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        existingKhachHang.setMatKhau(matKhau);
+
+        KhachHang updated = khachHangService.save(existingKhachHang);
+
+        return ResponseEntity.ok(updated);
+    }
     @GetMapping("/khach-hang-client/{id}")
     @ResponseBody
     public ResponseEntity<KhachHang> getKhachHang(@PathVariable Long id) {
