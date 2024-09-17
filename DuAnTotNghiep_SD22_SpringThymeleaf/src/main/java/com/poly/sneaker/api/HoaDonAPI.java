@@ -143,6 +143,20 @@ public class HoaDonAPI {
         }
     }
 
+    @PutMapping("/update-ngay-nhan/{id}")
+    public ResponseEntity<?> updateNgayNhan(@PathVariable("id") Long id, @RequestBody HoaDon hoaDon) {
+        LocalDateTime now = LocalDateTime.now();
+        hoaDon.setNgayGiaoHang(now);
+        LocalDateTime ngayDuKien = now.plusDays(4);
+        hoaDon.setNgayNhan(ngayDuKien);
+        HoaDon updatedHoaDon = hoaDonService.updateTrangThai(id, hoaDon);
+        if (updatedHoaDon != null) {
+            return ResponseEntity.ok(updatedHoaDon);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("HoaDon not found");
+        }
+    }
+
     @PostMapping("/lich-su-hoa-don/add/{id}")
     public ResponseEntity<?> addLichSuHoaDon (@PathVariable("id") Long id,@RequestBody LichSuHoaDon lichSuHoaDon){
         return ResponseEntity.ok(lichSuHoaDonService.add(id, lichSuHoaDon));

@@ -75,6 +75,8 @@ public class HoaDonService {
     public HoaDon updateTrangThai(Long id, HoaDon hoaDon) {
         Optional<HoaDon> optional = hoaDonRepository.findById(id);
         return optional.map(o -> {
+            o.setNgayNhan(hoaDon.getNgayNhan());
+            o.setNgayGiaoHang(hoaDon.getNgayGiaoHang());
             o.setNgayThanhToan(hoaDon.getNgayThanhToan());
             o.setTrangThai(hoaDon.getTrangThai());
             return hoaDonRepository.save(o);
