@@ -1038,6 +1038,8 @@
 
                     idKhachHang = response.id;
 
+                    getDuLieuGioHangVaGioHangChiTiet(idKhachHang);
+
                     getdlkh(response.id)
 
 
@@ -1052,6 +1054,22 @@
         }
 
         getKhachHang();
+
+        function getDuLieuGioHangVaGioHangChiTiet(idKhachHang) {
+            $.ajax({
+                url: `/api/gio-hang/detail/${idKhachHang}`,
+                method: 'GET',
+                success: function (response) {
+                    const gioHangChiTiet = response.ghct;
+                    const  gioHang = response.gh
+
+                    var count = gioHangChiTiet.length ? gioHangChiTiet.length : 0;
+                    document.getElementById('cart-count').textContent = count;
+
+                },
+            });
+
+        }
 
         function getdlkh(id) {
             $.ajax({

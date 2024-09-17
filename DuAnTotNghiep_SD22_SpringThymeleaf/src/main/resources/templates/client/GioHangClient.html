@@ -152,6 +152,8 @@
 
                     idGioHang = gioHang.id;
 
+                    var count = gioHangChiTiet.length ? gioHangChiTiet.length : 0;
+                    document.getElementById('cart-count').textContent = count;
 
                     let list = "";
                     $("#thongTinSP").empty();

@@ -130,9 +130,29 @@ $(document).ready(function () {
                 let idKhachHang = response.id;
                 getHoaDonKhachHang(response.id);
                 $('#tenKhachHang').text(response.ten);
+                getDuLieuGioHangVaGioHangChiTiet(idKhachHang);
             },
         });
     }
+
+    getKhachHang();
+
+    function getDuLieuGioHangVaGioHangChiTiet(idKhachHang) {
+        $.ajax({
+            url: `/api/gio-hang/detail/${idKhachHang}`,
+            method: 'GET',
+            success: function (response) {
+                const gioHangChiTiet = response.ghct;
+                const  gioHang = response.gh
+
+                var count = gioHangChiTiet.length ? gioHangChiTiet.length : 0;
+                document.getElementById('cart-count').textContent = count;
+
+            },
+        });
+
+    }
+
 
     function getHoaDonKhachHang(idKhachHang) {
         $.ajax({

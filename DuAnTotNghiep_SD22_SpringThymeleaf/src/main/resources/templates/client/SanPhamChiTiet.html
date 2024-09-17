@@ -261,6 +261,35 @@
             return;
         }
 
+        getKhachHang();
+
+        function getDuLieuGioHangVaGioHangChiTiet(idKhachHang) {
+            $.ajax({
+                url: `/api/gio-hang/detail/${idKhachHang}`,
+                method: 'GET',
+                success: function (response) {
+                    const gioHangChiTiet = response.ghct;
+                    const  gioHang = response.gh
+
+                    var count = gioHangChiTiet.length ? gioHangChiTiet.length : 0;
+                    document.getElementById('cart-count').textContent = count;
+
+                },
+            });
+
+        }
+
+        function getKhachHang() {
+            $.ajax({
+                url: '/api/session/user',
+                method: 'GET',
+                success: function (response) {
+                    let idKhachHang = response.id;
+                    getDuLieuGioHangVaGioHangChiTiet(idKhachHang);
+                },
+            });
+        }
+
 
         $.ajax({
             url: `/sanphamchitietclien/${sanPhamId}`,
@@ -288,7 +317,6 @@
                         validateSizeP.style.display = 'block';
                         validateSizeP.style.color = 'red';
                     }
-
                 });
                 document.getElementById('muangay').addEventListener('click', function () {
                     if (anhcheck == null && sizecheck == null) {
@@ -693,6 +721,7 @@
 
                                                                         let sptam = response;
                                                                         console.log('sptam:', sptam);
+                                                                        getKhachHang();
                                                                     },
                                                                     error: function (xhr, status, error) {
                                                                         console.error('Error:', error);

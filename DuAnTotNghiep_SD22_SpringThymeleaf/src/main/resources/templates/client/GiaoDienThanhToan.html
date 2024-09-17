@@ -519,6 +519,22 @@
             });
         });
 
+        function getDuLieuGioHangVaGioHangChiTiet(idKhachHang) {
+            $.ajax({
+                url: `/api/gio-hang/detail/${idKhachHang}`,
+                method: 'GET',
+                success: function (response) {
+                    const gioHangChiTiet = response.ghct;
+                    const  gioHang = response.gh
+
+                    var count = gioHangChiTiet.length ? gioHangChiTiet.length : 0;
+                    document.getElementById('cart-count').textContent = count;
+
+                },
+            });
+
+        }
+
 
         function hienThiSanPhamDaChon() {
             let list = "";
@@ -657,6 +673,7 @@
                         getDuLieu(idKhachHang);
                     getDiaChiKhachHang(response);
 
+                    getDuLieuGioHangVaGioHangChiTiet(idKhachHang);
 
                     $("#datHang").off('click', '.tiepTuc').on('click', '.tiepTuc', function () {
 

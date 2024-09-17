@@ -218,7 +218,11 @@ public class GioHangAPI {
     }
 
 
-
+    @GetMapping("/dem-so-luong-san-pham/{id}")
+    public ResponseEntity<?> demSoSanPham(@PathVariable("id") Long id) {
+        List<GioHangChiTiet> gioHangChiTiets = giohangService.detailGHCT(id);
+        return ResponseEntity.ok(gioHangChiTiets);
+    }
 
 
 }
