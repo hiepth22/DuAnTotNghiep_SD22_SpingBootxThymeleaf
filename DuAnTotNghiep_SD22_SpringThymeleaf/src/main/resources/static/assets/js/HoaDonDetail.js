@@ -550,10 +550,32 @@ $(document).ready(function () {
     function inHoaDon(hd, hdctList) {
         let danhSachSP = '';
 
+        let voucher = 0;
+
+        if (hd.phieuGiamGia.hinhThucGiam === true) {
+            let phanTram = hd.tongTien / hd.phieuGiamGia.giaTriGiam;
+            if (hd.phieuGiamGia.giamToiDa < phanTram) {
+                voucher = hd.phieuGiamGia.giamToiDa || 0;
+            } else {
+                voucher = phanTram;
+            }
+        } else {
+            voucher = hd.phieuGiamGia.giamToiDa || 0;
+        }
+
+        const tongTienSauKhiGiam = hd.tongTien - voucher;
+
+        // <td class="px-6 py-4 whitespace-nowrap font-bold">
+        //     <img src="${item.sanPhamChiTiet.anh}" alt="Image" class="w-16 h-auto">
+        // </td>
+
+        // <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh sản phẩm</th>
+
         hdctList.forEach((item, index) => {
             danhSachSP += `
         <tr>
             <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
+          
             <td class="px-6 py-4 whitespace-nowrap font-bold">
                 <h1>${item.sanPhamChiTiet.ten}</h1>
             </td>
@@ -569,20 +591,22 @@ $(document).ready(function () {
 
         $('#inHoaDon').html(`
         <div class="invoice-header flex justify-between items-center border-b pb-2">
-            <div class="text-xl font-bold">SHOE SEE</div>
+            <div class="text-xl font-bold">
+            <img src="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309" alt="Logo" class="w-[10%]">
+            <div class="text-orange-600">SHOE SEE</div>
+            </div>
             <div>
                 <p class="text-sm">Mã hóa đơn: <span class="font-normal">${hd.ma}</span></p>
                 <p class="text-sm">${hd.ngayTao != null ? new Date(hd.ngayTao).toLocaleString('vi-VN', {
             day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'
         }) : ''}</p>
             </div>
-            <img src="https://via.placeholder.com/150" alt="Logo" class="max-w-full h-auto">
         </div>
         <div class="invoice-details mt-4 border-b pb-2">
             <div>
                 <p class="font-semibold">Từ:</p>
                 <p>Shoe See</p>
-                <p>Cao đẳng FPT Polytechnic, Phường Canh, Từ Liêm, Hà Nội, Việt Nam</p>
+                <p>Cao đẳng FPT Polytechnic, Trịnh Văn Bô, Nam Từ Liêm, Hà Nội</p>
                 <p>0961057585</p>
             </div>
             <div>
@@ -597,7 +621,7 @@ $(document).ready(function () {
                 <thead class="bg-blue-500">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">STT</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh sản phẩm</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tên sản phẩm</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Số lượng</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Đơn giá</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Thành tiền</th>
@@ -611,7 +635,7 @@ $(document).ready(function () {
         <div class="invoice-footer mt-4 flex justify-between">
             <div>
                 <p class="font-semibold">Tiền thu người nhận:</p>
-                <p>${formatVND(hd.tongTienSauGiam)}</p>
+                <p>${formatVND(tongTienSauKhiGiam + hd.tienShip)}</p>
             </div>
             <div class="signature text-center">
                 <p class="font-semibold">Chữ ký người nhận</p>
@@ -623,7 +647,6 @@ $(document).ready(function () {
     `);
         // console.log($('#inHoaDon').html());
     }
-
 
 
     function checkCurrentStep() {
@@ -1292,7 +1315,7 @@ $(document).ready(function () {
             $('#noteError').addClass('hidden');
         }
 
-        if (currentStep == 2 && confirm("Bạn có muốn in hóa đơn không?")) {
+        if (currentStep === 2 && confirm("Bạn có muốn in hóa đơn không?")) {
 
             setTimeout(() => {
                 console.log('Bắt đầu in');
@@ -1309,10 +1332,18 @@ $(document).ready(function () {
             updateButtonsState();
             hideNoteModal();
             getLichSu();
-        }else if(currentStep == 6){
+        }else if(currentStep === 3){
             updateTrangThaiPhuongThucThanhToan(idHoaDon);
             stepsHistory.push({hanhDong: currentStep, ngayTao: new Date().toISOString()});
-            updateTrangThai(currentStep)
+            updateTrangThai2(currentStep);
+            showNotification("Thanh toán thành công", "thanhCong");
+            updateButtonsState();
+            hideNoteModal();
+            getLichSu();
+        }else if(currentStep === 6){
+            updateTrangThaiPhuongThucThanhToan(idHoaDon);
+            stepsHistory.push({hanhDong: currentStep, ngayTao: new Date().toISOString()});
+            updateTrangThai(currentStep);
             showNotification("Thanh toán thành công", "thanhCong");
             updateButtonsState();
             hideNoteModal();
@@ -1439,6 +1470,25 @@ $(document).ready(function () {
         const hanhDong = trangThai;
         $.ajax({
             url: `/api/hoa-don/update-trang-thai/${idHoaDon}`,
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({trangThai: trangThai}),
+            success: function (response) {
+                addHistoryLog(ghiChu, hanhDong);
+                fetchHoaDonDetail(idHoaDon);
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi khi cập nhật trạng thái hóa đơn: ', error);
+                alert('Đã xảy ra lỗi khi cập nhật trạng thái hóa đơn. Vui lòng thử lại sau.');
+            }
+        });
+    }
+
+    function updateTrangThai2(trangThai) {
+        const ghiChu = $('#noteText').val().trim();
+        const hanhDong = trangThai;
+        $.ajax({
+            url: `/api/hoa-don/update-ngay-nhan/${idHoaDon}`,
             method: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify({trangThai: trangThai}),

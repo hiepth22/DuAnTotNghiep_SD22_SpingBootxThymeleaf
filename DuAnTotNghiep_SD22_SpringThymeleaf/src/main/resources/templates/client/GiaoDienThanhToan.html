@@ -440,7 +440,26 @@
         </div>
     </div>
 </div>
+<div id="modalPhieuGiamGia" class="fixed z-10 inset-0 overflow-y-auto hidden">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+        </div>
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-lg w-full h-[50%]">
+            <div id="listPhieuGiamGia" class="bg-white px-4 pt-5 pb-4">
 
+            </div>
+            <div class="bg-gray-50 px-4 py-3 flex justify-end">
+                <button id="huyPhieuGiamGia"
+                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">Hủy
+                </button>
+                <button id="chonPhieuGiamGia"
+                        class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">Chọn
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready(function () {
         let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
@@ -546,11 +565,13 @@
             <div>Tổng số tiền(${soLuongSPTong} sản phẩm): <span class="text-orange-500 text-xl ml-5">${formatVND(tongTien - discount)}</span></div>
         `);
 
+
+                $('#voucher').text(formatVND(-discount));
                 $('#tongTien').text(formatVND(tongTien));
                 $('#phiVanChuyen').text(ship);
                 $('#maGiamGia').text(formatVND(discount));
                 $('#tongThanhToan').text(formatVND(tongTienSauKhiGiam));
-                $('#voucher').text(formatVND(-discount));
+
 
 
             } else {
@@ -577,6 +598,53 @@
 
 
         }
+
+        function getPhieuGiamGia() {
+            $.ajax({
+                url: `/api/gio-hang/phieu-giam-gia`,
+                method: 'GET',
+                success: function (response) {
+                    let list = "";
+                    $("#listPhieuGiamGia").empty();
+
+                    const tongTien = parseInt($("#donHang").text().replace(/\./g, '').replace(' VNĐ', ''));
+
+                    response.forEach((phieuGiamGia, i) => {
+                        const isDisabled = tongTien < phieuGiamGia.donToiThieu;
+                        const disabledClass = isDisabled ? 'voucher-disabled' : '';
+
+                        const hinhThucGiamDisplay = phieuGiamGia.hinhThucGiam ? `Giá trị giảm: ${phieuGiamGia.giaTriGiam}%` : '';
+
+                        list += `
+                    <div class="grid gap-1 grid-cols-2 border-1 border-gray-300 p-4 rounded-lg ${disabledClass}">
+                        <div class="flex">
+                            <img class="w-[50%] h-auto" src="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309">
+                            <div class="mt-4 ml-4">
+                                <span class="font-bold text-orange-500 text-4xl">Se</span><span class="text-4xl text-orange-500">e</span>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div>
+                                <div>${phieuGiamGia.ten}</div>
+                                <div>Giảm tối đa: ${formatVND(phieuGiamGia.giamToiDa)}</div>
+                                <div>${hinhThucGiamDisplay}</div>
+                                <div class="text-orange-500">Đơn tối thiểu: ${formatVND(phieuGiamGia.donToiThieu)}</div>
+                                <div>HSD: ${phieuGiamGia.ngayKetThuc}</div>
+                            </div>
+                            <div class="mt-10">
+                                <input type="radio" name="phieuGiamGia" value="${phieuGiamGia.id}" data-item='${JSON.stringify(phieuGiamGia)}' ${isDisabled ? 'disabled' : ''}>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                `;
+                    });
+                    $("#listPhieuGiamGia").html(list);
+                },
+            });
+        }
+
+
 
         function getKhachHang() {
             $.ajax({
@@ -630,7 +698,7 @@
                 success: function (response) {
                     thongTinNguoiMua(response.diaChiKH[0]);
                     localStorage.removeItem('selectedAddress');
-
+                    getPhieuGiamGia();
                     if (response.diaChiKH.length > 0) {
                         localStorage.setItem('selectedAddress', JSON.stringify(response.diaChiKH[0]));
                     }
@@ -1138,8 +1206,15 @@
             }
         }
 
+        function hideModalPhieuGiamGia() {
+            $('#modalPhieuGiamGia').addClass('hidden');
+            $('#modalPhieuGiamGia').val('');
+            $('#modalPhieuGiamGia').addClass('hidden');
+        }
 
-
+        function showModalPhieuGiamGia() {
+            $('#modalPhieuGiamGia').removeClass('hidden');
+        }
 
         function hideModalUpdateDiaChi() {
             $('#modalUpdateDiaChi').addClass('hidden');
