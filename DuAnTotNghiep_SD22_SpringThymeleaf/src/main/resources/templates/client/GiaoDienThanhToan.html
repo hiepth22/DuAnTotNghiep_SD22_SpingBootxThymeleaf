@@ -758,7 +758,7 @@
                 success: function (response) {
                     const idHoaDon = response.id;
                     addHistoryLog(idHoaDon);
-                    addSanPhamVaoHDCTTraTruoc(idHoaDon);
+                    addSanPhamVaoHDCT(idHoaDon);
                     addPhuongThucThanhToanChuyenKhoan(idHoaDon, tongTienSauKhiGiam);
                     chuyenKhoan(response.tongTienSauGiam, response.ma);
                     localStorage.removeItem('sale');

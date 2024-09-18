@@ -31,9 +31,12 @@ $(document).ready(function () {
 
 
     const formatVND = (tongtien) => {
-        return tongtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
-    }
+        // Làm tròn xuống nếu là số thập phân để không thêm dấu chấm vào phần thập phân
+        const integerPart = Math.floor(tongtien);
 
+        // Sử dụng replace để thêm dấu chấm vào từng nhóm 3 chữ số
+        return integerPart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+    }
     function hienThiThongTinHoaDon(hd) {
         $('#maHoaDon').html(`
             <h1 class="text-xl mt-3 ml-3 mb-4 font-bold">Thông tin đơn hàng: <span class="font-normal">${hd.ma}</span></h1>

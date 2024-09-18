@@ -81,25 +81,22 @@
 </div>
 
 <div id="modalPhieuGiamGia" class="fixed z-10 inset-0 overflow-y-auto hidden">
-    <div class="flex items-center justify-center min-h-screen">
+    <div class="flex items-center justify-center min-h-screen p-4">
         <div class="fixed inset-0 transition-opacity" aria-hidden="true">
             <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
-        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-lg w-full h-[50%]">
-            <div id="listPhieuGiamGia" class="bg-white px-4 pt-5 pb-4">
-
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-lg w-full max-h-[60vh] flex flex-col">
+            <div id="listPhieuGiamGia" class="bg-white px-4 pt-5 pb-4 flex-1 overflow-y-auto">
             </div>
             <div class="bg-gray-50 px-4 py-3 flex justify-end">
-                <button id="huyPhieuGiamGia"
-                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">Hủy
-                </button>
-                <button id="chonPhieuGiamGia"
-                        class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">Chọn
-                </button>
+                <button id="huyPhieuGiamGia" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">Hủy</button>
+                <button id="chonPhieuGiamGia" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">Chọn</button>
             </div>
         </div>
     </div>
 </div>
+
+
 <script th:src="@{/assets/js/Header.js}"></script>
 <script>
     $(document).ready(function () {
@@ -263,12 +260,10 @@
                         const hinhThucGiamDisplay = phieuGiamGia.hinhThucGiam ? `Giá trị giảm: ${phieuGiamGia.giaTriGiam}%` : '';
 
                         list += `
-                    <div class="grid gap-1 grid-cols-2 border-1 border-gray-300 p-4 rounded-lg ${disabledClass}">
+                    <div class="grid gap-0 grid-cols-2 border-1 border-gray-300 p-4 rounded-lg ${disabledClass}">
                         <div class="flex">
-                            <img class="w-[50%] h-auto" src="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309">
-                            <div class="mt-4 ml-4">
-                                <span class="font-bold text-orange-500 text-4xl">Se</span><span class="text-4xl text-orange-500">e</span>
-                            </div>
+                            <img class="w-[70%] h-auto" src="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309">
+
                         </div>
                         <div class="flex">
                             <div>

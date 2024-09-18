@@ -1500,22 +1500,42 @@
             });
         }
 
-        function updateThongTinNguoiNhanCoTrangThai(nguoiNhan, sdtNguoiNhan, diaChiNguoiNhan, tienShip, ghichu, idhd) {
+        function updateThongTinNguoiNhanCoTrangThai(nguoiNhan, sdtNguoiNhan, diaChiNguoiNhan, tienShip, ghichu, idhd, tt, tongTienSauKhiCoVoucher) {
             var ghiChu = "Hoàn thành";
             $.ajax({
                 url: `/api/hoa-don/update-thong-tin-nguoi-nhan-hoa-don/${idhd}`,
                 method: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    nguoiNhan: nguoiNhan, sdtNguoiNhan: sdtNguoiNhan, diaChiNguoiNhan: diaChiNguoiNhan, ghichu: ghichu, tienShip: tienShip
+                    nguoiNhan: nguoiNhan, sdtNguoiNhan: sdtNguoiNhan, diaChiNguoiNhan: diaChiNguoiNhan, ghichu: ghichu, tienShip: tienShip, trangThai: tt
                 }),
                 success: function (response) {
-                    addHistoryLog(ghiChu, trangThai, idhd);
+                    updateTongTien(tongTienSauKhiCoVoucher, idhd);
+                    addPhuongThucThanhToanTienMatGiaoHang(idhd, tongTienSauKhiCoVoucher);
+                    addHistoryLog(ghiChu, tt, idhd);
                 },
             });
         }
 
         function updateTrangThaiHoaDon(trangThai, idHD) {
+            var ghiChu = "Hoàn thành";
+            $.ajax({
+                url: `/api/hoa-don/update-trang-thai/${idHD}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({trangThai: trangThai}),
+                success: function (response) {
+                    console.log("set trang thai thanh cong")
+                    addHistoryLog(ghiChu, trangThai, idHD);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Lỗi khi cập nhật trạng thái hóa đơn: ', error);
+                    alert('Đã xảy ra lỗi khi cập nhật trạng thái hóa đơn. Vui lòng thử lại sau.');
+                }
+            });
+        }
+
+        function updateTrangThaiHoaDonTraSau(trangThai, idHD) {
             var ghiChu = "Hoàn thành";
             $.ajax({
                 url: `/api/hoa-don/update-trang-thai/${idHD}`,
@@ -1564,14 +1584,15 @@
                     }
                 } else if (checkThanhToan === 1) {
                     getFormData();
-                    updateTrangThaiHoaDon(1, idTabHD);
-                    updateTongTien(tongTienSauKhiCoVoucher, idTabHD);
-                    addPhuongThucThanhToanTienMatGiaoHang(idTabHD, tongTienSauKhiCoVoucher);
-                    updateThongTinNguoiNhanCoTrangThai(ten, sdtNguoiNhan, fullAddress, phiVanChuyen, noteThongTin, idTabHD);
+                    // updateTrangThaiHoaDonTraSau(1, idTabHD);
+                    // updateTongTien(tongTienSauKhiCoVoucher, idTabHD);
+
+                    updateThongTinNguoiNhanCoTrangThai(ten, sdtNguoiNhan, fullAddress, phiVanChuyen, noteThongTin, idTabHD, 1, tongTienSauKhiCoVoucher);
                     renderTabs();
                     showNotification("Đặt hàng thành công", "thanhCong");
                     window.location.href = 'http://localhost:3000/admin/ban-hang-tai-quay'
                 }
+
             });
         });
 

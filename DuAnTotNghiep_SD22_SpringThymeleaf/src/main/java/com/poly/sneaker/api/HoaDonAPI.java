@@ -460,6 +460,22 @@ public class HoaDonAPI {
     }
 
 
+    @GetMapping("/doanh-thu-hom-nay")
+    public List<HoaDon> getDoanhThuHomNay() {
+        return hoaDonService.getDoanhThuHomNay();
+    }
+
+    @GetMapping("/doanh-thu-thang-hien-tai")
+    public List<HoaDon> getDoanhThuThangHienTai() {
+        return hoaDonService.getDoanhThuThangHienTai();
+    }
+
+    @GetMapping("/doanh-thu-nam-hien-tai")
+    public List<HoaDon> getDoanhThuNamHienTai() {
+        return hoaDonService.getDoanhThuNamHienTai();
+    }
+
+
 
 
 

@@ -37,129 +37,143 @@
 
     </style>
 </head>
-<body>
-<div class="flex">
+<body class="bg-gray-100">
+<div class="flex transform scale-70 origin-top-left">
     <!-- Sidebar Start -->
-    <div th:replace="~{admin/fragments/sidebar :: sidebar}" class="w-64"></div>
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}" class="w-64 bg-white shadow-md"></div>
     <!-- Sidebar End -->
+
     <!-- Content Start -->
-    <div class="content flex-grow ml-64 p-4 bg-gray-200">
+    <div class="content flex-grow ml-64 p-6 bg-gray-200">
         <!-- Navbar Start -->
-        <nav th:replace="~{admin/fragments/navbar :: nav}"></nav>
+        <nav th:replace="~{admin/fragments/navbar :: nav}" class="mb-6"></nav>
         <!-- Navbar End -->
+
         <!-- Main Content -->
-        <div class="flex justify-items-start mb-10">
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-9">
+        <div class="flex items-center mb-6">
+            <div class="mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-gray-700">
                     <path fill-rule="evenodd" d="M2.25 2.25a.75.75 0 0 0 0 1.5H3v10.5a3 3 0 0 0 3 3h1.21l-1.172 3.513a.75.75 0 0 0 1.424.474l.329-.987h8.418l.33.987a.75.75 0 0 0 1.422-.474l-1.17-3.513H18a3 3 0 0 0 3-3V3.75h.75a.75.75 0 0 0 0-1.5H2.25Zm6.54 15h6.42l.5 1.5H8.29l.5-1.5Zm8.085-8.995a.75.75 0 1 0-.75-1.299 12.81 12.81 0 0 0-3.558 3.05L11.03 8.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l2.47-2.47 1.617 1.618a.75.75 0 0 0 1.146-.102 11.312 11.312 0 0 1 3.612-3.321Z" clip-rule="evenodd" />
                 </svg>
             </div>
-            <h2 class="text-3xl font-bold flex justify-items-start">Thống kê</h2>
+            <h2 class="text-3xl font-bold text-gray-800">Thống kê</h2>
         </div>
 
-    <div class="container mx-auto bg-white h-auto w-full m-auto mt-5 p-6 rounded-lg shadow-md flex justify-center items-center">
-        <div class="w-full max-w-4xl px-4 mt-10 ">
-            <div class="flex justify-center items-center text-3xl font-bold mb-10">Biểu đồ thống kê hóa đơn và sản phẩm</div>
-            <div class="mb-4 ml-[67%]">
-
-            </div>
-            <div class="mb-6 p-4 rounded flex">
-                <div>
-                    <div class="flex items-center mb-4">
-                        <label for="startDate" class="mr-2 font-semibold text-gray-700">Ngày bắt đầu:</label>
-                        <input type="datetime-local" id="startDate" name="startDate" class="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+        <div class="w-[94%] ml-[3%]">
+            <!-- Stats Cards -->
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-gray-200 rounded-lg p-6 flex-1">
+                        <span class="font-bold text-2xl block mb-2 text-gray-700">Doanh số hôm nay</span>
+                        <div class="font-bold text-xl">
+                            <span id="thongKeDonHangHomNay" class="mr-2">0</span>/
+                            <span id="thongKeDoanhThuHomNay">0</span>
+                        </div>
                     </div>
-                    <div class="flex items-center mb-4">
-                        <label for="endDate" class="mr-2 font-semibold text-gray-700">Ngày kết thúc:</label>
-                        <input type="datetime-local" id="endDate" name="endDate" class="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <div class="bg-gray-200 rounded-lg p-6 flex-1">
+                        <span class="font-bold text-2xl block mb-2 text-gray-700">Doanh số tháng này</span>
+                        <div class="font-bold text-xl">
+                            <span id="thongKeDonHangThangNay" class="mr-2">0</span>/
+                            <span id="thongKeDoanhThuThangNay">0</span>
+                        </div>
+                    </div>
+                    <div class="bg-gray-200 rounded-lg p-6 flex-1">
+                        <span class="font-bold text-2xl block mb-2 text-gray-700">Doanh số năm nay</span>
+                        <div class="font-bold text-xl">
+                            <span id="thongKeDonHangNamNay" class="mr-2">0</span>/
+                            <span id="thongKeDoanhThuNamNay">0</span>
+                        </div>
                     </div>
                 </div>
-                <div class="ml-5 mt-1">
-                    <button id="apply-dates" class="px-6 py-3 bg-green-500 text-white rounded-lg shadow hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">Áp dụng</button>
-                    <button id="last-7-days" class="px-6 py-3 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">7 ngày</button>
-                    <button id="last-month" class="px-6 py-3 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">1 tháng</button>
-                    <button id="export-excel" class="px-6 py-3 bg-gray-500 text-white rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300 ml-24 mt-2">Xuất Excel</button>
+            </div>
+
+            <!-- Charts and Filters (not scaled down) -->
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <div class="text-2xl font-bold mb-6 text-center">Biểu đồ thống kê hóa đơn và sản phẩm</div>
+                <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-6">
+                    <div class="flex flex-col lg:flex-row items-center mb-4 lg:mb-0">
+                        <div class="flex items-center mb-4 lg:mb-0 lg:mr-4">
+                            <label for="startDate" class="mr-2 font-semibold text-gray-700">Ngày bắt đầu:</label>
+                            <input type="datetime-local" id="startDate" name="startDate" class="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                        </div>
+                        <div class="flex items-center mb-4 lg:mb-0 lg:mr-4">
+                            <label for="endDate" class="mr-2 font-semibold text-gray-700">Ngày kết thúc:</label>
+                            <input type="datetime-local" id="endDate" name="endDate" class="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap lg:flex-nowrap gap-4">
+                        <button id="apply-dates" class="px-6 py-3 bg-green-500 text-white rounded-lg shadow hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">Áp dụng</button>
+                        <button id="last-7-days" class="px-6 py-3 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">7 ngày</button>
+                        <button id="last-month" class="px-6 py-3 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">1 tháng</button>
+                        <button id="export-excel" class="px-6 py-3 bg-gray-500 text-white rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300">Xuất Excel</button>
+                    </div>
+                </div>
+                <div id="date-range-display" class="mb-4 text-lg font-semibold text-gray-800 text-center"></div>
+                <div class="relative w-full">
+                    <canvas id="invoiceChartBar" class="w-full h-80"></canvas>
                 </div>
             </div>
-            <div id="date-range-display" class="mb-4 text-lg font-semibold text-gray-800 flex justify-center items-center"></div>
-            <div class="relative w-full ">
-                <canvas id="invoiceChartBar" class="w-full h-80"></canvas>
+
+            <!-- Order Status -->
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <div class="text-2xl font-bold mb-6 text-center">Trạng thái đơn hàng</div>
+                <div class="relative flex justify-center items-center w-full">
+                    <div class="w-[40%] mr-6">
+                        <canvas id="invoiceChartDoughnut" class="w-full h-60"></canvas>
+                    </div>
+                    <div id="legend" class="legend-container"></div>
+                </div>
+            </div>
+
+            <!-- Product Tables -->
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- Best Selling Products -->
+                <div class="bg-gray-100 p-6 rounded-lg shadow-md flex-1">
+                    <div class="text-2xl font-bold mb-6 text-center">Sản phẩm bán chạy nhất</div>
+                    <table id="tableDanhSachSanPham" class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-blue-500">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">STT</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tên Sản Phẩm</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Giá Bán</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Số Lượng đã bán</th>
+                        </tr>
+                        </thead>
+                        <tbody id="danhSachSanPham" class="bg-white divide-y divide-gray-200"></tbody>
+                    </table>
+                </div>
+
+                <!-- Low Stock Products -->
+                <div class="bg-gray-100 p-6 rounded-lg shadow-md flex-1">
+                    <div class="text-2xl font-bold mb-6 text-center">Sản phẩm sắp hết hàng</div>
+                    <table id="tabledanhSachSanPhamSapHetHang" class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-blue-500">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">STT</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tên Sản Phẩm</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Giá Bán</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Số lượng còn lại</th>
+                        </tr>
+                        </thead>
+                        <tbody id="danhSachSanPhamSapHetHang" class="bg-white divide-y divide-gray-200"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container mx-auto bg-white h-auto w-full m-auto mt-5 p-6 rounded-lg shadow-md">
-        <div class="flex">
-            <div class="bg-gray-100 p-6 rounded-lg shadow-md w-[54%] mr-[2%] h-auto">
-                <div class="flex justify-center items-center text-3xl font-bold mb-10"> Sản phẩm bán chạy nhất</div>
-                <table id="tableDanhSachSanPham" class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-blue-500">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                            STT
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                            Ảnh
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                            Tên Sản Phẩm
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                            Giá Bán
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                            Số Lượng đã bán
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody id="danhSachSanPham" class="bg-white divide-y divide-gray-200">
-                    </tbody>
-                </table>
-            </div>
-           <div class="bg-gray-100 w-[44%] p-6 rounded-lg shadow-md h-[50%]">
-               <div class="flex justify-center items-center text-3xl font-bold mb-10">Trạng thái đơn hàng</div>
-               <div class="relative flex justify-center items-center w-full ">
-                   <div class="mr-10"> <canvas id="invoiceChartDoughnut" class="w-[40%] h-60"></canvas></div>
-                   <div id="legend" class="legend-container"></div>
-               </div>
-           </div>
         </div>
 
-        <div class="flex mt-10">
-            <div class="bg-gray-100 p-6 rounded-lg shadow-md w-[54%] mr-[2%]">
-                <div class="flex justify-center items-center text-3xl font-bold mb-10">Sản phẩm sắp hết hàng</div>
-                <table id="tabledanhSachSanPhamSapHetHang" class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-blue-500">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                            STT
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                            Ảnh
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                            Tên Sản Phẩm
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                            Giá Bán
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                            Số lượng còn lại
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody id="danhSachSanPhamSapHetHang" class="bg-white divide-y divide-gray-200">
-                    </tbody>
-                </table>
-            </div>
-            <div class="bg-gray-100 p-6 rounded-lg shadow-md w-[44%]">
-                <div class="flex justify-center items-center text-3xl font-bold mb-10">Tăng trưởng của cửa hàng</div>
-            </div>
-        </div>
     </div>
+
+    <!-- Content End -->
+</div>
+</body>
 
 <script>
     let chartInstanceBar = null;
     let chartInstanceDoughnut = null;
+
 
 
     function fetchBarChartData(startDate, endDate) {
@@ -455,6 +469,84 @@
     }
 
     $(document).ready(function() {
+
+        function formatTongSoDonHang(tongSoHoaDon) {
+            return `${tongSoHoaDon} đơn hàng`;
+        }
+
+        const formatVND = (tongtien) => {
+            // Làm tròn xuống nếu là số thập phân để không thêm dấu chấm vào phần thập phân
+            const integerPart = Math.floor(tongtien);
+
+            // Sử dụng replace để thêm dấu chấm vào từng nhóm 3 chữ số
+            return integerPart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+        }
+
+        getDoanhThuHomNay();
+        getDoanhThuThangHienTai();
+        getDoanhThuNamHienTai();
+
+        function getDoanhThuNamHienTai() {
+            $.ajax({
+                url: '/api/hoa-don/doanh-thu-nam-hien-tai',
+                type: 'GET',
+                success: function(response) {
+                    console.log('Dữ liệu doanh thu năm hiện tại:', response); // Kiểm tra dữ liệu
+                    let tongSoHoaDon = response.length;
+                    let tongTien = response.reduce((total, hoaDon) => total + hoaDon.tongTien, 0);
+
+                    $('#thongKeDonHangNamNay').text(formatTongSoDonHang(tongSoHoaDon));
+                    $('#thongKeDoanhThuNamNay').text(formatVND(tongTien));
+
+                    console.log('Doanh thu năm hiện tại:', tongSoHoaDon, tongTien);
+                },
+                error: function(error) {
+                    console.error('Lỗi khi lấy doanh thu năm hiện tại:', error);
+                }
+            });
+        }
+
+        function getDoanhThuHomNay() {
+            $.ajax({
+                url: '/api/hoa-don/doanh-thu-hom-nay',
+                type: 'GET',
+                success: function(response) {
+                    console.log('Dữ liệu doanh thu hôm nay:', response); // Kiểm tra dữ liệu
+                    let tongSoHoaDon = response.length;
+                    let tongTien = response.reduce((total, hoaDon) => total + hoaDon.tongTienSauGiam, 0);
+
+                    $('#thongKeDonHangHomNay').text(formatTongSoDonHang(tongSoHoaDon));
+                    $('#thongKeDoanhThuHomNay').text(formatVND(tongTien));
+
+                    console.log('Doanh thu hôm nay:', tongSoHoaDon, tongTien);
+                },
+                error: function(error) {
+                    console.error('Lỗi khi lấy doanh thu hôm nay:', error);
+                }
+            });
+        }
+
+        function getDoanhThuThangHienTai() {
+            $.ajax({
+                url: '/api/hoa-don/doanh-thu-thang-hien-tai',
+                type: 'GET',
+                success: function(response) {
+                    console.log('Dữ liệu doanh thu tháng hiện tại:', response); // Kiểm tra dữ liệu
+                    let tongSoHoaDon = response.length;
+                    let tongTien = response.reduce((total, hoaDon) => total + hoaDon.tongTien, 0);
+
+                    $('#thongKeDonHangThangNay').text(formatTongSoDonHang(tongSoHoaDon));
+                    $('#thongKeDoanhThuThangNay').text(formatVND(tongTien));
+
+                    console.log('Doanh thu tháng hiện tại:', tongSoHoaDon, tongTien);
+                },
+                error: function(error) {
+                    console.error('Lỗi khi lấy doanh thu tháng hiện tại:', error);
+                }
+            });
+        }
+
+
         function getDateRange(period) {
             const endDate = new Date();
             let startDate;

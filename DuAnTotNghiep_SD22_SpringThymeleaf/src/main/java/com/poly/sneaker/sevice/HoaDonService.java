@@ -15,6 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 @Service
@@ -171,5 +174,33 @@ public class HoaDonService {
         return sanPhamChiTietRepository.getSanPhamSapHetHang();
     }
 
+    public List<HoaDon> getDoanhThuHomNay() {
+        LocalDate today = LocalDate.now();
+
+        LocalDateTime startOfDay = today.atStartOfDay();
+        LocalDateTime endOfDay = today.atTime(LocalTime.MAX);
+
+        return hoaDonRepository.findByTrangThaiAndNgayThanhToanBetween(6, startOfDay, endOfDay);
+    }
+
+    public List<HoaDon> getDoanhThuThangHienTai() {
+        LocalDate today = LocalDate.now();
+        LocalDate firstDayOfMonth = today.withDayOfMonth(1);
+
+        LocalDateTime startOfMonth = firstDayOfMonth.atStartOfDay();
+        LocalDateTime endOfMonth = today.atTime(LocalTime.now());
+
+        return hoaDonRepository.findByTrangThaiAndNgayThanhToanBetween(6, startOfMonth, endOfMonth);
+    }
+
+    public List<HoaDon> getDoanhThuNamHienTai() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfYear = LocalDate.of(today.getYear(), 1, 1);
+
+        LocalDateTime startOfYearDateTime = startOfYear.atStartOfDay();
+        LocalDateTime endOfYearDateTime = today.atTime(LocalTime.MAX);
+
+        return hoaDonRepository.findByTrangThaiAndNgayThanhToanBetween(6, startOfYearDateTime, endOfYearDateTime);
+    }
 
 }
