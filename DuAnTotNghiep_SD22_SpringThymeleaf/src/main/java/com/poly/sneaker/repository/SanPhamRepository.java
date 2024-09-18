@@ -18,11 +18,11 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Long>, JpaSpec
     @Query(value = "SELECT * FROM san_pham ORDER BY id DESC", nativeQuery = true)
     List<SanPham> findAll();
 
-    @Query("SELECT s FROM SanPham s " +
+    @Query(value = "SELECT s FROM SanPham s " +
             "LEFT JOIN s.thuongHieu t " +
             "WHERE s.ten LIKE %?1% " +
             "OR s.moTa LIKE %?1% " +
-            "OR t.ten LIKE %?1% ")
+            "OR t.ten LIKE %?1% AND ORDER BY DESC", nativeQuery = true)
     List<SanPham> searchSP(String keyword);
 
     boolean existsByTenAndThuongHieu(String ten, ThuongHieu thuongHieu);

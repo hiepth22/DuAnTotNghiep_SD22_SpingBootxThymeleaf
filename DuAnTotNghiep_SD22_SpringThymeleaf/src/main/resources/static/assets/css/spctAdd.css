@@ -176,5 +176,6 @@
     width: 100%;
     height: 5px;
     background-color: #fff;
-    transition: width 3s linear; /* Thời gian hiển thị thông báo (3 giây) */
+    transition: width 3s linear;
 }
+

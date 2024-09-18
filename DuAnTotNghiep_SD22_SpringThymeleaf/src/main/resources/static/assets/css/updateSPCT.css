@@ -1,0 +1,48 @@
+/* Phần container của form */
+.container-product-detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 80%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tiêu đề */
+.form-title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+/* Phần ảnh sản phẩm */
+.product-image {
+    width: 300px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px; /* Thêm padding cho ảnh */
+    border-radius: 8px; /* Bo góc nhẹ cho ảnh */
+}
+
+/* Form input */
+form input, form select, form textarea {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+/* Nút lưu và trở lại */
+.form-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.form-buttons button, .form-buttons a {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
