@@ -353,7 +353,6 @@
                     }
                 })
                 if (data && typeof data === 'object' && data.id) {
-                    console.log(data);
                     const productName = data.ten || 'Không có tên';
                     const nsx = data.nhaSanXuat
                     const thuonghieu = data.tenThuongHieu
@@ -580,7 +579,6 @@
                                     data: {anh: encodeURIComponent(imageName)},
                                     dataType: 'json',
                                     success: function (sizes) {
-                                        console.log('Sizes:', sizes);
                                         const sizegia = sizes[0];
                                         $.ajax({
                                             url: `/gia-ban/${idsp}/${sizegia}`,
@@ -631,7 +629,6 @@
                                             // Reset variables and UI elements
                                             soluongspkhithem = 0;
                                             sizecheck = selectedSize;
-                                            console.log('Kích cỡ được chọn v:', sizecheck);
 
                                             var validateSizeP = document.querySelector('.validatesize');
                                             validateSizeP.style.display = 'none';
@@ -665,7 +662,6 @@
                                                     slconlai = sl;
                                                     sltonsp.append(slton);
                                                     var slch = sl[0];
-                                                    console.log('Value of sl:', slch);
                                                     if (slch === 0) {
                                                         $('#themgiohang').addClass('disabled');
                                                         $('#muangay').addClass('disabled');
@@ -690,7 +686,6 @@
                                                             method: 'GET',
                                                             success: function (response) {
                                                                 if (response.status === 404) {
-                                                                    console.log("Resource not found");
                                                                     return;
                                                                 }
 
@@ -722,7 +717,6 @@
                                                                         }, 3010);
 
                                                                         let sptam = response;
-                                                                        console.log('sptam:', sptam);
                                                                         getKhachHang();
                                                                     },
                                                                     error: function (xhr, status, error) {
@@ -788,13 +782,11 @@
                                                                         sessionStorage.setItem('cart', JSON.stringify(cart));
                                                                         var count = cart.length ? cart.length : 0;
                                                                         document.getElementById('cart-count').textContent = count;
-                                                                        console.log(cart);
                                                                         displayCart();
 
                                                                         function displayCart() {
                                                                             const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
                                                                             cart.forEach(item => {
-                                                                                console.log(`Sản phẩm ID: ${item.id}`);
                                                                             });
                                                                         }
                                                                     },
@@ -889,14 +881,13 @@
                                                 }
                                             });
 
-                                            // Fetch and update price
+
                                             $.ajax({
                                                 url: `/gia-ban/${idsp}/${selectedSize}`,
                                                 method: 'GET',
                                                 data: {anh: encodeURIComponent(imageName)},
                                                 dataType: 'json',
                                                 success: function (giaban) {
-                                                    console.log('giasize:', giaban);
                                                     const giakhichonsize = giaban != null ? giaban.toLocaleString('vi-VN', {
                                                         style: 'currency',
                                                         currency: 'VND'
@@ -931,9 +922,6 @@
                         method: 'GET',
                         data: {anh: encodeURIComponent(data.anh)},
                         success: function (sizes) {
-                            console.log('Sizes:', sizes);
-
-
                             const sizeDiv = $('<div class="size-container"></div>');
                             sizes.forEach(size => {
                                 const sizeElement = $(`
@@ -954,7 +942,6 @@
                                 validateSizeP.style.display = 'none';
                                 validateSizeP.style.color = 'red';
                                 const selectedSize = $(this).text();
-                                console.log('Kích cỡ được chọn v:', selectedSize);
                                 sizecheck = selectedSize;
                                 document.getElementById('themgiohang').addEventListener('click', function () {
                                     if (anhcheck == null) {

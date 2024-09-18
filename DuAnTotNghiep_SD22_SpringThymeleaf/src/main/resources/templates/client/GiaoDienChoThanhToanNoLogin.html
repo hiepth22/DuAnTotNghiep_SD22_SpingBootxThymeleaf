@@ -50,12 +50,155 @@
         }
 
     </style>
+    <style>
+        .default-customer-img {
+            width: 50px; /* Kích thước của ảnh */
+            height: 50px; /* Kích thước của ảnh */
+            border-radius: 50%; /* Làm tròn ảnh */
+        }
+        /* Đặt container với Flexbox */
+        .account-container {
+            display: flex;
+            align-items: center; /* Căn giữa hình ảnh và văn bản theo chiều dọc */
+        }
 
+        /* Chỉnh kích thước và tạo hình tròn cho ảnh */
+        .default-customer-img {
+            width: 40px; /* Kích thước của ảnh */
+            height: 40px; /* Kích thước của ảnh */
+            border-radius: 50%; /* Làm tròn ảnh */
+            margin-right: 10px; /* Khoảng cách giữa ảnh và văn bản */
+        }
+
+        /* Định dạng cho văn bản */
+        .account-text {
+            font-size: 16px; /* Kích thước chữ */
+            color: #333; /* Màu chữ */
+        }
+        .large-checkbox {
+            transform: scale(3); /* Tăng kích thước gấp 3 lần */
+            margin: 10px; /* Thêm khoảng cách nếu cần */
+        }
+
+        @supports (-webkit-appearance: none) or (-moz-appearance: none) {
+            .checkbox-wrapper-13 input[type=checkbox] {
+                --active: #275EFE;
+                --active-inner: #fff;
+                --focus: 2px rgba(39, 94, 254, .3);
+                --border: #BBC1E1;
+                --border-hover: #275EFE;
+                --background: #fff;
+                --disabled: #F6F8FF;
+                --disabled-inner: #E1E6F9;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                height: 21px;
+                outline: none;
+                display: inline-block;
+                vertical-align: top;
+                position: relative;
+                margin: 0;
+                cursor: pointer;
+                border: 1px solid var(--bc, var(--border));
+                background: var(--b, var(--background));
+                transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
+            }
+
+            .checkbox-wrapper-13 input[type=checkbox]:after {
+                content: "";
+                display: block;
+                left: 0;
+                top: 0;
+                position: absolute;
+                transition: transform var(--d-t, 0.3s) var(--d-t-e, ease), opacity var(--d-o, 0.2s);
+            }
+
+            .checkbox-wrapper-13 input[type=checkbox]:checked {
+                --b: var(--active);
+                --bc: var(--active);
+                --d-o: .3s;
+                --d-t: .6s;
+                --d-t-e: cubic-bezier(.2, .85, .32, 1.2);
+            }
+
+            .checkbox-wrapper-13 input[type=checkbox]:disabled {
+                --b: var(--disabled);
+                cursor: not-allowed;
+                opacity: 0.9;
+            }
+
+            .checkbox-wrapper-13 input[type=checkbox]:disabled:checked {
+                --b: var(--disabled-inner);
+                --bc: var(--border);
+            }
+
+            .checkbox-wrapper-13 input[type=checkbox]:disabled + label {
+                cursor: not-allowed;
+            }
+
+            .checkbox-wrapper-13 input[type=checkbox]:hover:not(:checked):not(:disabled) {
+                --bc: var(--border-hover);
+            }
+
+            .checkbox-wrapper-13 input[type=checkbox]:focus {
+                box-shadow: 0 0 0 var(--focus);
+            }
+
+            .checkbox-wrapper-13 input[type=checkbox]:not(.switch) {
+                width: 21px;
+            }
+
+            .checkbox-wrapper-13 input[type=checkbox]:not(.switch):after {
+                opacity: var(--o, 0);
+            }
+
+            .checkbox-wrapper-13 input[type=checkbox]:not(.switch):checked {
+                --o: 1;
+            }
+
+            .checkbox-wrapper-13 input[type=checkbox] + label {
+                display: inline-block;
+                vertical-align: middle;
+                cursor: pointer;
+                margin-left: 4px;
+            }
+
+            .checkbox-wrapper-13 input[type=checkbox]:not(.switch) {
+                border-radius: 7px;
+            }
+
+            .checkbox-wrapper-13 input[type=checkbox]:not(.switch):after {
+                width: 5px;
+                height: 9px;
+                border: 2px solid var(--active-inner);
+                border-top: 0;
+                border-left: 0;
+                left: 7px;
+                top: 4px;
+                transform: rotate(var(--r, 20deg));
+            }
+
+            .checkbox-wrapper-13 input[type=checkbox]:not(.switch):checked {
+                --r: 43deg;
+            }
+        }
+
+        .checkbox-wrapper-13 * {
+            box-sizing: inherit;
+        }
+
+        .checkbox-wrapper-13 *:before,
+        .checkbox-wrapper-13 *:after {
+            box-sizing: inherit;
+        }
+
+
+    </style>
 </head>
 <body class="bg-gray-100">
 <div>
     <div th:replace="~{client/fragmentsClient/header :: header}"></div>
-    <form method="post" class="row g-3"
+    <div  class="row g-3"
           enctype="multipart/form-data" id="myForm">
         <div class="flex justify-center">
             <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-32 flex gap-40">
@@ -189,7 +332,7 @@
                         Thanh toán khi nhận hàng
                     </button>
 
-                    <button id="btnVNPA" class="btn-payment w-64 h-14 border py-2 px-4 rounded-md relative">
+                    <button id="btnVNPAY" class="btn-payment w-64 h-14 border py-2 px-4 rounded-md relative">
                         <span class="flex"> Thanh toán VNPAY</span>
                         <img src="https://asset.brandfetch.io/idV02t6WJs/idyWhNall8.svg" class="icon-payment absolute w-[40%] h-[40%]">
                     </button>
@@ -229,30 +372,11 @@
                 </div>
             </div>
         </div>
-    </form>
-</div>
-
-
-<div id="modalDiaChi" class="fixed z-10 inset-0 overflow-y-auto hidden">
-    <div class="flex items-center justify-center min-h-screen">
-        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-        </div>
-        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-lg w-full h-[50%]">
-            <div id="listDiaChi" class="bg-white px-4 pt-5 pb-4">
-
-            </div>
-            <div class="bg-gray-50 px-4 py-3 flex justify-end">
-                <button id="huyDiaChi"
-                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">Hủy
-                </button>
-                <button id="xacNhanDiaChi"
-                        class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">Xác nhận
-                </button>
-            </div>
-        </div>
     </div>
 </div>
+
+
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -439,14 +563,14 @@
 
         // Validate 'Chọn tỉnh thành'
         if (city.value === '') {
-            document.getElementById('dcError').innerText = 'Vui lòng chọn tỉnh thành';
+
             city.classList.add('is-invalid');
             isValid = false;
         }
 
         // Validate 'Chọn quận huyện'
         if (district.value === '') {
-            document.getElementById('dcError').innerText = 'Vui lòng chọn quận huyện';
+
             district.classList.add('is-invalid');
             isValid = false;
         }
@@ -523,10 +647,10 @@
         $(document).ready(function () {
             $('#btnCOD').click(function () {
                 $(this).addClass('active');
-                $('#btnVNPA').removeClass('active');
+                $('#btnVNPAY').removeClass('active');
             });
 
-            $('#btnVNPA').click(function () {
+            $('#btnVNPAY').click(function () {
                 $(this).addClass('active');
                 $('#btnCOD').removeClass('active');
             });
@@ -605,7 +729,7 @@
 
                     window.location.href = '/Client';
 
-                } else if ($('#btnVNPA').hasClass('active')) {
+                } else if ($('#btnVNPAY').hasClass('active')) {
                     let ship2 = ship;
                     var tongTien2 = tongTien;
                     let nguoiNhan2 = ten;
