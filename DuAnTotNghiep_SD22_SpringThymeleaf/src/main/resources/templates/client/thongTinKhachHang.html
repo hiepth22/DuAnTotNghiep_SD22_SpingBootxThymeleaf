@@ -429,7 +429,7 @@
                         </div>
                         <div class="form-group">
                             <label for="diachi">Địa chỉ cụ thể</label>
-                            <input type="text" class="form-control" id="diachi">
+                            <input type="text" class="form-control" id="diachi1">
                             <span class="error-message" id="diachiError" style="color: red; display: none;">Vui lòng nhập địa chỉ cụ thể.</span>
                         </div>
                     </div>
@@ -481,7 +481,7 @@
         const tinhThanh = document.getElementById('tinhthanh');
         const quanHuyen = document.getElementById('quanhuyen');
         const phuongXa = document.getElementById('phuongxa');
-        const diaChi = document.getElementById('diachi');
+        const diaChi = document.getElementById('diachi1');
 
         // Clear previous error messages and styles
         tenNguoiNhan.classList.remove('is-invalid');
@@ -614,11 +614,29 @@
             modal.style.display = 'none';
         });
     }
+    function tendiachi(){
+        l
+        fullAddress = '';
+        if (diachi) fullAddress += diachi;
+        if (phuongxa) {
+            if (fullAddress) fullAddress += ', ';
+            fullAddress += getAddressName(phuongxa, 'phuongxa');
+        }
+        if (quanhuyen) {
+            if (fullAddress) fullAddress += ', ';
+            fullAddress += getAddressName(quanhuyen, 'quanhuyen');
+        }
+        if (tinhthanh) {
+            if (fullAddress) fullAddress += ', ';
+            fullAddress += getAddressName(tinhthanh, 'tinhthanh');
+        }
+        getAddressName();
+    }
     function themdiachi() {
         const tinhThanh = document.getElementById('tinhthanh').value;
         const quanHuyen = document.getElementById('quanhuyen').value;
         const phuongXa = document.getElementById('phuongxa').value;
-        const diaChi = document.getElementById('diachi').value;
+        const diaChi = document.getElementById('diachi1').value;
         const tennguoi = document.getElementById('tennguoinhan').value;
         let trangthai =1;
 
@@ -632,7 +650,7 @@
             quanHuyen: quanHuyen,
             phuongXa: phuongXa,
             soNha: diaChi,
-            moTaChiTiet: diaChi +phuongXa +quanHuyen+tinhThanh,
+            moTaChiTiet: diaChi +','+phuongXa +','+quanHuyen+','+tinhThanh,
             ten: tennguoi,
             trangThai: 0,
             idKH : idvuvo1,
@@ -664,7 +682,28 @@
 
     }
 
+    function getAddressName(id, type) {
+        if (!citiesData.length) return id;
 
+        let address = '';
+
+        switch(type) {
+            case 'tinhthanh':
+                let city = citiesData.find(city => city.Id === id);
+                address = city ? city.Name : id;
+                break;
+            case 'quanhuyen':
+                let district = citiesData.flatMap(city => city.Districts).find(district => district.Id === id);
+                address = district ? district.Name : id;
+                break;
+            case 'phuongxa':
+                let ward = citiesData.flatMap(city => city.Districts.flatMap(district => district.Wards)).find(ward => ward.Id === id);
+                address = ward ? ward.Name : id;
+                break;
+        }
+
+        return address;
+    }
     function updatediachi() {
         const tinhThanh = document.getElementById('edit-tinhthanh').value;
         const quanHuyen = document.getElementById('edit-quanhuyen').value;
@@ -679,7 +718,7 @@
             quanHuyen: quanHuyen,
             phuongXa: phuongXa,
             soNha: diaChi,
-            moTaChiTiet:  diaChi +phuongXa +quanHuyen+tinhThanh,
+            moTaChiTiet: diaChi +','+phuongXa +','+quanHuyen+','+tinhThanh,
             ten: tennguoi
         };
         console.log(diaChiData);
