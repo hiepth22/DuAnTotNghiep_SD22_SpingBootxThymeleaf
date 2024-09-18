@@ -448,12 +448,12 @@
         </div>
 
 
-        </div>
     </div>
 </div>
 </div>
+</div>
 <div id="notification" class="notification">
-     Thành Công !
+    Thành Công !
     <div id="progress-bar" class="progress-bar"></div>
 </div>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -884,56 +884,10 @@
             ten: tenNguoiNhan,
             trangThai: 0,
             idKH : idvuvo1,
-<<<<<<< HEAD
-            nguoiTao:tennguoi,
-            nguoiCapNhat: tennguoi
-        };
-        if (validateModalForm()) {
-            $.ajax({
-                url: '/adddiachi',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(diaChiData),
-                success: function(response) {
-                    showSuccessMessage();
-
-                    document.getElementById('myModal').style.display = 'none';
-                },
-                error: function(xhr, status, error) {
-                    console.error('Lỗi khi cập nhật địa chỉ:', error);
-
-                }
-            });
-        }else{
-        }
-=======
             nguoiTao:tenNguoiNhan,
             nguoiCapNhat: tenNguoiNhan
 
         };
-<<<<<<< Updated upstream
-        // if (validateModalForm()) {
-        //     $.ajax({
-        //         url: '/adddiachi',
-        //         method: 'POST',
-        //         contentType: 'application/json',
-        //         data: JSON.stringify(diaChiData),
-        //         success: function(response) {
-        //             showSuccessMessage();
-        //
-        //             document.getElementById('myModal').style.display = 'none';
-        //         },
-        //         error: function(xhr, status, error) {
-        //             console.error('Lỗi khi cập nhật địa chỉ:', error);
-        //
-        //         }
-        //     });
-        //
-        // }else{
-        //
-        // }
->>>>>>> 36b453820be6395de4e2f2fe5db892b8a35b981a
-=======
         if (validateModalForm()) {
             $.ajax({
                 url: '/adddiachi',
@@ -954,7 +908,6 @@
         }else{
 
         }
->>>>>>> Stashed changes
 
 
     }
@@ -1290,19 +1243,19 @@
 
     }
     function getdiachiId(iddc){
-          iddc1=iddc;
-          $.ajax({
-              url: `/diachiid/${iddc}`,
-              method: 'GET',
-              success: function(response) {
-                  splitAndPopulateAddress(response.moTaChiTiet,response.ten);
+        iddc1=iddc;
+        $.ajax({
+            url: `/diachiid/${iddc}`,
+            method: 'GET',
+            success: function(response) {
+                splitAndPopulateAddress(response.moTaChiTiet,response.ten);
 
-              },
-              error: function(error) {
-                  console.error('Lỗi khi lấy thông tin địa chỉ:', error);
-              }
-          });
-      }
+            },
+            error: function(error) {
+                console.error('Lỗi khi lấy thông tin địa chỉ:', error);
+            }
+        });
+    }
     function validateForm() {
         let isValid = true;
 
@@ -1510,7 +1463,7 @@
                                 const showModalBtn = document.getElementById('show-modal-btn');
                                 const closeBtn = document.querySelector('.close-btn');
                                 getdiachiId(diaChiId);
-                                    modal.style.display = 'block';
+                                modal.style.display = 'block';
 
 
 
