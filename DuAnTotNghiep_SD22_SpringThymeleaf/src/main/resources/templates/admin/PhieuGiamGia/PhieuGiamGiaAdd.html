@@ -169,10 +169,23 @@
         const form = document.getElementById('myForm');
         axios.post('/admin/SavePhieuGiamGia', new FormData(form))
             .then(function (response) {
-                showSuccessMessage();
+                // Hiển thị thông báo thành công sau khi cập nhật
+                Swal.fire(
+                    'Đã thêm mới!',
+                    'Thông tin phiếu giảm giá đã được thêm thành công.',
+                    'success'
+                ).then(() => {
+                    // Chuyển hướng sau khi cập nhật thành công
+                    window.location.href = '/admin/phieu-giam-gia';
+                });
             })
             .catch(function (error) {
                 console.error('Error:', error);
+                Swal.fire(
+                    'Lỗi!',
+                    'Đã xảy ra lỗi trong quá trình thêm.',
+                    'error'
+                );
             });
     }
 
