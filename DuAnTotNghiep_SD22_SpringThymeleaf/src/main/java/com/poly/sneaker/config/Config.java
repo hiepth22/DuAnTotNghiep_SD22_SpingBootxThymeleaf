@@ -16,6 +16,7 @@ public class Config {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     public static String vnp_ReturnUrl = "http://localhost:3000/shop";
     public static String vnp_ReturnUrl2 = "http://localhost:3000/admin/ban-hang-tai-quay";
+    public static String vnp_ReturnUrl3 = "http://localhost:3000/thong-tin-don-hang";
 
     public static String vnp_TmnCode = "KTCDF3VM";
     public static String vnp_Version = "2.1.0";

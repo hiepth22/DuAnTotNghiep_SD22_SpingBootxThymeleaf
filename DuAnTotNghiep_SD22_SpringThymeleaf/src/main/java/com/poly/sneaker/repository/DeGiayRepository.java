@@ -1,5 +1,6 @@
 package com.poly.sneaker.repository;
 
+import com.poly.sneaker.entity.CoGiay;
 import com.poly.sneaker.entity.DeGiay;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -10,6 +11,9 @@ import java.util.List;
 
 @Repository
 public interface DeGiayRepository extends JpaRepository<DeGiay, Long>, JpaSpecificationExecutor<DeGiay> {
+
+    @Query(value = "SELECT * FROM de_giay ORDER BY id DESC", nativeQuery = true)
+    List<DeGiay> findAll();
 
     List<DeGiay> findByTen(String ten);
 

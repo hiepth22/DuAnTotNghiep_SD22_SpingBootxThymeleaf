@@ -50,9 +50,10 @@ public class PaymentAPI {
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
         if(chuyenTrang == 0){
             vnp_Params.put("vnp_ReturnUrl", Config.vnp_ReturnUrl2);
-        }else{
+        }else if(chuyenTrang == 1){
             vnp_Params.put("vnp_ReturnUrl", Config.vnp_ReturnUrl);
-
+        }else{
+            vnp_Params.put("vnp_ReturnUrl", Config.vnp_ReturnUrl3);
         }
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));

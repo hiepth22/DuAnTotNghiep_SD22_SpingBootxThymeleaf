@@ -19,14 +19,18 @@ import com.poly.sneaker.sevice.SanPhamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.List;
@@ -188,4 +192,21 @@ public class SanPhamController {
         SanPhamChiTiet sanPhamChiTietUpdate = SPCTservice.update(id, sanPhamChiTiet);
         return "redirect:/admin/san-pham/" + sanPhamId;
     }
+
+    @PostMapping("/san-pham/{sanPhamId}/status/{spctId}")
+    @ResponseBody
+    public ResponseEntity<String> updateTrangThaiSanPhamChiTiet(
+            @PathVariable Long spctId,
+            @RequestBody Map<String, Integer> payload) {
+
+        int trangThai = payload.get("trangThai"); // Lấy trạng thái mới từ request
+        SanPhamChiTiet updatedSpct = SPCTservice.updateTrangThai(spctId, trangThai); // Cập nhật trạng thái sản phẩm chi tiết
+
+        if (updatedSpct != null) {
+            return ResponseEntity.ok("Cập nhật thành công");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sản phẩm chi tiết không tồn tại");
+        }
+    }
+
 }

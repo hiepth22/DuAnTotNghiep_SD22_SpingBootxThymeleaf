@@ -236,7 +236,9 @@
         let soluongspkhithem = inputElement.value;
         let lastClickedSize = null;
         let currentAjaxRequest = null;
-
+        let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+        var count = cart.length ? cart.length : 0;
+        document.getElementById('cart-count').textContent = count;
         function validateQuantity() {
             let $quantityInput = $('#quantity');
             let currentQuantity = parseInt($quantityInput.val(), 10);
@@ -765,7 +767,7 @@
                                                                             }, 3010);
                                                                         }
 
-                                                                        let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
                                                                         const existingProductIndex = cart.findIndex(item => item.id === product.id);
                                                                         if (existingProductIndex > -1) {
                                                                             let sluonsptrung = cart[existingProductIndex].quantity;
@@ -784,6 +786,8 @@
 
                                                                         }
                                                                         sessionStorage.setItem('cart', JSON.stringify(cart));
+                                                                        var count = cart.length ? cart.length : 0;
+                                                                        document.getElementById('cart-count').textContent = count;
                                                                         console.log(cart);
                                                                         displayCart();
 

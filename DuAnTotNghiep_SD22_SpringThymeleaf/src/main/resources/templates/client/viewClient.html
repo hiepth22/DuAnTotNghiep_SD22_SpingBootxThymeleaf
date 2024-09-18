@@ -721,6 +721,9 @@
         }
 
         function renderProducts(products) {
+            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            var count = cart.length ? cart.length : 0;
+            document.getElementById('cart-count').textContent = count;
             slider.innerHTML = ''; // Clear existing slides
             products.forEach(product => {
                 const slide = document.createElement('div');

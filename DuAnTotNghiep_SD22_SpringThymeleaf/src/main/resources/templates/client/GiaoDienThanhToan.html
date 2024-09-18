@@ -550,7 +550,7 @@
                             <div>
                                 <img src="${item.sanPhamChiTiet.anh}" alt="Ảnh" class="w-24 h-auto mt-2">
                             </div>
-                            <div class="m-4 font-bold"><span>${item.sanPhamChiTiet.ten}</span></div>
+                            <div class="m-4 font-bold"><span>${item.sanPhamChiTiet.ten}</span>-<span>${item.sanPhamChiTiet.mauSac.moTa}</span></div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">${item.sanPhamChiTiet.kichCo.ten}</td>
                         <td class="px-6 py-4 whitespace-nowrap">${formatVND(item.sanPhamChiTiet.giaBan)}</td>
@@ -560,7 +560,7 @@
             `;
                 }
 
-               if(sale[0] === null){
+               if(sale[0] != null){
                    if(sale[0].hinhThucGiam === true ){
                        let phanTram = tongTien / sale[0].giaTriGiam ;
                        if(sale[0].giamToiDa < phanTram){
@@ -576,13 +576,13 @@
                }
 
                 tongTienSauKhiGiam = tongTien - discount;
-
+                $('#voucher').text(formatVND(-discount));
                 $('#soLuongVaTongTien').html(`
             <div>Tổng số tiền(${soLuongSPTong} sản phẩm): <span class="text-orange-500 text-xl ml-5">${formatVND(tongTien - discount)}</span></div>
         `);
+                console.log(discount)
 
 
-                $('#voucher').text(formatVND(-discount));
                 $('#tongTien').text(formatVND(tongTien));
                 $('#phiVanChuyen').text(ship);
                 $('#maGiamGia').text(formatVND(discount));
@@ -688,7 +688,7 @@
                             taoHoaDonDatHang(nguoiNhan2, idKhachHang, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, tongTienSauKhiGiam2);
 
 
-                            window.location.href = '/Client';
+                            window.location.href = '/thong-tin-don-hang';
 
                         } else if ($('#btnVNPAY').hasClass('active')) {
                             let ship2 = ship;
@@ -725,7 +725,7 @@
 
         function chuyenKhoan(amount, TxnRef){
             $.ajax({
-                url: `/api/payment/create_payment?amount=${amount}&TxnRef=${TxnRef}&chuyenTrang=1`,
+                url: `/api/payment/create_payment?amount=${amount}&TxnRef=${TxnRef}&chuyenTrang=2`,
                 method: 'GET',
                 contentType: 'application/json',
                 data:{},
@@ -758,7 +758,7 @@
                 success: function (response) {
                     const idHoaDon = response.id;
                     addHistoryLog(idHoaDon);
-                    addSanPhamVaoHDCT(idHoaDon);
+                    addSanPhamVaoHDCTTraTruoc(idHoaDon);
                     addPhuongThucThanhToanChuyenKhoan(idHoaDon, tongTienSauKhiGiam);
                     chuyenKhoan(response.tongTienSauGiam, response.ma);
                     localStorage.removeItem('sale');
@@ -836,6 +836,35 @@
                     success: function (response) {
 
                         // updateSoLuongSP(product.sanPhamChiTiet.id, product.soLuong);
+                        deleteByIDGHCT(product.id)
+                    },
+                    error: function (xhr, status, error) {
+
+                    }
+                });
+
+
+            });
+            localStorage.removeItem('selectedProducts');
+        }
+
+        function addSanPhamVaoHDCTTraTruoc(idHoaDon) {
+            let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+            selectedProducts.forEach(product => {
+                const productData = {
+                    sanPhamChiTiet: product.sanPhamChiTiet,
+                    soLuong: product.soLuong,
+                    gia: product.sanPhamChiTiet.giaBan,
+                    trangThai: 1
+                };
+                $.ajax({
+                    url: `/api/gio-hang/them-san-pham-vao-hoa-don/${idHoaDon}`,
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(productData),
+                    success: function (response) {
+
+                        updateSoLuongSP(product.sanPhamChiTiet.id, product.soLuong);
                         deleteByIDGHCT(product.id)
                     },
                     error: function (xhr, status, error) {
