@@ -211,17 +211,17 @@
 
             </div>
             <div class="flex justify-end">
-                <div id="barcode-scanner">
-                        <div id="result">
-<!--                            <strong></strong><span id="scanned-barcode"></span>-->
-                        </div>
-                    <div id="error-message"></div>
-                <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded mr-3"
-                        id="start-camera"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="mdi-barcode-scan" width="24" height="24" viewBox="0 0 24 24">
-                    <path fill="#FFFFFF" d="M4,6H6V18H4V6M7,6H8V18H7V6M9,6H12V18H9V6M13,6H14V18H13V6M16,6H18V18H16V6M19,6H20V18H19V6M2,4V8H0V4A2,2 0 0,1 2,2H6V4H2M22,2A2,2 0 0,1 24,4V8H22V4H18V2H22M2,16V20H6V22H2A2,2 0 0,1 0,20V16H2M22,20V16H24V20A2,2 0 0,1 22,22H18V20H22Z"/>
-                </svg>
-                </button>
-                </div>
+<!--                <div id="barcode-scanner">-->
+<!--                        <div id="result">-->
+<!--&lt;!&ndash;                            <strong></strong><span id="scanned-barcode"></span>&ndash;&gt;-->
+<!--                        </div>-->
+<!--                    <div id="error-message"></div>-->
+<!--                <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded mr-3"-->
+<!--                        id="start-camera"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="mdi-barcode-scan" width="24" height="24" viewBox="0 0 24 24">-->
+<!--                    <path fill="#FFFFFF" d="M4,6H6V18H4V6M7,6H8V18H7V6M9,6H12V18H9V6M13,6H14V18H13V6M16,6H18V18H16V6M19,6H20V18H19V6M2,4V8H0V4A2,2 0 0,1 2,2H6V4H2M22,2A2,2 0 0,1 24,4V8H22V4H18V2H22M2,16V20H6V22H2A2,2 0 0,1 0,20V16H2M22,20V16H24V20A2,2 0 0,1 22,22H18V20H22Z"/>-->
+<!--                </svg>-->
+<!--                </button>-->
+<!--                </div>-->
 
                 <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded"
                         id="hienThiDanhSachSanPham" >Thêm sản phẩm
@@ -686,22 +686,67 @@
         var ten, sdtNguoiNhan, tinhthanh, quanhuyen, phuongxa, diachi, phiVanChuyen, noteThongTin, fullAddress;
 
         function getFormData() {
-            ten = $('#edit-ten').val();
-            sdtNguoiNhan = $('#edit-sdtNguoiNhan').val();
-            tinhthanh = $('#edit-tinhthanh').val();
-            quanhuyen = $('#edit-quanhuyen').val();
-            phuongxa = $('#edit-phuongxa').val();
-            diachi = $('#edit-diachi').val();
-            phiVanChuyen = $('#phiVanChuyen').val();
-            noteThongTin = $('#noteThongTin').val();
+            ten = $('#edit-ten').val().trim();
+            sdtNguoiNhan = $('#edit-sdtNguoiNhan').val().trim();
+            tinhthanh = $('#edit-tinhthanh').val().trim();
+            quanhuyen = $('#edit-quanhuyen').val().trim();
+            phuongxa = $('#edit-phuongxa').val().trim();
+            diachi = $('#edit-diachi').val().trim();
+            phiVanChuyen = $('#phiVanChuyen').val().trim();
+            noteThongTin = $('#noteThongTin').val().trim();
 
-            console.log("phiVanChuyen"+phiVanChuyen);
+            console.log("Tên:", ten);
+            console.log("SĐT Người Nhận:", sdtNguoiNhan);
+            console.log("Tỉnh Thành:", tinhthanh);
+            console.log("Quận Huyện:", quanhuyen);
+            console.log("Phường Xã:", phuongxa);
+            console.log("Địa Chỉ:", diachi);
+            console.log("Phí Vận Chuyển:", phiVanChuyen);
+            console.log("Ghi Chú:", noteThongTin);
 
-            fullAddress = diachi;
-            if (phuongxa) fullAddress += ', ' + phuongxa;
-            if (quanhuyen) fullAddress += ', ' + quanhuyen;
-            if (tinhthanh) fullAddress += ', ' + tinhthanh;
+            fullAddress = '';
+            if (diachi) fullAddress += diachi;
+            if (phuongxa) {
+                if (fullAddress) fullAddress += ', ';
+                fullAddress += getAddressName(phuongxa, 'phuongxa');
+            }
+            if (quanhuyen) {
+                if (fullAddress) fullAddress += ', ';
+                fullAddress += getAddressName(quanhuyen, 'quanhuyen');
+            }
+            if (tinhthanh) {
+                if (fullAddress) fullAddress += ', ';
+                fullAddress += getAddressName(tinhthanh, 'tinhthanh');
+            }
+
+            console.log("Full Address:", fullAddress);
         }
+
+        getThongTinKhachHang();
+
+        function getAddressName(id, type) {
+            if (!citiesData.length) return id;
+
+            let address = '';
+
+            switch(type) {
+                case 'tinhthanh':
+                    let city = citiesData.find(city => city.Id === id);
+                    address = city ? city.Name : id;
+                    break;
+                case 'quanhuyen':
+                    let district = citiesData.flatMap(city => city.Districts).find(district => district.Id === id);
+                    address = district ? district.Name : id;
+                    break;
+                case 'phuongxa':
+                    let ward = citiesData.flatMap(city => city.Districts.flatMap(district => district.Wards)).find(ward => ward.Id === id);
+                    address = ward ? ward.Name : id;
+                    break;
+            }
+
+            return address;
+        }
+
 
         const formatVND = (tongtien) => {
             if (tongtien < 0) {
@@ -713,72 +758,15 @@
         const tabsContainer = document.getElementById('tabs-container');
         const contentContainer = document.getElementById('content-container');
 
-        // function renderTabs() {
-        //     tabsContainer.innerHTML = '';
-        //     contentContainer.innerHTML = '';
-        //
-        //     tabsData.forEach((tab, index) => {
-        //         const tabButton = document.createElement('button');
-        //         tabButton.classList.add('tab', 'px-4', 'py-2', 'bg-gray-200', 'hover:bg-gray-300');
-        //         if (index === 0) tabButton.classList.add('tab-active');
-        //         tabButton.textContent = tab.title;
-        //         tabButton.addEventListener('click', () => {
-        //             document.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
-        //             document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
-        //
-        //             tabButton.classList.add('tab-active');
-        //             const tabContent = document.getElementById(`tab-content-${tab.id}`);
-        //             tabContent.classList.remove('hidden');
-        //
-        //
-        //             idTabHD = tab.id;
-        //             PhieuGiamGiaPhuHop(tongTienTrongHD);
-        //
-        //             getDuLieu(idTabHD);
-        //             getPhuongThucThanhToan(idTabHD);
-        //             if (!tabsData[index].contentLoaded) {
-        //                 // getDuLieu(tab.id);
-        //             }
-        //         });
-        //         tabsContainer.appendChild(tabButton);
-        //
-        //         const tabContent = document.createElement('div');
-        //         tabContent.id = `tab-content-${tab.id}`;
-        //         tabContent.classList.add('tab-content', 'p-4');
-        //         if (index !== 0) tabContent.classList.add('hidden');
-        //         tabContent.innerHTML = tab.content;
-        //         contentContainer.appendChild(tabContent);
-        //     });
-        //
-        //     if (tabsData.length > 0) {
-        //         document.querySelector('.tab').click();
-        //     }
-        // }
-
         function renderTabs() {
             tabsContainer.innerHTML = '';
             contentContainer.innerHTML = '';
 
             tabsData.forEach((tab, index) => {
-                const tabButton = document.createElement('div');
-                tabButton.classList.add('tab', 'flex', 'items-center', 'px-4', 'py-2', 'bg-gray-200', 'hover:bg-gray-300', 'relative');
+                const tabButton = document.createElement('button');
+                tabButton.classList.add('tab', 'px-4', 'py-2', 'bg-gray-200', 'hover:bg-gray-300');
                 if (index === 0) tabButton.classList.add('tab-active');
-
-                const tabTitle = document.createElement('span');
-                tabTitle.textContent = `Hóa đơn ${index + 1}`;
-
-                const closeButton = document.createElement('button');
-                closeButton.innerHTML = 'X';
-                closeButton.classList.add('text-black', 'hover:text-red-600', 'text-xs', 'absolute', 'right-0', 'top-1/2', '-translate-y-1/2', 'cursor-pointer', 'mr-2');
-
-                closeButton.addEventListener('click', async (event) => {
-                    event.stopPropagation();
-                    await updateTrangThaiHoaDon(20, tab.id);
-                    tabsData = tabsData.filter(t => t.id !== tab.id);
-                    showNotification("Xóa hóa đơn thành công", 'thanhCong');
-                    renderTabs();
-                });
-
+                tabButton.textContent = tab.title;
                 tabButton.addEventListener('click', () => {
                     document.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
                     document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
@@ -787,15 +775,16 @@
                     const tabContent = document.getElementById(`tab-content-${tab.id}`);
                     tabContent.classList.remove('hidden');
 
+
                     idTabHD = tab.id;
                     PhieuGiamGiaPhuHop(tongTienTrongHD);
 
                     getDuLieu(idTabHD);
                     getPhuongThucThanhToan(idTabHD);
+                    if (!tabsData[index].contentLoaded) {
+                        // getDuLieu(tab.id);
+                    }
                 });
-
-                tabButton.appendChild(tabTitle);
-                tabButton.appendChild(closeButton);
                 tabsContainer.appendChild(tabButton);
 
                 const tabContent = document.createElement('div');
@@ -810,6 +799,8 @@
                 document.querySelector('.tab').click();
             }
         }
+
+
 
         document.getElementById('add-tab').addEventListener('click', () => {
             if(countHD >= 10){
@@ -850,7 +841,7 @@
                     countHD = response.length;
                     tabsData = response.map((hd, index) => ({
                         id: hd.id,
-                        title: `Hóa đơn ${index + 1}`,
+                        title: `Hóa đơn ${hd.id}`,
                         content: '',
                         contentLoaded: false
                     }));
@@ -872,6 +863,7 @@
             tienKhachDaTra = 0;
             $('#tienThieu2').text(`${formatVND((0))}`);
             $('#tienConThieu').text(`${formatVND((0))}`);
+
 
             $.ajax({
                 url: `/api/ban-hang/${idHoaDon}`,
@@ -906,6 +898,7 @@
                     tongTienSauKhiCoVoucher = tongTienHDCT - GiamToiDa;
                     $('#tienThieu2').text(`${formatVND(tongTienSauKhiCoVoucher)}`);
                     $('#tienConThieu').text(`${formatVND(tongTienSauKhiCoVoucher - tienDaThanhToan)}`);
+
                     console.log(GiamToiDa)
                     console.log(tongTienHDCT)
                     console.log(tongTienHDCT)
@@ -954,7 +947,7 @@
                                             <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
                                             <td class="px-6 py-4 whitespace-nowrap"> <img src="${hdct.sanPhamChiTiet.anh}" alt="Ảnh" class="w-16 h-auto"></td>
                                             <td class="px-6 py-4 whitespace-nowrap font-bold">
-                                                <h1>${hdct.sanPhamChiTiet.ten}</h1>
+                                                <h1>${hdct.sanPhamChiTiet.ten}-${hdct.sanPhamChiTiet.mauSac.moTa}</h1>
                                                 <h2 class="text-red-600">${formatVND(hdct.sanPhamChiTiet.giaBan)}</h2>
                                                 <h2 class="font-normal">Kích cỡ: ${hdct.sanPhamChiTiet.kichCo.ten}</h2>
                                             </td>
@@ -1507,14 +1500,14 @@
             });
         }
 
-        function updateThongTinNguoiNhanCoTrangThai(nguoiNhan, sdtNguoiNhan, diaChiNguoiNhan, tienShip, ghichu, idhd, trangThai) {
+        function updateThongTinNguoiNhanCoTrangThai(nguoiNhan, sdtNguoiNhan, diaChiNguoiNhan, tienShip, ghichu, idhd) {
             var ghiChu = "Hoàn thành";
             $.ajax({
                 url: `/api/hoa-don/update-thong-tin-nguoi-nhan-hoa-don/${idhd}`,
                 method: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    nguoiNhan: nguoiNhan, sdtNguoiNhan: sdtNguoiNhan, diaChiNguoiNhan: diaChiNguoiNhan, ghichu: ghichu, tienShip: tienShip, trangThai: trangThai
+                    nguoiNhan: nguoiNhan, sdtNguoiNhan: sdtNguoiNhan, diaChiNguoiNhan: diaChiNguoiNhan, ghichu: ghichu, tienShip: tienShip
                 }),
                 success: function (response) {
                     addHistoryLog(ghiChu, trangThai, idhd);
@@ -1530,6 +1523,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify({trangThai: trangThai}),
                 success: function (response) {
+                    console.log("set trang thai thanh cong")
                     addHistoryLog(ghiChu, trangThai, idHD);
                 },
                 error: function (xhr, status, error) {
@@ -1553,24 +1547,27 @@
         }
 
         $('#thanhToanTong').click(function () {
+            getFormData();
 
             showConfirm(function () {
                 if (checkThanhToan === 0) {
-                    if(tongTienTrongHD - GiamToiDa == 0){
+                    if(tongTienTrongHD - GiamToiDa === 0){
                         showNotification("Thanh toán thất bại", "thatBai");
                     } else if(tienDaThanhToan < tongTienTrongHD - GiamToiDa){
                         showNotification("Thanh toán thất bại", "thatBai");
                     } else {
-                        updateTrangThaiHoaDon(1, idTabHD);
-                        updateTongTien(tongTienSauKhiCoVoucher, idTabHD);
+                        updateTrangThaiHoaDon(6, idTabHD);
+                        // updateTongTien(tongTienSauKhiCoVoucher, idTabHD);
                         renderTabs();
                         showNotification("Thanh toán thành công", "thanhCong");
                         window.location.href = 'http://localhost:3000/admin/ban-hang-tai-quay';
                     }
                 } else if (checkThanhToan === 1) {
-                    updateTongTien(tongTienSauKhiCoVoucher, idTabHD);
                     getFormData();
-                    updateThongTinNguoiNhanCoTrangThai(ten, sdtNguoiNhan, fullAddress, phiVanChuyen, noteThongTin, idTabHD, 1);
+                    updateTrangThaiHoaDon(1, idTabHD);
+                    updateTongTien(tongTienSauKhiCoVoucher, idTabHD);
+                    addPhuongThucThanhToanTienMatGiaoHang(idTabHD, tongTienSauKhiCoVoucher);
+                    updateThongTinNguoiNhanCoTrangThai(ten, sdtNguoiNhan, fullAddress, phiVanChuyen, noteThongTin, idTabHD);
                     renderTabs();
                     showNotification("Đặt hàng thành công", "thanhCong");
                     window.location.href = 'http://localhost:3000/admin/ban-hang-tai-quay'
@@ -1734,9 +1731,11 @@
                     $(this).toggleClass('active');
 
                     checkThanhToan = $(this).hasClass('active') ? 1 : 0;
-
+                    console.log(checkThanhToan);
                 }
             });
+            console.log(checkThanhToan);
+
         }
 
         function updateTongTien(tongTien, idHoaDon) {
@@ -1746,6 +1745,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify({tongTien: tongTien, tongTienSauGiam: tongTien}),
                 success: function (response) {
+                    console.log("Update tong tien thanh cong")
                 },
             });
         }
@@ -2050,6 +2050,7 @@
 
         $('#thanhToan').click(function () {
             showModalThanhToan();
+            getDuLieu(idTabHD);
         });
 
         $('#dongModalSoLuong').click(function () {
@@ -2282,7 +2283,7 @@
                             <img src="${result.content[i].anh}" alt="Ảnh" class="w-16 h-auto">
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap font-bold">
-                            <h1>${result.content[i].ten}</h1>
+                            <h1>${result.content[i].ten}-${result.content[i].mauSac.moTa}</h1>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">${formatVND(result.content[i].giaBan)}</td>
                         <td class="px-6 py-4 whitespace-nowrap">${result.content[i].soLuong}</td>

@@ -157,8 +157,8 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
             "OR spn.ten LIKE %:keyword% " +
             "OR th.ten LIKE %:keyword%) " +
             "AND (sp.giaBan >= :giaBanMin OR :giaBanMin IS NULL) " +
-            "AND (sp.giaBan <= :giaBanMax OR :giaBanMax IS NULL) " +
-            "ORDER BY sp.id DESC")
+            "AND (sp.giaBan <= :giaBanMax OR :giaBanMax IS NULL) and spn.trangThai != 0" +
+            "ORDER BY sp.id DESC ")
     Page<SanPhamChiTiet> findByBlaBla(@Param("idChatLieu") Long idChatLieu,
                                       @Param("idCoGiay") Long idCoGiay,
                                       @Param("idDeGiay") Long idDeGiay,
@@ -192,7 +192,8 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
             "   AND (:idDeGiay IS NULL OR sp1.deGiay.id = :idDeGiay) " +
             "   AND (:idKichCo IS NULL OR sp1.kichCo.id = :idKichCo) " +
             "   AND (:idMauSac IS NULL OR sp1.mauSac.id = :idMauSac) " +
-            "   AND (:idThuongHieu IS NULL OR spn1.thuongHieu.id = :idThuongHieu) " +
+            "   AND (:idThuongHieu IS NULL OR spn1.thuongHieu.id = :idThuongHieu)" +
+            "AND spn1.trangThai != 0 " +
             "   AND (sp1.ten LIKE %:keyword% " +
             "   OR cl1.ten LIKE %:keyword% " +
             "   OR cg1.ten LIKE %:keyword% " +

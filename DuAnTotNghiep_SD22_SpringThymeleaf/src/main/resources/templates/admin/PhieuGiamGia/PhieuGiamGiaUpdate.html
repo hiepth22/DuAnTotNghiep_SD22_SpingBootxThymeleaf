@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="~{admin/fragments/head :: head}"></div>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-<link rel="icon" type="image/svg+xml" href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
+<link rel="icon" type="image/svg+xml"
+      href="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309"/>
 <title>Cập Nhật Phiếu Giảm Giá</title>
 <body>
 <div class="flex ">
@@ -20,7 +20,9 @@
         <div class="container mx-auto bg-white h-58 w-full m-auto mt-5 bg-white p-6 rounded-lg shadow-md h-88">
 
             <div class="card-body">
-                <form th:action="@{/admin/savePhieuGiamGia/{id}(id=${pgg.id})}" method="POST" class="row g-3"  th:object="${pgg}" onsubmit="validateForm()">
+                <form id="myForm" th:action="@{/admin/savePhieuGiamGia/{id}(id=${pgg.id})}" method="POST" class="row g-3"
+                      th:object="${pgg}" onsubmit="validateForm()">
+                    <input type="hidden" id="id" th:field="*{id}">
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <div class="row">
@@ -40,19 +42,21 @@
                                                class="form-control"
                                                placeholder="Nhập tên Phiếu Giảm Giá"
                                                oninput="validateForm()">
-                                        <div  class="invalid-feedback"></div>
+                                        <div class="invalid-feedback"></div>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label">Số Lượng:</label>
-                                        <input type="text" placeholder="Nhập số lượng" name="soLuong" th:field="*{soLuong}" class="form-control" oninput="validateForm()">
+                                        <input type="text" placeholder="Nhập số lượng" name="soLuong"
+                                               th:field="*{soLuong}" class="form-control" oninput="validateForm()">
                                         <div class="invalid-feedback">Vui lòng nhập số lượng</div>
                                     </div>
                                     <div class="form-group">
                                         <div class="d-flex align-items-center">
                                             <div class="lg:col-span-4">
                                                 <label class="font-semibold">Hình Thức Giảm:</label>
-                                                <select th:field="*{hinhThucGiam}" class="form-select form-input mt-2 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0">
+                                                <select th:field="*{hinhThucGiam}"
+                                                        class="form-select form-input mt-2 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0">
                                                     <option value="0">Tiền mặt</option>
                                                     <option value="1">Phần trăm</option>
                                                 </select>
@@ -62,7 +66,9 @@
                                     <div class="form-group">
                                         <label class="form-label">Đơn Tối Thiểu:</label>
                                         <div class="input-with-unit" data-unit="VND">
-                                            <input type="number" placeholder="Nhập đơn tối thiểu ...." name="donToiThieu" th:field="*{donToiThieu}" class="form-control" oninput="validateForm()">
+                                            <input type="number" placeholder="Nhập đơn tối thiểu ...."
+                                                   name="donToiThieu" th:field="*{donToiThieu}" class="form-control"
+                                                   oninput="validateForm()">
                                         </div>
                                         <div class="invalid-feedback">Vui lòng nhập đơn tối thiểu</div>
                                     </div>
@@ -70,20 +76,26 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">Giá Trị Giảm:</label>
-                                        <input type="number" placeholder="Nhập giá trị giảm" name="giaTriGiam" class="form-control" th:field="*{giaTriGiam}" oninput="validateForm()">
+                                        <input type="number" placeholder="Nhập giá trị giảm" name="giaTriGiam"
+                                               class="form-control" th:field="*{giaTriGiam}" oninput="validateForm()">
                                         <div class="invalid-feedback">Vui lòng nhập giá trị giảm</div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Giảm Tối Đa:</label>
-                                        <input type="text" placeholder="Nhập giảm tối đa" name="giamToiDa" class="form-control" th:field="*{giamToiDa}" oninput="validateForm()">
+                                        <input type="text" placeholder="Nhập giảm tối đa" name="giamToiDa"
+                                               class="form-control" th:field="*{giamToiDa}" oninput="validateForm()">
                                         <div class="invalid-feedback">Vui lòng nhập giá trị giảm tối đa</div>
                                     </div>
                                     <div class="form-group">
                                         <label class="font-semibold">Ngày Bắt Đầu:</label>
                                         <span class="input-wrapper">
-                                            <input type="date" id="ngayBatDau" th:field="*{ngayBatDau}" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" th:value="${#dates.format(ngayBatDau, 'dd-MM-yyyy')}" oninput="validateForm()">
+                                            <input type="date" id="ngayBatDau" th:field="*{ngayBatDau}"
+                                                   class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0"
+                                                   placeholder="dd-MM-yyyy"
+                                                   th:value="${#dates.format(ngayBatDau, 'dd-MM-yyyy')}"
+                                                   oninput="validateForm()">
 
-<!--                                            <input type="date" th:field="*{ngayBatDau}" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" oninput="validateForm()" th:value="${#dates.format(ngayBatDau, 'dd-MM-yyyy')}">-->
+                                            <!--                                            <input type="date" th:field="*{ngayBatDau}" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" oninput="validateForm()" th:value="${#dates.format(ngayBatDau, 'dd-MM-yyyy')}">-->
                                         </span>
                                     </div>
                                     <div class="form-group">
@@ -91,9 +103,13 @@
                                         <span class="input-wrapper">
 
 
-                                           <input type="date" id="ngayKetThuc" th:field="*{ngayKetThuc}" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" th:value="${#dates.format(ngayKetThuc, 'dd-MM-yyyy')}" oninput="validateForm()">
+                                           <input type="date" id="ngayKetThuc" th:field="*{ngayKetThuc}"
+                                                  class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0"
+                                                  placeholder="dd-MM-yyyy"
+                                                  th:value="${#dates.format(ngayKetThuc, 'dd-MM-yyyy')}"
+                                                  oninput="validateForm()">
 
-<!--                                            <input type="date" th:field="*{ngayKetThuc}" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" th:value="${#dates.format(ngayKetThuc, 'dd-MM-yyyy')}" oninput="validateForm()">-->
+                                            <!--                                            <input type="date" th:field="*{ngayKetThuc}" class="mt-2 w-full py-2 px-3 h-10 bg-transparent rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0" placeholder="dd-MM-yyyy" th:value="${#dates.format(ngayKetThuc, 'dd-MM-yyyy')}" oninput="validateForm()">-->
                                         </span>
                                     </div>
                                 </div>
@@ -101,7 +117,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary me-2" id="confirmButton" >Save</button>
+                        <button type="submit" class="btn btn-primary me-2" id="confirmButton">Save</button>
                         <a th:href="@{/admin/phieu-giam-gia}" class="btn btn-secondary">Close</a>
                     </div>
                 </form>
@@ -118,51 +134,36 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-    document.getElementById('confirmButton').addEventListener('click', function (event) {
-        // Ngăn chặn việc gửi form ngay lập tức
-        event.preventDefault();
 
-        // Kiểm tra tính hợp lệ của form
-        if (validateForm()) {
-            // Hiển thị hộp thoại xác nhận
-            Swal.fire({
-                title: 'Bạn có chắc chắn muốn thay đổi thông tin phiếu giảm giá?',
-                text: "Bạn không thể hoàn tác hành động này!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Vâng, tiếp tục!',
-                cancelButtonText: 'Hủy'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Nếu người dùng xác nhận, gọi phương thức cập nhật
-                    update();
-                } else {
-                    Swal.fire(
-                        'Đã hủy!',
-                        'Hành động của bạn đã bị hủy.',
-                        'error'
-                    );
-                }
-            });
-        }
-    });
-
-    function update() {
-        const form = document.getElementById('myForm'); // Lấy form cần submit
-        axios.post('/admin/updatePhieuGiamGia', new FormData(form))
-            .then(function(response) {
-                // Hiển thị thông báo thành công
-                showSuccessMessageUpdate();
-            })
-            .catch(function(error) {
-                console.error('Error:', error);
-            });
-    }
-
+    // function handleSubmit(event) {
+    //     event.preventDefault(); // Ngăn chặn việc submit form ngay lập tức
+    //
+    //     if (validateForm()) {
+    //         // Hiển thị hộp thoại xác nhận
+    //         Swal.fire({
+    //             title: 'Bạn có chắc chắn muốn thay đổi thông tin phiếu giảm giá?',
+    //             text: "Bạn không thể hoàn tác hành động này!",
+    //             icon: 'warning',
+    //             showCancelButton: true,
+    //             confirmButtonColor: '#3085d6',
+    //             cancelButtonColor: '#d33',
+    //             confirmButtonText: 'Vâng, tiếp tục!',
+    //             cancelButtonText: 'Hủy'
+    //         }).then((result) => {
+    //             if (result.isConfirmed) {
+    //                 // Nếu người dùng xác nhận, tiếp tục cập nhật thông tin
+    //                 update();
+    //             } else {
+    //                 Swal.fire(
+    //                     'Đã hủy!',
+    //                     'Hành động của bạn đã bị hủy.',
+    //                     'error'
+    //                 );
+    //             }
+    //         });
+    //     }
+    // }
     // document.getElementById('confirmButton').addEventListener('click', function (event) {
-    //     // event.preventDefault(); // Ngăn chặn việc gửi form ngay lập tức
     //     if (validateForm()) {
     //         Swal.fire({
     //             title: 'Bạn có chắc chắn muốn thay đổi thông tin phiếu giảm giá?',
@@ -175,52 +176,56 @@
     //             cancelButtonText: 'Hủy'
     //         }).then((result) => {
     //             if (result.isConfirmed) {
-    //                 Swal.fire(
-    //                     'Đã xác nhận!',
-    //                     'Bạn đã thay đổi thông tin phiếu giảm giá.',
-    //                     'success'
-    //                 ).then(() => {
-    //                     update();
-    //                 });
-    //             } else {
-    //                 Swal.fire(
-    //                     'Đã hủy!',
-    //                     'Hành động của bạn đã bị hủy.',
-    //                     'error'
-    //                 );
+    //                 // Nếu người dùng xác nhận, tiến hành gửi form
+    //                 document.getElementById('myForm').submit();
     //             }
     //         });
-    //     }else {
-    //         event.preventDefault();
     //     }
     // });
-    // function update() {
-    //     const form = document.getElementById('myForm');
-    //     axios.post('/admin/updatePhieuGiamGia', new FormData(form))
-    //         .then(function(response) {
-    //             showSuccessMessageUpdate();
-    //         })
-    //         .catch(function(error) {
-    //             console.error('Error:', error);
-    //         });
-    // }
+    document.getElementById('confirmButton').addEventListener('click', function (event) {
+        event.preventDefault(); // Ngăn chặn hành động mặc định của nút submit
+        if (validateForm()) {
+            Swal.fire({
+                title: 'Cập nhật Phiếu Giảm Giá?',
+                text: "Bạn không thể hoàn tác hành động này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Cập Nhật'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    update();
+                }
+            });
+        }
+    });
 
-
-    function showSuccessMessageUpdate() {
-        const notification = document.getElementById('notification');
-        notification.style.display = 'block';
-        const progressBar = document.getElementById('progress-bar');
-        progressBar.style.width = '0';
-        setTimeout(function () {
-            progressBar.style.width = '100%';
-        }, 2000);
-
-        setTimeout(function () {
-            notification.style.display = 'none';
-            window.location.href = '/admin/phieu-giam-gia';
-        }, 3000);
+    function update() {
+        const form = document.getElementById('myForm'); // Lấy form cần submit
+        const formData = new FormData(form);
+        const id = form.querySelector('#id').value;
+        axios.post('/admin/savePhieuGiamGia/' + id, formData)
+            .then(function (response) {
+                // Hiển thị thông báo thành công sau khi cập nhật
+                Swal.fire(
+                    'Đã cập nhật!',
+                    'Thông tin phiếu giảm giá đã được cập nhật thành công.',
+                    'success'
+                ).then(() => {
+                    // Chuyển hướng sau khi cập nhật thành công
+                    window.location.href = '/admin/phieu-giam-gia';
+                });
+            })
+            .catch(function (error) {
+                console.error('Error:', error);
+                Swal.fire(
+                    'Lỗi!',
+                    'Đã xảy ra lỗi trong quá trình cập nhật.',
+                    'error'
+                );
+            });
     }
-
 
     function validateForm() {
         let isValid = true;
@@ -239,28 +244,33 @@
             ten.classList.remove('is-invalid');
         }
 
-        if (soLuong.value.trim() === '') {
+        if (soLuong.value.trim() === '' || parseInt(soLuong.value) <= 0) {
             soLuong.classList.add('is-invalid');
             isValid = false;
         } else {
             soLuong.classList.remove('is-invalid');
         }
 
-        if (donToiThieu.value.trim() === '') {
+        if (donToiThieu.value.trim() === '' || parseFloat(donToiThieu.value) <= 0) {
             donToiThieu.classList.add('is-invalid');
             isValid = false;
         } else {
             donToiThieu.classList.remove('is-invalid');
         }
 
-        if (giaTriGiam.value.trim() === '') {
+        if (giaTriGiam.value.trim() === '' || parseFloat(giaTriGiam.value) <= 0) {
             giaTriGiam.classList.add('is-invalid');
             isValid = false;
         } else {
-            giaTriGiam.classList.remove('is-invalid');
+            if (hinhThucGiam.value === '1' && (parseFloat(giaTriGiam.value) < 0 || parseFloat(giaTriGiam.value) > 20)) {
+                giaTriGiam.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                giaTriGiam.classList.remove('is-invalid');
+            }
         }
 
-        if (giamToiDa.value.trim() === '') {
+        if (giamToiDa.value.trim() === '' || parseFloat(giamToiDa.value) <= 0) {
             giamToiDa.classList.add('is-invalid');
             isValid = false;
         } else {
@@ -278,9 +288,13 @@
             ngayKetThuc.classList.add('is-invalid');
             isValid = false;
         } else {
-            ngayKetThuc.classList.remove('is-invalid');
+            if (new Date(ngayKetThuc.value) <= new Date(ngayBatDau.value)) {
+                ngayKetThuc.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                ngayKetThuc.classList.remove('is-invalid');
+            }
         }
-
         return isValid;
     }
 </script>

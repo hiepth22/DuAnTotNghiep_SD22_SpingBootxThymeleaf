@@ -236,7 +236,9 @@
         let soluongspkhithem = inputElement.value;
         let lastClickedSize = null;
         let currentAjaxRequest = null;
-
+        let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+        var count = cart.length ? cart.length : 0;
+        document.getElementById('cart-count').textContent = count;
         function validateQuantity() {
             let $quantityInput = $('#quantity');
             let currentQuantity = parseInt($quantityInput.val(), 10);
@@ -259,6 +261,35 @@
         if (!sanPhamId) {
             $('#products-list').append('<p>Không có ID sản phẩm.</p>');
             return;
+        }
+
+        getKhachHang();
+
+        function getDuLieuGioHangVaGioHangChiTiet(idKhachHang) {
+            $.ajax({
+                url: `/api/gio-hang/detail/${idKhachHang}`,
+                method: 'GET',
+                success: function (response) {
+                    const gioHangChiTiet = response.ghct;
+                    const  gioHang = response.gh
+
+                    var count = gioHangChiTiet.length ? gioHangChiTiet.length : 0;
+                    document.getElementById('cart-count').textContent = count;
+
+                },
+            });
+
+        }
+
+        function getKhachHang() {
+            $.ajax({
+                url: '/api/session/user',
+                method: 'GET',
+                success: function (response) {
+                    let idKhachHang = response.id;
+                    getDuLieuGioHangVaGioHangChiTiet(idKhachHang);
+                },
+            });
         }
 
 
@@ -288,7 +319,6 @@
                         validateSizeP.style.display = 'block';
                         validateSizeP.style.color = 'red';
                     }
-
                 });
                 document.getElementById('muangay').addEventListener('click', function () {
                     if (anhcheck == null && sizecheck == null) {
@@ -693,6 +723,7 @@
 
                                                                         let sptam = response;
                                                                         console.log('sptam:', sptam);
+                                                                        getKhachHang();
                                                                     },
                                                                     error: function (xhr, status, error) {
                                                                         console.error('Error:', error);
@@ -736,7 +767,7 @@
                                                                             }, 3010);
                                                                         }
 
-                                                                        let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
                                                                         const existingProductIndex = cart.findIndex(item => item.id === product.id);
                                                                         if (existingProductIndex > -1) {
                                                                             let sluonsptrung = cart[existingProductIndex].quantity;
@@ -755,6 +786,8 @@
 
                                                                         }
                                                                         sessionStorage.setItem('cart', JSON.stringify(cart));
+                                                                        var count = cart.length ? cart.length : 0;
+                                                                        document.getElementById('cart-count').textContent = count;
                                                                         console.log(cart);
                                                                         displayCart();
 

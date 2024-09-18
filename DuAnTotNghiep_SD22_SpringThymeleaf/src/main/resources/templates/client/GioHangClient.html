@@ -152,6 +152,8 @@
 
                     idGioHang = gioHang.id;
 
+                    var count = gioHangChiTiet.length ? gioHangChiTiet.length : 0;
+                    document.getElementById('cart-count').textContent = count;
 
                     let list = "";
                     $("#thongTinSP").empty();
@@ -159,8 +161,9 @@
                     if (Array.isArray(gioHangChiTiet) && gioHangChiTiet.length > 0) {
                         for (let i = 0; i < gioHangChiTiet.length; i++) {
                             const item = gioHangChiTiet[i];
+                            console.log(item)
                             list += `
-                            <div id="thongTin" class="container ml-[15%] bg-white w-[80%] p-2 rounded-lg shadow-md mt-3 flex gap-32 h-32">
+                            <div id="thongTin" class="container ml-[15%] bg-white w-[80%] p-2 rounded-lg shadow-md mt-3 flex gap-32 h-36">
                                 <div>
                                     <input type="checkbox" class="product-checkbox ml-5 mt-10 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded" data-price="${item.sanPhamChiTiet.giaBan}" data-so-luong="${item.soLuong}" data-item='${JSON.stringify(item)}'>
                                 </div>
@@ -168,11 +171,13 @@
                                     <img src="${item.sanPhamChiTiet.anh}" alt="Ảnh" class="w-24 h-auto mt-2">
                                 </div>
                                 <div class="w-32">
-                                    <div class="font-bold">${item.sanPhamChiTiet.ten}</div>
+                                    <div class="font-bold">${item.sanPhamChiTiet.ten}-${item.sanPhamChiTiet.mauSac.moTa}</div>
                                     <div class="text-red-500">${formatVND(item.sanPhamChiTiet.giaBan)}</div>
                                     <div>
                                         <input type="number"  max="${item.sanPhamChiTiet.soLuong}" class="soLuong-input bg-gray-100 w-[50%] border border-gray-300 rounded-md px-2 py-1" value="${item.soLuong}" min="1" data-id="${item.id}" id="soLuong-${item.id}" name="soLuong-${item.id}">
                                     </div>
+                                    <div class="text-black">Size: ${item.sanPhamChiTiet.kichCo.ten}</div>
+
                                 </div>
                                 <div class=>
                                     <div class="mb-3 ml-2">${trangThaiSP(item.sanPhamChiTiet.trangThai)}</div>
@@ -303,18 +308,70 @@
         });
 
         $('#thongTinSP').on('click', '.deleteSP', function () {
-            const itemId = $(this).data('id');
-            $.ajax({
-                url: `/api/gio-hang/delete-sp/${itemId}`,
-                method: 'POST',
-                success: function () {
-                    getKhachHang();
-                    xuLyThayDoiCheckbox();
-                    getPhieuGiamGia();
-                },
-              
-            });
+            const clickedElement = $(this);
+                const itemId = clickedElement.data('id');
+                $.ajax({
+                    url: `/api/gio-hang/delete-sp/${itemId}`,
+                    method: 'POST',
+                    success: function () {
+                        getKhachHang();
+                        xuLyThayDoiCheckbox();
+                        getPhieuGiamGia();
+                        showNotification("Xóa sản phẩm thành công", "thanhCong");
+                    },
+                });
         });
+
+        function showConfirm(callback) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn?',
+                text: "Bạn không thể hoàn tác hành động này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Vâng, tiếp tục!',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    callback();
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire(
+                        'Đã hủy!',
+                        'Hành động của bạn đã bị hủy.',
+                        'error'
+                    );
+                }
+            });
+        }
+
+        function showNotification(message, status) {
+            var notification = document.getElementById('notification');
+            var notificationMessage = document.getElementById('notification-message');
+            var progressBar = document.getElementById('progress-bar');
+
+            notification.className = 'notification'; // Reset class
+            if (status === 'thanhCong') {
+                notification.classList.add('thanhCong');
+            } else if (status === 'thatBai') {
+                notification.classList.add('thatBai');
+            }
+
+            if (message) {
+                notificationMessage.textContent = message;
+                notification.style.display = 'block';
+                progressBar.style.width = '100%';
+
+                setTimeout(function() {
+                    progressBar.style.width = '0';
+                }, 10);
+
+                setTimeout(function() {
+                    notification.style.display = 'none';
+                    progressBar.style.width = '100%';
+                }, 3010);
+            }
+        }
 
 
         $('#thongTinSP').on('change', '.soLuong-input', function () {
@@ -473,10 +530,14 @@
         });
 
         $("#delete-all").click(function() {
-            $(".product-checkbox").prop("checked", false);
-            $("#select-all-checkbox").prop("checked", false);
-            xuLyThayDoiCheckbox();
-            getPhieuGiamGia();
+           showConfirm(function (){
+               $(".product-checkbox").prop("checked", false);
+               $("#select-all-checkbox").prop("checked", false);
+               xuLyThayDoiCheckbox();
+               getPhieuGiamGia();
+               showNotification("Xóa tất cả sản phẩm thành công", "thanhCong");
+           })
+
         });
 
         function hideModalPhieuGiamGia() {

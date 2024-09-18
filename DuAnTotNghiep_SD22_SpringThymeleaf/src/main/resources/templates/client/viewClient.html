@@ -717,6 +717,9 @@
         }
 
         function renderProducts(products) {
+            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            var count = cart.length ? cart.length : 0;
+            document.getElementById('cart-count').textContent = count;
             slider.innerHTML = ''; // Clear existing slides
             products.forEach(product => {
                 const slide = document.createElement('div');
@@ -855,6 +858,36 @@
 </script>
 <script>
     $(document).ready(function () {
+
+        function getKhachHang() {
+            $.ajax({
+                url: '/api/session/user',
+                method: 'GET',
+                success: function (response) {
+                    let idKhachHang = response.id;
+                    getDuLieuGioHangVaGioHangChiTiet(idKhachHang);
+                },
+            });
+        }
+        getKhachHang();
+
+        function getDuLieuGioHangVaGioHangChiTiet(idKhachHang) {
+            $.ajax({
+                url: `/api/gio-hang/detail/${idKhachHang}`,
+                method: 'GET',
+                success: function (response) {
+                    const gioHangChiTiet = response.ghct;
+                    const  gioHang = response.gh
+
+                    var count = gioHangChiTiet.length ? gioHangChiTiet.length : 0;
+                    document.getElementById('cart-count').textContent = count;
+
+                },
+            });
+
+        }
+
+
         $.ajax({
             url: '/san-pham-ban-chay',
             method: 'GET',

@@ -176,7 +176,28 @@
         background-color: #6c757d;
         color: white;
     }
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        display: none;
+        z-index: 1000;
+    }
 
+    .notification .progress-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background-color: #fff;
+        transition: width 3s linear; /* Thời gian hiển thị thông báo (3 giây) */
+    }
 </style>
 <body class="bg-white">
 
@@ -320,7 +341,7 @@
                 <button type="button" class="btn btn-primary" onclick="doimatkhau()">Lưu</button>
             </div>
 
-            // 2 form ở đây
+
             <div class="modal" id="myModal">
                 <div class="modal-content">
                     <span class="close-btn">&times;</span>
@@ -378,45 +399,49 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="tennguoinhan">Tên Người Nhận</label>
-                            <input type="text" class="form-control" id="tennguoinhan">
+                            <label for="tennguoinhan1">Tên Người Nhận</label>
+                            <input type="text" class="form-control" id="tennguoinhan1">
                             <span class="error-message" id="tennguoinhanError" style="color: red; display: none;">Vui lòng nhập tên người nhận.</span>
                         </div>
-                        <div class="grid gap-4 grid-cols-3">
-                            <div class="form-group">
-                                <label for="tinhthanh">Tỉnh/Thành phố</label>
-                                <select class="form-control" id="tinhthanh">
+                        <div class="row">
+                            <div class="col-4">
+                                <select class="form-select form-select-sm mb-3" id="city" aria-label="Chọn tỉnh thành">
                                     <option value="" selected>Chọn tỉnh thành</option>
-                                    <!-- Options will be populated here -->
+                                    <!-- Add your options here -->
                                 </select>
-                                <span class="error-message" id="tinhthanhError" style="color: red; display: none;">Vui lòng chọn tỉnh/thành phố.</span>
+                                <span class="error-message" id="tinhthanhError" style="color: red; display: none;">Vui lòng chọn tỉnh thành.</span>
                             </div>
-                            <div class="form-group">
-                                <label for="quanhuyen">Quận/Huyện</label>
-                                <select class="form-control" id="quanhuyen">
+                            <div class="col-4">
+                                <select class="form-select form-select-sm mb-3" id="district" aria-label="Chọn quận huyện">
                                     <option value="" selected>Chọn quận huyện</option>
+                                    <!-- Add your options here -->
                                 </select>
-                                <span class="error-message" id="quanhuyenError" style="color: red; display: none;">Vui lòng chọn quận/huyện.</span>
+                                <span class="error-message" id="quanhuyenError" style="color: red; display: none;">Vui lòng chọn quận huyện.</span>
                             </div>
-                            <div class="form-group">
-                                <label for="phuongxa">Phường/Xã</label>
-                                <select class="form-control" id="phuongxa">
+                            <div class="col-4">
+                                <select class="form-select form-select-sm mb-3" id="ward" aria-label="Chọn phường xã">
                                     <option value="" selected>Chọn phường xã</option>
+                                    <!-- Add your options here -->
                                 </select>
-                                <span class="error-message" id="phuongxaError" style="color: red; display: none;">Vui lòng chọn phường/xã.</span>
+                                <span class="error-message" id="phuongxaError" style="color: red; display: none;">Vui lòng chọn phường xã.</span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="diachi">Địa chỉ cụ thể</label>
-                            <input type="text" class="form-control" id="diachi">
-                            <span class="error-message" id="diachiError" style="color: red; display: none;">Vui lòng nhập địa chỉ cụ thể.</span>
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Địa chỉ Chi tiết:</label>
+                                <div class="form-group col-12">
+                                    <textarea class="form-control" id="diachi1" name="diachi" rows="3"></textarea>
+                                    <span class="error-message" id="diachiError" style="color: red; display: none;">Vui lòng nhập địa chỉ cụ thể.</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" id="them" onclick="themdiachi()">Lưu</button>
+                        <button class="btn btn-primary" id="them" onclick="themdiachi()">Thêm</button>
                     </div>
                 </div>
             </div>
+
         </div>
 
 
@@ -424,13 +449,217 @@
     </div>
 </div>
 </div>
+<div id="notification" class="notification">
+     Thành Công !
+    <div id="progress-bar" class="progress-bar"></div>
+</div>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!--<script th:src="@{/assets/js/KhachHangAdd.js}"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+
+    var citis = document.getElementById("city");
+    var districts = document.getElementById("district");
+    var wards = document.getElementById("ward");
+    var Parameter = {
+        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+        method: "GET",
+        responseType: "json", // Chỉnh responseType thành json để nhận dữ liệu JSON trực tiếp
+    };
+
+    axios(Parameter).then(function (response) {
+        renderCity(response.data);
+    }).catch(function (error) {
+        console.error('Error fetching data: ', error);
+    });
+
+    function renderCity(data) {
+        // Hàm để render danh sách các tỉnh/thành phố vào dropdown citis
+        data.forEach(function (city) {
+            citis.options[citis.options.length] = new Option(city.Name, city.Id);
+        });
+
+        // Sự kiện khi chọn tỉnh/thành phố
+        citis.onchange = function () {
+            clearOptions(districts); // Xóa các option cũ của districts
+            clearOptions(wards); // Xóa các option cũ của wards
+
+            // Lọc ra thông tin của tỉnh/thành phố được chọn
+            var selectedCity = data.find(function (city) {
+                return city.Id === citis.value;
+            });
+
+            if (selectedCity) {
+                // Log tên của tỉnh/thành phố được chọn
+                console.log("Selected city:", selectedCity.Name);
+
+                // Render các quận/huyện vào dropdown districts
+                selectedCity.Districts.forEach(function (district) {
+                    districts.options[districts.options.length] = new Option(district.Name, district.Id);
+                });
+            }
+        };
+
+        // Sự kiện khi chọn quận/huyện
+        districts.onchange = function () {
+            clearOptions(wards); // Xóa các option cũ của wards
+
+            // Lấy thông tin của tỉnh/thành phố được chọn
+            var selectedCity = data.find(function (city) {
+                return city.Id === citis.value;
+            });
+
+            if (selectedCity) {
+                // Lọc ra thông tin của quận/huyện được chọn
+                var selectedDistrict = selectedCity.Districts.find(function (district) {
+                    return district.Id === districts.value;
+                });
+
+                if (selectedDistrict) {
+                    // Log tên của quận/huyện được chọn
+                    console.log("Selected district:", selectedDistrict.Name);
+
+                    // Render các phường/xã vào dropdown wards
+                    selectedDistrict.Wards.forEach(function (ward) {
+                        wards.options[wards.options.length] = new Option(ward.Name, ward.Id);
+
+                    });
+                }
+            }
+        };
+        wards.onchange = function () {
+            // Lấy thông tin của tỉnh/thành phố được chọn
+            var selectedCity = data.find(function (city) {
+                return city.Id === citis.value;
+            });
+
+            if (selectedCity) {
+                // Lọc ra thông tin của quận/huyện được chọn
+                var selectedDistrict = selectedCity.Districts.find(function (district) {
+                    return district.Id === districts.value;
+                });
+
+                if (selectedDistrict) {
+                    var selectedWard = selectedDistrict.Wards.find(function (ward) {
+                        return ward.Id === wards.value;
+                    });
+
+                    if (selectedWard) {
+                        // Tạo chuỗi để log các thông tin
+                        var logString = selectedWard.Name;
+                        logString += "," + selectedDistrict.Name;
+                        logString += "," + selectedCity.Name;
+
+                        // Log chuỗi kết quả ra console
+                        console.log(logString);
+
+
+                        // Ẩn textarea
+
+                    }
+                }
+            }
+        };
+
+
+    }
+
+
+    function clearOptions(selectElement) {
+        for (var i = selectElement.options.length - 1; i > 0; i--) {
+            selectElement.remove(i);
+        }
+    }
+
+</script>
+<script>
+    function showSuccessMessage() {
+        var notification = document.getElementById('notification');
+        var progressBar = document.getElementById('progress-bar');
+
+        notification.style.display = 'block';
+        progressBar.style.width = '100%';
+
+        setTimeout(function() {
+            progressBar.style.width = '0';
+        }, 10);
+
+        setTimeout(function() {
+            notification.style.display = 'none';
+            progressBar.style.width = '100%';
+            location.reload();
+        }, 3010);
+    }
     function validateModalForm() {
+        let isValid = true;
+
+        // Get form elements
+        const tenNguoiNhan = document.getElementById('tennguoinhan1');
+        const tinhThanh = document.getElementById('city');
+        const quanHuyen = document.getElementById('district');
+        const phuongXa = document.getElementById('ward');
+        const diaChi = document.getElementById('diachi1');
+
+        // Reset error messages and styles
+        const errorElements = [
+            'tennguoinhanError',
+            'tinhthanhError',
+            'quanhuyenError',
+            'phuongxaError',
+            'diachiError'
+        ];
+
+        errorElements.forEach(errorId => {
+            const errorElement = document.getElementById(errorId);
+            if (errorElement) {
+                errorElement.style.display = 'none';
+            }
+        });
+
+        [tenNguoiNhan, tinhThanh, quanHuyen, phuongXa, diaChi].forEach(input => {
+            input.classList.remove('is-invalid');
+        });
+
+        // Validate fields
+        if (tenNguoiNhan.value === '') {
+            document.getElementById('tennguoinhanError').style.display = 'block';
+            tenNguoiNhan.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        if (tinhThanh.value === '') {
+            document.getElementById('tinhthanhError').style.display = 'block';
+            tinhThanh.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        if (quanHuyen.value === '') {
+            document.getElementById('quanhuyenError').style.display = 'block';
+            quanHuyen.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        if (phuongXa.value === '') {
+            document.getElementById('phuongxaError').style.display = 'block';
+            phuongXa.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        if (diaChi.value === '') {
+            document.getElementById('diachiError').style.display = 'block';
+            diaChi.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    // Function to be called on button click
+
+    function validateModalForm1() {
         let isValid = true;
 
         // Get form elements
@@ -496,10 +725,11 @@
     var $editTinhThanh = $('#edit-tinhthanh');
     var $editQuanHuyen = $('#edit-quanhuyen');
     var $editPhuongXa = $('#edit-phuongxa');
-    var $editTinhThanh = $('#tinhthanh');
-    var $editQuanHuyen = $('#quanhuyen');
-    var $editPhuongXa = $('#phuongxa');
+    var $editTinhThanh1 = $('#tinhthanh');
+    var $editQuanHuyen1 = $('#quanhuyen');
+    var $editPhuongXa1 = $('#phuongxa');
     var citiesData = [];
+    var citiesData1 = [];
     function showform(){
         const modal = document.getElementById('mythemModal');
         const showModalBtn = document.getElementById('show-modal-btn');
@@ -510,33 +740,65 @@
             modal.style.display = 'none';
         });
     }
+
     function themdiachi() {
-        const tinhThanh = document.getElementById('tinhthanh').value;
-        const quanHuyen = document.getElementById('quanhuyen').value;
-        const phuongXa = document.getElementById('phuongxa').value;
-        const diaChi = document.getElementById('diachi').value;
-        const tennguoi = document.getElementById('tennguoinhan').value;
-        let trangthai =1;
+        var tenNguoiNhan = document.getElementById('tennguoinhan1').value;
+        var city = document.getElementById('city').value;
+        var district = document.getElementById('district').value;
+        var ward = document.getElementById('ward').value;
+        var diachi1 = document.getElementById('diachi1').value;
 
 
+        var diachict = `${diachi1}, ${ward}, ${district}, ${city}`;
 
-        const diaChiData = {
-            thanhPho: tinhThanh,
-            quanHuyen: quanHuyen,
-            phuongXa: phuongXa,
-            soNha: diaChi,
-            moTaChiTiet: diaChi,
-            ten: tennguoi,
-            trangThai: trangthai
+
+        console.log('Tỉnh Thành:', city);
+        console.log('Quận Huyện:', district);
+        console.log('Phường Xã:', ward);
+        console.log('Địa chỉ Chi tiết:', diachi1);
+
+        const idvuvo1 = {
+            id: idvuvo,
+
         };
-        if (validateModalForm()) {
-            
-        }else{
-            alert("Thất bại");
-        }
+        const diaChiData = {
+            thanhPho: city,
+            quanHuyen: district,
+            phuongXa: ward,
+            soNha: diachi1,
+            moTaChiTiet: diachict,
+            ten: tenNguoiNhan,
+            trangThai: 0,
+            idKH : idvuvo1,
+            nguoiTao:tenNguoiNhan,
+            nguoiCapNhat: tenNguoiNhan
+
+        };
+        // if (validateModalForm()) {
+        //     $.ajax({
+        //         url: '/adddiachi',
+        //         method: 'POST',
+        //         contentType: 'application/json',
+        //         data: JSON.stringify(diaChiData),
+        //         success: function(response) {
+        //             showSuccessMessage();
+        //
+        //             document.getElementById('myModal').style.display = 'none';
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error('Lỗi khi cập nhật địa chỉ:', error);
+        //
+        //         }
+        //     });
+        //
+        // }else{
+        //
+        // }
 
 
     }
+
+
     function updatediachi() {
         const tinhThanh = document.getElementById('edit-tinhthanh').value;
         const quanHuyen = document.getElementById('edit-quanhuyen').value;
@@ -551,23 +813,49 @@
             quanHuyen: quanHuyen,
             phuongXa: phuongXa,
             soNha: diaChi,
-            moTaChiTiet: diaChi,
+            moTaChiTiet: diaChi +','+phuongXa +','+quanHuyen+','+tinhThanh,
             ten: tennguoi
         };
-        if (validateModalForm()) {
-            $.ajax({
-                url: `/api/khach-hang/update-dia-chi/${iddc1}`,
-                method: 'PUT',
-                contentType: 'application/json',
-                data: JSON.stringify(diaChiData),
-                success: function(response) {
-                    alert('Cập nhật thành công:', response);
+        console.log(diaChiData);
+        if (validateModalForm1()) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn ?',
+                text: "Bạn không thể hoàn tác hành động này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Vâng, tiếp tục!',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Đã xác nhận!',
+                        'success'
+                    ).then(() => {
+                        $.ajax({
+                            url: `/api/khach-hang/update-dia-chi/${iddc1}`,
+                            method: 'PUT',
+                            contentType: 'application/json',
+                            data: JSON.stringify(diaChiData),
+                            success: function(response) {
+                                showSuccessMessage();
 
-                    document.getElementById('myModal').style.display = 'none';
-                },
-                error: function(xhr, status, error) {
-                    console.error('Lỗi khi cập nhật địa chỉ:', error);
+                                document.getElementById('myModal').style.display = 'none';
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Lỗi khi cập nhật địa chỉ:', error);
 
+                            }
+                        });
+
+                    });
+                } else {
+                    Swal.fire(
+                        'Đã hủy!',
+                        'Hành động của bạn đã bị hủy.',
+                        'error'
+                    );
                 }
             });
         } else {
@@ -663,10 +951,10 @@
             url: 'https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json',
             dataType: 'json',
             success: function(data) {
-                citiesData = data;
-                $editTinhThanh.empty().append('<option value="" selected>Chọn tỉnh thành</option>');
+                citiesData1 = data;
+                $editTinhThanh1.empty().append('<option value="" selected>Chọn tỉnh thành</option>');
                 $.each(data, function(index, city) {
-                    $editTinhThanh.append('<option value="' + city.Id + '">' + city.Name + '</option>');
+                    $editTinhThanh1.append('<option value="' + city.Id + '">' + city.Name + '</option>');
                 });
             },
             error: function(xhr, status, error) {
@@ -674,35 +962,35 @@
             }
         });
 
-        $editTinhThanh.on('change', function() {
+        $editTinhThanh1.on('change', function() {
             var cityId = $(this).val();
             if (cityId) {
-                $editQuanHuyen.empty().append('<option value="" selected>Chọn quận huyện</option>');
-                var selectedCity = citiesData.find(city => city.Id === cityId);
+                $editQuanHuyen1.empty().append('<option value="" selected>Chọn quận huyện</option>');
+                var selectedCity = citiesData1.find(city => city.Id === cityId);
                 if (selectedCity) {
                     $.each(selectedCity.Districts, function(index, district) {
-                        $editQuanHuyen.append('<option value="' + district.Id + '">' + district.Name + '</option>');
+                        $editQuanHuyen1.append('<option value="' + district.Id + '">' + district.Name + '</option>');
                     });
                 }
             } else {
-                $editQuanHuyen.empty().append('<option value="" selected>Chọn quận huyện</option>');
-                $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
+                $editQuanHuyen1.empty().append('<option value="" selected>Chọn quận huyện</option>');
+                $editPhuongXa1.empty().append('<option value="" selected>Chọn phường xã</option>');
             }
         });
 
-        $editQuanHuyen.on('change', function() {
+        $editQuanHuyen1.on('change', function() {
             var districtId = $(this).val();
             if (districtId) {
                 // Clear and populate phường/xã dropdown
-                $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
-                var selectedDistrict = citiesData.flatMap(city => city.Districts).find(district => district.Id === districtId);
+                $editPhuongXa1.empty().append('<option value="" selected>Chọn phường xã</option>');
+                var selectedDistrict = citiesData1.flatMap(city => city.Districts).find(district => district.Id === districtId);
                 if (selectedDistrict) {
                     $.each(selectedDistrict.Wards, function(index, ward) {
-                        $editPhuongXa.append('<option value="' + ward.Id + '">' + ward.Name + '</option>');
+                        $editPhuongXa1.append('<option value="' + ward.Id + '">' + ward.Name + '</option>');
                     });
                 }
             } else {
-                $editPhuongXa.empty().append('<option value="" selected>Chọn phường xã</option>');
+                $editPhuongXa1.empty().append('<option value="" selected>Chọn phường xã</option>');
             }
         });
     }
@@ -774,38 +1062,64 @@
         const mkmoi = document.getElementById('matkhaumoi').value.trim();
         const nhaplaimkmoi = document.getElementById('nhaplaimatkhaumoi').value.trim();
         if (validateChangePasswordForm()) {
-            if (mkmoi === nhaplaimkmoi) {
-                $.ajax({
-                    url: '/api/session/user',
-                    method: 'GET',
-                    success: function (response) {
-                        var mkkh = response.matKhau;
-                        if (mkkh === mkcu) {
-                            if (mkmoi === mkcu) {
-                                alert('Mật khẩu mới không được trùng với mật khẩu cũ')
-                            } else {
+            Swal.fire({
+                title: 'Bạn có chắc chắn ?',
+                text: "Bạn không thể hoàn tác hành động này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Vâng, tiếp tục!',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Đã xác nhận!',
+                        'Bạn đã thay đỏi.',
+                        'success'
+                    ).then(() => {
+                        if (mkmoi === nhaplaimkmoi) {
+                            $.ajax({
+                                url: '/api/session/user',
+                                method: 'GET',
+                                success: function (response) {
+                                    var mkkh = response.matKhau;
+                                    if (mkkh === mkcu) {
+                                        if (mkmoi === mkcu) {
+                                            alert('Mật khẩu mới không được trùng với mật khẩu cũ')
+                                        } else {
 
-                                $.ajax({
-                                    url: `/update-khach-hang-clientmk/${idvuvo}/${mkmoi}`,
-                                    method: 'POST',
-                                    contentType: 'application/json',
-                                    success: function (response) {
-
-                                    },
-                                    error: function (xhr, status, error) {
-                                        alert('Có lỗi xảy ra: ' + error);
+                                            $.ajax({
+                                                url: `/update-khach-hang-clientmk/${idvuvo}/${mkmoi}`,
+                                                method: 'POST',
+                                                contentType: 'application/json',
+                                                success: function (response) {
+                                                    showSuccessMessage();
+                                                },
+                                                error: function (xhr, status, error) {
+                                                    alert('Có lỗi xảy ra: ' + error);
+                                                }
+                                            });
+                                        }
+                                    } else {
+                                        alert('Mật khẩu đã nhập không đúng')
                                     }
-                                });
-                            }
-                        } else {
-                            alert('Mật khẩu đã nhập không đúng')
+
+                                },
+                            });
+
                         }
+                        console.log("Form is valid, proceed to change password.");
+                    });
+                } else {
+                    Swal.fire(
+                        'Đã hủy!',
+                        'Hành động của bạn đã bị hủy.',
+                        'error'
+                    );
+                }
+            });
 
-                    },
-                });
-
-            }
-            console.log("Form is valid, proceed to change password.");
         } else {
             console.log("Form is invalid, show errors.");
         }
@@ -912,16 +1226,43 @@
     }
 
     function xoadiachi(id) {
-        $.ajax({
-            url: `/deletediachikh/${id}`,
-            type: 'DELETE',
-            success: function (response) {
 
-            },
-            error: function (xhr, status, error) {
-                console.error('Error deleting DiaChi:', status, error);
+        Swal.fire({
+            title: 'Bạn có chắc chắn ?',
+            text: "Bạn không thể hoàn tác hành động này!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Vâng, tiếp tục!',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Đã xác nhận!',
+                    'success'
+                ).then(() => {
+                    $.ajax({
+                        url: `/deletediachikh/${id}`,
+                        type: 'DELETE',
+                        success: function (response) {
+                            showSuccessMessage();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error deleting DiaChi:', status, error);
+                        }
+                    });
+
+                });
+            } else {
+                Swal.fire(
+                    'Đã hủy!',
+                    'Hành động của bạn đã bị hủy.',
+                    'error'
+                );
             }
         });
+
     }
 
 
@@ -1038,6 +1379,8 @@
 
                     idKhachHang = response.id;
 
+                    getDuLieuGioHangVaGioHangChiTiet(idKhachHang);
+
                     getdlkh(response.id)
 
 
@@ -1052,6 +1395,22 @@
         }
 
         getKhachHang();
+
+        function getDuLieuGioHangVaGioHangChiTiet(idKhachHang) {
+            $.ajax({
+                url: `/api/gio-hang/detail/${idKhachHang}`,
+                method: 'GET',
+                success: function (response) {
+                    const gioHangChiTiet = response.ghct;
+                    const  gioHang = response.gh
+
+                    var count = gioHangChiTiet.length ? gioHangChiTiet.length : 0;
+                    document.getElementById('cart-count').textContent = count;
+
+                },
+            });
+
+        }
 
         function getdlkh(id) {
             $.ajax({

@@ -629,43 +629,7 @@ GO
 SET IDENTITY_INSERT [dbo].[de_giay] OFF
 GO
 SET IDENTITY_INSERT [dbo].[dia_chi] ON 
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (1, 2, N'TP Hà Nội', N'Quận Hoàn Kiếm', N'Phan Chu Trinh', N'Ngõ 11', N'Nhà số 123, đường Phan Chu Trinh, Quận Hoàn Kiếm', N'Nguyễn Thị A', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 1)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (2, 2, N'TP Hà Nội', N'Quận Cầu Giấy', N'Dịch Vọng', N'Ngõ 12', N'Nhà số 456, đường Dịch Vọng, Quận Cầu Giấy', N'Nguyễn Thị A', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 0)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (3, 2, N'TP Hà Nội', N'Quận Đống Đa', N'Khâm Thiên', N'Ngõ 13', N'Nhà số 789, đường Khâm Thiên, Quận Đống Đa', N'Nguyễn Thị A', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 0)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (4, 3, N'TP Hà Nội', N'Quận Ba Đình', N'Kim Mã', N'Ngõ 21', N'Nhà số 321, đường Kim Mã, Quận Ba Đình', N'Trần Văn B', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 1)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (5, 3, N'TP Hà Nội', N'Quận Hoàng Mai', N'Đại Kim', N'Ngõ 22', N'Nhà số 654, đường Đại Kim, Quận Hoàng Mai', N'Trần Văn B', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 0)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (6, 3, N'TP Hà Nội', N'Quận Long Biên', N'Ngọc Thụy', N'Ngõ 23', N'Nhà số 987, đường Ngọc Thụy, Quận Long Biên', N'Trần Văn B', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 0)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (7, 4, N'TP Hà Nội', N'Quận Thanh Xuân', N'Nhân Chính', N'Ngõ 31', N'Nhà số 246, đường Nhân Chính, Quận Thanh Xuân', N'Nguyễn Văn C', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 1)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (8, 4, N'TP Hà Nội', N'Quận Tây Hồ', N'Nhật Tân', N'Ngõ 32', N'Nhà số 579, đường Nhật Tân, Quận Tây Hồ', N'Nguyễn Văn C', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 0)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (9, 4, N'TP Hà Nội', N'Quận Hoài Đức', N'Đại Mỗ', N'Ngõ 33', N'Nhà số 891, đường Đại Mỗ, Quận Hoài Đức', N'Nguyễn Văn C', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 0)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (10, 5, N'TP Hà Nội', N'Quận Hoàn Kiếm', N'Phan Chu Trinh', N'Ngõ 41', N'Nhà số 357, đường Phan Chu Trinh, Quận Hoàn Kiếm', N'Trần Thị D', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 1)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (11, 5, N'TP Hà Nội', N'Quận Ba Đình', N'Kim Mã', N'Ngõ 42', N'Nhà số 684, đường Kim Mã, Quận Ba Đình', N'Trần Thị D', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 0)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (12, 5, N'TP Hà Nội', N'Quận Hoàng Mai', N'Đại Kim', N'Ngõ 43', N'Nhà số 987, đường Đại Kim, Quận Hoàng Mai', N'Trần Thị D', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 0)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (13, 6, N'TP Hà Nội', N'Quận Hoàn Kiếm', N'Phan Chu Trinh', N'Ngõ 51', N'Nhà số 123, đường Phan Chu Trinh, Quận Hoàn Kiếm', N'Nguyễn Văn An', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 1)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (14, 6, N'TP Hà Nội', N'Quận Cầu Giấy', N'Dịch Vọng', N'Ngõ 52', N'Nhà số 456, đường Dịch Vọng, Quận Cầu Giấy', N'Nguyễn Văn An', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 0)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (15, 7, N'TP Hà Nội', N'Quận Đống Đa', N'Khâm Thiên', N'Ngõ 53', N'Nhà số 789, đường Khâm Thiên, Quận Đống Đa', N'Nguyễn Văn An', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 0)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (16, 8, N'TP Hà Nội', N'Quận Ba Đình', N'Kim Mã', N'Ngõ 61', N'Nhà số 321, đường Kim Mã, Quận Ba Đình', N'Trần Văn B', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 1)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (17, 9, N'TP Hà Nội', N'Quận Hoàng Mai', N'Đại Kim', N'Ngõ 62', N'Nhà số 654, đường Đại Kim, Quận Hoàng Mai', N'Trần Văn B', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 0)
-GO
-INSERT [dbo].[dia_chi] ([id], [idKhachHang], [thanhPho], [quanHuyen], [phuongXa], [soNha], [moTaChiTiet], [tenNguoiNhan], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [trangThai]) VALUES (18, 10, N'TP Hà Nội', N'Quận Long Biên', N'Ngọc Thụy', N'Ngõ 63', N'Nhà số 987, đường Ngọc Thụy, Quận Long Biên', N'Trần Văn B', N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime), 0)
-GO
+Go
 SET IDENTITY_INSERT [dbo].[dia_chi] OFF
 GO
 SET IDENTITY_INSERT [dbo].[khach_hang] ON 
@@ -694,42 +658,7 @@ INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiT
 GO
 INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (12, N'KH012', N'Lê Văn Minh', N'0912345678', CAST(N'2000-10-15' AS Date), N'levan.minh@example.com', 1, N'912345678', N'', N'mklevan123', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
 GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (13, N'KH013', N'Phạm Thị Nhung', N'0771234567', CAST(N'2001-09-02' AS Date), N'phamthi.nhung@example.com', 0, N'771234567', N'', N'nhung123mk', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (14, N'KH014', N'Trần Văn Oanh', N'0987654321', CAST(N'2002-08-19' AS Date), N'tranvan.oanh@example.com', 1, N'987654321', N'', N'mkoanh2002', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (15, N'KH015', N'Lê Thị Phương', N'0369852147', CAST(N'2003-07-06' AS Date), N'lethi.phuong@example.com', 0, N'369852147', N'', N'phuong123mk', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (16, N'KH016', N'Nguyễn Văn Quân', N'0912345678', CAST(N'2004-06-23' AS Date), N'nguyenvan.quan@example.com', 1, N'912345678', N'', N'mkquan2004', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (17, N'KH017', N'Hoàng Thị Rạng', N'0771234567', CAST(N'2005-05-10' AS Date), N'hoangthi.rang@example.com', 0, N'771234567', N'', N'rang123mk', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (18, N'KH018', N'Trần Văn Sơn', N'0987654321', CAST(N'2006-04-27' AS Date), N'tranvan.son@example.com', 1, N'987654321', N'', N'son123mk', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (19, N'KH019', N'Lê Thị Tâm', N'0369852147', CAST(N'2007-03-14' AS Date), N'lethi.tam@example.com', 0, N'369852147', N'', N'tam123mk', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (20, N'KH020', N'Phạm Văn Uyên', N'0912345678', CAST(N'2008-02-01' AS Date), N'phamvan.uyen@example.com', 1, N'912345678', N'', N'uyen123mk', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (21, N'KH021', N'Nguyễn Thị Vân', N'0771234567', CAST(N'2009-01-18' AS Date), N'nguyenthiv.van@example.com', 0, N'771234567', N'', N'van123mk', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (22, N'KH022', N'Trần Văn Xuân', N'0987654321', CAST(N'2010-12-06' AS Date), N'tranvan.xuan@example.com', 1, N'987654321', N'', N'xuan123mk', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (23, N'KH023', N'Lê Thị Yến', N'0369852147', CAST(N'2011-10-24' AS Date), N'lethi.yen@example.com', 0, N'369852147', N'', N'yen123mk', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (24, N'KH024', N'Hoàng Văn Zai', N'0912345678', CAST(N'2012-09-10' AS Date), N'hoangvan.zai@example.com', 1, N'912345678', N'', N'zai123mk', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (25, N'KH025', N'Trần Thị Mỹ', N'0771234567', CAST(N'2013-08-28' AS Date), N'tranthi.my@example.com', 0, N'771234567', N'', N'mythi456', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (26, N'KH026', N'Nguyễn Văn Đạt', N'0987654321', CAST(N'2014-07-15' AS Date), N'nguyenvan.dat@example.com', 1, N'987654321', N'', N'dat123mk', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (27, N'KH027', N'Phạm Thị Lan', N'0369852147', CAST(N'2015-06-02' AS Date), N'phamthi.lan@example.com', 0, N'369852147', N'', N'lan123mk', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (28, N'KH028', N'Trần Văn Thành', N'0912345678', CAST(N'2016-05-20' AS Date), N'tranvan.thanh@example.com', 1, N'912345678', N'', N'thanh123mk', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (29, N'KH029', N'Lê Thị Hương', N'0771234567', CAST(N'2017-04-07' AS Date), N'lethi.huong@example.com', 0, N'771234567', N'', N'huong123mk', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[khach_hang] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat]) VALUES (30, N'KH030', N'Nguyễn Văn Phúc', N'0987654321', CAST(N'2018-03-25' AS Date), N'nguyenvan.phuc@example.com', 1, N'987654321', N'', N'phuc123mk', 2, 1, N'admin', N'admin', CAST(N'2024-01-01T00:00:00.000' AS DateTime), CAST(N'2024-01-01T00:00:00.000' AS DateTime))
-GO
+
 SET IDENTITY_INSERT [dbo].[khach_hang] OFF
 GO
 SET IDENTITY_INSERT [dbo].[kich_co] ON 
@@ -936,38 +865,8 @@ INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTi
 GO
 INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (15, N'lantt', N'Trần Thanh Lân', N'0987654346', CAST(N'2008-07-19' AS Date), N'ttl@example.com', 1, N'135792468', NULL, N'passwordabc', 1, 1, N'admin', N'admin', CAST(N'2024-01-19T08:00:00.000' AS DateTime), CAST(N'2024-01-19T08:00:00.000' AS DateTime), N'1616 Đường ABC, Quận 1')
 GO
-INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (16, N'thaopt', N'Phạm Thị Thảo', N'0987654347', CAST(N'2009-08-20' AS Date), N'thao@example.com', 0, N'246813579', NULL, N'passwordxyz', 0, 1, N'admin', N'admin', CAST(N'2024-01-20T08:00:00.000' AS DateTime), CAST(N'2024-01-20T08:00:00.000' AS DateTime), N'1717 Đường DEF, Quận 2')
-GO
-INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (17, N'hoanv', N'Vũ Hoàng Anh', N'0987654348', CAST(N'2010-09-21' AS Date), N'hoan@example.com', 1, N'357924681', NULL, N'password123', 1, 1, N'admin', N'admin', CAST(N'2024-01-21T08:00:00.000' AS DateTime), CAST(N'2024-01-21T08:00:00.000' AS DateTime), N'1818 Đường GHI, Quận 3')
-GO
-INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (18, N'phungt', N'Trần Văn Phụng', N'0987654349', CAST(N'2011-10-22' AS Date), N'tvphung@example.com', 1, N'468135792', NULL, N'password456', 0, 1, N'admin', N'admin', CAST(N'2024-01-22T08:00:00.000' AS DateTime), CAST(N'2024-01-22T08:00:00.000' AS DateTime), N'1919 Đường KLM, Quận 4')
-GO
-INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (19, N'thietk', N'Kiều Thị Thanh Thúy', N'0987654350', CAST(N'2012-11-23' AS Date), N'kttthuy@example.com', 0, N'579246813', NULL, N'password789', 1, 1, N'admin', N'admin', CAST(N'2024-01-23T08:00:00.000' AS DateTime), CAST(N'2024-01-23T08:00:00.000' AS DateTime), N'2020 Đường NOP, Quận 5')
-GO
-INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (20, N'binhan', N'Nguyễn Bình An', N'0987654351', CAST(N'2013-12-24' AS Date), N'nban@example.com', 1, N'681357924', NULL, N'passwordabc', 0, 1, N'admin', N'admin', CAST(N'2024-01-24T08:00:00.000' AS DateTime), CAST(N'2024-01-24T08:00:00.000' AS DateTime), N'2121 Đường QRS, Quận 6')
-GO
-INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (21, N'khant', N'Trần Văn Khanh', N'0987654352', CAST(N'2014-01-25' AS Date), N'tvkhanh@example.com', 1, N'792468135', NULL, N'passwordxyz', 1, 1, N'admin', N'admin', CAST(N'2024-01-25T08:00:00.000' AS DateTime), CAST(N'2024-01-25T08:00:00.000' AS DateTime), N'2222 Đường TUV, Quận 7')
-GO
-INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (22, N'anhpt', N'Phạm Thanh Anh', N'0987654353', CAST(N'2015-02-26' AS Date), N'pthanh@example.com', 0, N'813579246', NULL, N'password123', 0, 1, N'admin', N'admin', CAST(N'2024-01-26T08:00:00.000' AS DateTime), CAST(N'2024-01-26T08:00:00.000' AS DateTime), N'2323 Đường WXY, Quận 8')
-GO
-INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (23, N'trungt', N'Trần Minh Trung', N'0987654354', CAST(N'2016-03-27' AS Date), N'tmtrung@example.com', 1, N'924681357', NULL, N'password456', 1, 1, N'admin', N'admin', CAST(N'2024-01-27T08:00:00.000' AS DateTime), CAST(N'2024-01-27T08:00:00.000' AS DateTime), N'2424 Đường ZAB, Quận 9')
-GO
-INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (24, N'chauth', N'Hồ Thị Châu', N'0987654355', CAST(N'2017-04-28' AS Date), N'htchau@example.com', 0, N'135792468', NULL, N'password789', 0, 1, N'admin', N'admin', CAST(N'2024-01-28T08:00:00.000' AS DateTime), CAST(N'2024-01-28T08:00:00.000' AS DateTime), N'2525 Đường CDE, Quận 10')
-GO
-INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (25, N'ducnt', N'Nguyễn Thanh Đức', N'0987654356', CAST(N'2018-05-29' AS Date), N'ntduc@example.com', 1, N'246813579', NULL, N'passwordabc', 1, 1, N'admin', N'admin', CAST(N'2024-01-29T08:00:00.000' AS DateTime), CAST(N'2024-01-29T08:00:00.000' AS DateTime), N'2626 Đường FGH, Quận 11')
-GO
-INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (26, N'dungtv', N'Trần Văn Dũng', N'0987654357', CAST(N'2019-06-30' AS Date), N'tvdung@example.com', 1, N'357924681', NULL, N'passwordxyz', 0, 1, N'admin', N'admin', CAST(N'2024-01-30T08:00:00.000' AS DateTime), CAST(N'2024-01-30T08:00:00.000' AS DateTime), N'2727 Đường IJK, Quận Bình Tân')
-GO
-INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (27, N'thanhnq', N'Nguyễn Quang Thành', N'0987654358', CAST(N'2020-07-31' AS Date), N'nqthanh@example.com', 1, N'468135792', NULL, N'password123', 1, 1, N'admin', N'admin', CAST(N'2024-01-31T08:00:00.000' AS DateTime), CAST(N'2024-01-31T08:00:00.000' AS DateTime), N'2828 Đường LMN, Quận Bình Chánh')
-GO
-INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (28, N'hangpt', N'Phạm Thị Hằng', N'0987654359', CAST(N'2021-08-01' AS Date), N'pthang@example.com', 0, N'579246813', NULL, N'password456', 0, 1, N'admin', N'admin', CAST(N'2024-02-01T08:00:00.000' AS DateTime), CAST(N'2024-02-01T08:00:00.000' AS DateTime), N'2929 Đường OPQ, Quận Gò Vấp')
-GO
-INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (29, N'manhhn', N'Hồ Ngọc Mạnh', N'0987654360', CAST(N'2022-09-02' AS Date), N'hnmanh@example.com', 1, N'681357924', NULL, N'password789', 1, 1, N'admin', N'admin', CAST(N'2024-02-02T08:00:00.000' AS DateTime), CAST(N'2024-02-02T08:00:00.000' AS DateTime), N'3030 Đường RST, Quận Tân Bình')
-GO
-INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (30, N'duytk', N'Trần Khắc Duy', N'0987654361', CAST(N'2023-10-03' AS Date), N'tkduy@example.com', 1, N'792468135', NULL, N'passwordabc', 0, 1, N'admin', N'admin', CAST(N'2024-02-03T08:00:00.000' AS DateTime), CAST(N'2024-02-03T08:00:00.000' AS DateTime), N'3131 Đường UVW, Quận Tân Phú')
-GO
-INSERT [dbo].[nhan_vien] ([id], [ma], [ten], [sdt], [ngaySinh], [email], [gioiTinh], [cccd], [anh], [matKhau], [vaiTro], [trangThai], [nguoiTao], [nguoiCapNhat], [ngayTao], [ngayCapNhat], [diaChi]) VALUES (31, N'hanglv', N'Lê Thị Hằng', N'0987654362', CAST(N'2024-11-04' AS Date), N'lthang@example.com', 0, N'813579246', NULL, N'passwordxyz', 1, 1, N'admin', N'admin', CAST(N'2024-02-04T08:00:00.000' AS DateTime), CAST(N'2024-02-04T08:00:00.000' AS DateTime), N'3232 Đường XYZ, Quận Thủ Đức')
-GO
+
+
 SET IDENTITY_INSERT [dbo].[nhan_vien] OFF
 GO
 SET IDENTITY_INSERT [dbo].[phieu_giam_gia] ON 
