@@ -686,22 +686,67 @@
         var ten, sdtNguoiNhan, tinhthanh, quanhuyen, phuongxa, diachi, phiVanChuyen, noteThongTin, fullAddress;
 
         function getFormData() {
-            ten = $('#edit-ten').val();
-            sdtNguoiNhan = $('#edit-sdtNguoiNhan').val();
-            tinhthanh = $('#edit-tinhthanh').val();
-            quanhuyen = $('#edit-quanhuyen').val();
-            phuongxa = $('#edit-phuongxa').val();
-            diachi = $('#edit-diachi').val();
-            phiVanChuyen = $('#phiVanChuyen').val();
-            noteThongTin = $('#noteThongTin').val();
+            ten = $('#edit-ten').val().trim();
+            sdtNguoiNhan = $('#edit-sdtNguoiNhan').val().trim();
+            tinhthanh = $('#edit-tinhthanh').val().trim();
+            quanhuyen = $('#edit-quanhuyen').val().trim();
+            phuongxa = $('#edit-phuongxa').val().trim();
+            diachi = $('#edit-diachi').val().trim();
+            phiVanChuyen = $('#phiVanChuyen').val().trim();
+            noteThongTin = $('#noteThongTin').val().trim();
 
-            console.log("phiVanChuyen"+phiVanChuyen);
+            console.log("Tên:", ten);
+            console.log("SĐT Người Nhận:", sdtNguoiNhan);
+            console.log("Tỉnh Thành:", tinhthanh);
+            console.log("Quận Huyện:", quanhuyen);
+            console.log("Phường Xã:", phuongxa);
+            console.log("Địa Chỉ:", diachi);
+            console.log("Phí Vận Chuyển:", phiVanChuyen);
+            console.log("Ghi Chú:", noteThongTin);
 
-            fullAddress = diachi;
-            if (phuongxa) fullAddress += ', ' + phuongxa;
-            if (quanhuyen) fullAddress += ', ' + quanhuyen;
-            if (tinhthanh) fullAddress += ', ' + tinhthanh;
+            fullAddress = '';
+            if (diachi) fullAddress += diachi;
+            if (phuongxa) {
+                if (fullAddress) fullAddress += ', ';
+                fullAddress += getAddressName(phuongxa, 'phuongxa');
+            }
+            if (quanhuyen) {
+                if (fullAddress) fullAddress += ', ';
+                fullAddress += getAddressName(quanhuyen, 'quanhuyen');
+            }
+            if (tinhthanh) {
+                if (fullAddress) fullAddress += ', ';
+                fullAddress += getAddressName(tinhthanh, 'tinhthanh');
+            }
+
+            console.log("Full Address:", fullAddress);
         }
+
+        getThongTinKhachHang();
+
+        function getAddressName(id, type) {
+            if (!citiesData.length) return id;
+
+            let address = '';
+
+            switch(type) {
+                case 'tinhthanh':
+                    let city = citiesData.find(city => city.Id === id);
+                    address = city ? city.Name : id;
+                    break;
+                case 'quanhuyen':
+                    let district = citiesData.flatMap(city => city.Districts).find(district => district.Id === id);
+                    address = district ? district.Name : id;
+                    break;
+                case 'phuongxa':
+                    let ward = citiesData.flatMap(city => city.Districts.flatMap(district => district.Wards)).find(ward => ward.Id === id);
+                    address = ward ? ward.Name : id;
+                    break;
+            }
+
+            return address;
+        }
+
 
         const formatVND = (tongtien) => {
             if (tongtien < 0) {
@@ -1499,6 +1544,7 @@
         }
 
         $('#thanhToanTong').click(function () {
+            getFormData();
 
             showConfirm(function () {
                 if (checkThanhToan === 0) {
@@ -1507,17 +1553,17 @@
                     } else if(tienDaThanhToan < tongTienTrongHD - GiamToiDa){
                         showNotification("Thanh toán thất bại", "thatBai");
                     } else {
-                        updateTrangThaiHoaDon(1, idTabHD);
-                        updateTongTien(tongTienSauKhiCoVoucher, idTabHD);
+                        updateTrangThaiHoaDon(6, idTabHD);
+                        // updateTongTien(tongTienSauKhiCoVoucher, idTabHD);
                         renderTabs();
                         showNotification("Thanh toán thành công", "thanhCong");
                         window.location.href = 'http://localhost:3000/admin/ban-hang-tai-quay';
                     }
                 } else if (checkThanhToan === 1) {
+                    getFormData();
                     updateTrangThaiHoaDon(1, idTabHD);
                     updateTongTien(tongTienSauKhiCoVoucher, idTabHD);
                     addPhuongThucThanhToanTienMatGiaoHang(idTabHD, tongTienSauKhiCoVoucher);
-                    getFormData();
                     updateThongTinNguoiNhanCoTrangThai(ten, sdtNguoiNhan, fullAddress, phiVanChuyen, noteThongTin, idTabHD);
                     renderTabs();
                     showNotification("Đặt hàng thành công", "thanhCong");
