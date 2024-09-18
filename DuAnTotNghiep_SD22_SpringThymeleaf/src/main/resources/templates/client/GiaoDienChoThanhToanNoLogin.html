@@ -181,14 +181,6 @@
             </div>
         </div>
 
-        <!--    <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-5">-->
-        <!--        <div class="grid gap-1 grid-cols-2 m-3">-->
-        <!--            <div class="text-orange-500 text-xl">Voucher</div>-->
-        <!--            <div id="voucher" class="ml-[50%] text-orange-500 py-2 px-4 border-2 border-orange-500 rounded-lg text-center cursor-pointer bg-white font-semibold w-[200px]">-->
-        <!--            </div>-->
-        <!--        </div>-->
-
-        <!--    </div>-->
         <div class="flex justify-center">
             <div class="container bg-white w-[70%] p-2 rounded-lg shadow-md mt-5 gap-40 mb-20">
                 <div class="m-10">
@@ -197,10 +189,9 @@
                         Thanh toán khi nhận hàng
                     </button>
 
-                    <button id="btnVNPAY" class="btn-payment w-64 h-14 border py-2 px-4 rounded-md relative">
+                    <button id="btnVNPA" class="btn-payment w-64 h-14 border py-2 px-4 rounded-md relative">
                         <span class="flex"> Thanh toán VNPAY</span>
-                        <img src="https://asset.brandfetch.io/idV02t6WJs/idyWhNall8.svg"
-                             class="icon-payment absolute w-[40%] h-[40%]">
+                        <img src="https://asset.brandfetch.io/idV02t6WJs/idyWhNall8.svg" class="icon-payment absolute w-[40%] h-[40%]">
                     </button>
                 </div>
                 <div class="grid gap-4 grid-cols-2">
@@ -216,13 +207,12 @@
                             <div class="text-gray-600">
                                 <div class="mb-5">Tổng tiền</div>
                                 <div class="mb-5">Phí vận chuyển</div>
-                                <!--                            <div class="mb-5">Mã giảm giá</div>-->
+
                                 <div class="mb-5">Tổng thanh toán</div>
                             </div>
                             <div class="text-gray-600">
                                 <div class="mb-5"><span class="ml-1" id="tongTien"></span></div>
                                 <div class="mb-5"><span class="ml-1" id="phiVanChuyen"></span></div>
-                                <!--                            <div class="mb-5"><span class="ml-1" id="maGiamGia"></span></div>-->
                                 <div class="mb-5"><span class="ml-1 text-orange-500 text-2xl" id="tongThanhToan"></span>
                                 </div>
                             </div>
@@ -533,10 +523,10 @@
         $(document).ready(function () {
             $('#btnCOD').click(function () {
                 $(this).addClass('active');
-                $('#btnVNPAY').removeClass('active');
+                $('#btnVNPA').removeClass('active');
             });
 
-            $('#btnVNPAY').click(function () {
+            $('#btnVNPA').click(function () {
                 $(this).addClass('active');
                 $('#btnCOD').removeClass('active');
             });
@@ -546,6 +536,9 @@
         function hienThiSanPhamDaChon() {
             let list = "";
             if (Array.isArray(selectedProducts) && selectedProducts.length > 0) {
+                let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                var count = cart.length ? cart.length : 0;
+                document.getElementById('cart-count').textContent = count;
                 for (let i = 0; i < selectedProducts.length; i++) {
                     const item = selectedProducts[i];
                     tongTien += item.quantity * item.giabansp;
@@ -612,63 +605,20 @@
 
                     window.location.href = '/Client';
 
-                } else if ($('#btnVNPAY').hasClass('active')) {
+                } else if ($('#btnVNPA').hasClass('active')) {
                     let ship2 = ship;
                     var tongTien2 = tongTien;
                     let nguoiNhan2 = ten;
                     let sdtNguoiNhan2 = sdt;
                     let diaChiNguoiNhan = diachi + ',' + dc;
                     var tongTienSauKhiGiam2 = tongTien;
-
                     taoHoaDonDatHangTraTruoc(nguoiNhan2, tongTien2, ship2, sdtNguoiNhan2, diaChiNguoiNhan, tongTienSauKhiGiam2);
-
                 } else {
-                    alert("Vui lòng chọn phương thức thanh toán.");
+
                 }
             }
         });
-        // function thongTinNguoiMua(dckh) {
-        //
-        //     if (dckh.trangThai == 1) {
-        //         $('#diaChiKhachHang').html(`
-        //             <div class="flex">
-        //                 <p class="font-bold">${dckh.idKH.ten} |<span class="font-normal ml-1">${dckh.idKH.sdt}</span> <span id="diaChiSpan" class="font-normal ml-4">${dckh.soNha}, ${dckh.phuongXa}, ${dckh.quanHuyen}, ${dckh.thanhPho}</span></p>
-        //                 <button class=" ml-10 bg-blue-500 hover:bg-blue-700 text-white px-2 rounded">
-        //                     Mặc định
-        //                 </button>
-        //                 <a class="ml-10 text-blue-700"><button id="thayDoiDiaChi">Thay đổi</button></a>
-        //             </div>
-        //         `);
-        //     }
-        // }
-        //
-        // function getKhachHang() {
-        //     $.ajax({
-        //         url: '/api/session/user',
-        //         method: 'GET',
-        //         success: function (response) {
-        //             idKhachHang = response.id;
-        //             nguoiNhan = response.ten;
-        //             sdtNguoiNhan = response.sdt;
-        //             getDuLieu(idKhachHang);
-        //             getDiaChiKhachHang(response);
-        //
-        //
-        //         },
-        //     });
-        // }
-        //
-        // function getDuLieu(idKhachHang) {
-        //     $.ajax({
-        //         url: `/api/gio-hang/cho-thanh-toan/${idKhachHang}`,
-        //         method: 'GET',
-        //         success: function (response) {
-        //             thongTinNguoiMua(response.diaChiKH[0]);
-        //             console.log(selectedProducts[0].id);
-        //
-        //         },
-        //     });
-        // }
+
 
         function chuyenKhoan(amount, TxnRef, nguoiNhan, tongTienSauKhiGiam, now, email) {
 
@@ -708,7 +658,7 @@
             var ghichu = document.getElementById('ghichu').value;
             $.ajax({
                 url: `/api/gio-hang/tao-hoa-don-dat-hang-khong-dang-nhap`,
-                method: 'POST',
+                method: 'post',
                 contentType: 'application/json',
                 data: JSON.stringify({
 
@@ -739,7 +689,6 @@
 
 
         function taoHoaDonDatHang(nguoiNhan, tongTien, tienShip, sdtNguoiNhan, diaChiNguoinhan) {
-            // let idPhieuGiamGia = sale[0].id
             var ghichu = document.getElementById('ghichu').value;
             $.ajax({
                 url: `/api/gio-hang/tao-hoa-don-dat-hang-khong-dang-nhap`,
@@ -815,7 +764,7 @@
                         console.log("id" + product.id)
                         console.log(product.quantity)
                         deleteByIDGHCT(product.id);
-                        updateSoLuongSP(product.id, product.quantity);
+                        // updateSoLuongSP(product.id, product.quantity);
                         removeProductById(product.id);
 
                     },
@@ -838,35 +787,7 @@
 
 
 
-        // function updateSoLuongSP(idSPCT, soLuong){
-        //     $.ajax({
-        //         url: `/api/gio-hang/update-so-luong-sp-sau-khi-thanh-toan/${idSPCT}`,
-        //         method: 'PUT',
-        //         contentType: 'application/json',
-        //         data: JSON.stringify({
-        //             soLuong: soLuong
-        //         }),
-        //         success: function () {
-        //
-        //         },
-        //
-        //     });
-        // }
 
-        function updateSoLuongSP(idSPCT, soLuong) {
-            $.ajax({
-                url: `/api/gio-hang/update-so-luong-sp-sau-khi-thanh-toan/${idSPCT}`,
-                method: 'PUT',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    soLuong: soLuong
-                }),
-                success: function () {
-
-                },
-
-            });
-        }
 
 
         function addPhuongThucThanhToan(idHoaDon, tongTien) {
@@ -901,48 +822,6 @@
             });
         }
 
-        // function getDiaChiKhachHang(khachHang) {
-        //     $.ajax({
-        //         url: `/api/gio-hang/dia-chi-khach-hang/${khachHang.id}`,
-        //         method: 'GET',
-        //         success: function (response) {
-        //             let list = "";
-        //             $("#listDiaChi").empty();
-        //
-        //             response.forEach((diaChi, i) => {
-        //
-        //                 list += `
-        //             <div class="grid gap-1 grid-cols-1 border-1 border-gray-300 p-4 rounded-lg">
-        //                 <div class="flex">
-        //                      <div class="radioDiaChi mr-2">
-        //                             <input type="radio" name="phieuGiamGia" id="radioDiaChi" value="${diaChi.id}" data-item='${JSON.stringify(diaChi)}'>
-        //                     </div>
-        //                     <div class="mr-3">${khachHang.ten}</div>
-        //                     <div class="text-gray-600">| ${khachHang.sdt}</div>
-        //                     </div>
-        //                     <div>
-        //                         <div class="ml-5 text-gray-600">${`${diaChi.moTaChiTiet}, ${diaChi.thanhPho}`}</div>
-        //                     </div>
-        //             </div>
-        //             <br>
-        //         `;
-        //             });
-        //             $("#listDiaChi").html(list);
-        //         },
-        //     });
-        // }
-
-
-        // function deleteByIDGHCT(idGHCT){
-        //     $.ajax({
-        //         url: `/api/gio-hang/delete-sp/${idGHCT}`,
-        //         method: 'POST',
-        //         success: function () {
-        //
-        //         },
-        //
-        //     });
-        // }
 
         function deleteByIDGHCT(idGHCT) {
             $.ajax({
@@ -957,23 +836,11 @@
 
 
 
-        // function hideModalDiaChi() {
-        //     $('#modalDiaChi').addClass('hidden');
-        //     $('#modalDiaChi').val('');
-        //     $('#modalDiaChi').addClass('hidden');
-        // }
-        //
-        // function showModalDiaChi() {
-        //     $('#modalDiaChi').removeClass('hidden');
-        // }
-        //
-        // $(document).on('click', '#thayDoiDiaChi', function () {
-        //     showModalDiaChi();
-        // });
+
 
 
         hienThiSanPhamDaChon();
-        // getKhachHang();
+
 
     });
 </script>

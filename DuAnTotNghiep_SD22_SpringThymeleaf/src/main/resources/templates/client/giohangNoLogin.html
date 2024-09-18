@@ -130,6 +130,8 @@
                
                 return;
             }
+            var count = cart.length ? cart.length : 0;
+            document.getElementById('cart-count').textContent = count;
 
             cart.forEach(item => {
                 slsp = item.quantitymax;
@@ -175,8 +177,10 @@
                 container.innerHTML += cardHTML;
             })
             function removeFromCart(productId) {
-                // Lấy giỏ hàng hiện tại từ Session Storage
+
                 let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+                var count = cart.length ? cart.length : 0;
+                document.getElementById('cart-count').textContent = count;
                 console.log("Current cart:", cart);
                 console.log("Product ID to remove:", productId);
 
@@ -264,14 +268,7 @@
         }
 
 
-        // function removeItemFromCart(id) {
-        //     // Implementation for removing item from cart
-        //     let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-        //     cart = cart.filter(item => item.id !== id);
-        //     sessionStorage.setItem('cart', JSON.stringify(cart));
-        //     getDuLieuGioHangVaGioHangChiTiet(); // Refresh the cart display
-        // }
-        //
+
         getDuLieuGioHangVaGioHangChiTiet();
         //
         // function getKhachHang() {
@@ -402,6 +399,9 @@
         function clearCart() {
             tinhTongTien();
             sessionStorage.removeItem('cart');
+            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            var count = cart.length ? cart.length : 0;
+            document.getElementById('cart-count').textContent = count;
         }
         $("#delete-all").click(function () {
             clearCart();

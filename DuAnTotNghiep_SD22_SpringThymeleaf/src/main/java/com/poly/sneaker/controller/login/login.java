@@ -44,6 +44,11 @@ public class login {
         model.addAttribute("khachHang", new KhachHang());
         return "Login/login";
     }
+    @GetMapping("/loginadmin")
+    public String showLoginFormadmin(Model model) {
+
+        return "admin/loginAdmin";
+    }
     @GetMapping("/")
     public String show(Model model) {
         model.addAttribute("khachHang", new KhachHang());
@@ -164,4 +169,5 @@ public class login {
         }
         return sb.toString();
     }
+
 }
