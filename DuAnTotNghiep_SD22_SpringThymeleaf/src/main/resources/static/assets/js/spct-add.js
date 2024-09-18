@@ -265,7 +265,7 @@ $(document).ready(function () {
                     <button type="button" class="btn btn-primary clearSanPham">clear sp</button>
                 </div>
                 <div class="d-flex justify-content-center" style="width: 50%;">
-                    <button type="button" class="btn btn-secondary editAllSanPham" >edit all</button>
+                    <button type="button" class="btn btn-secondary editAllSanPham">edit all</button>
                 </div>
             </div>
         </th>
@@ -483,6 +483,24 @@ $(document).ready(function () {
 
         $(document).ready(function () {
             $(".editAllSanPham").click(function () {
+                // Lấy bảng hiện tại đang được chỉnh sửa
+                const currentTable = $(this).closest('.color-section').find('table');
+
+                // Lưu trữ bảng hiện tại vào modal
+                $("#editAllProductsModal").data('currentTable', currentTable);
+
+                // Lấy dữ liệu từ hàng đầu tiên của bảng để hiển thị trong modal (giả sử tất cả các hàng có cùng dữ liệu)
+                const firstRow = currentTable.find("tbody tr").first();
+                const giaBan = firstRow.find("input[data-field='giaBan']").val();
+                const canNang = firstRow.find("input[data-field='canNang']").val();
+                const soLuong = firstRow.find("input[data-field='soLuong']").val();
+
+                // Cập nhật các trường nhập liệu trong modal
+                $("#editAllGiaBan").val(giaBan);
+                $("#editAllCanNang").val(canNang);
+                $("#editAllSoLuong").val(soLuong);
+
+                // Hiển thị modal
                 $("#editAllProductsModal").modal("show");
             });
 
@@ -502,7 +520,8 @@ $(document).ready(function () {
                     $("#errorGiaBan").text("Giá bán phải là số và không được có ký tự đặc biệt.").show();
                     isValid = false;
                 } else if (parseInt(newGiaBan) > 100000000) {
-                    $("#errorGiaBan").text("Giá giày không được vượt quá 100 triệu")
+                    $("#errorGiaBan").text("Giá bán không được vượt quá 100 triệu.").show();
+                    isValid = false;
                 } else {
                     $("#errorGiaBan").hide();
                 }
@@ -514,7 +533,8 @@ $(document).ready(function () {
                     $("#errorCanNang").text("Cân nặng phải là số và không được có ký tự đặc biệt.").show();
                     isValid = false;
                 } else if (parseInt(newCanNang) > 5000) {
-                    $("#errorCanNang").text("Cân nặng không được vượt quá 5,000")
+                    $("#errorCanNang").text("Cân nặng không được vượt quá 5,000.").show();
+                    isValid = false;
                 } else {
                     $("#errorCanNang").hide();
                 }
@@ -533,24 +553,37 @@ $(document).ready(function () {
                 }
 
                 if (isValid) {
-                    chiTietSanPhams.forEach((product, index) => {
-                        if (newGiaBan) {
-                            product.giaBan = Number(newGiaBan.replace(/[^\d]/g, ""));
-                            $(`input[data-index='${index}'][data-field='giaBan']`).val(dinhDangGia(product.giaBan));
-                        }
-                        if (newCanNang) {
-                            product.canNang = newCanNang;
-                            $(`input[data-index='${index}'][data-field='canNang']`).val(newCanNang);
-                        }
-                        if (newSoLuong) {
-                            product.soLuong = newSoLuong;
-                            $(`input[data-index='${index}'][data-field='soLuong']`).val(newSoLuong);
+                    // Lấy bảng hiện tại từ dữ liệu lưu trữ của modal
+                    const currentTable = $("#editAllProductsModal").data('currentTable');
+
+                    // Cập nhật chỉ các sản phẩm trong bảng hiện tại
+                    currentTable.find("tbody tr").each(function () {
+                        const index = $(this).find(".product-input").first().data("index");
+
+                        const product = chiTietSanPhams[index];
+
+                        if (product) {
+                            if (newGiaBan) {
+                                product.giaBan = Number(newGiaBan.replace(/[^\d]/g, ""));
+                                $(this).find("input[data-field='giaBan']").val(dinhDangGia(product.giaBan));
+                            }
+                            if (newCanNang) {
+                                product.canNang = newCanNang;
+                                $(this).find("input[data-field='canNang']").val(newCanNang);
+                            }
+                            if (newSoLuong) {
+                                product.soLuong = newSoLuong;
+                                $(this).find("input[data-field='soLuong']").val(newSoLuong);
+                            }
                         }
                     });
+
                     $("#editAllProductsModal").modal("hide");
                 }
             });
         });
+
+
 
     }
 });

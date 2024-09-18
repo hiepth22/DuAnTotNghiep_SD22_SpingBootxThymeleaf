@@ -167,7 +167,9 @@
                                        th:data-color="${mauSac.ten}"
                                        th:id="'color_' + ${mauSac.id}">
                                 <label class="form-check-label color-container" th:for="'color_' + ${mauSac.id}">
-                                    <span class="color-box" th:style="'background-color: ' + ${mauSac.ten}"></span>
+                                    <div class="color-box" th:style="'background-color: ' + ${mauSac.ten}">
+                                        <span class="color-description" th:text="${mauSac.moTa}"></span>
+                                    </div>
                                 </label>
                             </div>
                         </div>
@@ -180,6 +182,7 @@
             </div>
         </div>
     </div>
+
 
 
     <!-- Modal Kích cỡ-->

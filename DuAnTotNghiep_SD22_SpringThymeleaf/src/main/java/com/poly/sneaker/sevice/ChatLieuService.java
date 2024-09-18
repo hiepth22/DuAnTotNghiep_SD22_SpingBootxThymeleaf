@@ -15,7 +15,7 @@ public class ChatLieuService {
     private ChatLieuRepository repository;
 
     public List<ChatLieu> getAll() {
-        return repository.findAll();
+        return repository.getAll();
     }
 
     public ChatLieu add(ChatLieu chatLieu) {

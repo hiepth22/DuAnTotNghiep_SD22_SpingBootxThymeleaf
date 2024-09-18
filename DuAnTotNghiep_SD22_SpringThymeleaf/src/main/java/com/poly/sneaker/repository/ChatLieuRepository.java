@@ -13,6 +13,9 @@ import java.util.List;
 @Repository
 public interface ChatLieuRepository extends JpaRepository<ChatLieu, Long>, JpaSpecificationExecutor<ChatLieu> {
 
+    @Query(value = "SELECT * FROM chat_lieu ORDER BY id DESC", nativeQuery = true)
+    List<ChatLieu> getAll();
+
     List<ChatLieu> findByTen(String ten);
 
 

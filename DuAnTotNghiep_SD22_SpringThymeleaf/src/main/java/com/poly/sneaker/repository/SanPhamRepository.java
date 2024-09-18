@@ -1,5 +1,6 @@
 package com.poly.sneaker.repository;
 
+import com.poly.sneaker.entity.CoGiay;
 import com.poly.sneaker.entity.SanPham;
 import com.poly.sneaker.entity.ThuongHieu;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,9 @@ import java.util.List;
 public interface SanPhamRepository extends JpaRepository<SanPham, Long>, JpaSpecificationExecutor<SanPham> {
 
     List<SanPham> findByTen(String ten);
+
+    @Query(value = "SELECT * FROM san_pham ORDER BY id DESC", nativeQuery = true)
+    List<SanPham> findAll();
 
     @Query("SELECT s FROM SanPham s " +
             "LEFT JOIN s.thuongHieu t " +

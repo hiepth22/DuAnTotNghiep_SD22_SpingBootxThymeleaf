@@ -115,6 +115,7 @@
                 <th scope="col">Số lượng</th>
                 <th scope="col">Trạng thái</th>
                 <th scope="col">Action</th>
+                <th scope="col">Đổi trạng thái</th>
             </tr>
             </thead>
             <tbody>
@@ -132,14 +133,21 @@
                 <td th:text="${spct.deGiay.ten}"></td>
                 <td th:text="${spct.soLuong}"></td>
                 <td>
-                    <span th:if="${spct.trangThai == 1}">Đang bán</span>
-                    <span th:if="${spct.trangThai == 0}">Tạm ngưng</span>
+                    <span th:if="${spct.trangThai == 1}">Đang kinh doanh</span>
+                    <span th:if="${spct.trangThai == 0}">Ngừng kinh doanh</span>
                 </td>
                 <td>
                     <a th:href="@{'/admin/san-pham/' + ${spct.sanPham.id} + '/update/' + ${spct.id}}">
                         <i class="fa-solid fa-eye"></i>
                     </a>
                 </td>
+<!--                <td>-->
+<!--                    <div class="form-check form-switch">-->
+<!--                        <input class="form-check-input trang-thai-toggle" type="checkbox"-->
+<!--                               th:data-id="${spct.id}" th:checked="${spct.trangThai == 1}"-->
+<!--                               th:data-san-pham-id="${sanPham.id}">-->
+<!--                    </div>-->
+<!--                </td>-->
             </tr>
             </tbody>
         </table>

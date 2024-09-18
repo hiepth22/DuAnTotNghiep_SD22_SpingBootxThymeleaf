@@ -108,13 +108,14 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
             "LEFT JOIN s.kichCo k " +
             "WHERE s.sanPham.id = :sanPhamId " +
             "AND (:keyword IS NULL OR sp.ten LIKE %:keyword% OR s.moTa LIKE %:keyword% OR d.ten LIKE %:keyword% OR c.ten LIKE %:keyword% OR k.ten LIKE %:keyword% " +
-            "OR cl.ten LIKE %:keyword%) " +
+            "OR cl.ten LIKE %:keyword% OR s.ma LIKE %:keyword%) " +
             "AND (:coGiayId IS NULL OR c.id = :coGiayId) " +
             "AND (:deGiayId IS NULL OR d.id = :deGiayId) " +
             "AND (:chatLieuId IS NULL OR cl.id = :chatLieuId) " +
             "AND (:kichCoId IS NULL OR k.id = :kichCoId) " +
             "AND (:minPrice IS NULL OR s.giaBan >= :minPrice) " +
-            "AND (:maxPrice IS NULL OR s.giaBan <= :maxPrice)")
+            "AND (:maxPrice IS NULL OR s.giaBan <= :maxPrice) " +
+            "ORDER BY s.id DESC")
     List<SanPhamChiTiet> filterAndSearchSPCT(@Param("sanPhamId") Long sanPhamId,
                                              @Param("keyword") String keyword,
                                              @Param("coGiayId") Long coGiayId,
@@ -123,6 +124,7 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
                                              @Param("kichCoId") Long kichCoId,
                                              @Param("minPrice") Double minPrice,
                                              @Param("maxPrice") Double maxPrice);
+
 
 
 
