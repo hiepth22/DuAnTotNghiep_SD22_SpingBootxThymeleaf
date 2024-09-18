@@ -72,8 +72,10 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Long> {
             "    HoaDonChiTiet hdct ON hd.id = hdct.hoaDon.id \n" +
             "INNER JOIN \n" +
             "    SanPhamChiTiet spct ON hdct.sanPhamChiTiet.id = spct.id \n" +
+            "INNER JOIN \n" +
+            "    SanPham sp ON sp.id = spct.sanPham.id \n" +
             "WHERE \n" +
-            "    hd.trangThai = 6\n" +
+            "    hd.trangThai = 6 AND sp.trangThai != 0 \n " +
             "GROUP BY spct.id, spct.anh, spct.ten, spct.giaBan\n" +
             "ORDER BY SUM(hdct.soLuong) DESC ")
     List<SanPhamBanChayDTO> getSanPhamBanChayNhat(Pageable pageable);

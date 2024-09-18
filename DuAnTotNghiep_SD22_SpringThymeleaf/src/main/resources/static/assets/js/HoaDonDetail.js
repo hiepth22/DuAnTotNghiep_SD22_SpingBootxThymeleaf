@@ -118,26 +118,18 @@ $(document).ready(function () {
 
 
     function hienThiTongTienChiTiet(tongTien, hd) {
-        let voucher = 0;
-        if(hd.phieuGiamGia.hinhThucGiam === true ){
-            let phanTram = tongTien / hd.phieuGiamGia.giaTriGiam ;
-            if(hd.phieuGiamGia.giamToiDa < phanTram){
-                voucher = hd.phieuGiamGia.giamToiDa || 0;
-            }else{
-                voucher = phanTram;
-            }
-        }else{
-            voucher = hd.phieuGiamGia.giamToiDa || 0;
-        }
-        PhieuGiamGiaPhuHop(hd);
-        const tongTienSauKhiGiam = tongTien - voucher;
+        console.log(hd);
+     if(hd.phieuGiamGia === null){
+         let voucher = 0;
+         PhieuGiamGiaPhuHop(hd);
+         const tongTienSauKhiGiam = tongTien - voucher;
 
-        // const voucher = hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0
-        // const tongTienSauGiam = tongTien - hd.phieuGiamGia.giamToiDa;
+         // const voucher = hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0
+         // const tongTienSauGiam = tongTien - hd.phieuGiamGia.giamToiDa;
 
-        const tongTienThanhToan = hd.tongTienSauGiam + hd.tienShip;
+         const tongTienThanhToan = hd.tongTienSauGiam + hd.tienShip;
 
-        $('#tongTienChiTiet').html(`
+         $('#tongTienChiTiet').html(`
 
             <div class="grid gap-0 grid-cols-2">
             <div>
@@ -171,6 +163,61 @@ $(document).ready(function () {
             </div>
            
         `);
+     }else{
+         let voucher = 0;
+         if(hd.phieuGiamGia.hinhThucGiam === true ){
+             let phanTram = tongTien / hd.phieuGiamGia.giaTriGiam ;
+             if(hd.phieuGiamGia.giamToiDa < phanTram){
+                 voucher = hd.phieuGiamGia.giamToiDa || 0;
+             }else{
+                 voucher = phanTram;
+             }
+         }else{
+             voucher = hd.phieuGiamGia.giamToiDa || 0;
+         }
+         PhieuGiamGiaPhuHop(hd);
+         const tongTienSauKhiGiam = tongTien - voucher;
+
+         // const voucher = hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0
+         // const tongTienSauGiam = tongTien - hd.phieuGiamGia.giamToiDa;
+
+         const tongTienThanhToan = hd.tongTienSauGiam + hd.tienShip;
+
+         $('#tongTienChiTiet').html(`
+
+            <div class="grid gap-0 grid-cols-2">
+            <div>
+                <div>
+                     <span class="text-lg ">Tổng tiền hàng: </span></span>
+                </div>
+
+                <div>
+                    <span  class="text-lg">Phí vận chuyển:</span>
+                </div>
+                <div>
+                    <span  class="text-lg">Voucher:</span>
+                </div>
+                <span class="flex items-center w-full my-2">
+                    <span class="h-px flex-1 bg-gray-500"></span>
+                </span>
+                <div>
+                    <span  class="text-lg">Tổng tiền thanh toán: </span>
+                </div>
+                </div>  
+                
+                <div >
+                    <div> <span class="text-lg ml-[11%] text-blue-700">${formatVND(tongTien)}</div>
+                    <div ><span class="text-lg ml-20 font-normal">${formatVND(hd.tienShip)}</span></div>
+                    <div ><span class="text-lg ml-20 font-normal">${formatVND(voucher)}</span></div>
+                    <span class="flex items-center w-full my-2">
+                        <span class="h-px flex-1 bg-gray-500"></span>
+                    </span>
+                    <div><span class="text-xl ml-8 text-orange-700 text-no">${formatVND(tongTienSauKhiGiam+hd.tienShip)}</span></div>   
+                </div>
+            </div>
+           
+        `);
+     }
     }
 
     $('#tbodyHoaDonChiTiet').on('change', '.soLuong-input', function () {
@@ -314,7 +361,7 @@ $(document).ready(function () {
 
                 loaiThanhToan2 = hd.loai;
 
-                idKH = hd.khachHang.id;
+                // idKH = hd.khachHang.id || '';
 
                 idSP = [];
 
@@ -506,20 +553,75 @@ $(document).ready(function () {
     }
 
     const getPhuongThucThanhToan = (tongTien, hd) => {
-        const tongTienSauKhiGiam = tongTien - (hd.phieuGiamGia ? hd.phieuGiamGia.giamToiDa : 0);
 
-        $.ajax({
-            url: `/api/hoa-don/phuong-thuc-thanh-toan/${idHoaDon}`,
-            method: 'GET',
-            success: function (result) {
-                console.log(result);
-                if (Array.isArray(result)) { // Kiểm tra nếu result là một mảng
-                    let list = "";
-                    $("#lichSuThanhToan").empty();
+        let voucher = 0;
+        if(hd.phieuGiamGia != null){
+            if (hd.phieuGiamGia.hinhThucGiam === true) {
+                let phanTram = hd.tongTien / hd.phieuGiamGia.giaTriGiam;
+                if (hd.phieuGiamGia.giamToiDa < phanTram) {
+                    voucher = hd.phieuGiamGia.giamToiDa || 0;
+                } else {
+                    voucher = phanTram;
+                }
+            } else {
+                voucher = hd.phieuGiamGia.giamToiDa || 0;
+            }
+        }else {
 
-                    // Chạy vòng for qua các phương thức thanh toán
-                    result.forEach((item, index) => {
-                        list += `
+            voucher = 0;
+
+        }
+        const tongTienSauKhiGiam = tongTien - voucher;
+        if(hd.loai === 2){
+            $.ajax({
+                url: `/api/hoa-don/phuong-thuc-thanh-toan/${idHoaDon}`,
+                method: 'GET',
+                success: function (result) {
+                    console.log(result);
+                    if (Array.isArray(result)) { // Kiểm tra nếu result là một mảng
+                        let list = "";
+                        $("#lichSuThanhToan").empty();
+
+                        // Chạy vòng for qua các phương thức thanh toán
+                        result.forEach((item, index) => {
+                            list += `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${formatVND(tongTienSauKhiGiam+hd.tienShip)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${formatDate(item.ngayTao || '')}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                        ${loaiThanhToan(item.loaiThanhToan)}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="status bg-green-500 text-white rounded-lg px-4 py-2">${item.tenThanhToan || ''}</span>
+                        </td>
+                           <td className="px-6 py-4 whitespace-nowrap">${item.ghiChu || ''}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">${item.nguoiTao || ''}</td>
+                    </tr>`;
+                        });
+
+                        $("#lichSuThanhToan").html(list);
+                    } else {
+                        console.error('Unexpected API response format:', result);
+                    }
+                },
+                error: function (error) {
+                    console.error('Lỗi Lịch sử thanh toán:', error);
+                }
+            });
+        }else{
+            $.ajax({
+                url: `/api/hoa-don/phuong-thuc-thanh-toan/${idHoaDon}`,
+                method: 'GET',
+                success: function (result) {
+                    console.log(result);
+                    if (Array.isArray(result)) { // Kiểm tra nếu result là một mảng
+                        let list = "";
+                        $("#lichSuThanhToan").empty();
+
+                        // Chạy vòng for qua các phương thức thanh toán
+                        result.forEach((item, index) => {
+                            list += `
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
                         <td class="px-6 py-4 whitespace-nowrap">${formatVND(item.tienDaThanhToan || '')}</td>
@@ -533,46 +635,58 @@ $(document).ready(function () {
                            <td className="px-6 py-4 whitespace-nowrap">${item.ghiChu || ''}</td>
                             <td className="px-6 py-4 whitespace-nowrap">${item.nguoiTao || ''}</td>
                     </tr>`;
-                    });
+                        });
 
-                    $("#lichSuThanhToan").html(list);
-                } else {
-                    console.error('Unexpected API response format:', result);
+                        $("#lichSuThanhToan").html(list);
+                    } else {
+                        console.error('Unexpected API response format:', result);
+                    }
+                },
+                error: function (error) {
+                    console.error('Lỗi Lịch sử thanh toán:', error);
                 }
-            },
-            error: function (error) {
-                console.error('Lỗi Lịch sử thanh toán:', error);
-            }
-        });
+            });
+        }
+
+
+
     };
 
 
     function inHoaDon(hd, hdctList) {
-        let danhSachSP = '';
-
         let voucher = 0;
+       if(hd.phieuGiamGia != null){
 
-        if (hd.phieuGiamGia.hinhThucGiam === true) {
-            let phanTram = hd.tongTien / hd.phieuGiamGia.giaTriGiam;
-            if (hd.phieuGiamGia.giamToiDa < phanTram) {
-                voucher = hd.phieuGiamGia.giamToiDa || 0;
-            } else {
-                voucher = phanTram;
-            }
-        } else {
-            voucher = hd.phieuGiamGia.giamToiDa || 0;
-        }
 
-        const tongTienSauKhiGiam = hd.tongTien - voucher;
+           if (hd.phieuGiamGia.hinhThucGiam === true) {
+               let phanTram = hd.tongTien / hd.phieuGiamGia.giaTriGiam;
+               if (hd.phieuGiamGia.giamToiDa < phanTram) {
+                   voucher = hd.phieuGiamGia.giamToiDa || 0;
+               } else {
+                   voucher = phanTram;
+               }
+           } else {
+               voucher = hd.phieuGiamGia.giamToiDa || 0;
+           }
+       }else {
 
-        // <td class="px-6 py-4 whitespace-nowrap font-bold">
-        //     <img src="${item.sanPhamChiTiet.anh}" alt="Image" class="w-16 h-auto">
-        // </td>
+           voucher = 0;
 
-        // <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh sản phẩm</th>
+       }
 
-        hdctList.forEach((item, index) => {
-            danhSachSP += `
+           let danhSachSP = '';
+
+
+           const tongTienSauKhiGiam = hd.tongTien - voucher;
+
+           // <td class="px-6 py-4 whitespace-nowrap font-bold">
+           //     <img src="${item.sanPhamChiTiet.anh}" alt="Image" class="w-16 h-auto">
+           // </td>
+
+           // <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Ảnh sản phẩm</th>
+
+           hdctList.forEach((item, index) => {
+               danhSachSP += `
         <tr>
             <td class="px-6 py-4 whitespace-nowrap">${index + 1}</td>
           
@@ -587,9 +701,9 @@ $(document).ready(function () {
             </td>
             <td class="px-6 py-4 whitespace-nowrap">${formatVND(item.soLuong * item.sanPhamChiTiet.giaBan)}</td>
         </tr>`;
-        });
+           });
 
-        $('#inHoaDon').html(`
+           $('#inHoaDon').html(`
         <div class="invoice-header flex justify-between items-center border-b pb-2">
             <div class="text-xl font-bold">
             <img src="https://bizweb.dktcdn.net/100/048/601/themes/734017/assets/index-cate-icon-4.png?1610907247309" alt="Logo" class="w-[10%]">
@@ -598,8 +712,8 @@ $(document).ready(function () {
             <div>
                 <p class="text-sm">Mã hóa đơn: <span class="font-normal">${hd.ma}</span></p>
                 <p class="text-sm">${hd.ngayTao != null ? new Date(hd.ngayTao).toLocaleString('vi-VN', {
-            day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'
-        }) : ''}</p>
+               day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'
+           }) : ''}</p>
             </div>
         </div>
         <div class="invoice-details mt-4 border-b pb-2">
@@ -645,6 +759,7 @@ $(document).ready(function () {
             </div>
         </div>
     `);
+
         // console.log($('#inHoaDon').html());
     }
 
@@ -757,21 +872,17 @@ $(document).ready(function () {
             success: function(response) {
                 idPGG = response.id;
                 if(idKH === null){
-                    console.log("dở kh null")
                     idPGG = null;
                 }else{
                     if (response && response.length <= 0) {
-                        console.log("Không có pgg")
 
                         idPGG = null;
 
                     } else if (max < response[0].donToiThieu ) {
-                        console.log("Cgiuj")
 
                         idPGG = null;
 
                     } else {
-                        console.log("done")
 
                         idPGG = response[0].id;
                     }
