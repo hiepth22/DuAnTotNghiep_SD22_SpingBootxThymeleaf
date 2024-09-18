@@ -210,7 +210,8 @@ public class KhachHangController {
     }
 
     @PostMapping("/update/{id}")
-    public String update(@PathVariable("id") Long id, @Valid @ModelAttribute("kh") KhachHang kh, BindingResult result) {
+    public String update(@PathVariable("id") Long id, @Valid @ModelAttribute("kh") KhachHang kh
+            , BindingResult result) {
         if (result.hasErrors()) {
             return "admin/KhachHang/KhachHangUpdate";
         }
