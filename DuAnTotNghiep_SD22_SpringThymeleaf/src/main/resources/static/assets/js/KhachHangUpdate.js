@@ -20,13 +20,13 @@ document.getElementById('confirmButton').addEventListener('click', function(even
 function addCustomer() {
     const form = document.getElementById('myForm');
     const formData = new FormData(form);
-
+    const id = form.querySelector('#id').value;
     // Thêm lớp 'disabled' và thay đổi văn bản của nút Lưu
     const confirmButton = document.getElementById('confirmButton');
     confirmButton.classList.add('disabled');
     confirmButton.textContent = 'Đang lưu...';
 
-    axios.post('/admin/add', formData)
+    axios.post('/admin/update/'+ id,formData)
         .then(response => {
             // Xóa lớp 'disabled' và thay đổi văn bản của nút Lưu khi hoàn thành
             confirmButton.classList.remove('disabled');

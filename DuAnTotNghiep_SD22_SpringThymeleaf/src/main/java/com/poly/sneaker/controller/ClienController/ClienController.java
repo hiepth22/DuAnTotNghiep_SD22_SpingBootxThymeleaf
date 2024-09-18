@@ -16,13 +16,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -366,6 +365,22 @@ public ResponseEntity<Map<String, Object>> detail(@PathVariable("idkh") Long idk
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @PostMapping("/adddiachi")
+    public ResponseEntity<DiaChi> addDiaChi(@RequestBody DiaChi diaChi) {
+        try {
+            LocalDateTime now = LocalDateTime.now();
+
+
+            diaChi.setNgayTao(now);
+            diaChi.setNgayCapNhat(now);
+            DiaChi savedDiaChi = diaChiRepository.save(diaChi);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedDiaChi); // 201 Created
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
     @GetMapping("/diachiid/{id}")
     public ResponseEntity<DiaChi> getDiaChi(@PathVariable Long id) {
 
