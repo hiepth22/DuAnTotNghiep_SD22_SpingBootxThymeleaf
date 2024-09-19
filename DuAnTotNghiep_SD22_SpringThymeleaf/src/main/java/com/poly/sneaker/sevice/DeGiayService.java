@@ -26,7 +26,7 @@ public class DeGiayService {
     public DeGiay add(DeGiay deGiay) {
         deGiay.setNgayTao(new Date());
         deGiay.setNgayCapNhat(null);
-        deGiay.setNguoiTao("admin");
+        deGiay.setNguoiTao("Nguyễn Bá Đăng");
         return repository.save(deGiay);
     }
 

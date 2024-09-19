@@ -27,7 +27,7 @@ public class KichCoService {
     public KichCo add(KichCo kichCo) {
         kichCo.setNgayTao(new Date());
         kichCo.setNgayCapNhat(null);
-        kichCo.setNguoiTao("admin");
+        kichCo.setNguoiTao("Nguyễn Bá Đăng");
         return repository.save(kichCo);
     }
 

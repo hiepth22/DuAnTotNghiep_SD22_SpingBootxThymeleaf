@@ -50,7 +50,7 @@
                 <td th:text="${coGiay.ten}"></td>
                 <td th:text="${#dates.format(coGiay.ngayTao, 'yyyy-MM-dd')}"></td>
                 <td th:text="${coGiay.nguoiTao}"></td>
-                <td th:text="${#dates.format(coGiay.ngayCapNhat, 'yyyy-MM-dd')}"></td>
+                <td th:text="${coGiay.ngayCapNhat != null ? #dates.format(coGiay.ngayCapNhat, 'yyyy-MM-dd') : 'Chưa có thay đổi'}"></td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <form th:action="@{/admin/co-giay/update/{id}(id=${coGiay.id})}" method="get">
                         <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">

@@ -27,7 +27,7 @@ public class ThuongHieuService {
     public ThuongHieu add(ThuongHieu thuongHieu) {
         thuongHieu.setNgayTao(new Date());
         thuongHieu.setNgayCapNhat(null);
-        thuongHieu.setNguoiTao("admin");
+        thuongHieu.setNguoiTao("Nguyễn Bá Đăng");
         return repository.save(thuongHieu);
     }
 

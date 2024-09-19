@@ -27,7 +27,7 @@ public class MauSacService {
     public MauSac add(MauSac mauSac) {
         mauSac.setNgayTao(new Date());
         mauSac.setNgayCapNhat(null);
-        mauSac.setNguoiTao("admin");
+        mauSac.setNguoiTao("Nguyễn Bá Đăng");
         return repository.save(mauSac);
     }
 

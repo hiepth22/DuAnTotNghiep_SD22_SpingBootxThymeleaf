@@ -38,6 +38,9 @@
             <tr>
                 <th scope="col">STT</th>
                 <th scope="col">Kích cỡ</th>
+                <th scope="col">Ngày tạo</th>
+                <th scope="col">Người tạo</th>
+                <th scope="col">Ngày cập nhật</th>
                 <th scope="col">Action</th>
             </tr>
             </thead>
@@ -45,6 +48,9 @@
             <tr th:each="kichCo, state : ${kichCos}">
                 <th scope="row" th:text="${state.count}"></th>
                 <td th:text="${kichCo.ten}"></td>
+                <td th:text="${#dates.format(kichCo.ngayTao, 'yyyy-MM-dd')}"></td>
+                <td th:text="${kichCo.nguoiTao}"></td>
+                <td th:text="${kichCo.ngayCapNhat != null ? #dates.format(kichCo.ngayCapNhat, 'yyyy-MM-dd') : 'Chưa có thay đổi'}"></td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <form th:action="@{/admin/kich-co/update/{id}(id=${kichCo.id})}" method="get">
                         <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">

@@ -185,7 +185,7 @@ $(document).ready(function () {
                     kichCo: {id: kichCo.id, name: kichCo.name},
                     ngayTao: new Date().toISOString(),
                     ngayCapNhat: "",
-                    nguoiTao: "admin",
+                    nguoiTao: "Nguyễn Bá Đăng",
                     nguoiCapNhat: "",
                     canNang: 500,
                     giaBan: 1000000,

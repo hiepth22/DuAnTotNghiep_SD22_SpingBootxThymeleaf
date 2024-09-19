@@ -27,7 +27,7 @@ public class NhaSanXuatService {
     public NhaSanXuat add(NhaSanXuat nhaSanXuat) {
         nhaSanXuat.setNgayCapNhat(null);
         nhaSanXuat.setNgayTao(new Date());
-        nhaSanXuat.setNguoiTao("admin");
+        nhaSanXuat.setNguoiTao("Nguyễn Bá Đăng");
         return repository.save(nhaSanXuat);
     }
 

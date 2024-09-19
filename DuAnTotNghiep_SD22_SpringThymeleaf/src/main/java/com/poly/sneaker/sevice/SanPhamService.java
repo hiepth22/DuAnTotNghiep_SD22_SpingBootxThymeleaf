@@ -54,7 +54,7 @@ public class SanPhamService {
     public SanPham add(SanPham sanPham) {
         sanPham.setNgayTao(new Date());
         sanPham.setNgayCapNhat(null);
-        sanPham.setNguoiTao("admin");
+        sanPham.setNguoiTao("Nguyễn Bá Đăng");
         return repository.save(sanPham);
     }
 

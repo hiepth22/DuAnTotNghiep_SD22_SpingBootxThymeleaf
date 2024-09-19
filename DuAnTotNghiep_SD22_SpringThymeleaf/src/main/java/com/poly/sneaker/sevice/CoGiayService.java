@@ -27,7 +27,7 @@ public class CoGiayService {
     public CoGiay add(CoGiay coGiay) {
         coGiay.setNgayTao(new Date());
         coGiay.setNgayCapNhat(null);
-        coGiay.setNguoiTao("admin");
+        coGiay.setNguoiTao("Nguyễn Bá Đăng");
         return repository.save(coGiay);
     }
 
