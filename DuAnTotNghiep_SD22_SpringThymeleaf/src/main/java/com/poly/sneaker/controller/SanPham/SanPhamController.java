@@ -192,21 +192,4 @@ public class SanPhamController {
         SanPhamChiTiet sanPhamChiTietUpdate = SPCTservice.update(id, sanPhamChiTiet);
         return "redirect:/admin/san-pham/" + sanPhamId;
     }
-
-    @PostMapping("/san-pham/{sanPhamId}/status/{spctId}")
-    @ResponseBody
-    public ResponseEntity<String> updateTrangThaiSanPhamChiTiet(
-            @PathVariable Long spctId,
-            @RequestBody Map<String, Integer> payload) {
-
-        int trangThai = payload.get("trangThai"); // Lấy trạng thái mới từ request
-        SanPhamChiTiet updatedSpct = SPCTservice.updateTrangThai(spctId, trangThai); // Cập nhật trạng thái sản phẩm chi tiết
-
-        if (updatedSpct != null) {
-            return ResponseEntity.ok("Cập nhật thành công");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sản phẩm chi tiết không tồn tại");
-        }
-    }
-
 }

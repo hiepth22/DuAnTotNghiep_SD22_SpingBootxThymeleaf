@@ -1,5 +1,6 @@
 package com.poly.sneaker.repository;
 
+import com.poly.sneaker.entity.ChatLieu;
 import com.poly.sneaker.entity.CoGiay;
 import com.poly.sneaker.entity.DeGiay;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +20,9 @@ public interface DeGiayRepository extends JpaRepository<DeGiay, Long>, JpaSpecif
 
     @Query(value = "SELECT * FROM de_giay WHERE trangThai = 1", nativeQuery = true)
     List<DeGiay> getDeGiay();
+
+    @Query("SELECT dg FROM DeGiay dg " +
+            "WHERE dg.ten LIKE %:keyword% " +
+            "ORDER BY dg.ngayTao DESC")
+    List<DeGiay> searchDeGiay(String keyword);
 }

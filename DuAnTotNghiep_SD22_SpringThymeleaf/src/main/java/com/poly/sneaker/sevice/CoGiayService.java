@@ -1,8 +1,14 @@
 package com.poly.sneaker.sevice;
 
+import com.poly.sneaker.entity.ChatLieu;
 import com.poly.sneaker.entity.CoGiay;
 import com.poly.sneaker.repository.CoGiayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -70,5 +76,28 @@ public class CoGiayService {
 
     public List<CoGiay> getCoGiay(){
         return repository.getCoGiay();
+    }
+
+    public Page<CoGiay> pagination(int pageNo){
+        Pageable pageable = PageRequest.of(pageNo - 1, 10, Sort.by(Sort.Direction.DESC, "ngayTao"));
+        return repository.findAll(pageable);
+    }
+
+    public List<CoGiay> searchCoGiay(String keyword){
+        return repository.searchCoGiay(keyword);
+    }
+
+    public Page<CoGiay> searchCoGiay(String keyword, Integer pageNo){
+        List list = repository.searchCoGiay(keyword);
+
+        Pageable pageable = PageRequest.of(pageNo - 1, 10);
+
+        Integer start = (int) pageable.getOffset();
+
+        Integer end = (int) ((pageable.getOffset() + pageable.getPageSize()) > list.size() ? list.size() : pageable.getOffset() + pageable.getPageSize());
+
+        list = list.subList(start, end);
+
+        return new PageImpl<CoGiay>(list, pageable, searchCoGiay(keyword).size());
     }
 }

@@ -72,6 +72,33 @@
             </tr>
             </tbody>
         </table>
+        <nav>
+            <ul class="pagination justify-content-center">
+                <!-- Previous Button -->
+                <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
+                    <a class="page-link"
+                       th:href="${currentPage > 1 ? '?keyword=' + (keyword != null ? keyword : '') + '&pageNo=' + (currentPage - 1) : '#'}">
+                        Previous
+                    </a>
+                </li>
+
+                <!-- Page Numbers -->
+                <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPage)}"
+                    th:classappend="${currentPage == i} ? 'active' : ''">
+                    <a class="page-link"
+                       th:href="@{${keyword != null && keyword != '' ? '?keyword=' + keyword + '&' : '?'} + 'pageNo=' + ${i}}"
+                       th:text="${i}"></a>
+                </li>
+
+                <!-- Next Button -->
+                <li class="page-item" th:classappend="${currentPage == totalPage} ? 'disabled' : ''">
+                    <a class="page-link"
+                       th:href="${currentPage < totalPage ? '?keyword=' + (keyword != null ? keyword : '') + '&pageNo=' + (currentPage + 1) : '#'}">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 <!-- JavaScript Libraries -->

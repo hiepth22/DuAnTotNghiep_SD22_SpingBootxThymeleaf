@@ -78,11 +78,11 @@ $(document).ready(function () {
         notification.style.display = 'block';
         progressBar.style.width = '100%';
 
-        setTimeout(function() {
+        setTimeout(function () {
             progressBar.style.width = '0';
         }, 10);
 
-        setTimeout(function() {
+        setTimeout(function () {
             notification.style.display = 'none';
             progressBar.style.width = '100%';
         }, 3010);
@@ -483,24 +483,19 @@ $(document).ready(function () {
 
         $(document).ready(function () {
             $(".editAllSanPham").click(function () {
-                // Lấy bảng hiện tại đang được chỉnh sửa
                 const currentTable = $(this).closest('.color-section').find('table');
 
-                // Lưu trữ bảng hiện tại vào modal
                 $("#editAllProductsModal").data('currentTable', currentTable);
 
-                // Lấy dữ liệu từ hàng đầu tiên của bảng để hiển thị trong modal (giả sử tất cả các hàng có cùng dữ liệu)
                 const firstRow = currentTable.find("tbody tr").first();
                 const giaBan = firstRow.find("input[data-field='giaBan']").val();
                 const canNang = firstRow.find("input[data-field='canNang']").val();
                 const soLuong = firstRow.find("input[data-field='soLuong']").val();
 
-                // Cập nhật các trường nhập liệu trong modal
                 $("#editAllGiaBan").val(giaBan);
                 $("#editAllCanNang").val(canNang);
                 $("#editAllSoLuong").val(soLuong);
 
-                // Hiển thị modal
                 $("#editAllProductsModal").modal("show");
             });
 
@@ -553,10 +548,8 @@ $(document).ready(function () {
                 }
 
                 if (isValid) {
-                    // Lấy bảng hiện tại từ dữ liệu lưu trữ của modal
                     const currentTable = $("#editAllProductsModal").data('currentTable');
 
-                    // Cập nhật chỉ các sản phẩm trong bảng hiện tại
                     currentTable.find("tbody tr").each(function () {
                         const index = $(this).find(".product-input").first().data("index");
 
@@ -582,8 +575,5 @@ $(document).ready(function () {
                 }
             });
         });
-
-
-
     }
 });

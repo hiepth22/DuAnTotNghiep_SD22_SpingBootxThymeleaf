@@ -1,8 +1,11 @@
 package com.poly.sneaker.controller.ThuocTinhSanPham;
 
+import com.poly.sneaker.entity.KichCo;
 import com.poly.sneaker.entity.MauSac;
 import com.poly.sneaker.sevice.MauSacService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
 import java.util.List;
@@ -22,9 +26,21 @@ public class MauSacController {
     MauSacService mauSacService;
 
     @GetMapping("/mau-sac")
-    public String hienThiMauSac(Model model){
-        List<MauSac> mauSacs = mauSacService.getAll();
+    public String hienThiMauSac(Model model,
+                                @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+                                @Param(value = "keyword") String keyword){
+        Page<MauSac> mauSacs = mauSacService.pagination(pageNo);
+
+        if (keyword != null){
+            mauSacs = this.mauSacService.searchMauSac(keyword, pageNo);
+            model.addAttribute("keyword", keyword);
+        }
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPage", mauSacs.getTotalPages());
         model.addAttribute("mauSacs", mauSacs);
+
+        model.addAttribute("hasResultsCL", mauSacs.getTotalElements() > 0);
         return "/admin/ThuocTinhSanPham/mauSacPage";
     }
 

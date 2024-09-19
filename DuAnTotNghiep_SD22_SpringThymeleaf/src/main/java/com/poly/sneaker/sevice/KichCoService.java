@@ -1,8 +1,14 @@
 package com.poly.sneaker.sevice;
 
+import com.poly.sneaker.entity.ChatLieu;
 import com.poly.sneaker.entity.KichCo;
 import com.poly.sneaker.repository.KichCoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -70,5 +76,28 @@ public class KichCoService {
 
     public Boolean existingByTen(String ten) {
         return repository.findByTen(ten).size() > 0;
+    }
+
+    public Page<KichCo> pagination(int pageNo){
+        Pageable pageable = PageRequest.of(pageNo - 1, 10, Sort.by(Sort.Direction.DESC, "ngayTao"));
+        return repository.findAll(pageable);
+    }
+
+    public List<KichCo> searchKichCo(String keyword){
+        return repository.searchKichCo(keyword);
+    }
+
+    public Page<KichCo> searchKichCo(String keyword, Integer pageNo){
+        List list = repository.searchKichCo(keyword);
+
+        Pageable pageable = PageRequest.of(pageNo - 1, 10);
+
+        Integer start = (int) pageable.getOffset();
+
+        Integer end = (int) ((pageable.getOffset() + pageable.getPageSize()) > list.size() ? list.size() : pageable.getOffset() + pageable.getPageSize());
+
+        list = list.subList(start, end);
+
+        return new PageImpl<KichCo>(list, pageable, searchKichCo(keyword).size());
     }
 }

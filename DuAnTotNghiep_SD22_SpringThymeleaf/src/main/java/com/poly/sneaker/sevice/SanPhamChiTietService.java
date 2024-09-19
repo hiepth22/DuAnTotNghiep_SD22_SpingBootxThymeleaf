@@ -48,19 +48,6 @@ public class SanPhamChiTietService {
         return repository.save(sanPhamChiTiet);
     }
 
-    public SanPhamChiTiet updateTrangThai(Long id, int trangThai) {
-        Optional<SanPhamChiTiet> optionalSpct = repository.findById(id);
-        if (optionalSpct.isPresent()) {
-            SanPhamChiTiet spct = optionalSpct.get();
-            spct.setTrangThai(trangThai); // Cập nhật trạng thái
-            return repository.save(spct); // Lưu lại sản phẩm chi tiết
-        }
-        return null; // Trả về null nếu không tìm thấy sản phẩm chi tiết
-    }
-
-
-
-
     public SanPhamChiTiet findById(Long id) {
         Optional<SanPhamChiTiet> optional = repository.findById(id);
         return optional.map(o -> o).orElse(null);
@@ -88,6 +75,7 @@ public class SanPhamChiTietService {
             o.setNgayCapNhat(newSPCT.getNgayCapNhat());
             o.setNguoiTao(newSPCT.getNguoiTao());
             o.setNguoiCapNhat(newSPCT.getNguoiCapNhat());
+            o.setAnh(newSPCT.getAnh());
 
             o.setKichCo(KichCo.builder().id(newSPCT.getKichCo().getId()).build());
             o.setMauSac(MauSac.builder().id(newSPCT.getMauSac().getId()).build());

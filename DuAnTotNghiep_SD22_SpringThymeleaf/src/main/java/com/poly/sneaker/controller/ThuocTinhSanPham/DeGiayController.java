@@ -1,8 +1,11 @@
 package com.poly.sneaker.controller.ThuocTinhSanPham;
 
+import com.poly.sneaker.entity.CoGiay;
 import com.poly.sneaker.entity.DeGiay;
 import com.poly.sneaker.sevice.DeGiayService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
 import java.util.List;
@@ -22,9 +26,22 @@ public class DeGiayController {
     DeGiayService deGiayService;
 
     @GetMapping("/de-giay")
-    public String hienThiDeGiay(Model model){
-        List<DeGiay> deGiays = deGiayService.getAll();
+    public String hienThiDeGiay(Model model,
+                                @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+                                @Param(value = "keyword") String keyword){
+
+        Page<DeGiay> deGiays = deGiayService.pagination(pageNo);
+
+        if (keyword != null){
+            deGiays = this.deGiayService.searchDeGiay(keyword, pageNo);
+            model.addAttribute("keyword", keyword);
+        }
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPage", deGiays.getTotalPages());
         model.addAttribute("deGiays", deGiays);
+
+        model.addAttribute("hasResultsCL", deGiays.getTotalElements() > 0);
         return "/admin/ThuocTinhSanPham/deGiayPage";
     }
 

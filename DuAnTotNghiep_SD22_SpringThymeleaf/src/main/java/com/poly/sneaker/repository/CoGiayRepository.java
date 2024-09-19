@@ -19,4 +19,9 @@ public interface CoGiayRepository extends JpaRepository<CoGiay, Long>, JpaSpecif
 
     @Query(value = "SELECT * FROM co_giay WHERE trangThai = 1", nativeQuery = true)
     List<CoGiay> getCoGiay();
+
+    @Query("SELECT cg FROM CoGiay cg " +
+            "WHERE cg.ten LIKE %:keyword% " +
+            "ORDER BY cg.ngayTao DESC")
+    List<CoGiay> searchCoGiay(String keyword);
 }
