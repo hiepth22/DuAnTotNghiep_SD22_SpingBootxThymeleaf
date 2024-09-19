@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -56,11 +57,16 @@ public class ChatLieuController {
     }
 
     @PostMapping("/chat-lieu/add")
-    public String themChatLieu(ChatLieu chatLieu){
+    public String themChatLieu(ChatLieu chatLieu, RedirectAttributes redirectAttributes) {
+        if (chatLieuService.existingByTen(chatLieu.getTen())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Tên chất liệu đã tồn tại.");
+            return "redirect:/admin/chat-lieu/add"; // Hoặc đường dẫn tới trang thêm mới
+        }
         chatLieu.setTrangThai(1);
         chatLieuService.add(chatLieu);
         return "redirect:/admin/chat-lieu";
     }
+
 
     @GetMapping("/chat-lieu/update/{id}")
     public String hienThiCapNhatChatLieu(@PathVariable("id") Long id, Model model) {
@@ -74,6 +80,7 @@ public class ChatLieuController {
 
     @PostMapping("/chat-lieu/update")
     public String capNhatChatLieu(@ModelAttribute ChatLieu chatLieu) {
+        chatLieu.setNguoiCapNhat("Nguyễn Bá Đăng");
         chatLieu.setNgayCapNhat(new Date());
         chatLieuService.update(chatLieu.getId(), chatLieu);
         return "redirect:/admin/chat-lieu";

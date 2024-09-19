@@ -29,6 +29,10 @@
                         placeholder="Nhập tên chất liệu"
                 />
             </div>
+            <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                <p th:text="${errorMessage}"></p>
+            </div>
+
             <div class="flex justify-end space-x-4">
                 <button
                         type="button"

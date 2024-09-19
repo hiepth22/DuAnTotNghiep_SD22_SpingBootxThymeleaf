@@ -17,17 +17,22 @@
 
     <div class="container mx-auto bg-white h-75 w-full m-auto mt-5 p-6 rounded-lg shadow-md">
         <h2 class="text-left text-2xl font-bold mb-4"><i class="fa-solid fa-filter"></i>Tìm kiếm</h2>
-        <div class="mb-3 row">
-            <div class="col-8">
-                <input type="text" class="form-control" placeholder="Tìm kiếm">
+        <form action="/admin/chat-lieu" method="get">
+            <div class="mb-3 row">
+                <div class="col-8">
+                    <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="Tìm kiếm">
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-secondary w-100"
+                            onclick="window.location.href='/admin/chat-lieu'">Làm mới
+                    </button>
+                </div>
+
             </div>
-            <div class="col-2">
-                <button class="btn btn-primary w-100">Tìm kiếm</button>
-            </div>
-            <div class="col-2">
-                <button class="btn btn-secondary w-100">Reset</button>
-            </div>
-        </div>
+        </form>
     </div>
     <div class="container mx-auto mt-3 d-flex justify-content-end">
         <a href="/admin/chat-lieu/add" class="btn btn-success">Thêm mới chất liệu</a>
